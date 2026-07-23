@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test — 05 STARK WHITE · Editorial</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #ccc; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; }
+
+  .preview-cage { width: 1080px; margin: 0 auto; }
+  @media (min-width: 1200px) {
+    .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; }
+  }
+
+  /* Light BG chrome overrides */
+  :root {
+    --text-secondary: rgba(10,15,30,0.35);
+    --pd-color: rgba(10,15,30,0.10);
+    --accent: #1463F3;
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1080px;
+    background: linear-gradient(150deg, #ffffff, #f0f4fc);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 96px 88px 140px;
+  }
+
+  /* Blue radial overlay — top right */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 85% 15%, rgba(20,99,243,0.08), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Soft blue blob */
+  .blob {
+    position: absolute;
+    top: -8%;
+    right: -10%;
+    width: 50%;
+    aspect-ratio: 1/1;
+    background: radial-gradient(circle, rgba(220,232,255,0.85) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Thin vertical rule — left edge accent */
+  .left-rule {
+    position: absolute;
+    top: 96px;
+    left: 0;
+    width: 6px;
+    height: 220px;
+    background: #1463F3;
+    z-index: 2;
+  }
+
+  .content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(10,15,30,0.38);
+    margin-bottom: 52px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .label::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 2px;
+    background: #1463F3;
+    flex-shrink: 0;
+  }
+
+  /* Big stat hero */
+  .stat-block {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat-num {
+    font-weight: 800;
+    font-size: 148px;
+    letter-spacing: -0.05em;
+    line-height: 0.88;
+    color: #1463F3;
+  }
+
+  .stat-unit {
+    font-weight: 800;
+    font-size: 52px;
+    letter-spacing: -0.02em;
+    color: #1463F3;
+    padding-bottom: 18px;
+  }
+
+  /* Horizontal rule under stat */
+  .rule {
+    width: 100%;
+    height: 1.5px;
+    background: rgba(10,15,30,0.10);
+    margin-bottom: 36px;
+  }
+
+  .headline {
+    font-weight: 800;
+    font-size: 44px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #0a0f1e;
+    max-width: 620px;
+    margin-bottom: 28px;
+  }
+
+  .body-text {
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.65;
+    color: rgba(10,15,30,0.52);
+    max-width: 520px;
+  }
+
+  /* Brand wordmark */
+  .brand {
+    position: absolute;
+    bottom: 46px;
+    left: 88px;
+    z-index: 10;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: -1px;
+    text-transform: lowercase;
+    color: rgba(10,15,30,0.20);
+  }
+  .brand .ai { color: #1463F3; }
+
+  .counter {
+    position: absolute;
+    bottom: 50px;
+    right: 88px;
+    z-index: 10;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: rgba(10,15,30,0.25);
+  }
+</style>
+</head>
+<body>
+<div class="preview-cage">
+  <div class="slide">
+    <div class="blob"></div>
+    <div class="left-rule"></div>
+
+    <div class="content">
+      <div class="label">WorqAI · El dato que nadie te dice</div>
+
+      <div class="stat-block">
+        <span class="stat-num">75</span>
+        <span class="stat-unit">%</span>
+      </div>
+
+      <div class="rule"></div>
+
+      <h1 class="headline">de los CVs en LATAM son eliminados por un algoritmo antes de que un humano los lea.</h1>
+      <p class="body-text">El problema no es tu experiencia. Es el formato. El ATS tiene reglas específicas — y casi nadie las conoce.</p>
+    </div>
+
+    <div class="brand">worq<span class="ai">ai</span></div>
+    <div class="counter">01 / 06</div>
+  </div>
+</div>
+</body>
+</html>

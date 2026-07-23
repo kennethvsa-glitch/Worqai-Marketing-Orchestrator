@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html data-duration="56" data-fps="60" data-name="villain-v3-quantum">
+<head>
+<meta charset="UTF-8">
+<script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+<script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+<script src="../../vendor/gsap/CustomBounce-3.15.0.min.js"></script>
+<script src="../../vendor/gsap/CustomWiggle-3.15.0.min.js"></script>
+<script src="../../vendor/gsap/MotionPathPlugin-3.15.0.min.js"></script>
+<script src="../../vendor/gsap/SplitText-3.15.0.min.js"></script>
+<script src="../motion-lib.js"></script>
+  <link rel="stylesheet" href="../../vendor/fonts/fonts.css">
+  <style>
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url('../../vendor/fonts/InterVariable-latin.woff2') format('woff2');
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('../../vendor/fonts/Archivo-400-normal-latin.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'Archivo';
+  src: url('../../vendor/fonts/Archivo-600-normal-latin.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'ArchivoBlack';
+  src: url('../../vendor/fonts/ArchivoBlack-400-normal-latin.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../../vendor/fonts/JetBrainsMono-500-normal-latin.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: block;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('../../vendor/fonts/Newsreader-400-normal-latin.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: block;
+}
+
+:root {
+  --bg: #010509;
+  --bg-panel: #111015;
+  --ink: #F8F9F9;
+  --muted: #8E8E9A;
+  --card-ink: #16160F;
+  --card-muted: #6E6E64;
+  --paper: #E8E8E0;
+  --paper-2: #e8e8e9;
+  --paper-demo: #E8E8E0;
+  --line: rgba(255,255,255,0.05);
+  --lime: #C9F24D;
+  --lime-bright: #ccff20;
+  --lime-deep: #A9D92E;
+  --on-lime: #1B2400;
+  --low: #E0593B;
+  --low-2: #c0392b;
+  --low-soft: rgba(224,89,59,0.15);
+  --safe-top: 120px; --safe-bottom: 200px; --safe-x: 56px;
+}
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: 'Inter', 'Archivo', sans-serif; }
+
+/* ── GLOW SYSTEM (Quantum Upgrade) ───────────────────────────── */
+.glow-lime {
+  text-shadow: 0 0 20px rgba(201,242,77,0.40), 0 0 60px rgba(201,242,77,0.15), 0 0 100px rgba(201,242,77,0.08);
+}
+.glow-lime-soft {
+  text-shadow: 0 0 12px rgba(201,242,77,0.30), 0 0 40px rgba(201,242,77,0.10);
+}
+.glow-dot {
+  box-shadow: 0 0 10px var(--lime-bright), 0 0 22px rgba(171,243,23,0.5);
+}
+
+/* ── SVG Glow Filter (static, computed once) ─────────────────── */
+#lime-glow-filter { position: absolute; width: 0; height: 0; }
+
+/* ── Background ──────────────────────────────────────────────── */
+#bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 56px 56px; pointer-events: none; z-index: 0; }
+#bg-spot { position: absolute; inset: 0; background: radial-gradient(ellipse 680px 560px at 12% 6%, rgba(60,30,100,0.30) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+
+#cursor { position: absolute; left: 0; top: 0; width: 28px; height: 28px; transform: translate(860px, 1500px); pointer-events: none; z-index: 50; }
+#cursor svg { width: 28px; height: 28px; }
+
+.word-wrap  { display: inline-block; overflow: hidden; vertical-align: top; }
+.word-inner { display: inline-block; }
+
+/* ── Scene 1: The Wound ──────────────────────────────────────── */
+#intro-group {
+  position: absolute; top: var(--safe-top); left: var(--safe-x); right: var(--safe-x);
+  bottom: var(--safe-bottom); display: flex; flex-direction: column;
+  justify-content: center; z-index: 1;
+}
+.intro-line {
+  font-family: 'Inter', 'Archivo', sans-serif; font-size: 88px; font-weight: 700;
+  line-height: 1.12; letter-spacing: -2.5px; color: var(--ink); margin-bottom: 36px;
+}
+#intro-l1 .num, #intro-l2 .num { color: var(--lime-bright); }
+#intro-l1 .txt, #intro-l2 .txt { color: var(--ink); }
+#intro-l2 { padding-left: 54px; }
+#intro-l3.muted-intro {
+  font-family: 'Inter', 'Archivo', sans-serif; font-size: 28px; font-weight: 500; color: var(--muted); margin-bottom: 32px; line-height: 1.5; max-width: 720px;
+}
+#intro-l3.muted-intro .quote { color: var(--lime-deep); }
+#intro-l3.turned {
+  font-family: 'Inter', 'Archivo', sans-serif; font-size: 112px; font-weight: 800; color: var(--lime-bright); line-height: 1.05; letter-spacing: -3.5px; margin-bottom: 36px;
+}
+#intro-l4 { color: var(--ink); }
+#intro-l5 { color: var(--lime-bright); }
+.intro-kicker { font-family: 'Inter', 'Archivo', sans-serif; font-size: 34px; font-weight: 500; color: var(--muted); margin-bottom: 0; line-height: 1.35; }
+.waves-container {
+  position: absolute; bottom: 0; left: -100px; width: 1200px; height: 680px;
+  pointer-events: none; z-index: 0; opacity: 0.9;
+}
+.waves-container svg { position: absolute; bottom: 0; left: 0; width: 1200px; height: 680px; }
+.waves-container svg path { filter: url(#lime-glow); }
+
+.vert-line {
+  position: absolute; left: 65px; top: 280px; width: 2px; height: 345px; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(171,243,23,0.8) 0%, rgba(171,243,23,0.2) 50%, rgba(171,243,23,0) 100%); z-index: 0;
+}
+.vert-line::before { content: ''; position: absolute; top: -5px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--lime-bright); box-shadow: 0 0 10px var(--lime-bright), 0 0 22px rgba(171,243,23,0.5); }
+.circle-deco { position: absolute; width: 740px; height: 740px; border: 1.5px solid rgba(100,150,100,0.1); border-radius: 50%; top: 18px; left: 141px; pointer-events: none; z-index: 0; }
+.ambient-glow { position: absolute; bottom: -200px; left: -200px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(circle, rgba(171,243,23,0.06) 0%, transparent 70%); pointer-events: none; z-index: 0; }
+
+/* ── Dot-grid clusters (Quantum Upgrade) ──────────────────────── */
+.dot-cluster { position: absolute; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; pointer-events: none; z-index: 0; }
+.dot-cluster .d { width: 4px; height: 4px; border-radius: 50%; background: var(--lime-bright); opacity: 0.35; }
+#dc-tl { top: 180px; left: 80px; }
+#dc-tr { top: 180px; right: 80px; }
+#dc-br { bottom: 260px; right: 80px; }
+#dc-bl { bottom: 260px; left: 80px; }
+
+/* ── Hollow squares (Quantum Upgrade) ───────────────────────── */
+.hollow-square { position: absolute; border: 1px solid rgba(171,243,23,0.25); transform: rotate(45deg); pointer-events: none; z-index: 0; }
+#hs-1 { width: 22px; height: 22px; top: 340px; left: 220px; opacity: 0.3; }
+#hs-2 { width: 16px; height: 16px; top: 480px; left: 180px; opacity: 0.2; }
+#hs-3 { width: 28px; height: 28px; top: 620px; right: 200px; opacity: 0.25; }
+#hs-4 { width: 18px; height: 18px; bottom: 400px; right: 260px; opacity: 0.2; }
+#hs-5 { width: 24px; height: 24px; bottom: 520px; left: 300px; opacity: 0.15; }
+#hs-6 { width: 14px; height: 14px; top: 720px; left: 400px; opacity: 0.25; }
+
+/* ── Scene 3: Cheat-Code overlay ───────────────────────────── */
+#turn-scene {
+  position: absolute; inset: 0; z-index: 9;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: flex-start; padding: 0 80px;
+  background: var(--bg); pointer-events: none;
+}
+.turn-line {
+  font-family: 'Inter', 'Archivo', sans-serif; font-size: 60px; font-weight: 700;
+  line-height: 1.18; color: var(--ink); margin-bottom: 28px; letter-spacing: -1.5px;
+}
+#turn-l2 { color: var(--lime-bright); font-size: 52px; margin-top: 28px; }
+#turn-l3 { font-family: 'Inter', 'Archivo', sans-serif; font-size: 24px; font-weight: 600; color: #b0b0b0; margin-bottom: 0; }
+.corner { position: absolute; width: 20px; height: 20px; border-color: rgba(171,243,23,0.3); z-index: 3; }
+.corner-tl { top: 40px; left: 40px; border-top: 2px solid; border-left: 2px solid; }
+.corner-tr { top: 40px; right: 40px; border-top: 2px solid; border-right: 2px solid; }
+.corner-bl { bottom: 40px; left: 40px; border-bottom: 2px solid; border-left: 2px solid; }
+.corner-br { bottom: 40px; right: 40px; border-bottom: 2px solid; border-right: 2px solid; }
+#turn-target {
+  position: absolute; left: 80px; top: 130px; width: 60px; height: 60px; z-index: 5;
+}
+#turn-target svg { filter: url(#lime-glow); }
+#turn-checkline {
+  display: flex; align-items: center; gap: 16px; z-index: 5; margin-top: 40px;
+}
+#turn-checkcircle {
+  width: 30px; height: 30px; border: 2px solid #8bc34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+#turn-checkcircle svg { display: block; }
+#turn-checktext { font-size: 24px; font-weight: 600; color: #b0b0b0; }
+#turn-underline {
+  width: 420px; height: 2px;
+  background: linear-gradient(90deg, #8bc34a, transparent); z-index: 5; transform-origin: left center; margin-top: 16px; margin-left: 46px;
+}
+
+/* ── Scene 8: Human close / Flow ─────────────────────────────── */
+#human-close {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  z-index: 8; pointer-events: none; padding: 0 80px;
+}
+.human-line {
+  font-family: 'Inter', 'Archivo', sans-serif; font-weight: 700;
+  line-height: 1.15; color: var(--ink); margin-bottom: 0; letter-spacing: -1.5px;
+}
+#human-l1 { font-size: 64px; text-align: center; }
+#human-l2 { font-size: 58px; color: var(--lime-bright); margin-top: 28px; text-align: center; }
+#human-l3 { font-size: 32px; color: #b0b0b0; margin-top: 28px; font-weight: 600; text-align: center; }
+#human-l4 { font-size: 52px; color: var(--lime-bright); margin-top: 56px; text-align: center; }
+.human-lime { color: var(--lime-bright); }
+#human-close .human-hero { font-size: 38px; line-height: 1.1; margin-top: 44px; margin-bottom: 0; }
+/* ── CTA ─────────────────────────────────────────────────────── */
+#cta-group { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 340px; z-index: 10; background: var(--bg); overflow: hidden; }
+#cta-particles-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+#cta-decor { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+#cta-star  { filter: drop-shadow(0 0 14px rgba(201,242,77,0.65)); }
+#cta-logo-wrap { background: transparent; margin-bottom: 40px; z-index: 1; }
+#cta-logo-img  { width: 240px; display: block; filter: brightness(0) invert(1) sepia(1) saturate(1150%) hue-rotate(15deg) brightness(95%); }
+#cta-badge { z-index: 1; display: inline-flex; align-items: center; gap: 10px; color: var(--lime); border: 1.5px solid rgba(201,242,77,0.55); border-radius: 999px; padding: 12px 24px; margin-bottom: 30px; }
+.cta-badge-icon { width: 20px; height: 20px; flex: 0 0 auto; }
+#cta-badge-text { font-family: 'Inter', 'Archivo', sans-serif; font-size: 22px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+#cta-subtext { z-index: 1; font-family: 'Inter', 'Archivo', sans-serif; font-size: 28px; color: var(--muted); text-align: center; margin-bottom: 36px; }
+#cta-headline { z-index: 1; position: relative; text-align: center; max-width: 940px; margin-bottom: 30px; }
+.cta-h-line { display: block; font-family: 'Inter', 'Archivo', sans-serif; font-size: 52px; font-weight: 700; line-height: 1.1; white-space: nowrap; }
+.cta-h-lime { color: var(--lime); }
+.cta-h-ink  { color: #F0EDE4; }
+#cta-underline { display: block; width: 420px; height: 16px; margin: 6px auto 0; }
+#cta-desc { z-index: 1; font-family: 'Inter', 'Archivo', sans-serif; font-size: 26px; color: var(--muted); text-align: center; max-width: 760px; line-height: 1.35; margin-bottom: 36px; }
+.cta-accent { color: var(--lime); font-weight: 600; }
+#cta-btn { z-index: 1; display: inline-flex; align-items: center; gap: 14px; background: var(--lime); color: var(--on-lime); border-radius: 999px; padding: 24px 52px; font-family: 'Inter', 'Archivo', sans-serif; font-size: 25px; font-weight: 700; box-shadow: 0 0 0 1px rgba(201,242,77,0.35), 0 10px 44px rgba(201,242,77,0.42); margin-bottom: 30px; }
+.cta-btn-icon { width: 22px; height: 22px; flex: 0 0 auto; }
+#cta-btn-arrow { font-size: 26px; line-height: 1; }
+#cta-features { z-index: 1; display: inline-flex; align-items: center; gap: 18px; color: var(--muted); margin-bottom: 28px; }
+.cta-feat { display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', 'Archivo', sans-serif; font-size: 18px; font-weight: 500; }
+.cta-feat-icon { width: 18px; height: 18px; color: var(--lime); }
+.cta-feat-sep { color: rgba(255,255,255,0.25); font-size: 18px; }
+#cta-domain { z-index: 1; font-family: 'JetBrains Mono', monospace; font-size: 18px; color: var(--muted); letter-spacing: 0.04em; }
+
+/* ── Demo group: Scanner + Tailors ───────────────────────────── */
+#demo-group {
+  position: absolute;
+  top: var(--safe-top); left: var(--safe-x);
+  right: var(--safe-x); bottom: var(--safe-bottom);
+  display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: stretch;
+  gap: 10px; z-index: 1;
+}
+
+#demo-bg { position: absolute; inset: 0; background: linear-gradient(170deg, #0a100f 0%, #0a120e 45%, #060a0e 100%); z-index: -2; }
+#demo-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(150,180,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(150,180,255,.03) 1px, transparent 1px); background-size: 30px 30px; pointer-events: none; z-index: -1; }
+#demo-noise { position: absolute; inset: 0; pointer-events: none; opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); background-size: 200px 200px; z-index: 0; }
+#demo-scanlines { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.015) 3px, rgba(0,0,0,.015) 4px); z-index: 0; }
+.amb-glow { position: absolute; border-radius: 50%; pointer-events: none; z-index: -1; }
+
+#banner-area { flex: 0 0 auto; }
+.cv-banner {
+  font-family: 'Inter', 'Archivo', sans-serif; font-size: 20px; line-height: 1.4;
+  color: var(--ink); background: rgba(14,16,24,0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 4px solid var(--muted);
+  border-radius: 0 10px 10px 0;
+  padding: 20px 28px 20px 22px;
+  pointer-events: none;
+}
+#banner-generic { border-left-color: var(--low-2); color: var(--ink); background: var(--bg-panel); border-radius: 10px; padding: 18px 24px; display: flex; align-items: flex-start; justify-content: space-between; }
+#banner-generic-head { font-size: 24px; font-weight: 800; color: var(--ink); display: block; margin-bottom: 4px; letter-spacing: 0.5px; }
+#banner-generic-sub  { font-size: 14px; color: var(--muted); display: block; }
+#banner-generic-radar { width: 50px; height: 50px; flex-shrink: 0; margin-left: 16px; }
+#banner-stat    { border-left-color: var(--low-2); color: var(--ink); display: flex; align-items: center; justify-content: space-between; gap: 16px; background: rgba(5,10,15,.85); border: 1px solid rgba(180,255,50,.15); border-radius: 18px; padding: 14px 22px; box-shadow: 0 0 30px rgba(180,255,50,.06), 0 4px 20px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.03); backdrop-filter: blur(20px); }
+#banner-stat-text { flex: 1 1 auto; font-size: 24px; font-weight: 800; color: var(--ink); }
+#job-chip {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
+  background: var(--card-ink); color: #fff; border-radius: 999px;
+  padding: 10px 18px; font-family: 'JetBrains Mono', monospace; font-size: 15px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18); pointer-events: none; white-space: nowrap;
+}
+#job-chip::before { content: ""; width: 9px; height: 9px; border-radius: 999px; background: var(--lime); flex-shrink: 0; }
+
+#cv-panel { flex: 1 1 auto; min-height: 0; position: relative; }
+
+.cv-card {
+  height: 100%;
+  background: var(--paper); border: 1px solid rgba(0,0,0,0.09); border-radius: 20px;
+  padding: 30px 40px; box-shadow: 0 8px 48px rgba(0,0,0,0.30), 0 1px 4px rgba(0,0,0,0.12);
+  position: relative; overflow: hidden; z-index: 1;
+}
+.cv-card::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: 20px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.4'/></svg>");
+  opacity: 0.045; pointer-events: none; z-index: 0; mix-blend-mode: overlay;
+}
+.scan-bar {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(224,89,59,0) 0%, rgba(224,89,59,0.22) 40%, rgba(224,89,59,0.34) 50%, rgba(224,89,59,0.22) 60%, rgba(224,89,59,0) 100%);
+  pointer-events: none; z-index: 2;
+}
+#scan-line {
+  position: absolute; left: 0; right: 0; height: 5px;
+  background: linear-gradient(90deg, transparent 0%, #E7FF70 25%, #FFFFFF 50%, #E7FF70 75%, transparent 100%);
+  filter: blur(2px); box-shadow: 0 0 25px rgba(231,255,112,.7), 0 0 50px rgba(200,255,50,.4);
+  top: 0; z-index: 20;
+}
+#scan-glow {
+  position: absolute; left: 0; right: 0; height: 80px;
+  background: linear-gradient(180deg, rgba(200,255,50,.12) 0%, transparent 100%);
+  top: 0; z-index: 19; pointer-events: none;
+}
+
+#rechazado-stamp {
+  position: absolute; bottom: 130px; right: 30px; z-index: 6;
+  border: 3px solid var(--low-2); border-radius: 8px;
+  padding: 10px 28px; color: var(--low-2);
+  font-family: 'JetBrains Mono', monospace; font-size: 44px; font-weight: 900;
+  letter-spacing: 3px; text-transform: uppercase;
+  pointer-events: none; opacity: 0; transform: rotate(-12deg);
+  background: rgba(192,57,43,0.04);
+}
+
+.cv-name    { font-family: 'Newsreader', serif; font-size: 40px; font-weight: 600; color: var(--card-ink); margin-bottom: 5px; }
+.cv-role    { font-size: 20px; color: var(--card-muted); margin-bottom: 10px; }
+.cv-contact { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--card-muted); line-height: 1.6; margin-bottom: 16px; }
+.cv-divider { height: 1px; background: rgba(0,0,0,0.08); margin-bottom: 12px; }
+.cv-section-label { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--card-muted); margin-bottom: 8px; }
+.cv-section-label::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--card-muted); border-radius: 2px; margin-right: 8px; }
+.cv-body-text { font-size: 18px; line-height: 1.55; color: var(--card-ink); margin-bottom: 10px; }
+.cv-skills-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+.cv-skill-tag { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: rgba(0,0,0,0.05); border-radius: 16px; padding: 6px 12px; color: var(--card-muted); }
+.cv-section-block { position: relative; margin-bottom: 10px; }
+.section-flag { position: absolute; inset: -4px -8px; background: rgba(224,89,59,0.06); border-left: 3px solid var(--low-2); border-radius: 0 6px 6px 0; pointer-events: none; opacity: 0; }
+.section-warn { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--low-2); margin-top: 5px; opacity: 0; }
+.exp-block { margin-bottom: 12px; }
+.exp-title  { font-size: 20px; font-weight: 700; color: var(--card-ink); margin-bottom: 2px; }
+.exp-meta   { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--card-muted); margin-bottom: 6px; }
+.bullet-text { font-size: 17px; line-height: 1.55; color: var(--card-ink); }
+.exp-flag { display: inline-flex; align-items: center; gap: 5px; background: var(--low-soft); border: 1px solid rgba(224,89,59,0.22); border-radius: 100px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--low-2); margin-top: 5px; opacity: 0; }
+#flag-1, #flag-2, #flag-3 { background: none; border: none; border-radius: 0; padding: 0; font-size: 12px; }
+
+.cv-clean-mode .kw-bad { background: none; color: inherit; }
+.kw-bad { display: inline; border-radius: 3px; padding: 1px 3px; background: rgba(192,57,43,0.13); color: var(--low-2); }
+.kw { display: inline; background: rgba(201,242,77,0.55); border-radius: 3px; padding: 1px 4px; color: var(--on-lime); }
+
+#demo-group.scanner-mode .cv-card { background: #e8e8e9; border-radius: 16px; padding: 30px 35px; }
+#demo-group.scanner-mode .cv-name { font-family: 'Inter', 'Archivo', sans-serif; font-size: 32px; font-weight: 700; color: #2c3e50; }
+#demo-group.scanner-mode .cv-role { font-size: 14px; color: #c0392b; font-weight: 600; }
+#demo-group.scanner-mode .cv-contact { font-size: 13px; color: #666; }
+#demo-group.scanner-mode .cv-section-label { font-size: 12px; font-weight: 700; color: #c0392b; letter-spacing: 1px; }
+#demo-group.scanner-mode .cv-section-label::before { background: #c0392b; }
+#demo-group.scanner-mode .cv-skill-tag { background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.2); color: #555; }
+#demo-group.scanner-mode .kw-bad { background: rgba(192,57,43,0.15); color: #c0392b; }
+#demo-group.scanner-mode .kw { background: rgba(192,57,43,0.15); color: #c0392b; }
+
+#demo-group.demo-mode .cv-card { background: #E8E8E0; border-radius: 24px; box-shadow: 0 16px 60px rgba(0,0,0,.4), 0 0 50px rgba(200,255,30,.2), inset 0 0 10px rgba(200,255,30,.06); }
+#demo-group.demo-mode .cv-name { font-family: 'Inter', 'Archivo', sans-serif; font-size: 36px; font-weight: 900; color: #111; letter-spacing: -1px; }
+#demo-group.demo-mode .cv-role { font-size: 15px; color: #444; }
+#demo-group.demo-mode .cv-contact { font-size: 14px; color: #666; }
+#demo-group.demo-mode .cv-section-label { font-size: 13px; font-weight: 700; color: #333; letter-spacing: 1.5px; }
+#demo-group.demo-mode .cv-section-label::before { background: #8BBF00; border-radius: 50%; }
+#demo-group.demo-mode .cv-skill-tag { background: #F0F5DE; border: 1.5px solid #D4E399; color: #3A4800; }
+#demo-group.demo-mode .kw { background: rgba(217,242,105,.7); color: #334000; }
+
+#reasoning {
+  position: absolute; bottom: 18px; left: 18px; right: 18px;
+  display: flex; flex-direction: column; gap: 7px;
+  background: rgba(255,255,255,0.93); border-radius: 10px;
+  padding: 12px 16px; z-index: 3; pointer-events: none;
+}
+.reason-line { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--card-muted); }
+
+#scanner-analysis-panel {
+  position: absolute; left: 24px; right: 24px; bottom: 160px;
+  background: rgba(255,255,255,0.96); border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.10);
+  padding: 14px 16px; z-index: 4; pointer-events: none;
+}
+.panel-kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--card-muted); margin-bottom: 9px; }
+.panel-row { display: flex; align-items: center; gap: 9px; font-size: 14px; line-height: 1.35; color: var(--card-ink); margin-top: 7px; }
+.panel-dot { width: 9px; height: 9px; border-radius: 999px; flex: 0 0 auto; background: var(--low-2); }
+
+.ghost-card { position: absolute; width: 72%; height: 82%; top: 40px; left: 128px; background: rgba(255,255,255,0.82); border: 1px solid rgba(0,0,0,0.08); border-radius: 18px; box-shadow: 0 18px 46px rgba(0,0,0,0.09); z-index: 0; }
+#tailor-score {
+  position: absolute; top: 108px; right: 42px; z-index: 6;
+  background: var(--lime); color: var(--on-lime); border-radius: 10px;
+  padding: 11px 16px; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.14); pointer-events: none;
+}
+
+#s7-texts {
+  position: absolute; left: 0; right: 0; bottom: 0; min-height: 170px; z-index: 7;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(10,12,20,0.96); border-top: 1px solid rgba(255,255,255,0.07);
+  pointer-events: none;
+}
+#s7-caption { font-family: 'Inter', 'Archivo', sans-serif; font-size: 30px; font-weight: 600; color: var(--ink); text-align: center; padding: 0 32px; }
+
+#bottom-panel { flex: 0 0 auto; display: flex; flex-direction: row; align-items: center; gap: 22px; padding-top: 4px; }
+.ring-center { position: relative; width: 148px; height: 148px; flex-shrink: 0; }
+#ring-svg { position: absolute; top: 0; left: 0; width: 148px; height: 148px; }
+#ring-track { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 13; }
+#ring-fill { fill: none; stroke: var(--muted); stroke-width: 13; stroke-linecap: round; stroke-dasharray: 502.65; stroke-dashoffset: 502.65; transform: rotate(-90deg); transform-origin: 100px 100px; }
+.ring-val-group { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#score-val   { font-family: 'JetBrains Mono', monospace; font-size: 52px; font-weight: 500; color: var(--muted); line-height: 1; }
+.score-denom { font-family: 'JetBrains Mono', monospace; font-size: 17px; color: var(--muted); }
+#score-info  { display: flex; flex-direction: column; gap: 5px; }
+#score-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+#score-state { font-family: 'Inter', 'Archivo', sans-serif; font-size: 20px; font-weight: 600; color: var(--muted); }
+#verify-btn  { display: inline-flex; align-items: center; background: transparent; border: 1.5px solid rgba(255,255,255,0.20); color: var(--ink); border-radius: 100px; padding: 18px 32px; font-family: 'Inter', 'Archivo', sans-serif; font-size: 18px; font-weight: 600; }
+#optimize-btn { display: inline-flex; align-items: center; background: var(--lime); color: var(--on-lime); border-radius: 100px; padding: 18px 32px; font-family: 'Inter', 'Archivo', sans-serif; font-size: 18px; font-weight: 600; position: relative; overflow: visible; white-space: nowrap; }
+#btn-ripple  { position: absolute; inset: 0; border-radius: 100px; border: 2px solid var(--lime); opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body class="cv-clean-mode">
+
+<!-- SVG Glow Filter (Quantum Upgrade) -->
+<svg id="lime-glow-filter" width="0" height="0">
+  <defs>
+    <filter id="lime-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<div id="bg-grid"></div>
+<div id="bg-spot"></div>
+
+<div id="cursor">
+  <svg viewBox="0 0 28 28" fill="none"><path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#F0EDE4" stroke="#0C0E16" stroke-width="1.5" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     Scene 1: The Wound + Nada (0.4 – 10.3s)
+     ════════════════════════════════════════════════════════════════ -->
+<div id="intro-group">
+  <div class="circle-deco"></div>
+  <div class="vert-line"></div>
+
+  <!-- Dot-grid clusters (Quantum Upgrade) -->
+  <div class="dot-cluster" id="dc-tl">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+  <div class="dot-cluster" id="dc-tr">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+  <div class="dot-cluster" id="dc-br">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+  <div class="dot-cluster" id="dc-bl">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+
+  <!-- Hollow squares (Quantum Upgrade) -->
+  <div class="hollow-square" id="hs-1"></div>
+  <div class="hollow-square" id="hs-2"></div>
+  <div class="hollow-square" id="hs-3"></div>
+  <div class="hollow-square" id="hs-4"></div>
+  <div class="hollow-square" id="hs-5"></div>
+  <div class="hollow-square" id="hs-6"></div>
+
+  <div class="intro-line" id="intro-l1" data-copy="40 postulaciones."><span class="num">40</span><span class="txt"> postulaciones.</span></div>
+  <div class="intro-line line2" id="intro-l2" data-copy="0 respuestas."><span class="num">0</span><span class="txt"> respuestas.</span></div>
+  <div class="intro-line muted-intro" id="intro-l3" data-copy='Y la pregunta que te persigue: "¿qué estoy haciendo mal?"'>Y la pregunta que te persigue: <span class="quote">"¿qué estoy haciendo<br>mal?"</span></div>
+  <div class="intro-line" id="intro-l4" data-copy="Nadie te rechazó.">Nadie te rechazó.</div>
+  <div class="intro-line intro-lime" id="intro-l5" data-copy="Nadie te leyó.">Nadie te leyó.</div>
+  <div class="intro-line intro-kicker" id="intro-l6" data-copy="El filtro te descartó sin llegar a un humano.">El filtro te descartó sin llegar a un humano.</div>
+
+  <div class="waves-container" id="intro-waves">
+    <svg width="1200" height="680" viewBox="0 0 1200 680">
+      <path d="M -200 400 Q 200 360, 450 420 T 950 430 T 1400 400" stroke="#8bc414" stroke-width="0.6" fill="none" opacity="0.06"/>
+      <path d="M -200 420 Q 200 375, 450 435 T 950 445 T 1400 415" stroke="#8bc414" stroke-width="0.7" fill="none" opacity="0.08"/>
+      <path d="M -200 440 Q 200 390, 450 455 T 950 460 T 1400 430" stroke="#8bc414" stroke-width="0.8" fill="none" opacity="0.1"/>
+      <path d="M -200 460 Q 250 400, 500 475 T 1000 480 T 1400 450" stroke="#8bc414" stroke-width="0.9" fill="none" opacity="0.13"/>
+      <path d="M -200 480 Q 250 415, 500 495 T 1000 495 T 1400 465" stroke="#8bc414" stroke-width="1" fill="none" opacity="0.16"/>
+      <path d="M -200 500 Q 250 430, 500 510 T 1000 510 T 1400 480" stroke="#8bc414" stroke-width="0.9" fill="none" opacity="0.12"/>
+      <path d="M -200 520 Q 200 455, 400 525 T 800 535 T 1200 515 T 1400 525" stroke="#8bc414" stroke-width="1.1" fill="none" opacity="0.2"/>
+      <path d="M -200 545 Q 200 470, 400 550 T 800 555 T 1200 535 T 1400 545" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.24"/>
+      <path d="M -200 570 Q 200 490, 400 570 T 800 575 T 1200 555 T 1400 565" stroke="#8bc414" stroke-width="1.1" fill="none" opacity="0.18"/>
+      <path d="M -200 595 Q 200 510, 400 590 T 800 590 T 1200 570 T 1400 580" stroke="#8bc414" stroke-width="1.3" fill="none" opacity="0.26"/>
+      <path d="M -200 620 Q 200 530, 400 610 T 800 605 T 1200 585 T 1400 595" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.22"/>
+      <path d="M -200 645 Q 200 550, 400 630 T 800 620 T 1200 600 T 1400 610" stroke="#8bc414" stroke-width="1.4" fill="none" opacity="0.28"/>
+      <path d="M -200 670 Q 200 570, 400 650 T 800 635 T 1200 615 T 1400 625" stroke="#8bc414" stroke-width="1.3" fill="none" opacity="0.24"/>
+      <path d="M -200 555 Q 300 480, 550 565 T 1100 565 T 1400 545" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.22"/>
+      <path d="M -200 600 Q 300 510, 550 605 T 1100 595 T 1400 580" stroke="#8bc414" stroke-width="1.4" fill="none" opacity="0.26"/>
+      <path d="M -200 645 Q 300 545, 550 640 T 1100 625 T 1400 610" stroke="#8bc414" stroke-width="1.6" fill="none" opacity="0.3"/>
+      <path d="M -200 535 Q 250 460, 450 540 T 850 550 T 1250 530 T 1400 540" stroke="#abf317" stroke-width="1.7" fill="none" opacity="0.4"/>
+      <path d="M -200 580 Q 250 495, 450 580 T 850 585 T 1250 565 T 1400 575" stroke="#abf317" stroke-width="1.8" fill="none" opacity="0.45"/>
+      <path d="M -200 625 Q 250 535, 450 620 T 850 615 T 1250 595 T 1400 605" stroke="#abf317" stroke-width="1.6" fill="none" opacity="0.38"/>
+      <path d="M -200 670 Q 250 575, 450 660 T 850 645 T 1250 625 T 1400 635" stroke="#abf317" stroke-width="1.9" fill="none" opacity="0.5"/>
+      <path d="M -200 590 Q 300 500, 500 595 T 900 590 T 1300 570 T 1400 580" stroke="#c8ff30" stroke-width="2.2" fill="none" opacity="0.32"/>
+      <path d="M -200 660 Q 300 560, 500 660 T 900 640 T 1300 620 T 1400 630" stroke="#c8ff30" stroke-width="2" fill="none" opacity="0.28"/>
+    </svg>
+  </div>
+
+  <div class="ambient-glow"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     Scene 3: Cheat-Code overlay (17.7 – 23.8s)
+     ════════════════════════════════════════════════════════════════ -->
+<div id="turn-scene">
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div id="turn-target">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="26" stroke="#abf317" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="30" cy="30" r="18" stroke="#abf317" stroke-width="1.2" opacity="0.35"/>
+      <circle cx="30" cy="30" r="10" stroke="#abf317" stroke-width="1" opacity="0.25"/>
+      <circle cx="30" cy="30" r="3" fill="#abf317" opacity="0.7"/>
+      <line x1="30" y1="0" x2="30" y2="10" stroke="#abf317" stroke-width="1.2" opacity="0.4"/>
+      <line x1="30" y1="50" x2="30" y2="60" stroke="#abf317" stroke-width="1.2" opacity="0.4"/>
+      <line x1="0" y1="30" x2="10" y2="30" stroke="#abf317" stroke-width="1.2" opacity="0.4"/>
+      <line x1="50" y1="30" x2="60" y2="30" stroke="#abf317" stroke-width="1.2" opacity="0.4"/>
+      <circle cx="30" cy="22" r="5" stroke="#abf317" stroke-width="1" fill="none" opacity="0.4"/>
+      <path d="M 24 32 Q 30 38, 36 32" stroke="#abf317" stroke-width="1" fill="none" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <div class="turn-line" id="turn-l1" data-copy="Los que consiguen entrevistas no tienen mejor experiencia que tú.">Los que consiguen<br>entrevistas no tienen<br>mejor experiencia que tú.</div>
+  <div class="turn-line" id="turn-l2" data-copy="Tienen un CV distinto para cada vacante.">Tienen un CV distinto<br>para cada vacante.</div>
+  <div id="turn-l3" data-copy="Escrito en el idioma que el filtro entiende.">
+    <div id="turn-checkline">
+      <div id="turn-checkcircle">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8l3 3 7-7" stroke="#8bc34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div id="turn-checktext">Escrito en el idioma que el filtro entiende.</div>
+    </div>
+    <div id="turn-underline"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     Scene 8: La Inversión / Flow (44.2 – 49.0s)
+     ════════════════════════════════════════════════════════════════ -->
+<div id="human-close">
+  <div class="human-line" id="human-l1" data-copy="Las empresas usan bots para descartarte.">Las empresas usan<br>bots para descartarte.</div>
+  <div class="human-line human-lime" id="human-l2" data-copy="Nosotros invertimos el proceso.">Nosotros invertimos<br>el proceso.</div>
+  <div class="human-line" id="human-l3" data-copy="WorqAI reconstruye tu CV con todo lo que el bot busca.">WorqAI reconstruye tu CV<br>con todo lo que el bot busca.</div>
+  <div class="human-line human-lime human-hero" id="human-l4" data-copy="Ellos tienen un algoritmo. Ahora tú también.">Ellos tienen un algoritmo.<br>Ahora tú también.</div>
+</div>
+<!-- ════════════════════════════════════════════════════════════════
+     Scene 9: CTA (49.4 – 56s)
+     ════════════════════════════════════════════════════════════════ -->
+<div id="cta-group">
+  <div id="cta-particles-layer"></div>
+  <svg id="cta-decor" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="cta-trail-grad" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%"  stop-color="rgba(201,242,77,0)"/>
+        <stop offset="60%" stop-color="rgba(201,242,77,0.35)"/>
+        <stop offset="100%" stop-color="rgba(201,242,77,0.9)"/>
+      </linearGradient>
+    </defs>
+    <path id="cta-trail" d="M540 1920 C 460 1740, 640 1560, 540 1480 S 460 1360, 560 1280"
+          fill="none" stroke="url(#cta-trail-grad)" stroke-width="3" stroke-linecap="round"/>
+    <g id="cta-star" transform="translate(560 1280)">
+      <path d="M0 -22 L6 -6 L22 0 L6 6 L0 22 L-6 6 L-22 0 L-6 -6 Z"
+            fill="var(--lime)"/>
+    </g>
+  </svg>
+
+  <div id="cta-logo-wrap"><img id="cta-logo-img" src="../../Ideation/worqai_logo.png" alt="WorqAI"></div>
+
+  <div id="cta-badge">
+    <svg class="cta-badge-icon" viewBox="0 0 24 24" fill="none">
+      <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z" fill="currentColor"/>
+    </svg>
+    <span id="cta-badge-text" data-copy="TE DESCARTARON EN SEGUNDOS.">TE DESCARTARON EN SEGUNDOS.</span>
+  </div>
+
+  <div id="cta-subtext" data-copy="Sin siquiera llegar a un humano.">Sin siquiera llegar a un humano.</div>
+
+  <div id="cta-headline">
+    <span class="cta-h-line cta-h-lime" data-copy="Así que les copiamos el filtro y">Así que les copiamos el filtro y</span>
+    <span class="cta-h-line cta-h-ink"  data-copy="lo pusimos de tu lado.">lo pusimos de tu lado.</span>
+    <svg id="cta-underline" viewBox="0 0 320 14" preserveAspectRatio="none" aria-hidden="true">
+      <path id="cta-underline-path" d="M4 9 C 90 2, 230 2, 316 7" fill="none"
+            stroke="var(--lime)" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div id="cta-desc" data-copy="Con WorqAI podés adaptar tu CV a cualquier vacante en segundos.">Con WorqAI podés adaptar tu CV a cualquier vacante <span class="cta-accent">en segundos.</span></div>
+
+  <div id="cta-btn">
+    <svg class="cta-btn-icon" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2v6m0 8v6m10-10h-6M8 12H2m15.07-7.07l-4.24 4.24M11.17 12.83l-4.24 4.24m12.14 0l-4.24-4.24M11.17 11.17L6.93 6.93" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <span id="cta-btn-text">Analiza mi CV gratis</span>
+    <span id="cta-btn-arrow" aria-hidden="true">&#8594;</span>
+  </div>
+
+  <div id="cta-features">
+    <div class="cta-feat">
+      <svg class="cta-feat-icon" viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span data-copy="Rápido">Rápido</span>
+    </div>
+    <span class="cta-feat-sep">·</span>
+    <div class="cta-feat">
+      <svg class="cta-feat-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span data-copy="Seguro">Seguro</span>
+    </div>
+    <span class="cta-feat-sep">·</span>
+    <div class="cta-feat">
+      <svg class="cta-feat-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span data-copy="Preciso">Preciso</span>
+    </div>
+  </div>
+
+  <div id="cta-domain" data-copy="worqai.io · español e inglés">worqai.io · español e inglés</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     Scenes 2–7: Demo group (Scanner + 3 Tailors + Fan-out)
+     ════════════════════════════════════════════════════════════════ -->
+<div id="demo-group">
+  <div id="demo-bg"></div>
+  <div id="demo-grid"></div>
+  <div id="demo-noise"></div>
+  <div id="demo-scanlines"></div>
+  <div class="amb-glow" style="width:500px;height:500px;top:-150px;left:-150px;background:radial-gradient(circle,rgba(180,255,50,.05)0%,transparent 70%);"></div>
+  <div class="amb-glow" style="width:600px;height:400px;bottom:80px;right:-200px;background:radial-gradient(circle,rgba(150,255,30,.04)0%,transparent 70%);"></div>
+
+  <div id="banner-area">
+    <div class="cv-banner" id="banner-generic">
+      <div style="flex:1;">
+        <span id="banner-generic-head" data-copy="Así te lee el filtro.">ASÍ TE LEE EL FILTRO.</span>
+        <span id="banner-generic-sub" data-copy="El software que las empresas usan para descartar candidatos — antes de que un humano vea tu CV.">El software que las empresas usan para descartar candidatos — antes de que un humano vea tu CV.</span>
+      </div>
+      <svg id="banner-generic-radar" viewBox="0 0 70 70" fill="none">
+        <circle cx="35" cy="35" r="30" stroke="#c0392b" stroke-width="1" opacity="0.3"/>
+        <circle cx="35" cy="35" r="20" stroke="#c0392b" stroke-width="0.8" opacity="0.25"/>
+        <circle cx="35" cy="35" r="10" stroke="#c0392b" stroke-width="0.6" opacity="0.2"/>
+        <line x1="35" y1="5" x2="35" y2="65" stroke="#c0392b" stroke-width="0.5" opacity="0.2"/>
+        <line x1="5" y1="35" x2="65" y2="35" stroke="#c0392b" stroke-width="0.5" opacity="0.2"/>
+        <circle cx="35" cy="35" r="3" fill="#c0392b" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="cv-banner" id="banner-stat">
+      <span id="banner-stat-text">10.6× más entrevistas. Solo por adaptar el CV a cada vacante.</span>
+      <div id="job-chip"><span id="job-chip-text">Analista de Seguridad</span></div>
+    </div>
+  </div>
+
+  <div id="cv-panel">
+    <div class="ghost-card" id="ghost-card-1"></div>
+    <div class="ghost-card" id="ghost-card-2"></div>
+    <div class="ghost-card" id="ghost-card-3"></div>
+    <div id="tailor-score">Puntuación 92</div>
+
+    <div class="cv-card" id="cv-card">
+      <div class="scan-bar" id="scan-bar"></div>
+      <div id="scan-line"></div>
+      <div id="scan-glow"></div>
+      <div id="rechazado-stamp" data-copy="DESCARTADO">DESCARTADO</div>
+
+      <div class="cv-name">Andres Quesada R.</div>
+      <div class="cv-role" id="cv-role">Especialista en Servicio al Cliente · Bilingüe EN/ES</div>
+      <div class="cv-contact">andres.quesada@email.com · Parrita, Costa Rica<br>linkedin.com/in/andresq</div>
+      <div class="cv-divider"></div>
+
+      <div class="cv-section-block">
+        <div class="section-flag" id="resumen-flag"></div>
+        <div class="cv-section-label">Resumen</div>
+        <div class="cv-body-text" id="cv-resumen">Estudiante de TI bilingüe (EN/ES, B2+) con experiencia en <span class="kw-bad">servicio al cliente</span>, <span class="kw-bad">seguridad</span> y análisis de datos. Certificado en Data Analytics (Excel, SQL, Tableau).</div>
+        <div class="section-warn" id="resumen-warn" data-copy="✗ palabras clave: 4 de 12">✗ palabras clave: 4 de 12</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <div class="cv-section-block">
+        <div class="section-flag" id="habilidades-flag"></div>
+        <div class="cv-section-label">Habilidades</div>
+        <div class="cv-skills-row" id="skills-row"></div>
+        <div class="section-warn" id="habilidades-warn" data-copy="✗ coincidencia con la vacante: baja">✗ coincidencia con la vacante: baja</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <div class="cv-section-block">
+        <div class="section-flag" id="experiencia-flag"></div>
+        <div class="cv-section-label">Experiencia</div>
+
+        <div class="exp-block">
+          <div class="exp-title">Monitor de Seguridad de Activos</div>
+          <div class="exp-meta">Control y Monitoreo CYMSA · Puntarenas, CR · Dic 2023 - Abr 2024</div>
+          <div class="bullet-text" id="bullet-1">Cuidaba la <span class="kw-bad">seguridad</span> de las instalaciones del cliente y llevaba el <span class="kw-bad">control</span> de quien entraba y salía.</div>
+          <div class="bullet-text" id="bullet-1b"></div>
+          <div class="exp-flag" id="flag-1" data-copy="✗ formato: ilegible para el bot">✗ formato: ilegible para el bot</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Recepcionista Bilingüe</div>
+          <div class="exp-meta">Hotel Monte Campana · Dic 2016 - May 2018</div>
+          <div class="bullet-text" id="bullet-2">Atendí la <span class="kw-bad">recepción</span> del hotel y ayudé a huéspedes nacionales e internacionales con sus necesidades.</div>
+          <div class="bullet-text" id="bullet-2b"></div>
+          <div class="exp-flag" id="flag-2" data-copy="✗ experiencia relevante: no detectada">✗ experiencia relevante: no detectada</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Asistente Administrativo</div>
+          <div class="exp-meta">TechValle Soluciones · Feb 2018 - Nov 2019</div>
+          <div class="bullet-text" id="bullet-3">Apoyaba con <span class="kw-bad">tareas de oficina</span> y archivado de documentos para el equipo administrativo.</div>
+          <div class="bullet-text" id="bullet-3b"></div>
+          <div class="exp-flag" id="flag-3" data-copy="✗ candidato no priorizado">✗ candidato no priorizado</div>
+        </div>
+      </div>
+
+      <div id="reasoning">
+        <div class="reason-line" id="r1">&gt; leyendo keywords de la vacante...</div>
+        <div class="reason-line" id="r2">&gt; reordenando por relevancia...</div>
+        <div class="reason-line" id="r3">&gt; reescribiendo con evidencia real...</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="scanner-analysis-panel">
+    <div class="panel-kicker">ANÁLISIS DEL FILTRO</div>
+    <div class="panel-row"><div class="panel-dot"></div><span>Baja coincidencia con el puesto requerido</span></div>
+    <div class="panel-row"><div class="panel-dot"></div><span>Enfoque en seguridad y servicio, no en el rol buscado</span></div>
+    <div class="panel-row"><div class="panel-dot"></div><span>Faltan palabras clave críticas para este puesto</span></div>
+  </div>
+
+  <div id="s7-texts">
+    <div id="s7-caption">Esto es lo que hacen los que sí consiguen entrevista.</div>
+  </div>
+
+  <div id="bottom-panel">
+    <div class="ring-center" id="ring-center">
+      <svg id="ring-svg" viewBox="0 0 200 200">
+        <circle id="ring-track" cx="100" cy="100" r="80"/>
+        <circle id="ring-fill"  cx="100" cy="100" r="80"/>
+      </svg>
+      <div class="ring-val-group">
+        <div id="score-val">·</div>
+        <div class="score-denom" id="score-denom">/100</div>
+      </div>
+    </div>
+    <div id="score-info">
+      <div id="score-label">Puntuación</div>
+      <div id="score-state"></div>
+    </div>
+    <div id="verify-btn"><span>Ver mi puntuación</span></div>
+    <div id="optimize-btn">
+      <span>Optimizar con WorqAI</span>
+      <div id="btn-ripple"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Lock 1 ───────────────────────────────────────────────────────────────────
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Quantum Upgrade: initPostLayer before building timeline ───────────────────
+  const { vignetteEl, caEl, bloomEl } = initPostLayer();
+
+  // ── Content model ────────────────────────────────────────────────────────────
+  const generic = {
+    skills: ["Excel","SQL","Tableau","Power BI","Java","C++","Español nativo","Inglés B2+"]
+  };
+
+  const tailors = [
+    {
+      vacante: "Analista de Seguridad",
+      role:    "Monitor de Seguridad & Analista de Incidentes · Bilingüe EN/ES",
+      resumen: "Analista de seguridad bilingüe (EN/ES, B2+) con 5 meses en monitoreo de activos. Registros de acceso documentados. Certificado en Excel y SQL.",
+      skills:  ["Excel","SQL","Power BI","Seguridad operativa","Control de accesos","Análisis de incidentes","Inglés B2+"],
+      bullets: [
+        "Monitoreé <span class='kw'>accesos vehiculares</span> en <span class='kw'>3 instalaciones</span> de clientes. Registré <span class='kw'>incidentes</span> y generé <span class='kw'>reportes diarios</span> para supervisores.",
+        "Mantuve <span class='kw'>bitácora digital</span> de novedades por turno. Estandaricé el <span class='kw'>formato de reporte</span> para reducir errores de registro.",
+        "Gestioné recepción bilingüe (EN/ES) para <span class='kw'>40+ huéspedes</span> diarios. Coordiné <span class='kw'>accesos</span> e <span class='kw'>identificación de visitantes</span>.",
+        "Atendí solicitudes de seguridad de huéspedes de varias nacionalidades. Escalé <span class='kw'>incidentes</span> al <span class='kw'>equipo de turno</span>.",
+        "Administré <span class='kw'>archivo digital</span> para equipo de 8 personas. Reportes Excel con <span class='kw'>análisis de acceso</span> e inventario.",
+        "Diseñé <span class='kw'>plantilla de seguimiento</span> de activos adoptada por el equipo. Redujo el tiempo de <span class='kw'>reporte semanal</span>."
+      ],
+      score: 92
+    },
+    {
+      vacante: "Analista de Datos · Reporting",
+      role:    "Analista de Datos & Reporting · Bilingüe EN/ES",
+      resumen: "Analista de datos bilingüe (EN/ES, B2+) certificado en Excel, SQL y Tableau. Experiencia en reportes operativos y análisis de inventario en entornos reales.",
+      skills:  ["Excel","SQL","Tableau","Power BI","Análisis de datos","Reporting","Visualización de datos","Inglés B2+"],
+      bullets: [
+        "Generé <span class='kw'>reportes de control de acceso</span> para 3 instalaciones. Identifiqué <span class='kw'>patrones de incidentes</span> con análisis de tendencias.",
+        "Consolidé <span class='kw'>registros diarios</span> en Excel con <span class='kw'>tablas dinámicas</span>. Entregué resúmenes semanales al supervisor de turno.",
+        "Produje <span class='kw'>reportes diarios de ocupación</span> para 40+ huéspedes. Mantuve <span class='kw'>base de datos</span> de reservas en Excel.",
+        "Crucé datos de reservas y pagos para detectar inconsistencias. Preparé <span class='kw'>reportes de cierre de turno</span> en Excel.",
+        "Desarrollé <span class='kw'>reportes semanales de inventario</span> en Excel para equipo de 8. Optimicé <span class='kw'>tablas de seguimiento</span> y cálculos.",
+        "Construí <span class='kw'>tableros en Tableau</span> para inventario y consumo. Automaticé cálculos repetitivos con <span class='kw'>fórmulas</span> avanzadas."
+      ],
+      score: 94
+    },
+    {
+      vacante: "Coordinador Bilingüe",
+      role:    "Coordinador Administrativo Bilingüe · EN/ES",
+      resumen: "Coordinador bilingüe (EN/ES, B2+) con experiencia en atención y coordinación operativa. Certificado en gestión documental y herramientas de oficina.",
+      skills:  ["Inglés B2+","Español nativo","Coordinación operativa","Atención al cliente","Excel","Gestión documental","Comunicación corporativa"],
+      bullets: [
+        "Coordiné <span class='kw'>accesos y comunicación bilingüe</span> con clientes corporativos en 3 sedes. Generé <span class='kw'>informes diarios</span> de operaciones.",
+        "Serví de <span class='kw'>enlace bilingüe</span> entre supervisores y personal de turno. Documenté procedimientos para <span class='kw'>nuevos ingresos</span>.",
+        "Coordiné <span class='kw'>check-in y check-out bilingüe</span> para 40+ huéspedes. Atendí solicitudes de <span class='kw'>visitantes de 5+ países</span>.",
+        "Gestioné reservas, pagos y quejas en <span class='kw'>turnos de 8 horas</span>. Resolví incidencias de huéspedes en <span class='kw'>EN/ES</span>.",
+        "Gestioné <span class='kw'>archivo documental</span> y comunicaciones para equipo de 8 personas. Primer punto de <span class='kw'>contacto bilingüe</span> con clientes externos.",
+        "Coordiné <span class='kw'>agenda de reuniones</span> y correspondencia de ejecutivos. Preparé documentos en <span class='kw'>inglés y español</span>."
+      ],
+      score: 93
+    }
+  ];
+
+  document.getElementById("skills-row").innerHTML = buildSkillsHTML(generic.skills);
+
+  // ── Ring helpers ─────────────────────────────────────────────────────────────
+  const scoreEl = document.getElementById("score-val");
+  const stateEl = document.getElementById("score-state");
+  const denomEl = document.getElementById("score-denom");
+  const { applyRing, pATS, pScore, CIRCUM } = makeScoreRing(
+    scoreEl,
+    document.getElementById("ring-fill"),
+    stateEl,
+    2 * Math.PI * 80
+  );
+
+  // ── Initial states ───────────────────────────────────────────────────────────
+  gsap.set("#bg-grid",          { opacity: 0 });
+  gsap.set("#bg-spot",          { opacity: 0 });
+  gsap.set("#cursor",           { opacity: 0 });
+  gsap.set("#demo-group",       { opacity: 0 });
+  gsap.set("#cv-card",          { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set("#scan-bar",         { clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set("#scan-line",        { opacity: 0, top: "0%" });
+  gsap.set("#scan-glow",        { opacity: 0 });
+  gsap.set("#bottom-panel",     { opacity: 0 });
+  gsap.set("#verify-btn",       { opacity: 0 });
+  gsap.set("#optimize-btn",     { opacity: 0 });
+  gsap.set(".section-flag",     { opacity: 0 });
+  gsap.set(".section-warn",     { opacity: 0 });
+  gsap.set(".exp-flag",         { opacity: 0 });
+  gsap.set("#score-denom",      { opacity: 0 });
+  gsap.set("#banner-generic",   { opacity: 0, y: 8 });
+  gsap.set("#banner-stat",      { display: "none" });
+  gsap.set(["#job-chip","#tailor-score"], { opacity: 0 });
+  gsap.set(".ghost-card",       { opacity: 0, scale: 0.92, x: 0, y: 0, rotate: 0 });
+  gsap.set("#s7-texts",         { opacity: 0 });
+  gsap.set("#reasoning",        { opacity: 0 });
+  gsap.set(".reason-line",      { opacity: 0 });
+  gsap.set("#turn-scene",       { opacity: 0 });
+  gsap.set(["#turn-l1","#turn-l2","#turn-l3"], { opacity: 0, y: 18 });
+  gsap.set(".corner",           { opacity: 0, scale: 0.8 });
+  gsap.set("#turn-target",      { opacity: 0, scale: 0.8 });
+  gsap.set("#turn-underline",   { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+  gsap.set("#turn-checkcircle", { opacity: 0, scale: 0.8 });
+  gsap.set("#human-close",      { opacity: 0 });
+  gsap.set(["#human-l1","#human-l2","#human-l3","#human-l4"], { opacity: 0, y: 18 });
+
+  gsap.set("#cta-group",        { opacity: 0 });
+  gsap.set(["#cta-logo-wrap","#cta-badge","#cta-subtext","#cta-headline","#cta-desc","#cta-btn","#cta-features","#cta-domain"], { opacity: 0 });
+  gsap.set(["#cta-logo-wrap","#cta-btn"], { scale: 0.88 });
+  gsap.set("#cta-headline",     { y: 20 });
+  gsap.set("#cta-particles-layer", { opacity: 0 });
+  gsap.set("#cta-star", { scale: 0, transformOrigin: "center center", opacity: 0 });
+  gsap.set("#rechazado-stamp",  { xPercent: -50, yPercent: -50, rotate: -12, scale: 1.35, opacity: 0 });
+  gsap.set("#scanner-analysis-panel", { opacity: 0 });
+  // Quantum Upgrade: dot clusters and hollow squares initial states
+  gsap.set(".dot-cluster .d", { scale: 0, opacity: 0, transformOrigin: "center" });
+  gsap.set(".hollow-square", { scale: 0, opacity: 0, transformOrigin: "center" });
+
+  // GSAP owns kw-bad opacity
+  document.body.classList.remove("cv-clean-mode");
+  gsap.set(".kw-bad", { opacity: 0 });
+  gsap.set("#intro-group", { opacity: 0 });
+
+  // Split words synchronously
+  splitWords("#intro-l1");
+  splitWords("#intro-l2");
+  splitWords("#intro-l4");
+  splitWords("#intro-l5");
+  gsap.set([
+    "#intro-l1 .word-inner", "#intro-l2 .word-inner",
+    "#intro-l4 .word-inner", "#intro-l5 .word-inner"
+  ], { y: "100%" });
+  gsap.set("#intro-l3", { opacity: 0, y: 18 });
+  gsap.set("#intro-l6", { opacity: 0, y: 18 });
+  gsap.set("#intro-bubble", { opacity: 0, scale: 0.8 });
+
+  // ── Lock 2 ───────────────────────────────────────────────────────────────────
+  gsap.globalTimeline.pause();
+
+  document.fonts.ready.then(() => {
+    // ── Position-driven keyword bleed (Scene 2 red scan) ─────────────────────
+    const cardEl   = document.getElementById("cv-card");
+    const cardRect = cardEl.getBoundingClientRect();
+    const cardH    = cardRect.height;
+
+    const morphElSelectors = ["#cv-role","#cv-resumen","#skills-row",
+      "#bullet-1","#bullet-1b","#bullet-2","#bullet-2b","#bullet-3","#bullet-3b"];
+    const morphFrac = morphElSelectors.map(sel => {
+      const r = document.querySelector(sel).getBoundingClientRect();
+      const frac = Math.max(0, Math.min(1, (r.top + r.height / 2 - cardRect.top) / cardH));
+      return { sel, frac };
+    });
+
+    const SCAN_START = 11.9;
+    const SCAN_DUR   = 0.9;
+    const kwSchedule = [];
+    document.querySelectorAll(".kw-bad").forEach(kw => {
+      const r    = kw.getBoundingClientRect();
+      const frac = Math.max(0, Math.min(1, (r.top - cardRect.top) / cardH));
+      kwSchedule.push({ el: kw, t: SCAN_START + SCAN_DUR * frac });
+    });
+
+    // ── Cursor target positions ──────────────────────────────────────────────
+    const oBtn = document.getElementById("optimize-btn");
+    const oR   = oBtn.getBoundingClientRect();
+    const oCX  = oR.left + oR.width  / 2 - 4;
+    const oCY  = oR.top  + oR.height / 2 - 4;
+
+    // ── makeRunTailor ────────────────────────────────────────────────────────
+    function makeRunTailor(oCX, oCY, morphFrac) {
+      return function runTailor(tl, startT, idx, speed) {
+        const tailor   = tailors[idx];
+        const isSlow   = speed === "slow";
+        const d        = isSlow ? 0.40 : 0.18;
+        const gap      = isSlow ? 0.60 : 0.28;
+        const scoreDur = isSlow ? 0.85 : 0.50;
+        const hold     = isSlow ? 0.95 : 0.80;
+        const readGap  = isSlow ? 0.55 : 0.85;
+        const morphScanDur = isSlow ? 1.5 : 1.7;
+        const clickT   = startT + readGap;
+
+        tl.addLabel(`tailor${idx + 1}_start`, startT);
+
+        tl.set("#job-chip",     { x: 28, opacity: 0, y: 0 }, startT);
+        tl.set("#tailor-score", { scale: 0.8, opacity: 0 }, startT);
+        tl.add(() => {
+          document.getElementById("job-chip-text").textContent = tailor.vacante;
+        }, startT + 0.02);
+        landWith(tl, "#job-chip", startT + 0.08, { x: 28, opacity: 0, duration: 0.34 });
+
+        cursorPress(tl, oCX, oCY, clickT, "#optimize-btn", "#btn-ripple");
+
+        const scanT = clickT + 0.30;
+        tl.set("#scan-line", { opacity: 1, top: "0%" }, scanT - 0.01);
+        tl.set("#scan-glow", { opacity: 1 }, scanT - 0.01);
+        tl.fromTo("#scan-line", { top: "0%" }, { top: "100%", duration: morphScanDur, ease: "power1.inOut" }, scanT);
+        tl.to("#scan-glow", { opacity: 0, duration: 0.3 }, scanT + morphScanDur - 0.3);
+
+        tl.to("#reasoning", { opacity: 1, duration: 0.22, ease: "none" }, scanT + 0.05);
+        tl.fromTo("#r1", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1);
+        tl.fromTo("#r2", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1 + gap * 0.28);
+        tl.fromTo("#r3", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1 + gap * 0.56);
+
+        morphFrac.forEach(({ sel, frac }) => {
+          const mt = scanT + morphScanDur * frac;
+          if (sel === "#skills-row")      morphSkills(tl, mt, tailor.skills, d);
+          else if (sel === "#cv-role")    morphSection(tl, mt, sel, tailor.role, d, false);
+          else if (sel === "#cv-resumen") morphSection(tl, mt, sel, tailor.resumen, d, false);
+          else {
+            const bulletIdx = ["#bullet-1","#bullet-1b","#bullet-2","#bullet-2b","#bullet-3","#bullet-3b"].indexOf(sel);
+            morphSection(tl, mt, sel, tailor.bullets[bulletIdx], d, true);
+          }
+        });
+
+        const scoreT = scanT + morphScanDur + 0.25;
+        tl.to("#reasoning", { opacity: 0, duration: 0.28, ease: "none" }, scoreT - 0.35);
+
+        const prevScore = idx === 0 ? 23 : tailors[idx - 1].score;
+        const prevR = idx === 0 ? 224 : 169;
+        const prevG = idx === 0 ? 89  : 217;
+        const prevB = idx === 0 ? 59  : 46;
+
+        if (idx === 2) {
+          tl.fromTo(pScore,
+            { val: prevScore, offset: CIRCUM * (1 - prevScore / 100), r: prevR, g: prevG, b: prevB },
+            {
+              val: 68, offset: CIRCUM * (1 - 0.68), r: 169, g: 217, b: 46,
+              duration: scoreDur * 0.55, ease: "luxe",
+              immediateRender: false,
+              onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+            }, scoreT);
+          tl.to(pScore, {
+            r: 130, g: 168, b: 35, duration: 0.4, ease: "none",
+            immediateRender: false,
+            onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+          }, scoreT + scoreDur * 0.55);
+          tl.to(pScore, {
+            val: tailor.score, offset: CIRCUM * (1 - tailor.score / 100), r: 169, g: 217, b: 46,
+            duration: scoreDur * 0.45, ease: "settle",
+            immediateRender: false,
+            onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+          }, scoreT + scoreDur * 0.55 + 0.4);
+        } else {
+          tl.fromTo(pScore,
+            { val: prevScore, offset: CIRCUM * (1 - prevScore / 100), r: prevR, g: prevG, b: prevB },
+            {
+              val: tailor.score, offset: CIRCUM * (1 - tailor.score / 100),
+              r: 169, g: 217, b: 46,
+              duration: scoreDur, ease: "settle",
+              immediateRender: false,
+              onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+            }, scoreT);
+        }
+
+        tl.add(() => { stateEl.innerText = "Excelente"; }, scoreT);
+        tl.addLabel(`tailor${idx + 1}_score`, scoreT);
+
+        // Quantum Upgrade: bloom pulse on score rise
+        bloomPulse(tl, scoreT, 0.7, 0.12, 0.5);
+
+        tl.to("#ring-center", { scale: 1.05, duration: 0.2, ease: "power2.out" }, scoreT + scoreDur - 0.1);
+        tl.to("#ring-center", { scale: 1.0,  duration: 0.3, ease: "back.out(2)" }, scoreT + scoreDur + 0.1);
+        tl.add(() => {
+          document.getElementById("tailor-score").textContent = `Puntuación ${tailor.score}`;
+        }, scoreT - 0.05);
+        tl.to("#tailor-score", { opacity: 1, scale: 1, duration: 0.24, ease: "back.out(2)" }, scoreT + 0.1);
+
+        const endT = scoreT + scoreDur + hold;
+        tl.to(["#job-chip","#tailor-score"], { opacity: 0, duration: 0.2, ease: "none" }, endT);
+        tl.set("#scan-line", { opacity: 0 }, endT);
+
+        return endT;
+      };
+    }
+
+    const runTailor = makeRunTailor(oCX, oCY, morphFrac);
+
+    // ── Build master timeline ─────────────────────────────────────────────────
+    const tl = gsap.timeline();
+    window.sceneTimeline = tl;
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 1 — The Wound (0.4 – 10.3s)
+    // ════════════════════════════════════════════════════════════════════════════
+    tl.addLabel("wound", 0.4);
+
+    tl.set("#intro-group", { opacity: 1 }, 0.0);
+    tl.to("#bg-grid", { opacity: 1, duration: 0.6, ease: "none" }, 0.0);
+    tl.to("#bg-spot", { opacity: 1, duration: 0.8, ease: "power2.out" }, 0.0);
+
+    // Quantum Upgrade: dot clusters and hollow squares pop in
+    tl.to(".dot-cluster .d", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.012 }, 0.4);
+    tl.to(".hollow-square", { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.07 }, 0.6);
+
+    // Quantum Upgrade: weightShift on hero numerals for smoother feel
+    tl.to("#intro-l1 .word-inner", { y: "0%", duration: 0.7, ease: "luxe", stagger: 0.05 }, 0.4);
+    tl.to("#intro-l2 .word-inner", { y: "0%", duration: 0.6, ease: "luxe", stagger: 0.05 }, 1.5);
+    tl.to("#intro-bubble", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 2.2);
+    tl.to("#intro-l3", { opacity: 1, y: 0, duration: 0.65, ease: "luxe" }, 2.6);
+
+    tl.to(["#intro-l1 .word-inner", "#intro-l2 .word-inner"],
+      { y: "100%", duration: 0.3, ease: "mech" }, 4.8);
+
+    tl.to("#intro-l3", { filter: "blur(5px)", opacity: 0, duration: 0.4, ease: "power3.out" }, 5.3);
+    tl.add(() => {
+      const el = document.getElementById("intro-l3");
+      el.classList.remove("muted-intro"); el.classList.add("turned");
+      el.textContent = "Nada.";
+      el.classList.add("glow-lime");
+    }, 5.3 + 0.4 + 0.025);
+    tl.fromTo("#intro-l3",
+      { filter: "blur(5px)", opacity: 0 },
+      { filter: "blur(0px)", opacity: 1, duration: 0.3, ease: "power3.out", immediateRender: false },
+      5.3 + 0.4 + 0.025
+    );
+
+    tl.to("#intro-l4 .word-inner", { y: "0%", duration: 0.55, ease: "luxe", stagger: 0.05 }, 6.3);
+    tl.to("#intro-l5 .word-inner", { y: "0%", duration: 0.55, ease: "luxe", stagger: 0.05 }, 7.2);
+    tl.to("#intro-l6", { opacity: 1, y: 0, duration: 0.5, ease: "luxe" }, 8.3);
+
+    tl.to(["#intro-l3", "#intro-l4"], { opacity: 0, duration: 0.22, ease: "mech" }, 10.0);
+    tl.to("#intro-l5 .word-inner", { y: "100%", duration: 0.22, ease: "mech" }, 10.0);
+    tl.to("#intro-l6", { opacity: 0, y: 18, duration: 0.22, ease: "mech" }, 10.0);
+    tl.set("#intro-group", { opacity: 0 }, 10.3);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 2 — Meet the Villain (10.5 – 15.7s)
+    // ════════════════════════════════════════════════════════════════════════════
+    tl.set("#demo-group",  { opacity: 1, scale: 1.000, transformOrigin: "center center" }, 10.5);
+    tl.add(() => { document.getElementById("demo-group").classList.add("scanner-mode"); }, 10.5);
+    tl.to("#demo-group",   { scale: 1.020, duration: 6.0, ease: "none" }, 10.5);
+
+    tl.fromTo("#cv-card",
+      { clipPath: "inset(100% 0% 0% 0%)" },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power2.out" }, 10.5);
+    tl.to("#banner-generic", { opacity: 1, y: 0, duration: 0.4, ease: "luxe" }, 10.7);
+    tl.to("#bottom-panel",   { opacity: 1, duration: 0.5, ease: "luxe" }, 11.3);
+
+    scanSweep(tl, "#scan-bar", kwSchedule, SCAN_START, SCAN_DUR);
+
+    tl.addLabel("score_low", 13.5);
+    tl.add(() => { denomEl.style.opacity = "1"; scoreEl.innerText = "0"; }, 13.5);
+    tl.fromTo(pATS,
+      { val: 0, offset: CIRCUM, r: 160, g: 160, b: 160 },
+      {
+        val: 23, offset: CIRCUM * (1 - 23 / 100),
+        r: 224, g: 89, b: 59,
+        duration: 1.2, ease: "mech",
+        immediateRender: false,
+        onUpdate: () => applyRing(pATS.val, pATS.offset, pATS.r, pATS.g, pATS.b)
+      }, 13.5);
+    tl.add(() => { stateEl.innerText = "Bajo"; }, 13.5);
+
+    // Quantum Upgrade: vignette deepens on villain beat
+    vignetteUp(tl, 13.5, 0.06, 0.18, 0.5);
+
+    tl.addLabel("stamp", 14.0);
+    stamp(tl, "#rechazado-stamp", "#cv-card", 14.0);
+
+    // Quantum Upgrade: chromatic aberration flash on stamp
+    caFlash(tl, 14.0, 2.5);
+
+    tl.to("#resumen-flag",     { opacity: 1, duration: 0.28, ease: "power3.out" }, 14.7);
+    tl.to("#resumen-warn",     { opacity: 1, duration: 0.28, ease: "power3.out" }, 14.8);
+    tl.to("#habilidades-flag", { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.0);
+    tl.to("#habilidades-warn", { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.1);
+    tl.to("#experiencia-flag", { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.3);
+    tl.to(["#flag-1","#flag-2","#flag-3"], { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.4);
+
+    tl.to("#scanner-analysis-panel", { opacity: 1, duration: 0.4, ease: "power2.out" }, 14.7);
+    tl.to("#verify-btn", { opacity: 1, duration: 0.4, ease: "luxe" }, 15.7);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 3 — The Cheat Code (17.7 – 23.8s)
+    // ════════════════════════════════════════════════════════════════════════════
+    tl.addLabel("cheat_code", 18.1);
+
+    // Quantum Upgrade: vignette release on warmth transition
+    tl.to("#_post-vignette", { opacity: 0.04, duration: 0.6, ease: "power2.out" }, 17.7);
+
+    tl.to("#turn-scene", { opacity: 1, duration: 0.35, ease: "none" }, 17.7);
+    tl.to(".corner", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.05 }, 18.1);
+    tl.to("#turn-target", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 18.3);
+    tl.to("#turn-l1", { opacity: 1, y: 0, duration: 0.55, ease: "luxe" }, 18.1);
+    tl.to("#turn-l2", { opacity: 1, y: 0, duration: 0.55, ease: "luxe" }, 19.4);
+    tl.to("#turn-checkcircle", { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 20.0);
+    tl.to("#turn-l3", { opacity: 1, y: 0, duration: 0.45, ease: "luxe" }, 20.3);
+    tl.to("#turn-underline", { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out" }, 20.6);
+
+    resetUnderCover(tl, 23.5);
+    tl.set("#rechazado-stamp", { opacity: 0 }, 23.5);
+    tl.set("#verify-btn",      { opacity: 0 }, 23.5);
+    tl.set("#scanner-analysis-panel", { opacity: 0 }, 23.5);
+    tl.set("#demo-group",      { scale: 1.0 }, 23.5);
+    tl.add(() => {
+      const dg = document.getElementById("demo-group");
+      dg.classList.remove("scanner-mode"); dg.classList.add("demo-mode");
+    }, 23.5);
+
+    tl.to("#turn-scene", { opacity: 0, duration: 0.45, ease: "power2.out" }, 23.8);
+    tl.to("#optimize-btn", { opacity: 1, duration: 0.4, ease: "luxe" }, 23.8);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scenes 4–6 — Three Tailors
+    // ════════════════════════════════════════════════════════════════════════════
+    const t1end = runTailor(tl, 24.5, 0, "slow");
+    const t2end = runTailor(tl, t1end, 1, "fast");
+    const t3end = runTailor(tl, t2end, 2, "fast");
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 7 — Fan-out
+    // ════════════════════════════════════════════════════════════════════════════
+    const fanT      = t3end;
+    const demoFadeT = fanT + 3.4;
+    const humanT    = fanT + 4.2;
+
+    tl.addLabel("fanout", fanT);
+    fanOut(tl, fanT);
+
+    tl.to("#demo-group", { scale: 0.97, opacity: 0, duration: 0.6, ease: "power3.out" }, demoFadeT);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 8 — The Human Consequence (humanT – humanT+4.8s)
+    // ════════════════════════════════════════════════════════════════════════════
+    tl.addLabel("human_close", humanT + 0.5);
+
+    // Quantum Upgrade: vignette warms on human close
+    tl.to("#_post-vignette", { opacity: 0.08, duration: 0.6, ease: "power2.out" }, humanT);
+
+    tl.to("#human-close", { opacity: 1, duration: 0.35, ease: "none" }, humanT);
+    tl.to("#human-l1", { opacity: 1, y: 0, duration: 0.5, ease: "luxe" }, humanT + 0.2);
+    tl.to("#human-l2", { opacity: 1, y: 0, duration: 0.5, ease: "luxe" }, humanT + 1.0);
+    tl.to("#human-l3", { opacity: 1, y: 0, duration: 0.5, ease: "luxe" }, humanT + 1.8);
+    tl.to("#human-l4", { opacity: 1, y: 0, duration: 0.55, ease: "luxe" }, humanT + 2.7);
+
+    tl.to("#human-close", { opacity: 0, duration: 0.4, ease: "power2.out" }, humanT + 4.8);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 9 — CTA (redesigned)
+    // ════════════════════════════════════════════════════════════════════════════
+    const ctaT = humanT + 5.2;
+    tl.addLabel("cta", ctaT);
+
+    // Quantum Upgrade: release vignette for bright CTA
+    tl.to("#_post-vignette", { opacity: 0.03, duration: 0.8, ease: "power2.out" }, ctaT);
+    // Quantum Upgrade: bloom glow up for CTA entrance
+    tl.to("#_post-bloom", { opacity: 0.6, duration: 1.0, ease: "power2.out" }, ctaT);
+
+    tl.set("#cta-group", { opacity: 1 }, ctaT);
+
+    const trailEl  = document.getElementById("cta-trail");
+    const trailLen = trailEl.getTotalLength();
+    tl.set(trailEl, { strokeDasharray: trailLen, strokeDashoffset: trailLen }, ctaT);
+    tl.to(trailEl, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, ctaT + 0.1);
+
+    tl.to("#cta-star", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, ctaT + 1.3);
+    tl.to("#cta-star", { scale: 1.12, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: 5 }, ctaT + 1.8);
+
+    tl.to("#cta-particles-layer", { opacity: 1, duration: 0.6, ease: "none" }, ctaT + 0.2);
+    particleField(tl, "#cta-particles-layer", ctaT + 0.2, {
+      count: 46, seed: "v3-cta", color: "201,242,77",
+      drift: 48, sizeMin: 2, sizeMax: 5, opacityMax: 0.26, duration: 6.0
+    });
+
+    tl.to("#cta-logo-wrap", { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, ctaT + 0.2);
+    tl.to("#cta-badge",     { opacity: 1, duration: 0.4, ease: "settle" }, ctaT + 0.7);
+    tl.to("#cta-subtext",   { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 1.1);
+
+    tl.to("#cta-headline", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, ctaT + 1.5);
+    const ulEl  = document.getElementById("cta-underline-path");
+    const ulLen = ulEl.getTotalLength();
+    tl.set(ulEl, { strokeDasharray: ulLen, strokeDashoffset: ulLen }, ctaT);
+    tl.to(ulEl, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, ctaT + 2.1);
+
+    tl.to("#cta-desc",     { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 2.6);
+    tl.to("#cta-btn",      { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, ctaT + 3.1);
+    tl.to("#cta-features", { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 3.7);
+    tl.to("#cta-domain",   { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 4.2);
+
+    // Quantum Upgrade: final CA flash on CTA button reveal for impact
+    caFlash(tl, ctaT + 3.1, 1.5);
+
+    signalReady(tl);
+  });
+</script>
+</body>
+</html>

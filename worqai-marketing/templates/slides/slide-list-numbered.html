@@ -1,0 +1,30 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="lnum-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="lnum-headline">{{ copy.headline }}</div>{% endif %}
+
+    <div class="lnum-list">
+      {% for item in copy.get('items', []) %}
+      <div class="lnum-item">
+        <div class="lnum-num">{{ "%02d" % loop.index }}</div>
+        <div class="lnum-body">
+          {% if item is string %}
+          <div class="lnum-title">{{ item }}</div>
+          {% else %}
+          {% if item.title %}<div class="lnum-title">{{ item.title }}</div>{% endif %}
+          {% if item.desc %}<div class="lnum-desc">{{ item.desc }}</div>{% endif %}
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

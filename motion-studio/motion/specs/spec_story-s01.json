@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 33,
+    "fps": 30,
+    "seed": "worqai-story-narrative",
+    "video_mode": true
+  },
+  "scene": "story"
+}

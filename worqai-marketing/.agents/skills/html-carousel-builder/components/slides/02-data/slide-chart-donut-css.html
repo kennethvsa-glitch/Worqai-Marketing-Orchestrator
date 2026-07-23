@@ -1,0 +1,55 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-chart-donut-css",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: CHART DONUT (CSS)
+Purpose: S2 — CSS-only donut chart for data visualization.
+-->
+
+<div class="content">
+  <p class="tip-label">Datos</p>
+  <h2 class="tip-headline">Por que no pasas el filtro</h2>
+  <div class="donut-wrap">
+    <div class="donut-chart" style="--percent:75;">
+      <div class="donut-inner">
+        <span class="donut-num">75%</span>
+        <span class="donut-lbl">Rechazado por formato</span>
+      </div>
+    </div>
+    <div class="donut-legend">
+      <div class="leg-item"><span class="leg-dot" style="background:var(--accent);"></span>Formato incorrecto</div>
+      <div class="leg-item"><span class="leg-dot" style="background:var(--accent-line);"></span>Otros motivos</div>
+    </div>
+  </div>
+</div>
+
+<style>
+.donut-wrap { display: flex; align-items: center; gap: 48px; margin-top: 32px; }
+.donut-chart {
+  width: 280px; height: 280px; border-radius: 50%;
+  background: conic-gradient(var(--accent) calc(var(--percent) * 1%), var(--accent-line) 0);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.donut-chart::before {
+  content: ''; width: 200px; height: 200px; border-radius: 50%;
+  background: var(--bg-base);
+}
+.donut-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+}
+.donut-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 48px; font-weight: 900; color: var(--text-primary); }
+.donut-lbl { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-align: center; max-width: 140px; }
+.donut-legend { display: flex; flex-direction: column; gap: 12px; }
+.leg-item { display: flex; align-items: center; gap: 10px; font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; color: var(--text-secondary); }
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; }
+</style>

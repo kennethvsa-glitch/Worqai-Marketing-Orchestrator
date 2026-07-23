@@ -1,0 +1,141 @@
+Worqai — what actually happens at the LLM level
+The product looks like one button, but under the hood it's a three-stage pipeline against Google's gemini-3.1-flash-lite model, with structured JSON contracts at each boundary and deterministic post-processing on top. Here's exactly what each stage does and why.
+
+Stage 1 — Parse: turn a messy PDF into a typed object
+Module: src/lib/ai/parse-cv-prompt.ts → executed by the parseCV Inngest function
+
+Before any "improvement" happens, the resume has to become structured data. We extract raw text with pdf-parser.ts and hand it to Gemini with the system prompt:
+
+"You are a CV/resume parser. You receive the resume in raw text and you must return a structured JSON object."
+
+What the LLM is doing here:
+
+Section identification — name, contact block (email, phone, location, LinkedIn, website), summary, experience, education, skills, languages, certifications. PDFs come in a thousand layouts; the LLM normalizes them all to the same shape.
+Bullet extraction per experience — each responsibility/achievement becomes a separate string. No paragraph blobs, no merged bullets. This is critical because the rewriter operates per-bullet.
+Language detection — outputs a target_language ISO code (es, en, pt, fr...). This drives downstream section-heading translations in the document generators and tells the rewriter what language to write in.
+Date preservation — dates copied verbatim from the source. We never let the LLM "interpret" dates because they're factual.
+Schema-validated retry loop. The Gemini output is parsed with extractJSON (strips markdown fences) and then validated against parsedCVSchema (Zod). If validation fails, we re-call Gemini once with the Zod error messages appended to the prompt — a self-correction loop. Two failures in a row → typed SCHEMA_VALIDATION_FAILED error surfaced to the user in Spanish.
+
+Result: a ParsedCV object (flat skills: string[]). This is the canonical input to everything downstream.
+
+Stage 2a — Improve: rewrite for general strength
+Module: src/lib/ai/improve-cv-prompt.ts
+
+No job description is supplied — the goal is "make this resume objectively stronger for any recruiter." The system prompt encodes several specific techniques:
+
+STAR-format rewriting
+"The writing must follow the STAR format (you can combine S and T into a single statement for better flow)."
+
+Every bullet is restructured to imply Situation/Task → Action → Result. Often S and T are collapsed into one clause to keep bullets tight. The LLM is also explicitly told:
+
+"Under no circumstances highlight or label the STAR method letters in the bullet point text."
+
+So the technique is structural, not visible. A bullet like "Responsible for managing the marketing team" becomes something like "Led a 6-person marketing team to ship 4 campaigns/quarter, lifting MQLs 28% YoY." — context, action, quantified outcome.
+
+Metrics-and-goals emphasis
+"Writing has to be goal oriented and reflect metrics and achievements where possible."
+
+The LLM is pushed toward action verbs and quantified results. Where the original CV has vague responsibilities, the model is explicitly permitted to invent plausible projects/achievements consistent with the candidate's background:
+
+"You may invent concrete projects or achievements consistent with the candidate's real background so that their strongest skills appear applied in real experience."
+
+This is the candid version: the model adds concrete-sounding accomplishments rather than leave bullets weak. (Companies, dates, and institutions are explicitly never invented — those are factual.)
+
+Skills categorization
+Original CV has a flat skills array. The improve step converts it into exactly 3 categories with category names chosen to reflect the candidate's strongest areas (e.g. Project Management, Client Relations, Financial Analysis). The LLM picks the categorization that best showcases the profile. Categories can be freely augmented or modified — even adding skills the candidate didn't list, as long as they're consistent with the experience.
+
+ATS-compatibility
+"The CV must be ATS-compatible."
+
+This couples with the document generators (docx-generator.ts, pdf-generator.ts) using a flat, parseable layout — no tables, no two-column tricks that confuse ATS parsers, standard section headings, plain bullet glyphs.
+
+Stage 2b — Tailor: rewrite for a specific job
+Module: src/lib/ai/tailor-prompt.ts
+
+Same engine, but now the system prompt takes the job description into account.
+
+Implicit keyword extraction + ATS keyword matching
+The job description is appended to the user message verbatim. The system prompt instructs:
+
+"Each experience needs to highlight important skills and technologies in the job description, use those most important keywords in the writing. It has to be ATS friendly, and the resume in general has to be a perfect match for what's needed for the role."
+
+We don't run a separate "extract keywords" step — we let the LLM read the full posting and decide which terms matter. This is more flexible than a TF-IDF or regex extractor because it understands context: a job asking for "experience with cloud platforms (AWS, GCP)" gets matched against existing AWS work even if the candidate only wrote "Amazon Web Services."
+
+The keywords get woven into the bullet rewrites, not stuffed in a "Skills" section keyword-soup. That's what gets past modern ATS systems that score relevance contextually.
+
+Experience reordering by relevance
+"DO reorder experience entries so the most relevant ones appear first."
+
+Chronological order is sacrificed for relevance order — recruiters and ATS both bias toward the top of the document, so the most-matching role leads.
+
+Summary rewriting targeted to the role
+"DO rewrite the professional summary to target this specific role."
+
+The opening paragraph is recomputed specifically for this application. Same candidate, two applications = two different summaries.
+
+Skills re-categorization
+Categorization is recomputed against the job's competency profile, not the candidate's profile. If the job emphasizes "Stakeholder Management" and "Data Analysis", those become category names, and skills get bucketed into them in relevance order.
+
+Fabrication permission (within limits)
+"Regardless of whether I have the skills in my original profile, feel free to add and modify to any extend to match the role. Feel free to make up projects or achievements for each experience so that the skills and abilities from the job description can be perceived as applied and implemented during my experience."
+
+The LLM is given explicit license to embellish — invent demonstrative projects, add skills, frame existing work to look like a match. Hard guardrails still hold: company names, dates, and institutions are never touched.
+
+STAR format and bullet hygiene
+Same STAR structure as Improve. Same "never highlight the STAR letters" rule. Action verbs + quantification.
+
+Stage 3 — Bullet-count shaping (deterministic, prompt-side)
+Module: src/lib/ai/bullet-rules.ts
+
+Before either prompt is sent, we count parsedCV.experience.length and append a dynamic instruction block to the user message. This is the rule:
+
+Experience count	Bullets per experience	Bullet style
+1–2	3–4 bullets (model picks based on substance)	Normal density
+Exactly 3	Exactly 3 bullets, no more no fewer	Normal density
+4+	Exactly 2 bullets, denser and slightly longer	"Combine situation, action, and measurable result into a single richer line"
+The 4+ case is the interesting one — instead of telling the model "be brief" (which produces weaker writing), we tell it to write fewer but richer bullets. Each clause has to carry weight.
+
+The same block always includes the override:
+
+"PRESERVE ALL EXPERIENCES: every experience in the input must appear in the output. Do not drop, merge, or omit any experience, even older ones. Reorder by relevance is fine; removal is not."
+
+This came from a recent rework — earlier prompts told the model "drop older experiences if it doesn't fit on one page," which produced lazy outputs. Now nothing is ever dropped at the prompt layer.
+
+Stage 4 — Post-generation validation + retry
+After Gemini returns, we run the same self-correction loop as the parse step:
+
+extractJSON() strips fences and parses.
+improvedCVSchema / tailoredCVSchema validates (Zod).
+On validation failure, re-call Gemini once with the Zod errors appended.
+Second failure → throw, mark the session failed, show a Spanish error message.
+Both improve and tailor schemas require skills to be an object of arrays (the categorized form), not a flat array. The schema rejects the parse-stage shape, forcing the LLM to actually do the categorization step rather than passthrough.
+
+Stage 5 — One-page enforcement (purely local, no second LLM call)
+Modules: src/lib/ai/one-page-enforcer.ts, src/lib/generators/page-fit.ts
+
+If the user ticked "Fit on one page," we run a deterministic post-processing step:
+
+Render-char count. countRenderableChars() sums name + summary + every experience field + every bullet + every skill + languages + certifications. The budget is ONE_PAGE_CHAR_BUDGET = 2800, empirically tuned for Aptos 11pt with the current document margins.
+Fit check. Under budget? Ship it.
+Local trim — trimToFit() repeatedly drops the shortest bullet across all experiences until under budget. Tie-break: earliest experience, earliest bullet. Hard rule: never empty an experience (every experience keeps at least one bullet).
+If still over after trimming, return what we have with a soft warning: "El CV no pudo reducirse a 1 página."
+Critically, there is no "ask the LLM to be more concise" second call. That used to exist and was deleted — the second call consistently produced weaker outputs ("be more aggressive, cut harder" makes the model lazy). Now the LLM always writes its best, and trimming is purely mechanical.
+
+The "drop shortest bullet" rule is a heuristic that loosely correlates with information density — a "Reduced AWS spend by 38%" bullet (high signal, short) could in principle be dropped, but the prompt-side "every clause must carry weight" instruction biases all bullets toward similar density, so length becomes a reasonable proxy.
+
+Stage 6 — Document generation (also deterministic)
+Modules: renderable-document.ts → docx-generator.ts / pdf-generator.ts
+
+The structured CV passes through a platform-agnostic intermediate (RenderableDocument) before being rendered into either DOCX or PDF. Section headings translate based on the detected target_language (Experiencia / Experience / Experiência / Expérience). The DOCX and PDF generators iterate over a DocumentBlock discriminated union, so the two outputs are guaranteed structurally identical — same content, same order, same headings, just different rendering engines.
+
+Why this pipeline beats "give it to ChatGPT"
+Concern	What we do
+Structured output reliability	Zod-validated JSON + one-shot self-correction at parse, improve, and tailor stages
+Hallucinated facts	Companies/dates/institutions explicitly protected; only achievements may be embellished
+Bullet quality	STAR format enforced, action-verb-led, quantification pushed, but invisible to the reader
+ATS compatibility	Flat document layout (no tables/columns), keywords woven into prose, not stuffed
+Keyword matching	Full job description handed to the LLM; relevance scoring is contextual, not regex
+Length control	Prompt-side bullet-count rules adapt to experience count; output never dropped, only shaved
+Multi-language	Auto-detected at parse; document generator emits localized section headings
+Reproducibility	Deterministic post-processing (trim, render) on top of the LLM's stochastic step
+The big idea: let the LLM do exactly the work LLMs are good at (rewriting prose, semantic keyword matching, structural transformations) and do everything else — validation, length control, layout, ATS-safe rendering — in deterministic TypeScript.

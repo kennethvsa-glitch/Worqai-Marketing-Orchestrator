@@ -1,0 +1,53 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "atm-static-noise",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s30",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s19",
+      "s23",
+      "s31",
+      "s39",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "deco-ticker",
+      "slide-cinematic-title",
+      "mock-app-browser"
+    ],
+    "conflicts_with": [
+      "light-volumetric-beam",
+      "light-neon-border"
+    ]
+  }
+-->
+
+<!--
+LAYER: STATIC NOISE
+TV static effect.
+Best for: glitch, horror, retro systems.
+-->
+
+<div class="static-noise"></div>
+
+<style>
+.static-noise {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 150px 150px;
+  opacity: 0.08; mix-blend-mode: overlay;
+}
+</style>

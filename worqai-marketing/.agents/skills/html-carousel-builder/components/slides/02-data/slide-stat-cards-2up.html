@@ -1,0 +1,35 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-stat-cards-2up",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: STAT CARDS 2-UP
+Purpose: S2 — Two large stat cards side by side.
+-->
+
+<div class="content">
+  <div class="stat-grid-2">
+    <div class="stat-card-lg">
+      <span class="sc-lg-num">4.2x</span>
+      <span class="sc-lg-lbl">Mas probabilidad de entrevista con CV optimizado</span>
+    </div>
+    <div class="stat-card-lg">
+      <span class="sc-lg-num">6s</span>
+      <span class="sc-lg-lbl">Es el tiempo que un reclutador pasa leyendo tu CV</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.stat-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: auto; margin-bottom: auto; }
+.stat-card-lg { padding: 40px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; display: flex; flex-direction: column; gap: 16px; }
+.sc-lg-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 80px; font-weight: 900; line-height: 1; color: var(--accent); }
+.sc-lg-lbl { font-family: var(--font-body), system-ui, sans-serif; font-size: 20px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); }
+</style>

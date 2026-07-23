@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 7,
+    "fps": 30,
+    "seed": "worqai-cv-list",
+    "video_mode": true
+  },
+  "scene": "list-reveal",
+  "copy": {
+    "eyebrow": "Lo que revisa el ATS",
+    "headline": "3 errores que bloquean tu CV",
+    "item_1": "Formato con tablas o columnas",
+    "item_2": "Keywords que no coinciden con la oferta",
+    "item_3": "Fechas inconsistentes en la experiencia",
+    "source": "Análisis WorqAI · 2025"
+  }
+}

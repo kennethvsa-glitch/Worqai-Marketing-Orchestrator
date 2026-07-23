@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-watermark",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+DECORATIVE: WATERMARK
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_pdf-ats-error_worqai-verde.html, carousel_aura-cr-demo_services.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Giant background numeral/letter for depth.
+-->
+
+<div class="watermark">01</div>
+
+<style>
+.watermark {
+  position: absolute; pointer-events: none; user-select: none; z-index: 1;
+  font-family: var(--font-display), system-ui, sans-serif; font-weight: 900;
+  font-size: clamp(380px, 45vw, 520px); letter-spacing: -0.06em; line-height: 0.8;
+  color: var(--accent); opacity: 0.04;
+  /* Position per slide with .sN-watermark override */
+  top: 60px; right: 40px;
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Content: slide number (01, 02...), brand initial (W, A), or keyword
+- font-size: 300px (subtle) to 600px (dominant)
+- opacity: 0.02 (ghost) to 0.10 (visible)
+- Position: varies per slide for asymmetry
+- color: var(--accent) or var(--text-muted)
+-->

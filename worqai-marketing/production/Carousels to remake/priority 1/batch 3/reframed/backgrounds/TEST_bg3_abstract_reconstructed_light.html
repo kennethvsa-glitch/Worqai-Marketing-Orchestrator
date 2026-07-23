@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abstract Light — worqai</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{display:flex;align-items:center;justify-content:center;background:#FAFAFA;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;background:#FAFAFA;border-radius:0;}
+
+.deco{position:absolute;pointer-events:none;z-index:1;}
+
+.noise::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:300px 300px;opacity:0.04;pointer-events:none;z-index:1;
+}
+
+.glow-center{
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.8) 0%,transparent 70%);
+  filter:blur(60px);top:50%;left:50%;transform:translate(-50%,-50%);
+}
+
+.lime-glow-tl{
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(199,255,58,0.08) 0%,transparent 65%);
+  filter:blur(50px);top:-15%;left:-10%;
+}
+.lime-glow-br{
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(199,255,58,0.08) 0%,transparent 65%);
+  filter:blur(50px);bottom:-15%;right:-10%;
+}
+
+.content{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:80px;text-align:center;}
+.content h1{font-family:'Inter',system-ui,sans-serif;font-weight:900;font-size:80px;line-height:1.05;letter-spacing:-0.04em;color:#0A0A0A;margin-bottom:20px;}
+.content p{font-family:'Inter',system-ui,sans-serif;font-weight:400;font-size:28px;line-height:1.5;color:#444444;max-width:700px;}
+.site-url{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:5;font-weight:700;font-size:16px;letter-spacing:0.1em;color:rgba(10,10,10,0.45);text-transform:lowercase;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="canvas noise">
+  <div class="deco glow-center"></div>
+  <div class="deco lime-glow-tl"></div>
+  <div class="deco lime-glow-br"></div>
+  
+  <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Top-left lime organic blob at lower opacity -->
+    <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A" opacity="0.55"/>
+    <!-- Bottom-right lime organic blob at lower opacity -->
+    <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A" opacity="0.55"/>
+    <!-- Bottom-left dark organic shape at lower opacity -->
+    <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#333333" opacity="0.5"/>
+    
+    <!-- Grey layered wave shapes — light -->
+    <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#E8E8E8" stroke="#F0F0F0" stroke-width="1"/>
+    <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#EEEEEE" stroke="#F5F5F5" stroke-width="1"/>
+    <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#E8E8E8" stroke="#F0F0F0" stroke-width="1"/>
+    
+    <!-- Concentric arcs on right side — very faint -->
+    <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.12" fill="none"/>
+    <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.1" fill="none"/>
+    <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.08" fill="none"/>
+    <path d="M980 240 Q1140 420 1120 620" stroke="#CCCCCC" stroke-width="1.5" opacity="0.15" fill="none"/>
+    
+    <!-- Small scattered dots — faint -->
+    <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.15"/>
+    <circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.12"/>
+    <circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.18"/>
+    <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.12"/>
+    <circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.1"/>
+    <circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.15"/>
+    <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.12"/>
+    <circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.1"/>
+    <circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.12"/>
+    <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.1"/>
+    
+    <!-- Thin curved connecting lines — faint -->
+    <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.1" fill="none"/>
+    <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.08" fill="none"/>
+    <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+  </svg>
+  
+  <div class="content">
+    <h1>Abstract Light</h1>
+    <p>Background reconstruido con formas orgánicas, capas superpuestas y elementos decorativos en SVG.</p>
+  </div>
+  <div class="site-url">worqai.io</div>
+</div>
+</body>
+</html>

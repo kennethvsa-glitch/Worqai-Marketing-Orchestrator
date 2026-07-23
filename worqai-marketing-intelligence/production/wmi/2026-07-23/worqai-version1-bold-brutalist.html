@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI · Versión 1: Bold Brutalist Poster</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Plus+Jakarta+Sans:wght@500;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap');
+
+    :root {
+      --bg: #080a10;
+      --panel: #121622;
+      --panel-light: #1c2234;
+      --ink: #f5f7f2;
+      --lime: #c9f24d;
+      --red: #ff453a;
+      --amber: #ff9f0a;
+      --muted: #8d96a8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .poster {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      padding: 56px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Giant Background Watermark */
+    .watermark {
+      position: absolute;
+      top: -40px;
+      right: -30px;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 320px;
+      color: rgba(201, 242, 77, 0.03);
+      line-height: 0.8;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 4px solid var(--ink);
+      padding-bottom: 24px;
+    }
+
+    .brand {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 36px;
+      letter-spacing: -0.05em;
+    }
+
+    .brand .lime { color: var(--lime); }
+
+    .tag-pill {
+      background: var(--lime);
+      color: var(--bg);
+      padding: 8px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Main Hero Header */
+    .hero-header {
+      margin-top: 36px;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--lime);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 82px;
+      line-height: 0.88;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    h1 .lime { color: var(--lime); }
+    h1 .red { color: var(--red); }
+
+    .sub-hero {
+      font-size: 24px;
+      font-weight: 700;
+      color: #d1d6e0;
+      margin-top: 20px;
+      max-width: 900px;
+      line-height: 1.25;
+    }
+
+    /* Brutalist Blocks */
+    .blocks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .block {
+      background: var(--panel);
+      padding: 28px 32px;
+      border-left: 10px solid var(--muted);
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .block.bad {
+      border-left-color: var(--red);
+      background: linear-gradient(90deg, rgba(255, 69, 58, 0.1) 0%, var(--panel) 100%);
+    }
+
+    .block.warning {
+      border-left-color: var(--amber);
+      background: linear-gradient(90deg, rgba(255, 159, 10, 0.1) 0%, var(--panel) 100%);
+    }
+
+    .block.good {
+      border-left-color: var(--lime);
+      background: linear-gradient(90deg, rgba(201, 242, 77, 0.12) 0%, var(--panel) 100%);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .block-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    .block.bad .block-badge { background: var(--red); color: var(--ink); }
+    .block.warning .block-badge { background: var(--amber); color: var(--bg); }
+    .block.good .block-badge { background: var(--lime); color: var(--bg); }
+
+    .block-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .block-text {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .block.good .block-text {
+      color: var(--lime);
+    }
+
+    .block-desc {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    /* Giant Rule Banner */
+    .rule-banner {
+      background: var(--lime);
+      color: var(--bg);
+      padding: 30px 36px;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .rule-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 26px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+    }
+
+    .rule-sub {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 6px;
+      opacity: 0.9;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 4px solid var(--ink);
+      padding-top: 24px;
+      margin-top: 28px;
+    }
+
+    .footer-brand {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 22px;
+    }
+
+    .footer-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Poster Versión 1: Bold Brutalist">
+    <div class="watermark">WORQ</div>
+
+    <header class="topbar">
+      <div class="brand">WORQ<span class="lime">AI</span>.IO</div>
+      <div class="tag-pill">ANÁLISIS DE LECTURA 2026</div>
+    </header>
+
+    <section class="hero-header">
+      <div class="eyebrow">DIAGNÓSTICO DE ATENCIÓN</div>
+      <h1>5 SEGUNDOS DE <span class="lime">LECTURA.</span></h1>
+      <h1>EL RESTO SE <span class="red">IGNORA.</span></h1>
+      <p class="sub-hero">
+        Un reclutador no descarta tu perfil por falta de capacidad. Lo descarta porque tu CV no muestra la coincidencia en la primera vista.
+      </p>
+    </section>
+
+    <section class="blocks-container">
+      <article class="block bad">
+        <div class="block-badge">IGNORADO</div>
+        <div class="block-body">
+          <div class="block-text">"Atención a requerimientos de clientes y soporte general"</div>
+          <div class="block-desc">Frase vaga sin herramientas ni contexto real. El lector la salta de inmediato.</div>
+        </div>
+      </article>
+
+      <article class="block warning">
+        <div class="block-badge">SIN PESO</div>
+        <div class="block-body">
+          <div class="block-text">"Liderazgo, Proactividad, Resolución de problemas"</div>
+          <div class="block-desc">Lista de adjetivos autodeclarados que cualquier persona puede copiar.</div>
+        </div>
+      </article>
+
+      <article class="block good">
+        <div class="block-badge">DETIENE LECTURA</div>
+        <div class="block-body">
+          <div class="block-text">"Soporte L1 en Zendesk con 40 solicitudes resueltas al día"</div>
+          <div class="block-desc">Coincidencia exacta con la necesidad de la vacante en las primeras líneas.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="rule-banner">
+      <div>
+        <div class="rule-title">NO INVENTES EXPERIENCIA.</div>
+        <div class="rule-title">MUESTRA LO IMPORTANTE PRIMERO.</div>
+        <div class="rule-sub">Compara tu CV real con los requisitos de la vacante antes de aplicar.</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-brand">WORQAI.IO</div>
+      <div class="footer-note">
+        PRIMERA REVISIÓN Y ADAPTACIÓN GRATIS<br>
+        SIN TARJETA DE CRÉDITO
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

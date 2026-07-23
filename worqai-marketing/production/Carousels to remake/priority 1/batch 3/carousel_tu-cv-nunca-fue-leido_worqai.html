@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI · Tu CV nunca fue leído · 4 slides</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+}
+
+.label-top {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C7FF3A;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.viewer {
+  width: 100%;
+  max-width: 1080px;
+  overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+  .viewer { max-width: 540px; }
+}
+
+.wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deco-num { display: none; }
+
+/* ===== SLIDE BASE ===== */
+.slide {
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 56px 52px 140px;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: var(--grain-op, 0.05);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* ===== DARK SLIDE THEME ===== */
+.slide.dark {
+  background: linear-gradient(148deg, #1A1A18 0%, #0F0F12 100%);
+  --text-p: #FFF8E7;
+  --text-s: rgba(255, 248, 231, 0.55);
+  --label-c: #C7FF3A;
+  --blk-bad-bg: rgba(255, 92, 60, 0.10);
+  --blk-good-bg: rgba(199, 255, 58, 0.08);
+  --bad-lbl-c: #FF5C3C;
+  --good-lbl-c: #C7FF3A;
+  --blk-bad-txt: rgba(255, 248, 231, 0.72);
+  --blk-good-txt: #FFF8E7;
+  --grain-op: 0.05;
+  --chrome: rgba(255, 248, 231, 0.28);
+  --chrome-faint: rgba(255, 248, 231, 0.10);
+  --brand-w-c: rgba(199, 255, 58, 0.045);
+}
+
+/* ===== CREAM SLIDE THEME ===== */
+.slide.cream {
+  background: linear-gradient(148deg, #FFF8E7 0%, #F5EDD9 100%);
+  --text-p: #0F0F12;
+  --text-s: rgba(15, 15, 18, 0.58);
+  --label-c: rgba(15, 15, 18, 0.48);
+  --blk-bad-bg: #FFEEE8;
+  --blk-good-bg: #F0F8DC;
+  --bad-lbl-c: #C03A1A;
+  --good-lbl-c: #3A6600;
+  --blk-bad-txt: rgba(15, 15, 18, 0.72);
+  --blk-good-txt: rgba(15, 15, 18, 0.85);
+  --grain-op: 0.03;
+  --chrome: rgba(15, 15, 18, 0.32);
+  --chrome-faint: rgba(15, 15, 18, 0.10);
+  --brand-w-c: rgba(15, 15, 18, 0.05);
+}
+
+/* ===== TYPOGRAPHY ===== */
+.display {
+  font-size: clamp(42px, 7.5vw, 68px);
+  font-weight: 900;
+  color: var(--text-p);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 2;
+}
+
+.headline {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  color: var(--text-p);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  position: relative;
+  z-index: 2;
+}
+
+.body-text {
+  font-size: clamp(13px, 2.3vw, 16px);
+  font-weight: 400;
+  color: var(--text-s);
+  line-height: 1.65;
+  position: relative;
+  z-index: 2;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--label-c);
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-num {
+  font-size: clamp(100px, 18vw, 150px);
+  font-weight: 900;
+  color: var(--text-p);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== BLOCKS ===== */
+.blk {
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.blk.bad  { background: var(--blk-bad-bg); }
+.blk.good { background: var(--blk-good-bg); }
+
+.blk-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.blk.bad  .blk-lbl { color: var(--bad-lbl-c); }
+.blk.good .blk-lbl { color: var(--good-lbl-c); }
+
+.blk-txt {
+  font-size: clamp(12px, 2.1vw, 14px);
+  line-height: 1.55;
+  color: var(--blk-bad-txt);
+}
+
+.blk.good .blk-txt {
+  color: var(--blk-good-txt);
+  font-weight: 500;
+}
+
+/* ===== TERMINAL BLOCK ===== */
+.terminal {
+  background: #0F0F12;
+  border-radius: 14px;
+  padding: 22px 26px;
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  border: 1px solid rgba(199, 255, 58, 0.15);
+}
+
+.terminal-line {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(12px, 2vw, 14px);
+  line-height: 1.7;
+  color: rgba(255, 248, 231, 0.65);
+}
+
+.terminal-line .err { color: #FF5C3C; }
+.terminal-line .ok  { color: #C7FF3A; }
+.terminal-line .cmd { color: #FFF8E7; font-weight: 700; }
+.terminal-line .dim { color: rgba(255, 248, 231, 0.35); }
+
+/* ===== SWIPE PILL ===== */
+.swipe-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid #C7FF3A;
+  color: #C7FF3A;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  align-self: flex-end;
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+}
+
+/* ===== BRAND ANCHOR ===== */
+.brand-anchor {
+  position: absolute;
+  bottom: 22px;
+  left: 52px;
+  z-index: 3;
+  line-height: 1;
+}
+
+.brand-wq {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  text-transform: lowercase;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.brand-wq .worq  { color: var(--chrome); }
+.brand-wq .ai-mk { color: #C7FF3A; }
+
+.counter {
+  position: absolute;
+  bottom: 24px;
+  right: 52px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--chrome);
+  z-index: 3;
+}
+
+/* ===== BRAND W WATERMARK ===== */
+.brand-w {
+  position: absolute;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(360px, 62vw, 580px);
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  color: var(--brand-w-c);
+}
+
+/* ===== LIME GLOW ===== */
+.lime-glow {
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(199, 255, 58, 0.18) 0%, transparent 65%);
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.slide.cream .lime-glow {
+  background: radial-gradient(circle, rgba(199, 255, 58, 0.10) 0%, transparent 65%);
+}
+
+/* ===== CORAL ACCENT SPOT ===== */
+.coral-spot {
+  position: absolute;
+  width: 12%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: #FF5C3C;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== DIAGONAL BAND ===== */
+.diag-band {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 130%;
+  height: 30%;
+  background: linear-gradient(
+    115deg,
+    transparent 45%,
+    rgba(199, 255, 58, 0.06) 45%,
+    rgba(199, 255, 58, 0.06) 47%,
+    transparent 47%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== CTA CARD ===== */
+.cta-card {
+  background: #0F0F12;
+  border-radius: 24px;
+  padding: 32px 28px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-headline {
+  font-size: clamp(24px, 4.2vw, 36px);
+  font-weight: 900;
+  color: #FFF8E7;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin-bottom: 18px;
+}
+
+.keyword-box {
+  border: 2px dashed #C7FF3A;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.keyword-text {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  color: #C7FF3A;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.keyword-hint {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(199, 255, 58, 0.50);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.cta-sub {
+  font-size: clamp(12px, 2.1vw, 14px);
+  color: rgba(255, 248, 231, 0.52);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.cta-btn {
+  display: block;
+  background: #C7FF3A;
+  color: #0F0F12;
+  text-align: center;
+  border-radius: 999px;
+  padding: 15px 28px;
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(14px, 2.4vw, 17px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ===== NAVIGATION ===== */
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:disabled { opacity: 0.2; cursor: default; }
+
+.dots { display: flex; gap: 6px; }
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dot.on { background: #C7FF3A; width: 14px; border-radius: 3px; }
+
+.hint {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ===== ZIP EXPORT ===== */
+.zip-btn {
+  margin-top: 18px;
+  background: rgba(199, 255, 58, 0.10);
+  border: 1px solid rgba(199, 255, 58, 0.35);
+  color: #C7FF3A;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.zip-btn:disabled { opacity: 0.5; cursor: default; }
+
+.zip-progress {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.capture-mode .viewer { max-width: 1080px !important; }
+</style>
+</head>
+<body>
+
+<div class="label-top">worqai · cv real talk · 4 slides</div>
+
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ================================================================
+           SLIDE 1 · HOOK (dark) · L01 Poster Lockup
+           ================================================================ -->
+      <div class="slide dark">
+        <div class="lime-glow" style="top:-15%;right:-10%;transform:scale(1.0);"></div>
+        <div class="brand-w" style="top:-8%;left:-6%;">W</div>
+        <div class="diag-band"></div>
+
+        <div class="label">worqai · cv real talk</div>
+
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;position:relative;z-index:2;">
+          <div class="display">Tu CV<br>nunca llega a<br>un humano.</div>
+          <p class="body-text" style="max-width:380px;">
+            El ATS lo filtra antes de que alguien lo lea. Y nadie te avisó.
+          </p>
+        </div>
+
+        <div class="swipe-pill">Desliza →</div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">01 / 04</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 2 · DATA (cream) · L02 Big Number
+           ================================================================ -->
+      <div class="slide cream">
+        <div class="lime-glow" style="top:60%;right:-20%;transform:scale(1.1);"></div>
+        <div class="brand-w" style="bottom:-20%;right:-10%;">W</div>
+        <div class="coral-spot" style="top:14%;right:14%;"></div>
+
+        <div class="label">el dato</div>
+
+        <div style="display:flex;align-items:flex-end;gap:4px;position:relative;z-index:2;">
+          <div class="stat-num" style="color:#0F0F12;">75</div>
+          <div style="font-size:clamp(32px,5.5vw,50px);font-weight:900;color:#0F0F12;padding-bottom:12px;">%</div>
+        </div>
+
+        <p class="body-text" style="margin-top:10px;max-width:420px;">
+          de CVs en LATAM se eliminan por formato antes de que un reclutador los abra.
+        </p>
+        <div style="font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(15,15,18,0.30);margin-top:8px;position:relative;z-index:2;">
+          Dato interno WorqAI · base de datos 2025
+        </div>
+
+        <p class="body-text" style="margin-top:auto;padding-top:18px;font-weight:600;color:rgba(15,15,18,0.72);">
+          No es tu experiencia. Es que el sistema no puede leer tu formato.
+        </p>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">02 / 04</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 3 · TERMINAL (dark) · L04 Terminal Block
+           ================================================================ -->
+      <div class="slide dark">
+        <div class="lime-glow" style="top:-10%;right:55%;transform:scale(1.0);"></div>
+        <div class="brand-w" style="top:10%;right:-25%;">W</div>
+
+        <div class="label">el sistema · cómo te filtra</div>
+
+        <div class="headline" style="margin-bottom:6px;">
+          El ATS no es<br>una persona.
+        </div>
+        <p class="body-text" style="margin-bottom:20px;">
+          Es un robot que busca texto plano. Si no lo encuentra, te descarta.
+        </p>
+
+        <div class="terminal">
+          <div class="terminal-line"><span class="dim">$</span> <span class="cmd">worqai scan cv.pdf</span></div>
+          <div class="terminal-line"><span class="err">✗ Formato no legible</span></div>
+          <div class="terminal-line"><span class="err">✗ Keywords no detectadas</span></div>
+          <div class="terminal-line"><span class="err">✗ Tablas bloquean el parser</span></div>
+          <div class="terminal-line" style="margin-top:10px;"><span class="dim">$</span> <span class="cmd">worqai fix --ats-ready</span></div>
+          <div class="terminal-line"><span class="ok">✓ CV optimizado · listo en 10 min</span></div>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">03 / 04</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 4 · CTA (cream) · L07 CTA Card
+           ================================================================ -->
+      <div class="slide cream">
+        <div class="lime-glow" style="top:30%;right:-15%;transform:scale(1.2);"></div>
+        <div class="brand-w" style="bottom:-20%;left:-10%;">W</div>
+
+        <div class="label" style="margin-bottom:12px;">¿qué hacés ahora?</div>
+
+        <div class="cta-card">
+          <div class="cta-headline">¿Listo para<br>que te lean?</div>
+
+          <div class="keyword-box">
+            <div class="keyword-text">WORQAI</div>
+            <div class="keyword-hint">Score ATS · gratis · 30 segundos</div>
+          </div>
+
+          <p class="cta-sub">
+            Tu CV ATS-ready en 10 minutos. En español o inglés. Hecho para latinos que buscan trabajo remoto.
+          </p>
+
+          <a class="cta-btn" href="https://worqai.com">Probar gratis →</a>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">04 / 04</div>
+      </div>
+
+    </div><!-- /track -->
+  </div><!-- /wrap -->
+</div><!-- /viewer -->
+
+<div class="controls">
+  <button class="btn" id="prev">&#8249;</button>
+  <div class="dots">
+    <div class="dot on" onclick="go(0)"></div>
+    <div class="dot" onclick="go(1)"></div>
+    <div class="dot" onclick="go(2)"></div>
+    <div class="dot" onclick="go(3)"></div>
+  </div>
+  <button class="btn" id="next">&#8250;</button>
+</div>
+
+<div class="hint">← → · deslizá · toque</div>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · full quality</p>
+
+<script>
+let cur = 0;
+const slides  = document.querySelectorAll('.slide');
+const track   = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots    = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+  const num   = String(cur + 1).padStart(2, '0');
+  const total = String(slides.length).padStart(2, '0');
+  document.querySelectorAll('.counter').forEach(c => c.textContent = `${num} / ${total}`);
+}
+
+function move(dir) { go(cur + dir); }
+
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+
+let sx = 0;
+document.getElementById('wrap').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+document.getElementById('wrap').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const wrap = document.getElementById('wrap');
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob), download: 'carousel_worqai_4slides.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  setTimeout(() => { zipLabel.textContent = 'Exportar ZIP · PNGs'; progress.textContent = '1080 × 1080 px · full quality'; zipBtn.disabled = false; zipBtn.style.opacity = '1'; }, 3000);
+}
+</script>
+
+</body>
+</html>

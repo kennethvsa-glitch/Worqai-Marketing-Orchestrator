@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Tu CV nunca llegó a un reclutador",
+    "brand": "WorqAI",
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 4,
+    "language": "es-LATAM"
+  },
+  "pacing": ["hook", "shock", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "kicker": "@worqai · ATS",
+        "headline": "Tu CV nunca llegó a un reclutador.",
+        "body": "No lo rechazaron. Lo filtró un algoritmo antes de que nadie lo viera.",
+        "swipe_prompt": "Desliza →"
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "layers": ["blob-bg"],
+      "constraints": { "silence": true },
+      "copy": {
+        "kicker": "Así funciona el filtro",
+        "headline": "El sistema filtra tu CV. Ningún humano lo lee.",
+        "command": "$ ats-parse --input candidato.pdf --strict",
+        "output_lines": [
+          { "type": "warn", "text": "Multi-column layout detected" },
+          { "type": "warn", "text": "Tables found — content unreadable" },
+          { "type": "warn", "text": "Non-standard fonts: 2 flagged" },
+          { "type": "err",  "text": "FILTERED OUT — recruiter never notified" }
+        ],
+        "source": "Dato interno WorqAI · base de datos 2025"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-tip-blocks",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "kicker": "La solución",
+        "headline": "Un formato. Sin tablas. Sin columnas.",
+        "tips": [
+          {
+            "problem": "El ATS rechaza tu diseño.",
+            "fix": "Un bloque de texto corrido, PDF estándar, keywords del puesto escritas en texto plano."
+          }
+        ],
+        "items": [
+          "Un solo bloque de texto por sección",
+          "Fuente estándar: Calibri, Arial o Times New Roman",
+          "Keywords del puesto en texto — no en imágenes ni gráficos"
+        ]
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "question": "¿Tu CV llega donde tiene que llegar?",
+        "cta_keyword": "ANALIZA",
+        "reward": "Te mandamos el diagnóstico ATS de tu CV — gratis, en 48 horas.",
+        "url": "@worqai"
+      }
+    }
+  ],
+  "constraints": {
+    "mock_ui_required": true,
+    "silence_slide_required": true,
+    "subtraction_gate": true
+  }
+}

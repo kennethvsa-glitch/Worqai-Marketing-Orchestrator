@@ -1,0 +1,63 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "geo-circuit-board",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s19",
+      "s25",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "light-neon-border",
+      "deco-progress-dots",
+      "mock-terminal-mac",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "org-blob-scattered",
+      "tex-paper-fibers",
+      "pat-waves-subtle"
+    ]
+  }
+-->
+
+<!--
+LAYER: CIRCUIT BOARD
+Traces and nodes reminiscent of PCB pathways.
+Best for: tech, AI, hardware systems.
+-->
+
+<svg class="circuit" viewBox="0 0 1080 1080" preserveAspectRatio="none">
+  <g stroke="var(--accent)" stroke-width="1" fill="none" opacity="0.12">
+    <path d="M100,100 H300 V400 H600 V200 H900"/>
+    <path d="M200,900 V600 H400 V800 H700 V500"/>
+    <circle cx="300" cy="400" r="4" fill="var(--accent)"/>
+    <circle cx="600" cy="200" r="4" fill="var(--accent)"/>
+    <circle cx="400" cy="600" r="4" fill="var(--accent)"/>
+    <circle cx="700" cy="500" r="4" fill="var(--accent)"/>
+  </g>
+</svg>
+
+<style>
+.circuit { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: var(--geo-opacity, 0.10); }
+</style>

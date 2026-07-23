@@ -1,0 +1,35 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-progress-bars",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+DECORATIVE: PROGRESS BARS
+Purpose: Bar-style slide progress indicator.
+-->
+
+<div class="prog-bars">
+  <span class="pb on"></span>
+  <span class="pb"></span>
+  <span class="pb"></span>
+  <span class="pb"></span>
+  <span class="pb"></span>
+  <span class="pb"></span>
+  <span class="pb"></span>
+  <span class="pb"></span>
+</div>
+
+<style>
+.prog-bars {
+  display: flex; gap: 6px;
+  position: absolute; bottom: 38px; right: var(--pad-x, 80px); z-index: 4;
+}
+.pb { width: 26px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.08); }
+.pb.on { background: var(--accent); }
+</style>

@@ -1,0 +1,61 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "light-ambient-orb",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s02",
+      "s06",
+      "s08",
+      "s16",
+      "s20",
+      "s21",
+      "s29",
+      "s33",
+      "s37",
+      "s40",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s07",
+      "s19",
+      "s23",
+      "s25",
+      "s31",
+      "s39",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "mock-terminal-mac",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "tex-grain-heavy",
+      "tex-scratch-overlay"
+    ]
+  }
+-->
+
+<!--
+LAYER: AMBIENT ORB
+Soft diffused light without strong direction.
+Best for: calm, ambient, background wash.
+-->
+
+<div class="ambient-orb"></div>
+
+<style>
+.ambient-orb {
+  position: absolute;
+  width: 80%; aspect-ratio: 1 / 1; border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-line) 0%, transparent 70%);
+  filter: blur(80px); pointer-events: none; z-index: 1;
+  opacity: 0.45;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+}
+</style>

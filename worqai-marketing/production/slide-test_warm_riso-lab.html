@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test — 18 RISO LAB · Warm Textured</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #888; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; }
+
+  .preview-cage { width: 1080px; margin: 0 auto; }
+  @media (min-width: 1200px) {
+    .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; }
+  }
+
+  /* Light BG chrome overrides */
+  :root {
+    --text-secondary: rgba(10,15,30,0.35);
+    --accent: #ff6b35;
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1080px;
+    background: linear-gradient(135deg, #ffe9d2, #ffd5e5 40%, #d8f3ff);
+    position: relative;
+    overflow: hidden;
+    font-family: 'IBM Plex Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding: 80px 80px 140px;
+  }
+
+  /* Orange radial bleed — top-left (the "ink" bleed) */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 18% 12%, rgba(255,107,53,0.38), transparent 55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Heavy grain with multiply blend */
+  .grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Ink bleed edge — top */
+  .ink-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background: rgba(255,107,53,0.65);
+    z-index: 4;
+  }
+
+  /* Ink bleed edge — left */
+  .ink-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, rgba(255,107,53,0.5) 0%, transparent 60%);
+    z-index: 4;
+  }
+
+  /* Halftone dot grid — bottom right decorative */
+  .halftone {
+    position: absolute;
+    bottom: 100px;
+    right: 56px;
+    width: 220px;
+    height: 220px;
+    background-image: radial-gradient(circle, rgba(255,107,53,0.55) 2.5px, transparent 2.5px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.40;
+  }
+
+  /* Second halftone cluster — upper right */
+  .halftone-2 {
+    position: absolute;
+    top: 60px;
+    right: 80px;
+    width: 100px;
+    height: 100px;
+    background-image: radial-gradient(circle, rgba(18,18,18,0.25) 2px, transparent 2px);
+    background-size: 14px 14px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.3;
+  }
+
+  /* Large circle shape — background texture element */
+  .circle-bg {
+    position: absolute;
+    bottom: -15%;
+    left: -10%;
+    width: 70%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 3px solid rgba(255,107,53,0.15);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .label {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(18,18,18,0.50);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: #ff6b35;
+    flex-shrink: 0;
+  }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 114px;
+    letter-spacing: 0.02em;
+    line-height: 0.94;
+    color: #121212;
+    margin-bottom: 52px;
+    max-width: 780px;
+  }
+
+  .headline .accent { color: #ff6b35; }
+
+  /* Divider with orange dot */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 36px;
+  }
+
+  .divider-line {
+    width: 64px;
+    height: 2.5px;
+    background: #121212;
+  }
+
+  .divider-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #ff6b35;
+    flex-shrink: 0;
+  }
+
+  .divider-line-2 {
+    flex: 1;
+    height: 1px;
+    background: rgba(18,18,18,0.12);
+  }
+
+  .body-text {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.6;
+    color: rgba(18,18,18,0.68);
+    max-width: 520px;
+  }
+
+  /* Brand wordmark */
+  .brand {
+    position: absolute;
+    bottom: 46px;
+    left: 80px;
+    z-index: 10;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    color: rgba(18,18,18,0.28);
+  }
+  .brand .ai { color: #ff6b35; }
+
+  .counter {
+    position: absolute;
+    bottom: 50px;
+    right: 80px;
+    z-index: 10;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: rgba(18,18,18,0.30);
+  }
+</style>
+</head>
+<body>
+<div class="preview-cage">
+  <div class="slide">
+    <div class="grain"></div>
+    <div class="ink-top"></div>
+    <div class="ink-left"></div>
+    <div class="halftone"></div>
+    <div class="halftone-2"></div>
+    <div class="circle-bg"></div>
+
+    <div class="content">
+      <div class="label">WorqAI · Tu próximo trabajo</div>
+      <h1 class="headline">
+        El trabajo<br>que quieres<br><span class="accent">ya existe.</span>
+      </h1>
+      <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-dot"></div>
+        <div class="divider-line-2"></div>
+      </div>
+      <p class="body-text">
+        Tu CV solo necesita ser visto. Aquí está cómo pasar del filtro automático al reclutador humano.
+      </p>
+    </div>
+
+    <div class="brand">worq<span class="ai">ai</span></div>
+    <div class="counter">01 / 06</div>
+  </div>
+</div>
+</body>
+</html>

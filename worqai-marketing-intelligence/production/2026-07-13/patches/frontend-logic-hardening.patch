@@ -1,0 +1,287 @@
+diff --git a/src/app/[locale]/bienvenida/layout.tsx b/src/app/[locale]/bienvenida/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/bienvenida/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/cuenta/layout.tsx b/src/app/[locale]/cuenta/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/cuenta/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/forgot-password/layout.tsx b/src/app/[locale]/forgot-password/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/forgot-password/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/historial/layout.tsx b/src/app/[locale]/historial/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/historial/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/improve/layout.tsx b/src/app/[locale]/improve/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/improve/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/layout.tsx b/src/app/[locale]/layout.tsx
+index 47abe96..04b148c 100644
+--- a/src/app/[locale]/layout.tsx
++++ b/src/app/[locale]/layout.tsx
+@@ -13,7 +13,11 @@ import { routing } from "@/i18n/routing";
+ import { GrainCanvas } from "@/components/marketing/ambient/grain-canvas";
+ import { BgGrid } from "@/components/marketing/ambient/bg-grid";
+ import { Analytics } from "@vercel/analytics/next";
+-import { buildSiteStructuredData, SITE_ORIGIN } from "@/lib/seo/site";
++import {
++  buildSiteStructuredData,
++  serializeJsonLd,
++  SITE_ORIGIN,
++} from "@/lib/seo/site";
+ import "../globals.css";
+ 
+ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+@@ -117,7 +121,7 @@ export default async function LocaleLayout({
+         <script
+           type="application/ld+json"
+           dangerouslySetInnerHTML={{
+-            __html: JSON.stringify(jsonLd).replace(/</g, "\u003c"),
++            __html: serializeJsonLd(jsonLd),
+           }}
+         />
+         <GrainCanvas />
+diff --git a/src/app/[locale]/login/layout.tsx b/src/app/[locale]/login/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/login/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/reset-password/layout.tsx b/src/app/[locale]/reset-password/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/reset-password/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/resultado/layout.tsx b/src/app/[locale]/resultado/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/resultado/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/signup/layout.tsx b/src/app/[locale]/signup/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/signup/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/tailor/layout.tsx b/src/app/[locale]/tailor/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/tailor/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/verify-email/layout.tsx b/src/app/[locale]/verify-email/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/verify-email/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/app/[locale]/workbench/layout.tsx b/src/app/[locale]/workbench/layout.tsx
+new file mode 100644
+index 0000000..f20ba64
+--- /dev/null
++++ b/src/app/[locale]/workbench/layout.tsx
+@@ -0,0 +1,7 @@
++import {
++  PrivateRouteLayout,
++  privateRouteMetadata,
++} from "@/lib/seo/private-route";
++
++export const metadata = privateRouteMetadata;
++export default PrivateRouteLayout;
+diff --git a/src/lib/seo/private-route.tsx b/src/lib/seo/private-route.tsx
+new file mode 100644
+index 0000000..80a2d1b
+--- /dev/null
++++ b/src/lib/seo/private-route.tsx
+@@ -0,0 +1,18 @@
++import type { Metadata } from "next";
++
++export const privateRouteMetadata: Metadata = {
++  robots: {
++    index: false,
++    follow: false,
++    googleBot: {
++      index: false,
++      follow: false,
++    },
++  },
++};
++
++export function PrivateRouteLayout({
++  children,
++}: Readonly<{ children: React.ReactNode }>) {
++  return children;
++}
+diff --git a/src/lib/seo/site.ts b/src/lib/seo/site.ts
+index 93c700f..4e90395 100644
+--- a/src/lib/seo/site.ts
++++ b/src/lib/seo/site.ts
+@@ -7,6 +7,11 @@ export function absoluteSiteUrl(pathname = "/"): string {
+   return new URL(pathname, `${SITE_ORIGIN}/`).toString();
+ }
+ 
++/** Escape markup-significant characters before embedding JSON in a script. */
++export function serializeJsonLd(value: unknown): string {
++  return JSON.stringify(value).replace(/</g, "\\u003c");
++}
++
+ /**
+  * Redirect browser-facing apex requests to the one canonical HTTPS origin.
+  * API and auth callback traffic deliberately remains on the requested host:
+diff --git a/tests/seo/private-routes.test.ts b/tests/seo/private-routes.test.ts
+new file mode 100644
+index 0000000..d3b4ccb
+--- /dev/null
++++ b/tests/seo/private-routes.test.ts
+@@ -0,0 +1,59 @@
++import { describe, expect, it } from "vitest";
++import { metadata as bienvenida } from "@/app/[locale]/bienvenida/layout";
++import { metadata as cuenta } from "@/app/[locale]/cuenta/layout";
++import { metadata as forgotPassword } from "@/app/[locale]/forgot-password/layout";
++import { metadata as historial } from "@/app/[locale]/historial/layout";
++import { metadata as improve } from "@/app/[locale]/improve/layout";
++import { metadata as login } from "@/app/[locale]/login/layout";
++import { metadata as resetPassword } from "@/app/[locale]/reset-password/layout";
++import { metadata as resultado } from "@/app/[locale]/resultado/layout";
++import { metadata as signup } from "@/app/[locale]/signup/layout";
++import { metadata as tailor } from "@/app/[locale]/tailor/layout";
++import { metadata as verifyEmail } from "@/app/[locale]/verify-email/layout";
++import { metadata as workbench } from "@/app/[locale]/workbench/layout";
++import { createPageMetadata } from "@/lib/seo/metadata";
++import { serializeJsonLd } from "@/lib/seo/site";
++
++const privateRouteMetadata = [
++  bienvenida,
++  cuenta,
++  forgotPassword,
++  historial,
++  improve,
++  login,
++  resetPassword,
++  resultado,
++  signup,
++  tailor,
++  verifyEmail,
++  workbench,
++];
++
++describe("private route SEO boundaries", () => {
++  it("marks every app, account, result, and auth boundary noindex/nofollow", () => {
++    for (const metadata of privateRouteMetadata) {
++      expect(metadata.robots).toMatchObject({
++        index: false,
++        follow: false,
++        googleBot: { index: false, follow: false },
++      });
++    }
++  });
++
++  it("does not change public acquisition pages to noindex", () => {
++    expect(createPageMetadata("es", "").robots).toMatchObject({
++      index: true,
++      follow: true,
++    });
++    expect(createPageMetadata("en", "auditoria").robots).toMatchObject({
++      index: true,
++      follow: true,
++    });
++  });
++
++  it("escapes less-than signs before JSON-LD is embedded in a script", () => {
++    expect(serializeJsonLd({ value: "</script>" })).toBe(
++      '{"value":"\\u003c/script>"}'
++    );
++  });
++});

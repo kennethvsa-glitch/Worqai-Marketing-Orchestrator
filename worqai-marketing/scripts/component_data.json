@@ -1,0 +1,5098 @@
+{
+  "systems": {
+    "s01": {
+      "--bg-base": "#080a10",
+      "--bg-mid": "#0f1420",
+      "--accent": "#C8A84B",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s02": {
+      "--bg-base": "#050a1a",
+      "--bg-mid": "#0a1430",
+      "--accent": "#4a8fff",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s03": {
+      "--bg-base": "#050d08",
+      "--bg-mid": "#0a1610",
+      "--accent": "#5ab07a",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.08"
+    },
+    "s04": {
+      "--bg-base": "#0a0608",
+      "--bg-mid": "#18080e",
+      "--accent": "#e05a7a",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.40)",
+      "--font-display": "'Poppins'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s05": {
+      "--bg-base": "#FFFFFF",
+      "--bg-mid": "#F5F5F7",
+      "--accent": "#1463F3",
+      "--text-primary": "#111111",
+      "--text-secondary": "rgba(17,17,17,0.55)",
+      "--font-display": "'Poppins'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.03",
+      "--geo-opacity": "0.06"
+    },
+    "s06": {
+      "--bg-base": "#08050f",
+      "--bg-mid": "#120a20",
+      "--accent": "#a855f7",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s07": {
+      "--bg-base": "#0a0a0a",
+      "--bg-mid": "#0a0a0a",
+      "--accent": "#FF3300",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.45)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'JetBrains Mono'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0",
+      "--geo-opacity": "0.05"
+    },
+    "s08": {
+      "--bg-base": "#050a18",
+      "--bg-mid": "#0a1228",
+      "--accent": "#60a5fa",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.07"
+    },
+    "s09": {
+      "--bg-base": "#0a0c12",
+      "--bg-mid": "#141820",
+      "--accent": "#b0bcd4",
+      "--text-primary": "#E8EDF5",
+      "--text-secondary": "rgba(232,237,245,0.48)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.07"
+    },
+    "s10": {
+      "--bg-base": "#0d0806",
+      "--bg-mid": "#1a1008",
+      "--accent": "#e07040",
+      "--text-primary": "#FFF5EE",
+      "--text-secondary": "rgba(255,245,238,0.48)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.08"
+    },
+    "s11": {
+      "--bg-base": "#050d0a",
+      "--bg-mid": "#0a1814",
+      "--accent": "#00d68f",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Nunito'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s12": {
+      "--bg-base": "#0d0b06",
+      "--bg-mid": "#1a1608",
+      "--accent": "#d4a862",
+      "--text-primary": "#F5ECD4",
+      "--text-secondary": "rgba(245,236,212,0.48)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.07"
+    },
+    "s13": {
+      "--bg-base": "#0a0508",
+      "--bg-mid": "#180a12",
+      "--accent": "#e879a0",
+      "--text-primary": "#FFF0F6",
+      "--text-secondary": "rgba(255,240,246,0.48)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s14": {
+      "--bg-base": "#040c18",
+      "--bg-mid": "#081424",
+      "--accent": "#38bdf8",
+      "--text-primary": "#E8F7FF",
+      "--text-secondary": "rgba(232,247,255,0.45)",
+      "--font-display": "'Poppins'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.08"
+    },
+    "s15": {
+      "--bg-base": "#08080f",
+      "--bg-mid": "#10101e",
+      "--accent": "#818cf8",
+      "--text-primary": "#F0F0FF",
+      "--text-secondary": "rgba(240,240,255,0.48)",
+      "--font-display": "'Source Serif 4'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s16": {
+      "--bg-base": "#04080f",
+      "--bg-mid": "#080f1e",
+      "--accent": "#00f0a0",
+      "--text-primary": "#EFFFFA",
+      "--text-secondary": "rgba(239,255,250,0.45)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.10"
+    },
+    "s17": {
+      "--bg-base": "#1A1A18",
+      "--bg-mid": "#0F0F12",
+      "--accent": "#C7FF3A",
+      "--text-primary": "#FFF8E7",
+      "--text-secondary": "rgba(255,248,231,0.55)",
+      "--font-display": "'Nunito'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.10"
+    },
+    "s18": {
+      "--bg-base": "#FFFDF8",
+      "--bg-mid": "#FFF8F0",
+      "--accent": "#ff6b35",
+      "--text-primary": "#1A1A1A",
+      "--text-secondary": "rgba(26,26,26,0.55)",
+      "--font-display": "'IBM Plex Sans'",
+      "--font-body": "'Space Grotesk'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.08",
+      "--geo-opacity": "0.07"
+    },
+    "s19": {
+      "--bg-base": "#FFFFFF",
+      "--bg-mid": "#F5F5F5",
+      "--accent": "#ff0033",
+      "--text-primary": "#111111",
+      "--text-secondary": "rgba(17,17,17,0.55)",
+      "--font-display": "'Inter'",
+      "--font-body": "'Space Grotesk'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.06"
+    },
+    "s20": {
+      "--bg-base": "#03060f",
+      "--bg-mid": "#060d1e",
+      "--accent": "#44f5ff",
+      "--text-primary": "#e8f4ff",
+      "--text-secondary": "rgba(232,244,255,0.52)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.08"
+    },
+    "s21": {
+      "--bg-base": "#08060e",
+      "--bg-mid": "#10081a",
+      "--accent": "#ffef74",
+      "--text-primary": "#FFFFF0",
+      "--text-secondary": "rgba(255,255,240,0.45)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Space Grotesk'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s22": {
+      "--bg-base": "#0a0806",
+      "--bg-mid": "#1a1408",
+      "--accent": "#c39d63",
+      "--text-primary": "#F5F0E8",
+      "--text-secondary": "rgba(245,240,232,0.48)",
+      "--font-display": "'Crimson Pro'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.07"
+    },
+    "s23": {
+      "--bg-base": "#FAF8F5",
+      "--bg-mid": "#F2EDE6",
+      "--accent": "#b89a6c",
+      "--text-primary": "#2A2018",
+      "--text-secondary": "rgba(42,32,24,0.55)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.05"
+    },
+    "s24": {
+      "--bg-base": "#0a0508",
+      "--bg-mid": "#180a12",
+      "--accent": "#ff5faf",
+      "--text-primary": "#FFF0F8",
+      "--text-secondary": "rgba(255,240,248,0.48)",
+      "--font-display": "'Noto Sans JP'",
+      "--font-body": "'Poppins'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s25": {
+      "--bg-base": "#ffffff",
+      "--bg-mid": "#f2f2f2",
+      "--accent": "#ff0015",
+      "--text-primary": "#111111",
+      "--text-secondary": "#444444",
+      "--font-display": "'Archivo'",
+      "--font-body": "'JetBrains Mono'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.15",
+      "--geo-opacity": "0.06"
+    },
+    "s26": {
+      "--bg-base": "#faf8ff",
+      "--bg-mid": "#f4fbff",
+      "--accent": "#5c65ff",
+      "--text-primary": "#1a1a2e",
+      "--text-secondary": "#5b6070",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.07"
+    },
+    "s27": {
+      "--bg-base": "#050a08",
+      "--bg-mid": "#0a1410",
+      "--accent": "#00ffd1",
+      "--text-primary": "#F0FFF8",
+      "--text-secondary": "rgba(240,255,248,0.42)",
+      "--font-display": "'Poppins'",
+      "--font-body": "'IBM Plex Sans'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.08"
+    },
+    "s28": {
+      "--bg-base": "#080810",
+      "--bg-mid": "#101020",
+      "--accent": "#f5f7ff",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Work Sans'",
+      "--font-body": "'JetBrains Mono'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.07"
+    },
+    "s29": {
+      "--bg-base": "#040408",
+      "--bg-mid": "#080c14",
+      "--accent": "#00ff9c",
+      "--text-primary": "#f0fff8",
+      "--text-secondary": "rgba(240,255,248,0.40)",
+      "--font-display": "'Space Grotesk'",
+      "--font-body": "'JetBrains Mono'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.10"
+    },
+    "s30": {
+      "--bg-base": "#0d0a04",
+      "--bg-mid": "#1a1608",
+      "--accent": "#ffba3a",
+      "--text-primary": "#FFF8E8",
+      "--text-secondary": "rgba(255,248,232,0.48)",
+      "--font-display": "'Work Sans'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.08",
+      "--geo-opacity": "0.07"
+    },
+    "s31": {
+      "--bg-base": "#0a0506",
+      "--bg-mid": "#180808",
+      "--accent": "#ff5a5f",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Poppins'",
+      "--font-body": "'JetBrains Mono'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s32": {
+      "--bg-base": "#0a050a",
+      "--bg-mid": "#180a18",
+      "--accent": "#ff3f6b",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Work Sans'",
+      "--font-body": "'DM Sans'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s33": {
+      "--bg-base": "#050814",
+      "--bg-mid": "#0a1228",
+      "--accent": "#3b82f6",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.40)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s34": {
+      "--bg-base": "#080510",
+      "--bg-mid": "#100a1e",
+      "--accent": "#ec4899",
+      "--text-primary": "#FFF0F8",
+      "--text-secondary": "rgba(255,240,248,0.45)",
+      "--font-display": "'Nunito'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s35": {
+      "--bg-base": "#050608",
+      "--bg-mid": "#111319",
+      "--accent": "#facc6b",
+      "--text-primary": "#f9fafb",
+      "--text-secondary": "rgba(249,250,251,0.55)",
+      "--font-display": "'Cinzel Decorative'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.08",
+      "--geo-opacity": "0.10"
+    },
+    "s36": {
+      "--bg-base": "#040c10",
+      "--bg-mid": "#081820",
+      "--accent": "#1f7a8c",
+      "--text-primary": "#E8F5F8",
+      "--text-secondary": "rgba(232,245,248,0.48)",
+      "--font-display": "'Work Sans'",
+      "--font-body": "'DM Sans'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.07"
+    },
+    "s37": {
+      "--bg-base": "#08050a",
+      "--bg-mid": "#14080e",
+      "--accent": "#f97316",
+      "--text-primary": "#FFF8F0",
+      "--text-secondary": "rgba(255,248,240,0.48)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Space Grotesk'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.08"
+    },
+    "s38": {
+      "--bg-base": "#040d0e",
+      "--bg-mid": "#081616",
+      "--accent": "#1a535c",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Nunito'",
+      "--font-body": "'DM Sans'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.07"
+    },
+    "s39": {
+      "--bg-base": "#FAFAFA",
+      "--bg-mid": "#F0F0F0",
+      "--accent": "#1f2933",
+      "--text-primary": "#1f2933",
+      "--text-secondary": "rgba(31,41,51,0.60)",
+      "--font-display": "'Noto Sans'",
+      "--font-body": "'Noto Serif'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.03",
+      "--geo-opacity": "0.05"
+    },
+    "s40": {
+      "--bg-base": "#040810",
+      "--bg-mid": "#081018",
+      "--accent": "#22d3ee",
+      "--text-primary": "#E0F8FF",
+      "--text-secondary": "rgba(224,248,255,0.45)",
+      "--font-display": "'JetBrains Mono'",
+      "--font-body": "'Space Grotesk'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.05",
+      "--geo-opacity": "0.10"
+    },
+    "s41": {
+      "--bg-base": "#0a0814",
+      "--bg-mid": "#12102a",
+      "--accent": "#c084fc",
+      "--text-primary": "#E8E0FF",
+      "--text-secondary": "rgba(232,224,255,0.45)",
+      "--font-display": "'Nunito'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.07"
+    },
+    "s42": {
+      "--bg-base": "#080a0c",
+      "--bg-mid": "#12141a",
+      "--accent": "#e5e7eb",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'Inter'",
+      "--font-body": "'DM Sans'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.07"
+    },
+    "s43": {
+      "--bg-base": "#0a0a12",
+      "--bg-mid": "#101018",
+      "--accent": "#ff006e",
+      "--text-primary": "#FFFFFF",
+      "--text-secondary": "rgba(255,255,255,0.42)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Poppins'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.07"
+    },
+    "s44": {
+      "--bg-base": "#0a0f1a",
+      "--bg-mid": "#101824",
+      "--accent": "#f9fafb",
+      "--text-primary": "#F9FAFB",
+      "--text-secondary": "rgba(249,250,251,0.48)",
+      "--font-display": "'IBM Plex Sans'",
+      "--font-body": "'Space Grotesk'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.08"
+    },
+    "s45": {
+      "--bg-base": "#FFFFFF",
+      "--bg-mid": "#FFF5F5",
+      "--accent": "#ff3368",
+      "--text-primary": "#111111",
+      "--text-secondary": "rgba(17,17,17,0.55)",
+      "--font-display": "'Archivo'",
+      "--font-body": "'Inter'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.06"
+    },
+    "s46": {
+      "--bg-base": "#040810",
+      "--bg-mid": "#08101e",
+      "--accent": "#38bdf8",
+      "--text-primary": "#E8F4FF",
+      "--text-secondary": "rgba(232,244,255,0.45)",
+      "--font-display": "'JetBrains Mono'",
+      "--font-body": "'IBM Plex Sans'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.08"
+    },
+    "s47": {
+      "--bg-base": "#F8F6F0",
+      "--bg-mid": "#EDE9E0",
+      "--accent": "#1f2937",
+      "--text-primary": "#1f2937",
+      "--text-secondary": "rgba(31,41,55,0.60)",
+      "--font-display": "'Noto Sans'",
+      "--font-body": "'Source Serif 4'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.04",
+      "--geo-opacity": "0.05"
+    },
+    "s48": {
+      "--bg-base": "#F3F2EF",
+      "--bg-mid": "#E6E2D6",
+      "--accent": "#9A7330",
+      "--text-primary": "#3B170E",
+      "--text-secondary": "rgba(59,23,14,0.58)",
+      "--font-display": "'DM Sans'",
+      "--font-body": "'Cormorant Garamond'",
+      "--font-mono": "'JetBrains Mono'",
+      "--grain-opacity": "0.06",
+      "--geo-opacity": "0.05"
+    }
+  },
+  "system_types": {
+    "dark": {
+      "default_layers": [
+        "layer-grain",
+        "layer-wireframe",
+        "layer-glow"
+      ],
+      "slide_bias": [
+        "slide-terminal",
+        "slide-big-number",
+        "slide-hook-lockup"
+      ]
+    },
+    "warm": {
+      "default_layers": [
+        "layer-grain",
+        "layer-blob",
+        "layer-glow"
+      ],
+      "slide_bias": [
+        "slide-tip-blocks",
+        "slide-before-after",
+        "slide-testimonial"
+      ]
+    },
+    "light": {
+      "default_layers": [
+        "layer-grain",
+        "layer-grid",
+        "layer-vignette"
+      ],
+      "slide_bias": [
+        "slide-ranked-list",
+        "slide-cta-box",
+        "slide-big-number"
+      ]
+    },
+    "editorial": {
+      "default_layers": [
+        "layer-grain",
+        "layer-grid"
+      ],
+      "slide_bias": [
+        "slide-hook-lockup",
+        "slide-ranked-list",
+        "slide-testimonial"
+      ]
+    },
+    "tech": {
+      "default_layers": [
+        "layer-grain",
+        "layer-wireframe",
+        "layer-scanlines",
+        "layer-glow"
+      ],
+      "slide_bias": [
+        "slide-terminal",
+        "slide-big-number",
+        "mock-metric-card"
+      ]
+    }
+  },
+  "layout_maps": {
+    "8_negative": {
+      "s1": "slide-hook-lockup",
+      "s2": "slide-big-number",
+      "s3": "slide-tip-blocks",
+      "s4": "slide-terminal",
+      "s5": "slide-before-after",
+      "s6": "slide-ranked-list",
+      "s7": "slide-testimonial",
+      "s8": "slide-cta-box"
+    },
+    "8_curiosity": {
+      "s1": "slide-hook-lockup",
+      "s2": "slide-big-number",
+      "s3": "slide-tip-blocks",
+      "s4": "slide-tip-blocks",
+      "s5": "slide-before-after",
+      "s6": "slide-ranked-list",
+      "s7": "slide-testimonial",
+      "s8": "slide-cta-box"
+    },
+    "5_contrarian": {
+      "s1": "slide-hook-lockup",
+      "s2": "slide-big-number",
+      "s3": "slide-before-after",
+      "s4": "slide-ranked-list",
+      "s5": "slide-cta-box"
+    },
+    "4_negative": {
+      "s1": "slide-hook-lockup",
+      "s2": "slide-big-number",
+      "s3": "slide-terminal",
+      "s4": "slide-cta-box"
+    },
+    "6_result": {
+      "s1": "slide-hook-lockup",
+      "s2": "slide-big-number",
+      "s3": "slide-tip-blocks",
+      "s4": "slide-tip-blocks",
+      "s5": "slide-testimonial",
+      "s6": "slide-cta-box"
+    }
+  },
+  "text_budgets": {
+    "_meta": {
+      "note": "Character budgets assume 1080x1080 or 1080x1350 canvas. Conservative limits guarantee no overflow.",
+      "aspect_multiplier": {
+        "1:1": 1.0,
+        "4:5": 1.15,
+        "9:16": 1.3
+      }
+    },
+    "L01_poster_lockup": {
+      "layout_id": "L01",
+      "detect_by": [
+        ".display",
+        ".swipe-pill"
+      ],
+      "max_headline_chars": 50,
+      "max_headline_words": 8,
+      "max_intensifier_chars": 90,
+      "max_intensifier_words": 15,
+      "safe_display_px": 68,
+      "notes": "Pure type + background. No blocks."
+    },
+    "L02_big_number": {
+      "layout_id": "L02",
+      "detect_by": [
+        ".stat-num",
+        ".body-text"
+      ],
+      "max_stat_digits": 4,
+      "max_context_chars": 100,
+      "max_context_words": 18,
+      "max_source_tag_chars": 50,
+      "safe_stat_px": 120,
+      "notes": "The number IS the design. No blocks."
+    },
+    "L03_standard_tip": {
+      "layout_id": "L03",
+      "detect_by": [
+        ".label",
+        ".blk.bad",
+        ".blk.good",
+        ".prog"
+      ],
+      "max_headline_chars": 45,
+      "max_headline_words": 8,
+      "max_problem_chars": 70,
+      "max_problem_words": 12,
+      "max_consequence_chars": 60,
+      "max_fix_chars": 80,
+      "max_fix_words": 14,
+      "max_lines_per_block": 2,
+      "notes": "Standard error/tip slide. Most common layout."
+    },
+    "L04_terminal": {
+      "layout_id": "L04",
+      "detect_by": [
+        ".terminal-panel",
+        ".cmd",
+        ".ok"
+      ],
+      "max_headline_chars": 45,
+      "max_headline_words": 8,
+      "max_command_lines": 3,
+      "max_chars_per_command": 50,
+      "max_ok_lines": 4,
+      "max_chars_per_ok": 55,
+      "notes": "Monospace terminal block. Rhythm break."
+    },
+    "L05_pull_quote": {
+      "layout_id": "L05",
+      "detect_by": [
+        ".quote-mark",
+        ".headline",
+        ".body-text"
+      ],
+      "max_quote_chars": 90,
+      "max_quote_words": 12,
+      "max_attribution_chars": 50,
+      "notes": "One sentence only. No label, no blocks."
+    },
+    "L06_comparison": {
+      "layout_id": "L06",
+      "detect_by": [
+        ".comparison-row",
+        ".comparison-col-left",
+        ".comparison-col-right"
+      ],
+      "max_headline_chars": 45,
+      "max_headline_words": 8,
+      "max_left_chars": 60,
+      "max_left_words": 10,
+      "max_right_chars": 60,
+      "max_right_words": 10,
+      "notes": "Myth vs Reality, Before/After."
+    },
+    "L07_cta_card": {
+      "layout_id": "L07",
+      "detect_by": [
+        ".keyword-box",
+        ".keyword-text"
+      ],
+      "max_question_chars": 60,
+      "max_question_words": 10,
+      "max_keyword_chars": 15,
+      "keyword_must_be_single_word": true,
+      "max_reward_chars": 80,
+      "max_reward_words": 12,
+      "notes": "Different treatment from ALL other slides."
+    },
+    "L08_bento_grid": {
+      "layout_id": "L08",
+      "detect_by": [
+        ".bento",
+        ".bento-cell",
+        ".grid"
+      ],
+      "max_headline_chars": 40,
+      "max_items": 4,
+      "max_chars_per_item": 40
+    },
+    "L09_checklist": {
+      "layout_id": "L09",
+      "detect_by": [
+        ".checklist",
+        ".check-item"
+      ],
+      "max_headline_chars": 40,
+      "max_items": 5,
+      "max_chars_per_item": 50
+    },
+    "L10_ranked_list": {
+      "layout_id": "L10",
+      "detect_by": [
+        ".ranked",
+        ".rank-item",
+        ".rank-num"
+      ],
+      "max_headline_chars": 40,
+      "max_items": 5,
+      "max_headline_chars_per_item": 35,
+      "max_body_chars_per_item": 50
+    },
+    "L11_warning_box": {
+      "layout_id": "L11",
+      "detect_by": [
+        ".warning",
+        ".alert",
+        ".alert-panel"
+      ],
+      "max_headline_chars": 45,
+      "max_body_chars": 120,
+      "max_body_lines": 3
+    },
+    "L12_chat_bubbles": {
+      "layout_id": "L12",
+      "detect_by": [
+        ".chat",
+        ".bubble",
+        ".message"
+      ],
+      "max_bubbles": 4,
+      "max_chars_per_bubble": 70
+    },
+    "L13_product_ui": {
+      "layout_id": "L13",
+      "detect_by": [
+        ".browser-mock",
+        ".app-frame",
+        ".ui-frame"
+      ],
+      "max_headline_chars": 40,
+      "max_ui_content_chars": 100
+    },
+    "slide-hook-lockup": {
+      "inherits": "L01_poster_lockup"
+    },
+    "slide-editorial-split": {
+      "max_headline_chars": 40,
+      "max_body_chars": 120,
+      "max_body_lines": 3,
+      "notes": "Image + text split. Headline must fit in half width."
+    },
+    "slide-giant-lockup": {
+      "max_headline_chars": 35,
+      "max_headline_words": 6,
+      "safe_display_px": 90,
+      "notes": "Giant type. Fewer chars than standard lockup."
+    },
+    "slide-poster-center": {
+      "inherits": "L01_poster_lockup"
+    },
+    "slide-poster-left": {
+      "inherits": "L01_poster_lockup"
+    },
+    "slide-hero-image-text": {
+      "max_headline_chars": 35,
+      "max_body_chars": 100,
+      "notes": "Hero with image overlay. Less text space."
+    },
+    "slide-question-stack": {
+      "max_question_chars": 70,
+      "max_answer_chars": 50,
+      "max_questions": 3
+    },
+    "slide-contrast-flip": {
+      "max_phrase_a_chars": 30,
+      "max_phrase_b_chars": 30,
+      "notes": "Two contrasting phrases, large type."
+    },
+    "slide-stat-hero": {
+      "inherits": "L02_big_number"
+    },
+    "slide-problem-agitation": {
+      "max_problem_chars": 50,
+      "max_agitation_chars": 80,
+      "max_solution_chars": 60,
+      "notes": "Problem → Agitate → Solution arc."
+    },
+    "slide-cinematic-title": {
+      "max_title_chars": 40,
+      "max_subtitle_chars": 60,
+      "notes": "Cinematic treatment, generous spacing."
+    },
+    "slide-editorial-index": {
+      "max_title_chars": 35,
+      "max_items": 5,
+      "max_chars_per_item": 30,
+      "notes": "Index/table of contents style."
+    },
+    "slide-big-number": {
+      "inherits": "L02_big_number"
+    },
+    "slide-big-number-from-to": {
+      "max_from_label_chars": 20,
+      "max_to_label_chars": 20,
+      "max_context_chars": 80,
+      "notes": "From X → To Y transformation stat."
+    },
+    "slide-stat-cards-2up": {
+      "max_headline_chars": 35,
+      "max_cards": 2,
+      "max_chars_per_card": 40
+    },
+    "slide-stat-cards-3up": {
+      "max_headline_chars": 35,
+      "max_cards": 3,
+      "max_chars_per_card": 30,
+      "notes": "Three stat cards. Very tight per-card budget."
+    },
+    "slide-stat-cards-4up": {
+      "max_headline_chars": 30,
+      "max_cards": 4,
+      "max_chars_per_card": 25,
+      "notes": "Four stat cards. Minimal text per card."
+    },
+    "slide-chart-bar-css": {
+      "max_headline_chars": 40,
+      "max_bars": 5,
+      "max_label_chars": 15
+    },
+    "slide-chart-donut-css": {
+      "max_headline_chars": 40,
+      "max_center_number_digits": 4,
+      "max_center_label_chars": 20
+    },
+    "slide-chart-line-css": {
+      "max_headline_chars": 40,
+      "max_annotations": 3,
+      "max_chars_per_annotation": 25
+    },
+    "slide-chart-waffle-css": {
+      "max_headline_chars": 40,
+      "max_subtitle_chars": 50
+    },
+    "slide-metric-row": {
+      "max_headline_chars": 35,
+      "max_metrics": 3,
+      "max_label_chars": 15,
+      "max_value_digits": 5
+    },
+    "slide-comparison-bars": {
+      "max_headline_chars": 35,
+      "max_pairs": 3,
+      "max_label_chars": 15
+    },
+    "slide-timeline-steps": {
+      "max_headline_chars": 35,
+      "max_steps": 4,
+      "max_chars_per_step": 30
+    },
+    "slide-tip-blocks": {
+      "inherits": "L03_standard_tip"
+    },
+    "slide-terminal": {
+      "inherits": "L04_terminal"
+    },
+    "slide-before-after": {
+      "inherits": "L06_comparison"
+    },
+    "slide-before-after-stacked": {
+      "max_headline_chars": 40,
+      "max_before_chars": 50,
+      "max_after_chars": 50,
+      "notes": "Stacked before/after (not side by side)."
+    },
+    "slide-ranked-list": {
+      "inherits": "L10_ranked_list"
+    },
+    "slide-warning-box": {
+      "inherits": "L11_warning_box"
+    },
+    "slide-myth-vs-reality": {
+      "inherits": "L06_comparison"
+    },
+    "slide-process-steps": {
+      "max_headline_chars": 35,
+      "max_steps": 4,
+      "max_chars_per_step": 35,
+      "notes": "Numbered process with descriptions."
+    },
+    "slide-info-card": {
+      "max_headline_chars": 40,
+      "max_body_chars": 120,
+      "max_body_lines": 3
+    },
+    "slide-faq-accordion": {
+      "max_headline_chars": 35,
+      "max_faqs": 3,
+      "max_question_chars": 50,
+      "max_answer_chars": 60
+    },
+    "slide-tool-comparison": {
+      "max_headline_chars": 35,
+      "max_tools": 3,
+      "max_tool_name_chars": 20,
+      "max_chars_per_bullet": 30
+    },
+    "slide-common-mistakes": {
+      "max_headline_chars": 40,
+      "max_mistakes": 3,
+      "max_chars_per_mistake": 45
+    },
+    "slide-before-after-proof": {
+      "inherits": "L06_comparison"
+    },
+    "slide-case-study": {
+      "max_headline_chars": 35,
+      "max_client_name_chars": 25,
+      "max_result_chars": 60,
+      "max_quote_chars": 80
+    },
+    "slide-client-logos": {
+      "max_headline_chars": 40,
+      "max_subtitle_chars": 60,
+      "max_logos": 6
+    },
+    "slide-press-quote": {
+      "max_quote_chars": 100,
+      "max_attribution_chars": 50,
+      "max_publication_chars": 30
+    },
+    "slide-pull-quote": {
+      "inherits": "L05_pull_quote"
+    },
+    "slide-pull-quote-avatar": {
+      "max_quote_chars": 80,
+      "max_name_chars": 30,
+      "max_role_chars": 40
+    },
+    "slide-results-grid": {
+      "max_headline_chars": 35,
+      "max_results": 4,
+      "max_number_digits": 4,
+      "max_label_chars": 20
+    },
+    "slide-testimonial-cascade": {
+      "max_headline_chars": 35,
+      "max_testimonials": 3,
+      "max_quote_chars": 60,
+      "max_name_chars": 25
+    },
+    "slide-testimonial": {
+      "max_quote_chars": 100,
+      "max_attribution_chars": 50
+    },
+    "slide-video-testimonial": {
+      "max_headline_chars": 35,
+      "max_subtitle_chars": 50,
+      "max_cta_chars": 30
+    },
+    "slide-social-proof-badges": {
+      "max_headline_chars": 40,
+      "max_badges": 4,
+      "max_chars_per_badge": 25
+    },
+    "slide-data-table": {
+      "max_headline_chars": 35,
+      "max_rows": 4,
+      "max_cols": 3,
+      "max_chars_per_cell": 20
+    },
+    "slide-cta-box": {
+      "inherits": "L07_cta_card"
+    },
+    "slide-button-center": {
+      "max_headline_chars": 50,
+      "max_button_text_chars": 25,
+      "max_subtitle_chars": 60
+    },
+    "slide-contact-split": {
+      "max_headline_chars": 40,
+      "max_contact_methods": 3,
+      "max_label_chars": 20
+    },
+    "slide-social-proof-cta": {
+      "max_headline_chars": 40,
+      "max_social_line_chars": 50,
+      "max_cta_chars": 30
+    },
+    "slide-urgency-countdown": {
+      "max_headline_chars": 40,
+      "max_urgency_chars": 30
+    },
+    "slide-form-fields": {
+      "max_headline_chars": 35,
+      "max_fields": 3,
+      "max_label_chars": 20
+    },
+    "slide-calendar-booking": {
+      "max_headline_chars": 40,
+      "max_subtitle_chars": 50,
+      "max_cta_chars": 30
+    },
+    "slide-faq-closer": {
+      "max_headline_chars": 40,
+      "max_faqs": 3,
+      "max_question_chars": 50,
+      "max_answer_chars": 50
+    },
+    "slide-chapter-title": {
+      "max_title_chars": 40,
+      "max_subtitle_chars": 60
+    },
+    "slide-color-block": {
+      "max_text_chars": 80
+    },
+    "slide-full-bleed-image": {
+      "max_overlay_text_chars": 60
+    },
+    "slide-divider-transition": {
+      "max_text_chars": 40
+    }
+  },
+  "component_contracts": {
+    "deco-counter-circle": {
+      "id": "deco-counter-circle",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-glass-panel": {
+      "id": "deco-glass-panel",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-press-row": {
+      "id": "deco-press-row",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-progress-bars": {
+      "id": "deco-progress-bars",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-stamp": {
+      "id": "deco-stamp",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-ticker": {
+      "id": "deco-ticker",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-watermark": {
+      "id": "deco-watermark",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "deco-cross": {
+      "id": "deco-cross",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s13",
+        "s22",
+        "s23",
+        "s35",
+        "s37",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s31"
+      ]
+    },
+    "deco-diamond": {
+      "id": "deco-diamond",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s13",
+        "s22",
+        "s23",
+        "s35",
+        "s37",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s31"
+      ]
+    },
+    "deco-ornament": {
+      "id": "deco-ornament",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s13",
+        "s22",
+        "s23",
+        "s35",
+        "s37",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s31"
+      ]
+    },
+    "deco-star-4pt": {
+      "id": "deco-star-4pt",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s13",
+        "s22",
+        "s23",
+        "s35",
+        "s37",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s31"
+      ]
+    },
+    "deco-star-6pt": {
+      "id": "deco-star-6pt",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s13",
+        "s22",
+        "s23",
+        "s35",
+        "s37",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s31"
+      ]
+    },
+    "deco-border-double": {
+      "id": "deco-border-double",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s13",
+        "s19",
+        "s22",
+        "s23",
+        "s35",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s11",
+        "s24",
+        "s38",
+        "s43"
+      ]
+    },
+    "deco-corner-frame": {
+      "id": "deco-corner-frame",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s13",
+        "s19",
+        "s22",
+        "s23",
+        "s35",
+        "s42",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s11",
+        "s24",
+        "s38",
+        "s43"
+      ]
+    },
+    "badge-accent": {
+      "id": "badge-accent",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s04",
+        "s07",
+        "s11",
+        "s24",
+        "s31",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s01",
+        "s22",
+        "s23",
+        "s42",
+        "s48"
+      ]
+    },
+    "badge-rank": {
+      "id": "badge-rank",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s04",
+        "s07",
+        "s11",
+        "s24",
+        "s31",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s01",
+        "s22",
+        "s23",
+        "s42",
+        "s48"
+      ]
+    },
+    "badge-system": {
+      "id": "badge-system",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s04",
+        "s07",
+        "s11",
+        "s24",
+        "s31",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s01",
+        "s22",
+        "s23",
+        "s42",
+        "s48"
+      ]
+    },
+    "deco-badge-ribbon": {
+      "id": "deco-badge-ribbon",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s04",
+        "s07",
+        "s11",
+        "s24",
+        "s31",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s01",
+        "s22",
+        "s23",
+        "s42",
+        "s48"
+      ]
+    },
+    "deco-badge-tag": {
+      "id": "deco-badge-tag",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s04",
+        "s07",
+        "s11",
+        "s24",
+        "s31",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s01",
+        "s22",
+        "s23",
+        "s42",
+        "s48"
+      ]
+    },
+    "deco-echo-ghost": {
+      "id": "deco-echo-ghost",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s07",
+        "s13",
+        "s22",
+        "s25",
+        "s35",
+        "s37"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ]
+    },
+    "deco-highlight-underline": {
+      "id": "deco-highlight-underline",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s07",
+        "s13",
+        "s22",
+        "s25",
+        "s35",
+        "s37"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ]
+    },
+    "deco-outline-text": {
+      "id": "deco-outline-text",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s07",
+        "s13",
+        "s22",
+        "s25",
+        "s35",
+        "s37"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ]
+    },
+    "type-ampersand": {
+      "id": "type-ampersand",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s07",
+        "s13",
+        "s22",
+        "s25",
+        "s35",
+        "s37"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ]
+    },
+    "type-big-number": {
+      "id": "type-big-number",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s07",
+        "s13",
+        "s22",
+        "s25",
+        "s35",
+        "s37"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ]
+    },
+    "type-watermark": {
+      "id": "type-watermark",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s07",
+        "s13",
+        "s22",
+        "s25",
+        "s35",
+        "s37"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ]
+    },
+    "deco-brand-anchor": {
+      "id": "deco-brand-anchor",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s08",
+        "s16",
+        "s20",
+        "s29",
+        "s33",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s32",
+        "s36"
+      ]
+    },
+    "deco-masthead": {
+      "id": "deco-masthead",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s08",
+        "s16",
+        "s20",
+        "s29",
+        "s33",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s32",
+        "s36"
+      ]
+    },
+    "deco-progress-dots": {
+      "id": "deco-progress-dots",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s08",
+        "s16",
+        "s20",
+        "s29",
+        "s33",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s32",
+        "s36"
+      ]
+    },
+    "deco-swipe-pill": {
+      "id": "deco-swipe-pill",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s08",
+        "s16",
+        "s20",
+        "s29",
+        "s33",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s32",
+        "s36"
+      ]
+    },
+    "frame-polaroid": {
+      "id": "frame-polaroid",
+      "category": "decorative",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "geo-circuit-board": {
+      "id": "geo-circuit-board",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-concentric-rings": {
+      "id": "geo-concentric-rings",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-cross-grid": {
+      "id": "geo-cross-grid",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-dot-grid": {
+      "id": "geo-dot-grid",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-hex-grid": {
+      "id": "geo-hex-grid",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-molecular-nodes": {
+      "id": "geo-molecular-nodes",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-parametric-curves": {
+      "id": "geo-parametric-curves",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-radial-burst": {
+      "id": "geo-radial-burst",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-triangular-mesh": {
+      "id": "geo-triangular-mesh",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-wireframe-flat": {
+      "id": "geo-wireframe-flat",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-wireframe-isometric": {
+      "id": "geo-wireframe-isometric",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "geo-wireframe-perspective": {
+      "id": "geo-wireframe-perspective",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s19",
+        "s25",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "light-neon-border",
+        "deco-progress-dots",
+        "mock-terminal-mac",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "org-blob-scattered",
+        "tex-paper-fibers",
+        "pat-waves-subtle"
+      ]
+    },
+    "org-blob-center": {
+      "id": "org-blob-center",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-blob-corner": {
+      "id": "org-blob-corner",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-blob-scattered": {
+      "id": "org-blob-scattered",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-cloud-form": {
+      "id": "org-cloud-form",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-ink-splash": {
+      "id": "org-ink-splash",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-marble-vein": {
+      "id": "org-marble-vein",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-particle-field": {
+      "id": "org-particle-field",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-smoke-trail": {
+      "id": "org-smoke-trail",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-wave-horizontal": {
+      "id": "org-wave-horizontal",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "org-wave-radial": {
+      "id": "org-wave-radial",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s03",
+        "s06",
+        "s10",
+        "s11",
+        "s12",
+        "s18",
+        "s23",
+        "s32",
+        "s36",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "light-glow-radial-center",
+        "deco-ornament",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "geo-circuit-board",
+        "geo-hex-grid",
+        "geo-wireframe-perspective"
+      ]
+    },
+    "light-ambient-orb": {
+      "id": "light-ambient-orb",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-glow-accent": {
+      "id": "light-glow-accent",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-glow-radial-center": {
+      "id": "light-glow-radial-center",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-glow-radial-corner": {
+      "id": "light-glow-radial-corner",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-lens-flare": {
+      "id": "light-lens-flare",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-light-leak": {
+      "id": "light-light-leak",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-neon-border": {
+      "id": "light-neon-border",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "light-volumetric-beam": {
+      "id": "light-volumetric-beam",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s06",
+        "s08",
+        "s16",
+        "s20",
+        "s21",
+        "s29",
+        "s33",
+        "s37",
+        "s40",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s07",
+        "s19",
+        "s23",
+        "s25",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "mock-terminal-mac",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "tex-grain-heavy",
+        "tex-scratch-overlay"
+      ]
+    },
+    "tex-canvas-weave": {
+      "id": "tex-canvas-weave",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-carbon-fiber": {
+      "id": "tex-carbon-fiber",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-dust-particles": {
+      "id": "tex-dust-particles",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-grain-fine": {
+      "id": "tex-grain-fine",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-grain-heavy": {
+      "id": "tex-grain-heavy",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-noise-color": {
+      "id": "tex-noise-color",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-paper-fibers": {
+      "id": "tex-paper-fibers",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "tex-scratch-overlay": {
+      "id": "tex-scratch-overlay",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s18",
+        "s22",
+        "s30",
+        "s32",
+        "s35",
+        "s40",
+        "s42",
+        "s44",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s26",
+        "s39"
+      ],
+      "pairs_well_with": [
+        "deco-stamp",
+        "deco-corner-frame",
+        "slide-pull-quote"
+      ],
+      "conflicts_with": [
+        "light-lens-flare",
+        "light-ambient-orb"
+      ]
+    },
+    "pat-checkerboard": {
+      "id": "pat-checkerboard",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-geo-repeat": {
+      "id": "pat-geo-repeat",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-halftone": {
+      "id": "pat-halftone",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-polka-dots": {
+      "id": "pat-polka-dots",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-stripe-diagonal": {
+      "id": "pat-stripe-diagonal",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-stripe-horizontal": {
+      "id": "pat-stripe-horizontal",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-stripe-vertical": {
+      "id": "pat-stripe-vertical",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "pat-waves-subtle": {
+      "id": "pat-waves-subtle",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s07",
+        "s19",
+        "s24",
+        "s25",
+        "s31",
+        "s34",
+        "s38",
+        "s43",
+        "s45"
+      ],
+      "avoid_systems": [
+        "s08",
+        "s14",
+        "s33",
+        "s42"
+      ],
+      "pairs_well_with": [
+        "deco-badge-tag",
+        "slide-big-number",
+        "mock-metric-card"
+      ],
+      "conflicts_with": [
+        "org-marble-vein",
+        "tex-noise-color"
+      ]
+    },
+    "atm-fog-bottom": {
+      "id": "atm-fog-bottom",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s30",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s19",
+        "s23",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "deco-ticker",
+        "slide-cinematic-title",
+        "mock-app-browser"
+      ],
+      "conflicts_with": [
+        "light-volumetric-beam",
+        "light-neon-border"
+      ]
+    },
+    "atm-fog-full": {
+      "id": "atm-fog-full",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s30",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s19",
+        "s23",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "deco-ticker",
+        "slide-cinematic-title",
+        "mock-app-browser"
+      ],
+      "conflicts_with": [
+        "light-volumetric-beam",
+        "light-neon-border"
+      ]
+    },
+    "atm-scan-lines": {
+      "id": "atm-scan-lines",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s30",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s19",
+        "s23",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "deco-ticker",
+        "slide-cinematic-title",
+        "mock-app-browser"
+      ],
+      "conflicts_with": [
+        "light-volumetric-beam",
+        "light-neon-border"
+      ]
+    },
+    "atm-static-noise": {
+      "id": "atm-static-noise",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s30",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s19",
+        "s23",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "deco-ticker",
+        "slide-cinematic-title",
+        "mock-app-browser"
+      ],
+      "conflicts_with": [
+        "light-volumetric-beam",
+        "light-neon-border"
+      ]
+    },
+    "atm-vignette-heavy": {
+      "id": "atm-vignette-heavy",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s30",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s19",
+        "s23",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "deco-ticker",
+        "slide-cinematic-title",
+        "mock-app-browser"
+      ],
+      "conflicts_with": [
+        "light-volumetric-beam",
+        "light-neon-border"
+      ]
+    },
+    "atm-vignette-soft": {
+      "id": "atm-vignette-soft",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s30",
+        "s40"
+      ],
+      "avoid_systems": [
+        "s05",
+        "s19",
+        "s23",
+        "s31",
+        "s39",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "deco-ticker",
+        "slide-cinematic-title",
+        "mock-app-browser"
+      ],
+      "conflicts_with": [
+        "light-volumetric-beam",
+        "light-neon-border"
+      ]
+    },
+    "acc-border-thick": {
+      "id": "acc-border-thick",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-border-thin": {
+      "id": "acc-border-thin",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-corner-bracket": {
+      "id": "acc-corner-bracket",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-corner-frame": {
+      "id": "acc-corner-frame",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-corner-L": {
+      "id": "acc-corner-L",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-diagonal-band": {
+      "id": "acc-diagonal-band",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-rule-divider": {
+      "id": "acc-rule-divider",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "acc-shape-scatter": {
+      "id": "acc-shape-scatter",
+      "category": "layers",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s35",
+        "s37",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s23",
+        "s32",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "deco-corner-frame",
+        "deco-border-double",
+        "slide-editorial-index"
+      ],
+      "conflicts_with": [
+        "org-ink-splash",
+        "org-smoke-trail"
+      ]
+    },
+    "mock-terminal-mac": {
+      "id": "mock-terminal-mac",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "light-neon-border",
+        "atm-scan-lines",
+        "deco-progress-dots"
+      ],
+      "conflicts_with": [
+        "mock-cv-lines",
+        "mock-app-iphone",
+        "frame-polaroid"
+      ]
+    },
+    "mock-terminal-minimal": {
+      "id": "mock-terminal-minimal",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "light-neon-border",
+        "atm-scan-lines",
+        "deco-progress-dots"
+      ],
+      "conflicts_with": [
+        "mock-cv-lines",
+        "mock-app-iphone",
+        "frame-polaroid"
+      ]
+    },
+    "mock-terminal-windows": {
+      "id": "mock-terminal-windows",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s12",
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "light-neon-border",
+        "atm-scan-lines",
+        "deco-progress-dots"
+      ],
+      "conflicts_with": [
+        "mock-cv-lines",
+        "mock-app-iphone",
+        "frame-polaroid"
+      ]
+    },
+    "mock-cv-lines": {
+      "id": "mock-cv-lines",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s12",
+        "s17",
+        "s23",
+        "s33",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "org-blob-corner",
+        "light-glow-accent",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "mock-terminal-mac",
+        "mock-code-syntax-light"
+      ]
+    },
+    "mock-cv-timeline": {
+      "id": "mock-cv-timeline",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s12",
+        "s17",
+        "s23",
+        "s33",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "org-blob-corner",
+        "light-glow-accent",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "mock-terminal-mac",
+        "mock-code-syntax-light"
+      ]
+    },
+    "mock-cv-two-column": {
+      "id": "mock-cv-two-column",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s12",
+        "s17",
+        "s23",
+        "s33",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "org-blob-corner",
+        "light-glow-accent",
+        "deco-watermark"
+      ],
+      "conflicts_with": [
+        "mock-terminal-mac",
+        "mock-code-syntax-light"
+      ]
+    },
+    "mock-app-browser": {
+      "id": "mock-app-browser",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "geo-wireframe-flat",
+        "light-glow-radial-corner",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "mock-terminal-minimal",
+        "mock-cv-two-column"
+      ]
+    },
+    "mock-app-chat": {
+      "id": "mock-app-chat",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "geo-wireframe-flat",
+        "light-glow-radial-corner",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "mock-terminal-minimal",
+        "mock-cv-two-column"
+      ]
+    },
+    "mock-app-iphone": {
+      "id": "mock-app-iphone",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "geo-wireframe-flat",
+        "light-glow-radial-corner",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "mock-terminal-minimal",
+        "mock-cv-two-column"
+      ]
+    },
+    "mock-app-notification": {
+      "id": "mock-app-notification",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "geo-wireframe-flat",
+        "light-glow-radial-corner",
+        "deco-brand-anchor"
+      ],
+      "conflicts_with": [
+        "mock-terminal-minimal",
+        "mock-cv-two-column"
+      ]
+    },
+    "mock-code-diff": {
+      "id": "mock-code-diff",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s18",
+        "s23",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "light-volumetric-beam",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "mock-form-input",
+        "mock-checklist"
+      ]
+    },
+    "mock-code-syntax-light": {
+      "id": "mock-code-syntax-light",
+      "category": "mock-ui",
+      "technique_count": 2,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s03",
+        "s10",
+        "s18",
+        "s23",
+        "s36",
+        "s48"
+      ],
+      "pairs_well_with": [
+        "geo-circuit-board",
+        "light-volumetric-beam",
+        "deco-masthead"
+      ],
+      "conflicts_with": [
+        "mock-form-input",
+        "mock-checklist"
+      ]
+    },
+    "form-checkout": {
+      "id": "form-checkout",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "form-login": {
+      "id": "form-login",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "form-subscribe": {
+      "id": "form-subscribe",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "mock-checklist": {
+      "id": "mock-checklist",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s17",
+        "s26",
+        "s31",
+        "s33",
+        "s39",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "pat-stripe-diagonal",
+        "deco-badge-ribbon",
+        "deco-counter-circle"
+      ],
+      "conflicts_with": [
+        "mock-terminal-windows",
+        "mock-code-diff"
+      ]
+    },
+    "mock-form-button-solid": {
+      "id": "mock-form-button-solid",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 1.0,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s17",
+        "s26",
+        "s31",
+        "s33",
+        "s39",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "pat-stripe-diagonal",
+        "deco-badge-ribbon",
+        "deco-counter-circle"
+      ],
+      "conflicts_with": [
+        "mock-terminal-windows",
+        "mock-code-diff"
+      ]
+    },
+    "mock-form-checkbox": {
+      "id": "mock-form-checkbox",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s17",
+        "s26",
+        "s31",
+        "s33",
+        "s39",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "pat-stripe-diagonal",
+        "deco-badge-ribbon",
+        "deco-counter-circle"
+      ],
+      "conflicts_with": [
+        "mock-terminal-windows",
+        "mock-code-diff"
+      ]
+    },
+    "mock-form-input": {
+      "id": "mock-form-input",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s17",
+        "s26",
+        "s31",
+        "s33",
+        "s39",
+        "s48"
+      ],
+      "avoid_systems": [
+        "s06",
+        "s21",
+        "s27",
+        "s29",
+        "s40"
+      ],
+      "pairs_well_with": [
+        "pat-stripe-diagonal",
+        "deco-badge-ribbon",
+        "deco-counter-circle"
+      ],
+      "conflicts_with": [
+        "mock-terminal-windows",
+        "mock-code-diff"
+      ]
+    },
+    "mock-display-badge-row": {
+      "id": "mock-display-badge-row",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s14",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "geo-dot-grid",
+        "deco-progress-bars",
+        "mock-display-badge-row"
+      ],
+      "conflicts_with": [
+        "mock-app-chat",
+        "message-chat"
+      ]
+    },
+    "mock-display-table-mini": {
+      "id": "mock-display-table-mini",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s14",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "geo-dot-grid",
+        "deco-progress-bars",
+        "mock-display-badge-row"
+      ],
+      "conflicts_with": [
+        "mock-app-chat",
+        "message-chat"
+      ]
+    },
+    "mock-metric-card": {
+      "id": "mock-metric-card",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s08",
+        "s14",
+        "s16",
+        "s29",
+        "s33",
+        "s40",
+        "s46"
+      ],
+      "avoid_systems": [
+        "s18",
+        "s22",
+        "s23",
+        "s30",
+        "s36"
+      ],
+      "pairs_well_with": [
+        "geo-dot-grid",
+        "deco-progress-bars",
+        "mock-display-badge-row"
+      ],
+      "conflicts_with": [
+        "mock-app-chat",
+        "message-chat"
+      ]
+    },
+    "message-chat": {
+      "id": "message-chat",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "org-blob-scattered",
+        "light-glow-accent",
+        "deco-swipe-pill"
+      ],
+      "conflicts_with": [
+        "mock-metric-card",
+        "mock-display-table-mini"
+      ]
+    },
+    "message-email": {
+      "id": "message-email",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "org-blob-scattered",
+        "light-glow-accent",
+        "deco-swipe-pill"
+      ],
+      "conflicts_with": [
+        "mock-metric-card",
+        "mock-display-table-mini"
+      ]
+    },
+    "message-notification": {
+      "id": "message-notification",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s02",
+        "s05",
+        "s08",
+        "s16",
+        "s26",
+        "s33",
+        "s41"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s22",
+        "s30",
+        "s35"
+      ],
+      "pairs_well_with": [
+        "org-blob-scattered",
+        "light-glow-accent",
+        "deco-swipe-pill"
+      ],
+      "conflicts_with": [
+        "mock-metric-card",
+        "mock-display-table-mini"
+      ]
+    },
+    "ecom-pricing-table": {
+      "id": "ecom-pricing-table",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s10",
+        "s13",
+        "s24",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "pat-checkerboard",
+        "deco-badge-tag",
+        "ecom-pricing-table"
+      ],
+      "conflicts_with": [
+        "mock-terminal-mac",
+        "mock-code-syntax-light"
+      ]
+    },
+    "ecom-product-card": {
+      "id": "ecom-product-card",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5,
+      "best_for_systems": [
+        "s01",
+        "s04",
+        "s10",
+        "s13",
+        "s24",
+        "s38",
+        "s43"
+      ],
+      "avoid_systems": [
+        "s07",
+        "s19",
+        "s25",
+        "s29",
+        "s46"
+      ],
+      "pairs_well_with": [
+        "pat-checkerboard",
+        "deco-badge-tag",
+        "ecom-pricing-table"
+      ],
+      "conflicts_with": [
+        "mock-terminal-mac",
+        "mock-code-syntax-light"
+      ]
+    },
+    "icon-avatar-row": {
+      "id": "icon-avatar-row",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "pairs_well_with": [
+        "deco-brand-anchor",
+        "deco-progress-dots",
+        "icon-social"
+      ],
+      "conflicts_with": [
+        "deco-masthead",
+        "deco-ticker"
+      ]
+    },
+    "icon-social": {
+      "id": "icon-social",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 1.0,
+      "pairs_well_with": [
+        "deco-brand-anchor",
+        "deco-progress-dots",
+        "icon-social"
+      ],
+      "conflicts_with": [
+        "deco-masthead",
+        "deco-ticker"
+      ]
+    },
+    "icon-star-rating": {
+      "id": "icon-star-rating",
+      "category": "mock-ui",
+      "technique_count": 1,
+      "visual_weight": "low",
+      "file_size_impact_kb": 2.5,
+      "pairs_well_with": [
+        "deco-brand-anchor",
+        "deco-progress-dots",
+        "icon-social"
+      ],
+      "conflicts_with": [
+        "deco-masthead",
+        "deco-ticker"
+      ]
+    },
+    "slide-cinematic-title": {
+      "id": "slide-cinematic-title",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-contrast-flip": {
+      "id": "slide-contrast-flip",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-editorial-index": {
+      "id": "slide-editorial-index",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-editorial-split": {
+      "id": "slide-editorial-split",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-giant-lockup": {
+      "id": "slide-giant-lockup",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-hero-image-text": {
+      "id": "slide-hero-image-text",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-hook-lockup": {
+      "id": "slide-hook-lockup",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-poster-center": {
+      "id": "slide-poster-center",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-poster-left": {
+      "id": "slide-poster-left",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-problem-agitation": {
+      "id": "slide-problem-agitation",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-question-stack": {
+      "id": "slide-question-stack",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-stat-hero": {
+      "id": "slide-stat-hero",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-big-number-from-to": {
+      "id": "slide-big-number-from-to",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-big-number": {
+      "id": "slide-big-number",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-chart-bar-css": {
+      "id": "slide-chart-bar-css",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-chart-donut-css": {
+      "id": "slide-chart-donut-css",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-chart-line-css": {
+      "id": "slide-chart-line-css",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-chart-waffle-css": {
+      "id": "slide-chart-waffle-css",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-comparison-bars": {
+      "id": "slide-comparison-bars",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-metric-row": {
+      "id": "slide-metric-row",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-stat-cards-2up": {
+      "id": "slide-stat-cards-2up",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-stat-cards-3up": {
+      "id": "slide-stat-cards-3up",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-stat-cards-4up": {
+      "id": "slide-stat-cards-4up",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-timeline-steps": {
+      "id": "slide-timeline-steps",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-before-after-stacked": {
+      "id": "slide-before-after-stacked",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-before-after": {
+      "id": "slide-before-after",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-common-mistakes": {
+      "id": "slide-common-mistakes",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-faq-accordion": {
+      "id": "slide-faq-accordion",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-info-card": {
+      "id": "slide-info-card",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-myth-vs-reality": {
+      "id": "slide-myth-vs-reality",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-process-steps": {
+      "id": "slide-process-steps",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-ranked-list": {
+      "id": "slide-ranked-list",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-terminal": {
+      "id": "slide-terminal",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-tip-blocks": {
+      "id": "slide-tip-blocks",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-tool-comparison": {
+      "id": "slide-tool-comparison",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-warning-box": {
+      "id": "slide-warning-box",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-before-after-proof": {
+      "id": "slide-before-after-proof",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-case-study": {
+      "id": "slide-case-study",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-client-logos": {
+      "id": "slide-client-logos",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-data-table": {
+      "id": "slide-data-table",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-press-quote": {
+      "id": "slide-press-quote",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-pull-quote-avatar": {
+      "id": "slide-pull-quote-avatar",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-pull-quote": {
+      "id": "slide-pull-quote",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-results-grid": {
+      "id": "slide-results-grid",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-social-proof-badges": {
+      "id": "slide-social-proof-badges",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-testimonial-cascade": {
+      "id": "slide-testimonial-cascade",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-testimonial": {
+      "id": "slide-testimonial",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-video-testimonial": {
+      "id": "slide-video-testimonial",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-button-center": {
+      "id": "slide-button-center",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-calendar-booking": {
+      "id": "slide-calendar-booking",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-contact-split": {
+      "id": "slide-contact-split",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-cta-box": {
+      "id": "slide-cta-box",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-faq-closer": {
+      "id": "slide-faq-closer",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-form-fields": {
+      "id": "slide-form-fields",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-social-proof-cta": {
+      "id": "slide-social-proof-cta",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-urgency-countdown": {
+      "id": "slide-urgency-countdown",
+      "category": "slides",
+      "technique_count": 2,
+      "visual_weight": "high",
+      "file_size_impact_kb": 4.0
+    },
+    "slide-chapter-title": {
+      "id": "slide-chapter-title",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-color-block": {
+      "id": "slide-color-block",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-divider-transition": {
+      "id": "slide-divider-transition",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    },
+    "slide-full-bleed-image": {
+      "id": "slide-full-bleed-image",
+      "category": "slides",
+      "technique_count": 1,
+      "visual_weight": "medium",
+      "file_size_impact_kb": 2.5
+    }
+  }
+}

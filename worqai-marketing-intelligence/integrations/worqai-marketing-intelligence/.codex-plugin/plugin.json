@@ -1,0 +1,18 @@
+{
+  "name": "worqai-marketing-intelligence",
+  "version": "0.1.0",
+  "description": "Local Codex workflow for original, WMI-grounded WorqAI marketing work.",
+  "author": {
+    "name": "WorqAI"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "WorqAI Marketing Intelligence",
+    "shortDescription": "Create and refine WorqAI marketing work.",
+    "longDescription": "Compiles WorqAI context through the local WMI runtime, guides original Codex reasoning, and validates drafts against WMI quality signals.",
+    "developerName": "WorqAI",
+    "category": "Productivity",
+    "capabilities": ["Create", "Analyze"],
+    "defaultPrompt": "Create an original WorqAI marketing asset from my request."
+  }
+}

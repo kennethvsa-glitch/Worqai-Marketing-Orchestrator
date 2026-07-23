@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  .bg-canvas{
+    width:1080px;
+    height:1080px;
+    position:relative;
+    overflow:hidden;
+    background:#0A0A0A;
+  }
+  .bg-deco{
+    position:absolute;
+    pointer-events:none;
+    z-index:1;
+  }
+  .bg-glow{
+    border-radius:50%;
+    filter:blur(80px);
+  }
+  .bg-particle{
+    border-radius:50%;
+    background:#7B9B3A;
+  }
+  .bg-square{
+    border:1px solid rgba(123,155,58,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+
+  <!-- SVG: arc, arc dots, wave lines, wave path, wave dots (1 element, 18 children) -->
+  <svg class="bg-deco" width="1080" height="1080" viewBox="0 0 1080 1080" style="top:0;left:0;">
+    <!-- Arc upper left -->
+    <path d="M 380,0 A 550 550 0 0 1 0,380" fill="none" stroke="#7B9B3A" stroke-width="1.5" stroke-opacity="0.35"/>
+    <!-- Arc dots -->
+    <circle cx="340" cy="60"  r="3"   fill="#7B9B3A" fill-opacity="0.8"/>
+    <circle cx="260" cy="160" r="4"   fill="#7B9B3A" fill-opacity="0.9"/>
+    <circle cx="160" cy="260" r="3"   fill="#7B9B3A" fill-opacity="0.7"/>
+    <circle cx="60"  cy="340" r="2.5" fill="#7B9B3A" fill-opacity="0.6"/>
+
+    <!-- Wave lines upper right -->
+    <path d="M 820,0 C 950,150 1080,250 1080,450" fill="none" stroke="#7B9B3A" stroke-width="1" stroke-opacity="0.12"/>
+    <path d="M 880,0 C 1000,120 1080,200 1080,380" fill="none" stroke="#7B9B3A" stroke-width="1" stroke-opacity="0.10"/>
+    <path d="M 940,0 C 1050,100 1080,160 1080,310" fill="none" stroke="#7B9B3A" stroke-width="1" stroke-opacity="0.08"/>
+
+    <!-- Wave glow path left to bottom-right -->
+    <path d="M 0,520 C 200,480 350,700 550,780 S 850,950 1080,920" fill="none" stroke="#7B9B3A" stroke-width="2" stroke-opacity="0.25"/>
+    <!-- Wave dots (10) -->
+    <circle cx="0"    cy="520" r="3"   fill="#7B9B3A" fill-opacity="0.9"/>
+    <circle cx="120"  cy="500" r="2.5" fill="#7B9B3A" fill-opacity="0.7"/>
+    <circle cx="240"  cy="515" r="3.5" fill="#7B9B3A" fill-opacity="0.85"/>
+    <circle cx="360"  cy="600" r="2"   fill="#7B9B3A" fill-opacity="0.6"/>
+    <circle cx="480"  cy="690" r="3"   fill="#7B9B3A" fill-opacity="0.8"/>
+    <circle cx="600"  cy="750" r="4"   fill="#7B9B3A" fill-opacity="0.9"/>
+    <circle cx="720"  cy="800" r="2.5" fill="#7B9B3A" fill-opacity="0.7"/>
+    <circle cx="840"  cy="850" r="3"   fill="#7B9B3A" fill-opacity="0.8"/>
+    <circle cx="960"  cy="900" r="2"   fill="#7B9B3A" fill-opacity="0.6"/>
+    <circle cx="1080" cy="920" r="3.5" fill="#7B9B3A" fill-opacity="0.85"/>
+  </svg>
+
+  <!-- Subtle radial glows -->
+  <div class="bg-deco bg-glow" style="top:-150px;left:-150px;width:600px;height:600px;background:radial-gradient(circle, rgba(123,155,58,0.15) 0%, transparent 70%);"></div>
+  <div class="bg-deco bg-glow" style="bottom:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle, rgba(123,155,58,0.12) 0%, transparent 70%);"></div>
+
+  <!-- Scattered particles (5) -->
+  <div class="bg-deco bg-particle" style="top:180px;left:650px;width:3px;height:3px;box-shadow:0 0 8px rgba(123,155,58,0.5);opacity:0.8;"></div>
+  <div class="bg-deco bg-particle" style="top:350px;left:480px;width:2px;height:2px;box-shadow:0 0 6px rgba(123,155,58,0.4);opacity:0.6;"></div>
+  <div class="bg-deco bg-particle" style="top:450px;left:820px;width:3px;height:3px;box-shadow:0 0 10px rgba(123,155,58,0.6);opacity:0.9;"></div>
+  <div class="bg-deco bg-particle" style="top:750px;left:350px;width:2px;height:2px;box-shadow:0 0 6px rgba(123,155,58,0.4);opacity:0.5;"></div>
+  <div class="bg-deco bg-particle" style="top:950px;left:750px;width:3px;height:3px;box-shadow:0 0 8px rgba(123,155,58,0.5);opacity:0.7;"></div>
+
+  <!-- Small squares (3) -->
+  <div class="bg-deco bg-square" style="top:180px;left:920px;width:10px;height:10px;"></div>
+  <div class="bg-deco bg-square" style="top:420px;left:980px;width:8px;height:8px;"></div>
+  <div class="bg-deco bg-square" style="top:720px;left:940px;width:12px;height:12px;"></div>
+
+</div>
+
+</body>
+</html>

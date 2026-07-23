@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "system": "s08",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "linkedin-invisible",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "diagnostic", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["digital-nebula", "glow-orb", "geo-bokeh"],
+      "copy": {
+        "kicker": "PERFIL SIN TRÁFICO",
+        "headline": "Tu LinkedIn: 4 visitas este mes. Tu sector promedia 51.",
+        "body": "No es suerte. Es estructura."
+      },
+      "decoratives": [
+        { "id": "corner-frame" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(26px,5cqw,38px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; } .hook-body { opacity: 0.88; font-size: clamp(14px,2.5cqw,17px); } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-stat-row",
+      "density": "heavy",
+      "layers": ["digital-nebula", "geo-circuit-trace"],
+      "copy": {
+        "kicker": "LOS NÚMEROS",
+        "headline": "Lo que define si un reclutador llega a tu perfil",
+        "items": [
+          { "number": "40%", "label": "del tráfico viene del buscador de LinkedIn", "icon": "magnifier" },
+          { "number": "7×", "label": "más visitas con titular optimizado vs genérico", "icon": "trending-up" },
+          { "number": "< 8s", "label": "tiempo promedio en tu perfil antes de decidir", "icon": "clock" }
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".stat-card, .sr-card { background: rgba(5,15,40,0.93) !important; border: 1px solid rgba(96,165,250,0.18) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border-radius: 10px; } .stat-num { color: var(--accent); } .kicker { color: var(--accent); opacity: 0.9; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-input-output",
+      "density": "demo",
+      "layers": ["digital-nebula", "geo-bokeh"],
+      "copy": {
+        "kicker": "ANTES vs DESPUÉS",
+        "headline": "El titular que el algoritmo ignora vs el que posiciona",
+        "input_label": "TITULAR TÍPICO",
+        "output_label": "TITULAR OPTIMIZADO",
+        "input_lines": [
+          "Profesional en búsqueda activa",
+          "Estudiante universitario",
+          "HR Manager"
+        ],
+        "output_lines": [
+          "HR Manager | Selección LATAM | ATS & LinkedIn",
+          "Ing. Sistemas | Desarrollo web | Python, React",
+          "Analista financiero | FP&A | Excel avanzado"
+        ],
+        "output_score": "4.8× más búsquedas"
+      },
+      "decoratives": [],
+      "custom_css": ".io-human, .io-ats { background: rgba(5,15,40,0.94) !important; border: 1px solid rgba(96,165,250,0.15) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; } .io-ats-score { color: var(--accent); font-weight: 700; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["digital-nebula", "glow-orb"],
+      "copy": {
+        "question": "¿Tu titular aparece en búsquedas de reclutadores?",
+        "cta_keyword": "OPTIMIZAR",
+        "reward": "WorqAI analiza tu perfil en segundos. Sin costo."
+      },
+      "decoratives": [
+        { "id": "svg-starburst-mark", "position": "tr" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

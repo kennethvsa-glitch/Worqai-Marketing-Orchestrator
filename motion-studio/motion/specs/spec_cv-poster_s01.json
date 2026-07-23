@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 6,
+    "fps": 30,
+    "seed": "worqai-cv-poster",
+    "video_mode": true
+  },
+  "scene": "text-poster",
+  "copy": {
+    "eyebrow": "Tu CV importa",
+    "headline_1": "Tu CV no llega",
+    "headline_2": "al reclutador",
+    "subhead": "Así es como lo cambiamos",
+    "handle": "@worqai"
+  }
+}

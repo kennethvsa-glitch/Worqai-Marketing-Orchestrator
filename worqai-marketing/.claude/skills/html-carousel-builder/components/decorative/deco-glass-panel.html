@@ -1,0 +1,53 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-glass-panel",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+DECORATIVE: GLASSMORPHISM PANEL
+Found in: carousel_portfolio_04.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Translucent frosted-glass overlay for content cards.
+-->
+
+<div class="glass-panel">
+  <!-- Content goes here -->
+  <p class="glass-label">Label</p>
+  <p class="glass-value">Value</p>
+</div>
+
+<style>
+.glass-panel {
+  padding: 28px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative; z-index: 3;
+}
+.glass-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 8px;
+}
+.glass-value {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 36px; font-weight: 700;
+  color: var(--text-primary);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Background opacity: 0.02 (subtle) to 0.08 (visible)
+- Border: accent-tinted border using var(--accent-line)
+- blur: 12px (light) to 24px (heavy frost)
+- Add top accent line: border-top: 2px solid var(--accent)
+-->

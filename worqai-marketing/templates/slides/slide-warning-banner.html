@@ -1,0 +1,22 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="warn-wrap">
+    {# v2: SVG icon. copy.icon may be a sprite name ("warning", "error", "info"...) or fall back to literal text. #}
+    {% set _icon = (copy.icon | default('warning')) | string %}
+    {% set _known_icons = ['warning','error','ok','info','clock','arrow-right','arrow-down','arrow-curved','arrow-thick','chart','trending-up','trending-down','target','lock','key','shield','heart','lightning','trophy','star','magnifier'] %}
+    {% if _icon in _known_icons %}
+    <svg class="warn-icon icon" aria-hidden="true" style="width:72px;height:72px;color:#ff7eb3"><use href="#icon-{{ _icon }}"/></svg>
+    {% else %}
+    <div class="warn-icon">{{ _icon }}</div>
+    {% endif %}
+    {% if copy.headline %}<div class="warn-headline {{ text_treatment_class }}">{{ copy.headline | safe }}</div>{% endif %}
+    {% if copy.body %}<div class="warn-body">{{ copy.body }}</div>{% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

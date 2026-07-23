@@ -1,0 +1,55 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-swipe-pill",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s08",
+      "s16",
+      "s20",
+      "s29",
+      "s33",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s32",
+      "s36"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: SWIPE PILL
+Found in: 5/7 best carousels
+Purpose: User guidance — indicates more slides.
+-->
+
+<div class="swipe-pill">desliza →</div>
+
+<style>
+.swipe-pill {
+  display: inline-block; padding: 8px 18px;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  border-radius: 20px;
+  position: absolute;
+  bottom: 38px; right: var(--pad-x, 80px);
+  z-index: 4;
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Position: bottom-right (default), bottom-left, or inside content area
+- Style: outlined (default), solid fill, or glassmorphism
+- Text: "desliza →", "swipe →", or localized variant
+-->

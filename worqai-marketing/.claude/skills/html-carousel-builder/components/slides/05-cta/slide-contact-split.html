@@ -1,0 +1,45 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-contact-split",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: CONTACT SPLIT
+Purpose: S8 — Split layout with contact info and CTA.
+-->
+
+<div class="content">
+  <div class="contact-split">
+    <div class="cs-left">
+      <p class="cs-label">Contacto</p>
+      <p class="cs-handle">@worqai</p>
+      <p class="cs-email">hola@worqai.com</p>
+    </div>
+    <div class="cs-right">
+      <p class="cs-headline">Hablemos de tu CV</p>
+      <p class="cs-body">Responde con la palabra CV y te enviamos el checklist gratuito para optimizarlo hoy.</p>
+      <div class="cs-kwbox">
+        <span class="cs-keyword">CV</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.contact-split { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: center; margin-top: auto; margin-bottom: auto; }
+.cs-left { display: flex; flex-direction: column; gap: 12px; padding-right: 32px; border-right: 1px solid var(--accent-line); }
+.cs-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); }
+.cs-handle { font-family: var(--font-display), system-ui, sans-serif; font-size: 28px; font-weight: 700; color: var(--text-primary); }
+.cs-email { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; font-weight: 300; color: var(--text-muted); }
+.cs-right { display: flex; flex-direction: column; gap: 16px; }
+.cs-headline { font-family: var(--font-display), system-ui, sans-serif; font-size: 42px; font-weight: 700; line-height: 1.1; color: var(--text-primary); }
+.cs-body { font-family: var(--font-body), system-ui, sans-serif; font-size: 20px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 520px; }
+.cs-kwbox { display: inline-flex; align-items: center; padding: 14px 28px; border: 2px dashed var(--accent-line); border-radius: 10px; margin-top: 8px; }
+.cs-keyword { font-family: var(--font-mono), monospace; font-size: 24px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; }
+</style>

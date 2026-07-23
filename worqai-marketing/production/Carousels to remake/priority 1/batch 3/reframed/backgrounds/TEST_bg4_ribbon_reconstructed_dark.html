@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ribbon Dark Background</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0A0A0A;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;background:#0A0A0A;}
+.canvas::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px 300px;opacity:0.05;pointer-events:none;z-index:10;}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <svg style="position:absolute;inset:0;z-index:1;" viewBox="0 0 1080 1080" width="1080" height="1080" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="rg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="rgba(199,255,58,0.18)"/><stop offset="50%" stop-color="rgba(199,255,58,0.06)"/><stop offset="100%" stop-color="rgba(199,255,58,0.01)"/></linearGradient>
+      <linearGradient id="rg2" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(180,180,190,0.14)"/><stop offset="50%" stop-color="rgba(180,180,190,0.05)"/><stop offset="100%" stop-color="rgba(180,180,190,0.01)"/></linearGradient>
+      <linearGradient id="rg3" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="rgba(199,255,58,0.22)"/><stop offset="60%" stop-color="rgba(199,255,58,0.04)"/><stop offset="100%" stop-color="rgba(199,255,58,0.01)"/></linearGradient>
+      <linearGradient id="rg4" x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="rgba(220,220,230,0.12)"/><stop offset="100%" stop-color="rgba(220,220,230,0.01)"/></linearGradient>
+      <radialGradient id="glow1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(199,255,58,0.25)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="glow2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(199,255,58,0.15)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    </defs>
+    <path d="M -40 120 Q 280 380 620 260 T 1120 480" fill="none" stroke="url(#rg1)" stroke-width="85" stroke-linecap="round" opacity="0.85"/>
+    <path d="M -40 120 Q 280 380 620 260 T 1120 480" fill="none" stroke="rgba(199,255,58,0.35)" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
+    <path d="M -40 120 Q 280 380 620 260 T 1120 480" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    <path d="M -20 80 Q 320 340 540 180 T 920 300" fill="none" stroke="url(#rg2)" stroke-width="70" stroke-linecap="round" opacity="0.7"/>
+    <path d="M -20 80 Q 320 340 540 180 T 920 300" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="22" stroke-linecap="round" opacity="0.6"/>
+    <path d="M -60 960 Q 360 780 620 880 T 1140 600" fill="none" stroke="url(#rg3)" stroke-width="95" stroke-linecap="round" opacity="0.9"/>
+    <path d="M -60 960 Q 360 780 620 880 T 1140 600" fill="none" stroke="rgba(199,255,58,0.40)" stroke-width="32" stroke-linecap="round" opacity="0.95"/>
+    <path d="M -60 960 Q 360 780 620 880 T 1140 600" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 1120 800 Q 760 920 480 780 T -40 1080" fill="none" stroke="url(#rg4)" stroke-width="80" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 1120 800 Q 760 920 480 780 T -40 1080" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="24" stroke-linecap="round" opacity="0.65"/>
+    <path d="M 120 0 Q 440 280 800 120" fill="none" stroke="rgba(199,255,58,0.12)" stroke-width="2" opacity="0.7"/>
+    <path d="M 0 800 Q 340 680 680 900 T 1080 720" fill="none" stroke="rgba(199,255,58,0.10)" stroke-width="2" opacity="0.6"/>
+    <circle cx="160" cy="160" r="180" fill="url(#glow1)" opacity="0.6"/>
+    <circle cx="920" cy="820" r="200" fill="url(#glow2)" opacity="0.5"/>
+    <g fill="rgba(199,255,58,0.45)" opacity="0.7">
+      <circle cx="80" cy="200" r="1.5"/><circle cx="120" cy="160" r="2"/><circle cx="60" cy="280" r="1"/>
+      <circle cx="180" cy="120" r="1.5"/><circle cx="100" cy="320" r="1.2"/><circle cx="220" cy="180" r="1"/>
+      <circle cx="140" cy="260" r="1.5"/><circle cx="90" cy="240" r="1"/><circle cx="200" cy="140" r="1.8"/>
+      <circle cx="160" cy="300" r="1"/><circle cx="110" cy="190" r="1.5"/><circle cx="250" cy="150" r="1"/>
+      <circle cx="850" cy="750" r="1.5"/><circle cx="900" cy="780" r="2"/><circle cx="820" cy="800" r="1.2"/>
+      <circle cx="880" cy="720" r="1.5"/><circle cx="940" cy="760" r="1"/><circle cx="800" cy="840" r="1.8"/>
+      <circle cx="920" cy="850" r="1"/><circle cx="860" cy="820" r="1.5"/><circle cx="890" cy="790" r="1.2"/>
+      <circle cx="840" cy="770" r="1"/><circle cx="870" cy="740" r="1.5"/><circle cx="910" cy="810" r="1"/>
+    </g>
+    <g fill="rgba(255,255,255,0.25)" opacity="0.5">
+      <circle cx="300" cy="80" r="1"/><circle cx="340" cy="120" r="1.5"/><circle cx="280" cy="100" r="1"/>
+      <circle cx="700" cy="950" r="1.5"/><circle cx="740" cy="980" r="1"/><circle cx="680" cy="960" r="1.2"/>
+    </g>
+  </svg>
+</div>
+</body>
+</html>

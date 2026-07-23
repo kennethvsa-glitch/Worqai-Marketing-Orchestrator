@@ -1,0 +1,65 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-big-number",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: BIG NUMBER
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_0-a-4-entrevistas_crimson.html, carousel_pdf-ats-error_worqai-verde.html
+Purpose: S2 — The proof number. Oversized stat + annotation.
+-->
+
+<div class="content">
+  <div class="big-num-wrap">
+    <div class="stat-num">87<span class="pct">%</span></div>
+    <div class="num-context">
+      <p class="num-label">of resumes are rejected</p>
+      <p class="num-source">Source: Forbes, 2024</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.big-num-wrap {
+  display: flex; align-items: baseline;
+  gap: 40px; margin-top: auto; margin-bottom: auto;
+}
+.stat-num {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 280px; font-weight: 900;
+  line-height: 0.85; letter-spacing: -0.04em;
+  color: var(--text-primary);
+}
+.stat-num .pct {
+  font-size: 120px; color: var(--accent);
+  vertical-align: top; margin-left: 8px;
+}
+.num-context {
+  display: flex; flex-direction: column; gap: 16px;
+  max-width: 320px; padding-bottom: 40px;
+}
+.num-label {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 28px; font-weight: 600;
+  line-height: 1.2; color: var(--text-primary);
+}
+.num-source {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- .stat-num font-size: 220px (two digits) to 380px (single digit)
+- Layout: horizontal (default) or vertical stack (.big-num-wrap { flex-direction: column })
+- Add gradient text clip or accent shadow for extra impact
+-->

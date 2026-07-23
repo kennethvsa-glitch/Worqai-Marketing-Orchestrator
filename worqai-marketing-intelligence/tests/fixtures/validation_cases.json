@@ -1,0 +1,50 @@
+[
+  {
+    "name": "good_spanish_reel",
+    "asset_type": "ig_reel",
+    "topic": "errores del CV para graduados",
+    "language": "es-LatAm",
+    "source_text": "",
+    "draft": "Gancho (primeros 3 segundos): tu CV no falla por falta de experiencia, falla porque nadie lee los primeros seis segundos. Beats: mostramos un CV real, marcamos la sección que un reclutador mira primero y explicamos un cambio concreto. Visual: pantalla dividida con el antes y el después. Caption: subí tu CV y revisá la vacante antes de postular. CTA: probá WorqAI y compará tu experiencia real contra el puesto.",
+    "expect_blocked": false
+  },
+  {
+    "name": "bad_absolute_claim",
+    "asset_type": "ig_reel",
+    "topic": "resume tailoring",
+    "language": "en",
+    "source_text": "",
+    "draft": "Our tool gives you guaranteed interviews at every company because it always passes every screen. Hook, beats, and a caption with a clear CTA are all included so the format looks complete.",
+    "expect_blocked": true,
+    "expect_gate": "absolute_claims"
+  },
+  {
+    "name": "bad_language_mismatch",
+    "asset_type": "campaign",
+    "topic": "resume tailoring",
+    "language": "es-LatAm",
+    "source_text": "",
+    "draft": "This is a completely English campaign description that talks about resume tailoring, the application process, and interview preparation with enough words to look complete and a clear next step for the reader to try.",
+    "expect_blocked": true,
+    "expect_gate": "language_match"
+  },
+  {
+    "name": "bad_source_drift",
+    "asset_type": "ig_reel",
+    "topic": "linkedin headline",
+    "language": "en",
+    "source_text": "My LinkedIn profile gets no views. I want to teach three concrete changes to the headline that make recruiters stop scrolling.",
+    "draft": "Hook and beats about neighborhood coffee shops, morning routines, seasonal menus, and where to find the best espresso downtown, with a caption and a CTA to visit on weekends.",
+    "expect_blocked": true,
+    "expect_gate": "source_fidelity"
+  },
+  {
+    "name": "good_partnership_pitch",
+    "asset_type": "partnership_pitch",
+    "topic": "employability pilot",
+    "language": "en",
+    "source_text": "",
+    "draft": "We propose a bounded pilot with your career center for universities and institutions. Target segments: final-year students and recent graduates. Proof to prepare: anonymized before-and-after examples from real student CVs. Objections we expect and answers: data privacy, faculty workload, and measurable outcomes. Next step: a 30-minute scoping call to define success metrics.",
+    "expect_blocked": false
+  }
+]

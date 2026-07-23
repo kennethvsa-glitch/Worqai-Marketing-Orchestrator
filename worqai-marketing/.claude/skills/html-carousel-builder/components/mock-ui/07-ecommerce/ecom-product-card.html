@@ -1,0 +1,63 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "ecom-product-card",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s01",
+      "s04",
+      "s10",
+      "s13",
+      "s24",
+      "s38",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s46"
+    ],
+    "pairs_well_with": [
+      "pat-checkerboard",
+      "deco-badge-tag",
+      "ecom-pricing-table"
+    ],
+    "conflicts_with": [
+      "mock-terminal-mac",
+      "mock-code-syntax-light"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: ECOMMERCE PRODUCT CARD
+Purpose: M7 — Product/service card with price.
+-->
+
+<div class="mock-product">
+  <div class="mp-card">
+    <div class="mp-img"></div>
+    <p class="mp-name">Plan Premium</p>
+    <p class="mp-desc">CV + LinkedIn optimizados</p>
+    <div class="mp-row">
+      <span class="mp-price">$49</span>
+      <span class="mp-btn">Elegir</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.mock-product { display: flex; justify-content: center; }
+.mp-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 20px; width: 220px; display: flex; flex-direction: column; gap: 10px; }
+.mp-img { aspect-ratio: 16/10; background: linear-gradient(135deg, var(--bg-mid), var(--bg-base)); border-radius: 8px; }
+.mp-name { font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.mp-desc { font-family: var(--font-body), system-ui, sans-serif; font-size: 12px; color: var(--text-secondary); }
+.mp-row { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.mp-price { font-family: var(--font-display), system-ui, sans-serif; font-size: 22px; font-weight: 900; color: var(--accent); }
+.mp-btn { padding: 8px 18px; background: var(--accent); color: var(--bg-base); border-radius: 8px; font-family: var(--font-display), system-ui, sans-serif; font-size: 12px; font-weight: 700; }
+</style>

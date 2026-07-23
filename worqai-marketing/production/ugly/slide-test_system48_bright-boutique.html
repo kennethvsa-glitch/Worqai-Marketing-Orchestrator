@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System 48 · Bright Boutique Editorial — Test Slide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,700&family=Raleway:wght@300;400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    :root {
+      --bg-crema:     #F4F0EB;
+      --bg-taupe:     #DDD4C8;
+      --text-dark:    #2D2B2A;
+      --text-navy:    #22334A;
+      --accent-gold:  #9A7330;
+      --ivory:        #FFFBF5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #E8E3DC;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      padding: 32px 16px;
+    }
+
+    .label-top {
+      font-size: 9px; font-weight: 500; letter-spacing: 0.34em;
+      text-transform: uppercase; color: var(--accent-gold);
+      margin-bottom: 16px; text-align: center; opacity: 0.75;
+    }
+
+    /* ── CAROUSEL SHELL ── */
+    .preview-cage { width: 100%; max-width: 432px; }
+    @media (min-width: 1200px) {
+      .preview-cage { transform: scale(0.82); transform-origin: top center; height: 462px; }
+    }
+    .capture-mode .preview-cage { transform: none !important; }
+
+    .viewer { width: 100%; max-width: 432px; overflow: hidden; }
+    .wrap   { position: relative; width: 100%; aspect-ratio: 4 / 5; }
+    .track  { display: flex; width: 100%; height: 100%; }
+
+    /* ── SLIDE BASE ── */
+    .slide {
+      position: relative; min-width: 100%; height: 100%; overflow: hidden;
+      display: flex; flex-direction: column;
+      background: var(--bg-crema);
+    }
+
+    /* Layer 1 — full-slide paper grain (overlay) */
+    .slide::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 8;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.76' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 240px 300px; opacity: 0.038; mix-blend-mode: overlay;
+    }
+
+    /* ── PHOTO ZONE — right 58% ── */
+    .img-zone {
+      position: absolute; z-index: 1;
+      left: 42%; right: 0; top: 0; bottom: 0;
+      background: var(--bg-taupe);
+      background-size: cover; background-position: center top;
+      background-repeat: no-repeat;
+      transition: background-image 0.3s ease;
+    }
+
+    /* Placeholder hint — disappears when photo loads */
+    .photo-hint {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 8px; font-weight: 500;
+      letter-spacing: 0.30em; text-transform: uppercase;
+      color: rgba(45,43,42,0.22);
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .photo-hint svg { opacity: 0.25; }
+    .img-zone.has-image .photo-hint { opacity: 0; }
+
+    /* ── FROSTED VELLUM BLEND — 3-layer system ── */
+    .img-blend {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      background:
+        /* Layer 0: substrate haze — tonal warmth across seam */
+        linear-gradient(to right,
+          transparent                   50%,
+          rgba(244,240,235,0.05)        62%,
+          rgba(244,240,235,0.07)        80%,
+          rgba(244,240,235,0.05)        100%),
+        /* Layer 1: luminous warm haze — panel blends into photo */
+        linear-gradient(to right,
+          transparent                   26%,
+          rgba(252,244,228,0.22)        33%,
+          rgba(252,244,228,0.14)        42%,
+          rgba(252,244,228,0.02)        54%,
+          transparent                   100%),
+        /* Layer 2: soft feather — 12% organic transition */
+        linear-gradient(to right,
+          rgba(244,240,235,1.00)        0%,
+          rgba(244,240,235,1.00)        30%,
+          rgba(244,240,235,0.90)        36%,
+          rgba(244,240,235,0.38)        43%,
+          rgba(244,240,235,0.06)        54%,
+          transparent                   100%);
+    }
+
+    /* Layer 2 — vellum panel grain (multiply, masked to left panel only) */
+    .img-blend::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 180px 220px; opacity: 0.048; mix-blend-mode: multiply;
+      mask-image: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.3) 44%, transparent 58%);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.3) 44%, transparent 58%);
+    }
+
+    /* ── MASTHEAD & COUNTER ── */
+    .masthead {
+      position: absolute; z-index: 9; pointer-events: none;
+      font-family: 'DM Sans', sans-serif; font-size: 8px; font-weight: 500;
+      letter-spacing: 0.42em; text-transform: uppercase;
+      color: rgba(45,43,42,0.48);
+    }
+    .masthead.tl { top: 26px; left: 40px; }
+    .masthead.tr { top: 26px; right: 40px; text-align: right; }
+
+    .counter {
+      position: absolute; z-index: 9; pointer-events: none;
+      font-family: 'DM Sans', sans-serif; font-size: 7px;
+      font-weight: 300; letter-spacing: 0.16em;
+      bottom: 24px; right: 38px;
+      color: rgba(45,43,42,0.16);
+    }
+
+    /* Thin gold accent line — left panel bottom */
+    .panel-rule {
+      position: absolute; z-index: 9; pointer-events: none;
+      bottom: 24px; left: 40px;
+      width: 20px; height: 0.8px;
+      background: var(--accent-gold); opacity: 0.45;
+    }
+
+    /* ── S1 CONTENT PANEL — left 46% ── */
+    .s1-content {
+      position: relative; z-index: 5;
+      width: 46%; height: 100%;
+      padding: 56px 14px 56px 40px;
+      display: flex; flex-direction: column;
+      justify-content: center; gap: 0;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .t-serif-italic {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic; font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.04; letter-spacing: -0.012em;
+      text-shadow: 0 1px 2px rgba(45,43,42,0.05);
+    }
+    .s1-serif-lg { font-size: clamp(44px, 8.2vw, 66px); display: block; margin-bottom: 2px; }
+    .s1-serif-md { font-size: clamp(36px, 6.6vw, 54px); display: block; }
+
+    .t-sans-rule {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400; text-transform: uppercase;
+      letter-spacing: 0.15em; line-height: 1.3;
+      color: rgba(45,43,42,0.68);
+      font-size: clamp(10px, 1.9vw, 15px);
+      display: block; margin-top: 10px; max-width: 92%;
+    }
+
+    /* ── PULL-QUOTE — Effect 11 ── */
+    .pull-quote {
+      display: block;
+      padding: 0 0 0 5px;
+      position: relative;
+      margin-right: -14px; /* bridge rule: crosses the seam */
+      margin-top: 24px;
+    }
+    .pull-quote::before {
+      content: '';
+      display: block;
+      height: 0.8px;
+      width: 58%;
+      background: var(--accent-gold);
+      opacity: 0.70;
+      margin-bottom: 14px;
+    }
+    .pull-quote::after { display: none; }
+    .pull-quote span {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic; font-weight: 700;
+      color: var(--accent-gold);
+      font-size: clamp(30px, 5.6vw, 46px);
+      line-height: 1.18; letter-spacing: -0.025em;
+      display: block; text-align: left;
+    }
+
+    /* ── FILE INPUT ── */
+    .file-input-hidden { display: none; }
+
+    /* ── UPLOAD PANEL ── */
+    .upload-panel-label {
+      font-family: 'DM Sans', sans-serif; font-size: 8.5px; font-weight: 400;
+      letter-spacing: 0.20em; text-transform: uppercase;
+      color: rgba(45,43,42,0.36); text-align: center;
+      margin-top: 20px; margin-bottom: 8px;
+    }
+    .upload-panel { display: flex; gap: 10px; align-items: center; justify-content: center; }
+    .up-btn {
+      display: flex; align-items: center; gap: 7px; padding: 9px 20px;
+      background: rgba(154,115,48,0.05); border: 1px solid rgba(154,115,48,0.30);
+      border-radius: 22px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s; user-select: none;
+    }
+    .up-btn:hover  { background: rgba(154,115,48,0.11); border-color: var(--accent-gold); }
+    .up-btn.done   { border-color: rgba(154,115,48,0.65); background: rgba(154,115,48,0.09); }
+    .up-btn .up-label {
+      font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 500;
+      letter-spacing: 0.20em; text-transform: uppercase; color: rgba(154,115,48,0.70);
+    }
+    .up-btn.done .up-label { color: var(--accent-gold); }
+    .up-btn .up-check { font-size: 11px; color: var(--accent-gold); display: none; }
+    .up-btn.done .up-check { display: inline; }
+
+    /* ── EXPORT ROW ── */
+    .export-row {
+      display: flex; flex-direction: column; align-items: center;
+      margin-top: 14px; gap: 6px;
+    }
+    .export-buttons {
+      display: flex; gap: 10px; align-items: center;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .export-btn {
+      display: flex; align-items: center; gap: 8px; padding: 11px 24px;
+      background: var(--accent-gold); border: none; border-radius: 24px; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .export-btn:hover  { opacity: 0.86; transform: translateY(-1px); }
+    .export-btn:active { opacity: 0.72; transform: translateY(0); }
+    .export-btn .ex-label {
+      font-family: 'DM Sans', sans-serif; font-size: 9.5px; font-weight: 500;
+      letter-spacing: 0.20em; text-transform: uppercase; color: #FFFBF5;
+    }
+    .zip-btn {
+      display: flex; align-items: center; gap: 8px; padding: 11px 24px;
+      background: transparent; border: 1px solid rgba(154,115,48,0.45);
+      border-radius: 24px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .zip-btn:hover  { background: rgba(154,115,48,0.09); border-color: var(--accent-gold); transform: translateY(-1px); }
+    .zip-btn:active { transform: translateY(0); }
+    .zip-btn .zip-label {
+      font-family: 'DM Sans', sans-serif; font-size: 9.5px; font-weight: 500;
+      letter-spacing: 0.20em; text-transform: uppercase; color: var(--accent-gold);
+    }
+    .zip-progress {
+      font-family: 'DM Sans', sans-serif; font-size: 8px; font-weight: 400;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(45,43,42,0.34); text-align: center; min-height: 14px;
+    }
+    .export-note {
+      font-family: 'DM Sans', sans-serif; font-size: 7.5px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(45,43,42,0.24); text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<!-- File input OUTSIDE the carousel (won't be captured by html2canvas) -->
+<input type="file" id="file-s1" class="file-input-hidden" accept="image/*">
+
+<p class="label-top">System 48 · Bright Boutique Editorial · Test</p>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- ── S1 · VELLUM EDITORIAL SPLIT ── -->
+        <div class="slide" id="s1">
+
+          <!-- Photo zone: right 58% -->
+          <div id="zone-s1" class="img-zone"
+               data-image-prompt="Professional woman in structured linen blazer, torso crop, jaw line cropped, looking slightly off-camera with quiet confidence, soft directional window light from the left, warm skin tones, neutral cream and ivory clothing tones, matte editorial film finish, documentary realism NOT lifestyle, asymmetric editorial composition, clean background implied, 4:5 --style raw --v 6.1"
+               data-image-position="right-split">
+            <div class="photo-hint">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="3" width="14" height="10" rx="1.5" stroke="#9A7330" stroke-width="1.2"/>
+                <circle cx="8" cy="8" r="2.5" stroke="#9A7330" stroke-width="1.2"/>
+                <path d="M6 3l.8-1.5h2.4L10 3" stroke="#9A7330" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              sube una foto
+            </div>
+          </div>
+
+          <!-- Frosted vellum blend -->
+          <div class="img-blend"></div>
+
+          <!-- Masthead -->
+          <span class="masthead tl">Profile Pro</span>
+          <span class="masthead tr" style="color:rgba(45,43,42,0.20)">LATAM</span>
+          <span class="counter">1 / 1</span>
+          <div class="panel-rule"></div>
+
+          <!-- Left panel: 46% -->
+          <div class="s1-content">
+            <!-- Copy Choreography: serif italic → sans uppercase → gold pull-quote -->
+            <span class="t-serif-italic s1-serif-lg">Tu CV</span>
+            <span class="t-serif-italic s1-serif-md">llega primero.</span>
+            <span class="t-sans-rule">que tú a<br>la entrevista.</span>
+
+            <!-- Pull-quote — Effect 11, with -14px bridge -->
+            <div class="pull-quote">
+              <span>Que llegue<br>listo.</span>
+            </div>
+          </div>
+
+        </div>
+        <!-- ── end S1 ── -->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── UPLOAD PANEL ── -->
+<p class="upload-panel-label">Foto del slide</p>
+<div class="upload-panel">
+  <label class="up-btn" for="file-s1" id="btn-s1">
+    <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+      <path d="M8 10V3M8 3L5.5 5.5M8 3L10.5 5.5" stroke="#9A7330" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="#9A7330" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="up-label">Slide 1 · Retrato</span>
+    <span class="up-check">&#10003;</span>
+  </label>
+</div>
+
+<!-- ── EXPORT ROW ── -->
+<div class="export-row">
+  <div class="export-buttons">
+    <button class="export-btn" onclick="exportHtml()">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2v8M8 10L5.5 7.5M8 10L10.5 7.5" stroke="#FFFBF5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="#FFFBF5" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="ex-label">Exportar HTML</span>
+    </button>
+    <button class="zip-btn" id="zipBtn" onclick="exportZip()">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+        <rect x="3" y="1" width="10" height="14" rx="1.5" stroke="#9A7330" stroke-width="1.3" fill="none"/>
+        <path d="M7 1v4l2-1.5L11 5V1" stroke="#9A7330" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <line x1="5" y1="8"  x2="11" y2="8"  stroke="#9A7330" stroke-width="1" stroke-linecap="round"/>
+        <line x1="5" y1="10" x2="11" y2="10" stroke="#9A7330" stroke-width="1" stroke-linecap="round"/>
+        <line x1="5" y1="12" x2="9"  y2="12" stroke="#9A7330" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      <span class="zip-label">Exportar ZIP · PNG</span>
+    </button>
+  </div>
+  <p class="zip-progress" id="zipProgress">1080 &times; 1350 px &middot; full quality</p>
+  <p class="export-note">ZIP listo para Meta Ads &middot; PNG sin pérdida</p>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const track  = document.getElementById('track');
+
+  function go(n) {
+    cur = Math.max(0, Math.min(n, slides.length - 1));
+    track.style.transform = `translateX(-${cur * 100}%)`;
+  }
+  go(0);
+
+  // ── UPLOAD ──
+  const uploadMap = [
+    { inputId: 'file-s1', zoneId: 'zone-s1', btnId: 'btn-s1', bgOpacity: null }
+  ];
+  uploadMap.forEach(({ inputId, zoneId, btnId, bgOpacity }) => {
+    document.getElementById(inputId).addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const zone = document.getElementById(zoneId);
+        zone.style.backgroundImage    = `url(${ev.target.result})`;
+        zone.style.backgroundSize     = 'cover';
+        zone.style.backgroundPosition = 'center top';
+        zone.classList.add('has-image');
+        if (bgOpacity) zone.style.opacity = bgOpacity;
+        document.getElementById(btnId).classList.add('done');
+      };
+      reader.readAsDataURL(file);
+      this.value = '';
+    });
+  });
+
+  // ── EXPORT HTML ──
+  function exportHtml() {
+    const btn = document.querySelector('.export-btn');
+    const lbl = btn.querySelector('.ex-label');
+    lbl.textContent = 'Exportando...'; btn.style.opacity = '0.6';
+    setTimeout(() => {
+      try {
+        const clone = document.documentElement.cloneNode(true);
+        ['zone-s1'].forEach(id => {
+          const s = document.getElementById(id);
+          const d = clone.querySelector('#' + id);
+          if (!s || !d) return;
+          ['backgroundImage', 'backgroundSize', 'backgroundPosition', 'opacity'].forEach(p => {
+            if (s.style[p]) d.style[p] = s.style[p];
+          });
+        });
+        clone.querySelectorAll(
+          '.export-row, .upload-panel, .upload-panel-label, .file-input-hidden'
+        ).forEach(el => el.remove());
+        const blob = new Blob(
+          ['<!DOCTYPE html>\n' + clone.outerHTML],
+          { type: 'text/html;charset=utf-8' }
+        );
+        const a = Object.assign(document.createElement('a'), {
+          href: URL.createObjectURL(blob),
+          download: 'slide-system48.html'
+        });
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        lbl.textContent = '&#10003; Descargado'; btn.style.opacity = '1';
+        setTimeout(() => { lbl.textContent = 'Exportar HTML'; }, 2500);
+      } catch (e) {
+        lbl.textContent = 'Error'; btn.style.opacity = '1';
+      }
+    }, 80);
+  }
+
+  // ── EXPORT ZIP ──
+  async function exportZip() {
+    if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+      alert('Necesita conexión a internet para cargar las librerías.'); return;
+    }
+    const zipBtn   = document.getElementById('zipBtn');
+    const progress = document.getElementById('zipProgress');
+    const zipLabel = zipBtn.querySelector('.zip-label');
+    zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+
+    const zip  = new JSZip();
+    const wrap = document.getElementById('wrap');
+    const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+
+    track.style.transition = 'none';
+    document.body.classList.add('capture-mode');
+
+    for (let i = 0; i < slides.length; i++) {
+      zipLabel.textContent = `Capturando ${i + 1} / ${slides.length}...`;
+      progress.textContent = `Slide ${i + 1} de ${slides.length}`;
+      track.style.transform = `translateX(-${i * 100}%)`;
+      await new Promise(r => setTimeout(r, 220));
+      try {
+        const canvas = await html2canvas(wrap, {
+          scale,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: false,
+          imageTimeout: 0
+        });
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+        zip.file(`slide_${String(i + 1).padStart(2, '0')}.png`, blob);
+      } catch (err) {
+        console.error('Slide capture error:', err);
+      }
+    }
+
+    document.body.classList.remove('capture-mode');
+    track.style.transition = '';
+    go(cur);
+
+    zipLabel.textContent = 'Comprimiendo...';
+    const zipBlob = await zip.generateAsync({
+      type: 'blob',
+      compression: 'DEFLATE',
+      compressionOptions: { level: 6 }
+    });
+
+    const a = Object.assign(document.createElement('a'), {
+      href: URL.createObjectURL(zipBlob),
+      download: 'slide-system48.zip'
+    });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+    zipLabel.textContent = '&#10003; ZIP descargado';
+    progress.textContent = `1 archivo &middot; slide_01.png`;
+    zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+    setTimeout(() => {
+      zipLabel.textContent = 'Exportar ZIP &middot; PNG';
+      progress.textContent = '1080 &times; 1350 px &middot; full quality';
+    }, 3000);
+  }
+</script>
+</body>
+</html>

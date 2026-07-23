@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Rift — Tu marca parece un template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #050608; min-height: 100vh; font-family: 'Cormorant Garamond', serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+/* ── TOP LABEL ── */
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #facc6b; margin-bottom: 18px; text-align: center; }
+
+/* ── PREVIEW CAGE ── */
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background: linear-gradient(145deg, #050608, #111319 50%, #181b22);
+         color: #f9fafb; }
+
+/* ── STARBURST GEO (persistent) ── */
+.starburst { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.06; }
+
+/* ── GRAIN (subtle for luxury) ── */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.08;
+                 pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+
+/* ── GOLD RADIAL GLOW ── */
+.gold-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%;
+             background: radial-gradient(circle, rgba(250,204,107,0.08) 0%, transparent 70%);
+             pointer-events: none; z-index: 1; }
+
+/* ── CONTENT LAYER ── */
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #facc6b; }
+.mast-issue { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(249,250,251,0.45); }
+
+/* ── BRAND ANCHOR ── */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 18px;
+              letter-spacing: 0.15em; text-transform: uppercase; }
+.brand-mark .core { color: #f9fafb; }
+.brand-mark .accent { color: #facc6b; }
+.handle { position: absolute; bottom: 38px; left: 280px; z-index: 4;
+          font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(249,250,251,0.35); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: #f9fafb; }
+
+/* ── PROGRESS DOTS ── */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(249,250,251,0.14); }
+.pd.on { background: #facc6b !important; box-shadow: 0 0 8px rgba(250,204,107,0.5); }
+
+/* ── SWIPE PILL ── */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #facc6b; color: #050608;
+              font-family: 'Cinzel Decorative', cursive; font-size: 12px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(250,204,107,0.3); }
+
+/* ── KICKER ── */
+.kicker { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 12px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #facc6b; }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #facc6b;
+                  box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+
+.headline { font-family: 'Cinzel Decorative', cursive; font-weight: 700;
+            font-size: 64px; line-height: 1.05; letter-spacing: 0.04em; color: #f9fafb; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 1 · MANIFESTO STACK
+   ═══════════════════════════════════════════════════════════════ */
+.s1-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 500px; height: 500px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(250,204,107,0.05) 0%, transparent 60%);
+            pointer-events: none; z-index: 1; }
+
+.s1-eyebrow { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.34em; text-transform: uppercase; color: #facc6b;
+              margin-bottom: 36px; padding-bottom: 18px; border-bottom: 2px solid #facc6b;
+              max-width: 380px; text-shadow: 0 0 8px rgba(250,204,107,0.3); }
+.s1-stack { display: flex; flex-direction: column; gap: 14px; }
+.s1-line { font-family: 'Cinzel Decorative', cursive; font-size: 64px; line-height: 1.05;
+           letter-spacing: 0.04em; }
+.s1-line.heavy { font-weight: 700; text-transform: uppercase; color: #f9fafb; }
+.s1-line.light { font-weight: 400; color: #e5e7eb; font-style: italic; font-family: 'Cormorant Garamond', serif; }
+
+.s1-echo-wrap { position: relative; display: inline-block; z-index: 3; }
+.s1-echo-ghost { position: absolute; top: 6px; left: 6px; font-size: 64px; font-weight: 700;
+                 line-height: 1.05; letter-spacing: 0.04em; color: #facc6b; opacity: 0.20;
+                 white-space: nowrap; pointer-events: none; font-family: 'Cinzel Decorative', cursive; }
+.s1-echo-real { position: relative; font-size: 64px; font-weight: 700;
+                line-height: 1.05; letter-spacing: 0.04em; color: #050608;
+                background: #facc6b; padding: 4px 16px; align-self: flex-start;
+                box-shadow: 0 0 30px rgba(250,204,107,0.35); white-space: nowrap;
+                font-family: 'Cinzel Decorative', cursive; }
+
+.s1-line.outline { font-weight: 700; text-transform: uppercase; color: transparent;
+                   -webkit-text-stroke: 1.5px #f9fafb; }
+.s1-byline { margin-top: 36px; font-family: 'Cormorant Garamond', serif; font-size: 16px;
+             font-weight: 500; color: rgba(229,231,235,0.70); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 1px solid rgba(250,204,107,0.18); max-width: 520px;
+             line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 2 · PULL QUOTE
+   ═══════════════════════════════════════════════════════════════ */
+.s2-quote-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center;
+                 flex: 1; text-align: center; gap: 24px; }
+.s2-quote-mark { font-family: 'Cinzel Decorative', cursive; font-size: 120px; color: #facc6b;
+                 opacity: 0.15; line-height: 0.6; margin-bottom: -20px; }
+.s2-quote-text { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 48px;
+                 line-height: 1.15; color: #f9fafb; max-width: 800px; letter-spacing: 0.03em; }
+.s2-quote-attr { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 18px;
+                 color: rgba(229,231,235,0.60); letter-spacing: 0.08em; font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 3 · TIP CARD
+   ═══════════════════════════════════════════════════════════════ */
+.s3-card { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; flex: 1; }
+.s3-col { padding: 32px 30px; display: flex; flex-direction: column; gap: 18px; }
+.s3-col.bad { background: rgba(239,68,68,0.06); border-left: 4px solid #ef4444; }
+.s3-col.good { background: rgba(250,204,107,0.06); border-left: 4px solid #facc6b; }
+.s3-col-tag { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 11px;
+              letter-spacing: 0.34em; text-transform: uppercase; }
+.s3-col.bad .s3-col-tag { color: #ef4444; }
+.s3-col.good .s3-col-tag { color: #facc6b; }
+.s3-col-headline { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 24px;
+                   line-height: 1.2; color: #f9fafb; letter-spacing: 0.03em; }
+.s3-col-body { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 18px;
+               line-height: 1.55; color: rgba(249,250,251,0.72); }
+.s3-col-body strong { color: #f9fafb; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 4 · CTA
+   ═══════════════════════════════════════════════════════════════ */
+.s4-cta-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center;
+               flex: 1; gap: 32px; text-align: center; }
+.s4-cta-q { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 52px;
+            line-height: 1.1; color: #f9fafb; max-width: 800px; letter-spacing: 0.03em; }
+.s4-keyword-box { display: inline-block; background: #050608; color: #facc6b;
+                  padding: 16px 32px; font-family: 'Cinzel Decorative', cursive; font-weight: 700;
+                  font-size: 32px; letter-spacing: 0.12em; border: 2px solid #facc6b;
+                  box-shadow: 0 0 25px rgba(250,204,107,0.25); text-transform: uppercase; }
+.s4-cta-reward { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 20px;
+                 color: rgba(249,250,251,0.80); letter-spacing: 0.04em; }
+
+/* ── CONTROLS ── */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #facc6b; border: none; color: #050608;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900;
+       box-shadow: 0 0 12px rgba(250,204,107,0.3); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(249,250,251,0.15); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #facc6b; width: 24px; box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+.hint { font-size: 11px; color: rgba(249,250,251,0.20); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #facc6b; color: #050608; border: 2px solid #facc6b; cursor: pointer;
+           font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 13px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s;
+           box-shadow: 0 0 20px rgba(250,204,107,0.25); }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(249,250,251,0.40); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+<p class="label-top">Studio Rift · Brand Identity · 4 slides · System 35 Art Deco Gilt</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · MANIFESTO STACK ═══════ -->
+      <section class="slide" id="slide-1">
+        <svg class="starburst" viewBox="0 0 1080 1080">
+          <g stroke="#facc6b" stroke-width="1" fill="none">
+            <line x1="540" y1="540" x2="540" y2="0"/><line x1="540" y1="540" x2="1080" y2="0"/>
+            <line x1="540" y1="540" x2="1080" y2="540"/><line x1="540" y1="540" x2="1080" y2="1080"/>
+            <line x1="540" y1="540" x2="540" y2="1080"/><line x1="540" y1="540" x2="0" y2="1080"/>
+            <line x1="540" y1="540" x2="0" y2="540"/><line x1="540" y1="540" x2="0" y2="0"/>
+            <line x1="540" y1="540" x2="810" y2="135"/><line x1="540" y1="540" x2="945" y2="270"/>
+            <line x1="540" y1="540" x2="945" y2="810"/><line x1="540" y1="540" x2="810" y2="945"/>
+            <line x1="540" y1="540" x2="270" y2="945"/><line x1="540" y1="540" x2="135" y2="810"/>
+            <line x1="540" y1="540" x2="135" y2="270"/><line x1="540" y1="540" x2="270" y2="135"/>
+          </g>
+        </svg>
+        <div class="s1-glow"></div>
+        <div class="gold-glow" style="top:-10%;right:-10%;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifesto · 01</div>
+          <div class="mast-issue">Nov 2026 · Ciudad de México</div>
+        </div>
+        <div class="content">
+          <div class="s1-eyebrow">Lectura · 8 segundos</div>
+          <div class="s1-stack">
+            <div class="s1-line heavy">Tu marca</div>
+            <div class="s1-line light">parece un</div>
+            <div class="s1-line heavy">template</div>
+            <div class="s1-echo-wrap">
+              <span class="s1-echo-ghost">y lo sabés.</span>
+              <span class="s1-echo-real">y lo sabés.</span>
+            </div>
+          </div>
+          <p class="s1-byline">— Los clientes lo notan. Lo sienten. Y lo pagan menos. Una marca genérica cobra precios genéricos.</p>
+          <div class="swipe-pill">Desliza →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Studio</span> <span class="accent">Rift</span></div>
+        <div class="handle">@studiorift · brand identity</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · PULL QUOTE ═══════ -->
+      <section class="slide" id="slide-2">
+        <svg class="starburst" viewBox="0 0 1080 1080">
+          <g stroke="#facc6b" stroke-width="1" fill="none">
+            <line x1="540" y1="540" x2="540" y2="0"/><line x1="540" y1="540" x2="1080" y2="0"/>
+            <line x1="540" y1="540" x2="1080" y2="540"/><line x1="540" y1="540" x2="1080" y2="1080"/>
+            <line x1="540" y1="540" x2="540" y2="1080"/><line x1="540" y1="540" x2="0" y2="1080"/>
+            <line x1="540" y1="540" x2="0" y2="540"/><line x1="540" y1="540" x2="0" y2="0"/>
+            <line x1="540" y1="540" x2="810" y2="135"/><line x1="540" y1="540" x2="945" y2="270"/>
+            <line x1="540" y1="540" x2="945" y2="810"/><line x1="540" y1="540" x2="810" y2="945"/>
+            <line x1="540" y1="540" x2="270" y2="945"/><line x1="540" y1="540" x2="135" y2="810"/>
+            <line x1="540" y1="540" x2="135" y2="270"/><line x1="540" y1="540" x2="270" y2="135"/>
+          </g>
+        </svg>
+        <div class="gold-glow" style="bottom:-20%;left:-15%;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#facc6b;">Manifesto · 01</div>
+          <div class="mast-issue">La verdad que nadie te dice</div>
+        </div>
+        <div class="content">
+          <div class="s2-quote-wrap">
+            <div class="s2-quote-mark">"</div>
+            <div class="s2-quote-text">Una marca genérica cobra precios genéricos</div>
+            <div class="s2-quote-attr">— Studio Rift, 2024</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Studio</span> <span class="accent">Rift</span></div>
+        <div class="handle">@studiorift · brand identity</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · TIP CARD ═══════ -->
+      <section class="slide" id="slide-3">
+        <svg class="starburst" viewBox="0 0 1080 1080">
+          <g stroke="#facc6b" stroke-width="1" fill="none">
+            <line x1="540" y1="540" x2="540" y2="0"/><line x1="540" y1="540" x2="1080" y2="0"/>
+            <line x1="540" y1="540" x2="1080" y2="540"/><line x1="540" y1="540" x2="1080" y2="1080"/>
+            <line x1="540" y1="540" x2="540" y2="1080"/><line x1="540" y1="540" x2="0" y2="1080"/>
+            <line x1="540" y1="540" x2="0" y2="540"/><line x1="540" y1="540" x2="0" y2="0"/>
+            <line x1="540" y1="540" x2="810" y2="135"/><line x1="540" y1="540" x2="945" y2="270"/>
+            <line x1="540" y1="540" x2="945" y2="810"/><line x1="540" y1="540" x2="810" y2="945"/>
+            <line x1="540" y1="540" x2="270" y2="945"/><line x1="540" y1="540" x2="135" y2="810"/>
+            <line x1="540" y1="540" x2="135" y2="270"/><line x1="540" y1="540" x2="270" y2="135"/>
+          </g>
+        </svg>
+        <div class="gold-glow" style="top:30%;right:-20%;opacity:0.6;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifesto · 01</div>
+          <div class="mast-issue">Error · Cómo se hace vs cómo se debería</div>
+        </div>
+        <div class="content">
+          <div class="kicker">Un error. Una solución.</div>
+          <h2 class="headline" style="font-size:48px;">Usás el mismo logo que tu competencia.</h2>
+          <div class="s3-card">
+            <div class="s3-col bad">
+              <div class="s3-col-tag">Problema</div>
+              <div class="s3-col-headline">Tu marca no se diferencia.</div>
+              <div class="s3-col-body">El cliente no te recuerda. Te confunde con otro. Y elige al que le parece más caro.</div>
+            </div>
+            <div class="s3-col good">
+              <div class="s3-col-tag">Solución</div>
+              <div class="s3-col-headline">Invertí en identidad propia.</div>
+              <div class="s3-col-body">Que te reconozcan al instante. <strong>Que paguen más por verte diferente.</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Studio</span> <span class="accent">Rift</span></div>
+        <div class="handle">@studiorift · brand identity</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · CTA ═══════ -->
+      <section class="slide" id="slide-4">
+        <svg class="starburst" viewBox="0 0 1080 1080">
+          <g stroke="#facc6b" stroke-width="1" fill="none">
+            <line x1="540" y1="540" x2="540" y2="0"/><line x1="540" y1="540" x2="1080" y2="0"/>
+            <line x1="540" y1="540" x2="1080" y2="540"/><line x1="540" y1="540" x2="1080" y2="1080"/>
+            <line x1="540" y1="540" x2="540" y2="1080"/><line x1="540" y1="540" x2="0" y2="1080"/>
+            <line x1="540" y1="540" x2="0" y2="540"/><line x1="540" y1="540" x2="0" y2="0"/>
+            <line x1="540" y1="540" x2="810" y2="135"/><line x1="540" y1="540" x2="945" y2="270"/>
+            <line x1="540" y1="540" x2="945" y2="810"/><line x1="540" y1="540" x2="810" y2="945"/>
+            <line x1="540" y1="540" x2="270" y2="945"/><line x1="540" y1="540" x2="135" y2="810"/>
+            <line x1="540" y1="540" x2="135" y2="270"/><line x1="540" y1="540" x2="270" y2="135"/>
+          </g>
+        </svg>
+        <div class="s1-glow" style="opacity:0.5;"></div>
+        <div class="gold-glow" style="top:20%;left:-15%;opacity:0.6;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#facc6b;">Manifesto · 01</div>
+          <div class="mast-issue">Next step</div>
+        </div>
+        <div class="content">
+          <div class="s4-cta-wrap">
+            <div class="s4-cta-q">¿Querés una marca que cobre más?</div>
+            <div class="s4-keyword-box">MARCA</div>
+            <div class="s4-cta-reward">Comentá la palabra y agendá tu diagnóstico.</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Studio</span> <span class="accent">Rift</span></div>
+        <div class="handle">@studiorift · brand identity</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · art deco gilt · starburst</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel-studio-rift-brand.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–04.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · art deco gilt · starburst';
+  }, 3000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-faq-closer",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: FAQ CLOSER
+Purpose: S8 — Answer final objections before CTA.
+-->
+
+<div class="content">
+  <p class="tip-label">Preguntas frecuentes</p>
+  <h2 class="tip-headline">Dudas? Aqui las resolvemos</h2>
+  <div class="faq-close">
+    <div class="fc-item">
+      <p class="fc-q">Cuanto tiempo toma?</p>
+      <p class="fc-a">Entre 3 y 5 dias habiles.</p>
+    </div>
+    <div class="fc-item">
+      <p class="fc-q">Funciona para cualquier industria?</p>
+      <p class="fc-a">Si. Adaptamos keywords y formato a tu sector.</p>
+    </div>
+  </div>
+  <button class="fc-btn">Quiero empezar</button>
+</div>
+
+<style>
+.faq-close { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; margin-bottom: auto; }
+.fc-item { padding: 20px 24px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; }
+.fc-q { font-family: var(--font-display), system-ui, sans-serif; font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.fc-a { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; font-weight: 300; color: var(--text-secondary); }
+.fc-btn { align-self: center; background: var(--accent); color: var(--bg-base); border: none; padding: 16px 40px; border-radius: 10px; font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s; margin-top: 24px; }
+.fc-btn:hover { transform: translateY(-2px); }
+</style>

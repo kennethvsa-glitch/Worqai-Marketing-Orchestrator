@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1023">
+<title>Scene 1 - Part 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100vh; background: #050505; display: flex; justify-content: center; align-items: flex-start; overflow-y: auto; overflow-x: hidden; font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif; }
+.canvas { width: 1023px; height: 1537px; background: #010509; position: relative; overflow: hidden; flex-shrink: 0; }
+.grid-overlay { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 56px 56px; }
+.circle-deco { position: absolute; width: 740px; height: 740px; border: 1.5px solid rgba(100,150,100,0.1); border-radius: 50%; top: 18px; left: 141px; pointer-events: none; }
+.vert-line { position: absolute; left: 83px; top: 290px; width: 2px; height: 345px; pointer-events: none; background: linear-gradient(to bottom, rgba(171,243,23,0.8) 0%, rgba(171,243,23,0.2) 50%, rgba(171,243,23,0) 100%); }
+.vert-line::before { content: ''; position: absolute; top: -5px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: #abf317; box-shadow: 0 0 10px #abf317, 0 0 22px rgba(171,243,23,0.5); }
+.particle { position: absolute; border-radius: 50%; pointer-events: none; background: #abf317; }
+.sq { position: absolute; pointer-events: none; background: transparent; }
+
+/* Headline */
+.headline-block { position: absolute; left: 80px; top: 428px; z-index: 5; }
+.headline-line { font-family: 'Comfortaa', 'Nunito', sans-serif; font-size: 92px; font-weight: 700; line-height: 1.22; letter-spacing: -2px; white-space: nowrap; margin: 0; }
+.headline-line .green { color: #ccff20; }
+.headline-line .white { color: #f8f9f9; }
+
+/* Subtitle */
+.subtitle-text { position: absolute; left: 80px; top: 780px; font-size: 32px; font-weight: 600; line-height: 1.4; color: #818284; z-index: 6; }
+
+/* Waves */
+.waves-container { position: absolute; bottom: 0; left: 0; width: 1023px; height: 680px; pointer-events: none; overflow: hidden; }
+.ambient-glow { position: absolute; bottom: -200px; left: -200px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(circle, rgba(171,243,23,0.06) 0%, transparent 70%); pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="grid-overlay"></div>
+  <div class="circle-deco"></div>
+  <div class="vert-line"></div>
+
+  <!-- Top-left particles -->
+  <div class="particle" style="width:4px;height:4px;opacity:0.5;top:85px;left:55px;box-shadow:0 0 6px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.35;top:68px;left:90px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:5px;height:5px;opacity:0.45;top:110px;left:125px;box-shadow:0 0 8px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.4;top:130px;left:78px;box-shadow:0 0 6px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.28;top:185px;left:98px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.38;top:143px;left:48px;box-shadow:0 0 6px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.32;top:60px;left:120px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.18;top:140px;left:90px;box-shadow:0 0 3px rgba(171,243,23,0.2);"></div>
+
+  <!-- Squares top-right -->
+  <div class="sq" style="width:12px;height:12px;border:1.5px solid rgba(171,243,23,0.22);top:68px;right:84px;"></div>
+  <div class="sq" style="width:8px;height:8px;border:1px solid rgba(171,243,23,0.16);top:104px;right:49px;"></div>
+  <div class="sq" style="width:10px;height:10px;border:1.5px solid rgba(171,243,23,0.13);top:138px;right:114px;"></div>
+
+  <!-- Right-side dot grid -->
+  <div class="particle" style="width:4px;height:4px;opacity:0.35;top:640px;right:80px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.28;top:640px;right:120px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.32;top:640px;right:160px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.25;top:640px;right:200px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.3;top:690px;right:80px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.38;top:690px;right:120px;box-shadow:0 0 6px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.28;top:690px;right:160px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.32;top:690px;right:200px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.42;top:740px;right:80px;box-shadow:0 0 7px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.25;top:740px;right:120px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.35;top:740px;right:160px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.3;top:740px;right:200px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.22;top:790px;right:80px;box-shadow:0 0 3px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.35;top:790px;right:120px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.28;top:790px;right:160px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.2;top:790px;right:200px;box-shadow:0 0 3px rgba(171,243,23,0.2);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.3;top:840px;right:80px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.25;top:840px;right:120px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.38;top:840px;right:160px;box-shadow:0 0 6px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.28;top:840px;right:200px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+
+  <!-- Bottom-right squares -->
+  <div class="sq" style="width:10px;height:10px;border:1.5px solid rgba(171,243,23,0.2);top:870px;right:94px;"></div>
+  <div class="sq" style="width:8px;height:8px;border:1px solid rgba(171,243,23,0.14);top:940px;right:54px;"></div>
+  <div class="sq" style="width:12px;height:12px;border:1.5px solid rgba(171,243,23,0.18);top:1010px;right:124px;"></div>
+  <div class="sq" style="width:9px;height:9px;border:1.5px solid rgba(171,243,23,0.12);top:1080px;right:80px;"></div>
+
+  <!-- Bottom particles -->
+  <div class="particle" style="width:4px;height:4px;opacity:0.28;top:1090px;left:190px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.2;top:1140px;left:270px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.35;top:1190px;left:150px;box-shadow:0 0 6px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.25;top:1240px;left:230px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.2;top:1110px;left:120px;box-shadow:0 0 3px rgba(171,243,23,0.2);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.32;top:1210px;left:310px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.28;top:1270px;left:170px;box-shadow:0 0 5px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.3;top:1290px;left:290px;box-shadow:0 0 6px rgba(171,243,23,0.5);"></div>
+
+  <!-- ===== HEADLINE ===== -->
+  <div class="headline-block">
+    <div class="headline-line" style="font-size:110px;letter-spacing:-3px;">
+      <span class="green">Nada.</span>
+    </div>
+    <div class="headline-line" style="margin-top:8px;">
+      <span class="white">Nadie te rechazó.</span>
+    </div>
+    <div class="headline-line" style="margin-top:4px;">
+      <span class="green">Nadie te leyó.</span>
+    </div>
+  </div>
+
+  <!-- Subtitle -->
+  <div class="subtitle-text">
+    El filtro te descartó sin llegar a un humano.
+  </div>
+
+  <!-- Waves -->
+  <div class="waves-container">
+    <svg width="1200" height="680" viewBox="0 0 1200 680" style="position:absolute;bottom:0;left:-100px;">
+      <path d="M -200 400 Q 200 360, 450 420 T 950 430 T 1400 400" stroke="#8bc414" stroke-width="0.6" fill="none" opacity="0.06"/>
+      <path d="M -200 440 Q 200 390, 450 455 T 950 460 T 1400 430" stroke="#8bc414" stroke-width="0.8" fill="none" opacity="0.1"/>
+      <path d="M -200 480 Q 200 430, 400 490 T 800 500 T 1200 480 T 1400 490" stroke="#8bc414" stroke-width="1" fill="none" opacity="0.18"/>
+      <path d="M -200 520 Q 200 455, 400 525 T 800 535 T 1200 515 T 1400 525" stroke="#8bc414" stroke-width="1.1" fill="none" opacity="0.22"/>
+      <path d="M -200 560 Q 200 485, 400 560 T 800 560 T 1200 540 T 1400 550" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.24"/>
+      <path d="M -200 600 Q 200 520, 400 595 T 800 590 T 1200 570 T 1400 580" stroke="#8bc414" stroke-width="1.3" fill="none" opacity="0.26"/>
+      <path d="M -200 640 Q 200 555, 400 630 T 800 620 T 1200 600 T 1400 610" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.22"/>
+      <path d="M -200 555 Q 300 480, 550 565 T 1100 565 T 1400 545" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.22"/>
+      <path d="M -200 600 Q 300 510, 550 605 T 1100 595 T 1400 580" stroke="#8bc414" stroke-width="1.4" fill="none" opacity="0.26"/>
+      <path d="M -200 645 Q 300 545, 550 640 T 1100 625 T 1400 610" stroke="#8bc414" stroke-width="1.6" fill="none" opacity="0.3"/>
+      <path d="M -200 535 Q 250 460, 450 540 T 850 550 T 1250 530 T 1400 540" stroke="#abf317" stroke-width="1.7" fill="none" opacity="0.4"/>
+      <path d="M -200 580 Q 250 495, 450 580 T 850 585 T 1250 565 T 1400 575" stroke="#abf317" stroke-width="1.8" fill="none" opacity="0.45"/>
+      <path d="M -200 625 Q 250 535, 450 620 T 850 615 T 1250 595 T 1400 605" stroke="#abf317" stroke-width="1.6" fill="none" opacity="0.38"/>
+      <path d="M -200 670 Q 250 575, 450 660 T 850 645 T 1250 625 T 1400 635" stroke="#abf317" stroke-width="1.9" fill="none" opacity="0.5"/>
+      <path d="M -200 590 Q 300 500, 500 595 T 900 590 T 1300 570 T 1400 580" stroke="#c8ff30" stroke-width="2.2" fill="none" opacity="0.32"/>
+      <path d="M -200 660 Q 300 560, 500 660 T 900 640 T 1300 620 T 1400 630" stroke="#c8ff30" stroke-width="2" fill="none" opacity="0.28"/>
+      <circle cx="200" cy="535" r="3.5" fill="#abf317" opacity="0.7"><animate attributeName="opacity" values="0.5;0.9;0.5" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="400" cy="550" r="3" fill="#abf317" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.4s" repeatCount="indefinite"/></circle>
+      <circle cx="600" cy="545" r="4" fill="#abf317" opacity="0.75"><animate attributeName="opacity" values="0.55;0.95;0.55" dur="2.8s" repeatCount="indefinite"/></circle>
+      <circle cx="850" cy="555" r="3" fill="#abf317" opacity="0.65"><animate attributeName="opacity" values="0.45;0.85;0.45" dur="2.6s" repeatCount="indefinite"/></circle>
+      <circle cx="1100" cy="540" r="2.5" fill="#abf317" opacity="0.55"><animate attributeName="opacity" values="0.35;0.75;0.35" dur="3.2s" repeatCount="indefinite"/></circle>
+      <circle cx="280" cy="585" r="3" fill="#abf317" opacity="0.68"><animate attributeName="opacity" values="0.48;0.88;0.48" dur="2.9s" repeatCount="indefinite"/></circle>
+      <circle cx="500" cy="595" r="3.5" fill="#abf317" opacity="0.72"><animate attributeName="opacity" values="0.52;0.92;0.52" dur="2.5s" repeatCount="indefinite"/></circle>
+      <circle cx="750" cy="590" r="4" fill="#abf317" opacity="0.8"><animate attributeName="opacity" values="0.6;1;0.6" dur="2.3s" repeatCount="indefinite"/></circle>
+      <circle cx="1000" cy="580" r="2.5" fill="#abf317" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.7s" repeatCount="indefinite"/></circle>
+      <circle cx="350" cy="640" r="3.5" fill="#abf317" opacity="0.78"><animate attributeName="opacity" values="0.58;0.98;0.58" dur="2.6s" repeatCount="indefinite"/></circle>
+      <circle cx="650" cy="630" r="3" fill="#abf317" opacity="0.7"><animate attributeName="opacity" values="0.5;0.9;0.5" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="950" cy="620" r="4" fill="#abf317" opacity="0.85"><animate attributeName="opacity" values="0.65;1;0.65" dur="2.4s" repeatCount="indefinite"/></circle>
+      <circle cx="150" cy="670" r="2.5" fill="#abf317" opacity="0.55"><animate attributeName="opacity" values="0.35;0.75;0.35" dur="2.8s" repeatCount="indefinite"/></circle>
+      <circle cx="450" cy="665" r="3" fill="#abf317" opacity="0.65"><animate attributeName="opacity" values="0.45;0.85;0.45" dur="3.1s" repeatCount="indefinite"/></circle>
+      <circle cx="780" cy="650" r="3.5" fill="#abf317" opacity="0.75"><animate attributeName="opacity" values="0.55;0.95;0.55" dur="2.5s" repeatCount="indefinite"/></circle>
+    </svg>
+  </div>
+  <div class="ambient-glow"></div>
+</div>
+</body>
+</html>

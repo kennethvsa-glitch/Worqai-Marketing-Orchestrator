@@ -1,0 +1,81 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-before-after",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: BEFORE / AFTER
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_0-a-4-entrevistas_crimson.html, carousel_pdf-ats-error_worqai-verde.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S3-S6 — Side-by-side contrast.
+-->
+
+<div class="content">
+  <p class="tip-label">Antes vs Despues</p>
+  <h2 class="tip-headline">El cambio que importa</h2>
+  <div class="comparison">
+    <div class="col before">
+      <span class="col-label">Antes</span>
+      <ul>
+        <li>0 entrevistas en 3 meses</li>
+        <li>CV de 4 paginas</li>
+        <li>Sin keywords</li>
+      </ul>
+    </div>
+    <div class="col after">
+      <span class="col-label">Despues</span>
+      <ul>
+        <li>4 entrevistas en 8 dias</li>
+        <li>CV de 1 pagina</li>
+        <li>ATS-optimizado</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+.comparison {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 28px; margin-top: 28px;
+}
+.col {
+  padding: 28px; border-radius: 12px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.col.before { background: rgba(255,50,50,0.06); border: 1px solid rgba(255,50,50,0.12); }
+.col.after { background: rgba(50,255,150,0.05); border: 1px solid rgba(50,255,150,0.10); }
+.col-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+}
+.col.before .col-label { color: rgba(255,80,80,0.7); }
+.col.after .col-label { color: rgba(80,255,150,0.7); }
+.col ul {
+  list-style: none; display: flex; flex-direction: column; gap: 10px;
+}
+.col li {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 18px; font-weight: 400;
+  line-height: 1.45; color: var(--text-secondary);
+  padding-left: 20px; position: relative;
+}
+.col li::before {
+  content: ''; position: absolute; left: 0; top: 10px;
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.col.before li::before { background: rgba(255,80,80,0.5); }
+.col.after li::before { background: rgba(80,255,150,0.5); }
+</style>
+
+<!--
+CUSTOMIZATION:
+- Column ratio: 1fr 1fr (equal) or 2fr 3fr (after emphasized)
+- Replace lists with metric cards, mock UI, or images
+- Colors: match system accent if red/green conflicts with brand
+-->

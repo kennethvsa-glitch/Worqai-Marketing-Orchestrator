@@ -1,0 +1,37 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-faq-accordion",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: FAQ ACCORDION
+Purpose: S3-S6 — Question and answer pairs.
+-->
+
+<div class="content">
+  <p class="tip-label">Preguntas frecuentes</p>
+  <h2 class="tip-headline">Lo que todos se preguntan</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <p class="faq-q">Por que el ATS no lee mi PDF?</p>
+      <p class="faq-a">Porque muchos PDFs contienen imagenes, tablas y fuentes que el software no puede interpretar como texto.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Cuantas paginas debe tener mi CV?</p>
+      <p class="faq-a">Una pagina es el estandar. Dos solo si tienes 10+ anos de experiencia relevante.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.faq { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+.faq-item { padding: 22px 26px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; }
+.faq-q { font-family: var(--font-display), system-ui, sans-serif; font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.faq-a { font-family: var(--font-body), system-ui, sans-serif; font-size: 17px; font-weight: 300; line-height: 1.55; color: var(--text-secondary); }
+</style>

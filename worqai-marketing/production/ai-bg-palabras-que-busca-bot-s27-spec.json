@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "system": "s27",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "palabras-que-busca-bot",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "silence",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-typeset-poster",
+      "density": "heavy",
+      "layers": [
+        "cosmic-ribbons",
+        "geo-constellation",
+        "geo-neon-ring"
+      ],
+      "copy": {
+        "eyebrow": "EL SISTEMA ATS",
+        "headline": "El ATS no busca talento. Busca palabras.",
+        "footer_right": "2026"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(36px,7.5cqw,62px); font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; text-align: center; } .s1-eyebrow { letter-spacing: 0.22em; font-size: 12px; opacity: 0.90; color: var(--accent); }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-asymmetric-lockup",
+      "density": "heavy",
+      "layers": [
+        "cosmic-ribbons",
+        "geo-constellation",
+        "geo-starfield"
+      ],
+      "copy": {
+        "kicker": "EL SISTEMA ATS",
+        "headline": "El ATS no sabe quién sos.",
+        "body": "Sabe si aparece 'Python', 'Scrum' o 'KPI'. Nada más."
+      },
+      "custom_css": ".s2-headline { font-size: clamp(30px,6.5cqw,48px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s2-body { opacity: 0.92; max-width: 32ch; font-size: 16px; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-myth-vs-fact",
+      "density": "heavy",
+      "layers": [
+        "cosmic-ribbons",
+        "geo-constellation",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "MITO VS. REALIDAD",
+        "headline": "Lo que creés vs. lo que pasa",
+        "myth": "Un CV bonito impresiona al reclutador.",
+        "fact": "El reclutador nunca ve el CV bonito si el bot lo rechaza primero.",
+        "myth_label": "MITO",
+        "fact_label": "REALIDAD"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .sub-fact-bubble.myth { opacity: 0.75; border-left-width: 3px; } .sub-fact-bubble.fact { border-left-width: 3px; border-left-color: var(--accent); } .sub-fact-bubble { padding: 22px 28px; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "cosmic-ribbons",
+        "geo-constellation",
+        "geo-neon-ring"
+      ],
+      "copy": {
+        "question": "¿Tu CV tiene las palabras que el bot busca?",
+        "cta_keyword": "ESCANEAR",
+        "reward": "Te mostramos qué falta. Sin costo, sin registro."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

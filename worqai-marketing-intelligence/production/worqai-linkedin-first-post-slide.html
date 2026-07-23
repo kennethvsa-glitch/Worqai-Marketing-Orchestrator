@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorqAI · First LinkedIn Post Slide</title>
+<style>
+  @font-face {
+    font-family: "General Sans";
+    src: url("file:///C:/Users/kenne/OneDrive/Documentos/cv-tailored/fonts/General-Sans/GeneralSans-Variable.woff2") format("woff2");
+    font-weight: 300 900;
+  }
+  @font-face {
+    font-family: "JetBrains Mono";
+    src: url("file:///C:/Users/kenne/OneDrive/Documentos/cv-tailored/fonts/JetBrains-Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+    font-weight: 300 900;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background: #050605;
+    color: #fff;
+    font-family: "General Sans", Inter, system-ui, sans-serif;
+  }
+
+  .slide {
+    position: relative;
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 86% 12%, rgba(192, 240, 48, 0.22), transparent 31%),
+      radial-gradient(circle at 22% 36%, rgba(192, 240, 48, 0.11), transparent 34%),
+      linear-gradient(146deg, #151811 0%, #0b0c0b 43%, #050505 100%);
+  }
+
+  .slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.055;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.72'/%3E%3C/svg%3E");
+    background-size: 280px 280px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(192, 240, 48, 0.55) 0 6px, transparent 6px),
+      linear-gradient(180deg, rgba(255,255,255,0.08), transparent 26%);
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .w-mark {
+    position: absolute;
+    top: -210px;
+    left: -58px;
+    font-size: 980px;
+    line-height: 0.82;
+    font-weight: 900;
+    letter-spacing: -0.11em;
+    color: rgba(192, 240, 48, 0.055);
+    z-index: 1;
+    user-select: none;
+  }
+
+  .mesh {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.46;
+    background-image:
+      linear-gradient(120deg, transparent 0 31%, rgba(192, 240, 48, 0.09) 31% 32%, transparent 32% 100%),
+      linear-gradient(62deg, transparent 0 67%, rgba(255,255,255,0.045) 67% 68%, transparent 68% 100%),
+      linear-gradient(rgba(192, 240, 48, 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(192, 240, 48, 0.055) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 72px 72px, 72px 72px;
+    mask-image: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.78) 54%, rgba(0,0,0,0.28) 100%);
+  }
+
+  .halo {
+    position: absolute;
+    width: 620px;
+    height: 620px;
+    right: -210px;
+    top: -150px;
+    border-radius: 50%;
+    border: 1px solid rgba(192, 240, 48, 0.22);
+    box-shadow:
+      0 0 90px rgba(192, 240, 48, 0.18),
+      inset 0 0 120px rgba(192, 240, 48, 0.07);
+    z-index: 2;
+  }
+
+  .content {
+    position: relative;
+    z-index: 6;
+    height: 100%;
+    padding: 64px 64px 54px;
+    display: grid;
+    grid-template-columns: 1fr 404px;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 36px;
+  }
+
+  .topline {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 52px;
+  }
+
+  .kicker {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c0f030;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 42px;
+    padding: 0 18px;
+    border: 1px solid rgba(192, 240, 48, 0.52);
+    border-radius: 999px;
+    background: rgba(192, 240, 48, 0.1);
+    color: #eaffb1;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .badge::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #c0f030;
+    box-shadow: 0 0 18px rgba(192, 240, 48, 0.9);
+  }
+
+  .main {
+    align-self: center;
+    padding-bottom: 34px;
+  }
+
+  .headline {
+    max-width: 610px;
+    font-size: 86px;
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: -0.058em;
+    color: #ffffff;
+  }
+
+  .headline .lime {
+    display: inline-block;
+    color: #c0f030;
+    text-shadow: 0 0 34px rgba(192, 240, 48, 0.22);
+  }
+
+  .subcopy {
+    max-width: 585px;
+    margin-top: 30px;
+    font-size: 29px;
+    line-height: 1.34;
+    font-weight: 520;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .subcopy strong {
+    color: #ffffff;
+    font-weight: 760;
+  }
+
+  .proof-row {
+    display: flex;
+    gap: 13px;
+    flex-wrap: wrap;
+    margin-top: 35px;
+  }
+
+  .proof-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 42px;
+    padding: 0 15px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.064);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.82);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 760;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .device {
+    position: relative;
+    align-self: center;
+    justify-self: end;
+    width: 398px;
+    height: 650px;
+    transform: rotate(2.5deg);
+    border-radius: 34px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.12), transparent 35%),
+      linear-gradient(145deg, rgba(17, 18, 16, 0.96), rgba(4, 5, 4, 0.98));
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow:
+      -22px 34px 76px rgba(0,0,0,0.46),
+      0 0 0 1px rgba(192, 240, 48, 0.08) inset;
+    padding: 22px;
+  }
+
+  .device::before {
+    content: "";
+    position: absolute;
+    inset: -16px;
+    border-radius: 44px;
+    border: 1px solid rgba(192, 240, 48, 0.16);
+    z-index: -1;
+  }
+
+  .screen {
+    height: 100%;
+    border-radius: 24px;
+    background: #eef2ea;
+    color: #101310;
+    padding: 22px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.09);
+  }
+
+  .score-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+  }
+
+  .score-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(16, 19, 16, 0.54);
+  }
+
+  .score-number {
+    font-size: 74px;
+    line-height: 0.83;
+    font-weight: 900;
+    letter-spacing: -0.08em;
+    color: #101310;
+  }
+
+  .score-number span {
+    color: #8db700;
+  }
+
+  .mini-title {
+    font-size: 25px;
+    line-height: 1.02;
+    font-weight: 890;
+    letter-spacing: -0.05em;
+    max-width: 250px;
+    margin-bottom: 23px;
+  }
+
+  .bar {
+    height: 11px;
+    border-radius: 999px;
+    background: rgba(16,19,16,0.11);
+    overflow: hidden;
+    margin: 12px 0;
+  }
+
+  .bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #94c300, #c0f030);
+  }
+
+  .check {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 13px 0;
+    border-top: 1px solid rgba(16,19,16,0.1);
+    font-size: 15px;
+    line-height: 1.18;
+    font-weight: 760;
+    letter-spacing: -0.01em;
+  }
+
+  .check i {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: #101310;
+    color: #c0f030;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .template-card {
+    position: absolute;
+    left: -34px;
+    bottom: 54px;
+    width: 210px;
+    padding: 17px 16px 16px;
+    border-radius: 18px;
+    background: rgba(9, 10, 9, 0.94);
+    color: #fff;
+    border: 1px solid rgba(192, 240, 48, 0.34);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.42);
+    transform: rotate(-5.5deg);
+  }
+
+  .template-card .mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    color: #c0f030;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .template-card .text {
+    margin-top: 8px;
+    font-size: 22px;
+    line-height: 1.05;
+    font-weight: 890;
+    letter-spacing: -0.04em;
+  }
+
+  .bottom {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .brand {
+    font-size: 31px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+  }
+
+  .brand .ai {
+    color: #c0f030;
+  }
+
+  .url {
+    position: absolute;
+    left: 50%;
+    bottom: 56px;
+    transform: translateX(-50%);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 18px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    color: rgba(255,255,255,0.48);
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 58px;
+    padding: 0 25px;
+    border-radius: 16px;
+    background: #c0f030;
+    color: #0a0c08;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    box-shadow: 0 0 42px rgba(192, 240, 48, 0.22);
+  }
+</style>
+</head>
+<body>
+  <main class="slide" id="slide" aria-label="WorqAI first LinkedIn post slide">
+    <div class="w-mark">W</div>
+    <div class="mesh"></div>
+    <div class="halo"></div>
+
+    <section class="content">
+      <header class="topline">
+        <div class="kicker">worqai · cv intelligence</div>
+        <div class="badge">Hecho en Costa Rica</div>
+      </header>
+
+      <div class="main">
+        <h1 class="headline">
+          1 CV <span class="lime">gratis</span>.<br>
+          CV Score<br>
+          incluido.
+        </h1>
+        <p class="subcopy">
+          Mejorá tu CV y adaptalo a una vacante en <strong>segundos</strong>,
+          con plantillas ATS-friendly y sin inventar experiencia.
+        </p>
+        <div class="proof-row">
+          <div class="proof-pill">CV listo para usar</div>
+          <div class="proof-pill">ATS-friendly</div>
+          <div class="proof-pill">Sin tarjeta</div>
+        </div>
+      </div>
+
+      <aside class="device" aria-hidden="true">
+        <div class="screen">
+          <div class="score-head">
+            <div class="score-label">CV Score</div>
+            <div class="score-number">84<span>/100</span></div>
+          </div>
+          <div class="mini-title">Tu CV antes de postular</div>
+          <div class="bar"><span style="width: 84%"></span></div>
+          <div class="bar"><span style="width: 72%"></span></div>
+          <div class="bar"><span style="width: 91%"></span></div>
+          <div style="height: 26px"></div>
+          <div class="check"><i>✓</i><span>Resumen más claro para el puesto</span></div>
+          <div class="check"><i>✓</i><span>Keywords alineadas a la vacante</span></div>
+          <div class="check"><i>✓</i><span>Formato fácil de leer por ATS</span></div>
+          <div class="check"><i>✓</i><span>Experiencia real, mejor explicada</span></div>
+        </div>
+
+        <div class="template-card">
+          <div class="mono">Tailoring</div>
+          <div class="text">Adaptado a la vacante</div>
+        </div>
+      </aside>
+
+      <footer class="bottom">
+        <div class="brand">worq<span class="ai">ai</span></div>
+        <div class="url">worqai.io</div>
+        <div class="cta">Probar gratis</div>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

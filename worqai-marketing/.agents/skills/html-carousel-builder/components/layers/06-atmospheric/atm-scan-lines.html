@@ -1,0 +1,62 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "atm-scan-lines",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s30",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s19",
+      "s23",
+      "s31",
+      "s39",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "deco-ticker",
+      "slide-cinematic-title",
+      "mock-app-browser"
+    ],
+    "conflicts_with": [
+      "light-volumetric-beam",
+      "light-neon-border"
+    ]
+  }
+-->
+
+<!--
+LAYER: SCAN LINES
+Found in: carousel_ats-data-dashboard_beyond-elite.html
+Purpose: CRT / retro screen effect. Best for cyberpunk, glitch, vaporwave.
+-->
+
+<div class="scan-lines"></div>
+
+<style>
+.scan-lines {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px, rgba(0,0,0,0.14) 3px, rgba(0,0,0,0.14) 6px
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Line height: 2px/4px (dense) to 4px/8px (sparse)
+- On light slides: rgba(255,255,255,0.08)
+- opacity: 0.3 (subtle) to 0.7 (heavy CRT)
+-->

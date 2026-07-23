@@ -1,0 +1,24 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="timeline-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="timeline-headline">{{ copy.headline }}</div>{% endif %}
+
+    <div class="timeline-rail">
+      {% for ev in copy.get('events', []) %}
+      <div class="timeline-item">
+        {% if ev.date %}<div class="timeline-date">{{ ev.date }}</div>{% endif %}
+        {% if ev.title %}<div class="timeline-title">{{ ev.title }}</div>{% endif %}
+        {% if ev.desc %}<div class="timeline-desc">{{ ev.desc }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

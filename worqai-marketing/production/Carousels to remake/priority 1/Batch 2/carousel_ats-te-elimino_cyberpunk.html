@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI — El ATS te eliminó antes</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  /* === RESET & BASE === */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    background: #07070a;
+    font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #e2e8f0;
+  }
+  .viewer { width: 1080px; max-width: 100%; }
+  .wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #07070a;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 28px 90px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04);
+  }
+  .slides { display: flex; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+  .slide {
+    position: relative;
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 84px 76px 124px;
+    overflow: hidden;
+  }
+
+  /* === BACKGROUND BASE (all slides) === */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #08080f 0%, #0e1018 40%, #0a0c14 100%);
+    z-index: 0;
+  }
+
+  /* === GEO-13 WIREFRAME (TENSION + IMPACT slides) === */
+  .pw-wrap {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1;
+    perspective: 700px;
+  }
+  .pw-grid {
+    position: absolute; width: 220%; height: 220%;
+    left: -60%; top: -60%;
+    background-image:
+      linear-gradient(to right, rgba(0,255,156,0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,255,156,0.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+    transform: rotateX(58deg) rotateZ(-12deg);
+    animation: grid-drift 20s linear infinite;
+  }
+  @keyframes grid-drift {
+    0% { transform: rotateX(58deg) rotateZ(-12deg) translateY(0); }
+    100% { transform: rotateX(58deg) rotateZ(-12deg) translateY(56px); }
+  }
+
+  /* === SVG CIRCUIT PATTERN (subtle, all slides) === */
+  .circuit-bg {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M0 60h30v-20h20v-20h20v-20h60' fill='none' stroke='%2300ff9c' stroke-width='0.5'/%3E%3Cpath d='M0 80h50v-20h20v-20h20v20h20v20h20' fill='none' stroke='%2300ff9c' stroke-width='0.5'/%3E%3Cpath d='M0 100h70v-20h20v-20h20v40h20' fill='none' stroke='%2300ff9c' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='60' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='50' cy='40' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='70' cy='20' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='50' cy='80' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='70' cy='60' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='90' cy='40' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='70' cy='100' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='90' cy='80' r='1.5' fill='%2300ff9c'/%3E%3Ccircle cx='110' cy='60' r='1.5' fill='%2300ff9c'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+  }
+
+  /* === GRAIN TEXTURE (all slides) === */
+  .grain {
+    position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* === S3 SILENCE — NO GEO, NO GRAIN === */
+  .s3-pw-wrap { display: none; }
+  .s3-grain { display: none; }
+
+  /* === TYPOGRAPHY SYSTEM === */
+  .display {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 84px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #f8fafc;
+    position: relative;
+    z-index: 5;
+  }
+  .headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 1.12;
+    color: #f8fafc;
+    position: relative;
+    z-index: 5;
+  }
+  .body-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: rgba(226,232,240,0.7);
+    position: relative;
+    z-index: 5;
+  }
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #00ff9c;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 5;
+  }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 190px;
+    font-weight: 700;
+    line-height: 0.95;
+    color: #f8fafc;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* === S1 HOOK — TENSION === */
+  .s1-display {
+    text-shadow:
+      0 0 8px rgba(0,255,156,0.35),
+      0 0 24px rgba(0,255,156,0.2),
+      0 0 48px rgba(0,255,156,0.1),
+      0 0 80px rgba(0,255,156,0.05);
+  }
+  .s1-body { margin-top: 22px; max-width: 540px; }
+  .s1-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #00ff9c, transparent);
+    z-index: 5;
+    opacity: 0.6;
+  }
+  .swipe-pill {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(0,255,156,0.65);
+    border: 1px solid rgba(0,255,156,0.25);
+    padding: 8px 16px;
+    border-radius: 6px;
+    z-index: 10;
+    letter-spacing: 0.06em;
+  }
+
+  /* === S2 DATA — TENSION === */
+  .s2-stat {
+    color: #00ff9c;
+    text-shadow: 0 0 30px rgba(0,255,156,0.3), 0 0 60px rgba(0,255,156,0.1);
+  }
+  .s2-body { margin-top: 18px; max-width: 580px; }
+  .s2-source {
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(226,232,240,0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .s2-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    width: 40px;
+    height: 2px;
+    background: #00ff9c;
+    z-index: 5;
+    opacity: 0.5;
+  }
+
+  /* === ZOOM BURST RINGS (S2 only) === */
+  .zoom-rings {
+    position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  }
+  .zoom-rings .ring {
+    position: absolute; top: 55%; left: 30%;
+    border: 1px solid rgba(0,255,156,0.1); border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ring-pulse 5s ease-in-out infinite alternate;
+  }
+  .zoom-rings .ring:nth-child(1) { width: 180px; height: 180px; animation-delay: 0s; }
+  .zoom-rings .ring:nth-child(2) { width: 340px; height: 340px; opacity: 0.6; animation-delay: 1.2s; }
+  .zoom-rings .ring:nth-child(3) { width: 520px; height: 520px; opacity: 0.3; animation-delay: 2.4s; }
+  @keyframes ring-pulse {
+    0% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.12; }
+    100% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.04; }
+  }
+
+  /* === S3 TERMINAL — SILENCE (0 decorative, 2 layers) === */
+  .s3-slide::before {
+    background: linear-gradient(145deg, #07070a 0%, #0c0e14 50%, #090b12 100%);
+  }
+  .s3-label { color: #00ff9c; letter-spacing: 0.25em; }
+  .s3-headline { font-size: 40px; margin-bottom: 4px; }
+  .s3-terminal {
+    position: relative; z-index: 5;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(0,255,156,0.18);
+    border-radius: 14px;
+    padding: 32px 36px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 28px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
+  }
+  .s3-terminal .term-header {
+    font-size: 12px; color: rgba(226,232,240,0.35);
+    margin-bottom: 18px; padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,240,0.05);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .s3-terminal .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .s3-terminal .term-dot.r { background: #ef4444; }
+  .s3-terminal .term-dot.y { background: #eab308; }
+  .s3-terminal .term-dot.g { background: #22c55e; }
+  .s3-terminal .cmd { color: #f472b6; font-size: 15px; line-height: 1.8; }
+  .s3-terminal .ok { color: #34d399; font-size: 15px; line-height: 1.8; }
+  .s3-terminal .err { color: #f87171; font-size: 15px; line-height: 1.8; }
+  .s3-terminal .warn { color: #facc15; font-size: 15px; line-height: 1.8; }
+  .s3-terminal .info { color: #60a5fa; font-size: 15px; line-height: 1.8; }
+  .s3-terminal .muted { color: rgba(226,232,240,0.25); font-size: 13px; line-height: 1.8; }
+
+  /* === S4 IMPACT — FIX === */
+  .s4-label { color: #00ff9c; }
+  .s4-headline { margin-bottom: 6px; }
+  .blk {
+    position: relative; z-index: 5;
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin-top: 18px;
+  }
+  .blk.bad {
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.12);
+  }
+  .blk.good {
+    background: rgba(0,255,156,0.05);
+    border: 1px solid rgba(0,255,156,0.12);
+  }
+  .blk-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  .blk.bad .blk-lbl { color: #ef4444; }
+  .blk.good .blk-lbl { color: #00ff9c; }
+  .blk-txt {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: rgba(226,232,240,0.85);
+  }
+  .s4-cv-mock {
+    position: relative; z-index: 5;
+    margin-top: 18px;
+    display: flex; flex-direction: column; gap: 7px;
+    max-width: 320px;
+  }
+  .s4-cv-mock .cv-line {
+    height: 9px; border-radius: 4px;
+    background: linear-gradient(90deg, rgba(0,255,156,0.2), transparent);
+  }
+  .s4-cv-mock .cv-line.wide { width: 88%; }
+  .s4-cv-mock .cv-line.mid { width: 65%; }
+  .s4-cv-mock .cv-line.narrow { width: 42%; }
+  .prog {
+    position: absolute;
+    bottom: 52px;
+    left: 76px;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+  }
+  .pd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(226,232,240,0.25);
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.2s;
+  }
+  .pd.on {
+    color: #00ff9c;
+    border-color: rgba(0,255,156,0.35);
+    background: rgba(0,255,156,0.08);
+  }
+
+  /* === SUBTLE CORNER FRAMES (TENSION slides only) === */
+  .corner-frame {
+    position: absolute;
+    width: 36px; height: 36px;
+    border-color: rgba(0,255,156,0.15);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .corner-frame.tl { top: 32px; left: 32px; border-top: 2px solid; border-left: 2px solid; }
+  .corner-frame.tr { top: 32px; right: 32px; border-top: 2px solid; border-right: 2px solid; }
+  .corner-frame.bl { bottom: 32px; left: 32px; border-bottom: 2px solid; border-left: 2px solid; }
+  .corner-frame.br { bottom: 32px; right: 32px; border-bottom: 2px solid; border-right: 2px solid; }
+
+  /* === S5 RELEASE — CTA === */
+  .s5-slide { justify-content: center; align-items: center; text-align: center; }
+  .s5-headline { text-align: center; font-size: 48px; }
+  .keyword-box {
+    display: inline-block;
+    border: 2px dashed #00ff9c;
+    padding: 16px 36px;
+    border-radius: 12px;
+    margin-top: 36px;
+    position: relative; z-index: 5;
+    transition: all 0.2s;
+  }
+  .keyword-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #00ff9c;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .s5-reward {
+    margin-top: 28px;
+    text-align: center;
+    position: relative; z-index: 5;
+    max-width: 480px;
+  }
+  .s5-cta-line {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff9c, transparent);
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === BRAND ANCHOR === */
+  .brand {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(226,232,240,0.3);
+    letter-spacing: 0.1em;
+    z-index: 10;
+  }
+  .counter {
+    position: absolute;
+    bottom: 52px;
+    right: 170px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(226,232,240,0.3);
+    z-index: 10;
+  }
+
+  /* === CONTROLS === */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .ctrl-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #e2e8f0;
+    padding: 10px 26px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.18); }
+  .dots { display: flex; gap: 8px; align-items: center; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .dot:hover { background: rgba(255,255,255,0.35); }
+  .dot.on { background: #00ff9c; transform: scale(1.4); box-shadow: 0 0 8px rgba(0,255,156,0.3); }
+  .hint {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .zip-btn {
+    display: block;
+    margin: 18px auto 0;
+    background: rgba(0,255,156,0.1);
+    border: 1px solid rgba(0,255,156,0.3);
+    color: #00ff9c;
+    padding: 12px 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .zip-btn:hover { background: rgba(0,255,156,0.18); box-shadow: 0 0 20px rgba(0,255,156,0.1); }
+</style>
+</head>
+<body>
+
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="slides" id="slides">
+
+      <!-- === S1: HOOK — TENSION === -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="grain"></div>
+        <div class="circuit-bg"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div>
+        <div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="label">WORQAI / ALERTA DE SISTEMA</div>
+        <div class="display s1-display">EL ATS TE<br>ELIMINÓ<br>ANTES</div>
+        <div class="body-text s1-body">No es que no sepás trabajar. Es que el sistema filtra antes de que un humano te vea.</div>
+        <div class="s1-accent-line"></div>
+        <div class="swipe-pill">Desliza →</div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">01 / 05</div>
+      </div>
+
+      <!-- === S2: DATA — TENSION === -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="grain"></div>
+        <div class="circuit-bg"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div>
+        <div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="zoom-rings">
+          <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+        </div>
+        <div class="stat-num s2-stat">75%</div>
+        <div class="body-text s2-body">de los CVs en LATAM mueren en el filtro ATS antes de llegar a un reclutador humano.</div>
+        <div class="s2-source">Dato interno WorqAI · base de datos 2025</div>
+        <div class="s2-accent-line"></div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">02 / 05</div>
+      </div>
+
+      <!-- === S3: SILENCE — TERMINAL (0 decorative, 2 layers) === -->
+      <div class="slide s3-slide">
+        <div class="circuit-bg"></div>
+        <div class="label s3-label">DIAGNÓSTICO DEL SISTEMA</div>
+        <div class="headline s3-headline">Tu CV no llega. Este es por qué.</div>
+        <div class="s3-terminal">
+          <div class="term-header">
+            <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+            <span style="margin-left:6px;opacity:0.45;">~/worqai/debug — cv-scan v2.4.1 — build 2025.11.07</span>
+          </div>
+          <div class="cmd">$ worqai scan --cv ./cv-actual.pdf --ats="taleo" --strict --deep</div>
+          <div class="muted">Iniciando análisis profundo... 847 plantillas ATS en base de datos</div>
+          <div class="muted">Comparando contra 2.4M CVs optimizados en base de conocimiento...</div>
+          <div class="warn">⚠ Parseando estructura de documento... 14% completado</div>
+          <div class="warn">⚠ Detectando secciones estándar (HEADING, SUMMARY, EXPERIENCE, EDUCATION, SKILLS)...</div>
+          <div class="err">✗ Sección 'Experiencia' no detectada (formato de tabla bloqueado por parser)</div>
+          <div class="err">✗ Sección 'Educación' parcialmente legible — 2 de 3 campos identificados</div>
+          <div class="err">✗ Keywords del job description: 0/12 coincidencias encontradas</div>
+          <div class="err">✗ Formato de fechas invertido: DD/MM/YYYY detectado, esperado MM/YYYY</div>
+          <div class="err">✗ Fuente no estándar: 'Calibri Light' no soportada por parser ATS principal</div>
+          <div class="err">✗ Metadata corrupta: 3 campos obligatorios faltantes (nombre, email, teléfono)</div>
+          <div class="err">✗ Archivo excede tamaño recomendado: 4.2MB (límite ATS: 2MB)</div>
+          <div class="info">→ Resultado final: Eliminado en ronda 0 — Score ATS: 12/100</div>
+          <div class="info">→ Recomendación: Reescribir con plantilla ATS-safe (WorqAI recomendado)</div>
+        </div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">03 / 05</div>
+      </div>
+
+      <!-- === S4: IMPACT — FIX === -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="grain"></div>
+        <div class="circuit-bg"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div>
+        <div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="label s4-label">FIX 1 / 1</div>
+        <div class="headline s4-headline">WorqAI pasa el filtro por vos</div>
+        <div class="blk bad">
+          <div class="blk-lbl">PROBLEMA</div>
+          <div class="blk-txt">Subís tu CV viejo. El ATS lo lee como un PDF roto. Zero entrevistas. Meses perdidos.</div>
+        </div>
+        <div class="blk good">
+          <div class="blk-lbl">SOLUCIÓN</div>
+          <div class="blk-txt">WorqAI reescribe en formato ATS-safe. Tu CV llega al humano. Primera entrevista en 7 días.</div>
+        </div>
+        <div class="s4-cv-mock">
+          <div class="cv-line wide"></div>
+          <div class="cv-line mid"></div>
+          <div class="cv-line narrow"></div>
+          <div class="cv-line wide"></div>
+          <div class="cv-line mid"></div>
+          <div class="cv-line narrow"></div>
+          <div class="cv-line wide"></div>
+        </div>
+        <div class="prog">
+          <span class="pd on">01</span>
+        </div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">04 / 05</div>
+      </div>
+
+      <!-- === S5: RELEASE — CTA === -->
+      <div class="slide s5-slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="grain"></div>
+        <div class="circuit-bg"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div>
+        <div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="headline s5-headline">¿Tu CV sobrevive<br>el filtro?</div>
+        <div class="keyword-box">
+          <span class="keyword-text">AUDITORÍA</span>
+        </div>
+        <div class="body-text s5-reward">Te decimos si tu CV pasa el ATS en 30 segundos. Sin costo. Sin registro.</div>
+        <div class="s5-cta-line"></div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">05 / 05</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" onclick="prev()">←</button>
+    <div class="dots" id="dots"></div>
+    <button class="ctrl-btn" onclick="next()">→</button>
+  </div>
+  <div class="hint">Usá las flechas o los dots para navegar</div>
+  <button class="zip-btn" onclick="exportZip()">📦 Exportar ZIP</button>
+</div>
+
+<script>
+  const slides = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const total = 5;
+  let current = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.onclick = () => go(i);
+    dotsContainer.appendChild(d);
+  }
+
+  function go(n) {
+    current = n;
+    slides.style.transform = `translateX(-${n * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === n));
+  }
+  function next() { go((current + 1) % total); }
+  function prev() { go((current - 1 + total) % total); }
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') next(); if (e.key === 'ArrowLeft') prev(); });
+
+  async function exportZip() {
+    const btn = document.querySelector('.zip-btn');
+    btn.textContent = 'Generando...';
+    const zip = new JSZip();
+    const folder = zip.folder('slides');
+    const wrap = document.getElementById('wrap');
+    for (let i = 0; i < total; i++) {
+      go(i);
+      await new Promise(r => setTimeout(r, 600));
+      const canvas = await html2canvas(wrap, { scale: 2, backgroundColor: '#07070a' });
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      folder.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const content = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(content);
+    a.download = 'carousel_ats-te-elimino_cyberpunk.zip';
+    a.click();
+    btn.textContent = '✅ Listo';
+    setTimeout(() => btn.textContent = '📦 Exportar ZIP', 2000);
+  }
+</script>
+
+</body>
+</html>

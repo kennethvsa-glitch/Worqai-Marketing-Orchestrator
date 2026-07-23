@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>worqai · Negociación salarial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#0a0604;font-family:'DM Sans',system-ui,sans-serif;color:#f5e8d8;min-height:100vh;}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+  .label-top{font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+             color:#e07040;margin-bottom:14px;text-align:center;}
+  /* Slide renders at native 1080x1080 by default (correct for export).
+     Only scale down for wide-viewport browser previews — Playwright export
+     uses 1080px viewport so the scale media query won't match. */
+  .preview-cage{width:1080px;margin:0 auto;}
+  @media (min-width:1200px){
+    .preview-cage{transform:scale(0.5);transform-origin:top center;height:540px;}
+  }
+  .viewer{width:1080px;max-width:1080px;}
+  .wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;
+        box-shadow:0 30px 80px rgba(50,20,8,0.6);}
+  .track{display:flex;width:100%;height:100%;
+         transition:transform .42s cubic-bezier(.4,0,.2,1);}
+  .slide{position:relative;flex:0 0 1080px;width:1080px;height:1080px;overflow:hidden;
+         background:linear-gradient(148deg,#1a0a06 0%,#2a1008 50%,#3a1810 100%);
+         color:#f5e8d8;}
+
+  /* GRAIN — heavier on terra cotta for that "printed cardstock" feel */
+  .slide::before{
+    content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:280px 280px;mix-blend-mode:overlay;opacity:.10;
+    pointer-events:none;z-index:1;
+  }
+
+  /* TERRA COTTA RADIAL OVERLAY */
+  .slide::after{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(ellipse 80% 60% at 30% 70%,rgba(200,100,40,0.20),transparent 60%),
+               radial-gradient(ellipse 60% 50% at 80% 20%,rgba(180,80,40,0.12),transparent 60%);
+  }
+
+  /* BLOB C · BOTTOM SWELL — organic curves at the bottom */
+  .blob{position:absolute;bottom:0;left:0;width:100%;height:auto;
+        pointer-events:none;z-index:1;}
+
+  /* Warm corner glow */
+  .glow{position:absolute;width:680px;height:680px;border-radius:50%;
+        background:radial-gradient(circle,rgba(224,112,64,0.32) 0%,transparent 65%);
+        filter:blur(80px);pointer-events:none;z-index:1;}
+
+  /* "Sun" accent — burnt orange spot */
+  .sun{position:absolute;width:120px;height:120px;border-radius:50%;
+       background:radial-gradient(circle,rgba(255,180,80,0.85) 0%,rgba(255,180,80,0) 70%);
+       filter:blur(6px);pointer-events:none;z-index:1;}
+
+  /* Big "$" or number watermark */
+  .stamp-bg{position:absolute;font-family:'DM Sans',sans-serif;font-weight:800;
+            font-size:560px;line-height:.85;letter-spacing:-0.06em;
+            color:rgba(245,232,216,0.05);pointer-events:none;user-select:none;z-index:1;}
+
+  /* padding-bottom: 140px keeps text ~64px clear of the brand wordmark + counter at bottom */
+  .content{position:relative;z-index:3;height:100%;padding:96px 88px 140px;
+           display:flex;flex-direction:column;}
+
+  .deco-num{position:absolute;top:-20px;right:46px;
+            font-weight:800;font-size:280px;line-height:1;letter-spacing:-.05em;
+            color:rgba(245,232,216,0.06);pointer-events:none;user-select:none;z-index:2;}
+
+  .label{font-size:18px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+         color:#e07040;margin-bottom:28px;display:inline-block;}
+
+  .headline{font-weight:800;font-size:68px;line-height:1.06;letter-spacing:-0.025em;
+            color:#f5e8d8;}
+  .body-text{font-weight:400;font-size:25px;line-height:1.55;color:rgba(245,232,216,0.78);}
+  .terra{color:#e07040;}
+  .gold{color:#ffb450;}
+  .terra-bg{background:#e07040;color:#1a0a06;padding:0 10px;border-radius:4px;}
+
+  .stat-num{font-weight:800;font-size:340px;line-height:0.85;letter-spacing:-0.05em;
+            color:#e07040;}
+  .stat-pct{font-size:180px;color:#f5e8d8;font-weight:800;line-height:0.85;}
+  .source-tag{font-size:18px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;
+              opacity:.5;margin-top:24px;}
+  .stat-context{font-weight:500;font-size:33px;line-height:1.18;letter-spacing:-0.015em;
+                margin-top:24px;max-width:840px;color:#f5e8d8;}
+
+  /* Earthy blocks — cardstock feel */
+  .blk{padding:24px 28px;border-radius:14px;margin-bottom:18px;position:relative;}
+  .blk.bad{background:rgba(180,60,40,0.14);border-left:6px solid #c44030;}
+  .blk.bad .blk-tag{color:#e07060;}
+  .blk.good{background:rgba(80,160,80,0.10);border-left:6px solid #50a060;}
+  .blk.good .blk-tag{color:#80c090;}
+  .blk-tag{font-size:14px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+           margin-bottom:14px;}
+  .blk-text{font-size:25px;font-weight:500;line-height:1.4;color:#f5e8d8;}
+  .blk-text strong{font-weight:700;color:#fff;}
+
+  .why-row{margin-top:18px;font-size:21px;font-weight:400;line-height:1.55;
+           padding-left:20px;border-left:3px solid #e07040;color:rgba(245,232,216,0.85);}
+
+  /* Salary number visualization */
+  .salary-row{display:flex;gap:24px;margin-top:28px;}
+  .salary-card{flex:1;padding:32px 28px;border-radius:18px;
+               border:1px solid rgba(245,232,216,0.12);background:rgba(245,232,216,0.03);
+               text-align:center;}
+  .salary-card.bad{border-color:rgba(196,64,48,0.5);background:rgba(180,60,40,0.10);}
+  .salary-card.good{border-color:rgba(224,112,64,0.6);background:rgba(224,112,64,0.10);}
+  .salary-tag{font-size:14px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+              margin-bottom:14px;color:rgba(245,232,216,0.55);}
+  .salary-card.bad .salary-tag{color:#e07060;}
+  .salary-card.good .salary-tag{color:#ffb450;}
+  .salary-num{font-weight:800;font-size:72px;line-height:1;letter-spacing:-0.025em;color:#f5e8d8;}
+  .salary-card.good .salary-num{color:#ffb450;}
+  .salary-sub{font-size:16px;font-weight:500;color:rgba(245,232,216,0.55);margin-top:10px;}
+
+  /* CTA card — tightened so it never overflows below safe area */
+  .cta-card{background:#0a0604;border:2px solid rgba(224,112,64,0.4);
+            border-radius:28px;padding:40px 44px;margin-top:auto;margin-bottom:0;
+            position:relative;overflow:hidden;}
+  .cta-card::after{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;
+                   border-radius:50%;background:radial-gradient(circle,rgba(224,112,64,0.30),transparent 65%);
+                   filter:blur(40px);}
+  .cta-headline{font-weight:800;font-size:46px;line-height:1.06;letter-spacing:-0.02em;
+                color:#f5e8d8;margin-bottom:24px;position:relative;z-index:2;}
+  .keyword-box{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;
+               border:3px dashed #e07040;border-radius:14px;margin-bottom:22px;position:relative;z-index:2;
+               background:rgba(224,112,64,0.06);}
+  .keyword-tag{font-size:13px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+               color:#e07040;opacity:.7;}
+  .keyword-word{font-weight:800;font-size:42px;color:#e07040;letter-spacing:0.06em;}
+  .cta-instr{font-size:22px;font-weight:400;color:rgba(245,232,216,0.78);line-height:1.45;
+             position:relative;z-index:2;}
+  .cta-instr .terra{color:#e07040;font-weight:700;}
+
+  .hook-stack{margin-top:auto;margin-bottom:60px;}
+  .hook-display{font-weight:800;font-size:124px;line-height:0.95;letter-spacing:-0.045em;
+                color:#f5e8d8;}
+  .hook-display .terra{color:#e07040;}
+  .hook-display .gold{color:#ffb450;}
+  .hook-sub{font-weight:400;font-size:32px;line-height:1.45;margin-top:32px;
+            color:rgba(245,232,216,0.78);max-width:780px;}
+  .swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+              padding:14px 26px;border:2px solid #e07040;color:#e07040;
+              border-radius:999px;font-size:18px;font-weight:700;letter-spacing:0.18em;
+              text-transform:uppercase;margin-top:36px;background:rgba(224,112,64,0.06);}
+
+  .pill-tag{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;
+            background:rgba(224,112,64,0.18);border:1px solid #e07040;border-radius:999px;
+            font-weight:700;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;
+            color:#e07040;margin-bottom:24px;}
+
+  .brand-anchor{position:absolute;bottom:46px;left:88px;z-index:5;
+                font-weight:800;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;
+                color:#f5e8d8;}
+  .brand-anchor .ai{color:#e07040;}
+
+  .counter{position:absolute;bottom:50px;right:88px;z-index:5;
+           font-weight:500;font-size:18px;letter-spacing:0.2em;color:rgba(245,232,216,0.5);}
+
+  .controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px;}
+  .btn{background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;
+       border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .btn:disabled{opacity:.2;cursor:default;}
+  .dots{display:flex;gap:6px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s;}
+  .dot.on{background:#e07040;width:18px;border-radius:3px;}
+  .hint{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:0.18em;text-transform:uppercase;
+        margin-top:10px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="label-top">worqai · educacional · negociación salarial latina</div>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ========== SLIDE 1 · HOOK ========== -->
+      <div class="slide" data-slide="1">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(0deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="top:-20%;right:-15%;"></div>
+        <div class="sun" style="top:160px;right:180px;"></div>
+        <div class="stamp-bg" style="bottom:-200px;right:-40px;">$</div>
+        <div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai · plata sobre la mesa</div>
+          <div class="hook-stack">
+            <div class="hook-display">Por qué siempre<br><span class="terra">cedés primero</span><br>en la <span class="gold">negociación</span>.</div>
+            <div class="hook-sub">No es porque te falte talento. Es porque te enseñaron a no pedir. Cambiar eso vale entre 25% y 40% más cada año.</div>
+            <div class="swipe-pill">Desliza →</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">01 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 2 · DATA ========== -->
+      <div class="slide" data-slide="2">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(8deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="bottom:-15%;left:-15%;"></div>
+        <div class="sun" style="top:14%;right:120px;"></div>
+        <div class="stamp-bg" style="top:-100px;left:-40px;">38</div>
+        <div class="deco-num">02</div>
+        <div class="content">
+          <div class="label">la realidad</div>
+          <div class="headline" style="max-width:880px;">El latino promedio<br>deja <span class="terra">38% de salario</span><br>sobre la mesa.</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:32px;">
+            <div class="stat-num">38</div>
+            <div class="stat-pct">%</div>
+          </div>
+          <div class="stat-context">Por no preguntar el rango, no contraofertar y aceptar el primer número que les ponen sobre la mesa.</div>
+          <div class="source-tag">Dato interno WorqAI · base de datos 2025</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">02 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 3 · ERROR 01 ========== -->
+      <div class="slide" data-slide="3">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(14deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="top:-15%;right:30%;"></div>
+        <div class="sun" style="bottom:380px;left:140px;"></div>
+        <div class="stamp-bg" style="top:50%;right:-80px;">01</div>
+        <div class="deco-num">03</div>
+        <div class="content">
+          <div class="pill-tag">Error 01 · Decir tu número primero</div>
+          <div class="headline" style="max-width:920px;">Te preguntan<br>"¿cuánto querés ganar?"<br>y vos <span class="terra">contestás</span>.</div>
+          <div style="margin-top:28px;">
+            <div class="blk bad">
+              <div class="blk-tag">Lo que hacés</div>
+              <div class="blk-text">"Estaba pensando en unos $1.800 al mes, más o menos."</div>
+            </div>
+            <div class="blk good">
+              <div class="blk-tag">Lo que tenés que decir</div>
+              <div class="blk-text">"Me gustaría conocer el rango que tienen para esta posición. Desde ahí podemos conversar."</div>
+            </div>
+          </div>
+          <div class="why-row">El que dice el primer número fija el techo. Si vos lo decís bajo, ya no vas a poder pedir más. Hacé que ellos te lo digan primero — siempre.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">03 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 4 · ERROR 02 ========== -->
+      <div class="slide" data-slide="4">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(20deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="bottom:-20%;left:-15%;"></div>
+        <div class="sun" style="top:240px;right:160px;"></div>
+        <div class="stamp-bg" style="bottom:-200px;left:-40px;">02</div>
+        <div class="deco-num">04</div>
+        <div class="content">
+          <div class="pill-tag">Error 02 · Aceptar la primera oferta</div>
+          <div class="headline" style="max-width:920px;">Te ofrecen X<br>y decís <span class="terra">"perfecto"</span>.</div>
+          <div class="salary-row">
+            <div class="salary-card bad">
+              <div class="salary-tag">Lo que aceptás</div>
+              <div class="salary-num">$2.200</div>
+              <div class="salary-sub">primera oferta · sin contraofertar</div>
+            </div>
+            <div class="salary-card good">
+              <div class="salary-tag">Lo que pudiste pedir</div>
+              <div class="salary-num">$2.700</div>
+              <div class="salary-sub">contraoferta calmada · 22% más</div>
+            </div>
+          </div>
+          <div class="why-row">La primera oferta casi siempre tiene 15–25% de margen. Si la aceptás sin pestañear, ese dinero se queda en el bolsillo de la empresa. Pedir más nunca rompe la oferta — solo la ajusta.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">04 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 5 · ERROR 03 ========== -->
+      <div class="slide" data-slide="5">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(25deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="top:-15%;right:-10%;"></div>
+        <div class="sun" style="bottom:340px;left:120px;"></div>
+        <div class="stamp-bg" style="top:-80px;right:-40px;">03</div>
+        <div class="deco-num">05</div>
+        <div class="content">
+          <div class="pill-tag">Error 03 · No saber tu valor de mercado</div>
+          <div class="headline" style="max-width:920px;">Negociás <span class="terra">a ciegas</span>.<br>Ni siquiera sabés<br>cuánto cobran otros.</div>
+          <div style="margin-top:28px;">
+            <div class="blk bad">
+              <div class="blk-tag">Lo que sabés hoy</div>
+              <div class="blk-text">"Mi último salario fue X." Ese es tu único punto de referencia.</div>
+            </div>
+            <div class="blk good">
+              <div class="blk-tag">Lo que deberías saber</div>
+              <div class="blk-text"><strong>Rango p25–p75</strong> de tu rol en tu país, en USD. Diferencia por industria, tamaño de empresa y modalidad (remoto USA paga 2–3× más).</div>
+            </div>
+          </div>
+          <div class="why-row">Antes de cada entrevista, abrí Glassdoor, Levels.fyi, Talent.com y LinkedIn Salary. 15 minutos te dan el rango real. Sin ese dato, no estás negociando — estás adivinando.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">05 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 6 · ERROR 04 ========== -->
+      <div class="slide" data-slide="6">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(30deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="bottom:-25%;right:-15%;"></div>
+        <div class="sun" style="top:14%;left:200px;"></div>
+        <div class="stamp-bg" style="bottom:-200px;right:-40px;">04</div>
+        <div class="deco-num">06</div>
+        <div class="content">
+          <div class="pill-tag">Error 04 · Negociar solo el sueldo base</div>
+          <div class="headline" style="max-width:920px;">Solo pediste <span class="terra">salario</span>.<br>Te dejaste<br><span class="gold">5 cosas más</span>.</div>
+          <div style="margin-top:28px;">
+            <div class="blk good">
+              <div class="blk-tag">Negociá también</div>
+              <div class="blk-text">
+                <strong>·</strong> Bono de firma (signing bonus) · 1–2 meses<br>
+                <strong>·</strong> Bono anual / equity / stock options<br>
+                <strong>·</strong> Días de vacaciones extra (de 15 a 22)<br>
+                <strong>·</strong> Día de home office adicional / 100% remoto<br>
+                <strong>·</strong> Presupuesto de capacitación o equipo
+              </div>
+            </div>
+          </div>
+          <div class="why-row">Si la empresa te dice "no podemos subir el base", casi siempre puede dar otra cosa. El paquete total puede subir 20–30% sin tocar el sueldo nominal.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">06 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 7 · CTA ========== -->
+      <div class="slide" data-slide="7">
+        <svg class="blob" viewBox="0 0 1080 1080" style="transform:rotate(34deg);">
+          <path d="M0,400 C160,300 320,500 480,420 C640,340 800,480 1080,400 L1080,1080 L0,1080 Z"
+                fill="#5a2010" fill-opacity="0.55"/>
+        </svg>
+        <div class="glow" style="top:-10%;right:30%;"></div>
+        <div class="sun" style="bottom:380px;right:120px;"></div>
+        <div class="stamp-bg" style="bottom:-200px;left:-40px;">$</div>
+        <div class="deco-num">07</div>
+        <div class="content">
+          <div class="label">tu siguiente paso</div>
+          <div class="headline" style="max-width:880px;margin-top:20px;">¿Querés saber<br>cuánto vale tu CV<br>en el <span class="terra">mercado real</span>?</div>
+          <div class="cta-card">
+            <div class="cta-headline">Auditoría gratis<br>de CV + benchmark de salario.</div>
+            <div class="keyword-box">
+              <span class="keyword-tag">DM</span>
+              <span class="keyword-word">AUDITORIA</span>
+            </div>
+            <div class="cta-instr">Mandá la palabra <span class="terra">AUDITORIA</span> al DM de <span class="terra">@worqai</span>. Te decimos qué arreglar y cuánto deberías estar pidiendo.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">07 / 07</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="prev">‹</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+      <span class="dot" onclick="go(5)"></span>
+      <span class="dot" onclick="go(6)"></span>
+    </div>
+    <button class="btn" id="next">›</button>
+  </div>
+  <div class="hint">flechas ← → · swipe · click los puntos</div>
+</div>
+</div>
+<script>
+  let cur=0;
+  const slides=document.querySelectorAll('.slide');
+  const track=document.getElementById('track');
+  const prevBtn=document.getElementById('prev');
+  const nextBtn=document.getElementById('next');
+  const dots=document.querySelectorAll('.dot');
+  function go(n){
+    cur=Math.max(0,Math.min(n,slides.length-1));
+    track.style.transform=`translateX(-${cur*1080}px)`;
+    dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+    prevBtn.disabled=cur===0;
+    nextBtn.disabled=cur===slides.length-1;
+  }
+  function move(d){go(cur+d);}
+  prevBtn.addEventListener('click',()=>move(-1));
+  nextBtn.addEventListener('click',()=>move(1));
+  let sx=0;
+  const wrap=document.getElementById('wrap');
+  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+  wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+  go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "_meta": {
+    "purpose": "Banned composition patterns and copy for every WorqAI asset. Enforced deterministically by design_core.lint_source and design_core.audit_frames; the copy list mirrors .claude/rules/anti-slop.md.",
+    "source": "nutlope/hallmark slop-test gates + Laith0003/ux-skill anti-patterns.json (152 entries) + WorqAI anti-slop copy rules."
+  },
+  "banned_display_fonts": ["Inter", "Roboto", "Open Sans", "Poppins", "Lato", "Space Grotesk", "system-ui", "Arial"],
+  "banned_css_patterns": [
+    {"id": "GRADIENT", "regex": "(linear|radial|conic)-gradient", "why": "gradient panels/text are the top AI tell (hallmark gate 2)"},
+    {"id": "GLASS", "regex": "backdrop-filter\\s*:", "why": "frosted-glass blocks read as generic SaaS template"},
+    {"id": "GLOW", "regex": "box-shadow[^;]*\\b0\\s+0\\s+\\d+px", "why": "neon/glow tell (hallmark)"},
+    {"id": "PILL", "regex": "border-radius\\s*:\\s*(9{2,}|999+px|50%)", "why": "generic pill chips"},
+    {"id": "TRANSITION-ALL", "regex": "transition\\s*:\\s*all", "why": "uncrafted blanket transition (hallmark gate 10)"}
+  ],
+  "banned_tsx_patterns": [
+    {"id": "GRADIENT", "regex": "(linear|radial|conic)-gradient"},
+    {"id": "GLOW", "regex": "boxShadow\\s*:\\s*[`'\"][^`'\"]*\\b0\\s+0\\s+\\d+px"},
+    {"id": "PILL", "regex": "borderRadius\\s*:\\s*(99|999)\\b"},
+    {"id": "OVERSHOOT-EASING", "regex": "cubic-bezier\\(\\s*[\\d.]+\\s*,\\s*1\\.\\d+"},
+    {"id": "ITALIC-DISPLAY", "regex": "fontStyle\\s*:\\s*['\"]italic"}
+  ],
+  "emoji_icons": ["✨", "🚀", "⚡", "🔥", "🎯", "✅"],
+  "banned_designed_copy": [
+    "hoy en día", "en el mercado actual", "en la era digital",
+    "desbloquea", "potencia tu", "transforma tu carrera",
+    "libera tu potencial", "¿sabías que",
+    "unlock", "unleash", "game-changer", "seamless", "supercharge",
+    "cutting-edge", "elevate", "empower", "revolutionize", "robust"
+  ],
+  "banned_composition_notes": [
+    "Dashboard/card grids, generic SaaS panels, fake analytics, floating UI, decorative diagrams.",
+    "Re-drawn browser/phone/IDE chrome - use real screenshots.",
+    "Invented metrics - a number appears only if a real source shows it.",
+    "Generated images containing readable text, logos, CVs, emails, or fake product screens."
+  ]
+}

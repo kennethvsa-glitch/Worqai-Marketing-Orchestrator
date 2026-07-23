@@ -1,0 +1,117 @@
+TEST_bg3_watercolor_grey-carousel_worqai-lime.html:
+  - ajustar "operaciones" -> optimizar el CV de "operaciones"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_arch_dark-carousel_worqai-lime.html:
+  - ajustar "el resumen" -> optimizar el CV de "el resumen"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_blueprint_light-carousel_worqai-lime.html:
+  - ajustar "la página" -> optimizar "la página"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_circuit_dark-carousel_worqai-lime.html:
+  - ajustar "el archivo" -> optimizar el CV de "el archivo"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_circuit_light-carousel_worqai-lime.html:
+  - ajustar "el portafolio" -> optimizar el CV de "el portafolio"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_concrete_light-carousel_worqai-lime.html:
+  - ajustar "la foto" -> optimizar el CV de "la foto"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_glass_dark-carousel_worqai-lime.html:
+  - ajustar "educación" -> optimizar el CV de "educación"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_glass_light-carousel_worqai-lime.html:
+  - ajustar "ventas" -> optimizar el CV de "ventas"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_grid_darkblue-carousel_worqai-lime.html:
+  - ajustar "admin" -> optimizar el CV de "admin"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_mixed_dark-carousel_worqai-lime.html:
+  - ajustar "el cambio" -> optimizar el CV de "el cambio"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_mixed_grey-carousel_worqai-lime.html:
+  - ajustar "experiencia senior" -> optimizar el CV de "experiencia senior"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_paper_darkblue-carousel_worqai-lime.html:
+  - ajustar "idiomas" -> optimizar el CV de "idiomas"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_sphere_grey-carousel_worqai-lime.html:
+  - ajustar "la lectura" -> optimizar el CV de "la lectura"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_stream_darkblue-carousel_worqai-lime.html:
+  - ajustar "el header" -> optimizar el CV de "el header"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_stroke_dark-carousel_worqai-lime.html:
+  - ajustar "tech" -> optimizar el CV de "tech"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_stroke_grey-carousel_worqai-lime.html:
+  - ajustar "el rechazo" -> optimizar el CV de "el rechazo"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_tape_darkblue-carousel_worqai-lime.html:
+  - ajustar "bootcamp" -> optimizar el CV de "bootcamp"
+  - consecuencia: positive statement -> negative consequence
+TEST_background-carousel_worqai-lime.html:
+  - ajustar "el filtro" -> optimizar el CV de "el filtro"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg2_light-carousel_worqai-lime.html:
+  - ajustar "soporte remoto" -> optimizar el CV de "soporte remoto"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg3_abstract_light-carousel_worqai-lime.html:
+  - ajustar "project management" -> optimizar el CV de "project management"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg3_flowing_dark-carousel_worqai-lime.html:
+  - ajustar "data" -> optimizar el CV de "data"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg3_flowing_light-carousel_worqai-lime.html:
+  - ajustar "tu perfil junior" -> optimizar el CV de "tu perfil junior"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg3_geometric_darkblue-carousel_worqai-lime.html:
+  - ajustar "LinkedIn" -> optimizar el CV de "LinkedIn"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg3_playful_light-carousel_worqai-lime.html:
+  - ajustar "la experiencia" -> optimizar el CV de "la experiencia"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg3_watercolor_dark-carousel_worqai-lime.html:
+  - ajustar "el CV bilingue" -> optimizar "el CV bilingue"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_arch_light-carousel_worqai-lime.html:
+  - ajustar "certificados" -> optimizar el CV de "certificados"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_blueprint_dark-carousel_worqai-lime.html:
+  - ajustar "el rol remoto" -> optimizar el CV de "el rol remoto"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_concrete_dark-carousel_worqai-lime.html:
+  - ajustar "el PDF" -> optimizar el CV de "el PDF"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_grid_dark-carousel_worqai-lime.html:
+  - ajustar "marketing" -> optimizar el CV de "marketing"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_paper_dark-carousel_worqai-lime.html:
+  - ajustar "skills" -> optimizar el CV de "skills"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_ribbon_dark-carousel_worqai-lime.html:
+  - ajustar "la aplicación" -> optimizar el CV de "la aplicación"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_ribbon_light-carousel_worqai-lime.html:
+  - ajustar "las keywords" -> optimizar el CV de "las keywords"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_sculpture_dark-carousel_worqai-lime.html:
+  - ajustar "la extraccion" -> optimizar el CV de "la extraccion"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_sculpture_light-carousel_worqai-lime.html:
+  - ajustar "la velocidad" -> optimizar el CV de "la velocidad"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_sphere_dark-carousel_worqai-lime.html:
+  - ajustar "el mercado US" -> optimizar el CV de "el mercado US"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_stream_dark-carousel_worqai-lime.html:
+  - ajustar "el headline" -> optimizar el CV de "el headline"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_tape_dark-carousel_worqai-lime.html:
+  - ajustar "el texto bonito" -> optimizar el CV de "el texto bonito"
+  - consecuencia: positive statement -> negative consequence
+TEST_bg4_watercolor_dark-carousel_worqai-lime.html:
+  - ajustar "el ultimo check" -> optimizar el CV de "el ultimo check"
+  - consecuencia: positive statement -> negative consequence
+TEST_scene1-background_worqai-lime.html:
+  - ajustar "la vista ATS" -> optimizar el CV de "la vista ATS"
+  - consecuencia: positive statement -> negative consequence

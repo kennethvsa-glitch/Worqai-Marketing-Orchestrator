@@ -1,0 +1,61 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="icong-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="icong-headline {{ text_treatment_class }}">{{ copy.headline }}</div>{% endif %}
+
+    {#
+      Icon grid rules (v2):
+      - Max 3 tiles. If you have more, cut — the grid weakens with 4+.
+      - 1 featured tile recommended (t.featured: true):
+          → spans full row, accent tint background, icon + text side by side
+          → use for the most important insight — the one worth remembering
+      - 2 standard tiles (t.featured: false or omitted):
+          → card background, icon as small technical mark, no bubble container
+      - Icons: use sprite names (warning/error/ok/info/target/lightning/etc.)
+        Not bubbles, not emojis in containers — inline SVG marks only
+    #}
+    {% set _known_icons = ['warning','error','ok','info','clock','arrow-right','arrow-down','arrow-curved','arrow-thick','chart','trending-up','trending-down','target','lock','key','shield','heart','lightning','trophy','star','magnifier'] %}
+    <div class="icong-grid">
+      {% for t in copy.get('tiles', []) %}
+      {% set _ic = (t.icon | default('target')) | string %}
+      {% set _is_featured = t.featured | default(false) %}
+
+      {% if _is_featured %}
+      {# ── Featured tile: full-width, accent tint, icon + text row #}
+      <div class="icong-tile featured">
+        <div style="color:var(--accent);opacity:0.85;flex-shrink:0;display:flex;align-items:center">
+          {% if _ic in _known_icons %}
+          <svg class="icon icon-xl" aria-hidden="true"><use href="#icon-{{ _ic }}"/></svg>
+          {% else %}<span style="font-family:var(--font-display);font-size:28px;line-height:1">{{ _ic }}</span>{% endif %}
+        </div>
+        <div style="flex:1;min-width:0">
+          {% if t.title %}<div class="ig-title">{{ t.title }}</div>{% endif %}
+          {% if t.desc %}<div class="ig-desc">{{ t.desc }}</div>{% endif %}
+        </div>
+      </div>
+
+      {% else %}
+      {# ── Standard tile: card background, inline icon mark (not a bubble) #}
+      <div class="icong-tile">
+        <div style="color:var(--accent);opacity:0.75;margin-bottom:4px;line-height:1">
+          {% if _ic in _known_icons %}
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#icon-{{ _ic }}"/></svg>
+          {% else %}<span style="font-family:var(--font-mono);font-size:14px">{{ _ic }}</span>{% endif %}
+        </div>
+        {% if t.title %}<div class="ig-title">{{ t.title }}</div>{% endif %}
+        {% if t.desc %}<div class="ig-desc">{{ t.desc }}</div>{% endif %}
+      </div>
+      {% endif %}
+
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

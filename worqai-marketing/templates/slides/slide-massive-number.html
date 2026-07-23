@@ -1,0 +1,27 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="mn-wrap">
+    <div class="mn-number">{{ copy.stat_number | default('0') }}</div>
+    <div class="mn-content">
+      {% if copy.kicker or copy.stat_context %}
+      <div class="mn-stat-label">{{ copy.kicker or copy.stat_context }}</div>
+      {% endif %}
+      {% if copy.headline %}
+      <div class="mn-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+      {% endif %}
+      {% if copy.body %}
+      <div class="mn-body">{{ copy.body }}</div>
+      {% endif %}
+      {% if copy.source %}
+      <div class="mn-source">{{ copy.source }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

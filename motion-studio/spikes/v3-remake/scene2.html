@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1023">
+<title>Scene 2 - CV Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100vh; background: #050505; display: flex; justify-content: center; align-items: flex-start; overflow-y: auto; font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif; }
+.canvas { width: 1023px; min-height: 1537px; background: #111015; position: relative; overflow: hidden; flex-shrink: 0; padding: 30px 50px 50px; }
+
+/* Header */
+.header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; padding-top: 10px; }
+.header-left h1 { font-size: 26px; font-weight: 800; color: #f0f0f0; letter-spacing: 0.5px; }
+.header-left p { font-size: 14px; color: #888; margin-top: 4px; line-height: 1.4; }
+.rechazado-badge { background: rgba(192,57,43,0.12); border: 1px solid rgba(192,57,43,0.3); border-radius: 8px; padding: 10px 24px; text-align: center; }
+.rechazado-badge .label { color: #c0392b; font-size: 18px; font-weight: 800; letter-spacing: 2px; }
+.rechazado-badge .sub { color: #888; font-size: 10px; margin-top: 2px; }
+
+/* Radar icon */
+.radar-icon { position: absolute; left: 50px; top: 140px; width: 70px; height: 70px; z-index: 2; }
+
+/* CV Card */
+.cv-card-wrapper { position: relative; margin: 20px 0 30px; }
+.cv-card { background: #e8e8e9; border-radius: 16px; padding: 30px 35px; position: relative; color: #333; }
+.cv-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.avatar { width: 56px; height: 56px; border-radius: 50%; background: #d4a574; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; }
+.cv-name-block h2 { font-size: 32px; font-weight: 700; color: #2c3e50; }
+.cv-role { font-size: 14px; color: #c0392b; font-weight: 600; margin-top: 3px; }
+.cv-contact { display: flex; gap: 30px; margin: 10px 0; font-size: 13px; color: #666; }
+.divider { height: 1px; background: #ddd; margin: 14px 0; }
+
+.section-title { font-size: 12px; font-weight: 700; color: #c0392b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; width: 8px; height: 8px; background: #c0392b; border-radius: 2px; }
+.summary-box { background: rgba(192,57,43,0.06); border: 1px solid rgba(192,57,43,0.15); border-radius: 8px; padding: 14px; font-size: 14px; line-height: 1.6; color: #444; }
+.summary-box .highlight { background: rgba(192,57,43,0.18); padding: 2px 6px; border-radius: 3px; color: #c0392b; }
+
+.skills-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.skill-tag { background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.2); border-radius: 16px; padding: 5px 14px; font-size: 12px; color: #555; }
+.coincidencia { display: flex; align-items: center; gap: 8px; color: #c0392b; font-size: 13px; font-weight: 600; margin-top: 10px; }
+
+.exp-item { margin-bottom: 16px; }
+.exp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
+.exp-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(192,57,43,0.08); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.exp-title { font-size: 15px; font-weight: 700; color: #2c3e50; }
+.exp-meta { font-size: 12px; color: #888; margin-left: 42px; margin-bottom: 5px; }
+.exp-desc { font-size: 13px; color: #555; margin-left: 42px; line-height: 1.5; }
+.exp-desc .highlight { background: rgba(192,57,43,0.15); padding: 1px 5px; border-radius: 3px; color: #c0392b; }
+
+/* Stamp */
+.stamp { position: absolute; bottom: 150px; right: 30px; transform: rotate(-12deg); z-index: 10; }
+.stamp-inner { border: 3px solid #c0392b; padding: 10px 28px; font-size: 44px; font-weight: 900; color: #c0392b; letter-spacing: 3px; opacity: 0.8; }
+
+/* Analysis */
+.analysis-section { background: rgba(255,255,255,0.02); border: 1px solid rgba(192,57,43,0.15); border-radius: 12px; padding: 20px 24px; display: flex; align-items: flex-start; gap: 24px; }
+.radar-section { width: 70px; height: 70px; flex-shrink: 0; }
+.analysis-content { flex: 1; }
+.analysis-title { font-size: 12px; font-weight: 700; color: #c0392b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.analysis-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 14px; color: #aaa; }
+.x-icon { width: 20px; height: 20px; border: 1.5px solid #c0392b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c0392b; font-size: 10px; flex-shrink: 0; }
+
+/* Score */
+.score-section { margin-top: 24px; display: flex; align-items: center; gap: 24px; }
+.score-circle { width: 70px; height: 70px; border-radius: 50%; border: 3px solid rgba(192,57,43,0.25); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.score-circle .num { font-size: 28px; font-weight: 800; color: #c0392b; }
+.score-circle .den { font-size: 11px; color: #888; }
+.score-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+.score-badge { background: rgba(192,57,43,0.12); border: 1px solid rgba(192,57,43,0.25); border-radius: 6px; padding: 5px 14px; font-size: 12px; font-weight: 700; color: #c0392b; }
+.tip-section { margin-left: auto; display: flex; align-items: flex-start; gap: 10px; max-width: 350px; }
+.tip-icon { font-size: 18px; color: #f39c12; }
+.tip-text { font-size: 13px; color: #888; line-height: 1.5; }
+.tip-text strong { color: #f0f0f0; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>ASÍ TE LEE EL FILTRO.</h1>
+      <p>El software que las empresas usan para descartar candidatos<br>antes de que un humano vea tu CV.</p>
+    </div>
+    <div class="rechazado-badge">
+      <div class="label">RECHAZADO</div>
+      <div class="sub">No cumple con los criterios</div>
+    </div>
+  </div>
+
+  <!-- Radar -->
+  <div class="radar-icon">
+    <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
+      <circle cx="35" cy="35" r="30" stroke="#c0392b" stroke-width="1" opacity="0.3"/>
+      <circle cx="35" cy="35" r="20" stroke="#c0392b" stroke-width="0.8" opacity="0.25"/>
+      <circle cx="35" cy="35" r="10" stroke="#c0392b" stroke-width="0.6" opacity="0.2"/>
+      <line x1="35" y1="5" x2="35" y2="65" stroke="#c0392b" stroke-width="0.5" opacity="0.2"/>
+      <line x1="5" y1="35" x2="65" y2="35" stroke="#c0392b" stroke-width="0.5" opacity="0.2"/>
+      <circle cx="35" cy="35" r="3" fill="#c0392b" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- CV Card -->
+  <div class="cv-card-wrapper">
+    <div class="cv-card">
+      <div class="cv-header">
+        <div class="avatar">AQ</div>
+        <div class="cv-name-block">
+          <h2>Andres Quesada R.</h2>
+          <div class="cv-role">Especialista en Servicio al Cliente · Bilingüe EN/ES</div>
+        </div>
+      </div>
+      <div class="cv-contact">
+        <span>&#9993; andres.quesada@email.com</span>
+        <span>&#128205; Puntarenas, Costa Rica</span>
+      </div>
+      <div class="cv-contact">
+        <span>in linkedin.com/in/andresq</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">RESUMEN</div>
+      <div class="summary-box">
+        Estudiante de TI bilingüe (EN/ES, B2+) con experiencia en <span class="highlight">servicio al cliente</span>, <span class="highlight">seguridad</span> y análisis de datos. Certificado en Data Analytics (Excel, SQL, Tableau).
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">HABILIDADES DETECTADAS</div>
+      <div class="skills-row">
+        <div class="skill-tag">Excel</div>
+        <div class="skill-tag">SQL</div>
+        <div class="skill-tag">Tableau</div>
+        <div class="skill-tag">Power BI</div>
+        <div class="skill-tag">Java</div>
+        <div class="skill-tag">C++</div>
+        <div class="skill-tag">Español nativo</div>
+        <div class="skill-tag">Inglés B2+</div>
+      </div>
+      <div class="coincidencia">&#9888; Coincidencia con la vacante: baja</div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">EXPERIENCIA ANALIZADA</div>
+      
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-icon">&#128188;</div>
+          <div class="exp-title">Monitor de Seguridad de Activos</div>
+        </div>
+        <div class="exp-meta">Control y Monitoreo C y M S.A. · Puntarenas, CR · Dic 2023 – Abr 2024</div>
+        <div class="exp-desc">
+          • Cuidaba la <span class="highlight">seguridad</span> de las instalaciones del cliente y llevaba el <span class="highlight">control</span> de quien entraba y salía.
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-icon">&#128188;</div>
+          <div class="exp-title">Recepcionista Bilingüe</div>
+        </div>
+        <div class="exp-meta">Hotel Monte Campana · Dic 2016 – May 2018</div>
+        <div class="exp-desc">
+          • Atendí la <span class="highlight">recepción</span> del hotel y ayudé a huéspedes nacionales e internacionales con sus necesidades.
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-icon">&#128188;</div>
+          <div class="exp-title">Asistente Administrativo</div>
+        </div>
+        <div class="exp-meta">TechValle Solutions · Feb 2018 – Nov 2019</div>
+        <div class="exp-desc">
+          • Apoyaba con <span class="highlight">tareas de oficina</span> y archivo de documentos para el equipo administrativo.
+        </div>
+      </div>
+
+      <!-- Stamp -->
+      <div class="stamp">
+        <div class="stamp-inner">DESCARTADO</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analysis Section -->
+  <div class="analysis-section">
+    <div class="radar-section">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none">
+        <circle cx="35" cy="35" r="30" stroke="#c0392b" stroke-width="1" opacity="0.3"/>
+        <circle cx="35" cy="35" r="20" stroke="#c0392b" stroke-width="0.8" opacity="0.25"/>
+        <circle cx="35" cy="35" r="10" stroke="#c0392b" stroke-width="0.6" opacity="0.2"/>
+        <line x1="35" y1="5" x2="35" y2="65" stroke="#c0392b" stroke-width="0.5" opacity="0.2"/>
+        <line x1="5" y1="35" x2="65" y2="35" stroke="#c0392b" stroke-width="0.5" opacity="0.2"/>
+        <circle cx="35" cy="35" r="3" fill="#c0392b" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="analysis-content">
+      <div class="analysis-title">ANÁLISIS DEL FILTRO</div>
+      <div class="analysis-item">
+        <div class="x-icon">&#10007;</div>
+        <span>Baja coincidencia con el puesto requerido</span>
+      </div>
+      <div class="analysis-item">
+        <div class="x-icon">&#10007;</div>
+        <span>Enfoque en seguridad y servicio, no en el rol buscado</span>
+      </div>
+      <div class="analysis-item">
+        <div class="x-icon">&#10007;</div>
+        <span>Faltan palabras clave críticas para este puesto</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Score Bar -->
+  <div class="score-section">
+    <div class="score-circle">
+      <div class="num">23</div>
+      <div class="den">/100</div>
+    </div>
+    <div>
+      <div class="score-label">PUNTUACIÓN DE AJUSTE</div>
+      <div class="score-badge">BAJO</div>
+    </div>
+    <div class="tip-section">
+      <div class="tip-icon">&#128161;</div>
+      <div class="tip-text">
+        <strong>TIP PARA MEJORAR</strong><br>
+        Adapta tu CV incluyendo más palabras clave del puesto y logros cuantificables.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

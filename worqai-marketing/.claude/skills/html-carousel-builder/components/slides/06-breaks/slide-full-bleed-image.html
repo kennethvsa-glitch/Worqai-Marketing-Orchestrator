@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-full-bleed-image",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: FULL BLEED IMAGE
+Purpose: S3-S6 — Image-only break slide.
+-->
+
+<div class="content">
+  <div class="full-bleed">
+    <div class="fb-img"></div>
+    <div class="fb-caption">
+      <p>El antes y despues de un CV optimizado</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.full-bleed { position: absolute; inset: 0; z-index: 1; }
+.fb-img { position: absolute; inset: 0; background: linear-gradient(145deg, var(--bg-mid), var(--bg-base)); }
+.fb-caption { position: absolute; bottom: var(--pad-bottom-safe); left: var(--pad-x); right: var(--pad-x); }
+.fb-caption p { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+</style>
+
+<!--
+CUSTOMIZATION:
+- Replace .fb-img background with actual image
+- Add gradient overlay for text readability
+- Caption position: bottom (default), top, or centered
+-->

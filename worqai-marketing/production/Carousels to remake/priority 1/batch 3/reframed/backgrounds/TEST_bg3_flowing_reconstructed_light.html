@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flowing — Light Background</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;}
+body{display:flex;align-items:center;justify-content:center;background:#FAFAFA;}
+.canvas{
+  position:relative;
+  width:1080px;height:1080px;
+  background:#FAFAFA;
+  overflow:hidden;
+}
+/* === DECORATIVE ELEMENTS (5 total) === */
+.deco{
+  position:absolute;
+  pointer-events:none;
+  z-index:1;
+}
+/* Top-left lime blob */
+.blob-tl{
+  top:-180px;left:-220px;
+  width:680px;height:620px;
+}
+/* Bottom-right lime blob */
+.blob-br{
+  bottom:-200px;right:-240px;
+  width:720px;height:680px;
+}
+/* Bottom-left light grey shape */
+.blob-bl{
+  bottom:-120px;left:-180px;
+  width:420px;height:380px;
+  opacity:0.45;
+}
+/* Subtle curved border line — top-left */
+.border-tl{
+  top:0;left:0;
+  width:520px;height:480px;
+}
+/* Subtle curved border line — bottom-right */
+.border-br{
+  bottom:0;right:0;
+  width:560px;height:520px;
+}
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <!-- 1. Top-left organic lime blob -->
+  <svg class="deco blob-tl" viewBox="0 0 680 620" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g-tl" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.70"/>
+        <stop offset="55%" style="stop-color:#C7FF3A;stop-opacity:0.30"/>
+        <stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"/>
+      </linearGradient>
+    </defs>
+    <path d="M-40,-40 C140,-20 320,60 400,180 C480,300 420,440 280,500 C140,560 20,480 -40,320 C-80,200 -60,80 -40,-40Z" fill="url(#g-tl)" filter="blur(28px)"/>
+  </svg>
+
+  <!-- 2. Bottom-right organic lime blob -->
+  <svg class="deco blob-br" viewBox="0 0 720 680" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g-br" x1="100%" y1="100%" x2="0%" y2="0%">
+        <stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.65"/>
+        <stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.25"/>
+        <stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"/>
+      </linearGradient>
+    </defs>
+    <path d="M760,720 C580,700 400,620 320,500 C240,380 300,240 440,180 C580,120 700,200 760,360 C800,480 780,600 760,720Z" fill="url(#g-br)" filter="blur(30px)"/>
+  </svg>
+
+  <!-- 3. Bottom-left light grey shape -->
+  <svg class="deco blob-bl" viewBox="0 0 420 380" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g-bl" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#D0D0D0;stop-opacity:0.55"/>
+        <stop offset="60%" style="stop-color:#D0D0D0;stop-opacity:0.20"/>
+        <stop offset="100%" style="stop-color:#D0D0D0;stop-opacity:0"/>
+      </linearGradient>
+    </defs>
+    <path d="M-20,400 C80,380 200,340 260,280 C320,220 300,140 220,100 C140,60 40,80 -20,160 C-60,240 -50,320 -20,400Z" fill="url(#g-bl)" filter="blur(22px)"/>
+  </svg>
+
+  <!-- 4. Subtle curved border — top-left -->
+  <svg class="deco border-tl" viewBox="0 0 520 480" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-10,280 C80,300 200,280 280,220 C360,160 400,80 380,-10" fill="none" stroke="rgba(199,255,58,0.18)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+
+  <!-- 5. Subtle curved border — bottom-right -->
+  <svg class="deco border-br" viewBox="0 0 560 520" xmlns="http://www.w3.org/2000/svg">
+    <path d="M580,240 C500,220 380,240 300,300 C220,360 180,440 200,530" fill="none" stroke="rgba(199,255,58,0.14)" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+
+</div>
+</body>
+</html>

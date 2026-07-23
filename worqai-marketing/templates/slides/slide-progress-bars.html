@@ -1,0 +1,28 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="pbar-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="pbar-headline">{{ copy.headline }}</div>{% endif %}
+
+    {% for bar in copy.get('bars', []) %}
+    <div class="pbar-row">
+      <div class="pbar-head">
+        <div class="pbar-label">{{ bar.label }}</div>
+        <div class="pbar-value">{{ bar.value }}</div>
+      </div>
+      <div class="pbar-track">
+        <div class="pbar-fill" style="width:{{ bar.pct | default(50) }}%"></div>
+      </div>
+    </div>
+    {% endfor %}
+
+    {% if copy.source %}<div class="stat-source">{{ copy.source }}</div>{% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

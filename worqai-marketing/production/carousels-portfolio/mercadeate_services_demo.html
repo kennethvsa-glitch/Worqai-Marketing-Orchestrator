@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mercadeate · Servicios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Cormorant+Garamond:ital,wght@1,600;1,700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-1: #4A0028;
+    --bg-2: #8B0050;
+    --bg-3: #D6006E;
+    --pink: #D6006E;
+    --pink-bright: #FF1493;
+    --white: #FFFFFF;
+    --white-dim: rgba(255,255,255,0.72);
+    --white-faint: rgba(255,255,255,0.14);
+    --rule: rgba(255,255,255,0.20);
+  }
+  body {
+    background: #0d0d10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    padding: 40px 20px;
+  }
+  .label-top {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.32em;
+    text-transform: uppercase; color: var(--pink-bright);
+    margin-bottom: 20px; text-align: center;
+  }
+  .preview-cage { width: 1080px; margin: 0 auto; }
+  @media (min-width: 1200px) {
+    .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; }
+  }
+  .capture-mode .preview-cage { transform: none !important; }
+
+  .viewer { width: 1080px; overflow: hidden; }
+  .wrap { position: relative; width: 1080px; height: 1080px; }
+  .track {
+    display: flex; width: 100%; height: 100%;
+    transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .slide {
+    position: relative;
+    min-width: 1080px; width: 1080px; height: 1080px;
+    overflow: hidden;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Slide gradients */
+  .s1 { background: radial-gradient(ellipse at top left, #6E0040 0%, #4A0028 55%, #2E0019 100%); }
+  .s2 { background: linear-gradient(160deg, #4A0028 0%, #7A0048 100%); }
+  .s3 { background: linear-gradient(135deg, #3A001F 0%, #6E0040 60%, #8B0050 100%); }
+  .s4 { background: radial-gradient(ellipse at bottom right, #8B0050 0%, #5A002E 60%, #2E0019 100%); }
+
+  /* Subtle grain texture — adds depth to flat gradients */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(245,245,245,0.9) 1px, transparent 0);
+    background-size: 3px 3px;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Pink corner glow — atmosphere only */
+  .glow {
+    position: absolute;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(40px);
+  }
+  .s1 .glow { background: radial-gradient(circle, rgba(214,0,110,0.28) 0%, transparent 70%); top: -80px; right: -80px; }
+  .s2 .glow { background: radial-gradient(circle, rgba(214,0,110,0.28) 0%, transparent 70%); bottom: -80px; left: -80px; }
+  .s3 .glow { background: radial-gradient(circle, rgba(214,0,110,0.28) 0%, transparent 70%); top: 50%; left: -100px; transform: translateY(-50%); }
+  .s4 .glow { background: radial-gradient(circle, rgba(214,0,110,0.28) 0%, transparent 70%); top: -60px; left: 30%; }
+
+  /* Blob — supports, never dominates. opacity 0.12 max */
+  .blob {
+    position: absolute;
+    width: 720px; height: 720px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.12;
+  }
+  .s1 .blob { top: -180px; right: -240px; transform: rotate(15deg); }
+  .s2 .blob { bottom: -300px; right: -260px; transform: rotate(-30deg) scale(1.05); }
+  .s3 .blob { top: -240px; left: -260px; transform: rotate(60deg); }
+  .s4 .blob { bottom: -260px; left: -200px; transform: rotate(-15deg); }
+
+  /* Chrome — every slide */
+  .brand-mark {
+    position: absolute;
+    top: 56px; left: 56px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 5;
+  }
+  .brand-square { width: 6px; height: 6px; background: var(--pink); flex-shrink: 0; }
+  .brand-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 17px;
+    color: var(--white);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .counter {
+    position: absolute;
+    top: 56px; right: 56px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 5;
+  }
+  .counter-square { width: 6px; height: 6px; background: var(--pink); flex-shrink: 0; }
+  .counter-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px; font-weight: 400;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .counter-text .dim { color: rgba(255,255,255,0.3); }
+
+  .handle {
+    position: absolute;
+    bottom: 68px; left: 56px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 400;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.05em;
+    z-index: 5;
+  }
+  .progress {
+    position: absolute;
+    bottom: 68px; right: 56px;
+    display: flex; gap: 8px;
+    z-index: 5;
+  }
+  .pbar {
+    width: 28px; height: 3px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+  }
+  .pbar.on { background: var(--pink); }
+
+  /* ============== SLIDE 1 — COVER ============== */
+  .s1-inner {
+    position: relative; z-index: 3;
+    width: 100%; height: 100%;
+    padding: 96px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+  .s1-prelabel {
+    display: flex; align-items: center;
+    gap: 16px;
+  }
+  .s1-prelabel .rule {
+    width: 48px; height: 1px;
+    background: var(--pink);
+    flex-shrink: 0;
+  }
+  .s1-prelabel .text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 400;
+    color: var(--pink-bright);
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+  }
+  .s1-headline { margin-top: 28px; }
+  .s1-headline .word {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 128px;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .s1-headline .italic-line {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 138px;
+    line-height: 0.90;
+    color: var(--pink-bright);
+    margin-top: -6px;
+    letter-spacing: -0.01em;
+  }
+  .s1-divider {
+    width: 100%; height: 1px;
+    background: rgba(255,255,255,0.18);
+    margin-top: 32px;
+  }
+  .s1-meta-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 28px;
+  }
+  .s1-meta-left {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: rgba(255,255,255,0.82);
+    flex: 1;
+  }
+  .s1-meta-right {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 2px;
+    flex-shrink: 0;
+  }
+  .s1-count {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 108px;
+    line-height: 1;
+    color: rgba(214,0,110,0.75);
+  }
+  .s1-count-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.30em;
+    color: rgba(255,255,255,0.40);
+    text-transform: uppercase;
+  }
+  .s1-swipe {
+    position: absolute;
+    right: 96px; bottom: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.40);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    z-index: 4;
+  }
+  .s1-service-strip {
+    position: absolute;
+    left: 96px; right: 96px;
+    bottom: 110px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 4;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 16px;
+  }
+  .strip-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.38);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .strip-sep {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(214,0,110,0.50);
+    flex-shrink: 0;
+  }
+
+  /* ============== SLIDE 2 — REDES SOCIALES ============== */
+  .s2-inner {
+    position: relative; z-index: 3;
+    width: 100%; height: 100%;
+    padding: 88px 96px 110px;
+    display: flex; flex-direction: column;
+  }
+  .s2-cat {
+    display: flex; align-items: center;
+    gap: 12px;
+    margin-bottom: 36px;
+    margin-top: 60px;
+  }
+  .s2-cat .rule {
+    width: 3px; height: 20px;
+    background: var(--pink);
+    flex-shrink: 0;
+  }
+  .s2-cat .text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: rgba(255,255,255,0.60);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+  .s2-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 96px;
+    line-height: 0.88;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+  }
+  .s2-rule-pink {
+    width: 100%; height: 2px;
+    background: var(--pink);
+    margin-bottom: 20px;
+  }
+  .s2-list {
+    display: flex; flex-direction: column;
+  }
+  .svc-row {
+    display: flex; align-items: center;
+    gap: 20px;
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+  }
+  .svc-row:last-child { border-bottom: none; }
+  .svc-row .arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    color: var(--pink);
+    flex-shrink: 0;
+  }
+  .svc-row .name {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--white);
+  }
+  .svc-row.hero .name {
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--pink-bright);
+  }
+  .svc-row.hero .arrow {
+    color: var(--pink-bright);
+  }
+  .svc-row.support .name {
+    font-size: 21px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.62);
+  }
+  .svc-row.support .arrow {
+    color: rgba(214,0,110,0.55);
+  }
+  .s2-pullquote {
+    margin-top: auto;
+    padding-top: 32px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.2;
+    color: rgba(255,255,255,0.22);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ============== SLIDE 3 — IDENTIDAD (RHYTHM BREAK) ============== */
+  .s3-inner {
+    position: relative; z-index: 3;
+    width: 100%; height: 100%;
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 0;
+  }
+  .s3-left {
+    padding: 88px 56px 110px 96px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+  .s3-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--pink-bright);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+  .s3-pinkrule {
+    width: 48px; height: 1px;
+    background: var(--pink);
+    margin: 20px 0;
+  }
+  .s3-hero .l1 {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 112px;
+    line-height: 0.88;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .s3-hero .l2 {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 72px;
+    line-height: 0.88;
+    color: rgba(255,255,255,0.80);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .s3-hero .l3 {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 112px;
+    line-height: 0.88;
+    color: var(--pink-bright);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .s3-hero .l4 {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1;
+    color: rgba(255,255,255,0.60);
+    text-transform: uppercase;
+    margin-top: 4px;
+    letter-spacing: -0.01em;
+  }
+  .s3-support {
+    margin-top: 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: rgba(255,255,255,0.55);
+  }
+  .s3-right {
+    border-left: 1px solid rgba(214,0,110,0.35);
+    padding: 88px 64px 110px 52px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+  }
+  .evidence-row {
+    display: flex; align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+  }
+  .evidence-row:last-child { border-bottom: none; }
+  .evidence-row .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--pink);
+    flex-shrink: 0;
+  }
+  .evidence-row .text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: rgba(255,255,255,0.95);
+  }
+  .evidence-row.anchor-item .dot {
+    background: var(--pink-bright);
+    width: 8px; height: 8px;
+  }
+  .evidence-row.anchor-item .text {
+    color: var(--pink-bright);
+    font-weight: 700;
+  }
+  .evidence-row.mid .text {
+    font-size: 20px;
+    color: rgba(255,255,255,0.80);
+  }
+  .evidence-row.peripheral .text {
+    font-size: 18px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+  }
+  .s3-micro {
+    margin-top: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.30);
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+  }
+
+  /* ============== SLIDE 4 — OTROS + CTA ============== */
+  .s4-inner {
+    position: relative; z-index: 3;
+    width: 100%; height: 100%;
+    padding: 88px 96px 0;
+    display: flex; flex-direction: column;
+  }
+  .s4-cat {
+    display: flex; align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    margin-top: 60px;
+  }
+  .s4-cat .rule {
+    width: 3px; height: 20px;
+    background: var(--pink);
+    flex-shrink: 0;
+  }
+  .s4-cat .text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: rgba(255,255,255,0.60);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+  .s4-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 72px;
+    line-height: 0.88;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+  .svc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    max-width: 860px;
+  }
+  .svc-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-left: 3px solid var(--pink);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .svc-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--pink);
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+  }
+  .svc-card-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.25;
+  }
+  .svc-card-sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.45);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .cta-gradient-bridge {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 225px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(160,0,70,0.25) 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .cta-band {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 225px;
+    background: linear-gradient(135deg, rgba(214,0,110,0.96) 0%, rgba(140,0,70,0.99) 100%);
+    clip-path: polygon(0 30%, 100% 0%, 100% 100%, 0% 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 96px 68px;
+    z-index: 4;
+  }
+  .cta-left {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 72px;
+    color: var(--white);
+    line-height: 1;
+  }
+  .cta-right {
+    text-align: right;
+  }
+  .cta-write {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 13px;
+    color: rgba(255,255,255,0.70);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+  }
+  .cta-handle {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 6px;
+  }
+  .s4 .handle { display: none; }
+  .s4 .progress { display: none; }
+
+  /* Controls */
+  .controls {
+    display: flex; gap: 16px;
+    align-items: center; justify-content: center;
+    margin-top: 28px;
+  }
+  .btn {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    color: rgba(255,255,255,0.6);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.16); }
+  .btn:disabled { opacity: 0.2; cursor: default; }
+  .dots { display: flex; gap: 8px; }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .dot.on { background: var(--pink); width: 18px; border-radius: 3px; }
+  .hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 16px;
+    text-align: center;
+  }
+  .zip-btn {
+    margin-top: 22px;
+    padding: 14px 28px;
+    background: var(--pink);
+    border: none;
+    border-radius: 100px;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .zip-btn:hover { transform: translateY(-1px); }
+  .zip-progress {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<p class="label-top">Mercadeate · Servicios Demo · v4</p>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- ========== SLIDE 1 — COVER ========== -->
+        <div class="slide s1">
+          <div class="glow"></div>
+          <svg class="blob" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <path d="M421.1,316.4c-13.1,69.4-66.7,135.3-138.5,156.8c-71.7,21.6-161.5-1.2-198.5-58.3 C47.1,357.7,62.7,275.1,109.7,210.9c47.1-64.2,125.7-110.2,196.9-99.5C377.7,122.2,441.5,189.7,442.7,247.7 C443.9,305.7,434.3,247,421.1,316.4z" fill="#FF1493"/>
+          </svg>
+
+          <div class="brand-mark">
+            <div class="brand-square"></div>
+            <span class="brand-name">MERCADEATE</span>
+          </div>
+          <div class="counter">
+            <div class="counter-square"></div>
+            <span class="counter-text"><span>01</span><span class="dim"> /04</span></span>
+          </div>
+
+          <div class="s1-inner">
+            <div class="s1-prelabel">
+              <div class="rule"></div>
+              <span class="text">ESTUDIO CREATIVO</span>
+            </div>
+            <div class="s1-headline">
+              <span class="word">CONOCÉ NUESTROS</span>
+              <span class="italic-line">servicios</span>
+            </div>
+            <div class="s1-divider"></div>
+            <div class="s1-meta-row">
+              <div class="s1-meta-left">Estrategia que convierte.</div>
+              <div class="s1-meta-right">
+                <span class="s1-count">04</span>
+                <span class="s1-count-label">ÁREAS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="s1-swipe">DESLIZÁ →</div>
+          <div class="s1-service-strip">
+            <span class="strip-item">REDES SOCIALES</span>
+            <span class="strip-sep">·</span>
+            <span class="strip-item">BRANDING</span>
+            <span class="strip-sep">·</span>
+            <span class="strip-item">IDENTIDAD</span>
+            <span class="strip-sep">·</span>
+            <span class="strip-item">ESTRATEGIA</span>
+          </div>
+          <div class="handle">@mercadeatecr_</div>
+          <div class="progress">
+            <div class="pbar on"></div>
+            <div class="pbar"></div>
+            <div class="pbar"></div>
+            <div class="pbar"></div>
+          </div>
+        </div>
+
+        <!-- ========== SLIDE 2 — REDES SOCIALES ========== -->
+        <div class="slide s2">
+          <div class="glow"></div>
+          <svg class="blob" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <path d="M421.1,316.4c-13.1,69.4-66.7,135.3-138.5,156.8c-71.7,21.6-161.5-1.2-198.5-58.3 C47.1,357.7,62.7,275.1,109.7,210.9c47.1-64.2,125.7-110.2,196.9-99.5C377.7,122.2,441.5,189.7,442.7,247.7 C443.9,305.7,434.3,247,421.1,316.4z" fill="#FF1493"/>
+          </svg>
+
+          <div class="brand-mark">
+            <div class="brand-square"></div>
+            <span class="brand-name">MERCADEATE</span>
+          </div>
+          <div class="counter">
+            <div class="counter-square"></div>
+            <span class="counter-text"><span>02</span><span class="dim"> /04</span></span>
+          </div>
+
+          <div class="s2-inner">
+            <div class="s2-cat">
+              <div class="rule"></div>
+              <span class="text">REDES SOCIALES</span>
+            </div>
+            <h2 class="s2-headline">Contenido que sostiene marca.</h2>
+            <div class="s2-rule-pink"></div>
+            <div class="s2-list">
+              <div class="svc-row support">
+                <span class="arrow">→</span>
+                <span class="name">Community Management</span>
+              </div>
+              <div class="svc-row support">
+                <span class="arrow">→</span>
+                <span class="name">Email Marketing</span>
+              </div>
+              <div class="svc-row">
+                <span class="arrow">→</span>
+                <span class="name">Producción de Contenido</span>
+              </div>
+              <div class="svc-row hero">
+                <span class="arrow">→</span>
+                <span class="name">Gestión de Anuncios · FB &amp; Google Ads</span>
+              </div>
+            </div>
+            <div class="s2-pullquote">
+              "Tu marca, publicada<br>sin estrés."
+            </div>
+          </div>
+
+          <div class="handle">@mercadeatecr_</div>
+          <div class="progress">
+            <div class="pbar"></div>
+            <div class="pbar on"></div>
+            <div class="pbar"></div>
+            <div class="pbar"></div>
+          </div>
+        </div>
+
+        <!-- ========== SLIDE 3 — IDENTIDAD DE MARCA (RHYTHM BREAK) ========== -->
+        <div class="slide s3">
+          <div class="glow"></div>
+          <svg class="blob" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <path d="M421.1,316.4c-13.1,69.4-66.7,135.3-138.5,156.8c-71.7,21.6-161.5-1.2-198.5-58.3 C47.1,357.7,62.7,275.1,109.7,210.9c47.1-64.2,125.7-110.2,196.9-99.5C377.7,122.2,441.5,189.7,442.7,247.7 C443.9,305.7,434.3,247,421.1,316.4z" fill="#FF1493"/>
+          </svg>
+
+          <div class="brand-mark">
+            <div class="brand-square"></div>
+            <span class="brand-name">MERCADEATE</span>
+          </div>
+          <div class="counter">
+            <div class="counter-square"></div>
+            <span class="counter-text"><span>03</span><span class="dim"> /04</span></span>
+          </div>
+
+          <div class="s3-inner">
+            <div class="s3-left">
+              <span class="s3-cat">IDENTIDAD DE MARCA</span>
+              <div class="s3-pinkrule"></div>
+              <div class="s3-hero">
+                <span class="l1">IDENTIDAD</span>
+                <span class="l2">QUE SE</span>
+                <span class="l3">RECONOCE</span>
+                <span class="l4">AL INSTANTE.</span>
+              </div>
+              <p class="s3-support">Todo lo que te hace reconocible.</p>
+              <p class="s3-micro">7 especialidades. Una sola agencia.</p>
+            </div>
+            <div class="s3-right">
+              <div class="evidence-row anchor-item">
+                <div class="dot"></div>
+                <span class="text">Diseño de Logotipo</span>
+              </div>
+              <div class="evidence-row mid">
+                <div class="dot"></div>
+                <span class="text">Branding</span>
+              </div>
+              <div class="evidence-row mid">
+                <div class="dot"></div>
+                <span class="text">Naming</span>
+              </div>
+              <div class="evidence-row">
+                <div class="dot"></div>
+                <span class="text">Diseño de Etiquetas</span>
+              </div>
+              <div class="evidence-row peripheral">
+                <div class="dot"></div>
+                <span class="text">Diseño de Papelería</span>
+              </div>
+              <div class="evidence-row peripheral">
+                <div class="dot"></div>
+                <span class="text">Íconos para Historias</span>
+              </div>
+              <div class="evidence-row peripheral">
+                <div class="dot"></div>
+                <span class="text">Diseño de Menú</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="handle">@mercadeatecr_</div>
+          <div class="progress">
+            <div class="pbar"></div>
+            <div class="pbar"></div>
+            <div class="pbar on"></div>
+            <div class="pbar"></div>
+          </div>
+        </div>
+
+        <!-- ========== SLIDE 4 — OTROS + CTA ========== -->
+        <div class="slide s4">
+          <div class="glow"></div>
+          <svg class="blob" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+            <path d="M421.1,316.4c-13.1,69.4-66.7,135.3-138.5,156.8c-71.7,21.6-161.5-1.2-198.5-58.3 C47.1,357.7,62.7,275.1,109.7,210.9c47.1-64.2,125.7-110.2,196.9-99.5C377.7,122.2,441.5,189.7,442.7,247.7 C443.9,305.7,434.3,247,421.1,316.4z" fill="#FF1493"/>
+          </svg>
+
+          <div class="brand-mark">
+            <div class="brand-square"></div>
+            <span class="brand-name">MERCADEATE</span>
+          </div>
+          <div class="counter">
+            <div class="counter-square"></div>
+            <span class="counter-text"><span>04</span><span class="dim"> /04</span></span>
+          </div>
+
+          <div class="s4-inner">
+            <div class="s4-cat">
+              <div class="rule"></div>
+              <span class="text">OTROS SERVICIOS</span>
+            </div>
+            <h2 class="s4-headline">Más allá del contenido.</h2>
+            <div class="svc-grid">
+              <div class="svc-card">
+                <div class="svc-card-num">01</div>
+                <span class="svc-card-name">Asesorías 1 a 1</span>
+                <span class="svc-card-sub">Estrategia personalizada</span>
+              </div>
+              <div class="svc-card">
+                <div class="svc-card-num">02</div>
+                <span class="svc-card-name">Estudio de Mercado</span>
+                <span class="svc-card-sub">Data que informa decisiones</span>
+              </div>
+              <div class="svc-card">
+                <div class="svc-card-num">03</div>
+                <span class="svc-card-name">Estrategias de Venta</span>
+                <span class="svc-card-sub">Del funnel al cierre</span>
+              </div>
+              <div class="svc-card">
+                <div class="svc-card-num">04</div>
+                <span class="svc-card-name">Video &amp; Fotografía</span>
+                <span class="svc-card-sub">Contenido visual profesional</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-gradient-bridge"></div>
+          <div class="cta-band">
+            <div class="cta-left">¿Empezamos?</div>
+            <div class="cta-right">
+              <div class="cta-write">ESCRIBINOS →</div>
+              <div class="cta-handle">@mercadeatecr_</div>
+            </div>
+          </div>
+
+          <div class="progress">
+            <div class="pbar"></div>
+            <div class="pbar"></div>
+            <div class="pbar"></div>
+            <div class="pbar on"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev" onclick="move(-1)">‹</button>
+  <div class="dots">
+    <div class="dot on" onclick="go(0)"></div>
+    <div class="dot" onclick="go(1)"></div>
+    <div class="dot" onclick="go(2)"></div>
+    <div class="dot" onclick="go(3)"></div>
+  </div>
+  <button class="btn" id="next" onclick="move(1)">›</button>
+</div>
+<p class="hint">USÁ ← → · DESLIZÁ · CLICK</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · full quality</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 1080}px)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+
+let sx = 0;
+const wrapEl = document.getElementById('wrap');
+wrapEl.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrapEl.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+wrapEl.addEventListener('click', e => {
+  const rect = wrapEl.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  if (x < rect.width / 2) move(-1); else move(1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const wrap = document.getElementById('wrap');
+  document.body.classList.add('capture-mode');
+  await new Promise(r => setTimeout(r, 100));
+  track.style.transition = 'none';
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 1080}px)`;
+    await new Promise(r => setTimeout(r, 250));
+    try {
+      const canvas = await html2canvas(wrap, {
+        width: 1080, height: 1080,
+        windowWidth: 1080, windowHeight: 1080,
+        scale: 1, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'mercadeate-services-v4.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · PNGs';
+    progress.textContent = '1080 × 1080 px · full quality';
+  }, 3000);
+}
+</script>
+</body>
+</html>

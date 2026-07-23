@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kintsugi Studio · Your brand is a signal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #050608; min-height: 100vh; font-family: 'Cormorant Garamond', serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+/* ── TOP LABEL ── */
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #facc6b; margin-bottom: 18px; text-align: center; font-family: 'Cormorant Garamond', serif; }
+
+/* ── PREVIEW CAGE ── */
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 675px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1350px; aspect-ratio: 4 / 5; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background: linear-gradient(145deg, #050608, #111319 50%, #181b22);
+         color: #f9fafb; }
+
+/* ── SUNBURST (persistent, all slides) ── */
+.sunburst { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.sunburst svg { position: absolute; width: 100%; height: 100%; opacity: 0.08; }
+
+/* ── RIBBON FLOW (persistent, all slides) ── */
+.ribbon-flow { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.ribbon-flow svg { position: absolute; width: 100%; height: 100%; opacity: 0.10; }
+
+/* ── GRAIN ── */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.22;
+                 pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+
+/* ── GOLD RADIAL GLOW (varies per slide) ── */
+.gold-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%;
+             background: radial-gradient(circle, rgba(250,204,107,0.12) 0%, transparent 70%);
+             pointer-events: none; z-index: 1; }
+
+/* ── CONTENT LAYER ── */
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #facc6b; }
+.mast-issue { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(249,250,251,0.45); }
+
+/* ── BRAND ANCHOR ── */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 16px;
+              letter-spacing: 0.20em; text-transform: uppercase; }
+.brand-mark .core { color: #f9fafb; }
+.brand-mark .accent { color: #facc6b; }
+.handle { position: absolute; bottom: 38px; left: 340px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(249,250,251,0.35); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: #f9fafb; }
+
+/* ── PROGRESS DOTS ── */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(249,250,251,0.14); }
+.pd.on { background: #facc6b !important; box-shadow: 0 0 8px rgba(250,204,107,0.5); }
+
+/* ── SWIPE PILL ── */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #facc6b; color: #050608;
+              font-family: 'Cinzel Decorative', cursive; font-size: 12px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(250,204,107,0.3); }
+
+/* ── KICKER ── */
+.kicker { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 14px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #facc6b; }
+.kicker::before { content: ''; width: 28px; height: 2px; background: #facc6b;
+                  box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+
+.headline { font-family: 'Cinzel Decorative', cursive; font-weight: 700;
+            font-size: 68px; line-height: 1.05; letter-spacing: 0.02em; color: #f9fafb; }
+
+/* ── GLOW UTILITIES ── */
+.gold-glow-text { text-shadow: 0 0 10px rgba(250,204,107,0.4), 0 0 30px rgba(250,204,107,0.15); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 1 · MANIFESTO STACK + OFFSET ECHO + ZOOM RINGS
+   ═══════════════════════════════════════════════════════════════ */
+.s1-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 500px; height: 500px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(250,204,107,0.05) 0%, transparent 60%);
+            pointer-events: none; z-index: 1; }
+
+.s1-rings { position: absolute; top: 45%; left: 55%; transform: translate(-50%,-50%);
+            pointer-events: none; z-index: 1; }
+.s1-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #facc6b;
+                  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.s1-rings .r1 { width: 80px; height: 80px; opacity: 0.40; }
+.s1-rings .r2 { width: 170px; height: 170px; opacity: 0.22; }
+.s1-rings .r3 { width: 280px; height: 280px; opacity: 0.10; border-width: 1px; }
+.s1-rings .r4 { width: 400px; height: 400px; opacity: 0.05; border-width: 1px; }
+
+.s1-eyebrow { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.34em; text-transform: uppercase; color: #facc6b;
+              margin-bottom: 36px; padding-bottom: 18px; border-bottom: 1px solid #facc6b;
+              max-width: 380px; text-shadow: 0 0 8px rgba(250,204,107,0.3); }
+.s1-stack { display: flex; flex-direction: column; gap: 12px; }
+.s1-line { font-family: 'Cinzel Decorative', cursive; font-size: 64px; line-height: 1.0;
+           letter-spacing: 0.02em; }
+.s1-line.heavy { font-weight: 700; text-transform: uppercase; color: #f9fafb; }
+.s1-line.light { font-weight: 400; color: #facc6b; font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 58px; }
+
+.s1-echo-wrap { position: relative; display: inline-block; z-index: 3; }
+.s1-echo-ghost { position: absolute; top: 5px; left: 5px; font-size: 64px; font-weight: 700;
+                 line-height: 1.0; letter-spacing: 0.02em; color: #facc6b; opacity: 0.18;
+                 white-space: nowrap; pointer-events: none; font-family: 'Cinzel Decorative', cursive; }
+.s1-echo-real { position: relative; font-size: 64px; font-weight: 700;
+                line-height: 1.0; letter-spacing: 0.02em; color: #050608;
+                background: #facc6b; padding: 4px 16px; align-self: flex-start;
+                box-shadow: 0 0 30px rgba(250,204,107,0.35); white-space: nowrap;
+                font-family: 'Cinzel Decorative', cursive; }
+
+.s1-line.outline { font-weight: 700; text-transform: uppercase; color: transparent;
+                   -webkit-text-stroke: 1.2px #f9fafb; font-family: 'Cinzel Decorative', cursive; }
+.s1-byline { margin-top: 36px; font-family: 'Cormorant Garamond', serif; font-size: 18px;
+             font-weight: 400; color: rgba(250,204,107,0.55); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 1px solid rgba(250,204,107,0.18); max-width: 520px;
+             line-height: 1.6; font-style: italic; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 2 · BIG NUMBER + ZOOM RINGS
+   ═══════════════════════════════════════════════════════════════ */
+.s2-rings { position: absolute; top: 40%; left: 25%; transform: translate(-50%,-50%);
+            pointer-events: none; z-index: 1; }
+.s2-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #d4a843;
+                  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.s2-rings .r1 { width: 100px; height: 100px; opacity: 0.35; }
+.s2-rings .r2 { width: 220px; height: 220px; opacity: 0.18; }
+.s2-rings .r3 { width: 360px; height: 360px; opacity: 0.09; border-width: 1px; }
+.s2-rings .r4 { width: 500px; height: 500px; opacity: 0.04; border-width: 1px; }
+
+.s2-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+           gap: 44px; flex: 1; }
+.s2-stat { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 380px;
+           line-height: 0.80; letter-spacing: -0.04em; color: #f9fafb;
+           position: relative; text-shadow: 0 0 40px rgba(250,204,107,0.20); }
+.s2-stat .sym { font-size: 160px; vertical-align: top; line-height: 1;
+                color: #d4a843; text-shadow: 0 0 30px rgba(212,168,67,0.35); }
+.s2-stat::after { content: ''; position: absolute; left: -10px; bottom: -16px; width: 280px;
+                  height: 3px; background: #facc6b;
+                  box-shadow: 0 0 15px rgba(250,204,107,0.5); }
+
+.s2-side { display: flex; flex-direction: column; gap: 22px; padding-left: 8px; }
+.s2-side-tag { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 14px;
+               letter-spacing: 0.32em; text-transform: uppercase; color: #d4a843; }
+.s2-side-headline { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 30px;
+                    line-height: 1.15; color: #f9fafb; }
+.s2-side-body { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 20px;
+                line-height: 1.5; color: rgba(249,250,251,0.70); }
+.s2-side-body strong { color: #facc6b; font-weight: 700; }
+.s2-source { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+             color: rgba(249,250,251,0.45); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 1px solid #facc6b; margin-top: 8px; }
+.s2-source strong { color: #f9fafb; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 3 · QUOTE / PROOF
+   ═══════════════════════════════════════════════════════════════ */
+.s3-quote-frame { display: flex; flex-direction: column; align-items: center;
+                  justify-content: center; text-align: center; flex: 1;
+                  padding: 40px; border: 1px solid rgba(250,204,107,0.20);
+                  margin-top: 28px; position: relative; }
+.s3-quote-frame::before { content: ''; position: absolute; top: -1px; left: 60px; right: 60px;
+                          height: 3px; background: #facc6b;
+                          box-shadow: 0 0 15px rgba(250,204,107,0.4); }
+.s3-quote-frame::after { content: ''; position: absolute; bottom: -1px; left: 60px; right: 60px;
+                         height: 3px; background: #facc6b;
+                         box-shadow: 0 0 15px rgba(250,204,107,0.4); }
+
+.s3-quote-mark { font-family: 'Cinzel Decorative', cursive; font-size: 120px; color: #facc6b;
+                 opacity: 0.20; line-height: 0.6; margin-bottom: 20px; }
+.s3-quote-text { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 42px;
+                 line-height: 1.15; color: #f9fafb; max-width: 700px; }
+.s3-quote-attrib { margin-top: 28px; font-family: 'Cormorant Garamond', serif; font-size: 18px;
+                   font-weight: 400; font-style: italic; color: rgba(250,204,107,0.60);
+                   letter-spacing: 0.06em; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 4 · CTA
+   ═══════════════════════════════════════════════════════════════ */
+.s4-cta-wrap { display: flex; flex-direction: column; align-items: center;
+               justify-content: center; text-align: center; flex: 1; gap: 32px; }
+.s4-cta-line { font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 46px;
+               line-height: 1.1; color: #f9fafb; }
+.s4-keyword-box { display: inline-block; background: transparent; color: #facc6b;
+                  padding: 14px 32px; font-family: 'Cinzel Decorative', cursive; font-weight: 700;
+                  font-size: 42px; letter-spacing: 0.10em; text-transform: uppercase;
+                  border: 2px solid #facc6b;
+                  box-shadow: 0 0 25px rgba(250,204,107,0.20), inset 0 0 30px rgba(250,204,107,0.05); }
+.s4-cta-body { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400;
+               color: rgba(249,250,251,0.75); max-width: 600px; line-height: 1.5; }
+.s4-cta-btn { background: #facc6b; color: #050608; border: 2px solid #facc6b;
+              font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 16px;
+              letter-spacing: 0.18em; text-transform: uppercase; padding: 18px 40px;
+              white-space: nowrap; cursor: pointer;
+              box-shadow: 0 0 25px rgba(250,204,107,0.3); }
+.s4-cta-btn:hover { background: #f5d77a; }
+
+/* ── CONTROLS ── */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #facc6b; border: none; color: #050608;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900;
+       box-shadow: 0 0 12px rgba(250,204,107,0.3); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(249,250,251,0.15); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #facc6b; width: 24px; box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+.hint { font-size: 11px; color: rgba(249,250,251,0.20); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #facc6b; color: #050608; border: 2px solid #facc6b; cursor: pointer;
+           font-family: 'Cinzel Decorative', cursive; font-weight: 700; font-size: 13px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s;
+           box-shadow: 0 0 20px rgba(250,204,107,0.25); }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(249,250,251,0.40); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+<p class="label-top">Kintsugi Studio · Manifesto · 4 slides · System 35 Art Deco Gilt</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · MANIFESTO STACK ═══════ -->
+      <section class="slide" id="slide-1">
+        <div class="sunburst">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none">
+            <g stroke="#facc6b" stroke-width="1" fill="none">
+              <line x1="540" y1="675" x2="540" y2="0"/><line x1="540" y1="675" x2="1080" y2="0"/>
+              <line x1="540" y1="675" x2="1080" y2="675"/><line x1="540" y1="675" x2="1080" y2="1350"/>
+              <line x1="540" y1="675" x2="540" y2="1350"/><line x1="540" y1="675" x2="0" y2="1350"/>
+              <line x1="540" y1="675" x2="0" y2="675"/><line x1="540" y1="675" x2="0" y2="0"/>
+              <line x1="540" y1="675" x2="810" y2="168"/><line x1="540" y1="675" x2="945" y2="337"/>
+              <line x1="540" y1="675" x2="945" y2="1012"/><line x1="540" y1="675" x2="810" y2="1182"/>
+              <line x1="540" y1="675" x2="270" y2="1182"/><line x1="540" y1="675" x2="135" y2="1012"/>
+              <line x1="540" y1="675" x2="135" y2="337"/><line x1="540" y1="675" x2="270" y2="168"/>
+            </g>
+          </svg>
+        </div>
+        <div class="ribbon-flow">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none">
+            <path d="M0,900 C300,850 400,1050 540,1000 C700,940 800,800 1080,750" fill="none" stroke="#facc6b" stroke-width="1.5" opacity="0.4"/>
+            <path d="M0,950 C300,900 400,1100 540,1050 C700,990 800,850 1080,800" fill="none" stroke="#facc6b" stroke-width="1" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="s1-glow"></div>
+        <div class="s1-rings">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="ring r3"></div><div class="ring r4"></div>
+        </div>
+        <div class="gold-glow" style="top:-10%;right:-10%;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifesto · 01</div>
+          <div class="mast-issue">Nov 2026 · Tokyo · London</div>
+        </div>
+        <div class="content">
+          <div class="s1-eyebrow">Read · 9 seconds</div>
+          <div class="s1-stack">
+            <div class="s1-line heavy">Cheap design</div>
+            <div class="s1-line light">is expensive.</div>
+            <div class="s1-line heavy">You just pay</div>
+            <div class="s1-echo-wrap">
+              <span class="s1-echo-ghost">twice.</span>
+              <span class="s1-echo-real">twice.</span>
+            </div>
+            <div class="s1-line outline">The second time hurts more.</div>
+          </div>
+          <p class="s1-byline">— The average rebrand after a failed first impression costs forty-seven thousand dollars. The real price is the trust you never recover.</p>
+          <div class="swipe-pill">Swipe →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Kintsugi</span><span class="accent">Studio</span></div>
+        <div class="handle">@kintsugistudio · brand intelligence</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · BIG NUMBER ═══════ -->
+      <section class="slide" id="slide-2">
+        <div class="sunburst">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none" style="transform:rotate(15deg);transform-origin:center;">
+            <g stroke="#facc6b" stroke-width="1" fill="none">
+              <line x1="540" y1="675" x2="540" y2="0"/><line x1="540" y1="675" x2="1080" y2="0"/>
+              <line x1="540" y1="675" x2="1080" y2="675"/><line x1="540" y1="675" x2="1080" y2="1350"/>
+              <line x1="540" y1="675" x2="540" y2="1350"/><line x1="540" y1="675" x2="0" y2="1350"/>
+              <line x1="540" y1="675" x2="0" y2="675"/><line x1="540" y1="675" x2="0" y2="0"/>
+              <line x1="540" y1="675" x2="810" y2="168"/><line x1="540" y1="675" x2="945" y2="337"/>
+              <line x1="540" y1="675" x2="945" y2="1012"/><line x1="540" y1="675" x2="810" y2="1182"/>
+              <line x1="540" y1="675" x2="270" y2="1182"/><line x1="540" y1="675" x2="135" y2="1012"/>
+              <line x1="540" y1="675" x2="135" y2="337"/><line x1="540" y1="675" x2="270" y2="168"/>
+            </g>
+          </svg>
+        </div>
+        <div class="ribbon-flow">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none" style="transform:translate(20px,-30px);">
+            <path d="M0,900 C300,850 400,1050 540,1000 C700,940 800,800 1080,750" fill="none" stroke="#facc6b" stroke-width="1.5" opacity="0.4"/>
+            <path d="M0,950 C300,900 400,1100 540,1050 C700,990 800,850 1080,800" fill="none" stroke="#facc6b" stroke-width="1" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="gold-glow" style="bottom:-20%;left:-15%;"></div>
+        <div class="s2-rings">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="ring r3"></div><div class="ring r4"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#d4a843;">Manifesto · 01</div>
+          <div class="mast-issue">The number that stops the room</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#d4a843;">The data</div>
+          <div class="s2-grid">
+            <div class="s2-stat">47<span class="sym">K</span></div>
+            <div class="s2-side">
+              <div class="s2-side-tag">Average rebrand cost</div>
+              <div class="s2-side-headline">after a bad first impression.</div>
+              <div class="s2-side-body">Seventy percent of consumers form an opinion about a brand <strong>within 90 seconds</strong> of first contact. That opinion is 62% driven by visual identity alone. You don't get a second first impression.</div>
+              <div class="s2-source"><strong>Source:</strong> Kintsugi Studio · Brand Intelligence Report 2026</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Kintsugi</span><span class="accent">Studio</span></div>
+        <div class="handle">@kintsugistudio · brand intelligence</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · QUOTE / PROOF ═══════ -->
+      <section class="slide" id="slide-3">
+        <div class="sunburst">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none" style="transform:rotate(-10deg);transform-origin:center;">
+            <g stroke="#facc6b" stroke-width="1" fill="none">
+              <line x1="540" y1="675" x2="540" y2="0"/><line x1="540" y1="675" x2="1080" y2="0"/>
+              <line x1="540" y1="675" x2="1080" y2="675"/><line x1="540" y1="675" x2="1080" y2="1350"/>
+              <line x1="540" y1="675" x2="540" y2="1350"/><line x1="540" y1="675" x2="0" y2="1350"/>
+              <line x1="540" y1="675" x2="0" y2="675"/><line x1="540" y1="675" x2="0" y2="0"/>
+              <line x1="540" y1="675" x2="810" y2="168"/><line x1="540" y1="675" x2="945" y2="337"/>
+              <line x1="540" y1="675" x2="945" y2="1012"/><line x1="540" y1="675" x2="810" y2="1182"/>
+              <line x1="540" y1="675" x2="270" y2="1182"/><line x1="540" y1="675" x2="135" y2="1012"/>
+              <line x1="540" y1="675" x2="135" y2="337"/><line x1="540" y1="675" x2="270" y2="168"/>
+            </g>
+          </svg>
+        </div>
+        <div class="ribbon-flow">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none" style="transform:translate(-15px,25px);">
+            <path d="M0,900 C300,850 400,1050 540,1000 C700,940 800,800 1080,750" fill="none" stroke="#facc6b" stroke-width="1.5" opacity="0.4"/>
+            <path d="M0,950 C300,900 400,1100 540,1050 C700,990 800,850 1080,800" fill="none" stroke="#facc6b" stroke-width="1" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="gold-glow" style="top:30%;right:-20%;opacity:0.6;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifesto · 01</div>
+          <div class="mast-issue">Proof · Berlin</div>
+        </div>
+        <div class="content">
+          <div class="kicker">The case · Fintech, Berlin</div>
+          <h2 class="headline" style="font-size:46px;">From noise to signal.</h2>
+          <div class="s3-quote-frame">
+            <div class="s3-quote-mark">"</div>
+            <div class="s3-quote-text">We didn't need a logo.<br>We needed a signal<br>that cut through the noise.</div>
+            <div class="s3-quote-attrib">— Rebranded client, Series C fintech, 2025</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Kintsugi</span><span class="accent">Studio</span></div>
+        <div class="handle">@kintsugistudio · brand intelligence</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · CTA ═══════ -->
+      <section class="slide" id="slide-4">
+        <div class="sunburst">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none" style="transform:rotate(5deg);transform-origin:center;">
+            <g stroke="#facc6b" stroke-width="1" fill="none">
+              <line x1="540" y1="675" x2="540" y2="0"/><line x1="540" y1="675" x2="1080" y2="0"/>
+              <line x1="540" y1="675" x2="1080" y2="675"/><line x1="540" y1="675" x2="1080" y2="1350"/>
+              <line x1="540" y1="675" x2="540" y2="1350"/><line x1="540" y1="675" x2="0" y2="1350"/>
+              <line x1="540" y1="675" x2="0" y2="675"/><line x1="540" y1="675" x2="0" y2="0"/>
+              <line x1="540" y1="675" x2="810" y2="168"/><line x1="540" y1="675" x2="945" y2="337"/>
+              <line x1="540" y1="675" x2="945" y2="1012"/><line x1="540" y1="675" x2="810" y2="1182"/>
+              <line x1="540" y1="675" x2="270" y2="1182"/><line x1="540" y1="675" x2="135" y2="1012"/>
+              <line x1="540" y1="675" x2="135" y2="337"/><line x1="540" y1="675" x2="270" y2="168"/>
+            </g>
+          </svg>
+        </div>
+        <div class="ribbon-flow">
+          <svg viewBox="0 0 1080 1350" preserveAspectRatio="none" style="transform:translate(10px,-15px);">
+            <path d="M0,900 C300,850 400,1050 540,1000 C700,940 800,800 1080,750" fill="none" stroke="#facc6b" stroke-width="1.5" opacity="0.35"/>
+            <path d="M0,950 C300,900 400,1100 540,1050 C700,990 800,850 1080,800" fill="none" stroke="#facc6b" stroke-width="1" opacity="0.2"/>
+          </svg>
+        </div>
+        <div class="gold-glow" style="top:20%;left:-15%;opacity:0.6;"></div>
+        <div class="gold-glow" style="bottom:-20%;right:10%;opacity:0.4;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#facc6b;">Manifesto · 01</div>
+          <div class="mast-issue">Begin · Your signal starts here</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#facc6b;">The invitation</div>
+          <h2 class="headline" style="font-size:46px;">Is your brand sending<br>the right signal?</h2>
+
+          <div class="s4-cta-wrap">
+            <div class="s4-cta-line">Comment</div>
+            <div class="s4-keyword-box">AUDIT</div>
+            <div class="s4-cta-body">Book a 15-minute brand diagnostic. We map your signal, identify the noise, and show you exactly where your brand is leaking trust.</div>
+            <button class="s4-cta-btn">Book Diagnostic</button>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark"><span class="core">Kintsugi</span><span class="accent">Studio</span></div>
+        <div class="handle">@kintsugistudio · brand intelligence</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Arrows · Swipe · Click dots</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1350 px · art deco gilt · gold geometry</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Needs internet to load libraries.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturing ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} of ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Compressing...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel-kintsugi-studio-art-deco.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP downloaded';
+  progress.textContent = `${slides.length} files · slide_01–04.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Export ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1350 px · art deco gilt · gold geometry';
+  }, 3000);
+}
+</script>
+</body>
+</html>

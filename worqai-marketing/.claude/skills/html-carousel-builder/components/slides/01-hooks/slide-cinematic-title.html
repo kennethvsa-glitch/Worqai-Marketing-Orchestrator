@@ -1,0 +1,31 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-cinematic-title",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: CINEMATIC TITLE
+Purpose: S1 — Dramatic wide text with letter spacing.
+-->
+
+<div class="content">
+  <div class="cinematic">
+    <p class="cin-label">El problema</p>
+    <h1 class="cin-display">TU CV<br>ES INVISIBLE</h1>
+    <p class="cin-sub">Y cada dia que pasa, pierdes oportunidades.</p>
+  </div>
+  <div class="swipe-pill" style="margin-top:auto;align-self:flex-start;">desliza &rarr;</div>
+</div>
+
+<style>
+.cinematic { display: flex; flex-direction: column; gap: 24px; margin-top: auto; margin-bottom: auto; }
+.cin-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.30em; text-transform: uppercase; color: var(--accent); }
+.cin-display { font-family: var(--font-display), system-ui, sans-serif; font-size: 110px; font-weight: 900; line-height: 0.95; letter-spacing: 0.08em; color: var(--text-primary); text-transform: uppercase; }
+.cin-sub { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 560px; }
+</style>

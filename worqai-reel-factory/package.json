@@ -1,0 +1,15 @@
+{
+  "name": "worqai-reel-factory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Content factory for WorqAI reels — HyperFrames render engine",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "hyperframes": "0.7.52"
+  },
+  "scripts": {
+    "render": "hyperframes render"
+  }
+}

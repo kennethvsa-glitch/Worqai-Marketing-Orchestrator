@@ -1,0 +1,56 @@
+[
+  {
+    "label": "s1-hero",
+    "line": "Mandaste el CV.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "s1-nada",
+    "line": "Y nada.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "filter_reject",
+    "line": "El filtro no leyó tu experiencia.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "turn-human",
+    "line": "No es falta de talento. Es estructura.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "tailor1_start",
+    "line": "WorqAI adapta tu CV a la vacante.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "tailor1_score",
+    "line": "Misma experiencia. Mejor lectura para ATS.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "success_banner",
+    "line": "Keywords, logros y formato en el mismo CV.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "human_close",
+    "line": "El filtro no ve esfuerzo. Ve estructura.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  },
+  {
+    "label": "cta",
+    "line": "Analiza mi CV gratis en WorqAI.",
+    "volume": 1.0,
+    "offset_ms_add": 0
+  }
+]

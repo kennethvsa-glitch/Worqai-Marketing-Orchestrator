@@ -1,0 +1,1095 @@
+carousel_matrix:
+  version: '2.1'
+  updated: '2026-05-11'
+  custom_build: null
+  description: When no preset matches, build manually from tokens.md selection table
+  build_mode: bespoke
+  steps:
+  - Load tokens.md, pick system from selection table
+  - Load techniques.md, pick minimum 3 techniques per slide (mandatory)
+  - Load build.md for copy framework and anti-slop only
+  - Build bespoke HTML from scratch, fixed 1080px canvas
+  - Reference carousel_portfolio_07_cyberpunk.html for quality bar
+  presets:
+    awareness_urgent:
+      description: High-energy hook for urgent topics
+      system: s29
+      slides: 4
+      layouts:
+      - L01
+      - L02
+      - L04
+      - L07
+      geo:
+      - GEO-13
+      - scan_lines
+      - zoom_rings
+      hook_type: negative
+      aspect: '1:1'
+      build_mode: bespoke
+      techniques_required: true
+    awareness_bold:
+      description: Bold statement hook for contrarian takes
+      system: s04
+      slides: 5
+      layouts:
+      - L01
+      - L06
+      - L03
+      - L05
+      - L07
+      geo:
+      - GEO-13
+      - zoom_rings
+      hook_type: contrarian
+      aspect: '1:1'
+      build_mode: bespoke
+      techniques_required: true
+    consideration_clean:
+      description: Clean educational carousel
+      system: s17
+      slides: 8
+      layouts:
+      - L01
+      - L02
+      - L03
+      - L03
+      - L05
+      - L03
+      - L03
+      - L07
+      geo:
+      - blob_A
+      hook_type: curiosity
+      aspect: '4:5'
+      build_mode: bespoke
+      techniques_required: true
+    consideration_deep:
+      description: Deep-dive educational
+      system: s33
+      slides: 8
+      layouts:
+      - L01
+      - L02
+      - L03
+      - L04
+      - L03
+      - L06
+      - L05
+      - L07
+      geo:
+      - GEO-13
+      - neural_mesh
+      hook_type: question
+      aspect: '4:5'
+      build_mode: bespoke
+      techniques_required: true
+    conversion_proof:
+      description: Proof-first carousel
+      system: s01
+      slides: 6
+      layouts:
+      - L01
+      - L02
+      - L03
+      - L03
+      - L05
+      - L07
+      geo:
+      - ribbon_flow
+      hook_type: result
+      aspect: '1:1'
+      build_mode: bespoke
+      techniques_required: true
+    conversion_warm:
+      description: Warm conversion
+      system: s12
+      slides: 5
+      layouts:
+      - L01
+      - L05
+      - L03
+      - L05
+      - L07
+      geo:
+      - blob_A
+      hook_type: transformation
+      aspect: '4:5'
+      build_mode: bespoke
+      techniques_required: true
+    brand_worqai_tips:
+      description: Standard WorqAI tip carousel
+      system: s17
+      slides: 8
+      layouts:
+      - L01
+      - L02
+      - L03
+      - L03
+      - L05
+      - L03
+      - L03
+      - L07
+      geo:
+      - bio_tendril
+      - lime_glow
+      hook_type: negative
+      aspect: '4:5'
+      build_mode: bespoke
+      techniques_required: true
+      brand: worqai
+    brand_worqai_urgent:
+      description: Urgent WorqAI carousel
+      system: s17
+      slides: 4
+      layouts:
+      - L01
+      - L02
+      - L04
+      - L07
+      geo:
+      - bio_tendril
+      - lime_glow
+      hook_type: warning
+      aspect: '1:1'
+      build_mode: bespoke
+      techniques_required: true
+      brand: worqai
+    editorial_luxury:
+      description: Premium editorial
+      system: s48
+      slides: 4
+      layouts:
+      - L01
+      - L05
+      - L05
+      - L07
+      geo:
+      - vellum_split
+      hook_type: identity
+      aspect: '4:5'
+      build_mode: bespoke
+      techniques_required: true
+    editorial_warm:
+      description: Warm editorial
+      system: s23
+      slides: 5
+      layouts:
+      - L01
+      - L05
+      - L03
+      - L05
+      - L07
+      geo:
+      - paper_fold
+      hook_type: confession
+      aspect: '4:5'
+      build_mode: bespoke
+      techniques_required: true
+    tech_cyberpunk:
+      description: Cyberpunk aesthetic
+      system: s29
+      slides: 4
+      layouts:
+      - L01
+      - L02
+      - L04
+      - L07
+      geo:
+      - GEO-13
+      - scan_lines
+      - zoom_rings
+      - neon_tubes
+      hook_type: warning
+      aspect: '1:1'
+      build_mode: bespoke
+      techniques_required: true
+    art_riso:
+      description: Risograph print aesthetic
+      system: s18
+      slides: 6
+      layouts:
+      - L01
+      - L02
+      - L03
+      - L06
+      - L05
+      - L07
+      geo:
+      - halftone
+      - ink_bleed
+      hook_type: curiosity
+      aspect: '1:1'
+      build_mode: bespoke
+      techniques_required: true
+  production:
+    carousel_0-a-4-entrevistas_crimson:
+      file: production/carousel_0-a-4-entrevistas_crimson.html
+      system: s04
+      preset: null
+      slides: 8
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_amby-cr-demo_agency-pain:
+      file: production/carousel_amby-cr-demo_agency-pain.html
+      system: null
+      preset: null
+      slides: 4
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_aplicar-usa-latam_worqai:
+      file: production/carousel_aplicar-usa-latam_worqai.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_arca-portafolio_darko-amber:
+      file: production/carousel_arca-portafolio_darko-amber.html
+      system: s12
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_ats-cv_worqai-verde:
+      file: production/carousel_ats-cv_worqai-verde.html
+      system: s17
+      preset: null
+      slides: 8
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_ats-espanol-bombas_worqai:
+      file: production/carousel_ats-espanol-bombas_worqai.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_ats-latam_worqai-verde:
+      file: production/carousel_ats-latam_worqai-verde.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_ats-tips_worqai:
+      file: production/carousel_ats-tips_worqai.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_aura-cr-demo_services:
+      file: production/carousel_aura-cr-demo_services.html
+      system: null
+      preset: null
+      slides: 2
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_aura-demo_royal-blue:
+      file: production/carousel_aura-demo_royal-blue.html
+      system: s02
+      preset: null
+      slides: 6
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_chrome-helix_test:
+      file: production/carousel_chrome-helix_test.html
+      system: null
+      preset: null
+      slides: 1
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_consejo-cv-esta-mal_brutalist:
+      file: production/carousel_consejo-cv-esta-mal_brutalist.html
+      system: s07
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_crest-studio_portfolio:
+      file: production/carousel_crest-studio_portfolio.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_cv-no-entrevistas_worqai:
+      file: production/carousel_cv-no-entrevistas_worqai.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_cv-silencio-reclutadores_glass:
+      file: production/carousel_cv-silencio-reclutadores_glass.html
+      system: s08
+      preset: null
+      slides: 5
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_linkedin-fantasma_aurora:
+      file: production/carousel_linkedin-fantasma_aurora.html
+      system: s06
+      preset: null
+      slides: 7
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_linkedin-optimizado_boutique:
+      file: production/carousel_linkedin-optimizado_boutique.html
+      system: s48
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_mentiras-reclutadores_crimson:
+      file: production/carousel_mentiras-reclutadores_crimson.html
+      system: s04
+      preset: null
+      slides: 7
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_negociacion-salarial_terra:
+      file: production/carousel_negociacion-salarial_terra.html
+      system: s10
+      preset: null
+      slides: 7
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_noema_portfolio:
+      file: production/carousel_noema_portfolio.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_onyx-studio_architectural-dark:
+      file: production/carousel_onyx-studio_architectural-dark.html
+      system: s42
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_pdf-ats-error_worqai-verde:
+      file: production/carousel_pdf-ats-error_worqai-verde.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_01:
+      file: production/carousel_portfolio_01.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_02:
+      file: production/carousel_portfolio_02.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_03:
+      file: production/carousel_portfolio_03.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_04:
+      file: production/carousel_portfolio_04.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_05:
+      file: production/carousel_portfolio_05.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_06:
+      file: production/carousel_portfolio_06.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_07_cyberpunk:
+      file: production/carousel_portfolio_07_cyberpunk.html
+      system: s29
+      preset: null
+      slides: 7
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_08_terra-cotta:
+      file: production/carousel_portfolio_08_terra-cotta.html
+      system: null
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_abyss_deepsea:
+      file: production/carousel_portfolio_abyss_deepsea.html
+      system: s14
+      preset: null
+      slides: 4
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_gilt_artdeco:
+      file: production/carousel_portfolio_gilt_artdeco.html
+      system: s35
+      preset: null
+      slides: 4
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_iris_holographic:
+      file: production/carousel_portfolio_iris_holographic.html
+      system: s41
+      preset: null
+      slides: 4
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_iris_holographic_v2:
+      file: production/carousel_portfolio_iris_holographic_v2.html
+      system: s41
+      preset: null
+      slides: 4
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_kinetic_brutalist:
+      file: production/carousel_portfolio_kinetic_brutalist.html
+      system: s07
+      preset: null
+      slides: null
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_portfolio_prism_glassmorphism:
+      file: production/carousel_portfolio_prism_glassmorphism.html
+      system: null
+      preset: null
+      slides: 8
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    carousel_tierra-alta_dark-academia:
+      file: production/carousel_tierra-alta_dark-academia.html
+      system: s22
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_tu-cv-nunca-fue-leido_worqai:
+      file: production/carousel_tu-cv-nunca-fue-leido_worqai.html
+      system: s17
+      preset: null
+      slides: null
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    carousel_visual-rules_afrofuturist:
+      file: production/carousel_visual-rules_afrofuturist.html
+      system: s37
+      preset: null
+      slides: 8
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    slide-test_dark-bold_worqai-verde:
+      file: production/slide-test_dark-bold_worqai-verde.html
+      system: s17
+      preset: null
+      slides: 1
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    slide-test_editorial_stark-white:
+      file: production/slide-test_editorial_stark-white.html
+      system: s05
+      preset: null
+      slides: 1
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    slide-test_grid_swiss-brut:
+      file: production/slide-test_grid_swiss-brut.html
+      system: s25
+      preset: null
+      slides: 1
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    slide-test_system48_bright-boutique:
+      file: production/slide-test_system48_bright-boutique.html
+      system: s48
+      preset: null
+      slides: 1
+      aspect: '1:1'
+      exported: false
+      date: '2026-05-11'
+    slide-test_warm_riso-lab:
+      file: production/slide-test_warm_riso-lab.html
+      system: s18
+      preset: null
+      slides: 1
+      aspect: '4:5'
+      exported: false
+      date: '2026-05-11'
+    test_geo13_noir:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/test_geo13_noir.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 7.1
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_geo13_slide:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/test_geo13_slide.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 5.9
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_wave_slide:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/test_wave_slide.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 9.9
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    0-a-4-entrevistas_crimson:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_0-a-4-entrevistas_crimson.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 49.4
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    0a4-entrevistas_beyond-elite:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_0a4-entrevistas_beyond-elite.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 57.1
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    amby-cr-demo_agency-pain:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_amby-cr-demo_agency-pain.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 23.5
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    aplicar-usa-latam_worqai:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_aplicar-usa-latam_worqai.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 21.6
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    arca-portafolio_darko-amber:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_arca-portafolio_darko-amber.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 32.5
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    ats-cv_worqai-verde:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_ats-cv_worqai-verde.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 22.5
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    ats-data-dashboard_beyond-elite:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_ats-data-dashboard_beyond-elite.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 56.7
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    ats-espanol-bombas_worqai:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_ats-espanol-bombas_worqai.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 22.7
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    ats-latam_worqai-verde:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_ats-latam_worqai-verde.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 29.7
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    ats-tips_worqai:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_ats-tips_worqai.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 31.4
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    aura-cr-demo_services:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_aura-cr-demo_services.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 22.8
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    aura-demo_royal-blue:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_aura-demo_royal-blue.html
+      slides: 6
+      aspect: '1:1'
+      file_size_kb: 33.7
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    chrome-helix_test:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_chrome-helix_test.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 19.6
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    component-poc_crimson:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_component-poc_crimson.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 30.4
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    consejo-cv-esta-mal_brutalist:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_consejo-cv-esta-mal_brutalist.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 37.5
+      techniques_count: 1
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    crest-studio_portfolio:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_crest-studio_portfolio.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 18.0
+      techniques_count: 0
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    cv-no-entrevistas_worqai:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_cv-no-entrevistas_worqai.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 21.3
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    cv-silencio-reclutadores_glass:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_cv-silencio-reclutadores_glass.html
+      slides: 5
+      aspect: '1:1'
+      file_size_kb: 30.5
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    kintsugi-brand-test:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_kintsugi-brand-test.html
+      slides: 4
+      aspect: '4:5'
+      file_size_kb: 32.8
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    linkedin-fantasma_aurora:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_linkedin-fantasma_aurora.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 23.4
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    linkedin-invisible_beyond-elite:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_linkedin-invisible_beyond-elite.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 57.0
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    linkedin-optimizado_boutique:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_linkedin-optimizado_boutique.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 34.8
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    mentiras-reclutadores_crimson:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_mentiras-reclutadores_crimson.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 21.6
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    negociacion-salarial_terra:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_negociacion-salarial_terra.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 22.7
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    nexa-portfolio_s33:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_nexa-portfolio_s33.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 24.6
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    nexus-workflow-test:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_nexus-workflow-test.html
+      slides: 4
+      aspect: '4:5'
+      file_size_kb: 31.5
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    noema_portfolio:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_noema_portfolio.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 19.8
+      techniques_count: 0
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    onyx-studio_architectural-dark:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_onyx-studio_architectural-dark.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 36.0
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    pdf-ats-error_worqai-verde:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_pdf-ats-error_worqai-verde.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 36.0
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_01:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_01.html
+      slides: 6
+      aspect: '1:1'
+      file_size_kb: 22.0
+      techniques_count: 2
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_02:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_02.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 22.7
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_03:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_03.html
+      slides: 5
+      aspect: '1:1'
+      file_size_kb: 17.9
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_04:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_04.html
+      slides: 6
+      aspect: '1:1'
+      file_size_kb: 21.3
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_05:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_05.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 52.2
+      techniques_count: 2
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_06:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_06.html
+      slides: 5
+      aspect: '1:1'
+      file_size_kb: 20.8
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_07_cyberpunk:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_07_cyberpunk.html
+      slides: 7
+      aspect: '1:1'
+      file_size_kb: 47.1
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_08_terra-cotta:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_08_terra-cotta.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 26.8
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_abyss_deepsea:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_abyss_deepsea.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 28.0
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_gilt_artdeco:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_gilt_artdeco.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 26.6
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_iris_holographic:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_iris_holographic.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 24.5
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_iris_holographic_v2:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_iris_holographic_v2.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 29.1
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_kinetic_brutalist:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_kinetic_brutalist.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 23.2
+      techniques_count: 1
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    portfolio_prism_glassmorphism:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_portfolio_prism_glassmorphism.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 28.6
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    studio-rift-brand_s35:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_studio-rift-brand_s35.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 26.7
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    tierra-alta_dark-academia:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_tierra-alta_dark-academia.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 36.4
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    tu-cv-nunca-fue-leido_worqai:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_tu-cv-nunca-fue-leido_worqai.html
+      slides: 4
+      aspect: '1:1'
+      file_size_kb: 19.5
+      techniques_count: 4
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    vela-wellness-demo:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_vela-wellness-demo.html
+      slides: 5
+      aspect: '4:5'
+      file_size_kb: 38.6
+      techniques_count: 5
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    visual-rules_afrofuturist:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/carousel_visual-rules_afrofuturist.html
+      slides: 8
+      aspect: '1:1'
+      file_size_kb: 32.2
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_dark-bold_worqai-verde:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/slide-test_dark-bold_worqai-verde.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 4.9
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_editorial_stark-white:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/slide-test_editorial_stark-white.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 4.4
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_grid_swiss-brut:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/slide-test_grid_swiss-brut.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 5.5
+      techniques_count: 1
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_system48_bright-boutique:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/slide-test_system48_bright-boutique.html
+      slides: 1
+      aspect: '4:5'
+      file_size_kb: 20.7
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+    test_warm_riso-lab:
+      file: C:/Users/kenne/OneDrive/Documentos/worqai-marketing/production/slide-test_warm_riso-lab.html
+      slides: 1
+      aspect: '1:1'
+      file_size_kb: 6.1
+      techniques_count: 3
+      exported: false
+      date: '2026-05-12'
+      preflight_score: 75
+  export:
+    default_format: 1080x1080
+    formats:
+    - 1080x1080
+    - 1080x1350
+    - 1080x1920
+    script: scripts/carousel_exporter.py
+    fallback: in-html-zip-button
+    quality: png-100%
+  skills:
+  - html-carousel-builder/tokens.md
+  - html-carousel-builder/build.md
+  - html-carousel-builder/techniques.md
+  template: templates/carousel-shell.html

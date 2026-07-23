@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "purpose": "Shared motion language for all animated WorqAI output (reels, motion videos, animated carousels). Adapted from nutlope/hallmark references/motion.md.",
+    "principle": "Animate only transform and opacity. One orchestrated moment per view. Nothing loops idly."
+  },
+  "durations_ms": {
+    "micro": 120,
+    "short": 220,
+    "long": 420
+  },
+  "exit_ratio": 0.75,
+  "easings": {
+    "easeOut":   {"bezier": [0.16, 1, 0.3, 1], "use": "elements entering"},
+    "easeIn":    {"bezier": [0.7, 0, 0.84, 0], "use": "elements leaving"},
+    "easeInOut": {"bezier": [0.65, 0, 0.35, 1], "use": "state toggles"}
+  },
+  "banned_easings_note": "No overshoot/bounce (cubic-bezier with y>1) on designed UI elements.",
+  "limits": {
+    "push_in_max": 0.05,
+    "ken_burns_max": 0.05,
+    "stagger_cap_ms": 500
+  }
+}

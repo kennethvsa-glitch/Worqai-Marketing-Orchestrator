@@ -1,0 +1,2000 @@
+{
+  "clips": [
+    {
+      "id": "S004",
+      "slot": "hook",
+      "file": "library/hook/S004.mp4",
+      "duration_s": 2.224,
+      "lang": "es",
+      "transcript": "¿Qué pasa ahora con los trabajos?",
+      "words": [
+        {
+          "text": "¿Qué",
+          "start": 0.0,
+          "end": 0.52
+        },
+        {
+          "text": "pasa",
+          "start": 0.52,
+          "end": 1.04
+        },
+        {
+          "text": "ahora",
+          "start": 1.04,
+          "end": 1.32
+        },
+        {
+          "text": "con",
+          "start": 1.32,
+          "end": 1.5
+        },
+        {
+          "text": "los",
+          "start": 1.5,
+          "end": 1.68
+        },
+        {
+          "text": "trabajos?",
+          "start": 1.68,
+          "end": 2.2
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:10.435629+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S005",
+      "slot": "body",
+      "file": "library/body/S005.mp4",
+      "duration_s": 2.243,
+      "lang": "es",
+      "transcript": "Porque están complicados, los que están trabajando en el 2016.",
+      "words": [
+        {
+          "text": "Porque",
+          "start": 0.0,
+          "end": 0.28
+        },
+        {
+          "text": "están",
+          "start": 0.28,
+          "end": 0.54
+        },
+        {
+          "text": "complicados,",
+          "start": 0.54,
+          "end": 1.06
+        },
+        {
+          "text": "los",
+          "start": 1.18,
+          "end": 1.24
+        },
+        {
+          "text": "que",
+          "start": 1.24,
+          "end": 1.26
+        },
+        {
+          "text": "están",
+          "start": 1.26,
+          "end": 1.36
+        },
+        {
+          "text": "trabajando",
+          "start": 1.36,
+          "end": 1.68
+        },
+        {
+          "text": "en",
+          "start": 1.68,
+          "end": 1.82
+        },
+        {
+          "text": "el",
+          "start": 1.82,
+          "end": 1.9
+        },
+        {
+          "text": "2016.",
+          "start": 1.9,
+          "end": 2.22
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:11.018205+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S006",
+      "slot": "body",
+      "file": "library/body/S006.mp4",
+      "duration_s": 5.647,
+      "lang": "es",
+      "transcript": "Ok, la razón por la que están difícil de conseguir un trabajo en el 2016 es por la competencia.",
+      "words": [
+        {
+          "text": "Ok,",
+          "start": 0.0,
+          "end": 0.2
+        },
+        {
+          "text": "la",
+          "start": 0.56,
+          "end": 0.58
+        },
+        {
+          "text": "razón",
+          "start": 0.58,
+          "end": 0.78
+        },
+        {
+          "text": "por",
+          "start": 0.78,
+          "end": 0.98
+        },
+        {
+          "text": "la",
+          "start": 0.98,
+          "end": 1.06
+        },
+        {
+          "text": "que",
+          "start": 1.06,
+          "end": 1.44
+        },
+        {
+          "text": "están",
+          "start": 1.44,
+          "end": 1.6
+        },
+        {
+          "text": "difícil",
+          "start": 1.6,
+          "end": 1.86
+        },
+        {
+          "text": "de",
+          "start": 1.86,
+          "end": 2.06
+        },
+        {
+          "text": "conseguir",
+          "start": 2.06,
+          "end": 2.2
+        },
+        {
+          "text": "un",
+          "start": 2.2,
+          "end": 2.38
+        },
+        {
+          "text": "trabajo",
+          "start": 2.38,
+          "end": 2.68
+        },
+        {
+          "text": "en",
+          "start": 2.68,
+          "end": 2.98
+        },
+        {
+          "text": "el",
+          "start": 2.98,
+          "end": 3.08
+        },
+        {
+          "text": "2016",
+          "start": 3.08,
+          "end": 3.52
+        },
+        {
+          "text": "es",
+          "start": 3.52,
+          "end": 4.38
+        },
+        {
+          "text": "por",
+          "start": 4.38,
+          "end": 4.5
+        },
+        {
+          "text": "la",
+          "start": 4.5,
+          "end": 4.7
+        },
+        {
+          "text": "competencia.",
+          "start": 4.7,
+          "end": 5.64
+        }
+      ],
+      "tags": [
+        "job-search"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:11.394071+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S007",
+      "slot": "body",
+      "file": "library/body/S007.mp4",
+      "duration_s": 7.156,
+      "lang": "es",
+      "transcript": "Antes, solo competía con otras personas que vienen a ver suyo, con las que van a dejar el mismo cubricón, al mismo lugar, presencialmente.",
+      "words": [
+        {
+          "text": "Antes,",
+          "start": 0.0,
+          "end": 0.52
+        },
+        {
+          "text": "solo",
+          "start": 0.78,
+          "end": 1.14
+        },
+        {
+          "text": "competía",
+          "start": 1.14,
+          "end": 1.68
+        },
+        {
+          "text": "con",
+          "start": 1.68,
+          "end": 1.88
+        },
+        {
+          "text": "otras",
+          "start": 1.88,
+          "end": 2.04
+        },
+        {
+          "text": "personas",
+          "start": 2.04,
+          "end": 2.38
+        },
+        {
+          "text": "que",
+          "start": 2.38,
+          "end": 2.58
+        },
+        {
+          "text": "vienen",
+          "start": 2.58,
+          "end": 2.8
+        },
+        {
+          "text": "a",
+          "start": 2.8,
+          "end": 2.94
+        },
+        {
+          "text": "ver",
+          "start": 2.94,
+          "end": 3.0
+        },
+        {
+          "text": "suyo,",
+          "start": 3.0,
+          "end": 3.42
+        },
+        {
+          "text": "con",
+          "start": 3.54,
+          "end": 3.58
+        },
+        {
+          "text": "las",
+          "start": 3.58,
+          "end": 3.72
+        },
+        {
+          "text": "que",
+          "start": 3.72,
+          "end": 3.8
+        },
+        {
+          "text": "van",
+          "start": 3.8,
+          "end": 3.96
+        },
+        {
+          "text": "a",
+          "start": 3.96,
+          "end": 4.06
+        },
+        {
+          "text": "dejar",
+          "start": 4.06,
+          "end": 4.24
+        },
+        {
+          "text": "el",
+          "start": 4.24,
+          "end": 4.4
+        },
+        {
+          "text": "mismo",
+          "start": 4.4,
+          "end": 4.58
+        },
+        {
+          "text": "cubricón,",
+          "start": 4.58,
+          "end": 5.08
+        },
+        {
+          "text": "al",
+          "start": 5.24,
+          "end": 5.36
+        },
+        {
+          "text": "mismo",
+          "start": 5.36,
+          "end": 5.42
+        },
+        {
+          "text": "lugar,",
+          "start": 5.42,
+          "end": 5.82
+        },
+        {
+          "text": "presencialmente.",
+          "start": 5.84,
+          "end": 7.14
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:12.463213+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S008",
+      "slot": "body",
+      "file": "library/body/S008.mp4",
+      "duration_s": 7.712,
+      "lang": "es",
+      "transcript": "Desde que se empezó a aplicar un line y no solo un line sin un pánico, un link en glasor, etcétera.",
+      "words": [
+        {
+          "text": "Desde",
+          "start": 0.0,
+          "end": 0.0
+        },
+        {
+          "text": "que",
+          "start": 0.0,
+          "end": 1.48
+        },
+        {
+          "text": "se",
+          "start": 1.48,
+          "end": 1.64
+        },
+        {
+          "text": "empezó",
+          "start": 1.64,
+          "end": 1.84
+        },
+        {
+          "text": "a",
+          "start": 1.84,
+          "end": 1.86
+        },
+        {
+          "text": "aplicar",
+          "start": 1.86,
+          "end": 2.16
+        },
+        {
+          "text": "un",
+          "start": 2.16,
+          "end": 2.34
+        },
+        {
+          "text": "line",
+          "start": 2.34,
+          "end": 2.6
+        },
+        {
+          "text": "y",
+          "start": 2.6,
+          "end": 2.8
+        },
+        {
+          "text": "no",
+          "start": 2.8,
+          "end": 2.9
+        },
+        {
+          "text": "solo",
+          "start": 2.9,
+          "end": 3.02
+        },
+        {
+          "text": "un",
+          "start": 3.02,
+          "end": 3.28
+        },
+        {
+          "text": "line",
+          "start": 3.28,
+          "end": 3.52
+        },
+        {
+          "text": "sin",
+          "start": 3.52,
+          "end": 3.72
+        },
+        {
+          "text": "un",
+          "start": 3.72,
+          "end": 3.86
+        },
+        {
+          "text": "pánico,",
+          "start": 3.86,
+          "end": 4.12
+        },
+        {
+          "text": "un",
+          "start": 4.32,
+          "end": 4.32
+        },
+        {
+          "text": "link",
+          "start": 4.32,
+          "end": 4.64
+        },
+        {
+          "text": "en",
+          "start": 4.64,
+          "end": 4.98
+        },
+        {
+          "text": "glasor,",
+          "start": 4.98,
+          "end": 6.48
+        },
+        {
+          "text": "etcétera.",
+          "start": 7.22,
+          "end": 7.68
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:12.938047+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S009",
+      "slot": "body",
+      "file": "library/body/S009.mp4",
+      "duration_s": 24.711,
+      "lang": "es",
+      "transcript": "Las empresas empezaron a utilizar unos sistemas a TES para filtrar y ayudar a filtrar a currículum, técnicamente, las 9-1 sistema algoritnico que descarta su currículum, pero si ayuda a los reclutadores, calificando los currículums ordenándolos por reléancia al puesto que está contratando.",
+      "words": [
+        {
+          "text": "Las",
+          "start": 0.0,
+          "end": 0.2
+        },
+        {
+          "text": "empresas",
+          "start": 0.2,
+          "end": 0.64
+        },
+        {
+          "text": "empezaron",
+          "start": 0.64,
+          "end": 1.62
+        },
+        {
+          "text": "a",
+          "start": 1.62,
+          "end": 2.94
+        },
+        {
+          "text": "utilizar",
+          "start": 2.94,
+          "end": 3.24
+        },
+        {
+          "text": "unos",
+          "start": 3.24,
+          "end": 3.6
+        },
+        {
+          "text": "sistemas",
+          "start": 3.6,
+          "end": 3.94
+        },
+        {
+          "text": "a",
+          "start": 3.94,
+          "end": 4.22
+        },
+        {
+          "text": "TES",
+          "start": 4.22,
+          "end": 4.62
+        },
+        {
+          "text": "para",
+          "start": 4.62,
+          "end": 4.88
+        },
+        {
+          "text": "filtrar",
+          "start": 4.88,
+          "end": 5.3
+        },
+        {
+          "text": "y",
+          "start": 5.3,
+          "end": 5.48
+        },
+        {
+          "text": "ayudar",
+          "start": 5.48,
+          "end": 5.92
+        },
+        {
+          "text": "a",
+          "start": 5.92,
+          "end": 6.2
+        },
+        {
+          "text": "filtrar",
+          "start": 6.2,
+          "end": 6.52
+        },
+        {
+          "text": "a",
+          "start": 6.52,
+          "end": 6.84
+        },
+        {
+          "text": "currículum,",
+          "start": 6.84,
+          "end": 7.1
+        },
+        {
+          "text": "técnicamente,",
+          "start": 7.32,
+          "end": 8.46
+        },
+        {
+          "text": "las",
+          "start": 9.18,
+          "end": 9.54
+        },
+        {
+          "text": "9",
+          "start": 9.54,
+          "end": 9.9
+        },
+        {
+          "text": "-1",
+          "start": 9.9,
+          "end": 10.32
+        },
+        {
+          "text": "sistema",
+          "start": 10.32,
+          "end": 10.84
+        },
+        {
+          "text": "algoritnico",
+          "start": 10.84,
+          "end": 11.72
+        },
+        {
+          "text": "que",
+          "start": 11.72,
+          "end": 12.6
+        },
+        {
+          "text": "descarta",
+          "start": 12.6,
+          "end": 13.22
+        },
+        {
+          "text": "su",
+          "start": 13.22,
+          "end": 13.42
+        },
+        {
+          "text": "currículum,",
+          "start": 13.42,
+          "end": 14.06
+        },
+        {
+          "text": "pero",
+          "start": 14.38,
+          "end": 15.16
+        },
+        {
+          "text": "si",
+          "start": 15.16,
+          "end": 15.46
+        },
+        {
+          "text": "ayuda",
+          "start": 15.46,
+          "end": 15.76
+        },
+        {
+          "text": "a",
+          "start": 15.76,
+          "end": 16.06
+        },
+        {
+          "text": "los",
+          "start": 16.06,
+          "end": 16.12
+        },
+        {
+          "text": "reclutadores,",
+          "start": 16.12,
+          "end": 16.98
+        },
+        {
+          "text": "calificando",
+          "start": 17.48,
+          "end": 18.1
+        },
+        {
+          "text": "los",
+          "start": 18.1,
+          "end": 18.34
+        },
+        {
+          "text": "currículums",
+          "start": 18.34,
+          "end": 18.84
+        },
+        {
+          "text": "ordenándolos",
+          "start": 18.84,
+          "end": 19.8
+        },
+        {
+          "text": "por",
+          "start": 19.8,
+          "end": 20.94
+        },
+        {
+          "text": "reléancia",
+          "start": 20.94,
+          "end": 22.0
+        },
+        {
+          "text": "al",
+          "start": 22.0,
+          "end": 22.54
+        },
+        {
+          "text": "puesto",
+          "start": 22.54,
+          "end": 23.06
+        },
+        {
+          "text": "que",
+          "start": 23.06,
+          "end": 23.42
+        },
+        {
+          "text": "está",
+          "start": 23.42,
+          "end": 23.86
+        },
+        {
+          "text": "contratando.",
+          "start": 23.86,
+          "end": 24.7
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 0.712,
+      "ingested": "2026-07-11T19:43:15.003144+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S011",
+      "slot": "body",
+      "file": "library/body/S011.mp4",
+      "duration_s": 12.584,
+      "lang": "es",
+      "transcript": "Hay 500 aplicaciones y probablemente, si se no ha apthas su currículum, su aplicación va a estar al puro final de todas las 500 aplicaciones, porque no se ha relacionado al puesto, exactamente a la descripción de puesto.",
+      "words": [
+        {
+          "text": "Hay",
+          "start": 0.0,
+          "end": 0.72
+        },
+        {
+          "text": "500",
+          "start": 0.72,
+          "end": 1.02
+        },
+        {
+          "text": "aplicaciones",
+          "start": 1.02,
+          "end": 1.7
+        },
+        {
+          "text": "y",
+          "start": 1.7,
+          "end": 3.04
+        },
+        {
+          "text": "probablemente,",
+          "start": 3.04,
+          "end": 3.62
+        },
+        {
+          "text": "si",
+          "start": 3.64,
+          "end": 3.82
+        },
+        {
+          "text": "se",
+          "start": 3.82,
+          "end": 3.94
+        },
+        {
+          "text": "no",
+          "start": 3.94,
+          "end": 4.08
+        },
+        {
+          "text": "ha",
+          "start": 4.08,
+          "end": 4.18
+        },
+        {
+          "text": "apthas",
+          "start": 4.18,
+          "end": 4.36
+        },
+        {
+          "text": "su",
+          "start": 4.36,
+          "end": 4.54
+        },
+        {
+          "text": "currículum,",
+          "start": 4.54,
+          "end": 4.96
+        },
+        {
+          "text": "su",
+          "start": 5.08,
+          "end": 5.18
+        },
+        {
+          "text": "aplicación",
+          "start": 5.18,
+          "end": 5.54
+        },
+        {
+          "text": "va",
+          "start": 5.54,
+          "end": 5.74
+        },
+        {
+          "text": "a",
+          "start": 5.74,
+          "end": 6.08
+        },
+        {
+          "text": "estar",
+          "start": 6.08,
+          "end": 6.08
+        },
+        {
+          "text": "al",
+          "start": 6.08,
+          "end": 6.36
+        },
+        {
+          "text": "puro",
+          "start": 6.36,
+          "end": 6.7
+        },
+        {
+          "text": "final",
+          "start": 6.7,
+          "end": 7.18
+        },
+        {
+          "text": "de",
+          "start": 7.18,
+          "end": 7.4
+        },
+        {
+          "text": "todas",
+          "start": 7.4,
+          "end": 7.62
+        },
+        {
+          "text": "las",
+          "start": 7.62,
+          "end": 7.82
+        },
+        {
+          "text": "500",
+          "start": 7.82,
+          "end": 8.08
+        },
+        {
+          "text": "aplicaciones,",
+          "start": 8.08,
+          "end": 8.68
+        },
+        {
+          "text": "porque",
+          "start": 8.88,
+          "end": 8.96
+        },
+        {
+          "text": "no",
+          "start": 8.96,
+          "end": 9.12
+        },
+        {
+          "text": "se",
+          "start": 9.12,
+          "end": 9.24
+        },
+        {
+          "text": "ha",
+          "start": 9.24,
+          "end": 9.28
+        },
+        {
+          "text": "relacionado",
+          "start": 9.28,
+          "end": 9.8
+        },
+        {
+          "text": "al",
+          "start": 9.8,
+          "end": 10.12
+        },
+        {
+          "text": "puesto,",
+          "start": 10.12,
+          "end": 10.46
+        },
+        {
+          "text": "exactamente",
+          "start": 10.7,
+          "end": 10.96
+        },
+        {
+          "text": "a",
+          "start": 10.96,
+          "end": 11.28
+        },
+        {
+          "text": "la",
+          "start": 11.28,
+          "end": 11.42
+        },
+        {
+          "text": "descripción",
+          "start": 11.42,
+          "end": 11.8
+        },
+        {
+          "text": "de",
+          "start": 11.8,
+          "end": 12.06
+        },
+        {
+          "text": "puesto.",
+          "start": 12.06,
+          "end": 12.56
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:17.237211+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S012",
+      "slot": "body",
+      "file": "library/body/S012.mp4",
+      "duration_s": 11.032,
+      "lang": "es",
+      "transcript": "Si usted ha apthas su currículum al puesto, a que words se relevantes al puesto, un buen formato, etcétera, sus problemes,",
+      "words": [
+        {
+          "text": "Si",
+          "start": 0.0,
+          "end": 0.02
+        },
+        {
+          "text": "usted",
+          "start": 0.02,
+          "end": 0.26
+        },
+        {
+          "text": "ha",
+          "start": 0.26,
+          "end": 0.42
+        },
+        {
+          "text": "apthas",
+          "start": 0.42,
+          "end": 1.32
+        },
+        {
+          "text": "su",
+          "start": 1.32,
+          "end": 2.22
+        },
+        {
+          "text": "currículum",
+          "start": 2.22,
+          "end": 2.5
+        },
+        {
+          "text": "al",
+          "start": 2.5,
+          "end": 2.82
+        },
+        {
+          "text": "puesto,",
+          "start": 2.82,
+          "end": 3.36
+        },
+        {
+          "text": "a",
+          "start": 3.7,
+          "end": 3.92
+        },
+        {
+          "text": "que",
+          "start": 3.92,
+          "end": 4.82
+        },
+        {
+          "text": "words",
+          "start": 4.82,
+          "end": 5.2
+        },
+        {
+          "text": "se",
+          "start": 5.2,
+          "end": 5.38
+        },
+        {
+          "text": "relevantes",
+          "start": 5.38,
+          "end": 5.9
+        },
+        {
+          "text": "al",
+          "start": 5.9,
+          "end": 6.12
+        },
+        {
+          "text": "puesto,",
+          "start": 6.12,
+          "end": 6.76
+        },
+        {
+          "text": "un",
+          "start": 7.1,
+          "end": 7.12
+        },
+        {
+          "text": "buen",
+          "start": 7.12,
+          "end": 7.3
+        },
+        {
+          "text": "formato,",
+          "start": 7.3,
+          "end": 7.74
+        },
+        {
+          "text": "etcétera,",
+          "start": 7.92,
+          "end": 8.42
+        },
+        {
+          "text": "sus",
+          "start": 8.44,
+          "end": 8.94
+        },
+        {
+          "text": "problemes,",
+          "start": 8.94,
+          "end": 11.02
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 0.761,
+      "ingested": "2026-07-11T19:43:17.793899+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S013",
+      "slot": "body",
+      "file": "library/body/S013.mp4",
+      "duration_s": 28.882,
+      "lang": "es",
+      "transcript": "pero si sus problemes se tiene un currículum relevante para el puesto aumentan, probablemente el sistema TES y no importa la forma en la que lo haga, puede ser que lo se califican, orden puede ser que simplemente les pongan un batch, que sea como relevante y es lo que el reclutador lo revise, se han un importe como lo hagan todos, un ciena de una forma un poco diferente, por todas las enormes mesmas y eventualmente el reclutador va a terminar revisando sus currículums.",
+      "words": [
+        {
+          "text": "pero",
+          "start": 0.0,
+          "end": 0.0
+        },
+        {
+          "text": "si",
+          "start": 0.0,
+          "end": 1.04
+        },
+        {
+          "text": "sus",
+          "start": 1.04,
+          "end": 1.26
+        },
+        {
+          "text": "problemes",
+          "start": 1.26,
+          "end": 1.64
+        },
+        {
+          "text": "se",
+          "start": 1.64,
+          "end": 1.8
+        },
+        {
+          "text": "tiene",
+          "start": 1.8,
+          "end": 1.88
+        },
+        {
+          "text": "un",
+          "start": 1.88,
+          "end": 2.08
+        },
+        {
+          "text": "currículum",
+          "start": 2.08,
+          "end": 2.66
+        },
+        {
+          "text": "relevante",
+          "start": 2.66,
+          "end": 3.18
+        },
+        {
+          "text": "para",
+          "start": 3.18,
+          "end": 3.42
+        },
+        {
+          "text": "el",
+          "start": 3.42,
+          "end": 3.62
+        },
+        {
+          "text": "puesto",
+          "start": 3.62,
+          "end": 4.48
+        },
+        {
+          "text": "aumentan,",
+          "start": 4.48,
+          "end": 6.18
+        },
+        {
+          "text": "probablemente",
+          "start": 6.18,
+          "end": 6.9
+        },
+        {
+          "text": "el",
+          "start": 6.9,
+          "end": 7.16
+        },
+        {
+          "text": "sistema",
+          "start": 7.16,
+          "end": 7.42
+        },
+        {
+          "text": "TES",
+          "start": 7.42,
+          "end": 7.76
+        },
+        {
+          "text": "y",
+          "start": 7.76,
+          "end": 7.76
+        },
+        {
+          "text": "no",
+          "start": 7.76,
+          "end": 7.88
+        },
+        {
+          "text": "importa",
+          "start": 7.88,
+          "end": 8.16
+        },
+        {
+          "text": "la",
+          "start": 8.16,
+          "end": 8.36
+        },
+        {
+          "text": "forma",
+          "start": 8.36,
+          "end": 8.54
+        },
+        {
+          "text": "en",
+          "start": 8.54,
+          "end": 8.74
+        },
+        {
+          "text": "la",
+          "start": 8.74,
+          "end": 8.74
+        },
+        {
+          "text": "que",
+          "start": 8.74,
+          "end": 9.18
+        },
+        {
+          "text": "lo",
+          "start": 9.18,
+          "end": 9.38
+        },
+        {
+          "text": "haga,",
+          "start": 9.38,
+          "end": 9.78
+        },
+        {
+          "text": "puede",
+          "start": 10.14,
+          "end": 10.14
+        },
+        {
+          "text": "ser",
+          "start": 10.14,
+          "end": 10.86
+        },
+        {
+          "text": "que",
+          "start": 10.86,
+          "end": 10.94
+        },
+        {
+          "text": "lo",
+          "start": 10.94,
+          "end": 11.24
+        },
+        {
+          "text": "se",
+          "start": 11.24,
+          "end": 11.42
+        },
+        {
+          "text": "califican,",
+          "start": 11.42,
+          "end": 11.86
+        },
+        {
+          "text": "orden",
+          "start": 11.94,
+          "end": 12.22
+        },
+        {
+          "text": "puede",
+          "start": 12.22,
+          "end": 12.46
+        },
+        {
+          "text": "ser",
+          "start": 12.46,
+          "end": 13.62
+        },
+        {
+          "text": "que",
+          "start": 13.62,
+          "end": 14.84
+        },
+        {
+          "text": "simplemente",
+          "start": 14.84,
+          "end": 15.18
+        },
+        {
+          "text": "les",
+          "start": 15.18,
+          "end": 15.52
+        },
+        {
+          "text": "pongan",
+          "start": 15.52,
+          "end": 15.7
+        },
+        {
+          "text": "un",
+          "start": 15.7,
+          "end": 16.04
+        },
+        {
+          "text": "batch,",
+          "start": 16.04,
+          "end": 16.2
+        },
+        {
+          "text": "que",
+          "start": 16.4,
+          "end": 16.44
+        },
+        {
+          "text": "sea",
+          "start": 16.44,
+          "end": 16.6
+        },
+        {
+          "text": "como",
+          "start": 16.6,
+          "end": 16.84
+        },
+        {
+          "text": "relevante",
+          "start": 16.84,
+          "end": 17.44
+        },
+        {
+          "text": "y",
+          "start": 17.44,
+          "end": 17.62
+        },
+        {
+          "text": "es",
+          "start": 17.62,
+          "end": 17.76
+        },
+        {
+          "text": "lo",
+          "start": 17.76,
+          "end": 17.82
+        },
+        {
+          "text": "que",
+          "start": 17.82,
+          "end": 18.1
+        },
+        {
+          "text": "el",
+          "start": 18.1,
+          "end": 18.24
+        },
+        {
+          "text": "reclutador",
+          "start": 18.24,
+          "end": 18.72
+        },
+        {
+          "text": "lo",
+          "start": 18.72,
+          "end": 18.94
+        },
+        {
+          "text": "revise,",
+          "start": 18.94,
+          "end": 19.38
+        },
+        {
+          "text": "se",
+          "start": 19.58,
+          "end": 19.72
+        },
+        {
+          "text": "han",
+          "start": 19.72,
+          "end": 19.72
+        },
+        {
+          "text": "un",
+          "start": 19.72,
+          "end": 19.84
+        },
+        {
+          "text": "importe",
+          "start": 19.84,
+          "end": 20.06
+        },
+        {
+          "text": "como",
+          "start": 20.06,
+          "end": 20.28
+        },
+        {
+          "text": "lo",
+          "start": 20.28,
+          "end": 20.44
+        },
+        {
+          "text": "hagan",
+          "start": 20.44,
+          "end": 20.62
+        },
+        {
+          "text": "todos,",
+          "start": 20.62,
+          "end": 20.8
+        },
+        {
+          "text": "un",
+          "start": 20.9,
+          "end": 20.94
+        },
+        {
+          "text": "ciena",
+          "start": 20.94,
+          "end": 21.22
+        },
+        {
+          "text": "de",
+          "start": 21.22,
+          "end": 21.3
+        },
+        {
+          "text": "una",
+          "start": 21.3,
+          "end": 21.5
+        },
+        {
+          "text": "forma",
+          "start": 21.5,
+          "end": 22.08
+        },
+        {
+          "text": "un",
+          "start": 22.08,
+          "end": 22.36
+        },
+        {
+          "text": "poco",
+          "start": 22.36,
+          "end": 22.36
+        },
+        {
+          "text": "diferente,",
+          "start": 22.36,
+          "end": 22.9
+        },
+        {
+          "text": "por",
+          "start": 23.8,
+          "end": 23.86
+        },
+        {
+          "text": "todas",
+          "start": 23.86,
+          "end": 24.0
+        },
+        {
+          "text": "las",
+          "start": 24.0,
+          "end": 24.22
+        },
+        {
+          "text": "enormes",
+          "start": 24.22,
+          "end": 24.32
+        },
+        {
+          "text": "mesmas",
+          "start": 24.32,
+          "end": 25.14
+        },
+        {
+          "text": "y",
+          "start": 25.14,
+          "end": 26.16
+        },
+        {
+          "text": "eventualmente",
+          "start": 26.16,
+          "end": 26.74
+        },
+        {
+          "text": "el",
+          "start": 26.74,
+          "end": 26.86
+        },
+        {
+          "text": "reclutador",
+          "start": 26.86,
+          "end": 27.3
+        },
+        {
+          "text": "va",
+          "start": 27.3,
+          "end": 27.52
+        },
+        {
+          "text": "a",
+          "start": 27.52,
+          "end": 27.7
+        },
+        {
+          "text": "terminar",
+          "start": 27.7,
+          "end": 27.74
+        },
+        {
+          "text": "revisando",
+          "start": 27.74,
+          "end": 28.42
+        },
+        {
+          "text": "sus",
+          "start": 28.42,
+          "end": 28.66
+        },
+        {
+          "text": "currículums.",
+          "start": 28.66,
+          "end": 28.88
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:20.128608+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S014",
+      "slot": "body",
+      "file": "library/body/S014.mp4",
+      "duration_s": 34.711,
+      "lang": "es",
+      "transcript": "Entonces no sólo va a adaptar el currículum para que pase de como tal el sistema, sino también tiene que ser un currículo profesional que es un reclutador poder ver y se ha presentado en el promedio de los reclutadores durante 6 segundos en revisar un currículo, con un solo vistazo, entonces el formato y el formato del currículo es muy importante como usted, ordeni, para que un reclutador lo puede escanear en 6 segundos y puede decir si realmente es relevante o no para el puesto.",
+      "words": [
+        {
+          "text": "Entonces",
+          "start": 0.0,
+          "end": 0.48
+        },
+        {
+          "text": "no",
+          "start": 0.48,
+          "end": 0.92
+        },
+        {
+          "text": "sólo",
+          "start": 0.92,
+          "end": 1.16
+        },
+        {
+          "text": "va",
+          "start": 1.16,
+          "end": 1.34
+        },
+        {
+          "text": "a",
+          "start": 1.34,
+          "end": 1.52
+        },
+        {
+          "text": "adaptar",
+          "start": 1.52,
+          "end": 1.58
+        },
+        {
+          "text": "el",
+          "start": 1.58,
+          "end": 1.66
+        },
+        {
+          "text": "currículum",
+          "start": 1.66,
+          "end": 2.02
+        },
+        {
+          "text": "para",
+          "start": 2.02,
+          "end": 3.6
+        },
+        {
+          "text": "que",
+          "start": 3.6,
+          "end": 3.94
+        },
+        {
+          "text": "pase",
+          "start": 3.94,
+          "end": 4.36
+        },
+        {
+          "text": "de",
+          "start": 4.36,
+          "end": 4.62
+        },
+        {
+          "text": "como",
+          "start": 4.62,
+          "end": 4.76
+        },
+        {
+          "text": "tal",
+          "start": 4.76,
+          "end": 4.94
+        },
+        {
+          "text": "el",
+          "start": 4.94,
+          "end": 5.12
+        },
+        {
+          "text": "sistema,",
+          "start": 5.12,
+          "end": 5.34
+        },
+        {
+          "text": "sino",
+          "start": 5.52,
+          "end": 5.68
+        },
+        {
+          "text": "también",
+          "start": 5.68,
+          "end": 5.9
+        },
+        {
+          "text": "tiene",
+          "start": 5.9,
+          "end": 6.06
+        },
+        {
+          "text": "que",
+          "start": 6.06,
+          "end": 6.18
+        },
+        {
+          "text": "ser",
+          "start": 6.18,
+          "end": 6.28
+        },
+        {
+          "text": "un",
+          "start": 6.28,
+          "end": 6.46
+        },
+        {
+          "text": "currículo",
+          "start": 6.46,
+          "end": 6.7
+        },
+        {
+          "text": "profesional",
+          "start": 6.7,
+          "end": 7.2
+        },
+        {
+          "text": "que",
+          "start": 7.2,
+          "end": 7.72
+        },
+        {
+          "text": "es",
+          "start": 7.72,
+          "end": 7.92
+        },
+        {
+          "text": "un",
+          "start": 7.92,
+          "end": 7.92
+        },
+        {
+          "text": "reclutador",
+          "start": 7.92,
+          "end": 8.34
+        },
+        {
+          "text": "poder",
+          "start": 8.34,
+          "end": 8.52
+        },
+        {
+          "text": "ver",
+          "start": 8.52,
+          "end": 9.36
+        },
+        {
+          "text": "y",
+          "start": 9.36,
+          "end": 10.08
+        },
+        {
+          "text": "se",
+          "start": 10.08,
+          "end": 10.26
+        },
+        {
+          "text": "ha",
+          "start": 10.26,
+          "end": 10.5
+        },
+        {
+          "text": "presentado",
+          "start": 10.5,
+          "end": 11.18
+        },
+        {
+          "text": "en",
+          "start": 11.18,
+          "end": 12.34
+        },
+        {
+          "text": "el",
+          "start": 12.34,
+          "end": 13.9
+        },
+        {
+          "text": "promedio",
+          "start": 13.9,
+          "end": 14.14
+        },
+        {
+          "text": "de",
+          "start": 14.14,
+          "end": 14.32
+        },
+        {
+          "text": "los",
+          "start": 14.32,
+          "end": 14.34
+        },
+        {
+          "text": "reclutadores",
+          "start": 14.34,
+          "end": 14.8
+        },
+        {
+          "text": "durante",
+          "start": 14.8,
+          "end": 15.12
+        },
+        {
+          "text": "6",
+          "start": 15.12,
+          "end": 15.5
+        },
+        {
+          "text": "segundos",
+          "start": 15.5,
+          "end": 16.76
+        },
+        {
+          "text": "en",
+          "start": 16.76,
+          "end": 17.58
+        },
+        {
+          "text": "revisar",
+          "start": 17.58,
+          "end": 17.8
+        },
+        {
+          "text": "un",
+          "start": 17.8,
+          "end": 17.94
+        },
+        {
+          "text": "currículo,",
+          "start": 17.94,
+          "end": 18.18
+        },
+        {
+          "text": "con",
+          "start": 18.18,
+          "end": 19.0
+        },
+        {
+          "text": "un",
+          "start": 19.0,
+          "end": 19.26
+        },
+        {
+          "text": "solo",
+          "start": 19.26,
+          "end": 19.38
+        },
+        {
+          "text": "vistazo,",
+          "start": 19.38,
+          "end": 19.9
+        },
+        {
+          "text": "entonces",
+          "start": 20.0,
+          "end": 20.5
+        },
+        {
+          "text": "el",
+          "start": 20.5,
+          "end": 21.3
+        },
+        {
+          "text": "formato",
+          "start": 21.3,
+          "end": 22.08
+        },
+        {
+          "text": "y",
+          "start": 22.08,
+          "end": 23.14
+        },
+        {
+          "text": "el",
+          "start": 23.14,
+          "end": 23.98
+        },
+        {
+          "text": "formato",
+          "start": 23.98,
+          "end": 24.4
+        },
+        {
+          "text": "del",
+          "start": 24.4,
+          "end": 24.6
+        },
+        {
+          "text": "currículo",
+          "start": 24.6,
+          "end": 24.78
+        },
+        {
+          "text": "es",
+          "start": 24.78,
+          "end": 25.1
+        },
+        {
+          "text": "muy",
+          "start": 25.1,
+          "end": 25.3
+        },
+        {
+          "text": "importante",
+          "start": 25.3,
+          "end": 25.64
+        },
+        {
+          "text": "como",
+          "start": 25.64,
+          "end": 25.96
+        },
+        {
+          "text": "usted,",
+          "start": 25.96,
+          "end": 26.54
+        },
+        {
+          "text": "ordeni,",
+          "start": 26.8,
+          "end": 27.68
+        },
+        {
+          "text": "para",
+          "start": 27.92,
+          "end": 28.04
+        },
+        {
+          "text": "que",
+          "start": 28.04,
+          "end": 28.14
+        },
+        {
+          "text": "un",
+          "start": 28.14,
+          "end": 28.26
+        },
+        {
+          "text": "reclutador",
+          "start": 28.26,
+          "end": 28.68
+        },
+        {
+          "text": "lo",
+          "start": 28.68,
+          "end": 28.86
+        },
+        {
+          "text": "puede",
+          "start": 28.86,
+          "end": 29.04
+        },
+        {
+          "text": "escanear",
+          "start": 29.04,
+          "end": 29.54
+        },
+        {
+          "text": "en",
+          "start": 29.54,
+          "end": 29.74
+        },
+        {
+          "text": "6",
+          "start": 29.74,
+          "end": 29.96
+        },
+        {
+          "text": "segundos",
+          "start": 29.96,
+          "end": 30.44
+        },
+        {
+          "text": "y",
+          "start": 30.44,
+          "end": 30.84
+        },
+        {
+          "text": "puede",
+          "start": 30.84,
+          "end": 31.26
+        },
+        {
+          "text": "decir",
+          "start": 31.26,
+          "end": 31.52
+        },
+        {
+          "text": "si",
+          "start": 31.52,
+          "end": 31.74
+        },
+        {
+          "text": "realmente",
+          "start": 31.74,
+          "end": 32.12
+        },
+        {
+          "text": "es",
+          "start": 32.12,
+          "end": 32.36
+        },
+        {
+          "text": "relevante",
+          "start": 32.36,
+          "end": 32.7
+        },
+        {
+          "text": "o",
+          "start": 32.7,
+          "end": 32.9
+        },
+        {
+          "text": "no",
+          "start": 32.9,
+          "end": 32.92
+        },
+        {
+          "text": "para",
+          "start": 32.92,
+          "end": 33.06
+        },
+        {
+          "text": "el",
+          "start": 33.06,
+          "end": 34.68
+        },
+        {
+          "text": "puesto.",
+          "start": 34.68,
+          "end": 34.68
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 1.0,
+      "ingested": "2026-07-11T19:43:36.207576+00:00",
+      "status": "ready"
+    },
+    {
+      "id": "S016",
+      "slot": "body",
+      "file": "library/body/S016.mp4",
+      "duration_s": 5.315,
+      "lang": "es",
+      "transcript": "Ahora, el Partela Compatencia, vamos a que hablar así,",
+      "words": [
+        {
+          "text": "Ahora,",
+          "start": 0.0,
+          "end": 0.36
+        },
+        {
+          "text": "el",
+          "start": 0.48,
+          "end": 0.54
+        },
+        {
+          "text": "Partela",
+          "start": 0.54,
+          "end": 0.98
+        },
+        {
+          "text": "Compatencia,",
+          "start": 0.98,
+          "end": 2.0
+        },
+        {
+          "text": "vamos",
+          "start": 2.58,
+          "end": 2.72
+        },
+        {
+          "text": "a",
+          "start": 2.72,
+          "end": 2.86
+        },
+        {
+          "text": "que",
+          "start": 2.86,
+          "end": 3.6
+        },
+        {
+          "text": "hablar",
+          "start": 3.6,
+          "end": 4.7
+        },
+        {
+          "text": "así,",
+          "start": 4.7,
+          "end": 5.3
+        }
+      ],
+      "tags": [
+        "general"
+      ],
+      "energy": 0.677,
+      "ingested": "2026-07-11T19:43:36.559485+00:00",
+      "status": "ready"
+    }
+  ]
+}

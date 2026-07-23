@@ -1,0 +1,7 @@
+interface:
+  display_name: "WorqAI Marketing Intelligence"
+  short_description: "Create and refine WorqAI marketing work"
+  default_prompt: "Use $worqai-marketing-intelligence to create an original WorqAI campaign from this brief."
+
+policy:
+  allow_implicit_invocation: true

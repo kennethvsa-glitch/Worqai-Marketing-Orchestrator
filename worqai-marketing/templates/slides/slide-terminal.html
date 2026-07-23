@@ -1,0 +1,79 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="term-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+    {% if copy.headline %}
+    <div class="term-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+    {% endif %}
+
+    {#
+      Terminal rules (v2):
+      - Max 4 output lines. If you have more, cut — not condense.
+      - Always end with copy.result → renders as .term-result (bold, accent, separated)
+      - copy.result examples: "SCORE: 28/100 — RECHAZADO", "APROBADO: 3 secciones", "FALLA CRÍTICA"
+      - copy.command: the $ prompt line
+      - copy.output_lines: list of {type, text} — type: ok | warn | err | info | comment
+      - copy.tab_title: label in the mac-style title bar (default: ats-scan.sh)
+    #}
+    <div class="term-bar">
+      <div class="term-dot r"></div>
+      <div class="term-dot y"></div>
+      <div class="term-dot g"></div>
+      <div class="term-title">{{ copy.tab_title | default('ats-scan.sh') }}</div>
+    </div>
+    <div class="term-body">
+      {% if copy.command %}
+      <div class="term-cmd">$ {{ copy.command }}</div>
+      {% endif %}
+
+      {% for line in copy.output_lines | default([]) %}
+      {% set _lt = line.type | default('ok') %}
+      <div class="term-{{ _lt }}">
+        {%- if _lt == 'ok' -%}<svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg>
+        {%- elif _lt == 'warn' -%}<svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg>
+        {%- elif _lt == 'err' -%}<svg class="icon" aria-hidden="true"><use href="#icon-error"/></svg>
+        {%- elif _lt == 'info' -%}<svg class="icon" aria-hidden="true"><use href="#icon-info"/></svg>
+        {%- endif -%}{{ line.text }}
+      </div>
+      {% endfor %}
+
+      {# Default fallback — replaced by spec data when copy.command or copy.output_lines exist #}
+      {% if not copy.output_lines and not copy.command %}
+      <div class="term-cmd">$ worqai scan cv.pdf</div>
+      <div class="term-ok"><svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg> Nombre detectado</div>
+      <div class="term-err"><svg class="icon" aria-hidden="true"><use href="#icon-error"/></svg> Tablas ignoradas por ATS</div>
+      <div class="term-warn"><svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg> Fechas sin formato estándar</div>
+      {% endif %}
+
+      {% if copy.get('items') %}
+      <div class="term-cv-mock">
+        {% for item in copy.get('items', []) %}
+        {% set parts = item.split('|') %}
+        <div class="term-cv-row">
+          <div class="term-cv-label">{{ parts[0] | trim }}</div>
+          <div class="term-cv-line {{ parts[2] | default('ok') | trim }}"></div>
+          <div class="term-cv-status {{ parts[2] | default('ok') | trim }}">{{ parts[1] | default('OK') | trim }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {# Result line — always the last thing in the terminal. Bold, accent, separated. #}
+      {% if copy.result %}
+      <div class="term-result">{{ copy.result }}</div>
+      {% elif not copy.output_lines and not copy.command %}
+      <div class="term-result">SCORE: 28/100 — RECHAZADO AUTOMÁTICO</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

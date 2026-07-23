@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1023">
+<title>Scene 8 - WorqAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100vh; background: #050505; display: flex; justify-content: center; align-items: flex-start; overflow-y: auto; font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif; }
+.canvas { width: 1023px; height: 1538px; background: #010509; position: relative; overflow: hidden; flex-shrink: 0; }
+.grid-overlay { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.008) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.008) 1px, transparent 1px); background-size: 60px 60px; }
+.particle { position: absolute; border-radius: 50%; pointer-events: none; background: #abf317; }
+.sq { position: absolute; pointer-events: none; border: 1px solid; }
+
+/* Text blocks */
+.text-block { position: absolute; left: 80px; top: 260px; z-index: 5; max-width: 520px; }
+.text-block .line1 { font-family: 'Comfortaa', 'Nunito', sans-serif; font-size: 46px; font-weight: 700; line-height: 1.2; color: #f8f9f9; letter-spacing: -1px; }
+.text-block .line2 { font-family: 'Comfortaa', 'Nunito', sans-serif; font-size: 42px; font-weight: 700; line-height: 1.2; color: #ccff20; margin-top: 16px; letter-spacing: -1px; }
+.text-block .line3 { font-size: 22px; font-weight: 400; color: #b0b0b0; margin-top: 16px; line-height: 1.4; }
+.text-block .line4 { font-family: 'Comfortaa', 'Nunito', sans-serif; font-size: 38px; font-weight: 700; line-height: 1.2; color: #ccff20; margin-top: 40px; letter-spacing: -1px; }
+
+/* Icon cards right side */
+.icon-card { position: absolute; background: rgba(255,255,255,0.03); border: 1.5px solid rgba(171,243,23,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; z-index: 5; }
+
+/* X node */
+.x-node { position: absolute; width: 32px; height: 32px; background: rgba(192,57,43,0.15); border: 2px solid #c0392b; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #c0392b; font-size: 16px; font-weight: 700; z-index: 6; }
+
+/* Connection lines */
+.connections { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+
+/* WorqAI card */
+.worqai-card { position: absolute; left: 500px; bottom: 240px; width: 440px; background: rgba(255,255,255,0.03); border: 1.5px solid rgba(171,243,23,0.2); border-radius: 14px; padding: 20px; z-index: 5; }
+.worqai-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.worqai-title { font-size: 18px; font-weight: 700; color: #f0f0f0; letter-spacing: 2px; }
+.worqai-title span { color: #ccff20; }
+.worqai-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.worqai-check { width: 22px; height: 22px; border: 2px solid #8bc34a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #8bc34a; font-size: 10px; flex-shrink: 0; }
+.worqai-bar { height: 7px; background: rgba(255,255,255,0.08); border-radius: 4px; flex: 1; }
+.worqai-bar-fill { height: 100%; background: linear-gradient(90deg, #8bc34a, #ccff20); border-radius: 4px; }
+
+/* Waves */
+.waves-container { position: absolute; bottom: 0; left: 0; width: 1023px; height: 450px; pointer-events: none; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="grid-overlay"></div>
+
+  <!-- Particles -->
+  <div class="particle" style="width:3px;height:3px;opacity:0.3;top:100px;right:200px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:2px;height:2px;opacity:0.2;top:150px;right:300px;box-shadow:0 0 3px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:4px;height:4px;opacity:0.35;top:200px;right:150px;box-shadow:0 0 6px rgba(171,243,23,0.5);"></div>
+  <div class="particle" style="width:2px;height:2px;opacity:0.2;top:250px;right:250px;box-shadow:0 0 3px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.3;top:300px;right:350px;box-shadow:0 0 4px rgba(171,243,23,0.4);"></div>
+  <div class="particle" style="width:2px;height:2px;opacity:0.2;top:350px;right:200px;box-shadow:0 0 3px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.25;top:500px;left:300px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+  <div class="particle" style="width:2px;height:2px;opacity:0.18;top:600px;left:500px;box-shadow:0 0 3px rgba(171,243,23,0.2);"></div>
+  <div class="particle" style="width:3px;height:3px;opacity:0.22;top:700px;left:200px;box-shadow:0 0 4px rgba(171,243,23,0.3);"></div>
+
+  <!-- Squares -->
+  <div class="sq" style="width:8px;height:8px;border-color:rgba(171,243,23,0.15);top:120px;left:300px;"></div>
+  <div class="sq" style="width:10px;height:10px;border-color:rgba(171,243,23,0.12);top:250px;left:500px;"></div>
+  <div class="sq" style="width:6px;height:6px;border-color:rgba(171,243,23,0.1);top:400px;left:250px;"></div>
+  <div class="sq" style="width:8px;height:8px;border-color:rgba(171,243,23,0.14);top:550px;left:450px;"></div>
+  <div class="sq" style="width:10px;height:10px;border-color:rgba(171,243,23,0.13);top:650px;left:350px;"></div>
+
+
+  <!-- ===== TEXT ===== -->
+  <div class="text-block">
+    <div class="line1">Las empresas usan<br>bots para descartarte.</div>
+    <div class="line2">Nosotros invertimos<br>el proceso.</div>
+    <div class="line3">WorqAI reconstruye tu CV<br>con todo lo que el bot busca.</div>
+    <div class="line4">Ellos tienen un algoritmo.<br>Ahora tú también.</div>
+  </div>
+
+  <!-- WorqAI card -->
+  <div class="worqai-card">
+    <div class="worqai-header">
+      <div class="worqai-title">WORQ<span>AI</span></div>
+      <div style="color:#888;font-size:14px;">&#10005;</div>
+    </div>
+    <div class="worqai-item">
+      <div class="worqai-check">&#10003;</div>
+      <div class="worqai-bar"><div class="worqai-bar-fill" style="width:85%;"></div></div>
+    </div>
+    <div class="worqai-item">
+      <div class="worqai-check">&#10003;</div>
+      <div class="worqai-bar"><div class="worqai-bar-fill" style="width:70%;"></div></div>
+    </div>
+    <div class="worqai-item">
+      <div class="worqai-check">&#10003;</div>
+      <div class="worqai-bar"><div class="worqai-bar-fill" style="width:90%;"></div></div>
+    </div>
+  </div>
+
+  <!-- Waves -->
+  <div class="waves-container">
+    <svg width="1023" height="450" viewBox="0 0 1023 450" style="position:absolute;bottom:0;left:0;">
+      <path d="M -50 300 Q 200 260, 400 330 T 800 350 T 1100 300" stroke="#8bc414" stroke-width="0.7" fill="none" opacity="0.1"/>
+      <path d="M -50 330 Q 200 280, 400 360 T 800 370 T 1100 320" stroke="#8bc414" stroke-width="0.9" fill="none" opacity="0.14"/>
+      <path d="M -50 360 Q 200 310, 400 390 T 800 390 T 1100 340" stroke="#8bc414" stroke-width="1.1" fill="none" opacity="0.18"/>
+      <path d="M -50 390 Q 200 340, 400 410 T 800 410 T 1100 360" stroke="#8bc414" stroke-width="0.9" fill="none" opacity="0.12"/>
+      <path d="M -50 420 Q 200 360, 400 440 T 800 440 T 1100 390" stroke="#8bc414" stroke-width="1.2" fill="none" opacity="0.2"/>
+      <path d="M -50 320 Q 300 250, 500 350 T 900 370 T 1100 330" stroke="#abf317" stroke-width="1.4" fill="none" opacity="0.3"/>
+      <path d="M -50 380 Q 300 300, 500 400 T 900 410 T 1100 370" stroke="#abf317" stroke-width="1.6" fill="none" opacity="0.35"/>
+      <path d="M -50 440 Q 300 360, 500 450 T 900 450 T 1100 400" stroke="#abf317" stroke-width="1.4" fill="none" opacity="0.28"/>
+      <circle cx="150" cy="330" r="3" fill="#abf317" opacity="0.55"><animate attributeName="opacity" values="0.35;0.75;0.35" dur="3s" repeatCount="indefinite"/></circle>
+      <circle cx="350" cy="360" r="2.5" fill="#abf317" opacity="0.5"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="2.4s" repeatCount="indefinite"/></circle>
+      <circle cx="550" cy="370" r="3.5" fill="#abf317" opacity="0.65"><animate attributeName="opacity" values="0.45;0.85;0.45" dur="2.8s" repeatCount="indefinite"/></circle>
+      <circle cx="750" cy="350" r="2.5" fill="#abf317" opacity="0.45"><animate attributeName="opacity" values="0.25;0.65;0.25" dur="3.2s" repeatCount="indefinite"/></circle>
+      <circle cx="250" cy="390" r="3" fill="#abf317" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.6s" repeatCount="indefinite"/></circle>
+      <circle cx="450" cy="420" r="3.5" fill="#abf317" opacity="0.7"><animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
+    </svg>
+  </div>
+
+  <div style="position:absolute;bottom:-150px;left:-150px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(171,243,23,0.04)0%,transparent 70%);pointer-events:none;"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-chart-waffle-css",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: CHART WAFFLE (CSS)
+Purpose: S2 — 100-cell grid chart.
+-->
+
+<div class="content">
+  <p class="tip-label">Distribucion</p>
+  <h2 class="tip-headline">Por que no pasas el filtro</h2>
+  <div class="waffle-wrap">
+    <div class="waffle-grid"></div>
+    <div class="waffle-legend">
+      <div class="wl-item"><span class="wl-dot" style="background:var(--accent);"></span>Formato incorrecto (75%)</div>
+      <div class="wl-item"><span class="wl-dot" style="background:var(--accent-line);"></span>Otros (25%)</div>
+    </div>
+  </div>
+</div>
+
+<style>
+.waffle-wrap { display: flex; align-items: center; gap: 48px; margin-top: 32px; }
+.waffle-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; width: 260px; height: 260px; }
+.waffle-grid::before { content: ''; grid-column: 1 / -1; grid-row: 1 / -1; background: repeating-conic-gradient(var(--accent) 0% 25%, var(--accent-line) 0% 50%); background-size: 20% 20%; border-radius: 8px; opacity: 0.6; }
+.waffle-legend { display: flex; flex-direction: column; gap: 12px; }
+.wl-item { display: flex; align-items: center; gap: 10px; font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; color: var(--text-secondary); }
+.wl-dot { width: 12px; height: 12px; border-radius: 2px; }
+</style>

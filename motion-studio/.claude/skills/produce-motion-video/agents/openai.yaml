@@ -1,0 +1,4 @@
+interface:
+  display_name: "Produce Motion Video"
+  short_description: "Run a gated motion video production workflow"
+  default_prompt: "Use $produce-motion-video to turn this brief into a reviewed Motion Studio video."

@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "system": "s16",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "tres-cambios-entrevistas",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "solution", "data", "diagnostic", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["neon-orbs", "glow-orb", "geo-neon-ring"],
+      "copy": {
+        "kicker": "RESULTADO REAL",
+        "headline": "3 cambios al CV el domingo. El martes: entrevista.",
+        "body": "No fue magia. Fueron decisiones específicas que podés replicar.",
+        "text_treatment": "glow-bold"
+      },
+      "decoratives": [
+        { "id": "svg-starburst-burst", "position": "tr" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(26px,5cqw,38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; } .hook-body { opacity: 0.88; } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-waterfall-list",
+      "density": "heavy",
+      "layers": ["neon-orbs", "geo-bokeh"],
+      "copy": {
+        "kicker": "LOS 3 CAMBIOS",
+        "headline": "Exactamente esto fue lo que modifiqué",
+        "items": [
+          { "title": "Reescribí el titular con keywords del aviso", "desc": "Copié las palabras exactas de la vacante. Nada de sinónimos creativos." },
+          { "title": "Eliminé el objetivo profesional, agregué resumen de 3 líneas", "desc": "El objetivo nadie lo lee. El resumen sí — si está bien escrito." },
+          { "title": "Convertí responsabilidades en logros con números", "desc": "\"Gestioné equipo\" → \"Lideré equipo de 6, reduje tiempo de entrega 30%.\"" }
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".wfl-num { color: var(--accent); font-size: clamp(48px,9cqw,80px); font-weight: 700; opacity: 0.7; } .wfl-text { font-size: clamp(14px,2.8cqw,18px); font-weight: 700; line-height: 1.2; } .wfl-desc { font-size: clamp(12px,2.2cqw,15px); opacity: 0.82; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-massive-number",
+      "density": "heavy",
+      "layers": ["neon-orbs", "geo-neon-ring"],
+      "copy": {
+        "stat_number": "4×",
+        "stat_context": "más respuestas de reclutadores en la primera semana",
+        "kicker": "EL IMPACTO",
+        "source": "Análisis interno WorqAI · base de datos 2025",
+        "text_treatment": "glow-bold"
+      },
+      "decoratives": [],
+      "custom_css": ".mn-number { font-size: clamp(120px,22cqw,200px); font-weight: 700; letter-spacing: -0.05em; } .mn-context { font-size: clamp(16px,3cqw,22px); opacity: 0.88; max-width: 640px; margin: 0 auto; } .source { font-size: 11px; opacity: 0.55; margin-top: 20px; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["neon-orbs", "geo-circuit-trace"],
+      "copy": {
+        "kicker": "LO QUE BLOQUEA EL PROGRESO",
+        "headline": "Estos errores anulan los 3 cambios",
+        "bad_label": "ERROR",
+        "good_label": "SOLUCIÓN",
+        "before_score": "✗",
+        "after_score": "✓",
+        "before_items": ["Mismo CV a todas las vacantes", "CV en formato tabla o columnas", "Guardado como .docx sin verificar"],
+        "after_items": ["Keywords del aviso en cada versión", "Formato una sola columna, PDF plano", "WorqAI verifica antes de enviar"]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.08) !important; border-color: rgba(255,80,80,0.28) !important; } .ba-col.good { background: rgba(0,240,160,0.07) !important; border-color: rgba(0,240,160,0.28) !important; } .ba-score.bad-score { color: rgba(255,80,80,0.9); } .ba-score.good-score { color: var(--accent); } .kicker { color: var(--accent); }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["neon-orbs", "glow-orb", "geo-constellation"],
+      "copy": {
+        "question": "¿Querés saber qué cambiar primero en tu CV?",
+        "cta_keyword": "DIAGNOSTICAR",
+        "reward": "WorqAI identifica los cambios de mayor impacto. Sin costo."
+      },
+      "decoratives": [
+        { "id": "chrome-vertical-counter" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

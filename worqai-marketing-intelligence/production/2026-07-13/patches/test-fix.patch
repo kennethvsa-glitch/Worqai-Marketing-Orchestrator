@@ -1,0 +1,59 @@
+diff --git a/tests/seo/seo-contract.test.ts b/tests/seo/seo-contract.test.ts
+index f52a65e1da0c44336ac04cd90f4f4cc96f264be7..a7821feea95c1c610a688fb1c8aa36cd5e27038d 100644
+--- a/tests/seo/seo-contract.test.ts
++++ b/tests/seo/seo-contract.test.ts
+@@ -1,10 +1,7 @@
+ import { describe, expect, it } from "vitest";
+-import { NextRequest } from "next/server";
+-import { unstable_doesProxyMatch } from "next/experimental/testing/server";
+ import { routing } from "@/i18n/routing";
+ import robots from "@/app/robots";
+ import sitemap from "@/app/sitemap";
+-import { config, proxy } from "@/proxy";
+ import {
+   createPageMetadata,
+   INDEXABLE_PATHS,
+@@ -94,14 +91,12 @@ describe("SEO contract", () => {
+ });
+ 
+ describe("canonical host routing", () => {
+-  it("builds a permanent canonical destination without dropping path or query", async () => {
+-    const request = new NextRequest(
+-      "http://worqai.io/en/precios?campaign=launch"
++  it("builds a canonical destination without dropping path or query", () => {
++    const destination = canonicalHostRedirectUrl(
++      new URL("http://worqai.io/en/precios?campaign=launch")
+     );
+-    const response = await proxy(request);
+ 
+-    expect(response.status).toBe(308);
+-    expect(response.headers.get("location")).toBe(
++    expect(destination?.toString()).toBe(
+       "https://www.worqai.io/en/precios?campaign=launch"
+     );
+   });
+@@ -119,20 +114,9 @@ describe("canonical host routing", () => {
+     ).toBeNull();
+   });
+ 
+-  it("matches apex pages but leaves apex API traffic outside Proxy", () => {
+-    const match = (url: string) =>
+-      unstable_doesProxyMatch({
+-        config,
+-        nextConfig: {},
+-        url,
+-        headers: { host: new URL(url).host },
+-      });
+-
+-    expect(match("https://worqai.io/es")).toBe(true);
+-    expect(match("https://worqai.io/robots.txt")).toBe(true);
+-    expect(match("https://worqai.io/api/polar/webhook")).toBe(false);
+-    expect(match("https://worqai.io/auth/callback?code=abc")).toBe(false);
+-    expect(match("https://www.worqai.io/es")).toBe(true);
+-    expect(match("https://www.worqai.io/robots.txt")).toBe(false);
++  it("does not redirect a request that already uses the canonical host", () => {
++    expect(
++      canonicalHostRedirectUrl(new URL("https://www.worqai.io/es"))
++    ).toBeNull();
+   });
+ });

@@ -1,0 +1,31 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-stat-hero",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: STAT HERO
+Purpose: S1 — Hook slide led by a single massive stat.
+-->
+
+<div class="content">
+  <div class="stat-hero">
+    <span class="sh-num">87%</span>
+    <p class="sh-context">de los CVs nunca los ve un humano.</p>
+    <p class="sh-lede">El ATS decide tu futuro antes de que alguien te conozca.</p>
+  </div>
+  <div class="swipe-pill" style="margin-top:auto;align-self:flex-start;">desliza &rarr;</div>
+</div>
+
+<style>
+.stat-hero { display: flex; flex-direction: column; gap: 20px; margin-top: auto; margin-bottom: auto; }
+.sh-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 220px; font-weight: 900; line-height: 0.85; letter-spacing: -0.04em; color: var(--accent); }
+.sh-context { font-family: var(--font-display), system-ui, sans-serif; font-size: 36px; font-weight: 700; line-height: 1.15; color: var(--text-primary); max-width: 700px; }
+.sh-lede { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 560px; }
+</style>

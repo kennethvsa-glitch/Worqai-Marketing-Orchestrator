@@ -1,0 +1,59 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-code-syntax-light",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s18",
+      "s23",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "light-volumetric-beam",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "mock-form-input",
+      "mock-checklist"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CODE SYNTAX LIGHT
+Purpose: Light-themed code block.
+-->
+
+<div class="code-light">
+  <div class="code-bar">
+    <span>resume.json</span>
+  </div>
+  <pre class="code-body">
+{
+  "skills": ["Python", "AWS"],
+  "experience": 5,
+  "optimized": true
+}</pre>
+</div>
+
+<style>
+.code-light { background: var(--code-bg, #f5f5f5); border: 1px solid var(--code-border, #e0e0e0); border-radius: 10px; overflow: hidden; }
+.code-bar { padding: 10px 14px; background: var(--code-bar, #eaeaea); border-bottom: 1px solid var(--code-border, #e0e0e0); font-family: var(--font-mono), monospace; font-size: 11px; color: var(--code-meta, #666); }
+.code-body { padding: 16px 18px; font-family: var(--font-mono), monospace; font-size: 14px; line-height: 1.6; color: var(--code-text, #333); margin: 0; }
+</style>

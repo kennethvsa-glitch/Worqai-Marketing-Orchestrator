@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "v2-primitives-demo",
+    "density": "standard"
+  },
+  "pacing": ["hook", "shock", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": [
+        "glow-orb",
+        { "id": "svg-blob-asymmetric", "animate": true }
+      ],
+      "decoratives": [{ "id": "svg-starburst-burst", "position": "bl" }],
+      "copy": {
+        "kicker": "v2 · TEXT TREATMENT STROKE",
+        "headline": "ASÍ SE VE BIEN.",
+        "body": "Outlined text + SVG blob orgánico con drift de 60s + starburst SVG. Zero unicode emoji, zero ellipse blob.",
+        "text_treatment": "stroke",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-hook-display { font-size: clamp(60px, 12cqw, 96px); letter-spacing: -0.04em; line-height: 0.95; font-weight: 900; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["glow-orb", "svg-blob-tr"],
+      "decoratives": [{ "id": "svg-starburst-spark", "position": "tr" }],
+      "copy": {
+        "kicker": "v2 · GRADIENT TEXT (SVG)",
+        "stat_number": "43%",
+        "stat_context": "CV con problemas ATS",
+        "headline": "Gradient real.",
+        "body": "SVG linearGradient. No CSS background-clip. Ambos pipelines.",
+        "source": "Demo · v2 visual primitives",
+        "text_treatment": "gradient"
+      },
+      "custom_css": ".s2-stat-num { letter-spacing: -0.05em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-terminal",
+      "layers": ["pw-grid", "glow-orb"],
+      "decoratives": [{ "id": "svg-starburst-mark", "position": "tr" }],
+      "copy": {
+        "kicker": "v2 · SVG ICON SPRITE",
+        "headline": "21 íconos vectoriales reales",
+        "tab_title": "v2-icons.sh",
+        "command": "render --primitive svg-icons --count 21",
+        "output_lines": [
+          { "type": "ok",   "text": "icon-warning  · icon-error · icon-ok · icon-info" },
+          { "type": "ok",   "text": "arrow-right · arrow-down · trending-up · trending-down" },
+          { "type": "warn", "text": "shield · lock · key · target · lightning · trophy" },
+          { "type": "info", "text": "Reference via <use href=\"#icon-NAME\"/> — auto-injected" }
+        ]
+      },
+      "custom_css": ".s3-term-headline { font-size: clamp(20px, 4cqw, 26px); font-weight: 800; letter-spacing: -0.02em; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-icon-grid",
+      "layers": ["glow-orb", "svg-blob-scattered"],
+      "decoratives": [],
+      "copy": {
+        "kicker": "v2 · DROP SHADOW + ICONS",
+        "headline": "Cards con depth real.",
+        "tiles": [
+          { "icon": "shield",       "title": "ATS-safe",    "desc": "Pasa el filtro automático." },
+          { "icon": "trending-up",  "title": "Métricas",    "desc": "Stats que crecen, no inventadas." },
+          { "icon": "lightning",    "title": "Rápido",      "desc": "De 0 a CV en 6 minutos." },
+          { "icon": "target",       "title": "Enfocado",    "desc": "Una vacante, un CV." },
+          { "icon": "lock",         "title": "Privado",     "desc": "Tu data no se vende." },
+          { "icon": "trophy",       "title": "Resultados",  "desc": "Tracked + measurable." }
+        ]
+      },
+      "custom_css": ".s4-icong-headline { font-size: clamp(22px, 4.2cqw, 28px); font-weight: 800; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["glow-orb", { "id": "svg-blob-bl", "animate": true }],
+      "decoratives": [{ "id": "sub-stamp-circle", "text": "GRATIS" }],
+      "copy": {
+        "question": "¿Querés ver el carousel completo con todos los primitives v2?",
+        "cta_keyword": "V2",
+        "reward": "Te paso el HTML del demo, el spec, y la guía para usar gradient/glow/stroke + SVG blobs + SVG icons en cualquier carousel. Gratis.",
+        "text_treatment": "glow-bold"
+      },
+      "custom_css": ".s5-cta-question { font-size: clamp(26px, 5.5cqw, 38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; }"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-cv-lines",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s12",
+      "s17",
+      "s23",
+      "s33",
+      "s48"
+    ],
+    "avoid_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s40"
+    ],
+    "pairs_well_with": [
+      "org-blob-corner",
+      "light-glow-accent",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "mock-terminal-mac",
+      "mock-code-syntax-light"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CV LINES (Document Skeleton)
+Found in: carousel_pdf-ats-error_worqai-verde.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Simulated resume/PDF layout with parsed status.
+-->
+
+<div class="cv-mock">
+  <div class="cv-line header"></div>
+  <div class="cv-line sub"></div>
+  <div class="cv-gap"></div>
+  <div class="cv-line full ok"></div>
+  <div class="cv-line full ok"></div>
+  <div class="cv-line mid warn"></div>
+  <div class="cv-gap"></div>
+  <div class="cv-line full fail"></div>
+  <div class="cv-line full fail"></div>
+  <div class="cv-line short fail"></div>
+</div>
+
+<style>
+.cv-mock {
+  display: flex; flex-direction: column; gap: 10px;
+  padding: 24px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+}
+.cv-line {
+  height: 10px; border-radius: 4px;
+  background: rgba(255,255,255,0.10);
+}
+.cv-line.header { width: 45%; height: 14px; background: var(--text-primary); }
+.cv-line.sub { width: 30%; background: var(--text-muted); }
+.cv-line.full { width: 100%; }
+.cv-line.mid { width: 65%; }
+.cv-line.short { width: 40%; }
+.cv-line.ok { background: rgba(80,255,150,0.25); }
+.cv-line.warn { background: rgba(255,200,50,0.25); }
+.cv-line.fail { background: rgba(255,80,80,0.25); }
+.cv-gap { height: 8px; }
+</style>
+
+<!--
+CUSTOMIZATION:
+- Add labels to right of each line: "Parsed", "Skipped", "Error"
+- Use single-column or two-column layout
+- Background: match slide darkness
+- Colors: ok/warn/fail can be replaced with accent variants
+-->

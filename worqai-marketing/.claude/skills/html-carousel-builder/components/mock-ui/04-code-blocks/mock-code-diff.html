@@ -1,0 +1,68 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-code-diff",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s18",
+      "s23",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "light-volumetric-beam",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "mock-form-input",
+      "mock-checklist"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CODE DIFF
+Purpose: Green/red diff view.
+-->
+
+<div class="code-diff">
+  <div class="diff-line removed">
+    <span class="diff-mark">-</span>
+    <span>CV de 4 paginas con tablas</span>
+  </div>
+  <div class="diff-line added">
+    <span class="diff-mark">+</span>
+    <span>CV de 1 pagina, texto plano</span>
+  </div>
+  <div class="diff-line removed">
+    <span class="diff-mark">-</span>
+    <span>Sin keywords del puesto</span>
+  </div>
+  <div class="diff-line added">
+    <span class="diff-mark">+</span>
+    <span>Keywords optimizadas para ATS</span>
+  </div>
+</div>
+
+<style>
+.code-diff { display: flex; flex-direction: column; font-family: var(--font-mono), monospace; font-size: 15px; line-height: 1.8; }
+.diff-line { display: flex; align-items: center; gap: 12px; padding: 6px 14px; }
+.diff-line.removed { background: rgba(255,80,80,0.08); color: rgba(255,100,100,0.85); }
+.diff-line.added { background: rgba(80,255,150,0.06); color: rgba(100,255,150,0.85); }
+.diff-mark { font-weight: 700; min-width: 16px; }
+</style>

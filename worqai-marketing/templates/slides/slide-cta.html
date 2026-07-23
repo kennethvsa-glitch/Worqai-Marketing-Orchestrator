@@ -1,0 +1,121 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="deco-corner-tl"></div>
+  <div class="deco-corner-br"></div>
+
+  {#
+    CTA variants — set copy.cta_variant in spec:
+
+    "button"     (default) — glowing pill, use for launch/signup push carousels
+    "diagnostic" — terminal-framed CTA, use for ATS/filtro/diagnostic carousels
+    "editorial"  — large question + underlined link, use for concept/advice carousels
+
+    Common fields across all variants:
+      copy.question / copy.headline — the main CTA question
+      copy.cta_keyword              — the action word / button label
+      copy.reward                   — the sub-copy ("sin costo", "te mostramos 3 errores")
+      copy.url                      — footer URL (replaces slide counter when set)
+
+    "GRATIS" is banned. Use: SIN COSTO / CV CHECK / ATS CHECK / ESCANEAR / DIAGNÓSTICO
+  #}
+  {% set _variant = copy.cta_variant | default('button') %}
+
+  {# ════════════════════════════════════════════════════════════════
+     VARIANT: button  — pill + glow (default, use sparingly)
+     ════════════════════════════════════════════════════════════════ #}
+  {% if _variant == 'button' %}
+  <div class="cta-wrap">
+    <svg class="cta-star-svg" viewBox="0 0 64 64" aria-hidden="true">
+      <defs>
+        <filter id="cta-star-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M32 4 L35 24 L56 20 L38 32 L56 44 L35 40 L32 60 L29 40 L8 44 L26 32 L8 20 L29 24 Z"
+            fill="none" stroke="var(--accent)" stroke-width="1.5"
+            filter="url(#cta-star-glow)" opacity="0.80"/>
+    </svg>
+    {% if copy.question %}
+    <div class="cta-question">{{ copy.question }}</div>
+    {% elif copy.headline %}
+    <div class="cta-question">{{ copy.headline }}</div>
+    {% endif %}
+    {% if copy.cta_keyword %}
+    <div class="cta-action-label">Comenta la palabra:</div>
+    <div class="cta-keyword-box">
+      <div class="cta-keyword">{{ copy.cta_keyword }}</div>
+    </div>
+    {% endif %}
+    {% if copy.reward %}
+    <div class="cta-reward">{{ copy.reward }}</div>
+    {% endif %}
+  </div>
+
+  {# ════════════════════════════════════════════════════════════════
+     VARIANT: diagnostic  — terminal-framed, for ATS/filtro carousels
+     Question → terminal window → arrow link inside
+     ════════════════════════════════════════════════════════════════ #}
+  {% elif _variant == 'diagnostic' %}
+  <div class="cta-wrap" style="align-items:flex-start;text-align:left">
+    {% if copy.question %}
+    <div class="cta-question" style="text-align:left;font-size:clamp(18px,3.8cqw,26px);max-width:820px">{{ copy.question }}</div>
+    {% elif copy.headline %}
+    <div class="cta-question" style="text-align:left;font-size:clamp(18px,3.8cqw,26px);max-width:820px">{{ copy.headline }}</div>
+    {% endif %}
+
+    <div style="margin-top:28px;background:rgba(0,0,0,0.48);border:1px solid rgba(255,255,255,0.10);border-radius:12px;padding:18px 22px;width:100%;max-width:620px">
+      {# Mac-style dots #}
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:14px">
+        <div style="width:9px;height:9px;border-radius:50%;background:#ff5f5f;opacity:0.70"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#feca57;opacity:0.70"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#2ee59a;opacity:0.70"></div>
+        <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;opacity:0.35;margin-left:4px">worqai.com/diagnóstico</span>
+      </div>
+      {% if copy.reward %}
+      <div style="font-family:var(--font-mono);font-size:clamp(12px,2.2cqw,14px);line-height:1.75;color:rgba(255,255,255,0.80)">{{ copy.reward }}</div>
+      {% endif %}
+      {% if copy.cta_keyword %}
+      <div style="margin-top:16px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;margin-bottom:6px">Comenta la palabra:</div>
+      <div style="display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-family:var(--font-mono);font-size:clamp(13px,2.4cqw,15px);font-weight:600;letter-spacing:0.08em;text-transform:uppercase">
+        <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg>{{ copy.cta_keyword }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {# ════════════════════════════════════════════════════════════════
+     VARIANT: editorial  — large question + underlined link text
+     No star. No pill. Clean typographic CTA.
+     ════════════════════════════════════════════════════════════════ #}
+  {% elif _variant == 'editorial' %}
+  <div class="cta-wrap">
+    {% if copy.question %}
+    <div class="cta-question" style="font-size:clamp(24px,5cqw,36px);max-width:800px;line-height:1.10">{{ copy.question }}</div>
+    {% elif copy.headline %}
+    <div class="cta-question" style="font-size:clamp(24px,5cqw,36px);max-width:800px;line-height:1.10">{{ copy.headline }}</div>
+    {% endif %}
+    {% if copy.reward %}
+    <div class="cta-reward" style="margin-top:22px;font-size:clamp(13px,2.4cqw,15px)">{{ copy.reward }}</div>
+    {% endif %}
+    {% if copy.cta_keyword %}
+    <div style="margin-top:34px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.55;margin-bottom:8px">Comenta la palabra:</div>
+    <div style="display:inline-flex;align-items:center;gap:10px;color:var(--accent);font-family:var(--font-mono);font-size:13px;letter-spacing:0.16em;text-transform:uppercase;border-bottom:1px solid rgba(var(--accent-rgb),0.38);padding-bottom:5px">
+      {{ copy.cta_keyword }}<svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="brand">{{ brand }}</div>
+  {% if copy.url %}
+  <div class="cta-footer-url">{{ copy.url }}</div>
+  {% else %}
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  {% endif %}
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

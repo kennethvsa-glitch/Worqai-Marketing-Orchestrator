@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "system": "s09",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "cv-largo-ignorado",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "diagnostic", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-full-bleed-type",
+      "density": "heavy",
+      "layers": ["architectural-minimal", "corner-frame", "geo-constellation"],
+      "copy": {
+        "headline": "3 PÁGINAS = 0 LLAMADAS",
+        "label": "Más páginas no es más experiencia.",
+        "text_treatment": "stroke"
+      },
+      "decoratives": [
+        { "id": "chrome-header-bar" }
+      ],
+      "custom_css": ".fbt-display { font-size: clamp(72px,14cqw,120px); font-weight: 700; letter-spacing: -0.04em; line-height: 0.92; } .fbt-label { font-size: clamp(14px,2.5cqw,18px); opacity: 0.88; max-width: 700px; margin-top: 28px; line-height: 1.4; } .brand { opacity: 0.7; } .counter { opacity: 0.7; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-typeset-poster",
+      "density": "heavy",
+      "layers": ["architectural-minimal", "scan-lines", "glow-orb"],
+      "copy": {
+        "eyebrow": "DATO · WORQAI · 2025",
+        "headline": "1 PÁGINA",
+        "footer_left": "@worqai",
+        "footer_right": "ATS READY"
+      },
+      "decoratives": [],
+      "custom_css": ".poster-eyebrow { font-size: clamp(11px,2cqw,14px); letter-spacing: 0.3em; opacity: 0.7; } .poster-display { font-size: clamp(120px,24cqw,220px); font-weight: 700; letter-spacing: -0.06em; line-height: 0.85; color: var(--accent); } .poster-footer { font-size: 13px; opacity: 0.65; letter-spacing: 0.15em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["architectural-minimal", "geo-circuit-trace"],
+      "copy": {
+        "kicker": "EL CONTRASTE",
+        "headline": "CV de 3 páginas vs CV de 1 página",
+        "bad_label": "3 PÁGINAS",
+        "good_label": "1 PÁGINA",
+        "before_items": ["Reclutador abandona antes de terminar", "ATS trunca el texto en la mitad", "Señal: no sabés qué es relevante"],
+        "after_items": ["Todo entra en el primer vistazo", "ATS procesa el archivo completo", "Señal: sabés editar y priorizar"]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.07) !important; border-color: rgba(255,80,80,0.22) !important; } .ba-col.good { background: rgba(176,188,212,0.07) !important; border-color: rgba(176,188,212,0.22) !important; } .kicker { color: var(--accent); } .ba-headline { font-size: clamp(18px,3.5cqw,26px); font-weight: 700; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["architectural-minimal", "corner-frame", "zoom-rings"],
+      "copy": {
+        "question": "¿Tu CV dice lo esencial en una página?",
+        "cta_keyword": "OPTIMIZAR",
+        "reward": "WorqAI lo revisa y te dice qué sobra. Sin costo.",
+        "cta_variant": "button"
+      },
+      "decoratives": [
+        { "id": "svg-starburst-mark", "position": "br" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 0.9; }"
+    }
+  ]
+}

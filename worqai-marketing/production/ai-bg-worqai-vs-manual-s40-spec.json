@@ -1,0 +1,103 @@
+{
+  "meta": {
+    "system": "s40",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "worqai-vs-manual",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "solution", "diagnostic", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-full-bleed-type",
+      "density": "heavy",
+      "layers": ["cosmic-energy-field", "pw-grid", "scan-lines", "geo-data-streaks"],
+      "copy": {
+        "headline": "EL ATS VE COSAS QUE VOS NO VES.",
+        "label": "Para el bot, cada CV varía.",
+        "text_treatment": "glow"
+      },
+      "decoratives": [
+        { "id": "watermark", "text": "AI" }
+      ],
+      "custom_css": ".fbt-display { font-size: clamp(40px,8cqw,70px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.0; } .fbt-label { font-size: clamp(14px,2.6cqw,18px); opacity: 0.88; max-width: 720px; margin-top: 24px; } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-data-wall",
+      "density": "heavy",
+      "layers": ["cosmic-energy-field", "pw-grid", "scan-lines"],
+      "copy": {
+        "kicker": "LO QUE WORQAI ANALIZA",
+        "headline": "Datos que el CV manual no calcula",
+        "stats": [
+          { "number": "47", "unit": "+", "label": "métricas ATS chequeadas por CV" },
+          { "number": "8s", "unit": "", "label": "en generar diagnóstico completo" },
+          { "number": "91%", "unit": "", "label": "mejoró su score en 1ª iteración" },
+          { "number": "3×", "unit": "", "label": "más entrevistas con CV por IA" }
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".dwall-card { background: transparent !important; border: 1px solid rgba(34,211,238,0.22) !important; backdrop-filter: none !important; border-radius: 6px !important; } .dwall-num { color: var(--accent); font-size: clamp(40px,8cqw,70px); font-weight: 700; letter-spacing: -0.04em; } .unit { font-size: 0.55em; opacity: 0.8; } .dwall-label { font-size: clamp(11px,2cqw,14px); opacity: 0.82; line-height: 1.3; } .kicker { color: var(--accent); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-badge-grid",
+      "density": "heavy",
+      "layers": ["cosmic-energy-field", "pw-grid", "geo-data-streaks"],
+      "copy": {
+        "kicker": "LO QUE WORQAI HACE POR VOS",
+        "headline": "6 cosas que el CV manual no puede hacer",
+        "items": [
+          { "icon": "magnifier", "title": "Análisis ATS en tiempo real", "desc": "Detecta qué palabras le faltan para cada aviso" },
+          { "icon": "chart", "title": "Score por sección", "desc": "Dónde está tu CV fuerte y dónde está en riesgo" },
+          { "icon": "arrow-right", "title": "Sugerencias específicas", "desc": "No genéricas. Basadas en el aviso que aplicás" },
+          { "icon": "ok", "title": "Verificación de formato", "desc": "Columnas, tablas, imágenes que rompen el ATS" },
+          { "icon": "trending-up", "title": "Comparación de versiones", "desc": "Sabés exactamente cuánto mejoró" },
+          { "icon": "target", "title": "Compatible con 50+ ATS", "desc": "Workday, Greenhouse, Lever, BambooHR..." }
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".badgeg-row { background: transparent !important; border: 1px solid rgba(34,211,238,0.2) !important; backdrop-filter: none !important; border-radius: 6px; margin-bottom: 6px; } .badgeg-icon { color: var(--accent); } .badgeg-title { font-size: clamp(13px,2.4cqw,16px); font-weight: 700; } .badgeg-desc { font-size: clamp(11px,2cqw,13px); opacity: 0.82; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["cosmic-energy-field", "glow-orb", "geo-data-streaks"],
+      "copy": {
+        "kicker": "EN LA PRÁCTICA",
+        "headline": "Análisis manual vs WorqAI",
+        "bad_label": "MANUAL",
+        "good_label": "WORQAI",
+        "before_score": "?",
+        "after_score": "91",
+        "before_items": ["No sabés qué keywords le faltan", "Adivinás el formato correcto", "Sin score ni punto de comparación"],
+        "after_items": ["Score ATS exacto por sección", "Lista concreta de keywords faltantes", "Verificado contra 47+ métricas"]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.07) !important; border-color: rgba(255,80,80,0.22) !important; } .ba-col.good { background: rgba(34,211,238,0.07) !important; border-color: rgba(34,211,238,0.28) !important; } .ba-score.bad-score { color: rgba(255,80,80,0.7); } .ba-score.good-score { color: var(--accent); } .kicker { color: var(--accent); }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["cosmic-energy-field", "pw-grid"],
+      "copy": {
+        "question": "¿Qué ve el ATS en tu CV ahora mismo?",
+        "cta_keyword": "ESCANEAR",
+        "reward": "Diagnóstico completo. 60 segundos. Sin costo.",
+        "cta_variant": "diagnostic"
+      },
+      "decoratives": [
+        { "id": "svg-starburst-burst", "position": "bl" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

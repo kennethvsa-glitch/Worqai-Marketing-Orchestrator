@@ -1,0 +1,31 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="tc-wrap">
+    {# Default word positions — cover the canvas in a distributed scatter #}
+    {% set _default_positions = [
+      {'size':'48px','top':'12%','left':'8%','op':'1.0'},
+      {'size':'32px','top':'28%','left':'52%','op':'0.82'},
+      {'size':'22px','top':'42%','left':'14%','op':'0.65'},
+      {'size':'38px','top':'18%','left':'68%','op':'0.78'},
+      {'size':'26px','top':'58%','left':'38%','op':'0.70'},
+      {'size':'18px','top':'70%','left':'10%','op':'0.55'},
+      {'size':'44px','top':'52%','left':'60%','op':'0.90'},
+      {'size':'20px','top':'78%','left':'55%','op':'0.50'},
+      {'size':'30px','top':'36%','left':'30%','op':'0.75'},
+      {'size':'16px','top':'84%','left':'24%','op':'0.45'},
+      {'size':'24px','top':'8%','left':'36%','op':'0.68'},
+      {'size':'14px','top':'65%','left':'82%','op':'0.40'}
+    ] %}
+    {% for word in copy.get('words', []) %}
+    {% set _p = _default_positions[loop.index0 % _default_positions|length] %}
+    <div class="tc-word" style="font-size:{{ word.size | default(_p.size) }};top:{{ word.y | default(_p.top) }};left:{{ word.x | default(_p.left) }};opacity:{{ word.opacity | default(_p.op) }}">{{ word.text if word is mapping else word }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

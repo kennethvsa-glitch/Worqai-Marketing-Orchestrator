@@ -1,0 +1,29 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="mvf-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="mvf-headline">{{ copy.headline }}</div>{% endif %}
+
+    <div class="mvf-row">
+      {% if copy.myth %}
+      <div class="sub-fact-bubble myth">
+        <span class="bub-label">{{ copy.myth_label | default('Mito') }}</span>
+        <span class="mvf-text">{{ copy.myth }}</span>
+      </div>
+      {% endif %}
+      {% if copy.fact %}
+      <div class="sub-fact-bubble fact">
+        <span class="bub-label">{{ copy.fact_label | default('Realidad') }}</span>
+        <span class="mvf-text">{{ copy.fact }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

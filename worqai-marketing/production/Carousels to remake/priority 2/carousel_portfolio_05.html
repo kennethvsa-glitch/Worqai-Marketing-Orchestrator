@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reps &amp; Sets — Carousel 05 v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --ink:#0c0c0c;
+  --offwhite:#f6f3ed;
+  --lime:#d6ff2a;
+  --orange:#ff5722;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#111;font-family:'Inter',sans-serif;color:#eee;min-height:100vh;padding:40px 20px}
+
+/* ── CONTROLS ── */
+.controls{max-width:1080px;margin:0 auto 24px;display:flex;gap:12px;align-items:center}
+.controls button{background:var(--lime);color:var(--ink);border:0;padding:12px 22px;font-family:'Space Mono';font-weight:700;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;font-size:12px}
+.controls button:hover{background:var(--orange);color:#fff}
+.dots{display:flex;gap:8px;margin-left:auto}
+.dots span{width:8px;height:8px;background:#333;border-radius:50%}
+.dots span.active{background:var(--lime)}
+.stage{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+
+/* ── SLIDE BASE ── */
+.slide{width:1080px;height:1080px;position:relative;overflow:hidden;background:var(--offwhite);color:var(--ink);font-family:'Inter',sans-serif}
+
+/* ── SHARED: GRAIN ── */
+.grain{position:absolute;inset:0;pointer-events:none;opacity:0.16;mix-blend-mode:multiply;z-index:6}
+.grain svg{width:100%;height:100%}
+
+/* ── CW-01: PROGRESS BAR ── */
+.progress{position:absolute;bottom:0;left:0;height:3px;background:var(--lime);z-index:8}
+
+/* ── SWIPE PILL ── */
+.swipe-pill{position:absolute;bottom:56px;right:48px;font-family:'Space Mono';font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(246,243,237,0.5);background:rgba(0,0,0,0.35);padding:7px 14px;border-radius:99px;z-index:9}
+
+/* ── SHARED NAV / FOOT ── */
+.nav-row{position:absolute;top:44px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;z-index:7}
+.foot-row{position:absolute;bottom:14px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;font-family:'Space Mono';font-size:9px;letter-spacing:0.18em;text-transform:uppercase;z-index:7}
+.lbl-tag{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase}
+.lbl-lime{color:var(--lime)}
+.lbl-orange{color:var(--orange)}
+.lbl-ink{color:var(--ink)}
+.lbl-muted{color:rgba(246,243,237,0.35)}
+.lbl-muted-ink{color:rgba(12,12,12,0.4)}
+
+/* ── TA-01: LETTERFORM BACKGROUND ── */
+.letter-bg{position:absolute;font-family:'Anton';line-height:1;pointer-events:none;z-index:0;white-space:nowrap;letter-spacing:-0.05em}
+
+/* ── ET-01: NEON GLOW ── */
+.neon-lime{text-shadow:0 0 6px var(--lime),0 0 12px var(--lime),0 0 24px rgba(214,255,42,0.7),0 0 48px rgba(214,255,42,0.35),0 0 96px rgba(214,255,42,0.15)}
+.neon-orange{text-shadow:0 0 6px var(--orange),0 0 12px var(--orange),0 0 24px rgba(255,87,34,0.65),0 0 48px rgba(255,87,34,0.3)}
+
+/* ── ME-01: SPEED LINES ── */
+.speed-lines{position:absolute;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(-55deg,transparent 0px,transparent 20px,rgba(214,255,42,0.032) 20px,rgba(214,255,42,0.032) 22px)}
+.speed-lines-ink{position:absolute;inset:0;pointer-events:none;z-index:1;background:repeating-linear-gradient(-55deg,transparent 0px,transparent 22px,rgba(12,12,12,0.045) 22px,rgba(12,12,12,0.045) 24px)}
+
+/* ── FC-02: HARD BENTO ── */
+.bento-dark{border-radius:16px;background:rgba(12,12,12,0.88);padding:24px 28px}
+.bento-glass{border-radius:16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);padding:24px 28px}
+.bento-lime-tint{border-radius:16px;background:rgba(214,255,42,0.12);border:1px solid rgba(214,255,42,0.2);padding:20px 24px}
+
+/* ============================================================
+   SLIDE 1 — COVER
+   ============================================================ */
+.s1{background:var(--offwhite)}
+
+.s1-ink-half{position:absolute;top:0;right:0;width:57%;height:100%;background:var(--ink);clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);z-index:2}
+
+/* EA-09: aurora mesh — left half */
+.s1-aurora-l{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse 520px 580px at 8% 68%,rgba(214,255,42,0.09) 0%,transparent 62%),radial-gradient(ellipse 280px 280px at 35% 18%,rgba(255,87,34,0.05) 0%,transparent 55%);z-index:1;pointer-events:none}
+
+/* EA-09: aurora mesh — right (dark) half, clipped */
+.s1-aurora-r{position:absolute;top:0;right:0;width:57%;height:100%;background:radial-gradient(ellipse 500px 420px at 88% 22%,rgba(214,255,42,0.16) 0%,transparent 55%),radial-gradient(ellipse 320px 320px at 55% 82%,rgba(255,87,34,0.10) 0%,transparent 50%);clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);z-index:3;pointer-events:none}
+
+/* ME-01 speed lines on dark half */
+.s1-speed{position:absolute;top:0;right:0;width:57%;height:100%;clip-path:polygon(20% 0,100% 0,100% 100%,0 100%);z-index:4;pointer-events:none;background:repeating-linear-gradient(-55deg,transparent 0px,transparent 20px,rgba(214,255,42,0.028) 20px,rgba(214,255,42,0.028) 22px)}
+
+/* Lime circle */
+.s1-circle{position:absolute;top:62px;right:44px;width:200px;height:200px;background:var(--lime);border-radius:50%;z-index:5;box-shadow:0 0 50px rgba(214,255,42,0.45),0 0 100px rgba(214,255,42,0.18)}
+
+.s1-brand{position:absolute;top:44px;left:48px;font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink);z-index:7}
+.s1-brand::before{content:"●";color:var(--orange);margin-right:8px}
+
+/* Hero number — large with subtle neon */
+.s1-hero{position:absolute;top:118px;left:48px;z-index:7}
+.s1-hero .pct{font-family:'Anton';font-size:240px;line-height:0.88;letter-spacing:-0.05em;color:var(--ink);display:block}
+.s1-hero .quit{font-family:'Anton';font-size:108px;line-height:1;letter-spacing:-0.03em;color:var(--orange);display:block;margin-top:10px}
+
+.s1-sub{position:absolute;top:580px;left:48px;z-index:7;width:420px}
+.s1-sub .rule{width:44px;height:3px;background:var(--orange);margin-bottom:18px}
+.s1-sub p{font-family:'Inter';font-weight:500;font-size:18px;line-height:1.48;color:var(--ink)}
+.s1-sub p strong{color:var(--orange);font-weight:700}
+
+.s1-right{position:absolute;top:314px;right:44px;width:348px;z-index:7}
+.s1-right .pill{display:inline-block;padding:7px 14px;background:var(--lime);color:var(--ink);font-family:'Space Mono';font-weight:700;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:20px;border-radius:3px}
+.s1-right p{font-family:'Inter';font-weight:500;font-size:16px;line-height:1.5;color:rgba(246,243,237,0.82)}
+.s1-right p em{font-style:normal;color:var(--lime);font-weight:700}
+
+.s1-footer{position:absolute;bottom:14px;left:48px;right:48px;display:flex;justify-content:space-between;font-family:'Space Mono';font-size:9px;letter-spacing:0.18em;text-transform:uppercase;z-index:7}
+.s1-footer .fl{color:rgba(12,12,12,0.4)}
+.s1-footer .fr{color:rgba(246,243,237,0.35)}
+
+/* ============================================================
+   SLIDE 2 — THE PROBLEM (DC-07 hierarchy cliff + ME-06 zoom burst)
+   ============================================================ */
+.s2{background:var(--ink);color:var(--offwhite)}
+
+/* EA-09: aurora mesh */
+.s2-aurora{position:absolute;inset:0;background:radial-gradient(ellipse 700px 500px at 15% 28%,rgba(214,255,42,0.09) 0%,transparent 58%),radial-gradient(ellipse 500px 400px at 82% 78%,rgba(255,87,34,0.07) 0%,transparent 52%),radial-gradient(ellipse 350px 280px at 55% 102%,rgba(214,255,42,0.04) 0%,transparent 50%);z-index:1;pointer-events:none}
+
+/* ME-06: zoom burst SVG centered on hero */
+.s2-burst{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:780px;height:780px;z-index:2;pointer-events:none}
+
+/* DC-07: hierarchy cliff — one number rules */
+.s2-hero{position:absolute;top:96px;left:0;right:0;text-align:center;z-index:7}
+.s2-hero .big-n{font-family:'Anton';font-size:310px;line-height:0.84;letter-spacing:-0.05em;color:var(--lime);display:block;text-shadow:0 0 40px rgba(214,255,42,0.45),0 0 80px rgba(214,255,42,0.18),0 0 160px rgba(214,255,42,0.07)}
+.s2-hero .big-pct{font-size:200px;color:rgba(214,255,42,0.65)}
+.s2-hero .big-lbl{font-family:'Space Mono';font-size:12px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(246,243,237,0.45);margin-top:6px}
+.s2-hero .big-src{font-family:'Space Mono';font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(246,243,237,0.2);margin-top:5px}
+
+/* 3 supporting stats — smaller */
+.s2-stats{position:absolute;bottom:90px;left:48px;right:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,255,255,0.1);z-index:7}
+.s2-stat{padding:22px 18px;border-right:1px solid rgba(255,255,255,0.06)}
+.s2-stat:last-child{border-right:0}
+.s2-stat .n{font-family:'Anton';font-size:60px;color:var(--offwhite);line-height:0.9;letter-spacing:-0.03em}
+.s2-stat .n.acc{color:var(--orange)}
+.s2-stat .l{font-family:'Space Mono';font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(246,243,237,0.35);margin-top:8px;line-height:1.45}
+
+/* ============================================================
+   SLIDE 3 — WHY IT BREAKS (Lime + FC-02 bento cells)
+   ============================================================ */
+.s3{background:var(--lime);color:var(--ink)}
+.s3 .grain{mix-blend-mode:darken;opacity:0.10}
+
+.s3-header{position:absolute;top:106px;left:48px;z-index:7;width:500px}
+.s3-header h2{font-family:'Anton';font-size:82px;line-height:1.18;letter-spacing:-0.03em;text-transform:uppercase;color:var(--ink)}
+.s3-header h2 em{font-style:normal;background:var(--ink);color:var(--lime);padding:4px 14px}
+
+.s3-bentos{position:absolute;top:352px;left:48px;right:48px;display:flex;flex-direction:column;gap:12px;z-index:7}
+.s3-bento{background:var(--ink);border-radius:16px;padding:22px 28px;display:flex;gap:22px;align-items:flex-start}
+.s3-bento .x{font-family:'Anton';font-size:44px;line-height:0.85;color:var(--orange);flex-shrink:0;width:40px}
+.s3-bento .body h3{font-family:'Anton';font-size:26px;letter-spacing:-0.01em;text-transform:uppercase;color:var(--offwhite);line-height:1}
+.s3-bento .body p{font-family:'Inter';font-size:13px;color:rgba(246,243,237,0.55);margin-top:5px;line-height:1.4}
+.s3-bento .badge{margin-left:auto;flex-shrink:0;align-self:center;font-family:'Space Mono';font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--lime);background:rgba(214,255,42,0.12);padding:4px 10px;border-radius:99px;white-space:nowrap}
+
+.s3-quote{position:absolute;bottom:56px;left:48px;right:48px;padding:22px 30px;background:rgba(12,12,12,0.10);border-left:4px solid var(--ink);z-index:7}
+.s3-quote p{font-family:'Inter';font-weight:600;font-size:16px;color:var(--ink);line-height:1.45}
+.s3-quote p em{font-style:normal;font-weight:700}
+
+/* ============================================================
+   SLIDE 4 — THE SOLVE (Dark + ET-14 isometric phone + brut features)
+   ============================================================ */
+.s4{background:var(--ink);color:var(--offwhite)}
+
+/* EA-09: aurora */
+.s4-aurora{position:absolute;inset:0;background:radial-gradient(ellipse 580px 480px at 0% 42%,rgba(214,255,42,0.08) 0%,transparent 58%),radial-gradient(ellipse 380px 300px at 100% 72%,rgba(255,87,34,0.06) 0%,transparent 52%);z-index:1;pointer-events:none}
+
+.s4-header{position:absolute;top:106px;left:48px;z-index:7;width:580px}
+.s4-header .lbl{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lime);margin-bottom:12px}
+.s4-header h2{font-family:'Anton';font-size:88px;line-height:1.0;letter-spacing:-0.03em;text-transform:uppercase;color:var(--offwhite)}
+.s4-header h2 em{font-style:normal;color:var(--lime)}
+
+/* Feature cards — FC brut style */
+.s4-features{position:absolute;top:424px;left:48px;width:530px;display:flex;flex-direction:column;gap:12px;z-index:7}
+.s4-feat{border:1px solid rgba(255,255,255,0.09);border-left:3px solid var(--lime);padding:16px 22px;background:rgba(255,255,255,0.03)}
+.s4-feat .num{font-family:'Space Mono';font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--lime);margin-bottom:5px}
+.s4-feat h3{font-family:'Anton';font-size:26px;letter-spacing:-0.01em;text-transform:uppercase;color:var(--offwhite);line-height:1}
+.s4-feat p{font-family:'Inter';font-size:12px;color:rgba(246,243,237,0.5);margin-top:5px;line-height:1.35}
+
+/* ET-14: isometric 3D phone */
+.s4-iso-wrap{position:absolute;top:350px;right:36px;z-index:7;transform:perspective(700px) rotateX(7deg) rotateY(-13deg) rotateZ(1.5deg);transform-origin:center center}
+.s4-phone{width:234px;background:linear-gradient(160deg,#1c1c1c,#080808);border:2px solid rgba(214,255,42,0.45);border-radius:24px;padding:20px;color:var(--offwhite);box-shadow:0 0 0 1px rgba(214,255,42,0.12),0 24px 64px rgba(0,0,0,0.85),inset 0 1px 0 rgba(255,255,255,0.06)}
+.s4-phone .ph-top{display:flex;justify-content:space-between;font-family:'Space Mono';font-size:9px;color:var(--lime);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:12px}
+.s4-phone .ph-day{font-family:'Anton';font-size:42px;color:var(--offwhite);line-height:1;margin-bottom:10px}
+.s4-phone .ph-day em{font-style:normal;color:var(--lime)}
+.s4-phone .ph-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-family:'Space Mono';font-size:9px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em}
+.s4-phone .ph-row strong{color:var(--lime);font-family:'Anton';font-size:15px;letter-spacing:0}
+.s4-phone .ph-alert{margin-top:12px;padding:9px 12px;background:rgba(214,255,42,0.09);border-radius:8px;border:1px solid rgba(214,255,42,0.24)}
+.s4-phone .ph-alert .at{font-family:'Space Mono';font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--lime)}
+.s4-phone .ph-alert p{font-family:'Inter';font-size:11px;color:rgba(246,243,237,0.75);margin-top:3px;line-height:1.35}
+
+/* ============================================================
+   SLIDE 5 — PROOF (TA-01 letterform + FC-01 floating card + neon)
+   ============================================================ */
+.s5{background:var(--offwhite);color:var(--ink)}
+
+.s5-header{position:absolute;top:106px;left:48px;right:48px;z-index:7}
+.s5-header .lbl{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.s5-header h2{font-family:'Anton';font-size:78px;line-height:1.0;letter-spacing:-0.03em;text-transform:uppercase;color:var(--ink)}
+.s5-header h2 .result-em{font-style:normal;font-size:118px;color:var(--orange);display:block}
+
+/* ME-06: zoom burst behind result */
+.s5-burst{position:absolute;top:134px;left:32px;width:380px;height:380px;z-index:1;pointer-events:none}
+
+/* FC-01: floating island card */
+.s5-card{position:absolute;top:478px;left:48px;right:48px;background:var(--ink);border-radius:24px;padding:34px 40px;box-shadow:0 28px 80px rgba(0,0,0,0.16),0 4px 16px rgba(0,0,0,0.09);z-index:7}
+.s5-card .qm{font-family:'Anton';font-size:56px;line-height:0.5;color:var(--lime);margin-bottom:12px}
+.s5-card p{font-family:'Inter';font-weight:600;font-size:20px;line-height:1.42;color:var(--offwhite)}
+.s5-card p em{font-style:normal;color:var(--lime);font-weight:700}
+.s5-card .author{margin-top:22px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(255,255,255,0.08);padding-top:18px}
+.s5-card .author .info .nm{font-family:'Anton';font-size:21px;color:var(--offwhite);text-transform:uppercase;line-height:1}
+.s5-card .author .info .role{font-family:'Space Mono';font-size:9px;color:rgba(246,243,237,0.35);letter-spacing:0.18em;text-transform:uppercase;margin-top:4px}
+.s5-card .author .result{font-family:'Anton';font-size:50px;color:var(--lime);line-height:0.9;letter-spacing:-0.02em;text-shadow:0 0 6px rgba(214,255,42,0.6),0 0 12px rgba(214,255,42,0.35),0 0 24px rgba(214,255,42,0.16)}
+
+/* ============================================================
+   SLIDE 6 — COMPARISON (RL-11 benchmark bars — dark bg)
+   ============================================================ */
+.s6{background:var(--ink);color:var(--offwhite)}
+
+/* EA-09: orange aurora — makes it feel different from S2 */
+.s6-aurora{position:absolute;inset:0;background:radial-gradient(ellipse 700px 420px at 0% 0%,rgba(255,87,34,0.10) 0%,transparent 52%),radial-gradient(ellipse 500px 400px at 100% 100%,rgba(214,255,42,0.05) 0%,transparent 50%);z-index:1;pointer-events:none}
+
+.s6-header{position:absolute;top:106px;left:48px;z-index:7;width:660px}
+.s6-header .lbl{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.s6-header h2{font-family:'Anton';font-size:82px;line-height:1.0;letter-spacing:-0.03em;text-transform:uppercase;color:var(--offwhite)}
+.s6-header h2 em{font-style:normal;color:var(--lime)}
+
+/* RL-11: benchmark bar table */
+.s6-bench{position:absolute;top:424px;left:48px;right:48px;z-index:7}
+.s6-bench-head{display:grid;grid-template-columns:210px 1fr 1fr;gap:0;padding:0 0 12px;border-bottom:1px solid rgba(255,255,255,0.08);font-family:'Space Mono';font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(246,243,237,0.28);margin-bottom:6px}
+.s6-bench-row{display:grid;grid-template-columns:210px 1fr 1fr;gap:0;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.s6-bench-row:last-child{border:0}
+.s6-bench-row .feat{font-family:'Anton';font-size:19px;text-transform:uppercase;letter-spacing:-0.01em;color:var(--offwhite);line-height:1.1}
+.s6-bench-row .bar-wrap{padding:0 14px;display:flex;flex-direction:column;gap:5px}
+.s6-bench-row .bar-track{height:7px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden}
+.s6-bench-row .bar-fill{height:100%;border-radius:4px}
+.bar-fill-bad{background:#3a3a3a}
+.bar-fill-none{background:#222;width:6% !important}
+.bar-fill-good{background:var(--lime);box-shadow:0 0 8px rgba(214,255,42,0.5)}
+.s6-bench-row .bar-val-bad{font-family:'Space Mono';font-size:9px;letter-spacing:0.10em;color:rgba(246,243,237,0.28);text-transform:uppercase}
+.s6-bench-row .bar-val-good{font-family:'Space Mono';font-size:9px;letter-spacing:0.10em;color:var(--lime);text-transform:uppercase}
+
+/* ============================================================
+   SLIDE 7 — OFFER (DC-07 price cliff + ET-02 long shadow + FC-05 pills)
+   ============================================================ */
+.s7{background:var(--ink);color:var(--offwhite)}
+
+.s7-header{position:absolute;top:106px;left:48px;z-index:7}
+.s7-header .lbl{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.s7-header h2{font-family:'Anton';font-size:74px;line-height:1.0;letter-spacing:-0.03em;text-transform:uppercase;color:var(--offwhite)}
+.s7-header h2 em{font-style:normal;color:var(--lime)}
+
+/* DC-07: price dominates + ET-02 long shadow */
+.s7-price{position:absolute;top:360px;left:48px;z-index:7}
+.s7-price .after{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(246,243,237,0.35);margin-bottom:8px}
+.s7-price .amount{font-family:'Anton';font-size:196px;line-height:0.84;letter-spacing:-0.05em;color:var(--lime);text-shadow:0 0 6px rgba(214,255,42,0.55),0 0 14px rgba(214,255,42,0.3),2px 2px 0 rgba(214,255,42,0.28),4px 4px 0 rgba(214,255,42,0.22),6px 6px 0 rgba(214,255,42,0.18),8px 8px 0 rgba(214,255,42,0.14),10px 10px 0 rgba(214,255,42,0.10),14px 14px 0 rgba(214,255,42,0.07),18px 18px 0 rgba(214,255,42,0.04),24px 24px 0 rgba(214,255,42,0.02)}
+.s7-price .amount sup{font-size:72px;vertical-align:top;margin-left:4px;color:rgba(214,255,42,0.65)}
+.s7-price .amount .mo{font-size:38px;font-family:'Space Mono';font-weight:700;letter-spacing:0.04em;margin-left:10px;color:rgba(214,255,42,0.6);text-shadow:none}
+.s7-price .alt{font-family:'Inter';font-size:13px;color:rgba(246,243,237,0.35);margin-top:12px}
+.s7-price .cancel{font-family:'Space Mono';font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(246,243,237,0.25);margin-top:5px}
+
+/* FC-05: feature pills */
+.s7-pills{position:absolute;bottom:92px;left:48px;right:48px;z-index:7;display:flex;gap:10px;flex-wrap:wrap}
+.s7-pill{padding:9px 16px;border:1px solid rgba(255,255,255,0.1);border-radius:99px;font-family:'Space Mono';font-size:10px;letter-spacing:0.10em;text-transform:uppercase;color:rgba(246,243,237,0.55);background:rgba(255,255,255,0.03)}
+.s7-pill.active{border-color:rgba(214,255,42,0.4);color:var(--lime);background:rgba(214,255,42,0.06)}
+
+/* ============================================================
+   SLIDE 8 — CTA (Lime + ME-01 speed lines + neon button)
+   ============================================================ */
+.s8{background:var(--lime);color:var(--ink)}
+
+/* Ink block at bottom */
+.s8-ink{position:absolute;bottom:0;left:0;right:0;height:46%;background:var(--ink);clip-path:polygon(0 56%,100% 38%,100% 100%,0 100%);z-index:2}
+
+/* TA-01: big letterform BG */
+.s8-letter{position:absolute;top:-50px;right:-70px;font-family:'Anton';font-size:560px;line-height:1;letter-spacing:-0.04em;color:rgba(12,12,12,0.05);pointer-events:none;z-index:1;white-space:nowrap}
+
+.s8-header{position:absolute;top:106px;left:68px;right:48px;z-index:7}
+.s8-header .lbl{font-family:'Space Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(12,12,12,0.45);margin-bottom:16px}
+.s8-header h2{font-family:'Anton';font-size:126px;line-height:0.94;letter-spacing:-0.04em;text-transform:uppercase;color:var(--ink)}
+.s8-header h2 em{font-style:normal;color:var(--orange)}
+
+/* CTA button with neon border glow */
+.s8-cta{position:absolute;bottom:196px;left:68px;z-index:7;display:inline-flex;align-items:center;gap:16px;padding:20px 34px;background:var(--ink);color:var(--lime);font-family:'Anton';font-size:27px;letter-spacing:0.02em;text-transform:uppercase;border:2px solid var(--lime);box-shadow:0 0 0 3px rgba(214,255,42,0.12),0 0 20px rgba(214,255,42,0.3),0 0 40px rgba(214,255,42,0.12),inset 0 0 16px rgba(214,255,42,0.04)}
+
+.s8-meta{position:absolute;bottom:112px;right:48px;z-index:7;text-align:right;font-family:'Space Mono';font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(246,243,237,0.32);line-height:1.85}
+.s8-meta strong{color:var(--lime);font-family:'Anton';font-size:22px;display:block;letter-spacing:0;margin-bottom:4px}
+
+</style>
+</head>
+<body>
+<div class="controls">
+  <button id="exportBtn">Export ZIP</button>
+  <span style="color:#555;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Reps &amp; Sets v2 — 8 slides</span>
+  <div class="dots" id="dots"></div>
+</div>
+<div class="stage" id="stage">
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s1" id="slide-1">
+  <!-- Layers (back to front) -->
+  <div class="letter-bg" style="top:-20px;left:-10px;font-size:560px;color:rgba(12,12,12,0.038)">82</div>
+  <div class="s1-aurora-l"></div>
+  <div class="s1-ink-half"></div>
+  <div class="s1-aurora-r"></div>
+  <div class="s1-speed"></div>
+  <div class="s1-circle"></div>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn1"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn1)" opacity="0.42"/></svg></div>
+  <!-- Content -->
+  <div class="s1-brand">REPS &amp; SETS / PERFORMANCE TRACKER</div>
+  <div class="s1-hero">
+    <span class="pct">82%</span>
+    <span class="quit">QUIT.</span>
+  </div>
+  <div class="s1-sub">
+    <div class="rule"></div>
+    <p>Most gym apps give you a <strong>spreadsheet in a wireframe.</strong> No bar speed. No fatigue model. No deload. You don't have a training program — you have a checklist that gets harder.</p>
+  </div>
+  <div class="s1-right">
+    <div class="pill">PAS FRAMEWORK</div>
+    <p>Of lifters using generic tracking apps quit within 6 weeks. Not discipline. Because the app <em>can't see what's happening under the bar.</em></p>
+  </div>
+  <div class="s1-footer">
+    <span class="fl">repsandsets.app</span>
+    <span class="fr">01 / 08 — Reps &amp; Sets</span>
+  </div>
+  <div class="swipe-pill">SWIPE →</div>
+  <div class="progress" style="width:12.5%"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM (DC-07 cliff + ME-06 zoom burst)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s2" id="slide-2">
+  <div class="s2-aurora"></div>
+  <!-- ME-06: zoom burst rings -->
+  <svg class="s2-burst" viewBox="0 0 780 780" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="390" cy="390" r="110" stroke="rgba(214,255,42,0.13)" stroke-width="1"/>
+    <circle cx="390" cy="390" r="175" stroke="rgba(214,255,42,0.09)" stroke-width="1"/>
+    <circle cx="390" cy="390" r="242" stroke="rgba(214,255,42,0.065)" stroke-width="1"/>
+    <circle cx="390" cy="390" r="308" stroke="rgba(214,255,42,0.044)" stroke-width="1"/>
+    <circle cx="390" cy="390" r="375" stroke="rgba(214,255,42,0.025)" stroke-width="1"/>
+  </svg>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn2"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn2)" opacity="0.28"/></svg></div>
+  <!-- Nav -->
+  <div class="nav-row">
+    <span class="lbl-tag lbl-lime">02 / 08 — THE PROBLEM</span>
+    <span class="lbl-tag lbl-muted">R&amp;S</span>
+  </div>
+  <!-- DC-07: one number owns the slide -->
+  <div class="s2-hero">
+    <span class="big-n">61<span class="big-pct">%</span></span>
+    <div class="big-lbl">of lifters chronically underload on compound movements</div>
+    <div class="big-src">Source: R&amp;S 2024 lifter audit — n=11,400</div>
+  </div>
+  <!-- Supporting 3 stats -->
+  <div class="s2-stats">
+    <div class="s2-stat">
+      <div class="n">3.4×</div>
+      <div class="l">RPE overstated<br>vs bar speed</div>
+    </div>
+    <div class="s2-stat">
+      <div class="n acc">0</div>
+      <div class="l">Deloads programmed<br>in 12 weeks</div>
+    </div>
+    <div class="s2-stat">
+      <div class="n">14 days</div>
+      <div class="l">Median plateau at<br>the same weight</div>
+    </div>
+  </div>
+  <div class="foot-row lbl-muted" style="color:rgba(246,243,237,0.18)">
+    <span>Your bench isn't the problem.</span>
+    <span>repsandsets.app</span>
+  </div>
+  <div class="progress" style="width:25%"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 3 — WHY IT BREAKS (Lime + FC-02 bento cells)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s3" id="slide-3">
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn3"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn3)" opacity="0.28"/></svg></div>
+  <div class="nav-row">
+    <span class="lbl-tag lbl-ink">03 / 08 — WHY IT BREAKS</span>
+    <span class="lbl-tag lbl-muted-ink">R&amp;S</span>
+  </div>
+  <div class="s3-header">
+    <h2>YOUR APP IS<br>JUST A<br><em>NOTEPAD.</em></h2>
+  </div>
+  <!-- FC-02 bento cells — 3 failure modes -->
+  <div class="s3-bentos">
+    <div class="s3-bento">
+      <div class="x">×</div>
+      <div class="body">
+        <h3>No bar-speed feedback</h3>
+        <p>Can't tell undertraining from overtraining. Your effort is invisible to the app.</p>
+      </div>
+      <div class="badge">BLIND SPOT</div>
+    </div>
+    <div class="s3-bento">
+      <div class="x">×</div>
+      <div class="body">
+        <h3>No fatigue model</h3>
+        <p>Volume keeps climbing past your recovery line until something breaks — usually motivation.</p>
+      </div>
+      <div class="badge">SILENT KILLER</div>
+    </div>
+    <div class="s3-bento">
+      <div class="x">×</div>
+      <div class="body">
+        <h3>No deload trigger</h3>
+        <p>Stalling is the signal. Your app misses it for 14 days and calls it a bad week.</p>
+      </div>
+      <div class="badge">14 DAYS LATE</div>
+    </div>
+  </div>
+  <div class="s3-quote">
+    <p>"If your app can't see bar speed drop on rep 4, <em>it's not coaching — it's a notepad with a UI.</em>"</p>
+  </div>
+  <div class="foot-row" style="color:rgba(12,12,12,0.35)">
+    <span>Three things spreadsheets can't see.</span>
+    <span>repsandsets.app</span>
+  </div>
+  <div class="progress" style="width:37.5%;background:var(--ink)"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 4 — THE SOLVE (ET-14 isometric phone)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s4" id="slide-4">
+  <div class="s4-aurora"></div>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn4"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn4)" opacity="0.28"/></svg></div>
+  <div class="nav-row">
+    <span class="lbl-tag lbl-lime">04 / 08 — THE SOLVE</span>
+    <span class="lbl-tag lbl-muted">R&amp;S</span>
+  </div>
+  <div class="s4-header">
+    <div class="lbl">Built around bar speed, not vibes</div>
+    <h2>REPS &amp; SETS<br><em>READS YOUR LIFT.</em></h2>
+  </div>
+  <!-- Feature cards -->
+  <div class="s4-features">
+    <div class="s4-feat">
+      <div class="num">— 01 SENSOR</div>
+      <h3>Phone-camera bar speed</h3>
+      <p>Detects velocity drop on rep 3, 4, 5. ±3% accuracy vs Tendo unit — works on any phone.</p>
+    </div>
+    <div class="s4-feat">
+      <div class="num">— 02 ENGINE</div>
+      <h3>Auto-deload at 18% drop</h3>
+      <p>Cuts volume 30%, keeps intensity. Rebuilds in 7 days, not 21. Zero manual input.</p>
+    </div>
+    <div class="s4-feat">
+      <div class="num">— 03 PROGRAM</div>
+      <h3>Block periodization, weekly</h3>
+      <p>Reshapes next week from this week's data. Not a static PDF — adapts as you lift.</p>
+    </div>
+  </div>
+  <!-- ET-14: isometric phone mock -->
+  <div class="s4-iso-wrap">
+    <div class="s4-phone">
+      <div class="ph-top"><span>R&amp;S</span><span>WEEK 04</span></div>
+      <div class="ph-day">DAY <em>23</em></div>
+      <div class="ph-row"><span>SQUAT 5×3</span><strong>225 LB</strong></div>
+      <div class="ph-row"><span>BAR SPEED</span><strong>0.71 m/s</strong></div>
+      <div class="ph-row"><span>RPE (REAL)</span><strong>8.4</strong></div>
+      <div class="ph-row" style="border:0"><span>FATIGUE</span><strong style="color:var(--orange)">+18%</strong></div>
+      <div class="ph-alert">
+        <div class="at">⚠ DELOAD TRIGGER</div>
+        <p>Week 5 programmed automatically</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot-row" style="color:rgba(246,243,237,0.25)">
+    <span>iOS · Android · Free 14 days</span>
+    <span>repsandsets.app</span>
+  </div>
+  <div class="progress" style="width:50%"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 5 — PROOF (TA-01 letterform + FC-01 float card + neon)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s5" id="slide-5">
+  <!-- TA-01: letterform background -->
+  <div class="letter-bg" style="bottom:-40px;right:-30px;font-size:490px;color:rgba(12,12,12,0.038)">+54</div>
+  <!-- ME-06: zoom burst behind result -->
+  <svg class="s5-burst" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="190" cy="190" r="75" stroke="rgba(255,87,34,0.11)" stroke-width="1"/>
+    <circle cx="190" cy="190" r="125" stroke="rgba(255,87,34,0.07)" stroke-width="1"/>
+    <circle cx="190" cy="190" r="175" stroke="rgba(255,87,34,0.04)" stroke-width="1"/>
+  </svg>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn5"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn5)" opacity="0.34"/></svg></div>
+  <div class="nav-row">
+    <span class="lbl-tag lbl-orange">05 / 08 — RECEIPT</span>
+    <span class="lbl-tag lbl-muted-ink">R&amp;S</span>
+  </div>
+  <div class="s5-header">
+    <div class="lbl">A 16-week R&amp;S log</div>
+    <h2>
+      MARCO ADDED<br>
+      <span class="result-em" style="text-shadow:0 0 6px rgba(255,87,34,0.5),0 0 12px rgba(255,87,34,0.28),0 0 28px rgba(255,87,34,0.12)">+54 LB</span>
+      TO HIS SQUAT.
+    </h2>
+  </div>
+  <!-- FC-01: floating island card -->
+  <div class="s5-card">
+    <div class="qm">"</div>
+    <p>I'd been stuck at 315 for nine months on Strong. The first deload R&amp;S forced felt wrong. Two weeks later <em>I hit 369 for a clean triple.</em></p>
+    <div class="author">
+      <div class="info">
+        <div class="nm">Marco V.</div>
+        <div class="role">Engineer · 31 · Bogotá</div>
+      </div>
+      <div class="result">+54 LB</div>
+    </div>
+  </div>
+  <div class="foot-row" style="color:rgba(12,12,12,0.3)">
+    <span>Verified via R&amp;S log + form video.</span>
+    <span>repsandsets.app</span>
+  </div>
+  <div class="progress" style="width:62.5%;background:var(--orange)"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 6 — COMPARISON (RL-11 benchmark bars)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s6" id="slide-6">
+  <div class="s6-aurora"></div>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn6"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn6)" opacity="0.26"/></svg></div>
+  <div class="nav-row">
+    <span class="lbl-tag lbl-orange">06 / 08 — VS</span>
+    <span class="lbl-tag lbl-muted">R&amp;S</span>
+  </div>
+  <div class="s6-header">
+    <div class="lbl">Side-by-side — no marketing fluff</div>
+    <h2>WHAT YOUR OLD APP<br><em>CAN'T DO.</em></h2>
+  </div>
+  <!-- RL-11: benchmark bar rows -->
+  <div class="s6-bench">
+    <div class="s6-bench-head">
+      <div>FEATURE</div>
+      <div>GENERIC APP</div>
+      <div>REPS &amp; SETS</div>
+    </div>
+    <div class="s6-bench-row">
+      <div class="feat">Bar-speed<br>tracking</div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-none"></div></div>
+        <div class="bar-val-bad">None</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-good" style="width:97%"></div></div>
+        <div class="bar-val-good">±3% accuracy</div>
+      </div>
+    </div>
+    <div class="s6-bench-row">
+      <div class="feat">Auto-deload</div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-bad" style="width:16%"></div></div>
+        <div class="bar-val-bad">Manual only</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-good" style="width:100%"></div></div>
+        <div class="bar-val-good">Auto on rep 3</div>
+      </div>
+    </div>
+    <div class="s6-bench-row">
+      <div class="feat">Weekly<br>re-program</div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-bad" style="width:11%"></div></div>
+        <div class="bar-val-bad">Static PDF</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-good" style="width:94%"></div></div>
+        <div class="bar-val-good">Live, data-driven</div>
+      </div>
+    </div>
+    <div class="s6-bench-row">
+      <div class="feat">Plateau<br>detection</div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-bad" style="width:20%"></div></div>
+        <div class="bar-val-bad">14 days avg</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-good" style="width:100%"></div></div>
+        <div class="bar-val-good">2 days avg</div>
+      </div>
+    </div>
+    <div class="s6-bench-row">
+      <div class="feat">Form AI<br>review</div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-none"></div></div>
+        <div class="bar-val-bad">None</div>
+      </div>
+      <div class="bar-wrap">
+        <div class="bar-track"><div class="bar-fill bar-fill-good" style="width:88%"></div></div>
+        <div class="bar-val-good">2 free in trial</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot-row" style="color:rgba(246,243,237,0.18)">
+    <span>Comparison data Q1 2025.</span>
+    <span>repsandsets.app</span>
+  </div>
+  <div class="progress" style="width:75%"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 7 — OFFER (DC-07 price cliff + ET-02 long shadow + FC-05 pills)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s7" id="slide-7">
+  <!-- TA-01: "$9" letterform BG -->
+  <div class="letter-bg" style="top:-50px;left:-30px;font-size:700px;color:rgba(246,243,237,0.02)">$9</div>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn7"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn7)" opacity="0.28"/></svg></div>
+  <div class="nav-row">
+    <span class="lbl-tag lbl-orange">07 / 08 — OFFER</span>
+    <span class="lbl-tag lbl-muted">R&amp;S</span>
+  </div>
+  <div class="s7-header">
+    <div class="lbl">What you actually get</div>
+    <h2>14 DAYS FREE.<br><em>NO CARD.</em></h2>
+  </div>
+  <!-- DC-07 + ET-02: giant price with long shadow -->
+  <div class="s7-price">
+    <div class="after">After trial —</div>
+    <div class="amount">$9<sup>.99</sup><span class="mo">/MO</span></div>
+    <div class="alt">Annual plan: $79/yr — saves $40</div>
+    <div class="cancel">Cancel inside the app · Two taps · No call</div>
+  </div>
+  <!-- FC-05: feature pills -->
+  <div class="s7-pills">
+    <div class="s7-pill active">Bar-speed engine</div>
+    <div class="s7-pill active">Custom 12-week block</div>
+    <div class="s7-pill active">Form video review</div>
+    <div class="s7-pill">Cancel in-app</div>
+    <div class="s7-pill">Works day 1</div>
+    <div class="s7-pill">Any phone · any rack</div>
+  </div>
+  <div class="foot-row" style="color:rgba(246,243,237,0.2)">
+    <span>14 days free · No card required.</span>
+    <span>repsandsets.app</span>
+  </div>
+  <div class="progress" style="width:87.5%"></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SLIDE 8 — CTA (ME-01 speed lines + TA-01 letterform + neon button)
+     ══════════════════════════════════════════════════════════ -->
+<div class="slide s8" id="slide-8">
+  <div class="speed-lines-ink"></div>
+  <div class="s8-ink"></div>
+  <div class="s8-letter">R&amp;S</div>
+  <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="rn8"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#rn8)" opacity="0.28"/></svg></div>
+  <div class="nav-row">
+    <span class="lbl-tag lbl-muted-ink">08 / 08 — START</span>
+    <span class="lbl-tag lbl-muted-ink">R&amp;S</span>
+  </div>
+  <div class="s8-header">
+    <div class="lbl">Your next session</div>
+    <h2>ADD<br><em>10 LB</em><br>BY MAY 30.</h2>
+  </div>
+  <a class="s8-cta">DOWNLOAD R&amp;S →</a>
+  <div class="s8-meta">
+    App Store · Play Store<br>
+    iOS 16+ / Android 12+<br>
+    <strong>repsandsets.app</strong>
+  </div>
+  <div class="progress" style="width:100%;background:var(--ink)"></div>
+</div>
+
+</div><!-- /stage -->
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dots = document.getElementById('dots');
+slides.forEach((_,i)=>{const s=document.createElement('span');if(i===0)s.classList.add('active');dots.appendChild(s);});
+const obs = new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){const idx=[...slides].indexOf(e.target);[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}});
+},{threshold:0.5});
+slides.forEach(s=>obs.observe(s));
+
+document.getElementById('exportBtn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('exportBtn');
+  btn.disabled=true; btn.textContent='Rendering...';
+  const zip = new JSZip();
+  for(let i=0;i<slides.length;i++){
+    btn.textContent=`Rendering ${i+1}/${slides.length}`;
+    const canvas = await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,backgroundColor:null});
+    const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+    zip.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+  }
+  const out = await zip.generateAsync({type:'blob'});
+  const url = URL.createObjectURL(out);
+  const a = document.createElement('a'); a.href=url; a.download='reps_and_sets_carousel_v2.zip'; a.click();
+  btn.disabled=false; btn.textContent='Export ZIP';
+});
+</script>
+
+<!-- ============================================================
+     VISUAL EDITOR — dev only
+     ============================================================ -->
+<style>
+#__ed{position:fixed;top:20px;right:20px;z-index:9999;width:226px;background:#0c0c0c;border:1.5px solid rgba(214,255,42,0.55);border-radius:13px;padding:16px 16px 14px;font-family:'Inter',system-ui,sans-serif;color:#f6f3ed;box-shadow:0 14px 48px rgba(0,0,0,0.8);user-select:none}
+#__ed h3{font-size:10px;font-weight:900;letter-spacing:0.22em;text-transform:uppercase;color:#d6ff2a;margin-bottom:13px}
+#__ed label{display:block;font-size:9.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(246,243,237,0.35);margin-bottom:4px}
+#__ed select{width:100%;background:rgba(255,255,255,0.06);color:#f6f3ed;border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:6px 8px;font-size:12px;margin-bottom:11px;cursor:pointer}
+.__edb{display:block;width:100%;border:none;border-radius:7px;padding:9px 10px;font-size:12px;font-weight:900;cursor:pointer;margin-bottom:6px;letter-spacing:-0.01em}
+.__edb.p{background:#d6ff2a;color:#0c0c0c}
+.__edb.s{background:rgba(214,255,42,0.1);color:#d6ff2a}
+.__edb.d{background:rgba(255,87,34,0.15);color:#ff5722}
+#__ed-sel{font-size:10.5px;color:rgba(214,255,42,0.8);min-height:13px;margin:8px 0 6px;word-break:break-all;line-height:1.4}
+#__ed-status{font-size:9.5px;color:rgba(246,243,237,0.3);min-height:13px;margin-top:8px;line-height:1.5}
+#__ed-hr{border:none;border-top:1px solid rgba(255,255,255,0.07);margin:10px 0}
+.__ed-row{display:flex;gap:6px;margin-bottom:10px}
+.__ed-row button{flex:1;background:rgba(214,255,42,0.09);color:#d6ff2a;border:1px solid rgba(214,255,42,0.22);border-radius:6px;padding:7px 4px;font-size:16px;font-weight:900;cursor:pointer}
+.__ed-row button:hover{background:rgba(214,255,42,0.2)}
+.ed-t{outline:1px dashed rgba(214,255,42,0.25);cursor:grab}
+.ed-t:hover{outline:1px solid rgba(214,255,42,0.6)}
+.ed-t.ed-on{outline:2px solid #d6ff2a;cursor:grab}
+.ed-t:active{cursor:grabbing}
+#__ed-out{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.75);align-items:center;justify-content:center}
+#__ed-out.show{display:flex}
+#__ed-out-box{background:#0c0c0c;border:1.5px solid #d6ff2a;border-radius:14px;padding:22px;width:560px;max-height:72vh;overflow-y:auto}
+#__ed-out-box h4{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#d6ff2a;margin-bottom:12px;font-family:'Inter',system-ui,sans-serif}
+#__ed-out-box pre{font-size:11px;color:rgba(246,243,237,0.8);white-space:pre-wrap;line-height:1.75;background:rgba(255,255,255,0.04);padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);font-family:monospace}
+#__ed-hint{font-size:10px;color:rgba(246,243,237,0.28);margin-top:8px;font-family:'Inter',system-ui,sans-serif}
+</style>
+
+<div id="__ed">
+  <h3>✏ Slide Editor</h3>
+  <label>Slide</label>
+  <select id="__ed-slide">
+    <option value="1">01 — Cover</option>
+    <option value="2">02 — The Problem</option>
+    <option value="3">03 — Why It Breaks</option>
+    <option value="4">04 — The Solve</option>
+    <option value="5">05 — Proof</option>
+    <option value="6">06 — Comparison</option>
+    <option value="7">07 — Offer</option>
+    <option value="8">08 — CTA</option>
+  </select>
+  <button class="__edb p" id="__ed-toggle">Activate Editor</button>
+  <div id="__ed-sel">—</div>
+  <hr id="__ed-hr">
+  <label>Font size</label>
+  <div class="__ed-row">
+    <button id="__ed-fd">−</button>
+    <button id="__ed-fu">+</button>
+  </div>
+  <button class="__edb s" id="__ed-copy">Copy Changes as CSS</button>
+  <button class="__edb d" id="__ed-reset">Reset Slide</button>
+  <div id="__ed-status">Arrow keys nudge 1px · Shift = 10px</div>
+</div>
+
+<div id="__ed-out">
+  <div id="__ed-out-box">
+    <h4>Paste into &lt;style&gt; block · also copied to clipboard</h4>
+    <pre id="__ed-css"></pre>
+    <p id="__ed-hint">Give this output to Claude to make the changes permanent.</p>
+    <button class="__edb p" style="margin-top:14px;font-family:'Inter',system-ui,sans-serif" id="__ed-close">Close</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const TARGET_SELS=[
+    'h1','h2','.lbl-tag','.nav-row','.foot-row',
+    '.s1-hero','.s1-sub','.s1-right','.s1-footer',
+    '.s2-hero','.s2-stats',
+    '.s3-header','.s3-bentos','.s3-quote',
+    '.s4-header','.s4-features','.s4-iso-wrap',
+    '.s5-header','.s5-card',
+    '.s6-header','.s6-bench',
+    '.s7-header','.s7-price','.s7-pills',
+    '.s8-header','.s8-cta','.s8-meta'
+  ];
+
+  let active=false,slideNum=1,selected=null,dragging=false,dragEl=null,dragStart={};
+  const elData=new Map();let curEls=[];
+  const $=id=>document.getElementById(id);
+  const setStatus=m=>$('__ed-status').textContent=m;
+  const setSelInfo=m=>$('__ed-sel').textContent=m;
+
+  function getSlide(n){return document.getElementById('slide-'+n)}
+
+  function buildSel(n,el){
+    const slideId='slide-'+n;
+    const cls=Array.from(el.classList).find(c=>!c.startsWith('ed-')&&c!==('s'+n));
+    const qualifier=cls?'.'+cls:el.tagName.toLowerCase();
+    const slide=document.getElementById(slideId);
+    const matches=Array.from(slide.querySelectorAll(qualifier));
+    if(matches.length<=1)return'#'+slideId+' '+qualifier;
+    const siblings=Array.from(el.parentElement.children);
+    const nth=siblings.indexOf(el)+1;
+    return'#'+slideId+' '+qualifier+':nth-child('+nth+')';
+  }
+
+  function applyTransform(el){
+    const d=elData.get(el)||{};
+    el.style.transform='translate('+(d.tx||0)+'px, '+(d.ty||0)+'px)';
+    if(d.fontSize)el.style.fontSize=d.fontSize+'px';
+  }
+
+  function updateSelInfo(){
+    if(!selected){setSelInfo('—');return}
+    const d=elData.get(selected)||{};
+    const fs=d.fontSize||Math.round(parseFloat(getComputedStyle(selected).fontSize));
+    const tx=Math.round(d.tx||0),ty=Math.round(d.ty||0);
+    const label=(d.sel||'?').split(' ').pop();
+    setSelInfo(label+'\n'+fs+'px · translate('+tx+'px, '+ty+'px)');
+  }
+
+  function activate(){
+    active=true;curEls=[];
+    const slide=getSlide(slideNum);
+    if(!slide){setStatus('Slide not found.');return}
+    TARGET_SELS.forEach(s=>{
+      slide.querySelectorAll(s).forEach(el=>{
+        if(el.closest('.slide')!==slide)return;
+        if(!elData.has(el))elData.set(el,{tx:0,ty:0,fontSize:null,sel:buildSel(slideNum,el)});
+        el.classList.add('ed-t');
+        applyTransform(el);
+        el.addEventListener('mousedown',onMousedown);
+        curEls.push(el);
+      });
+    });
+    slide.scrollIntoView({behavior:'smooth',block:'center'});
+    $('__ed-toggle').textContent='Deactivate Editor';
+    setStatus('Slide '+slideNum+' active. Click → select, drag → move.');
+  }
+
+  function deactivate(){
+    active=false;
+    curEls.forEach(el=>{el.classList.remove('ed-t','ed-on');el.removeEventListener('mousedown',onMousedown)});
+    curEls=[];selected=null;setSelInfo('—');
+    $('__ed-toggle').textContent='Activate Editor';
+    setStatus('Editor off.');
+  }
+
+  function selectEl(el){curEls.forEach(e=>e.classList.remove('ed-on'));el.classList.add('ed-on');selected=el;updateSelInfo()}
+
+  function onMousedown(e){
+    e.preventDefault();e.stopPropagation();selectEl(this);
+    const d=elData.get(this)||{};
+    dragging=true;dragEl=this;
+    dragStart={mx:e.clientX,my:e.clientY,tx:d.tx||0,ty:d.ty||0};
+  }
+
+  document.addEventListener('mousemove',e=>{
+    if(!dragging||!dragEl)return;
+    const d=elData.get(dragEl);
+    d.tx=dragStart.tx+(e.clientX-dragStart.mx);
+    d.ty=dragStart.ty+(e.clientY-dragStart.my);
+    applyTransform(dragEl);updateSelInfo();
+  });
+
+  document.addEventListener('mouseup',()=>{
+    if(dragging&&dragEl){const d=elData.get(dragEl)||{};setStatus('translate('+Math.round(d.tx||0)+'px, '+Math.round(d.ty||0)+'px)')}
+    dragging=false;dragEl=null;
+  });
+
+  document.addEventListener('keydown',e=>{
+    if(!active||!selected)return;
+    const arrows=['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'];
+    if(!arrows.includes(e.key))return;
+    e.preventDefault();
+    const step=e.shiftKey?10:1;
+    const d=elData.get(selected);
+    if(e.key==='ArrowLeft')d.tx=(d.tx||0)-step;
+    if(e.key==='ArrowRight')d.tx=(d.tx||0)+step;
+    if(e.key==='ArrowUp')d.ty=(d.ty||0)-step;
+    if(e.key==='ArrowDown')d.ty=(d.ty||0)+step;
+    applyTransform(selected);updateSelInfo();
+  });
+
+  function changeFontSize(delta){
+    if(!selected){setStatus('Select an element first.');return}
+    const d=elData.get(selected);
+    const cur=d.fontSize||parseFloat(getComputedStyle(selected).fontSize);
+    d.fontSize=Math.max(8,Math.round(cur)+delta);
+    applyTransform(selected);updateSelInfo();
+    setStatus('font-size: '+d.fontSize+'px');
+  }
+  $('__ed-fu').onclick=()=>changeFontSize(2);
+  $('__ed-fd').onclick=()=>changeFontSize(-2);
+
+  $('__ed-toggle').onclick=()=>{if(active)deactivate();else{slideNum=parseInt($('__ed-slide').value);activate()}};
+  $('__ed-slide').onchange=()=>{if(active){deactivate();slideNum=parseInt($('__ed-slide').value);activate()}};
+
+  $('__ed-reset').onclick=()=>{
+    curEls.forEach(el=>{const d=elData.get(el);if(d){d.tx=0;d.ty=0;d.fontSize=null}el.style.transform='';el.style.fontSize=''});
+    selected=null;setSelInfo('—');setStatus('Slide reset.');
+  };
+
+  function generateCSS(){
+    const lines=['/* Visual Editor overrides — paste into <style> block */'];let any=false;
+    for(const[el,d]of elData){
+      const props=[];
+      if(d.tx||d.ty)props.push('  transform: translate('+Math.round(d.tx||0)+'px, '+Math.round(d.ty||0)+'px);');
+      if(d.fontSize)props.push('  font-size: '+d.fontSize+'px;');
+      if(!props.length)continue;
+      any=true;lines.push(d.sel+' {');props.forEach(p=>lines.push(p));lines.push('}');
+    }
+    return any?lines.join('\n'):'/* No changes yet. */';
+  }
+
+  $('__ed-copy').onclick=()=>{
+    const css=generateCSS();
+    $('__ed-css').textContent=css;
+    $('__ed-out').classList.add('show');
+    navigator.clipboard.writeText(css).catch(()=>{});
+  };
+  $('__ed-close').onclick=()=>$('__ed-out').classList.remove('show');
+  $('__ed-out').onclick=e=>{if(e.target===$('__ed-out'))$('__ed-out').classList.remove('show')};
+})();
+</script>
+
+</body>
+</html>

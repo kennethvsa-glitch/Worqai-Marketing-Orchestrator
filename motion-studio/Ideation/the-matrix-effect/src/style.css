@@ -1,0 +1,65 @@
+body {
+ background-color:black;  
+}
+.matrix {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: center;
+    font-family: sans-serif;
+    // height: 100vh;
+    overflow: hidden;
+}
+.mcode {
+    font-size: 2rem;
+    color: #49fb35;
+    text-shadow: 0 0 1px #49fb35;
+}
+.mcode:last-child{
+    color: white;
+    text-shadow: 0 0 10px #fff, 0 0 3px #fff, 0 0 3px #49fb35, 0 0 3px #49fb35, 0 0 30px #49fb35, 0 0 30px #49fb35,
+        0 0 70px #49fb35;
+}
+
+.highlight {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    width: 100vw;
+  height: 100vh;
+}
+.btns {
+    position: absolute;
+/*     bottom: 200px; */
+    display: flex;
+    align-items: center;
+}
+#btn {
+    background-color: $color-black;
+    font-family: Sans-serif;
+    cursor: pointer;
+    color: #49fb35;
+    text-transform: uppercase;
+    border: 1px solid #49fb35;
+    padding: 15px;
+    z-index: 1;
+    background: color black;
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 3px #fff, 0 0 3px #49fb35, 0 0 3px #49fb35, 0 0 30px #49fb35, 0 0 30px #49fb35,
+            0 0 70px #49fb35;
+        box-shadow: 0 0 1px #49fb35;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 3px #fff, 0 0 3px #49fb35, 0 0 3px #49fb35, 0 0 1px #49fb35, 0 0 1px #49fb35,
+            0 0 70px #49fb35;
+        box-shadow: 0 0 10px #49fb35;
+    }
+}

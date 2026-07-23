@@ -1,0 +1,44 @@
+{# DEPRECATED: use slide-icon-grid for new carousels — richer SVG icons + layout flexibility #}
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="chk-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+    {% if copy.headline %}
+    <div class="chk-headline">{{ copy.headline }}</div>
+    {% endif %}
+    {% if copy.body %}
+    <div class="chk-sub">{{ copy.body }}</div>
+    {% endif %}
+
+    <ul class="chk-list">
+      {% if copy.tips %}
+      {% for tip in copy.tips %}
+      <li class="chk-item">
+        <div class="chk-num">{{ loop.index }}</div>
+        <div>
+          <div class="chk-title">{{ tip.problem }}</div>
+          {% if tip.fix %}<div class="chk-desc">{{ tip.fix }}</div>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+      {% else %}
+      {% for item in copy.get('items', []) %}
+      <li class="chk-item">
+        <div class="chk-num">{{ loop.index }}</div>
+        <div class="chk-title">{{ item }}</div>
+      </li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

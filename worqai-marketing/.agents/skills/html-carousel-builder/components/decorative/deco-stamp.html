@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-stamp",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+DECORATIVE: STAMP
+Found in: carousel_amby-cr-demo_agency-pain.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Circular rotated seal/badge for authenticity.
+-->
+
+<div class="stamp">
+  <span>APROBADO</span>
+</div>
+
+<style>
+.stamp {
+  position: absolute; z-index: 6; pointer-events: none;
+  width: 100px; height: 100px; border-radius: 50%;
+  border: 2px dashed var(--accent); display: flex;
+  align-items: center; justify-content: center;
+  transform: rotate(-15deg); opacity: 0.35;
+  /* Position per slide with .sN-stamp override */
+  top: 120px; right: 100px;
+}
+.stamp span {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent);
+}
+</style>

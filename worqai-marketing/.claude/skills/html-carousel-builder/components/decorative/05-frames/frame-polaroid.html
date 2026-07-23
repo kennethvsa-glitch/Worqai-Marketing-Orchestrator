@@ -1,0 +1,26 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "frame-polaroid",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+DECORATIVE: FRAME POLAROID
+Purpose: D5 — Polaroid-style image frame.
+-->
+
+<div class="polaroid-frame">
+  <div class="pf-img"></div>
+  <p class="pf-caption">Antes</p>
+</div>
+
+<style>
+.polaroid-frame { padding: 12px 12px 24px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 50px rgba(0,0,0,0.25); transform: rotate(-3deg); max-width: 240px; }
+.pf-img { aspect-ratio: 1; background: linear-gradient(135deg, var(--bg-mid), var(--bg-base)); margin-bottom: 10px; }
+.pf-caption { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); text-align: center; }
+</style>

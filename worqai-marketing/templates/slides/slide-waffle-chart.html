@@ -1,0 +1,36 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="waffle-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+
+    <div class="waffle-stat">
+      <div class="waffle-number">{{ copy.stat_number }}</div>
+      {% if copy.label %}
+      <div class="waffle-label">{{ copy.label }}</div>
+      {% endif %}
+    </div>
+
+    <div class="waffle-grid">
+      {% for i in range(100) %}
+        <div class="waffle-cell{% if i < copy.filled %} filled{% endif %}"></div>
+      {% endfor %}
+    </div>
+
+    {% if copy.headline %}
+    <div class="waffle-headline">{{ copy.headline }}</div>
+    {% endif %}
+    {% if copy.context %}
+    <div class="waffle-context">{{ copy.context }}</div>
+    {% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

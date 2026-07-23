@@ -1,0 +1,182 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #ECEAE1; --ink: #16160F; --muted: #6E6E64;
+  --paper: #FFFFFF; --line: rgba(0,0,0,0.07);
+  --lime: #C9F24D; --lime-deep: #A9D92E; --on-lime: #1B2400;
+  --low: #E0593B; --low-soft: #FBE3DD;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: 'Newsreader', serif;
+  --font-body: 'Archivo', sans-serif;
+  --safe-top: 120px; --safe-bottom: 200px; --safe-x: 56px;
+}
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: var(--font-body); }
+
+#bg-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 48px 48px; pointer-events: none; z-index: 0; }
+#bg-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 680px 560px at 12% 6%, rgba(201,242,77,0.15) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+
+/* ── Scene 0: Intro ───────────────────────────────────────── */
+#intro-group { position: absolute; top: var(--safe-top); left: var(--safe-x); right: var(--safe-x); bottom: var(--safe-bottom); display: flex; flex-direction: column; justify-content: center; z-index: 1; }
+#intro-kicker { font-family: var(--font-mono); font-size: 18px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--lime-deep); margin-bottom: 52px; }
+.intro-line { font-family: var(--font-body); font-size: 46px; font-weight: 600; line-height: 1.18; color: var(--ink); margin-bottom: 36px; }
+.intro-line.lime { color: var(--lime-deep); }
+#intro-note { font-family: var(--font-mono); font-size: 17px; line-height: 1.6; color: var(--muted); margin-top: 16px; }
+
+/* ── Cap A: overlaid at top of CV card ──────────────────────── */
+#cap-a-overlay {
+  position: absolute; top: 8px; left: 8px; right: 8px; z-index: 5;
+  pointer-events: none;
+  font-family: var(--font-body); font-size: 32px; font-weight: 600;
+  line-height: 1.2; color: var(--ink);
+  background: rgba(236,234,225,0.94);
+  border-left: 4px solid var(--lime-deep);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 20px 12px 16px;
+}
+
+/* ── cv-clean-mode: suppress kw-bad color before scan ───────── */
+.cv-clean-mode .kw-bad { background: none !important; color: inherit !important; }
+
+/* ── Insight scene overlay ───────────────────────────────────── */
+#insight-scene {
+  position: absolute; inset: 0; z-index: 9;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: flex-start; padding: 0 var(--safe-x);
+  background: rgba(236,234,225,0.97); pointer-events: none;
+}
+.insight-line {
+  font-family: var(--font-body); font-size: 52px; font-weight: 600;
+  line-height: 1.18; color: var(--ink); margin-bottom: 32px;
+}
+.insight-line:last-child { color: var(--lime-deep); margin-bottom: 0; }
+
+/* ── Demo: vertical layout - CV fills screen, score below ─── */
+#demo-group {
+  position: absolute;
+  top: var(--safe-top); left: var(--safe-x);
+  right: var(--safe-x); bottom: var(--safe-bottom);
+  display: flex; flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 24px; z-index: 1;
+}
+#cv-panel { flex: 1 1 auto; min-height: 0; }
+
+.cv-card {
+  height: 100%;
+  background: var(--paper); border: 1px solid rgba(0,0,0,0.09); border-radius: 20px;
+  padding: 52px 60px; box-shadow: 0 8px 48px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  position: relative; overflow: hidden; z-index: 1;
+}
+.scan-bar { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(201,242,77,0) 0%, rgba(201,242,77,0.22) 40%, rgba(201,242,77,0.34) 50%, rgba(201,242,77,0.22) 60%, rgba(201,242,77,0) 100%); pointer-events: none; z-index: 2; }
+
+/* Role subtitle swap */
+#role-sub-wrap { position: relative; min-height: 28px; font-size: 19px; color: var(--muted); margin-bottom: 10px; }
+#role-weak { display: block; }
+#role-strong { position: absolute; top: 0; left: 0; right: 0; opacity: 0; display: block; color: var(--lime-deep); font-weight: 500; }
+
+.cv-name { font-family: var(--font-serif); font-size: 38px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.cv-contact { font-family: var(--font-mono); font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+.cv-divider { height: 1px; background: rgba(0,0,0,0.08); margin-bottom: 18px; }
+.cv-section-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.cv-body-text { font-size: 17px; line-height: 1.6; color: var(--ink); margin-bottom: 14px; }
+.cv-skills-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.cv-skill-tag { font-family: var(--font-mono); font-size: 13px; background: rgba(0,0,0,0.05); border-radius: 4px; padding: 5px 10px; color: var(--muted); }
+.skill-new { background: transparent; border: 1.5px dashed rgba(0,0,0,0.15); color: var(--muted); }
+.cv-section-block { position: relative; margin-bottom: 14px; }
+.section-flag { position: absolute; inset: -4px -8px; background: rgba(224,89,59,0.06); border-left: 3px solid var(--low); border-radius: 0 6px 6px 0; pointer-events: none; opacity: 0; }
+.section-warn { font-family: var(--font-mono); font-size: 13px; color: var(--low); margin-top: 6px; opacity: 0; }
+.exp-block { margin-bottom: 20px; }
+.exp-title { font-size: 18px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.exp-meta { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.bullet-swap { position: relative; min-height: 70px; }
+.bullet-text { font-size: 16px; line-height: 1.6; color: var(--ink); }
+#line-weak { position: relative; }
+#line-strong { position: absolute; top: 0; left: 0; right: 0; opacity: 0; }
+#line-weak-2 { position: relative; }
+#line-strong-2 { position: absolute; top: 0; left: 0; right: 0; opacity: 0; }
+#line-weak-3 { position: relative; }
+#line-strong-3 { position: absolute; top: 0; left: 0; right: 0; opacity: 0; }
+#line-weak.flagged, #line-weak-2.flagged, #line-weak-3.flagged { text-decoration: underline; text-decoration-color: var(--low); text-underline-offset: 3px; }
+.exp-flag { display: inline-flex; align-items: center; gap: 5px; background: var(--low-soft); border: 1px solid rgba(224,89,59,0.22); border-radius: 100px; padding: 4px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--low); margin-top: 8px; }
+.kw { display: inline; border-radius: 3px; padding: 1px 3px; }
+.kw-bad { display: inline; border-radius: 3px; padding: 1px 3px; background: rgba(224,89,59,0.13); color: var(--low); }
+
+.audit-panel {
+  position: absolute; left: 28px; right: 28px; bottom: 24px;
+  background: rgba(255,255,255,0.96); border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.10);
+  padding: 16px 18px; z-index: 4; pointer-events: none;
+}
+.panel-kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.panel-row { display: flex; align-items: center; gap: 10px; font-size: 14px; line-height: 1.35; color: var(--ink); margin-top: 8px; }
+.panel-dot { width: 10px; height: 10px; border-radius: 999px; flex: 0 0 auto; background: var(--low); }
+#wins-panel .panel-dot { background: var(--lime-deep); }
+#jobscan-caption {
+  position: absolute; left: 42px; right: 42px; bottom: 178px;
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.45; color: var(--muted);
+  background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 10px; padding: 12px 14px; z-index: 4; pointer-events: none;
+}
+
+/* Resumen swap */
+.resumen-swap { position: relative; min-height: 44px; }
+#resumen-weak { position: relative; }
+#resumen-strong { position: absolute; top: 0; left: 0; right: 0; opacity: 0; }
+
+/* Reasoning overlay */
+#reasoning { position: absolute; bottom: 20px; left: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; background: rgba(255,255,255,0.92); border-radius: 10px; padding: 14px 18px; z-index: 3; pointer-events: none; }
+.reason-line { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+/* ── Bottom panel ─────────────────────────────────────────── */
+#bottom-panel { flex: 0 0 auto; display: flex; flex-direction: row; align-items: center; gap: 24px; padding-top: 4px; }
+.ring-center { position: relative; width: 160px; height: 160px; flex-shrink: 0; }
+#ring-svg { position: absolute; top: 0; left: 0; width: 160px; height: 160px; }
+#ring-track { fill: none; stroke: rgba(0,0,0,0.09); stroke-width: 14; }
+#ring-fill { fill: none; stroke: var(--muted); stroke-width: 14; stroke-linecap: round; stroke-dasharray: 502.65; stroke-dashoffset: 502.65; transform: rotate(-90deg); transform-origin: 100px 100px; }
+.ring-val-group { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#score-val { font-family: var(--font-mono); font-size: 46px; font-weight: 500; color: var(--muted); line-height: 1; }
+.score-denom { font-family: var(--font-mono); font-size: 16px; color: var(--muted); }
+#score-info { display: flex; flex-direction: column; gap: 6px; }
+#score-label { font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+#score-state { font-family: var(--font-body); font-size: 20px; font-weight: 600; color: var(--muted); }
+#verify-btn { display: inline-flex; align-items: center; background: transparent; border: 1.5px solid rgba(0,0,0,0.20); color: var(--ink); border-radius: 100px; padding: 18px 36px; font-family: var(--font-body); font-size: 18px; font-weight: 600; }
+#optimize-btn { display: inline-flex; align-items: center; background: var(--lime); color: var(--on-lime); border-radius: 100px; padding: 18px 36px; font-family: var(--font-body); font-size: 18px; font-weight: 600; position: relative; overflow: visible; white-space: nowrap; }
+#btn-ripple { position: absolute; inset: 0; border-radius: 100px; border: 2px solid var(--lime); opacity: 0; pointer-events: none; }
+
+/* ── CTA ──────────────────────────────────────────────────── */
+#cta-group { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; background: var(--bg); }
+#cta-logo { width: 80px; height: 80px; background: var(--lime); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 36px; font-weight: 500; color: var(--on-lime); margin-bottom: 16px; }
+#cta-wordmark { font-family: var(--font-mono); font-size: 24px; font-weight: 500; color: var(--ink); letter-spacing: 0.08em; margin-bottom: 60px; }
+#cta-headline { font-family: var(--font-body); font-size: 64px; font-weight: 600; color: var(--ink); text-align: center; line-height: 1.1; max-width: 840px; margin-bottom: 24px; }
+#cta-subline { font-family: var(--font-body); font-size: 28px; color: var(--muted); text-align: center; margin-bottom: 56px; }
+#cta-btn { display: inline-flex; align-items: center; gap: 12px; background: var(--lime); color: var(--on-lime); border-radius: 100px; padding: 28px 64px; font-family: var(--font-body); font-size: 26px; font-weight: 600; }
+#cta-domain { font-family: var(--font-mono); font-size: 18px; color: var(--muted); margin-top: 22px; letter-spacing: 0.04em; }
+
+/* Scene 7: tailoring moat */
+.ghost-card { position: absolute; width: 72%; height: 82%; top: 40px; left: 128px; background: rgba(255,255,255,0.82); border: 1px solid rgba(0,0,0,0.08); border-radius: 18px; box-shadow: 0 18px 46px rgba(0,0,0,0.09); z-index: 0; }
+#cv-panel { position: relative; }
+#job-chip {
+  position: absolute; top: 42px; right: 30px; z-index: 6;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--ink); color: #fff; border-radius: 999px;
+  padding: 14px 18px; font-family: var(--font-mono); font-size: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.20); pointer-events: none;
+}
+#job-chip::before { content: ""; width: 9px; height: 9px; border-radius: 999px; background: var(--lime); }
+#tailor-score {
+  position: absolute; top: 108px; right: 44px; z-index: 6;
+  background: var(--lime); color: var(--on-lime); border-radius: 10px;
+  padding: 10px 14px; font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.16); pointer-events: none;
+}
+#s7-texts {
+  position: absolute; left: 0; right: 0; bottom: 0; min-height: 184px; z-index: 7;
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 10px;
+  background: rgba(236,234,225,0.96); border-top: 1px solid rgba(0,0,0,0.07); pointer-events: none;
+}
+#s7-caption { font-family: var(--font-body); font-size: 32px; font-weight: 600; color: var(--ink); }
+#s7-counter { font-family: var(--font-mono); font-size: 16px; color: var(--muted); }
+
+/* ── Cursor ───────────────────────────────────────────────── */
+#cursor { position: absolute; left: 0; top: 0; width: 28px; height: 28px; transform: translate(860px, 1500px); pointer-events: none; z-index: 10; }
+#cursor svg { width: 28px; height: 28px; }

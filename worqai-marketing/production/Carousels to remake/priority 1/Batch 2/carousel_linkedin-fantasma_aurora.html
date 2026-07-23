@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>worqai · LinkedIn fantasma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#050010;font-family:'Space Grotesk',system-ui,sans-serif;color:#fff;min-height:100vh;}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+  .label-top{font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+             color:#a855f7;margin-bottom:14px;text-align:center;}
+  /* Slide renders at native 1080x1080 by default (correct for export).
+     Only scale down for wide-viewport browser previews — Playwright export
+     uses 1080px viewport so the scale media query won't match. */
+  .preview-cage{width:1080px;margin:0 auto;}
+  @media (min-width:1200px){
+    .preview-cage{transform:scale(0.5);transform-origin:top center;height:540px;}
+  }
+  .viewer{width:1080px;max-width:1080px;}
+  .wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;
+        box-shadow:0 30px 80px rgba(50,0,80,0.6);}
+  .track{display:flex;width:100%;height:100%;
+         transition:transform .42s cubic-bezier(.4,0,.2,1);}
+  .slide{position:relative;flex:0 0 1080px;width:1080px;height:1080px;overflow:hidden;
+         background:linear-gradient(135deg,#0a0618 0%,#1a0a3a 45%,#0a1830 100%);
+         color:#FFFFFF;}
+
+  /* GRAIN */
+  .slide::before{
+    content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:300px 300px;mix-blend-mode:overlay;opacity:.10;
+    pointer-events:none;z-index:1;
+  }
+
+  /* AURORA RADIAL OVERLAY (system spec) */
+  .slide::after{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:radial-gradient(ellipse 60% 60% at 30% 40%,rgba(120,40,220,0.22),transparent 60%),
+               radial-gradient(ellipse 50% 50% at 80% 70%,rgba(40,120,220,0.18),transparent 60%);
+  }
+
+  /* BLOB E · RADIAL GLOW (the system blob — blurred divs, two glows) */
+  .glow-main{position:absolute;width:780px;height:780px;border-radius:50%;
+             background:radial-gradient(circle,rgba(140,60,255,0.32) 0%,transparent 65%);
+             filter:blur(60px);pointer-events:none;z-index:1;}
+  .glow-secondary{position:absolute;width:420px;height:420px;border-radius:50%;
+                  background:radial-gradient(circle,rgba(40,180,220,0.36) 0%,transparent 65%);
+                  filter:blur(40px);pointer-events:none;z-index:1;}
+
+  /* Constellation dots — adds depth */
+  .star{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:0.5;z-index:2;}
+  .star.lg{width:5px;height:5px;opacity:0.7;}
+
+  /* "Ghost" silhouette outline — for invisible-on-LinkedIn theme */
+  .ghost-bg{position:absolute;font-family:'Space Grotesk',sans-serif;font-weight:700;
+            font-size:480px;line-height:.85;letter-spacing:-0.04em;
+            color:rgba(255,255,255,0.045);pointer-events:none;user-select:none;z-index:1;
+            text-transform:uppercase;}
+
+  /* padding-bottom: 140px keeps text ~64px clear of the brand wordmark + counter at bottom */
+  .content{position:relative;z-index:3;height:100%;padding:96px 88px 140px;
+           display:flex;flex-direction:column;}
+
+  .deco-num{position:absolute;top:-16px;right:46px;
+            font-weight:700;font-size:280px;line-height:1;letter-spacing:-.05em;
+            color:rgba(255,255,255,0.05);pointer-events:none;user-select:none;z-index:2;}
+
+  .label{font-size:18px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+         color:#a855f7;margin-bottom:28px;display:inline-block;}
+
+  .headline{font-weight:700;font-size:68px;line-height:1.06;letter-spacing:-0.025em;}
+  .body-text{font-weight:300;font-size:28px;line-height:1.5;color:rgba(255,255,255,0.78);}
+  .purple{color:#a855f7;}
+  .cyan{color:#28b4f0;}
+  .purple-bg{background:#a855f7;color:#fff;padding:0 10px;border-radius:4px;}
+
+  .stat-num{font-weight:700;font-size:340px;line-height:0.85;letter-spacing:-0.05em;
+            color:#a855f7;}
+  .stat-pct{font-size:180px;color:#fff;font-weight:700;line-height:0.85;}
+  .source-tag{font-size:18px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;
+              opacity:.5;margin-top:24px;}
+  .stat-context{font-weight:500;font-size:38px;line-height:1.18;letter-spacing:-0.015em;
+                margin-top:36px;max-width:840px;}
+
+  /* Glassmorphism cards (sized to fit safe-area) */
+  .glass-block{padding:24px 30px;border-radius:18px;
+               background:rgba(255,255,255,0.06);
+               backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+               border:1px solid rgba(255,255,255,0.10);
+               margin-bottom:14px;position:relative;}
+  .glass-block.bad{border-left:4px solid #f0506e;}
+  .glass-block.good{border-left:4px solid #28b4f0;}
+
+  .glass-tag{font-size:13px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+             margin-bottom:10px;}
+  .glass-block.bad .glass-tag{color:#f0506e;}
+  .glass-block.good .glass-tag{color:#28b4f0;}
+
+  .glass-text{font-size:25px;font-weight:500;line-height:1.4;color:#fff;}
+  .glass-text .strike{text-decoration:line-through;text-decoration-color:rgba(240,80,110,0.7);
+                       text-decoration-thickness:2px;color:rgba(255,255,255,0.55);}
+
+  .why-row{margin-top:18px;font-size:21px;font-weight:400;line-height:1.45;
+           padding-left:18px;border-left:3px solid #a855f7;color:rgba(255,255,255,0.78);}
+
+  /* Profile mockup (sized to fit safe-area) */
+  .profile-card{background:rgba(255,255,255,0.05);
+                border:1px solid rgba(255,255,255,0.10);border-radius:18px;
+                padding:22px 26px;margin-bottom:14px;
+                backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+                display:flex;align-items:center;gap:20px;}
+  .profile-avatar{width:72px;height:72px;border-radius:50%;flex-shrink:0;
+                  background:linear-gradient(135deg,#3a3a4a,#1a1a2a);
+                  display:flex;align-items:center;justify-content:center;
+                  color:rgba(255,255,255,0.4);font-size:32px;font-weight:700;}
+  .profile-info{flex:1;}
+  .profile-name{font-size:24px;font-weight:700;line-height:1.1;color:#fff;}
+  .profile-headline{font-size:17px;font-weight:400;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.3;}
+  .profile-location{font-size:14px;color:rgba(255,255,255,0.4);margin-top:6px;}
+  .profile-pill{display:inline-block;padding:4px 12px;background:rgba(168,85,247,0.20);
+                color:#a855f7;border-radius:999px;font-size:11px;font-weight:700;
+                letter-spacing:0.1em;text-transform:uppercase;margin-top:8px;}
+  .profile-pill.bad{background:rgba(240,80,110,0.20);color:#f0506e;}
+
+  /* CTA card — tightened so it never overflows below safe area */
+  .cta-card{background:rgba(10,6,24,0.7);border:1px solid rgba(168,85,247,0.4);
+            border-radius:28px;padding:40px 44px;margin-top:auto;margin-bottom:0;
+            position:relative;overflow:hidden;
+            backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
+  .cta-card::after{content:'';position:absolute;top:-100px;right:-100px;width:340px;height:340px;
+                   border-radius:50%;background:radial-gradient(circle,rgba(168,85,247,0.40),transparent 65%);
+                   filter:blur(40px);}
+  .cta-headline{font-weight:700;font-size:46px;line-height:1.06;letter-spacing:-0.02em;
+                color:#fff;margin-bottom:24px;position:relative;z-index:2;}
+  .keyword-box{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;
+               border:3px dashed #a855f7;border-radius:14px;margin-bottom:22px;position:relative;z-index:2;
+               background:rgba(168,85,247,0.08);}
+  .keyword-tag{font-size:13px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+               color:#a855f7;opacity:.7;}
+  .keyword-word{font-weight:700;font-size:42px;color:#a855f7;letter-spacing:0.06em;}
+  .cta-instr{font-size:22px;font-weight:400;color:rgba(255,255,255,0.78);line-height:1.45;
+             position:relative;z-index:2;}
+  .cta-instr .purple{color:#a855f7;font-weight:700;}
+
+  .hook-stack{margin-top:auto;margin-bottom:60px;}
+  .hook-display{font-weight:700;font-size:124px;line-height:0.95;letter-spacing:-0.045em;}
+  .hook-display .purple{color:#a855f7;}
+  .hook-display .cyan{color:#28b4f0;}
+  .hook-sub{font-weight:400;font-size:32px;line-height:1.45;margin-top:32px;
+            color:rgba(255,255,255,0.72);max-width:780px;}
+  .swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+              padding:14px 26px;border:2px solid #a855f7;color:#a855f7;
+              border-radius:999px;font-size:18px;font-weight:700;letter-spacing:0.18em;
+              text-transform:uppercase;margin-top:36px;background:rgba(168,85,247,0.08);}
+
+  .pill-tag{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;
+            background:rgba(168,85,247,0.18);border:1px solid #a855f7;border-radius:999px;
+            font-weight:700;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;
+            color:#a855f7;margin-bottom:24px;}
+
+  .brand-anchor{position:absolute;bottom:46px;left:88px;z-index:5;
+                font-weight:700;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;
+                color:#fff;}
+  .brand-anchor .ai{color:#a855f7;}
+
+  .counter{position:absolute;bottom:50px;right:88px;z-index:5;
+           font-weight:500;font-size:18px;letter-spacing:0.2em;color:rgba(255,255,255,0.5);}
+
+  .controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px;}
+  .btn{background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;
+       border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .btn:disabled{opacity:.2;cursor:default;}
+  .dots{display:flex;gap:6px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s;}
+  .dot.on{background:#a855f7;width:18px;border-radius:3px;}
+  .hint{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:0.18em;text-transform:uppercase;
+        margin-top:10px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="label-top">worqai · educacional · linkedin fantasma</div>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ========== SLIDE 1 · HOOK ========== -->
+      <div class="slide" data-slide="1">
+        <div class="glow-main" style="top:-15%;right:-10%;"></div>
+        <div class="glow-secondary" style="bottom:5%;left:-8%;"></div>
+        <div class="ghost-bg" style="top:-8%;left:-6%;">FANTASMA</div>
+        <span class="star" style="top:18%;left:32%;"></span>
+        <span class="star lg" style="top:42%;right:18%;"></span>
+        <span class="star" style="bottom:30%;left:14%;"></span>
+        <span class="star lg" style="top:64%;right:38%;"></span>
+        <span class="star" style="bottom:48%;right:8%;"></span>
+        <div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai · linkedin visibility</div>
+          <div class="hook-stack">
+            <div class="hook-display">Tu LinkedIn<br>es un <span class="purple">fantasma</span>.<br>Por eso nadie<br>te <span class="cyan">contacta</span>.</div>
+            <div class="hook-sub">No te encuentran porque, técnicamente, no existís en su búsqueda. Y eso lo arreglás en 20 minutos.</div>
+            <div class="swipe-pill">Desliza →</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">01 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 2 · DATA ========== -->
+      <div class="slide" data-slide="2">
+        <div class="glow-main" style="bottom:-25%;right:-15%;"></div>
+        <div class="glow-secondary" style="top:10%;left:-10%;"></div>
+        <div class="ghost-bg" style="bottom:-25%;right:-12%;">0</div>
+        <span class="star lg" style="top:22%;left:12%;"></span>
+        <span class="star" style="top:38%;right:24%;"></span>
+        <span class="star" style="bottom:42%;left:30%;"></span>
+        <div class="deco-num">02</div>
+        <div class="content">
+          <div class="label">el dato</div>
+          <div class="headline" style="max-width:880px;">El reclutador busca con<br>filtros. <span class="purple">Sin keywords,</span><br>no aparecés.</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:48px;">
+            <div class="stat-num">87</div>
+            <div class="stat-pct">%</div>
+          </div>
+          <div class="stat-context">de los reclutadores busca candidatos con LinkedIn Recruiter usando filtros de keywords y título exacto. Si no los tenés, no salís en su lista.</div>
+          <div class="source-tag">Dato interno WorqAI · base de datos 2025</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">02 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 3 · ERROR 01: HEADLINE ========== -->
+      <div class="slide" data-slide="3">
+        <div class="glow-main" style="top:-20%;right:30%;"></div>
+        <div class="glow-secondary" style="bottom:-10%;right:-5%;"></div>
+        <div class="ghost-bg" style="top:8%;right:-22%;">01</div>
+        <span class="star" style="top:30%;left:12%;"></span>
+        <span class="star lg" style="bottom:30%;right:18%;"></span>
+        <div class="deco-num">03</div>
+        <div class="content">
+          <div class="pill-tag">Error 01 · Headline genérico</div>
+          <div class="headline" style="max-width:920px;">Tu titular dice<br>"Marketing<br><span class="purple">Professional</span>".</div>
+          <div style="margin-top:36px;">
+            <div class="profile-card">
+              <div class="profile-avatar">M</div>
+              <div class="profile-info">
+                <div class="profile-name">María Rodríguez</div>
+                <div class="profile-headline">Marketing Professional | Passionate about results</div>
+                <div class="profile-pill bad">Reclutador no busca esto</div>
+              </div>
+            </div>
+            <div class="profile-card">
+              <div class="profile-avatar" style="background:linear-gradient(135deg,#a855f7,#5b21b6);color:#fff;">M</div>
+              <div class="profile-info">
+                <div class="profile-name">María Rodríguez</div>
+                <div class="profile-headline">Performance Marketing Manager · Meta Ads · Google Ads · B2B SaaS · CDMX</div>
+                <div class="profile-pill">Recruiter te encuentra al primer filtro</div>
+              </div>
+            </div>
+          </div>
+          <div class="why-row">El recruiter no busca "Marketing Professional". Busca "Performance Marketing Manager + Meta Ads". Tu headline es tu única chance de aparecer.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">03 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 4 · ERROR 02: ABOUT VACÍO ========== -->
+      <div class="slide" data-slide="4">
+        <div class="glow-main" style="bottom:-15%;left:-10%;"></div>
+        <div class="glow-secondary" style="top:30%;right:5%;"></div>
+        <div class="ghost-bg" style="bottom:-20%;left:-15%;">02</div>
+        <span class="star lg" style="top:18%;right:30%;"></span>
+        <span class="star" style="bottom:40%;right:14%;"></span>
+        <div class="deco-num">04</div>
+        <div class="content">
+          <div class="pill-tag">Error 02 · About vacío</div>
+          <div class="headline" style="max-width:920px;">Dejaste el "Acerca de"<br><span class="purple">en blanco</span>.</div>
+          <div style="margin-top:48px;">
+            <div class="glass-block bad">
+              <div class="glass-tag">Lo que tenés ahora</div>
+              <div class="glass-text"><span class="strike">Vacío. O tres líneas tipo "Apasionado por el marketing y el trabajo en equipo".</span></div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">Lo que debería decir</div>
+              <div class="glass-text">3 párrafos cortos: qué hacés (con keywords), 2–3 logros con números, qué buscás. Termina con un CTA: "Escribime si buscás X".</div>
+            </div>
+          </div>
+          <div class="why-row">El "Acerca de" tiene 2.600 caracteres y LinkedIn lo indexa entero. Cada palabra ahí es una keyword más para que aparezcas en búsquedas.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">04 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 5 · ERROR 03: CARGO ACTUAL ========== -->
+      <div class="slide" data-slide="5">
+        <div class="glow-main" style="top:-18%;left:-12%;"></div>
+        <div class="glow-secondary" style="bottom:8%;right:-5%;"></div>
+        <div class="ghost-bg" style="top:-22%;right:5%;">03</div>
+        <span class="star" style="top:30%;right:20%;"></span>
+        <span class="star lg" style="bottom:24%;left:18%;"></span>
+        <div class="deco-num">05</div>
+        <div class="content">
+          <div class="pill-tag">Error 03 · Cargo desactualizado</div>
+          <div class="headline" style="max-width:920px;">Tu cargo actual dice<br>"<span class="purple">Senior Specialist</span>"<br>y nada más.</div>
+          <div style="margin-top:48px;">
+            <div class="glass-block bad">
+              <div class="glass-tag">Lo que pusiste</div>
+              <div class="glass-text"><span class="strike">"Senior Specialist en Banco Nacional"</span></div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">Cómo debería verse</div>
+              <div class="glass-text">"Senior Data Analyst — Risk &amp; Fraud | SQL · Python · Tableau · Banco Nacional CR"</div>
+            </div>
+          </div>
+          <div class="why-row">El cargo actual pesa más en el algoritmo que cualquier otro campo. Si dice "Senior Specialist" sin más, ningún filtro te trae cuando buscan "Data Analyst".</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">05 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 6 · ERROR 04: SIN ACTIVIDAD ========== -->
+      <div class="slide" data-slide="6">
+        <div class="glow-main" style="bottom:-25%;right:-20%;"></div>
+        <div class="glow-secondary" style="top:14%;left:-8%;"></div>
+        <div class="ghost-bg" style="top:18%;left:-30%;">04</div>
+        <span class="star lg" style="top:38%;right:24%;"></span>
+        <span class="star" style="bottom:32%;left:16%;"></span>
+        <div class="deco-num">06</div>
+        <div class="content">
+          <div class="pill-tag">Error 04 · Cuenta inactiva</div>
+          <div class="headline" style="max-width:920px;">Hace 8 meses<br>que no <span class="purple">posteás</span>,<br>no comentás, no nada.</div>
+          <div style="margin-top:48px;">
+            <div class="glass-block bad">
+              <div class="glass-tag">Lo que ve el algoritmo</div>
+              <div class="glass-text">Cuenta inactiva. LinkedIn baja tu visibilidad porque asume que ya no usás la plataforma o ya conseguiste trabajo.</div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">Lo que tenés que hacer</div>
+              <div class="glass-text">3 acciones por semana: 1 comentario reflexivo en un post de tu industria, 1 reacción a un colega, 1 post propio cada 2 semanas. Mínimo viable.</div>
+            </div>
+          </div>
+          <div class="why-row">No tenés que ser un creador de contenido. Solo señalar que estás vivo. La actividad mínima triplica tu aparición en búsquedas.</div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">06 / 07</div>
+      </div>
+
+      <!-- ========== SLIDE 7 · CTA ========== -->
+      <div class="slide" data-slide="7">
+        <div class="glow-main" style="top:-10%;right:35%;"></div>
+        <div class="glow-secondary" style="bottom:10%;right:-10%;"></div>
+        <div class="ghost-bg" style="bottom:-30%;right:-15%;">IN</div>
+        <span class="star lg" style="top:22%;left:14%;"></span>
+        <span class="star" style="top:50%;left:38%;"></span>
+        <div class="deco-num">07</div>
+        <div class="content">
+          <div class="label">tu siguiente paso</div>
+          <div class="headline" style="max-width:880px;margin-top:20px;">¿Querés que tu LinkedIn<br>deje de ser <span class="purple">invisible</span>?</div>
+          <div class="cta-card">
+            <div class="cta-headline">Auditoría gratis<br>de tu perfil en 24h.</div>
+            <div class="keyword-box">
+              <span class="keyword-tag">DM</span>
+              <span class="keyword-word">AUDITORIA</span>
+            </div>
+            <div class="cta-instr">Mandá la palabra <span class="purple">AUDITORIA</span> al DM de <span class="purple">@worqai</span>. Te decimos exactamente qué cambiar para que los reclutadores te encuentren.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span>worq</span><span class="ai">ai</span></div>
+        <div class="counter">07 / 07</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="prev">‹</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+      <span class="dot" onclick="go(5)"></span>
+      <span class="dot" onclick="go(6)"></span>
+    </div>
+    <button class="btn" id="next">›</button>
+  </div>
+  <div class="hint">flechas ← → · swipe · click los puntos</div>
+</div>
+</div>
+<script>
+  let cur=0;
+  const slides=document.querySelectorAll('.slide');
+  const track=document.getElementById('track');
+  const prevBtn=document.getElementById('prev');
+  const nextBtn=document.getElementById('next');
+  const dots=document.querySelectorAll('.dot');
+  function go(n){
+    cur=Math.max(0,Math.min(n,slides.length-1));
+    track.style.transform=`translateX(-${cur*1080}px)`;
+    dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+    prevBtn.disabled=cur===0;
+    nextBtn.disabled=cur===slides.length-1;
+  }
+  function move(d){go(cur+d);}
+  prevBtn.addEventListener('click',()=>move(-1));
+  nextBtn.addEventListener('click',()=>move(1));
+  let sx=0;
+  const wrap=document.getElementById('wrap');
+  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+  wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+  go(0);
+</script>
+</body>
+</html>

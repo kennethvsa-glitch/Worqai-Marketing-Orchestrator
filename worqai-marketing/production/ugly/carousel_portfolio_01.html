@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Halden & Co. — Carousel 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --bg:#efe9df;
+    --paper:#f6f1e7;
+    --ink:#23201b;
+    --ink-soft:#5a544b;
+    --accent:#7a3b1f;
+    --accent-2:#a86a3d;
+    --line:#1a1714;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#1c1a17;font-family:'Inter',sans-serif;color:#eee;min-height:100vh;padding:40px 20px}
+  .controls{max-width:1080px;margin:0 auto 24px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .controls button{background:#7a3b1f;color:#fff;border:0;padding:12px 22px;font-family:'Inter';font-weight:500;letter-spacing:0.05em;cursor:pointer;border-radius:2px;text-transform:uppercase;font-size:12px}
+  .controls button:hover{background:#a86a3d}
+  .dots{display:flex;gap:8px;margin-left:auto}
+  .dots span{width:8px;height:8px;border-radius:50%;background:#444;transition:background .2s}
+  .dots span.active{background:#a86a3d}
+  .stage{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .slide{
+    width:1080px;height:1080px;
+    background:var(--bg);
+    color:var(--ink);
+    position:relative;
+    overflow:hidden;
+    font-family:'Cormorant Garamond',serif;
+    transform-origin:top left;
+  }
+  /* grain overlay shared */
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:0.32;mix-blend-mode:multiply;z-index:5}
+  .grain svg{width:100%;height:100%}
+
+  /* SLIDE 1 — cover */
+  .s1{
+    background:
+      radial-gradient(circle at 15% 20%, #d8c9b0 0%, transparent 45%),
+      radial-gradient(circle at 85% 90%, #b89072 0%, transparent 50%),
+      linear-gradient(160deg, #f1ead9 0%, #d8c4a6 100%);
+  }
+  .s1 .frame{position:absolute;inset:48px;border:1px solid var(--line);z-index:3}
+  .s1 .topbar{position:absolute;top:80px;left:80px;right:80px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
+  .s1 .marque{position:absolute;top:200px;left:80px;right:80px;z-index:4;pointer-events:none}
+  .s1 .marque .est{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;color:var(--accent);text-transform:uppercase;margin-bottom:24px}
+  .s1 .marque h1{font-size:148px;line-height:0.92;font-weight:400;letter-spacing:-0.03em;font-style:italic;color:var(--ink)}
+  .s1 .marque h1 em{font-style:normal;font-weight:500;color:var(--accent)}
+  .s1 .img{position:absolute;bottom:140px;right:80px;width:380px;height:480px;
+    background:linear-gradient(160deg,#3a2418 0%,#7a3b1f 60%,#a86a3d 100%);
+    clip-path:polygon(0 0, 100% 6%, 100% 100%, 4% 96%);
+    z-index:3}
+  .s1 .img::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 30%, rgba(255,230,180,0.4), transparent 60%)}
+  .s1 .caption{position:absolute;bottom:160px;left:80px;width:380px;z-index:4}
+  .s1 .caption .num{font-family:'JetBrains Mono';font-size:64px;color:var(--accent);font-weight:500;line-height:1}
+  .s1 .caption p{font-size:18px;line-height:1.4;color:var(--ink-soft);margin-top:18px;font-family:'Inter';font-weight:300;max-width:340px}
+  .s1 .footer{position:absolute;bottom:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
+
+  /* SLIDE 2 — pull quote / question */
+  .s2{background:var(--paper)}
+  .s2::before{content:"";position:absolute;top:0;left:0;width:55%;height:100%;
+    background:linear-gradient(180deg,#7a3b1f 0%, #3a2418 100%);
+    clip-path:polygon(0 0, 100% 0, 88% 100%, 0 100%);z-index:1}
+  .s2 .label{position:absolute;top:80px;left:80px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#e9d3b7;z-index:4}
+  .s2 .num-big{position:absolute;top:240px;left:60px;font-family:'Cormorant Garamond';font-style:italic;font-size:380px;line-height:1;font-weight:400;color:rgba(255,235,200,0.18);z-index:2}
+  .s2 .quote{position:absolute;top:280px;right:60px;width:420px;z-index:4}
+  .s2 .quote .mark{font-family:'Cormorant Garamond';font-size:140px;line-height:0.6;color:var(--accent);font-style:italic}
+  .s2 .quote h2{font-family:'Cormorant Garamond';font-size:64px;line-height:1.1;font-weight:400;color:var(--ink);margin-top:8px;font-style:italic}
+  .s2 .quote h2 strong{font-style:normal;font-weight:500;color:var(--accent);font-family:'Cormorant Garamond'}
+  .s2 .quote .source{margin-top:32px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-soft)}
+  .s2 .footer-line{position:absolute;bottom:80px;left:80px;right:80px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#e9d3b7;z-index:4}
+  .s2 .footer-line .dot{width:6px;height:6px;background:#e9d3b7;border-radius:50%}
+
+  /* SLIDE 3 — origin numbers */
+  .s3{background:var(--bg)}
+  .s3 .topbar{position:absolute;top:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
+  .s3 h2{position:absolute;top:160px;left:80px;font-family:'Cormorant Garamond';font-size:88px;line-height:0.95;font-weight:400;color:var(--ink);font-style:italic;z-index:4;width:600px}
+  .s3 h2 em{font-style:normal;color:var(--accent)}
+  .s3 .stack{position:absolute;top:420px;left:80px;right:80px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;z-index:4}
+  .s3 .stat{border-top:1px solid var(--line);padding-top:24px}
+  .s3 .stat .n{font-family:'Cormorant Garamond';font-size:96px;line-height:0.9;font-weight:400;color:var(--ink);font-style:italic}
+  .s3 .stat .n sup{font-size:32px;color:var(--accent);vertical-align:top;margin-left:4px;font-style:normal}
+  .s3 .stat .lbl{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:14px}
+  .s3 .stat p{font-family:'Inter';font-weight:300;font-size:14px;line-height:1.5;color:var(--ink-soft);margin-top:10px}
+  .s3 .crop{position:absolute;bottom:120px;right:80px;width:160px;height:200px;
+    background:linear-gradient(180deg,#7a3b1f,#3a2418);
+    clip-path:polygon(0 8%, 100% 0, 100% 92%, 0 100%);z-index:2}
+  .s3 .footer{position:absolute;bottom:80px;left:80px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
+
+  /* SLIDE 4 — process */
+  .s4{background:#3a2418;color:#f1ead9}
+  .s4::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(circle at 80% 20%, rgba(168,106,61,0.35), transparent 50%),
+    radial-gradient(circle at 10% 90%, rgba(122,59,31,0.45), transparent 55%);
+    z-index:1}
+  .s4 .topbar{position:absolute;top:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#d8c4a6;z-index:4}
+  .s4 h2{position:absolute;top:160px;left:80px;width:520px;font-family:'Cormorant Garamond';font-size:96px;line-height:0.95;font-weight:400;font-style:italic;z-index:4}
+  .s4 h2 em{font-style:normal;color:#e9b88a}
+  .s4 .steps{position:absolute;top:480px;left:80px;right:80px;display:flex;flex-direction:column;gap:20px;z-index:4}
+  .s4 .step{display:grid;grid-template-columns:80px 1fr 200px;gap:28px;align-items:center;padding:20px 0;border-top:1px solid rgba(241,234,217,0.2)}
+  .s4 .step:last-child{border-bottom:1px solid rgba(241,234,217,0.2)}
+  .s4 .step .n{font-family:'JetBrains Mono';font-size:14px;letter-spacing:0.2em;color:#e9b88a}
+  .s4 .step .ttl{font-family:'Cormorant Garamond';font-size:32px;line-height:1.1;font-style:italic;font-weight:400}
+  .s4 .step .meta{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#d8c4a6;text-align:right}
+  .s4 .footer{position:absolute;bottom:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#d8c4a6;z-index:4}
+
+  /* SLIDE 5 — testimonial */
+  .s5{background:var(--paper)}
+  .s5 .topbar{position:absolute;top:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
+  .s5 .crop{position:absolute;top:140px;left:80px;width:340px;height:520px;
+    background:linear-gradient(160deg,#a86a3d,#3a2418);
+    clip-path:polygon(0 0, 100% 4%, 96% 100%, 0 96%);z-index:2}
+  .s5 .crop::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 30%, rgba(255,230,180,0.35), transparent 60%)}
+  .s5 .quote{position:absolute;top:200px;left:480px;right:80px;z-index:4}
+  .s5 .quote .mark{font-family:'Cormorant Garamond';font-size:120px;line-height:0.5;color:var(--accent);font-style:italic;margin-bottom:8px}
+  .s5 .quote h2{font-family:'Cormorant Garamond';font-size:54px;line-height:1.15;font-weight:400;font-style:italic;color:var(--ink)}
+  .s5 .quote h2 em{font-style:normal;color:var(--accent)}
+  .s5 .author{position:absolute;bottom:200px;left:480px;right:80px;z-index:4;border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;align-items:flex-end}
+  .s5 .author .name{font-family:'Cormorant Garamond';font-style:italic;font-size:22px;color:var(--ink)}
+  .s5 .author .role{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px}
+  .s5 .author .rating{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;color:var(--accent)}
+  .s5 .footer{position:absolute;bottom:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-soft);z-index:4}
+
+  /* SLIDE 6 — CTA */
+  .s6{background:
+    radial-gradient(circle at 70% 30%, #c89668 0%, transparent 50%),
+    linear-gradient(160deg, #7a3b1f 0%, #3a2418 100%);
+    color:#f1ead9}
+  .s6 .topbar{position:absolute;top:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#e9d3b7;z-index:4}
+  .s6 .lead{position:absolute;top:240px;left:80px;right:80px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:#e9b88a;z-index:4}
+  .s6 h2{position:absolute;top:300px;left:80px;right:80px;font-family:'Cormorant Garamond';font-size:124px;line-height:0.94;font-weight:400;font-style:italic;z-index:4}
+  .s6 h2 em{font-style:normal;color:#e9b88a;display:block}
+  .s6 .pill{position:absolute;top:680px;left:80px;display:inline-flex;align-items:center;gap:18px;padding:18px 28px;background:#f1ead9;color:#3a2418;font-family:'Inter';font-weight:500;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;z-index:4;border-radius:2px}
+  .s6 .pill .arrow{font-size:18px}
+  .s6 .meta{position:absolute;top:680px;right:80px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#e9d3b7;text-align:right;line-height:1.6;z-index:4}
+  .s6 .footer{position:absolute;bottom:80px;left:80px;right:80px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#e9d3b7;z-index:4}
+  .s6 .ornament{position:absolute;bottom:160px;right:80px;width:120px;height:120px;border:1px solid #e9b88a;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:3}
+  .s6 .ornament span{font-family:'Cormorant Garamond';font-style:italic;font-size:46px;color:#e9b88a}
+
+  /* Upload zones */
+  .upload-zone{cursor:pointer;clip-path:none!important}
+  .upload-zone input[type="file"]{display:none}
+  .upload-zone .up-ui{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px;text-align:center;background:rgba(0,0,0,0.14)}
+  .upload-zone.has-img .up-ui{display:none}
+  .upload-zone .up-lbl{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,238,225,0.92)}
+  .upload-zone .up-prompt{font-family:'Inter';font-size:10px;line-height:1.55;color:rgba(245,238,225,0.58);margin-top:6px;font-style:italic;max-width:260px}
+</style>
+</head>
+<body>
+  <div class="controls">
+    <button id="exportBtn">Export ZIP</button>
+    <span style="color:#aaa;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Halden &amp; Co. — 6 slides</span>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 1 -->
+    <div class="slide s1" id="slide-1">
+      <div class="frame"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n1"><feTurbulence baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n1)" opacity="0.6"/></svg></div>
+      <div class="topbar">
+        <span>Halden &amp; Co. — Single Origin</span>
+        <span>Vol. 04 · Spring</span>
+      </div>
+      <div class="marque">
+        <div class="est">Roasted in Brooklyn since 2017</div>
+        <h1>The bag<br>that ruins<br><em>supermarket coffee.</em></h1>
+      </div>
+      <div class="caption">
+        <div class="num">01</div>
+        <p>Three farms. One roast date stamped on every bag. Shipped within 48 hours of the drum stopping.</p>
+      </div>
+      <div class="img upload-zone">
+        <input type="file" accept="image/*">
+        <div class="up-ui">
+          <div class="up-lbl">↑ Click to upload photo</div>
+          <div class="up-prompt">Single-origin coffee bag, kraft paper, minimal label, dramatic side lighting, dark wooden surface, warm amber tones, editorial product shot, film grain, 35mm</div>
+        </div>
+      </div>
+      <div class="footer">
+        <span>halden.coffee</span>
+        <span>Edition 04 / 06</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide s2" id="slide-2">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n2"><feTurbulence baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n2)" opacity="0.6"/></svg></div>
+      <div class="label">— A question we kept hearing</div>
+      <div class="num-big">02</div>
+      <div class="quote">
+        <div class="mark">"</div>
+        <h2>Why does a $14 bag taste flat by week three? <strong>Oxygen, light, and a roast date you can't see.</strong></h2>
+        <div class="source">From 312 customer interviews · 2024</div>
+      </div>
+      <div class="footer-line">
+        <span style="color:#e9d3b7">02 / 06</span>
+        <span class="dot"></span>
+        <span>Halden &amp; Co.</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide s3" id="slide-3">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n3"><feTurbulence baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n3)" opacity="0.6"/></svg></div>
+      <div class="topbar">
+        <span>By the numbers</span>
+        <span>03 / 06</span>
+      </div>
+      <h2>What sits behind <em>each bag.</em></h2>
+      <div class="stack">
+        <div class="stat">
+          <div class="n">3<sup>°</sup></div>
+          <div class="lbl">Origins per blend</div>
+          <p>Colombia La Plata, Ethiopia Yirgacheffe, Honduras Marcala — rotated quarterly.</p>
+        </div>
+        <div class="stat">
+          <div class="n">48<sup>h</sup></div>
+          <div class="lbl">Roast to ship</div>
+          <p>Drum stops Tuesday. Your bag posts Thursday. Stamped, not estimated.</p>
+        </div>
+        <div class="stat">
+          <div class="n">214<sup>g</sup></div>
+          <div class="lbl">Per nitro-flush bag</div>
+          <p>Resealable valve, opaque foil, oxygen below 2%. Tested on every batch.</p>
+        </div>
+      </div>
+      <div class="crop upload-zone">
+        <input type="file" accept="image/*">
+        <div class="up-ui">
+          <div class="up-lbl">↑ Upload</div>
+          <div class="up-prompt">Overhead macro roasted coffee beans, warm amber steam, dark background, moody editorial</div>
+        </div>
+      </div>
+      <div class="footer">halden.coffee · Spring '26</div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide s4" id="slide-4">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n4"><feTurbulence baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n4)" opacity="0.45"/></svg></div>
+      <div class="topbar">
+        <span>How a bag gets to you</span>
+        <span>04 / 06</span>
+      </div>
+      <h2>Four steps. <em>Nothing in between.</em></h2>
+      <div class="steps">
+        <div class="step"><div class="n">— 01</div><div class="ttl">Cup &amp; score the green lot</div><div class="meta">Mon · 06:00</div></div>
+        <div class="step"><div class="n">— 02</div><div class="ttl">Drum roast in 9-kg batches</div><div class="meta">Tue · 11:30</div></div>
+        <div class="step"><div class="n">— 03</div><div class="ttl">Rest 36 hours, nitro-flush bag</div><div class="meta">Wed · 19:00</div></div>
+        <div class="step"><div class="n">— 04</div><div class="ttl">Ship Thursday before noon</div><div class="meta">Thu · 11:00</div></div>
+      </div>
+      <div class="footer">
+        <span>Halden &amp; Co.</span>
+        <span>halden.coffee</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide s5" id="slide-5">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n5"><feTurbulence baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n5)" opacity="0.6"/></svg></div>
+      <div class="topbar">
+        <span>What customers wrote back</span>
+        <span>05 / 06</span>
+      </div>
+      <div class="crop upload-zone">
+        <input type="file" accept="image/*">
+        <div class="up-ui">
+          <div class="up-lbl">↑ Click to upload photo</div>
+          <div class="up-prompt">Hands cradling white ceramic mug, cozy morning window light, warm golden tones, no face visible, lifestyle editorial, shallow depth of field</div>
+        </div>
+      </div>
+      <div class="quote">
+        <div class="mark">"</div>
+        <h2>I cancelled three coffee subs after my second Halden bag. <em>The roast date is right there on the seal.</em></h2>
+      </div>
+      <div class="author">
+        <div>
+          <div class="name">— Marisol G., Queens</div>
+          <div class="role">Subscriber since Aug 2024</div>
+        </div>
+        <div class="rating">★ ★ ★ ★ ★</div>
+      </div>
+      <div class="footer">
+        <span>Halden &amp; Co.</span>
+        <span>halden.coffee</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide s6" id="slide-6">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="n6"><feTurbulence baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n6)" opacity="0.4"/></svg></div>
+      <div class="topbar">
+        <span>Halden &amp; Co.</span>
+        <span>06 / 06</span>
+      </div>
+      <div class="lead">— Try the spring lot</div>
+      <h2>Pick your<br>first bag.<em>Ships Thursday.</em></h2>
+      <a class="pill">Order at halden.coffee <span class="arrow">→</span></a>
+      <div class="meta">Single bag $19<br>Subscription from $16/mo<br>Cancel anytime</div>
+      <div class="ornament"><span>H&amp;C</span></div>
+      <div class="footer">
+        <span>Free shipping over $35</span>
+        <span>halden.coffee</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Dots
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.getElementById('dots');
+  slides.forEach((_,i)=>{const s=document.createElement('span');if(i===0)s.classList.add('active');dots.appendChild(s);});
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){const idx=[...slides].indexOf(e.target);[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}});
+  },{threshold:0.5});
+  slides.forEach(s=>obs.observe(s));
+
+  // Export ZIP
+  document.getElementById('exportBtn').addEventListener('click', async ()=>{
+    const btn = document.getElementById('exportBtn');
+    btn.disabled=true; btn.textContent='Rendering...';
+    const zip = new JSZip();
+    for(let i=0;i<slides.length;i++){
+      btn.textContent=`Rendering ${i+1}/${slides.length}`;
+      const canvas = await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,backgroundColor:null});
+      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+      zip.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const out = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(out);
+    const a = document.createElement('a'); a.href=url; a.download='halden_co_carousel.zip'; a.click();
+    btn.disabled=false; btn.textContent='Export ZIP';
+  });
+
+  // Upload zones — click to load a local image into any placeholder
+  document.querySelectorAll('.upload-zone').forEach(zone => {
+    const inp = zone.querySelector('input[type="file"]');
+    zone.addEventListener('click', e => { if (!e.target.closest('input')) inp.click(); });
+    inp.addEventListener('change', e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        zone.style.backgroundImage = `url(${ev.target.result})`;
+        zone.style.backgroundSize = 'cover';
+        zone.style.backgroundPosition = 'center';
+        zone.classList.add('has-img');
+      };
+      r.readAsDataURL(f);
+    });
+  });
+</script>
+</body>
+</html>

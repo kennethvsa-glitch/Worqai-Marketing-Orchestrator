@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRISM — Creative Intelligence Studio | Portfolio Carousel</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SYSTEM 08 · GLASSMORPHISM DARK
+   PRISM — Creative Intelligence Studio (Portfolio Piece)
+   Techniques: GEO-13 Wireframe + GEO-01 Neural Mesh + TA-03 
+   Offset Echo + ME-06 Zoom Burst + SD-02 Z-Depth + CL-08 
+   Accent Interrupt + CW-01 Progress Bar
+   ============================================================ */
+
+/* ----- System Tokens ----- */
+:root {
+  --accent: #60a5fa;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255,255,255,0.40);
+  --bg-base: #050814;
+  --bg-mid: #0a1228;
+  --ui-chrome: rgba(255,255,255,0.25);
+  --ui-chrome-faint: rgba(255,255,255,0.08);
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-5: 40px;
+  --sp-6: 48px;
+  --sp-7: 56px;
+  --shadow-glow: 0 0 0 1px rgba(96,165,250,0.15), 0 0 20px rgba(96,165,250,0.20), 0 0 60px rgba(96,165,250,0.08);
+}
+
+/* ----- Base Reset ----- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ----- Label Top ----- */
+.label-top {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* ----- Viewer / Wrap / Track ----- */
+.viewer { width: 100%; max-width: 540px; overflow: hidden; }
+.wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+.track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.42s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ----- Slide Base ----- */
+.slide {
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: var(--sp-7) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(100,180,255,0.08), transparent),
+    linear-gradient(145deg, var(--bg-base), var(--bg-mid));
+}
+
+/* Grain overlay */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Slide edge glow (glassmorphism signature) */
+.slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(96,165,250,0.06);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ----- GEO-13 Perspective Wireframe ----- */
+.pw-wrap {
+  position: absolute;
+  inset: 0;
+  perspective: 600px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.pw-grid {
+  position: absolute;
+  width: 160%;
+  height: 160%;
+  top: -10%;
+  left: 20%;
+  transform-origin: 50% 100%;
+  transform: rotateX(58deg) rotateZ(-12deg);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(96,165,250,0.18) 0, rgba(96,165,250,0.18) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(90deg, rgba(96,165,250,0.18) 0, rgba(96,165,250,0.18) 1px, transparent 1px, transparent 80px);
+  -webkit-mask-image: linear-gradient(120deg, transparent 15%, rgba(0,0,0,0.55) 50%, black 78%);
+  mask-image: linear-gradient(120deg, transparent 15%, rgba(0,0,0,0.55) 50%, black 78%);
+}
+
+/* ----- GEO-01 Neural Mesh (simplified) ----- */
+.neural-mesh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.35;
+}
+.neural-mesh svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ----- Typography ----- */
+.display {
+  font-size: clamp(38px, 7vw, 62px);
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 2;
+}
+.headline {
+  font-size: clamp(28px, 5.5vw, 44px);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  position: relative;
+  z-index: 2;
+}
+.body-text {
+  font-size: clamp(13px, 2.4vw, 16px);
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  position: relative;
+  z-index: 2;
+}
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+.stat-num {
+  font-size: clamp(90px, 18vw, 138px);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* ----- Glassmorphism Blocks ----- */
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 16px 20px;
+  position: relative;
+  z-index: 2;
+}
+.glass-bad {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 2px solid rgba(240,80,80,0.5);
+  border-radius: 8px;
+  padding: 16px 20px;
+  position: relative;
+  z-index: 2;
+}
+.glass-good {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 2px solid rgba(80,200,120,0.5);
+  border-radius: 8px;
+  padding: 16px 20px;
+  position: relative;
+  z-index: 2;
+}
+.blk-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: var(--accent);
+}
+.blk-txt {
+  font-size: clamp(11px, 2.1vw, 14px);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.glass-good .blk-txt { color: var(--text-primary); font-weight: 400; }
+
+/* ----- TA-03 Stacked Offset Echo ----- */
+.echo-wrap {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+.echo-ghost {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--accent);
+  opacity: 0.22;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+.echo-real {
+  position: relative;
+  font-size: inherit;
+  font-weight: inherit;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* ----- ME-06 Zoom Burst Rings ----- */
+.zoom-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+.zoom-burst .ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ring-1 { width: 60px; height: 60px; opacity: 0.55; }
+.ring-2 { width: 130px; height: 130px; opacity: 0.35; border-width: 1px; }
+.ring-3 { width: 220px; height: 220px; opacity: 0.18; border-width: 1px; }
+.ring-4 { width: 330px; height: 330px; opacity: 0.08; border-width: 1px; }
+
+/* ----- SD-02 Z-Depth Layer Stack ----- */
+.z-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.z-layer-back {
+  position: absolute;
+  top: 8%;
+  left: 8%;
+  right: 8%;
+  padding: 24px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transform: scale(0.90);
+  z-index: 1;
+}
+.z-layer-mid {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  right: 5%;
+  padding: 24px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  transform: scale(0.95);
+  z-index: 2;
+}
+.z-layer-front {
+  position: relative;
+  padding: 28px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.30);
+  z-index: 3;
+}
+
+/* ----- CL-08 Accent Interrupt ----- */
+.accent-interrupt {
+  color: var(--accent) !important;
+  font-weight: 700;
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+}
+
+/* ----- CW-01 Progress Bar ----- */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  z-index: 4;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+  transition: none;
+}
+
+/* ----- Swipe Pill ----- */
+.swipe-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  align-self: flex-end;
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+}
+
+/* ----- Brand + Counter ----- */
+.brand {
+  position: absolute;
+  bottom: 20px;
+  left: var(--sp-6);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ui-chrome);
+  text-transform: uppercase;
+  z-index: 2;
+}
+.counter {
+  position: absolute;
+  bottom: 20px;
+  right: var(--sp-6);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ui-chrome);
+  z-index: 2;
+}
+
+/* ----- Controls ----- */
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+.btn {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: rgba(255,255,255,0.5);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn:disabled { opacity: 0.2; cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dot.on { background: var(--accent); width: 14px; border-radius: 3px; }
+
+/* ----- ZIP Button ----- */
+.zip-btn {
+  margin-top: 14px;
+  padding: 10px 24px;
+  background: rgba(96,165,250,0.12);
+  border: 1px solid rgba(96,165,250,0.30);
+  color: var(--accent);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zip-btn:hover { background: rgba(96,165,250,0.20); }
+.zip-progress {
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* ----- Hint ----- */
+.hint {
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ----- Preview Cage ----- */
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (min-width: 1200px) {
+  .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; }
+}
+.capture-mode .preview-cage { transform: none !important; }
+
+/* ----- Glow accents ----- */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+}
+.orb-1 {
+  width: 280px;
+  height: 280px;
+  background: rgba(96,165,250,0.10);
+  top: -60px;
+  right: -40px;
+}
+.orb-2 {
+  width: 200px;
+  height: 200px;
+  background: rgba(100,180,255,0.08);
+  bottom: 100px;
+  left: -60px;
+}
+
+/* ----- Content safe zone padding ----- */
+.content { padding-bottom: 140px; }
+
+/* ----- Deco num suppression ----- */
+.deco-num { display: none; }
+
+/* ----- Myth vs Reality specific ----- */
+.myth-strike {
+  text-decoration: line-through;
+  text-decoration-color: rgba(240,80,80,0.6);
+  text-decoration-thickness: 2px;
+  color: rgba(255,255,255,0.35);
+}
+</style>
+</head>
+
+<body>
+
+<p class="label-top">Portfolio Demo — PRISM Creative Intelligence</p>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- ===== SLIDE 1 · HOOK ===== -->
+        <div class="slide" id="slide-1">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow-orb orb-1"></div>
+          <div class="glow-orb orb-2"></div>
+          <div class="neural-mesh">
+            <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+              <defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+              <g stroke="rgba(96,165,250,0.18)" stroke-width="1" fill="none" filter="url(#glow)">
+                <line x1="200" y1="150" x2="420" y2="280"/><line x1="420" y1="280" x2="680" y2="200"/>
+                <line x1="680" y1="200" x2="850" y2="380"/><line x1="850" y1="380" x2="720" y2="600"/>
+                <line x1="720" y1="600" x2="900" y2="750"/><line x1="420" y1="280" x2="350" y2="520"/>
+                <line x1="350" y1="520" x2="580" y2="680"/><line x1="580" y1="680" x2="720" y2="600"/>
+                <line x1="200" y1="150" x2="180" y2="400"/><line x1="180" y1="400" x2="350" y2="520"/>
+                <line x1="180" y1="400" x2="280" y2="720"/><line x1="280" y1="720" x2="580" y2="680"/>
+                <line x1="850" y1="380" x2="950" y2="550"/><line x1="950" y1="550" x2="900" y2="750"/>
+              </g>
+              <g fill="rgba(96,165,250,0.45)">
+                <circle cx="200" cy="150" r="3"/><circle cx="420" cy="280" r="4"/>
+                <circle cx="680" cy="200" r="3"/><circle cx="850" cy="380" r="4"/>
+                <circle cx="720" cy="600" r="3"/><circle cx="900" cy="750" r="3"/>
+                <circle cx="350" cy="520" r="3"/><circle cx="580" cy="680" r="4"/>
+                <circle cx="180" cy="400" r="3"/><circle cx="280" cy="720" r="3"/>
+                <circle cx="950" cy="550" r="3"/>
+              </g>
+            </svg>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:12.5%"></div></div>
+          <div class="content" style="padding-top: 40px;">
+            <p class="label">Creative Intelligence Studio</p>
+            <div class="echo-wrap">
+              <span class="echo-ghost display" style="font-size: clamp(38px, 7vw, 62px);">IDEAS THAT<br>REFUSE TO</span>
+              <span class="echo-real display" style="font-size: clamp(38px, 7vw, 62px);">IDEAS THAT<br>REFUSE TO</span>
+            </div>
+            <p class="display" style="color: var(--accent); margin-top: 4px;">BE IGNORED</p>
+            <p class="body-text" style="margin-top: 20px; max-width: 380px;">The agencies winning 2026 aren't guessing. They're building with intelligence.</p>
+          </div>
+          <span class="swipe-pill">Swipe &rarr;</span>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">1 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 2 · MYTH VS REALITY ===== -->
+        <div class="slide" id="slide-2">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="zoom-burst">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="ring ring-4"></div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+          <div class="content" style="padding-top: 40px;">
+            <p class="label">The Industry Lie</p>
+            <div class="glass-bad" style="margin-bottom: 16px;">
+              <p class="blk-lbl" style="color: rgba(240,80,80,0.8);">Myth</p>
+              <p class="headline myth-strike" style="font-size: clamp(22px, 4vw, 34px);">Great design takes months of revision</p>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" style="margin: 8px 0; position:relative; z-index:2;"><polyline points="6 9 12 15 18 9"/></svg>
+            <div class="glass-good">
+              <p class="blk-lbl" style="color: rgba(80,200,120,0.8);">Reality</p>
+              <p class="headline" style="font-size: clamp(22px, 4vw, 34px); color: var(--text-primary);">Great design takes the <span style="color: var(--accent);">right system</span></p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">2 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 3 · ERROR 1 ===== -->
+        <div class="slide" id="slide-3">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow-orb orb-1" style="opacity: 0.6;"></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:37.5%"></div></div>
+          <div class="content" style="padding-top: 40px;">
+            <p class="label">Failure Pattern 1 / 3</p>
+            <p class="headline" style="margin-bottom: 20px;">Designing for<br><span style="color: var(--accent);">approval</span>, not impact</p>
+            <div class="glass-bad" style="margin-bottom: 12px;">
+              <p class="blk-lbl" style="color: rgba(240,80,80,0.8);">The Problem</p>
+              <p class="blk-txt">Boardroom consensus dilutes bold ideas into safe mediocrity that nobody remembers.</p>
+            </div>
+            <div class="glass-good">
+              <p class="blk-lbl" style="color: rgba(80,200,120,0.8);">The Fix</p>
+              <p class="blk-txt">Build for the end user. Test fast. Iterate faster. Let data defend the creative.</p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">3 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 4 · ERROR 2 ===== -->
+        <div class="slide" id="slide-4">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:50%"></div></div>
+          <div class="content" style="padding-top: 40px;">
+            <p class="label">Failure Pattern 2 / 3</p>
+            <p class="headline" style="margin-bottom: 20px;">Treating AI as a<br><span style="color: var(--accent);">shortcut</span></p>
+            <div class="glass-bad" style="margin-bottom: 12px;">
+              <p class="blk-lbl" style="color: rgba(240,80,80,0.8);">The Problem</p>
+              <p class="blk-txt">Teams using AI to go faster end up producing work that looks exactly like everyone else.</p>
+            </div>
+            <div class="glass-good">
+              <p class="blk-lbl" style="color: rgba(80,200,120,0.8);">The Fix</p>
+              <p class="blk-txt">Use AI to explore 10x further. The creative edge lives in territories nobody else has mapped.</p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">4 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 5 · PULL QUOTE ===== -->
+        <div class="slide" id="slide-5">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow-orb orb-2" style="width: 300px; height: 300px; opacity: 0.8;"></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:62.5%"></div></div>
+          <div class="z-stack" style="height: 100%; padding-bottom: 100px;">
+            <div class="z-layer-back"></div>
+            <div class="z-layer-mid"></div>
+            <div class="z-layer-front" style="max-width: 760px;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--accent)" style="margin-bottom: 16px; opacity: 0.6;"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+              <p class="headline" style="font-size: clamp(24px, 4.5vw, 38px); line-height: 1.18; font-weight: 700; color: var(--text-primary); font-style: italic;">The best creative work doesn't look like advertising. It looks like the <span style="color: var(--accent);">future</span>.</p>
+              <p class="body-text" style="margin-top: 20px; color: var(--text-secondary);">— PRISM Creative Intelligence, 2026</p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">5 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 6 · ERROR 3 ===== -->
+        <div class="slide" id="slide-6">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow-orb orb-1" style="opacity: 0.5; right: auto; left: -40px; top: auto; bottom: 120px;"></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+          <div class="content" style="padding-top: 40px;">
+            <p class="label">Failure Pattern 3 / 3</p>
+            <p class="headline" style="margin-bottom: 20px;">Playing it safe in<br><span style="color: var(--accent);">saturated</span> markets</p>
+            <div class="glass-bad" style="margin-bottom: 12px;">
+              <p class="blk-lbl" style="color: rgba(240,80,80,0.8);">The Problem</p>
+              <p class="blk-txt">Safe work gets scrolled past in 0.3 seconds. Invisible brands don't convert.</p>
+            </div>
+            <div class="glass-good">
+              <p class="blk-lbl" style="color: rgba(80,200,120,0.8);">The Fix</p>
+              <p class="blk-txt">Take the calculated risk. Differentiation isn't a tactic — it's the only strategy that scales.</p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">6 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 7 · PROOF ===== -->
+        <div class="slide" id="slide-7">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="zoom-burst" style="opacity: 0.4;">
+            <div class="ring ring-1" style="width: 80px; height: 80px;"></div>
+            <div class="ring ring-2" style="width: 160px; height: 160px;"></div>
+            <div class="ring ring-3" style="width: 260px; height: 260px;"></div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:87.5%"></div></div>
+          <div class="content" style="padding-top: 40px;">
+            <p class="label">Proof</p>
+            <p class="stat-num" style="font-size: clamp(80px, 16vw, 130px);">3<span style="color: var(--accent);">x</span></p>
+            <p class="headline" style="margin-top: 8px; font-size: clamp(22px, 4vw, 34px);">engagement increase</p>
+            <div class="glass" style="margin-top: 20px; max-width: 460px;">
+              <p class="blk-txt" style="color: var(--text-secondary);">A fintech brand campaign rebuilt with our AI-assisted creative system saw <strong style="color: var(--text-primary);">3x engagement</strong> in 30 days — without increasing media spend.</p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">7 / 8</span>
+        </div>
+
+        <!-- ===== SLIDE 8 · CTA ===== -->
+        <div class="slide" id="slide-8">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow-orb orb-1" style="width: 400px; height: 400px; opacity: 1; filter: blur(80px);"></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          <div class="content" style="padding-top: 60px; display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <p class="label">Start Building</p>
+            <p class="display" style="font-size: clamp(36px, 6.5vw, 58px);">Ready to build<br>work that <span style="color: var(--accent);">lasts</span>?</p>
+            <p class="body-text" style="margin-top: 20px; max-width: 420px;">We partner with brands and agencies who want to lead, not follow.</p>
+            <div class="glass" style="margin-top: 28px; max-width: 380px; width: 100%; text-align: center; box-shadow: var(--shadow-glow);">
+              <p class="blk-lbl">Next Step</p>
+              <p class="blk-txt" style="color: var(--text-primary); font-weight: 500; font-size: 14px;">DM the word <strong style="color: var(--accent);">PRISM</strong> for a free strategy audit.</p>
+            </div>
+          </div>
+          <span class="brand">@prismstudio</span>
+          <span class="counter">8 / 8</span>
+        </div>
+
+      </div><!-- /track -->
+    </div><!-- /wrap -->
+  </div><!-- /viewer -->
+</div><!-- /preview-cage -->
+
+<!-- Controls (outside preview-cage) -->
+<div class="controls">
+  <button class="btn" id="prev" onclick="move(-1)">&larr;</button>
+  <div class="dots">
+    <div class="dot on" onclick="go(0)"></div>
+    <div class="dot" onclick="go(1)"></div>
+    <div class="dot" onclick="go(2)"></div>
+    <div class="dot" onclick="go(3)"></div>
+    <div class="dot" onclick="go(4)"></div>
+    <div class="dot" onclick="go(5)"></div>
+    <div class="dot" onclick="go(6)"></div>
+    <div class="dot" onclick="go(7)"></div>
+  </div>
+  <button class="btn" id="next" onclick="move(1)">&rarr;</button>
+</div>
+<p class="hint">Use arrow keys or swipe to navigate</p>
+
+<!-- ZIP Export -->
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP &middot; PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 &times; 1080 px &middot; full quality</p>
+
+<script>
+/* ----- Navigation ----- */
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+  document.querySelectorAll('.counter').forEach(c => c.textContent = `${cur+1} / ${slides.length}`);
+}
+
+function move(dir) { go(cur + dir); }
+
+let sx = 0;
+document.getElementById('wrap').addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+document.getElementById('wrap').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+/* ----- ZIP Export ----- */
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Internet connection required to load export libraries.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const wrap = document.getElementById('wrap');
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturing ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} of ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 300));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Compressing...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel_portfolio_prism.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = 'ZIP downloaded';
+  progress.textContent = `${slides.length} files &middot; slide_01&ndash;0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Export ZIP &middot; PNGs';
+    progress.textContent = '1080 x 1080 px &middot; full quality';
+  }, 3000);
+}
+</script>
+
+</body>
+</html>

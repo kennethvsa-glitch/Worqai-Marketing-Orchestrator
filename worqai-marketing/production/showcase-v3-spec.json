@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "system": "s29",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "showcase-v3",
+    "density": "standard"
+  },
+  "pacing": ["hook", "diagnostic", "data", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["geo-circuit-trace", {"id": "svg-blob-angular", "animate": true}],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}],
+      "copy": {
+        "kicker": "POSTULACIONES EN LATAM",
+        "headline": "Tu CV fue rechazado antes de que alguien lo abriera.",
+        "body": "Hay un filtro automático que elimina el 73% de los CVs.",
+        "text_treatment": "stroke",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-headline { font-size: clamp(32px,6.5cqw,48px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.95; } .s1-kicker { letter-spacing: 0.18em; font-size: 11px; opacity: 0.88; } .s1-body { font-size: 14px; line-height: 1.55; opacity: 0.75; max-width: 480px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-input-output",
+      "layers": ["geo-pixel-grid", {"id": "svg-blob-crystal"}],
+      "decoratives": [{"id": "chrome-vertical-counter"}],
+      "copy": {
+        "input_label": "LO QUE ESCRIBISTE",
+        "input_text": "María José Ungo\nIngeniera Industrial, 5 años",
+        "output_label": "LO QUE VE EL ATS",
+        "output_text": "Mar?a Jos? ?ungo\nIngeniera Indus..."
+      },
+      "custom_css": ".s2-input-text { font-size: clamp(14px,2.8cqw,18px); } .s2-output-text { font-size: clamp(12px,2.4cqw,15px); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-waffle-chart",
+      "layers": ["geo-topo-lines", {"id": "svg-blob-wave"}],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "DATO"}],
+      "copy": {
+        "headline": "7 de cada 10 CVs nunca llegan a un humano.",
+        "stat_number": "73%",
+        "filled": 73,
+        "context": "No es tu experiencia. Es el formato, las secciones mal nombradas y las palabras clave que faltan."
+      },
+      "custom_css": ".s3-headline { font-size: clamp(20px,4cqw,26px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; max-width: 640px; text-align: center; } .s3-context { font-size: 13px; line-height: 1.5; opacity: 0.72; max-width: 420px; text-align: center; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-step-flow",
+      "layers": ["geo-starfield", {"id": "svg-blob-splatter"}],
+      "decoratives": [{"id": "svg-starburst-burst", "position": "bl"}],
+      "copy": {
+        "kicker": "EL MÉTODO WORQAI",
+        "headline": "Del rechazo automático a la entrevista.",
+        "steps": [
+          {"title": "Analiza la oferta", "desc": "Extrae las palabras clave exactas."},
+          {"title": "Optimiza el CV", "desc": "Agrega competencias donde el ATS las espera."},
+          {"title": "Descarga y postula", "desc": "PDF compatible con el 98% de sistemas ATS."}
+        ]
+      },
+      "custom_css": ".s4-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .step-title { font-weight: 800; font-size: 15px; } .step-desc { font-size: 12px; opacity: 0.75; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["geo-chevron-stripe", {"id": "svg-blob-ribbon"}],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}],
+      "copy": {
+        "question": "¿Cuántas palabras clave le faltan a tu CV?",
+        "cta_keyword": "DIAGNÓSTICO",
+        "reward": "Te mando el análisis ATS completo de tu CV. Gratis, sin letra pequeña."
+      },
+      "custom_css": ".s5-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.98; } .s5-keyword { letter-spacing: 0.08em; } .s5-reward { font-size: 14px; opacity: 0.80; line-height: 1.5; max-width: 460px; }"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "purpose": "Record of third-party design/anti-slop material adopted by the reel factory. Adoption is by translation into project files, never by installing or executing third-party code. Every entry was cloned and inspected before adoption.",
+    "inspected_on": "2026-07-17",
+    "inspection_location": "local scratchpad clones, read-only; nothing vendored into this repository",
+    "policy": "Third-party skills never rewrite production code automatically. Audit/report mode only."
+  },
+  "entries": [
+    {
+      "name": "hallmark",
+      "url": "https://github.com/nutlope/hallmark",
+      "commit": "aeb42fb354ff4efa36ab475773a082315a3af2ce",
+      "license": "MIT",
+      "status": "adopted-by-translation",
+      "role": "Design-audit source. 58 slop-test gates + 6-axis pre-emit critique + motion language, translated into docs/VIDEO_DESIGN.md and docs/keyframe-audit-gates.md. Audit-only: never a renderer.",
+      "adopted_material": [
+        "references/slop-test.md -> docs/keyframe-audit-gates.md (video-adapted subset)",
+        "references/motion.md -> VIDEO_DESIGN.md section 4 (duration buckets, easing tokens, exit rule)"
+      ]
+    },
+    {
+      "name": "ux-skill",
+      "url": "https://github.com/Laith0003/ux-skill",
+      "commit": "98dad81344a1324e0e5c7a8f1f53a5fb3cc2fd8d",
+      "license": "MIT",
+      "status": "adopted-by-translation",
+      "role": "Deterministic anti-pattern catalog. Verified data/anti-patterns.json _meta.entries = 152 (the '120 rules' figure circulating in topic listings is stale). Regex detections applicable to Remotion TSX translated into scripts/lint_reel_source.py. Engine, MCP server, and installer NOT adopted.",
+      "adopted_material": [
+        "data/anti-patterns.json (rule concepts: inter-as-display, off-token colors, gradient/glow tells)",
+        "data/motion-presets.json (reference for entry presets, e.g. fade-up-12px)"
+      ]
+    },
+    {
+      "name": "awesome-claude-design",
+      "url": "https://github.com/rohitg00/awesome-claude-design",
+      "commit": "7f60ee56b9340f8c2671a08c2d8aab4037546a64",
+      "license": "MIT",
+      "status": "reference-only",
+      "role": "Catalog of DESIGN.md patterns by aesthetic family. cinematic/data-dense families informed docs/VIDEO_DESIGN.md structure. Not part of rendering."
+    },
+    {
+      "name": "nstup-taste",
+      "url": "https://github.com/mud-mos23/nstup-taste",
+      "commit": null,
+      "license": "MIT",
+      "status": "rejected",
+      "role": "Inspected 2026-07-17: shell scripts benign (path registry + frontmatter validator, no network calls, no install hooks). Rejected for value, not safety: its motion/design principles are a weaker duplicate of hallmark's. Do not install."
+    },
+    {
+      "name": "peakoss-anti-slop",
+      "url": "https://github.com/peakoss/anti-slop",
+      "commit": null,
+      "license": "MIT",
+      "status": "deferred",
+      "role": "GitHub Action, 34 PR-metadata checks (branch/title/commits/contributor signals). Zero visual-QA value. Reconsider only if this repo becomes a multi-contributor GitHub workflow."
+    }
+  ]
+}

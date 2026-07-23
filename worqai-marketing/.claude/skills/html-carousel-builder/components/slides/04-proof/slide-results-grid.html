@@ -1,0 +1,45 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-results-grid",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: RESULTS GRID
+Purpose: S7 — Grid of proof metrics.
+-->
+
+<div class="content">
+  <p class="tip-label">Resultados reales</p>
+  <h2 class="tip-headline">Lo que logramos juntos</h2>
+  <div class="results-grid">
+    <div class="res-item">
+      <span class="res-num">+400%</span>
+      <span class="res-lbl">Tasa de respuesta</span>
+    </div>
+    <div class="res-item">
+      <span class="res-num">4.2x</span>
+      <span class="res-lbl">Mas entrevistas</span>
+    </div>
+    <div class="res-item">
+      <span class="res-num">8 dias</span>
+      <span class="res-lbl">Tiempo promedio</span>
+    </div>
+    <div class="res-item">
+      <span class="res-num">96%</span>
+      <span class="res-lbl">Clientes satisfechos</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+.res-item { padding: 32px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; display: flex; flex-direction: column; gap: 8px; }
+.res-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 48px; font-weight: 900; line-height: 1; color: var(--accent); }
+.res-lbl { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+</style>

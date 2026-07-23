@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI · Same facts, different spotlight</title>
+  <style>
+    @font-face {
+      font-family: "General Sans";
+      src: url("file:///C:/Users/kenne/OneDrive/Documentos/cv-tailored/fonts/General-Sans/GeneralSans-Variable.woff2") format("woff2");
+      font-weight: 300 900;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "JetBrains Mono";
+      src: url("file:///C:/Users/kenne/OneDrive/Documentos/cv-tailored/fonts/JetBrains-Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+      font-weight: 300 900;
+      font-display: swap;
+    }
+
+    :root {
+      --black: #0b0e0a;
+      --deep: #121710;
+      --panel: #1a2017;
+      --cream: #f3f0e5;
+      --paper: #fffdf4;
+      --lime: #c5ff18;
+      --lime-soft: #d7ff62;
+      --coral: #ff6c61;
+      --muted: #9ca393;
+      --grid: rgba(197, 255, 24, .075);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--black);
+      color: var(--cream);
+      font-family: "General Sans", "Segoe UI", Arial, sans-serif;
+    }
+
+    .poster {
+      isolation: isolate;
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      padding: 50px 58px 42px;
+      background:
+        radial-gradient(circle at 94% 44%, rgba(197,255,24,.14), transparent 30%),
+        radial-gradient(circle at 4% 93%, rgba(197,255,24,.09), transparent 27%),
+        linear-gradient(145deg, #11150f 0%, #090b08 56%, #0d110b 100%);
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -5;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.95), rgba(0,0,0,.25) 82%, transparent);
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+      opacity: .045;
+      mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .edge { position: absolute; inset: 0 0 auto 0; height: 9px; background: var(--lime); }
+    .ghost { position: absolute; right: -55px; bottom: 40px; z-index: -4; color: transparent; font-size: 252px; font-weight: 900; line-height: .8; letter-spacing: -.11em; -webkit-text-stroke: 2px rgba(197,255,24,.05); transform: rotate(-90deg); transform-origin: 70% 40%; }
+
+    .mono, .brand-note, .folio, .eyebrow, .doc-meta, .section-label, .focus-tag, .lamp-label, .footer-note {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .topbar { display: flex; align-items: center; justify-content: space-between; min-height: 38px; }
+    .brand-wrap { display: flex; align-items: baseline; }
+    .brand { font-size: 31px; font-weight: 850; line-height: 1; letter-spacing: -.06em; }
+    .brand .ai { color: var(--lime); }
+    .brand-note { margin-left: 14px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .15em; }
+
+    .folio {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid rgba(243,240,229,.72);
+      border-radius: 999px;
+      background: rgba(255,255,255,.025);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .13em;
+    }
+
+    .folio::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(197,255,24,.12); }
+
+    .hero { position: relative; margin-top: 46px; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; color: var(--lime); font-size: 13px; font-weight: 850; letter-spacing: .17em; }
+    .eyebrow::before { content: "03"; display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid rgba(197,255,24,.55); border-radius: 50%; color: var(--lime); font-size: 9px; letter-spacing: 0; }
+
+    h1 { margin: 17px 0 0; font-size: 89px; font-weight: 880; line-height: .84; letter-spacing: -.07em; }
+    h1 span { display: block; }
+    h1 .lime { color: var(--lime); }
+    h1 .outline { color: transparent; -webkit-text-stroke: 2px var(--cream); }
+
+    .dek { max-width: 750px; margin: 24px 0 0; color: #c2c7bb; font-size: 24px; font-weight: 560; line-height: 1.18; letter-spacing: -.025em; }
+    .dek strong { color: var(--cream); font-weight: 790; }
+
+    .stage {
+      position: relative;
+      height: 616px;
+      margin-top: 31px;
+      overflow: hidden;
+      border: 1px solid rgba(243,240,229,.20);
+      border-radius: 28px 4px 28px 28px;
+      background:
+        radial-gradient(circle at 83% 14%, rgba(197,255,24,.12), transparent 24%),
+        linear-gradient(135deg, rgba(255,255,255,.035), transparent 40%),
+        #10150e;
+      box-shadow: 0 26px 60px rgba(0,0,0,.33);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(197,255,24,.17) 1px, transparent 1px);
+      background-size: 19px 19px;
+      opacity: .22;
+      mask-image: linear-gradient(90deg, #000, transparent 80%);
+    }
+
+    .stage-index { position: absolute; left: 23px; top: 22px; z-index: 8; display: flex; align-items: center; gap: 11px; color: var(--muted); font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .stage-index::before { content: ""; width: 36px; height: 2px; background: var(--lime); }
+
+    .beam {
+      position: absolute;
+      z-index: 2;
+      right: 47px;
+      top: 64px;
+      width: 650px;
+      height: 520px;
+      clip-path: polygon(100% 0, 100% 23%, 0 100%, 28% 100%);
+      background: linear-gradient(132deg, rgba(197,255,24,.72), rgba(197,255,24,.12) 62%, rgba(197,255,24,.02));
+      filter: blur(.1px);
+      opacity: .72;
+    }
+
+    .lamp { position: absolute; z-index: 8; right: 63px; top: 39px; width: 126px; height: 126px; border: 2px solid var(--lime); border-radius: 50%; background: radial-gradient(circle, var(--lime) 0 14%, rgba(197,255,24,.22) 15% 34%, #10150e 35% 54%, rgba(197,255,24,.10) 55% 100%); box-shadow: 0 0 46px rgba(197,255,24,.28), inset 0 0 28px rgba(197,255,24,.14); }
+    .lamp::after { content: ""; position: absolute; inset: 20px; border: 1px dashed rgba(197,255,24,.70); border-radius: 50%; }
+    .lamp-label { position: absolute; z-index: 9; right: 48px; top: 178px; width: 157px; color: var(--lime); font-size: 9px; font-weight: 850; line-height: 1.4; letter-spacing: .13em; text-align: center; }
+
+    .resume {
+      position: absolute;
+      z-index: 5;
+      left: 91px;
+      bottom: 42px;
+      width: 505px;
+      height: 505px;
+      padding: 35px 38px;
+      overflow: hidden;
+      color: var(--black);
+      background: var(--paper);
+      border-radius: 4px 16px 4px 4px;
+      box-shadow: 20px 24px 0 rgba(0,0,0,.24), 0 34px 70px rgba(0,0,0,.34);
+      transform: rotate(-3.4deg);
+      transform-origin: 50% 50%;
+    }
+
+    .resume::after { content: "MASTER\A RESUME"; white-space: pre; position: absolute; right: -8px; bottom: -11px; color: rgba(11,14,10,.035); font-size: 66px; font-weight: 900; line-height: .77; letter-spacing: -.08em; text-align: right; }
+    .doc-top { display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 2px solid var(--black); padding-bottom: 16px; }
+    .doc-top strong { font-size: 27px; font-weight: 870; line-height: .95; letter-spacing: -.04em; }
+    .doc-meta { color: #5d6258; font-size: 8px; font-weight: 850; line-height: 1.45; letter-spacing: .12em; text-align: right; }
+    .section-label { margin-top: 20px; color: #64695f; font-size: 8px; font-weight: 850; letter-spacing: .14em; }
+    .line { position: relative; min-height: 39px; margin-top: 9px; padding: 10px 11px 9px 34px; border-bottom: 1px solid rgba(11,14,10,.14); font-size: 13px; font-weight: 680; line-height: 1.12; letter-spacing: -.012em; }
+    .line::before { content: ""; position: absolute; left: 10px; top: 14px; width: 7px; height: 7px; border: 1px solid rgba(11,14,10,.55); border-radius: 50%; }
+    .line.focus { border-bottom: 0; border-radius: 5px; background: var(--lime); font-weight: 780; }
+    .line.focus::before { border-color: var(--black); background: var(--black); box-shadow: 0 0 0 3px rgba(11,14,10,.13); }
+
+    .focus-list { position: absolute; z-index: 9; right: 38px; bottom: 67px; width: 293px; }
+    .focus-tag { margin-bottom: 11px; color: var(--muted); font-size: 9px; font-weight: 850; letter-spacing: .15em; }
+    .focus-title { margin: 0 0 17px; color: var(--cream); font-size: 28px; font-weight: 820; line-height: .98; letter-spacing: -.045em; }
+    .keyword { display: flex; align-items: center; gap: 11px; min-height: 42px; margin-top: 8px; padding: 0 13px; border: 1px solid rgba(197,255,24,.45); border-radius: 999px; background: rgba(11,14,10,.66); color: var(--lime); font-family: "JetBrains Mono", monospace; font-size: 9px; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; backdrop-filter: blur(4px); }
+    .keyword::before { content: "✓"; display: grid; width: 19px; height: 19px; place-items: center; border-radius: 50%; background: var(--lime); color: var(--black); font-family: "General Sans", sans-serif; font-size: 11px; font-weight: 900; }
+    .focus-note { margin: 16px 0 0; color: #aeb5a7; font-size: 12px; font-weight: 600; line-height: 1.3; }
+
+    .rule {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: 104px;
+      margin-top: 18px;
+      padding: 0 25px 0 29px;
+      border-radius: 4px 18px 18px 18px;
+      color: var(--black);
+      background: var(--lime);
+    }
+
+    .rule strong { display: block; font-size: 25px; font-weight: 880; line-height: 1; letter-spacing: -.035em; }
+    .rule span { display: block; margin-top: 7px; font-size: 15px; font-weight: 660; }
+    .rule-badge { display: grid; width: 54px; height: 54px; place-items: center; border: 2px solid var(--black); border-radius: 50%; font-size: 27px; font-weight: 900; }
+
+    .footer { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 25px; }
+    .footer-left strong { display: block; font-size: 21px; font-weight: 830; letter-spacing: -.03em; }
+    .footer-left span { display: block; margin-top: 5px; color: var(--muted); font-size: 13px; font-weight: 630; }
+    .footer-note { color: #7e8677; font-size: 9px; font-weight: 750; line-height: 1.45; letter-spacing: .10em; text-align: right; }
+    .footer-note strong { color: #c8cec2; }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Dark editorial WorqAI poster showing truthful resume tailoring as a spotlight on relevant facts">
+    <div class="edge" aria-hidden="true"></div>
+    <div class="ghost" aria-hidden="true">FOCUS</div>
+
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand">worq<span class="ai">ai</span>.io</div>
+        <div class="brand-note">RESUME × ROLE</div>
+      </div>
+      <div class="folio">FOCUS STUDY 03</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">ONE CAREER · MANY POSSIBLE ROLES</div>
+      <h1>
+        <span>SAME FACTS.</span>
+        <span class="outline">DIFFERENT</span>
+        <span class="lime">SPOTLIGHT.</span>
+      </h1>
+      <p class="dek">A tailored resume does not create new evidence. It decides which <strong>real evidence leads.</strong></p>
+    </section>
+
+    <section class="stage">
+      <div class="stage-index">ILLUSTRATIVE FOCUS MAP</div>
+      <div class="beam" aria-hidden="true"></div>
+      <div class="lamp" aria-hidden="true"></div>
+      <div class="lamp-label">TARGET ROLE<br>CUSTOMER SUPPORT</div>
+
+      <article class="resume">
+        <div class="doc-top">
+          <strong>MASTER<br>RESUME</strong>
+          <div class="doc-meta">FACTS ON FILE<br>REVIEWED BY YOU</div>
+        </div>
+        <div class="section-label">EXPERIENCE EVIDENCE</div>
+        <div class="line focus">Handled customer inquiries by email.</div>
+        <div class="line focus">Logged incidents in Zendesk.</div>
+        <div class="line focus">Followed cases through resolution.</div>
+        <div class="line">Prepared weekly activity reports.</div>
+        <div class="line">Documented workflow updates.</div>
+        <div class="line">Supported new team onboarding.</div>
+      </article>
+
+      <aside class="focus-list">
+        <div class="focus-tag">IN THIS ROLE'S SPOTLIGHT</div>
+        <h2 class="focus-title">Relevant evidence moves first.</h2>
+        <div class="keyword">EMAIL SUPPORT</div>
+        <div class="keyword">ZENDESK</div>
+        <div class="keyword">RESOLUTION</div>
+        <p class="focus-note">Only use details you can verify. The example is illustrative.</p>
+      </aside>
+    </section>
+
+    <section class="rule">
+      <div>
+        <strong>Move the spotlight. Not the truth.</strong>
+        <span>Compare your resume with the role before you apply.</span>
+      </div>
+      <div class="rule-badge">↗</div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <strong>First analysis + first tailored resume free.</strong>
+        <span>No card required · worqai.io</span>
+      </div>
+      <div class="footer-note"><strong>ILLUSTRATIVE EXAMPLE</strong><br>NO ATS OR INTERVIEW GUARANTEE</div>
+    </footer>
+  </main>
+</body>
+</html>

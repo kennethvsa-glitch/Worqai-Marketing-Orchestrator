@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>worqai · Múltiples versiones, un solo perfil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0A0A0A;font-family:'Space Grotesk',system-ui,sans-serif;color:#FFFFFF;min-height:100vh;}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.label-top{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+           color:#C7FF3A;margin-bottom:14px;text-align:center;}
+.preview-cage{transform:scale(0.5);transform-origin:top center;
+              width:1080px;margin:0 auto;height:540px;}
+.viewer{width:1080px;max-width:1080px;}
+.wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;
+      box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+.track{display:flex;width:auto;height:100%;
+       transition:transform .42s cubic-bezier(.4,0,.2,1);}
+.slide{position:relative;flex:0 0 1080px;width:1080px;height:1080px;overflow:hidden;
+       background:linear-gradient(148deg,#111111 0%,#0A0A0A 100%);color:#E5E5E5;}
+
+.slide::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:300px 300px;
+  pointer-events:none;z-index:1;opacity:.05;
+}
+
+/* Holographic sheen effect */
+.sheen{position:absolute;inset:0;pointer-events:none;z-index:1;
+       background:conic-gradient(from 180deg at 50% 50%,
+         rgba(199,255,58,0.03) 0deg,
+         rgba(199,255,58,0.06) 60deg,
+         rgba(154,230,0,0.04) 120deg,
+         rgba(199,255,58,0.02) 180deg,
+         rgba(199,255,58,0.05) 240deg,
+         rgba(154,230,0,0.03) 300deg,
+         rgba(199,255,58,0.03) 360deg);
+       opacity:0.4;}
+
+.glow{position:absolute;width:780px;height:780px;border-radius:50%;
+      background:radial-gradient(circle,rgba(199,255,58,0.15) 0%,transparent 65%);
+      filter:blur(80px);pointer-events:none;z-index:1;}
+.coral{position:absolute;width:140px;height:140px;border-radius:50%;
+       background:radial-gradient(circle,rgba(255,92,60,0.50) 0%,rgba(255,92,60,0) 70%);
+       filter:blur(8px);pointer-events:none;z-index:1;}
+.band{position:absolute;top:-15%;left:-10%;width:130%;height:35%;
+      background:linear-gradient(115deg,transparent 45%,rgba(199,255,58,0.05) 45%,rgba(199,255,58,0.05) 47%,transparent 47%);
+      pointer-events:none;z-index:1;}
+
+.brand-w{position:absolute;font-family:'Space Grotesk',sans-serif;font-weight:900;
+         font-size:880px;line-height:.78;letter-spacing:-0.07em;
+         pointer-events:none;user-select:none;z-index:1;color:rgba(199,255,58,0.04);}
+
+.content{position:relative;z-index:3;height:100%;padding:68px 64px 148px;
+         display:flex;flex-direction:column;}
+
+.deco-num{position:absolute;top:-10px;right:46px;
+          font-weight:900;font-size:280px;line-height:1;letter-spacing:-.05em;
+          pointer-events:none;user-select:none;z-index:2;color:rgba(255,255,255,0.05);}
+
+.label{font-size:18px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+       color:#C7FF3A;margin-bottom:28px;display:inline-block;}
+
+.headline{font-weight:900;font-size:72px;line-height:1.04;letter-spacing:-0.035em;color:#FFFFFF;}
+.body-text{font-weight:400;font-size:28px;line-height:1.5;color:#E5E5E5;}
+.lime{color:#C7FF3A;}
+
+.stat-num{font-weight:900;font-size:360px;line-height:0.85;letter-spacing:-0.06em;
+          color:#C7FF3A;}
+.stat-pct{font-size:180px;color:#FFFFFF;font-weight:900;line-height:0.85;}
+
+.source-tag{font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;
+            opacity:.40;margin-top:24px;color:#A0A0A0;}
+
+/* Version comparison cards */
+.ver-row{display:flex;gap:16px;margin-top:36px;}
+.ver-card{flex:1;padding:24px;border-radius:16px;position:relative;}
+.ver-card.bad{background:rgba(255,92,60,0.06);border:1px solid rgba(255,92,60,0.25);}
+.ver-card.good{background:rgba(199,255,58,0.06);border:1px solid rgba(199,255,58,0.25);}
+.ver-card-tag{font-size:13px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;
+              margin-bottom:12px;}
+.ver-card.bad .ver-card-tag{color:#FF8B70;}
+.ver-card.good .ver-card-tag{color:#C7FF3A;}
+.ver-card-text{font-size:22px;font-weight:600;line-height:1.45;color:#E5E5E5;}
+.ver-card-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.ver-card-list li{font-size:20px;font-weight:500;color:#E5E5E5;padding-left:22px;position:relative;}
+.ver-card.bad .ver-card-list li::before{content:'×';position:absolute;left:0;color:#FF8B70;font-weight:900;font-size:22px;}
+.ver-card.good .ver-card-list li::before{content:'+';position:absolute;left:0;color:#C7FF3A;font-weight:900;font-size:20px;}
+
+.arrow-down{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:48px;color:#FF8B70;
+            text-align:center;margin:6px 0;line-height:1;}
+
+.why-row{margin-top:24px;font-size:24px;font-weight:600;line-height:1.4;
+         padding-left:20px;border-left:3px solid #C7FF3A;color:#E5E5E5;}
+
+/* Quote / testimonial */
+.quote-mark{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:340px;line-height:.7;
+            color:#C7FF3A;opacity:.20;position:absolute;top:80px;left:80px;z-index:2;}
+.quote-body{font-weight:800;font-size:48px;line-height:1.2;letter-spacing:-0.025em;
+            margin-top:120px;color:#FFFFFF;}
+.quote-attr{margin-top:48px;display:flex;align-items:center;gap:20px;}
+.avatar-circle{width:72px;height:72px;border-radius:50%;background:#C7FF3A;
+               display:flex;align-items:center;justify-content:center;color:#0A0A0A;
+               font-weight:900;font-size:30px;letter-spacing:-1px;}
+.attr-text{font-size:24px;font-weight:700;color:#FFFFFF;}
+.attr-sub{font-size:18px;font-weight:500;opacity:.55;margin-top:4px;letter-spacing:0.05em;color:#A0A0A0;}
+
+/* CTA card */
+.cta-card{background:#111111;border:2px solid rgba(199,255,58,0.25);
+          border-radius:32px;padding:48px 44px;margin-top:auto;margin-bottom:60px;
+          position:relative;overflow:hidden;}
+.cta-card::after{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;
+                 border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.15),transparent 65%);
+                 filter:blur(40px);}
+.cta-headline{font-weight:900;font-size:48px;line-height:1.05;letter-spacing:-0.03em;
+              color:#FFFFFF;margin-bottom:24px;position:relative;z-index:2;}
+.cta-line{font-weight:800;font-size:30px;color:#C7FF3A;line-height:1.3;position:relative;z-index:2;}
+.cta-fine{font-size:18px;color:#A0A0A0;margin-top:10px;position:relative;z-index:2;}
+.url-box{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;
+         border:2px dashed #C7FF3A;border-radius:14px;margin-top:20px;margin-bottom:20px;
+         background:rgba(199,255,58,0.04);position:relative;z-index:2;}
+.url-tag{font-size:13px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#C7FF3A;opacity:0.7;}
+.url-text{font-weight:900;font-size:42px;color:#C7FF3A;letter-spacing:0.06em;}
+.closing{font-size:22px;color:#E5E5E5;margin-top:24px;font-weight:600;max-width:800px;
+         line-height:1.4;position:relative;z-index:2;}
+.closing strong{color:#FFFFFF;}
+
+/* Hook stack */
+.hook-stack{margin-top:auto;margin-bottom:60px;}
+.hook-display{font-weight:900;font-size:110px;line-height:0.95;letter-spacing:-0.05em;color:#FFFFFF;}
+.hook-display .lime{color:#C7FF3A;}
+.hook-sub{font-weight:600;font-size:30px;line-height:1.4;margin-top:32px;
+          opacity:.75;max-width:780px;color:#E5E5E5;}
+.swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+            padding:14px 26px;border:2px solid #C7FF3A;color:#C7FF3A;
+            border-radius:999px;font-size:18px;font-weight:800;letter-spacing:0.18em;
+            text-transform:uppercase;margin-top:36px;}
+
+.stat-context{font-weight:800;font-size:38px;line-height:1.1;letter-spacing:-0.02em;
+              margin-top:40px;max-width:840px;color:#E5E5E5;}
+
+.brand-anchor{position:absolute;bottom:46px;left:64px;z-index:5;
+              font-weight:900;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;
+              color:#A0A0A0;}
+.brand-anchor .worq{color:#FFFFFF;}
+.brand-anchor .ai{color:#C7FF3A;}
+
+.site-url{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:5;
+          font-weight:700;font-size:16px;letter-spacing:0.1em;
+          color:rgba(255,255,255,0.45);text-transform:lowercase;}
+
+.counter{position:absolute;bottom:50px;right:64px;z-index:5;
+         font-weight:700;font-size:18px;letter-spacing:0.2em;color:rgba(255,255,255,0.45);}
+
+.left-spine{position:absolute;top:0;left:0;width:6px;height:100%;
+            background:linear-gradient(180deg,#C7FF3A 0%,transparent 70%);
+            z-index:2;}
+
+.controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px;}
+.btn{background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;
+     border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.btn:disabled{opacity:.2;cursor:default;}
+.dots{display:flex;gap:6px;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s;}
+.dot.on{background:#C7FF3A;width:18px;border-radius:3px;}
+.hint{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:0.18em;text-transform:uppercase;
+      margin-top:10px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="label-top">worqai · educacional · múltiples versiones</div>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ============ SLIDE 1 · HOOK ============ -->
+      <div class="slide" data-slide="1">
+        <div class="sheen"></div>
+        <div class="brand-w" style="top:-12%;left:-8%;">W</div>
+        <div class="glow" style="top:-25%;right:-10%;"></div>
+        <div class="band"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai · cv inteligente</div>
+          <div class="hook-stack">
+            <div class="hook-display">Múltiples<br>versiones.<br><span class="lime">Un solo</span><br>perfil.</div>
+            <div class="hook-sub">Tenés 7 versiones de tu CV y ninguna pasa el filtro. El problema no es la cantidad: es que el ATS no las lee.</div>
+            <div class="swipe-pill">Deslizá →</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">01 / 05</div>
+      </div>
+
+      <!-- ============ SLIDE 2 · DATA ============ -->
+      <div class="slide" data-slide="2">
+        <div class="sheen"></div>
+        <div class="brand-w" style="bottom:-22%;right:-12%;">W</div>
+        <div class="glow" style="top:55%;right:-22%;"></div>
+        <div class="coral" style="top:14%;right:120px;"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">02</div>
+        <div class="content">
+          <div class="label">el dato</div>
+          <div class="headline" style="max-width:880px;">El 68% de los CVs<br>con múltiples versiones<br>están rotos.</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:48px;">
+            <div class="stat-num">68</div>
+            <div class="stat-pct">%</div>
+          </div>
+          <div class="stat-context">Cuando tenés varias versiones, se desajustan los formatos, las tablas se rompen y el ATS no sabe cuál leer.</div>
+          <div class="source-tag">Dato interno WorqAI · base de datos 2025</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">02 / 05</div>
+      </div>
+
+      <!-- ============ SLIDE 3 · PROBLEM ============ -->
+      <div class="slide" data-slide="3">
+        <div class="sheen"></div>
+        <div class="brand-w" style="top:8%;right:-26%;">W</div>
+        <div class="glow" style="top:-12%;right:50%;"></div>
+        <div class="band"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">03</div>
+        <div class="content">
+          <div class="label">el problema</div>
+          <div class="headline" style="max-width:880px;">Más versiones<br>= más <span class="lime">errores</span>.</div>
+          <div style="margin-top:36px;">
+            <div class="ver-row">
+              <div class="ver-card bad">
+                <div class="ver-card-tag">CV general</div>
+                <div class="ver-card-text">Demasiado genérico. El ATS no encuentra keywords.</div>
+                <ul class="ver-card-list">
+                  <li>Sin keywords del puesto</li>
+                  <li>Formato inconsistente</li>
+                  <li>Tablas que se rompen</li>
+                </ul>
+              </div>
+              <div class="ver-card good">
+                <div class="ver-card-tag">CV tailored</div>
+                <div class="ver-card-text">Hecho para una vacante. Pero lo hiciste a mano.</div>
+                <ul class="ver-card-list">
+                  <li>Te llevó 2 horas</li>
+                  <li>Solo sirve para ese puesto</li>
+                  <li>Olvidaste una versión</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="why-row">WorqAI genera una versión ATS-safe para cada vacante en segundos. Desde un solo perfil.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">03 / 05</div>
+      </div>
+
+      <!-- ============ SLIDE 4 · SOLUTION ============ -->
+      <div class="slide" data-slide="4">
+        <div class="sheen"></div>
+        <div class="brand-w" style="bottom:-26%;left:-18%;">W</div>
+        <div class="glow" style="top:50%;right:60%;"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">04</div>
+        <div class="content">
+          <div class="label">la solución</div>
+          <div class="headline" style="max-width:880px;">Un perfil.<br><span style="background:#C7FF3A;color:#0A0A0A;padding:0 10px;">Todas las</span><br>versiones.</div>
+          <div style="margin-top:36px;display:flex;flex-direction:column;gap:18px;max-width:840px;">
+            <div style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;">
+              <div style="width:44px;height:44px;border-radius:50%;background:rgba(199,255,58,0.12);display:flex;align-items:center;justify-content:center;color:#C7FF3A;font-weight:900;font-size:20px;">1</div>
+              <div style="font-size:24px;font-weight:600;color:#E5E5E5;">Subís tu perfil base a worqai.io</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;">
+              <div style="width:44px;height:44px;border-radius:50%;background:rgba(199,255,58,0.12);display:flex;align-items:center;justify-content:center;color:#C7FF3A;font-weight:900;font-size:20px;">2</div>
+              <div style="font-size:24px;font-weight:600;color:#E5E5E5;">Pegás el job description de la vacante</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;">
+              <div style="width:44px;height:44px;border-radius:50%;background:rgba(199,255,58,0.12);display:flex;align-items:center;justify-content:center;color:#C7FF3A;font-weight:900;font-size:20px;">3</div>
+              <div style="font-size:24px;font-weight:600;color:#E5E5E5;">WorqAI genera una versión ATS-safe en 30 segundos</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">04 / 05</div>
+      </div>
+
+      <!-- ============ SLIDE 5 · UNIFIED CTA ============ -->
+      <div class="slide" data-slide="5">
+        <div class="sheen"></div>
+        <div class="brand-w" style="bottom:-30%;right:-15%;">W</div>
+        <div class="glow" style="top:-10%;right:40%;"></div>
+        <div class="coral" style="top:160px;left:140px;"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">05</div>
+        <div class="content">
+          <div class="label">tu siguiente paso</div>
+          <div class="headline" style="max-width:880px;margin-top:20px;">¿Querés ver<br><span class="lime">qué ve el ATS</span><br>cuando abre tu CV?</div>
+          <div class="cta-card">
+            <div class="cta-headline">CV mejorado gratis — listo para descargar</div>
+            <div class="cta-line">Puntuación ATS para tu CV gratis</div>
+            <div class="cta-fine">Sin tarjeta. Sin costo.</div>
+            <div class="url-box">
+              <span class="url-tag">URL</span>
+              <span class="url-text">WORQAI.IO</span>
+            </div>
+            <div class="closing">Subí tu CV a <strong>worqai.io</strong> y en segundos te decimos qué arreglar para que pase el filtro automático.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">05 / 05</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="prev">‹</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+    </div>
+    <button class="btn" id="next">›</button>
+  </div>
+  <div class="hint">flechas ← → · swipe · click los puntos</div>
+</div>
+</div>
+<script>
+  let cur=0;
+  const slides=document.querySelectorAll('.slide');
+  const track=document.getElementById('track');
+  const prevBtn=document.getElementById('prev');
+  const nextBtn=document.getElementById('next');
+  const dots=document.querySelectorAll('.dot');
+  function go(n){
+    cur=Math.max(0,Math.min(n,slides.length-1));
+    track.style.transform=`translateX(-${cur*1080}px)`;
+    dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+    prevBtn.disabled=cur===0;
+    nextBtn.disabled=cur===slides.length-1;
+  }
+  function move(d){go(cur+d);}
+  prevBtn.addEventListener('click',()=>move(-1));
+  nextBtn.addEventListener('click',()=>move(1));
+  let sx=0;
+  const wrap=document.getElementById('wrap');
+  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+  wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+  go(0);
+</script>
+</body>
+</html>

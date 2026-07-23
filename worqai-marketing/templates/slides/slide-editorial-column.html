@@ -1,0 +1,28 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="ec-wrap">
+    <div class="ec-left">
+      {% if copy.kicker %}
+      <div class="ec-kicker">{{ copy.kicker }}</div>
+      {% endif %}
+      <div class="ec-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+      {% if copy.body %}
+      <div class="ec-body">{{ copy.body }}</div>
+      {% endif %}
+    </div>
+    <div class="ec-col-sep"></div>
+    <div class="ec-right">
+      <div class="ec-quote">{{ copy.quote | default(copy.get('body_right','')) }}</div>
+      {% if copy.attribution %}
+      <div class="ec-attr">— {{ copy.attribution }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

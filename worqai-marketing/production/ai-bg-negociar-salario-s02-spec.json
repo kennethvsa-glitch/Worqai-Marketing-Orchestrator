@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "system": "s02",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "negociar-salario",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "diagnostic", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["gradient-ribbons", "glow-orb", "geo-constellation"],
+      "copy": {
+        "kicker": "EL DINERO EN LA MESA",
+        "headline": "Aceptaste el primer número. Te costó $9,600 ese año.",
+        "body": "Negociar no es ser difícil. Es saber que el primer número raramente es el final."
+      },
+      "decoratives": [
+        { "id": "chrome-vertical-counter" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(26px,5.5cqw,40px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; } .hook-body { opacity: 0.88; font-size: clamp(13px,2.5cqw,17px); } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-diagonal-split",
+      "density": "heavy",
+      "layers": ["gradient-ribbons", "geo-neon-ring"],
+      "copy": {
+        "kicker": "LA REALIDAD",
+        "headline": "Lo que el empleador espera que hagás",
+        "body": "La mayoría acepta la primera oferta por miedo a perder la oportunidad.",
+        "stat_number": "85%",
+        "stat_context": "de empleadores tienen margen. Pocos lo piden.",
+        "text_treatment": "glow"
+      },
+      "decoratives": [],
+      "custom_css": ".diags-headline { font-size: clamp(22px,4.5cqw,34px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; } .diags-body { font-size: clamp(13px,2.3cqw,16px); opacity: 0.88; margin-top: 12px; } .diags-stat { font-size: clamp(60px,12cqw,100px); font-weight: 700; color: var(--accent); } .diags-stat-label { font-size: clamp(13px,2.3cqw,16px); opacity: 0.82; margin-top: 6px; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["gradient-ribbons", "glow-orb", "geo-bokeh"],
+      "copy": {
+        "kicker": "EL PROCESO",
+        "headline": "Negociar vs no negociar",
+        "bad_label": "SIN NEGOCIAR",
+        "good_label": "CON NEGOCIACIÓN",
+        "before_score": "-$9,600",
+        "after_score": "+20%",
+        "before_items": ["Acepta el primer número", "No pide más beneficios", "Pierde dinero cada año que trabaja ahí"],
+        "after_items": ["Investiga el rango de mercado", "Pide 15-20% sobre su mínimo real", "Si no en efectivo, negocia beneficios"]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.08) !important; border-color: rgba(255,80,80,0.25) !important; } .ba-col.good { background: rgba(74,143,255,0.08) !important; border-color: rgba(74,143,255,0.28) !important; } .ba-score.bad-score { color: rgba(255,80,80,0.9); } .ba-score.good-score { color: var(--accent); } .kicker { color: var(--accent); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["gradient-ribbons", "geo-circuit-trace"],
+      "copy": {
+        "question": "¿Tu próximo sueldo vale lo que pedís?",
+        "cta_keyword": "CALCULAR",
+        "reward": "WorqAI estima tu rango de mercado. Sin costo."
+      },
+      "decoratives": [
+        { "id": "svg-starburst-mark", "position": "tl" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

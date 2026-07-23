@@ -1,0 +1,69 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-testimonial",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: TESTIMONIAL
+Found in: carousel_0-a-4-entrevistas_crimson.html, carousel_amby-cr-demo_agency-pain.html, carousel_portfolio_04.html
+Purpose: S7 — Social proof with quote + avatar + attribution.
+-->
+
+<div class="content">
+  <div class="testimonial">
+    <p class="quote">"En una semana paso de cero respuestas a cuatro entrevistas. El unico cambio fue el CV."</p>
+    <div class="attribution">
+      <div class="avatar"></div>
+      <div class="meta">
+        <p class="name">Maria G.</p>
+        <p class="role">Project Manager · San Jose, CR</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.testimonial {
+  display: flex; flex-direction: column;
+  gap: 36px; margin-top: auto; margin-bottom: auto;
+}
+.quote {
+  font-family: var(--font-script), serif;
+  font-style: italic; font-weight: 500;
+  font-size: 42px; line-height: 1.3;
+  color: var(--text-primary);
+  max-width: 840px;
+}
+.attribution {
+  display: flex; align-items: center; gap: 18px;
+}
+.avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--accent-soft);
+}
+.meta { display: flex; flex-direction: column; gap: 4px; }
+.name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--text-primary);
+}
+.role {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px; font-weight: 400;
+  color: var(--text-muted);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- .quote font-size: 36px (long quote) to 52px (short punchy)
+- Avatar: replace with <img> or photo placeholder when available
+- Add quotation mark ornament (" or " ) as giant decorative element
+- Layout: left-aligned (default) or centered
+-->

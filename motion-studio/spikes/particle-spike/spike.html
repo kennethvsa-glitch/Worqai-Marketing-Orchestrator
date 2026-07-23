@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html data-duration="2" data-fps="60" data-name="particle-spike">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080a10; }
+    #particle-layer { position: absolute; inset: 0; pointer-events: none; }
+    #burst-canvas   { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+    #score-ring     { position: absolute; left: 50%; top: 60%; transform: translate(-50%, -50%); }
+  </style>
+</head>
+<body>
+
+<div id="particle-layer"></div>
+<canvas id="burst-canvas" width="1080" height="1920"></canvas>
+
+<!-- Minimal score ring to anchor burst center -->
+<svg id="score-ring" viewBox="0 0 200 200" width="200" height="200">
+  <circle cx="100" cy="100" r="80" fill="none" stroke="#1e2030" stroke-width="10"/>
+  <circle id="ring-fill" cx="100" cy="100" r="80" fill="none" stroke="#C9F24D"
+    stroke-width="10" stroke-linecap="round"
+    stroke-dasharray="502.65" stroke-dashoffset="100"/>
+</svg>
+
+<script>
+  // Lock 1
+  gsap.ticker.lagSmoothing(0);
+
+  // ── seededRandom (copy of motion-lib implementation — standalone spike) ────
+  function seededRandom(seed) {
+    let h = 0x12345678;
+    for (let i = 0; i < seed.length; i++) {
+      h = Math.imul(h ^ seed.charCodeAt(i), 0x9e3779b9);
+      h ^= h >>> 16;
+    }
+    return function() {
+      h |= 0; h = h + 0x6D2B79F5 | 0;
+      let t = Math.imul(h ^ h >>> 15, 1 | h);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  // ── drawParticles (copy of motion-lib — standalone spike) ─────────────────
+  // Does NOT clearRect — caller owns clear. fillRect at integer positions = deterministic.
+  function drawParticles(ctx, t, seed, preset, opts) {
+    const w = ctx.canvas.width, h = ctx.canvas.height;
+
+    function dot(px, py, size, r, g, b, op) {
+      if (op <= 0) return;
+      const s = Math.max(1, Math.round(size));
+      ctx.fillStyle = `rgba(${r},${g},${b},${op.toFixed(3)})`;
+      ctx.fillRect(Math.round(px - s / 2), Math.round(py - s / 2), s, s);
+    }
+
+    if (preset === "ambient-dust") {
+      const count = opts?.count ?? 70;
+      const rng   = seededRandom(seed + ":ambient-dust");
+      for (let i = 0; i < count; i++) {
+        const bx = rng() * w, by = rng() * h;
+        const size  = 1 + rng() * 2.5;
+        const speed = 0.04 + rng() * 0.12;
+        const phase = rng() * Math.PI * 2;
+        const op    = (0.04 + rng() * 0.18) * Math.min(1, t * 2);
+        const px    = (bx + Math.sin(phase + t * 0.3) * 18) % w;
+        const py    = ((by - speed * t * 60) + h * 100) % h;
+        dot(px, py, size, 255, 255, 255, Math.max(0, op));
+      }
+
+    } else if (preset === "score-burst") {
+      const count = opts?.count ?? 160;
+      const cx    = opts?.cx ?? w / 2, cy = opts?.cy ?? h * 0.6;
+      const rng   = seededRandom(seed + ":score-burst");
+      for (let i = 0; i < count; i++) {
+        const angle = rng() * Math.PI * 2;
+        const speed = 1.5 + rng() * 3.5;
+        const life  = 0.4 + rng() * 0.6;
+        const frac  = Math.min(1, t / life);
+        const r     = speed * frac * 60;
+        const px    = cx + Math.cos(angle) * r;
+        const py    = cy + Math.sin(angle) * r - frac * frac * 40;
+        const op    = (1 - frac) * 0.35;
+        const size  = 2 + rng() * 3;
+        dot(px, py, size, 201, 242, 77, Math.max(0, op));
+      }
+    }
+  }
+
+  // ── Lock 2 ────────────────────────────────────────────────────────────────
+  gsap.globalTimeline.pause();
+
+  document.fonts.ready.then(() => {
+    const canvas = document.getElementById("burst-canvas");
+    // willReadFrequently: true → CPU-backed canvas; no GPU compositor delay under frame-stepping
+    const ctx    = canvas.getContext("2d", { willReadFrequently: true });
+    const SEED   = "particle-spike-001";
+
+    const tl = gsap.timeline();
+
+    // ambient-dust + score-burst composited directly onto ctx (no intermediate canvas)
+    const dustProxy = { t: 0 };
+    tl.fromTo(dustProxy, { t: 0 }, {
+      t: 2.0, duration: 2.0, ease: "none",
+      onUpdate: () => {
+        ctx.clearRect(0, 0, 1080, 1920);
+        drawParticles(ctx, dustProxy.t, SEED, "ambient-dust");
+        if (dustProxy.t >= 1.0) {
+          drawParticles(ctx, dustProxy.t - 1.0, SEED, "score-burst", { cx: 540, cy: 1152 });
+        }
+      }
+    }, 0);
+
+    tl.addLabel("dust_start", 0.0);
+    tl.addLabel("burst", 1.0);
+
+    window.motionReady = true;
+    window.MOTION_LABELS = {
+      dust_start: 0,
+      burst: 1000,
+    };
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "org-blob-corner",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s03",
+      "s06",
+      "s10",
+      "s11",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s46"
+    ],
+    "pairs_well_with": [
+      "light-glow-radial-center",
+      "deco-ornament",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "geo-circuit-board",
+      "geo-hex-grid",
+      "geo-wireframe-perspective"
+    ]
+  }
+-->
+
+<!--
+LAYER: ORGANIC BLOB
+Found in: carousel_0-a-4-entrevistas_crimson.html
+Purpose: Soft flowing shape. Best for warm/creative systems (s04, s10, s12).
+-->
+
+<div class="blob">
+  <svg viewBox="0 0 400 400" preserveAspectRatio="none">
+    <path d="M200,20 C320,20 380,100 380,200 C380,320 300,380 200,380 C80,380 20,300 20,200 C20,80 100,20 200,20 Z" fill="var(--accent-soft)" opacity="0.22"/>
+  </svg>
+</div>
+
+<style>
+.blob {
+  position: absolute;
+  pointer-events: none; z-index: 1;
+  width: 600px; height: 600px;
+  top: -150px; right: -150px;
+  opacity: 0.85;
+}
+.blob svg { width: 100%; height: 100%; }
+</style>
+
+<!--
+CUSTOMIZATION:
+- Position per slide: top-left, top-right, bottom-left, bottom-right
+- path fill: var(--accent-soft) or var(--accent-line)
+- opacity: 0.15 (subtle) to 0.35 (visible)
+- Scale: 400px to 800px
+-->

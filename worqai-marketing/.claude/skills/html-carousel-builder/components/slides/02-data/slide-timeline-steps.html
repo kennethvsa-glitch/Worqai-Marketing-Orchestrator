@@ -1,0 +1,54 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-timeline-steps",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: TIMELINE STEPS
+Purpose: S2 — Visual timeline with milestones.
+-->
+
+<div class="content">
+  <p class="tip-label">Timeline</p>
+  <h2 class="tip-headline">Tu transformacion en 30 dias</h2>
+  <div class="timeline">
+    <div class="tl-step">
+      <span class="tl-dot"></span>
+      <span class="tl-title">Dia 1</span>
+      <span class="tl-desc">Auditoria ATS</span>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-step">
+      <span class="tl-dot"></span>
+      <span class="tl-title">Dia 3</span>
+      <span class="tl-desc">Rewrite estrategico</span>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-step">
+      <span class="tl-dot"></span>
+      <span class="tl-title">Dia 7</span>
+      <span class="tl-desc">Primeras respuestas</span>
+    </div>
+    <div class="tl-line"></div>
+    <div class="tl-step">
+      <span class="tl-dot"></span>
+      <span class="tl-title">Dia 14</span>
+      <span class="tl-desc">Entrevistas</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.timeline { display: flex; align-items: center; gap: 8px; margin-top: 40px; }
+.tl-step { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; min-width: 100px; }
+.tl-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--accent); }
+.tl-title { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+.tl-desc { font-family: var(--font-body), system-ui, sans-serif; font-size: 14px; font-weight: 400; color: var(--text-secondary); }
+.tl-line { flex: 1; height: 2px; background: var(--accent-line); max-width: 60px; }
+</style>

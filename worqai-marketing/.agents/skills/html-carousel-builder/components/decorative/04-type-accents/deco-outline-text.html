@@ -1,0 +1,43 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-outline-text",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s01",
+      "s04",
+      "s07",
+      "s13",
+      "s22",
+      "s25",
+      "s35",
+      "s37"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s26",
+      "s39"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: OUTLINE TEXT
+Purpose: Text with stroke only, no fill.
+-->
+
+<span class="outline-text">IMPACTO</span>
+
+<style>
+.outline-text {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 72px; font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+  text-stroke: 1.5px var(--accent);
+  opacity: 0.35;
+}
+</style>

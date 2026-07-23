@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>worqai · 5 mentiras que te dicen los reclutadores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#0A0A0A;font-family:'Nunito',system-ui,sans-serif;color:#FFFFFF;min-height:100vh;}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+  .label-top{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+             color:#C7FF3A;margin-bottom:14px;text-align:center;}
+  .preview-cage{width:1080px;margin:0 auto;}
+  @media (min-width:1200px){
+    .preview-cage{transform:scale(0.5);transform-origin:top center;height:540px;}
+  }
+  .viewer{width:1080px;max-width:1080px;}
+  .wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;
+        box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+  .track{display:flex;width:auto;height:100%;
+         transition:transform .42s cubic-bezier(.4,0,.2,1);}
+  .slide{position:relative;width:1080px;min-width:1080px;height:1080px;overflow:hidden;
+         background:linear-gradient(145deg,#111111 0%,#0A0A0A 100%);color:#E5E5E5;}
+
+  .slide::before{
+    content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:300px 300px;
+    pointer-events:none;z-index:1;opacity:.06;
+  }
+
+  .glow{position:absolute;width:680px;height:680px;border-radius:50%;
+        background:radial-gradient(circle,rgba(199,255,58,0.15) 0%,transparent 65%);
+        filter:blur(85px);pointer-events:none;z-index:1;}
+
+  .band{position:absolute;top:-15%;left:-10%;width:130%;height:35%;
+        background:linear-gradient(115deg,transparent 45%,rgba(199,255,58,0.05) 45%,rgba(199,255,58,0.05) 47%,transparent 47%);
+        pointer-events:none;z-index:1;}
+
+  .brand-w{position:absolute;font-family:'Nunito',sans-serif;font-weight:900;
+           font-size:880px;line-height:.78;letter-spacing:-0.07em;
+           pointer-events:none;user-select:none;z-index:1;color:rgba(199,255,58,0.05);}
+
+  .content{position:relative;z-index:3;height:100%;padding:68px 64px 148px;
+           display:flex;flex-direction:column;}
+
+  .deco-num{position:absolute;top:-26px;right:46px;
+            font-weight:900;font-size:280px;line-height:1;letter-spacing:-.05em;
+            pointer-events:none;user-select:none;z-index:2;color:rgba(255,255,255,0.06);}
+
+  .label{font-size:18px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+         color:#C7FF3A;margin-bottom:28px;display:inline-block;}
+
+  .headline{font-weight:900;font-size:68px;line-height:1.06;letter-spacing:-0.025em;color:#FFFFFF;}
+  .body-text{font-weight:400;font-size:28px;line-height:1.5;color:#E5E5E5;}
+  .lime{color:#C7FF3A;}
+
+  .pill-tag{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;
+            background:rgba(199,255,58,0.08);border:1px solid #C7FF3A;border-radius:999px;
+            font-weight:800;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;
+            color:#C7FF3A;margin-bottom:24px;}
+
+  /* Lie block */
+  .lie-block{padding:24px 30px;border-radius:14px;background:rgba(199,255,58,0.04);
+             border-left:6px solid #C7FF3A;margin-bottom:14px;position:relative;}
+  .lie-tag{font-size:13px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+           color:#C7FF3A;margin-bottom:10px;}
+  .lie-text{font-size:32px;font-weight:800;line-height:1.18;letter-spacing:-0.02em;
+            text-decoration:line-through;text-decoration-color:rgba(199,255,58,0.6);
+            text-decoration-thickness:3px;color:rgba(255,255,255,0.55);}
+
+  /* Reality block */
+  .reality-block{padding:24px 30px;border-radius:14px;background:rgba(255,255,255,0.03);
+                 border-left:6px solid rgba(255,255,255,0.25);margin-bottom:14px;}
+  .reality-tag{font-size:13px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;
+               color:#FFFFFF;margin-bottom:10px;}
+  .reality-text{font-size:25px;font-weight:600;line-height:1.4;color:#FFFFFF;}
+
+  .why-row{margin-top:18px;font-size:21px;font-weight:400;line-height:1.45;
+           padding-left:18px;border-left:3px solid #C7FF3A;color:rgba(255,255,255,0.72);}
+
+  .hook-stack{margin-top:auto;margin-bottom:60px;}
+  .hook-display{font-weight:900;font-size:128px;line-height:0.95;letter-spacing:-0.045em;color:#FFFFFF;}
+  .hook-display .lime{color:#C7FF3A;}
+  .hook-sub{font-weight:400;font-size:32px;line-height:1.45;margin-top:32px;
+            color:rgba(255,255,255,0.72);max-width:780px;}
+  .swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+              padding:14px 26px;border:2px solid #C7FF3A;color:#C7FF3A;
+              border-radius:999px;font-size:18px;font-weight:800;letter-spacing:0.18em;
+              text-transform:uppercase;margin-top:36px;}
+
+  .brand-anchor{position:absolute;bottom:46px;left:64px;z-index:5;
+                font-weight:900;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;
+                color:#FFFFFF;}
+  .brand-anchor .ai{color:#C7FF3A;}
+
+  .site-url{position:absolute;bottom:46px;left:50%;transform:translateX(-50%);z-index:5;
+            font-weight:700;font-size:16px;letter-spacing:0.1em;
+            color:rgba(255,255,255,0.45);text-transform:lowercase;}
+
+  .counter{position:absolute;bottom:50px;right:64px;z-index:5;
+           font-weight:700;font-size:18px;letter-spacing:0.2em;color:rgba(255,255,255,0.45);}
+
+  /* Unified CTA */
+  .unified-headline{font-weight:900;font-size:52px;line-height:1.05;letter-spacing:-0.03em;
+                    color:#FFFFFF;margin-bottom:28px;position:relative;z-index:2;}
+  .cta-card{background:#111111;border:2px solid rgba(199,255,58,0.25);
+            border-radius:32px;padding:44px 48px;margin-top:auto;margin-bottom:60px;
+            position:relative;overflow:hidden;}
+  .cta-card::after{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;
+                   border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.15),transparent 65%);
+                   filter:blur(40px);}
+  .cta-line{font-weight:800;font-size:30px;color:#C7FF3A;line-height:1.3;position:relative;z-index:2;}
+  .cta-fine{font-size:18px;color:#A0A0A0;margin-top:12px;position:relative;z-index:2;}
+  .url-box{display:inline-flex;align-items:center;justify-content:center;padding:18px 48px;
+           border:3px dashed #C7FF3A;border-radius:16px;margin-top:28px;
+           background:rgba(199,255,58,0.04);position:relative;z-index:2;}
+  .url-text{font-family:'Nunito',sans-serif;font-size:42px;font-weight:900;color:#C7FF3A;
+            letter-spacing:.04em;text-transform:uppercase;}
+  .closing{font-size:22px;color:#E5E5E5;margin-top:28px;font-weight:600;max-width:800px;
+           line-height:1.4;position:relative;z-index:2;}
+  .closing strong{color:#FFFFFF;}
+
+  .controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px;}
+  .btn{background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;
+       border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .btn:disabled{opacity:.2;cursor:default;}
+  .dots{display:flex;gap:6px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s;}
+  .dot.on{background:#C7FF3A;width:18px;border-radius:3px;}
+  .hint{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:0.18em;text-transform:uppercase;
+        margin-top:10px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="label-top">worqai · educacional · 5 mentiras de los reclutadores</div>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- SLIDE 1 · HOOK -->
+      <div class="slide" data-slide="1">
+        <div class="brand-w" style="top:-12%;left:-8%;">W</div>
+        <div class="glow" style="top:-20%;right:-15%;"></div>
+        <div class="band"></div>
+        <div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai · backstage del hiring</div>
+          <div class="hook-stack">
+            <div class="hook-display">5 mentiras<br>que te dicen<br>los <span class="lime">reclutadores</span>.</div>
+            <div class="hook-sub">Y nunca confiesan. Te las recitan en cada entrevista mientras te van descartando en silencio.</div>
+            <div class="swipe-pill">Desliza →</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">01 / 07</div>
+      </div>
+
+      <!-- SLIDE 2 · MENTIRA 01 -->
+      <div class="slide" data-slide="2">
+        <div class="brand-w" style="bottom:-22%;right:-12%;">W</div>
+        <div class="glow" style="bottom:-20%;left:-20%;"></div>
+        <div class="band"></div>
+        <div class="deco-num">02</div>
+        <div class="content">
+          <div class="pill-tag">Mentira 01 · El feedback</div>
+          <div class="headline" style="max-width:920px;">"Te <span class="lime">vamos a dar</span><br>feedback en unos días."</div>
+          <div style="margin-top:32px;">
+            <div class="lie-block">
+              <div class="lie-tag">Lo que te dicen</div>
+              <div class="lie-text">"En 5 días te confirmamos los próximos pasos."</div>
+            </div>
+            <div class="reality-block">
+              <div class="reality-tag">Lo que pasa</div>
+              <div class="reality-text">Si no te llamaron en 7 días, ya estás descartado. El feedback prometido casi nunca llega: el 71% de candidatos en LATAM lo confirma.</div>
+            </div>
+          </div>
+          <div class="why-row">No te ofendas, hacé seguimiento al día 5. Email corto, pregunta directa: "¿Sigo en el proceso?". Si no responden, está claro.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">02 / 07</div>
+      </div>
+
+      <!-- SLIDE 3 · MENTIRA 02 -->
+      <div class="slide" data-slide="3">
+        <div class="brand-w" style="top:-25%;right:8%;">W</div>
+        <div class="glow" style="top:-15%;right:30%;"></div>
+        <div class="deco-num">03</div>
+        <div class="content">
+          <div class="pill-tag">Mentira 02 · El "pool" de talento</div>
+          <div class="headline" style="max-width:920px;">"Tu CV queda en<br>nuestra base de datos<br><span class="lime">para futuras vacantes</span>."</div>
+          <div style="margin-top:32px;">
+            <div class="lie-block">
+              <div class="lie-tag">Lo que te dicen</div>
+              <div class="lie-text">"Quedás en nuestro pool de candidatos."</div>
+            </div>
+            <div class="reality-block">
+              <div class="reality-tag">Lo que pasa</div>
+              <div class="reality-text">El pool casi nunca se revisa. Cuando abre una vacante nueva, el reclutador empieza desde cero con búsquedas en LinkedIn.</div>
+            </div>
+          </div>
+          <div class="why-row">No esperes a que te llamen del pool. Si te interesa la empresa, volvé a aplicar a la siguiente vacante. Y mejorá tu LinkedIn — ahí sí te van a buscar.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">03 / 07</div>
+      </div>
+
+      <!-- SLIDE 4 · MENTIRA 03 -->
+      <div class="slide" data-slide="4">
+        <div class="brand-w" style="bottom:-26%;left:-18%;">W</div>
+        <div class="glow" style="bottom:-15%;left:-10%;"></div>
+        <div class="band"></div>
+        <div class="deco-num">04</div>
+        <div class="content">
+          <div class="pill-tag">Mentira 03 · El salario</div>
+          <div class="headline" style="max-width:920px;">"El rango salarial<br>es <span class="lime">flexible</span>."</div>
+          <div style="margin-top:32px;">
+            <div class="lie-block">
+              <div class="lie-tag">Lo que te dicen</div>
+              <div class="lie-text">"Es flexible según tu experiencia."</div>
+            </div>
+            <div class="reality-block">
+              <div class="reality-tag">Lo que pasa</div>
+              <div class="reality-text">Hay un rango cerrado y un techo. La "flexibilidad" es de máximo 10–15% sobre el mínimo. Casi nunca tocan el techo.</div>
+            </div>
+          </div>
+          <div class="why-row">Preguntá el rango antes de la entrevista técnica. Si no te lo dan, pedilo por escrito. Si igual no te lo dan, el "flexible" significa "bajo".</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">04 / 07</div>
+      </div>
+
+      <!-- SLIDE 5 · MENTIRA 04 -->
+      <div class="slide" data-slide="5">
+        <div class="brand-w" style="top:8%;right:-26%;">W</div>
+        <div class="glow" style="top:-20%;right:-10%;"></div>
+        <div class="band"></div>
+        <div class="deco-num">05</div>
+        <div class="content">
+          <div class="pill-tag">Mentira 04 · "Buscamos cultural fit"</div>
+          <div class="headline" style="max-width:920px;">"Lo más importante<br>es el <span class="lime">cultural fit</span>."</div>
+          <div style="margin-top:32px;">
+            <div class="lie-block">
+              <div class="lie-tag">Lo que te dicen</div>
+              <div class="lie-text">"No es por tu CV, es por el fit."</div>
+            </div>
+            <div class="reality-block">
+              <div class="reality-tag">Lo que pasa</div>
+              <div class="reality-text">"Cultural fit" suele ser la excusa cuando ya tienen otro candidato preferido. O cuando algo en tu CV no encaja con el perfil interno.</div>
+            </div>
+          </div>
+          <div class="why-row">Pedí feedback específico: "¿Qué del fit no funcionó?". Si no te dan algo concreto, era una excusa. Pasá a la siguiente.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">05 / 07</div>
+      </div>
+
+      <!-- SLIDE 6 · MENTIRA 05 -->
+      <div class="slide" data-slide="6">
+        <div class="brand-w" style="top:18%;left:-32%;">W</div>
+        <div class="glow" style="bottom:-20%;left:-20%;"></div>
+        <div class="deco-num">06</div>
+        <div class="content">
+          <div class="pill-tag">Mentira 05 · La "última ronda"</div>
+          <div class="headline" style="max-width:920px;">"Esta es<br>la <span class="lime">última ronda</span>."</div>
+          <div style="margin-top:32px;">
+            <div class="lie-block">
+              <div class="lie-tag">Lo que te dicen</div>
+              <div class="lie-text">"Es solo una conversación final con el director."</div>
+            </div>
+            <div class="reality-block">
+              <div class="reality-tag">Lo que pasa</div>
+              <div class="reality-text">Casi nunca es la última. Suelen agregar una segunda con otro stakeholder, una técnica extra o un test que "se les olvidó". Cada ronda es otra oportunidad para descartarte.</div>
+            </div>
+          </div>
+          <div class="why-row">Asumí que faltan 2 rondas más. Mantené la energía y prepará cada conversación como si fuera la primera, no la última.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">06 / 07</div>
+      </div>
+
+      <!-- SLIDE 7 · UNIFIED CTA -->
+      <div class="slide" data-slide="7">
+        <div class="brand-w" style="bottom:-30%;right:-15%;">W</div>
+        <div class="glow" style="top:-10%;right:40%;"></div>
+        <div class="band"></div>
+        <div class="deco-num">07</div>
+        <div class="content">
+          <div class="label">tu siguiente paso</div>
+          <div class="unified-headline" style="margin-top:20px;">¿Querés ver<br><span class="lime">qué ve el ATS</span><br>cuando abre tu CV?</div>
+          <div class="cta-card">
+            <div class="cta-line">CV mejorado gratis — listo para descargar</div>
+            <div class="cta-line" style="font-size:24px;margin-top:8px;">Puntuación ATS para tu CV gratis</div>
+            <div class="cta-fine">Sin tarjeta. Sin costo.</div>
+            <div class="url-box">
+              <div class="url-text">WORQAI.IO</div>
+            </div>
+            <div class="closing">Subí tu CV a <strong>worqai.io</strong>. Te pasamos el diagnóstico completo: qué falla, por qué, y cómo arreglarlo. En español o en inglés.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">07 / 07</div>
+      </div>
+
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="prev">‹</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+      <span class="dot" onclick="go(5)"></span>
+      <span class="dot" onclick="go(6)"></span>
+    </div>
+    <button class="btn" id="next">›</button>
+  </div>
+  <div class="hint">flechas ← → · swipe · click los puntos</div>
+</div>
+</div>
+<script>
+  let cur=0;
+  const slides=document.querySelectorAll('.slide');
+  const track=document.getElementById('track');
+  const prevBtn=document.getElementById('prev');
+  const nextBtn=document.getElementById('next');
+  const dots=document.querySelectorAll('.dot');
+  function go(n){
+    cur=Math.max(0,Math.min(n,slides.length-1));
+    track.style.transform=`translateX(-${cur*1080}px)`;
+    dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+    prevBtn.disabled=cur===0;
+    nextBtn.disabled=cur===slides.length-1;
+  }
+  function move(d){go(cur+d);}
+  prevBtn.addEventListener('click',()=>move(-1));
+  nextBtn.addEventListener('click',()=>move(1));
+  let sx=0;
+  const wrap=document.getElementById('wrap');
+  wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+  wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+  go(0);
+</script>
+</body>
+</html>

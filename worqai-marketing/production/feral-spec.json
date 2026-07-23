@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "system": "s25",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@feral_cdmx",
+    "language": "es-MX",
+    "topic": "feral-cdmx",
+    "density": "standard"
+  },
+  "pacing": ["hook", "silence", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["grid-bg", "geo-halftone"],
+      "decoratives": ["ornament-tr"],
+      "copy": {
+        "kicker": "FERAL CDMX",
+        "headline": "El GPS te robó la ciudad.",
+        "body": "Corres en línea recta porque la app te lo dice. Ya no sabes a dónde vas sin el mapa.",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-display { font-size: clamp(52px, 9cqw, 72px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.88; text-transform: uppercase; } .s1-body { font-size: clamp(14px, 2.4cqw, 17px); font-weight: 400; line-height: 1.5; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "layers": ["grid-bg", "geo-halftone"],
+      "copy": {
+        "kicker": "MODO FERAL",
+        "headline": "Así se ve tu corrida cuando apagas todo",
+        "tab_title": "no-gps.sh",
+        "command": "feral --desactiva gps,strava,spotify --ciudad CDMX",
+        "output_lines": [
+          { "type": "err",  "text": "GPS: NULL — ubicación no guardada" },
+          { "type": "warn", "text": "AVISO: Sin ruta. Sin PR. Sin métricas. Sin medallas." },
+          { "type": "ok",   "text": "OK. 6AM. Ven al punto. Sal a correr." }
+        ]
+      },
+      "custom_css": ".s2-headline { font-size: clamp(22px, 4.5cqw, 32px); font-weight: 900; letter-spacing: -0.03em; text-transform: uppercase; } .s2-terminal-block { font-family: 'JetBrains Mono', monospace; font-size: clamp(12px, 2cqw, 15px); font-weight: 700; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-checklist",
+      "layers": ["grid-bg", "geo-halftone"],
+      "decoratives": ["ornament-bl"],
+      "copy": {
+        "kicker": "LAS REGLAS",
+        "headline": "Cómo funciona FERAL",
+        "items": [
+          "6AM en el punto. Sin aviso previo.",
+          "GPS apagado. Strava cerrado. Sin excepciones.",
+          "Corres hasta perderte. El grupo decide cuándo parar.",
+          "La ciudad que no sale en ninguna app."
+        ]
+      },
+      "custom_css": ".s3-headline { font-size: clamp(28px, 5.5cqw, 40px); font-weight: 900; letter-spacing: -0.03em; text-transform: uppercase; } .s3-checklist-item { font-size: clamp(14px, 2.5cqw, 18px); font-weight: 400; line-height: 1.4; border-left: none !important; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["grid-bg", "geo-halftone"],
+      "decoratives": [{ "id": "sub-stamp-circle", "text": "GRATIS" }],
+      "copy": {
+        "question": "¿Ya te aburriste de correr en línea recta?",
+        "cta_keyword": "FERAL",
+        "reward": "Te mandamos el punto de salida del próximo recorrido."
+      },
+      "custom_css": ".s4-question { font-size: clamp(30px, 6cqw, 44px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.92; text-transform: uppercase; } .s4-cta-keyword { font-size: clamp(14px, 2.5cqw, 18px); font-weight: 700; letter-spacing: 0.15em; }"
+    }
+  ]
+}

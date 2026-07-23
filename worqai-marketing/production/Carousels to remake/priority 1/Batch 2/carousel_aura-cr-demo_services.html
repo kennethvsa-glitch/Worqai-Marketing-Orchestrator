@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>aura · demo carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap" rel="stylesheet">
+<style>
+/* =================================================================
+   aura agencia creativa — demo carousel (rebuild)
+   System 25 SWISS BRUT ACCENT · palette adapted to aura brand
+   Brand source: ig @aura.agenciacreativacr (services carousel)
+   ================================================================= */
+
+:root {
+  /* aura brand palette — pulled from their services carousel */
+  --bg-navy:        #0D1B4B;          /* primary background */
+  --bg-navy-deep:   #07112F;          /* deeper edge for radial */
+  --bg-navy-lift:   #15265E;          /* upper gradient stop */
+  --accent:         #D4E034;          /* chartreuse — single hero accent */
+  --accent-soft:    rgba(212, 224, 52, 0.55);
+  --accent-line:    rgba(212, 224, 52, 0.22);
+  --paper:          #FFFFFF;
+  --paper-soft:     rgba(255, 255, 255, 0.72);
+  --paper-faint:    rgba(255, 255, 255, 0.32);
+  --paper-line:     rgba(255, 255, 255, 0.14);
+  --paper-rule:     rgba(255, 255, 255, 0.20);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #06091a; }
+body {
+  font-family: 'Archivo', system-ui, sans-serif;
+  color: var(--paper);
+  padding: 36px 18px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* ============== TOOLBAR (preview only — hidden in export) ============== */
+.toolbar {
+  position: sticky; top: 8px; z-index: 50;
+  display: flex; gap: 8px; align-items: center;
+  background: rgba(13, 27, 75, 0.96);
+  border: 1px solid var(--accent-line);
+  padding: 8px 12px; border-radius: 999px;
+  font-family: 'Archivo', sans-serif; font-size: 12px;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper);
+}
+.toolbar button {
+  background: var(--accent); color: var(--bg-navy);
+  border: none; padding: 8px 14px; border-radius: 999px;
+  font: inherit; cursor: pointer; letter-spacing: 0.16em; font-weight: 700;
+}
+.toolbar button:hover { background: var(--paper); color: var(--bg-navy); }
+.toolbar button:disabled { opacity: 0.5; cursor: default; }
+.toolbar .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ============== SLIDE FRAME ============== */
+.slide {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(212,224,52,0.06), transparent 42%),
+    linear-gradient(168deg, var(--bg-navy-lift) 0%, var(--bg-navy) 48%, var(--bg-navy-deep) 100%);
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  isolation: isolate;
+  font-family: 'Archivo', sans-serif;
+  color: var(--paper);
+}
+
+/* fine grain on every slide (system 25 brutalist tooth) */
+.slide::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 8;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 220px 220px; opacity: 0.10; mix-blend-mode: overlay;
+}
+
+/* edge vignette */
+.slide::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 9;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 0 140px rgba(0,0,0,0.35);
+}
+
+/* ============== MASTHEAD / COUNTER (anchors, identical every slide) ============== */
+.masthead {
+  position: absolute; top: 56px; left: 64px; z-index: 10;
+  font-family: 'Archivo', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.36em; color: var(--paper); text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px;
+}
+.masthead .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.masthead .sub { color: var(--paper-soft); font-weight: 500; letter-spacing: 0.32em; }
+
+.counter {
+  position: absolute; top: 56px; right: 64px; z-index: 10;
+  font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.32em; color: var(--paper); text-transform: uppercase;
+  display: flex; align-items: center; gap: 14px;
+}
+.counter .num { color: var(--accent); font-weight: 700; }
+.counter .bar { width: 28px; height: 1px; background: var(--paper-rule); }
+
+/* ============== FOOTER (chartreuse rule + handle + swipe) ============== */
+.footer-rule {
+  position: absolute; left: 64px; right: 64px; bottom: 92px;
+  height: 2px; background: var(--accent); z-index: 10;
+}
+.footer {
+  position: absolute; bottom: 56px; left: 64px; right: 64px; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Archivo', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.28em; color: var(--paper); text-transform: uppercase;
+}
+.footer .handle { color: var(--paper); }
+.footer .swipe { color: var(--paper-soft); display: flex; align-items: center; gap: 10px; }
+
+/* progress dots — top-center */
+.dots {
+  position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
+  z-index: 10; display: flex; gap: 8px;
+}
+.dots span {
+  width: 22px; height: 2px; background: var(--paper-line);
+  display: block;
+}
+.dots span.active { background: var(--accent); }
+
+/* ============== SLIDE 1 — HOOK ============== */
+#s1 .stage {
+  position: absolute; inset: 0; padding: 200px 64px 140px;
+  display: flex; flex-direction: column; justify-content: center;
+  z-index: 5;
+}
+#s1 .kicker {
+  font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--accent); text-transform: uppercase;
+  margin-bottom: 28px; display: flex; align-items: center; gap: 14px;
+}
+#s1 .kicker .ln {
+  width: 48px; height: 1px; background: var(--accent);
+}
+#s1 .lockup {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 168px; line-height: 0.92; letter-spacing: -0.045em;
+  color: var(--paper); text-transform: uppercase;
+  margin-bottom: 0;
+}
+#s1 .lockup .em {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+  color: var(--accent); letter-spacing: -0.02em;
+  text-transform: lowercase;
+}
+#s1 .underline {
+  margin-top: 36px; display: flex; align-items: flex-end;
+  justify-content: space-between; gap: 32px;
+}
+#s1 .underline .lede {
+  font-family: 'Archivo', sans-serif; font-weight: 400;
+  font-size: 22px; line-height: 1.32; color: var(--paper-soft);
+  max-width: 540px;
+}
+#s1 .underline .meta {
+  font-family: 'Archivo', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.36em; color: var(--paper);
+  text-transform: uppercase; text-align: right;
+  display: flex; flex-direction: column; gap: 6px;
+  white-space: nowrap;
+}
+#s1 .underline .meta span:first-child { color: var(--accent); }
+#s1 .swipe-pill {
+  position: absolute; right: 64px; bottom: 168px;
+  font-family: 'Archivo', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.30em; color: var(--bg-navy); text-transform: uppercase;
+  background: var(--accent); padding: 12px 20px;
+  z-index: 12;
+}
+/* big bleed numeral — system 25 deco-num exception (opacity 0.85 reads too hot on navy, dial to 0.10 white) */
+#s1 .bleed-num {
+  position: absolute; right: -40px; top: 80px;
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 520px; line-height: 0.85; letter-spacing: -0.07em;
+  color: var(--paper); opacity: 0.04;
+  z-index: 2; pointer-events: none; user-select: none;
+}
+
+/* ============== SLIDE 2 — EDITORIAL INDEX ============== */
+#s2 .stage {
+  position: absolute; inset: 0; padding: 168px 64px 160px;
+  display: flex; flex-direction: column;
+  z-index: 5;
+}
+#s2 .head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 56px; gap: 32px;
+}
+#s2 .title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 88px; line-height: 0.94; letter-spacing: -0.04em;
+  color: var(--paper); text-transform: uppercase;
+}
+#s2 .title .em {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+  color: var(--accent); text-transform: lowercase; letter-spacing: -0.02em;
+}
+#s2 .head .meta {
+  font-family: 'Archivo', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.32em; color: var(--paper-soft);
+  text-transform: uppercase; text-align: right;
+  white-space: nowrap;
+}
+#s2 .head .meta strong { color: var(--accent); }
+#s2 .index {
+  display: flex; flex-direction: column;
+  border-top: 2px solid var(--accent);
+}
+#s2 .row {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  align-items: center;
+  gap: 28px;
+  padding: 26px 4px 24px;
+  border-bottom: 1px solid var(--paper-line);
+  position: relative;
+}
+#s2 .row .num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 44px; line-height: 1; letter-spacing: -0.02em;
+  color: var(--accent);
+}
+#s2 .row .body {
+  display: flex; flex-direction: column; gap: 6px;
+}
+#s2 .row .name {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 34px; line-height: 1; letter-spacing: -0.02em;
+  color: var(--paper); text-transform: uppercase;
+}
+#s2 .row .desc {
+  font-family: 'Archivo', sans-serif; font-weight: 400;
+  font-size: 15px; line-height: 1.4; color: var(--paper-soft);
+  letter-spacing: 0.02em;
+}
+#s2 .row .tag {
+  font-family: 'Archivo', sans-serif; font-weight: 700;
+  font-size: 10px; letter-spacing: 0.30em; color: var(--paper);
+  text-transform: uppercase;
+  border: 1px solid var(--paper-rule); padding: 6px 12px;
+  white-space: nowrap;
+}
+#s2 .row.featured .tag {
+  background: var(--accent); color: var(--bg-navy); border-color: var(--accent);
+}
+#s2 .foot-meta {
+  margin-top: 32px; display: flex; justify-content: space-between;
+  align-items: center;
+  font-family: 'Archivo', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.28em; color: var(--paper-soft); text-transform: uppercase;
+}
+#s2 .foot-meta .pip { color: var(--accent); }
+
+/* ============== SLIDE 3 — PULL QUOTE ============== */
+#s3 .stage {
+  position: absolute; inset: 0; padding: 200px 96px 200px;
+  display: flex; flex-direction: column; justify-content: center;
+  z-index: 5; text-align: left;
+}
+#s3 .kicker {
+  font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--accent); text-transform: uppercase;
+  margin-bottom: 40px; display: flex; align-items: center; gap: 14px;
+}
+#s3 .kicker .ln { width: 48px; height: 1px; background: var(--accent); }
+#s3 .quote {
+  font-family: 'Fraunces', serif;
+  font-weight: 300; font-style: normal;
+  font-size: 84px; line-height: 1.04; letter-spacing: -0.02em;
+  color: var(--paper);
+}
+#s3 .quote .em {
+  font-style: italic; color: var(--accent); font-weight: 400;
+}
+#s3 .quote .mark {
+  font-family: 'Fraunces', serif; font-style: italic;
+  color: var(--accent); display: inline-block; margin-right: 8px;
+}
+#s3 .attribution {
+  margin-top: 56px; display: flex; align-items: center; gap: 18px;
+  font-family: 'Archivo', sans-serif; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.36em; color: var(--paper);
+  text-transform: uppercase;
+}
+#s3 .attribution .ln {
+  width: 64px; height: 2px; background: var(--accent);
+}
+#s3 .attribution .who { color: var(--paper-soft); font-weight: 500; }
+#s3 .frame-tl, #s3 .frame-br {
+  position: absolute; width: 48px; height: 48px; z-index: 6;
+  border-color: var(--accent); border-style: solid;
+}
+#s3 .frame-tl { top: 168px; left: 64px; border-width: 2px 0 0 2px; }
+#s3 .frame-br { bottom: 168px; right: 64px; border-width: 0 2px 2px 0; }
+
+/* ============== SLIDE 4 — CTA ============== */
+#s4 .stage {
+  position: absolute; inset: 0; padding: 200px 64px 180px;
+  display: flex; flex-direction: column; justify-content: center;
+  z-index: 5;
+}
+#s4 .kicker {
+  font-family: 'Archivo', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--accent); text-transform: uppercase;
+  margin-bottom: 32px; display: flex; align-items: center; gap: 14px;
+}
+#s4 .kicker .ln { width: 48px; height: 1px; background: var(--accent); }
+#s4 .title {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 148px; line-height: 0.88; letter-spacing: -0.05em;
+  color: var(--paper); text-transform: uppercase;
+}
+#s4 .title .em {
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+  color: var(--accent); text-transform: lowercase; letter-spacing: -0.02em;
+}
+#s4 .deck {
+  margin-top: 48px;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 48px; align-items: end;
+  border-top: 2px solid var(--accent);
+  padding-top: 32px;
+}
+#s4 .deck .lede {
+  font-family: 'Archivo', sans-serif; font-weight: 400;
+  font-size: 22px; line-height: 1.42; color: var(--paper-soft);
+  max-width: 580px;
+}
+#s4 .deck .lede strong { color: var(--paper); font-weight: 700; }
+#s4 .deck .contact {
+  display: flex; flex-direction: column; gap: 14px;
+  text-align: right;
+  white-space: nowrap;
+}
+#s4 .deck .contact .lbl {
+  font-family: 'Archivo', sans-serif; font-weight: 700;
+  font-size: 10px; letter-spacing: 0.36em; color: var(--accent);
+  text-transform: uppercase;
+}
+#s4 .deck .contact .num {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 38px; line-height: 1; letter-spacing: -0.01em;
+  color: var(--paper);
+}
+#s4 .deck .contact .ig {
+  font-family: 'Archivo', sans-serif; font-weight: 600;
+  font-size: 14px; letter-spacing: 0.18em; color: var(--paper);
+  text-transform: uppercase;
+}
+
+/* ============== TICKER (echo of their ribbon, refined) ============== */
+.ticker {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 56px;
+  background: var(--accent); color: var(--bg-navy);
+  display: flex; align-items: center; overflow: hidden;
+  z-index: 9;
+  font-family: 'Archivo', sans-serif; font-weight: 700;
+  font-size: 12px; letter-spacing: 0.42em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.ticker .row {
+  display: flex; align-items: center; gap: 32px;
+  padding-left: 32px;
+}
+.ticker .row span:not(.dot) { display: inline-block; }
+.ticker .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--bg-navy); }
+
+/* ticker variant — when present, push footer up so dots/handle don't collide */
+.slide.has-ticker .footer { bottom: 88px; }
+.slide.has-ticker .footer-rule { display: none; }
+
+</style>
+</head>
+<body>
+
+<!-- ============== TOOLBAR ============== -->
+<div class="toolbar">
+  <span class="pip"></span>
+  <span>aura · agencia creativa · demo rebuild</span>
+  <button id="dl">Descargar PNGs + ZIP</button>
+</div>
+
+<!-- ======================= SLIDE 1 — HOOK ======================= -->
+<section class="slide has-ticker" id="s1">
+  <div class="masthead">aura <span class="pip"></span> <span class="sub">agencia creativa · cr</span></div>
+  <div class="counter"><span class="num">01</span><span class="bar"></span><span>04</span></div>
+
+  <div class="dots">
+    <span class="active"></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="bleed-num">A</div>
+
+  <div class="stage">
+    <div class="kicker"><span class="ln"></span> capítulo 01 · servicios</div>
+
+    <h1 class="lockup">
+      una marca,<br/>
+      <span class="em">cuatro</span> piezas.
+    </h1>
+
+    <div class="underline">
+      <p class="lede">
+        Estrategia, estética y propósito en cada pieza.
+        Esto es lo que hacemos cuando una marca está lista
+        para verse como lo que ya es por dentro.
+      </p>
+      <div class="meta">
+        <span>edición 01</span>
+        <span>2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="swipe-pill">desliza →</div>
+
+  <div class="ticker">
+    <div class="row">
+      <span>social media</span><span class="dot"></span>
+      <span>contenido audiovisual</span><span class="dot"></span>
+      <span>foto · video</span><span class="dot"></span>
+      <span>sesiones para emprendedores</span><span class="dot"></span>
+      <span>social media</span><span class="dot"></span>
+      <span>contenido audiovisual</span><span class="dot"></span>
+      <span>foto · video</span><span class="dot"></span>
+      <span>sesiones para emprendedores</span><span class="dot"></span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="handle">@aura.agenciacreativacr</span>
+    <span class="swipe">01 · 04</span>
+  </div>
+</section>
+
+<!-- ======================= SLIDE 2 — EDITORIAL INDEX ======================= -->
+<section class="slide" id="s2">
+  <div class="masthead">aura <span class="pip"></span> <span class="sub">agencia creativa · cr</span></div>
+  <div class="counter"><span class="num">02</span><span class="bar"></span><span>04</span></div>
+
+  <div class="dots">
+    <span></span><span class="active"></span><span></span><span></span>
+  </div>
+
+  <div class="stage">
+    <div class="head">
+      <h2 class="title">
+        nuestros<br/>
+        <span class="em">servicios.</span>
+      </h2>
+      <div class="meta">
+        <strong>04 disciplinas</strong><br/>
+        <span>una sola dirección creativa</span>
+      </div>
+    </div>
+
+    <div class="index">
+      <div class="row">
+        <span class="num">01</span>
+        <div class="body">
+          <span class="name">social media</span>
+          <span class="desc">estrategia · calendario · gestión de comunidad</span>
+        </div>
+        <span class="tag">mensual</span>
+      </div>
+
+      <div class="row featured">
+        <span class="num">02</span>
+        <div class="body">
+          <span class="name">contenido audiovisual</span>
+          <span class="desc">dirección · producción · edición</span>
+        </div>
+        <span class="tag">por proyecto</span>
+      </div>
+
+      <div class="row">
+        <span class="num">03</span>
+        <div class="body">
+          <span class="name">foto y video personalizado</span>
+          <span class="desc">para marcas, productos y portafolios</span>
+        </div>
+        <span class="tag">a medida</span>
+      </div>
+
+      <div class="row">
+        <span class="num">04</span>
+        <div class="body">
+          <span class="name">sesiones para emprendedores</span>
+          <span class="desc">contenido completo en una sola jornada</span>
+        </div>
+        <span class="tag">intensivo</span>
+      </div>
+    </div>
+
+    <div class="foot-meta">
+      <span><span class="pip">●</span> cada proyecto · pensado a la medida</span>
+      <span>cap. 02</span>
+    </div>
+  </div>
+
+  <div class="footer-rule"></div>
+  <div class="footer">
+    <span class="handle">@aura.agenciacreativacr</span>
+    <span class="swipe">02 · 04</span>
+  </div>
+</section>
+
+<!-- ======================= SLIDE 3 — PULL QUOTE ======================= -->
+<section class="slide" id="s3">
+  <div class="masthead">aura <span class="pip"></span> <span class="sub">agencia creativa · cr</span></div>
+  <div class="counter"><span class="num">03</span><span class="bar"></span><span>04</span></div>
+
+  <div class="dots">
+    <span></span><span></span><span class="active"></span><span></span>
+  </div>
+
+  <div class="frame-tl"></div>
+  <div class="frame-br"></div>
+
+  <div class="stage">
+    <div class="kicker"><span class="ln"></span> capítulo 03 · promesa</div>
+
+    <p class="quote">
+      <span class="mark">“</span>Cada proyecto es pensado a la <span class="em">medida</span>,
+      con estrategia, <span class="em">estética</span> y propósito.<span class="mark">”</span>
+    </p>
+
+    <div class="attribution">
+      <span class="ln"></span>
+      <span>manifiesto aura</span>
+      <span class="who">— así trabajamos cada marca</span>
+    </div>
+  </div>
+
+  <div class="footer-rule"></div>
+  <div class="footer">
+    <span class="handle">@aura.agenciacreativacr</span>
+    <span class="swipe">03 · 04</span>
+  </div>
+</section>
+
+<!-- ======================= SLIDE 4 — CTA ======================= -->
+<section class="slide has-ticker" id="s4">
+  <div class="masthead">aura <span class="pip"></span> <span class="sub">agencia creativa · cr</span></div>
+  <div class="counter"><span class="num">04</span><span class="bar"></span><span>04</span></div>
+
+  <div class="dots">
+    <span></span><span></span><span></span><span class="active"></span>
+  </div>
+
+  <div class="stage">
+    <div class="kicker"><span class="ln"></span> capítulo final · escríbenos</div>
+
+    <h2 class="title">
+      llevemos<br/>
+      tu marca <span class="em">ahí.</span>
+    </h2>
+
+    <div class="deck">
+      <p class="lede">
+        Si tenés una marca, un emprendimiento o una idea
+        que querés llevar al siguiente capítulo —
+        <strong>este es tu lugar.</strong>
+      </p>
+      <div class="contact">
+        <span class="lbl">whatsapp directo</span>
+        <span class="num">8883 · 0025</span>
+        <span class="ig">@aura.agenciacreativacr</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="row">
+      <span>escríbenos</span><span class="dot"></span>
+      <span>8883 · 0025</span><span class="dot"></span>
+      <span>aura agencia creativa</span><span class="dot"></span>
+      <span>pérez zeledón · san josé</span><span class="dot"></span>
+      <span>escríbenos</span><span class="dot"></span>
+      <span>8883 · 0025</span><span class="dot"></span>
+      <span>aura agencia creativa</span><span class="dot"></span>
+      <span>pérez zeledón · san josé</span><span class="dot"></span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="handle">@aura.agenciacreativacr</span>
+    <span class="swipe">fin</span>
+  </div>
+</section>
+
+<!-- ============== EXPORT (html2canvas + JSZip) ============== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script>
+document.getElementById('dl').addEventListener('click', async () => {
+  const btn = document.getElementById('dl');
+  const orig = btn.textContent;
+  btn.disabled = true;
+  const slides = document.querySelectorAll('.slide');
+  const zip = new JSZip();
+  for (let i = 0; i < slides.length; i++) {
+    btn.textContent = `Rendering ${i+1}/${slides.length}...`;
+    const canvas = await html2canvas(slides[i], {
+      width: 1080, height: 1080, scale: 2,
+      backgroundColor: null, useCORS: true, allowTaint: true, logging: false,
+      onclone: (_, el) => {
+        el.style.position = 'fixed';
+        el.style.top = '0';
+        el.style.left = '0';
+        el.style.margin = '0';
+        el.style.transform = 'none';
+        el.style.boxShadow = 'none';
+      }
+    });
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1));
+    const num = String(i+1).padStart(2, '0');
+    zip.file(`slide_${num}.png`, blob);
+    saveAs(blob, `slide_${num}.png`);
+  }
+  btn.textContent = 'Building ZIP...';
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+  saveAs(zipBlob, 'aura-cr-demo-carousel.zip');
+  btn.textContent = orig;
+  btn.disabled = false;
+});
+</script>
+
+</body>
+</html>

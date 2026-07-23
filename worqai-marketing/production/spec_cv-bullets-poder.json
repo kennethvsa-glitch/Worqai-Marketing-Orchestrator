@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "title": "No es tu experiencia. Es cómo la escribiste.",
+    "brand": "WorqAI",
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 4,
+    "language": "es-LATAM"
+  },
+  "pacing": ["hook", "data", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "kicker": "@worqai · CV Bullets",
+        "headline": "No es tu experiencia. Es cómo la escribiste.",
+        "body": "El mismo trabajo, descripto de dos formas distintas, produce resultados completamente distintos.",
+        "swipe_prompt": "Desliza →"
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["blob-bg"],
+      "constraints": { "silence": true },
+      "copy": {
+        "stat_number": "3×",
+        "stat_context": "más callbacks con bullets de resultados.",
+        "source": "Dato interno WorqAI · base de datos 2025"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "kicker": "El cambio concreto",
+        "headline": "Mismo trabajo. Dos formas de escribirlo.",
+        "before_items": [
+          "Responsable del área de ventas",
+          "Manejo de equipo comercial",
+          "Atención al cliente y reportes"
+        ],
+        "after_items": [
+          "Lideré equipo de 8 → crecimiento del 34% en 6 meses",
+          "Cerré 3 cuentas enterprise por $120k c/u",
+          "Reduje tiempo de respuesta al cliente de 48hs a 6hs"
+        ],
+        "before_score": "Señal al reclutador: otro candidato genérico",
+        "after_score": "Señal al reclutador: esta persona entrega resultados"
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "question": "¿Tus bullets de CV abren puertas o las cierran?",
+        "cta_keyword": "BULLETS",
+        "reward": "Te reescribimos 3 bullets gratis para que veas la diferencia.",
+        "url": "@worqai"
+      }
+    }
+  ],
+  "constraints": {
+    "mock_ui_required": false,
+    "silence_slide_required": true,
+    "subtraction_gate": true
+  }
+}

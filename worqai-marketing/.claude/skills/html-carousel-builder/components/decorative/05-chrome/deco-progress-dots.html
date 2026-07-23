@@ -1,0 +1,66 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-progress-dots",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s08",
+      "s16",
+      "s20",
+      "s29",
+      "s33",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s32",
+      "s36"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: PROGRESS DOTS
+Found in: 7/7 best carousels
+Purpose: Slide position indicator at bottom.
+-->
+
+<div class="prog">
+  <span class="pd on">01</span>
+  <span class="pd">02</span>
+  <span class="pd">03</span>
+  <span class="pd">04</span>
+  <span class="pd">05</span>
+  <span class="pd">06</span>
+  <span class="pd">07</span>
+  <span class="pd">08</span>
+</div>
+
+<style>
+.prog {
+  display: flex; gap: 9px; flex-wrap: wrap;
+  position: absolute;
+  bottom: 38px; right: var(--pad-x, 80px);
+  z-index: 4;
+}
+.pd {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.08);
+}
+.pd.on { color: var(--accent); }
+</style>
+
+<!--
+CUSTOMIZATION:
+- Style: text numbers (default), small bars (26x3px), or circles
+- Position: bottom-right (default), bottom-left, or above brand anchor
+- Active state: color change (default), underline, or scale transform
+-->

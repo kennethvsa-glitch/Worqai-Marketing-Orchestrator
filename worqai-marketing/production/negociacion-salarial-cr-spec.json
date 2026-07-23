@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "system": "s25",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "title": "Cómo negociar tu primer salario en Costa Rica",
+    "topic": "negociacion-salarial-cr",
+    "density": "standard"
+  },
+  "pacing": ["hook", "silence", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["grid-bg", "geo-chevron-stripe"],
+      "decoratives": ["chrome-header-bar"],
+      "copy": {
+        "kicker": "NEGOCIACIÓN SALARIAL",
+        "headline": "Te ofrecen. Tú aceptas. Error.",
+        "body": "La primera oferta no es la última. Pero si no lo sabés, la aceptás como si lo fuera.",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".hook-display { font-size: clamp(42px, 8.8cqw, 70px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.045em; line-height: 0.96; } .hook-kicker { letter-spacing: 0.28em; border-bottom: 2px solid #ff0015; padding-bottom: 10px; display: inline-flex; } .hook-body { font-size: clamp(14px, 2.6cqw, 16px); line-height: 1.65; opacity: 0.58; margin-top: 26px; } .hook-kicker::before { background: #ff0015; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-myth-vs-fact",
+      "layers": ["grid-bg"],
+      "copy": {
+        "kicker": "EL MIEDO QUE TE PARA",
+        "myth": "Si pido más, van a retirar la oferta.",
+        "fact": "Las ofertas no se retiran por negociaciones profesionales. Se retiran por falta de preparación.",
+        "myth_label": "Lo que creés",
+        "fact_label": "Lo que es real"
+      },
+      "custom_css": ".mvf-headline { font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; font-size: clamp(22px, 5cqw, 32px); } .sub-fact-bubble { border-radius: 4px; } .sub-fact-bubble.myth { background: rgba(255,0,21,0.05); border-color: rgba(255,0,21,0.28); } .sub-fact-bubble.fact { background: rgba(0,100,60,0.05); border-color: rgba(0,100,60,0.22); } .sub-fact-bubble.fact .bub-label { color: #006644; } .kicker { letter-spacing: 0.24em; border-bottom: 1px solid rgba(0,0,0,0.12); padding-bottom: 12px; margin-bottom: 20px; } .mvf-row { gap: 16px; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-step-flow",
+      "layers": ["grid-bg", "geo-halftone"],
+      "decoratives": ["ornament-tr", "corner-frame"],
+      "copy": {
+        "kicker": "EL FRAMEWORK",
+        "headline": "Tres movimientos. En ese orden.",
+        "steps": [
+          {
+            "title": "Investigá el rango",
+            "desc": "CompuTrabajo y LinkedIn Salary te dan el número real para tu puesto en CR."
+          },
+          {
+            "title": "Nombrá el número primero",
+            "desc": "Quien ancla primero controla el rango. Di una cifra, no una expectativa vaga."
+          },
+          {
+            "title": "Pedí tiempo si necesitás",
+            "desc": "'Dame 48 horas para revisarlo.' Es profesional. No es debilidad."
+          }
+        ]
+      },
+      "custom_css": ".step-headline { font-size: clamp(24px, 5cqw, 34px); font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1.0; } .step-title { font-size: clamp(12px, 2.3cqw, 14px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; color: #111111; } .step-desc { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(12px, 2.4cqw, 14px); line-height: 1.5; opacity: 0.62; } .step-num { color: #ff0015; font-size: 13px; font-weight: 900; } .step-box { border-radius: 2px; border: 2px solid rgba(0,0,0,0.12); background: rgba(0,0,0,0.035); } .sub-arrow-flow { color: #ff0015; opacity: 0.65; font-size: 20px; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["grid-bg"],
+      "decoratives": [{ "id": "sub-stamp-circle", "text": "GRATIS" }],
+      "copy": {
+        "question": "¿Tenés una oferta y no sabés cómo responder?",
+        "cta_keyword": "OFERTA",
+        "reward": "Te mando el guion de negociación para Costa Rica. Gratis."
+      },
+      "custom_css": ".cta-question { font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; font-size: clamp(26px, 5.5cqw, 38px); line-height: 1.0; } .cta-keyword-box { border-radius: 2px; border-width: 3px; border-style: solid; background: rgba(255,0,21,0.04); margin-top: 32px; } .cta-reward { font-size: clamp(13px, 2.6cqw, 16px); opacity: 0.55; margin-top: 22px; letter-spacing: 0.01em; } .cta-wrap { gap: 0; }"
+    }
+  ]
+}

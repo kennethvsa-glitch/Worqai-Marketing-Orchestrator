@@ -1,0 +1,52 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-echo-ghost",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s01",
+      "s04",
+      "s07",
+      "s13",
+      "s22",
+      "s25",
+      "s35",
+      "s37"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s26",
+      "s39"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: ECHO GHOST
+Purpose: Shadow/echo text behind main headline.
+-->
+
+<div class="echo-wrap">
+  <span class="echo-ghost">CV</span>
+  <h1 class="echo-main">Tu CV</h1>
+</div>
+
+<style>
+.echo-wrap { position: relative; display: inline-block; }
+.echo-ghost {
+  position: absolute; top: 8px; left: 8px;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 72px; font-weight: 900;
+  color: var(--accent); opacity: 0.08;
+  pointer-events: none; white-space: nowrap;
+}
+.echo-main {
+  position: relative; z-index: 1;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 72px; font-weight: 900;
+  color: var(--text-primary);
+}
+</style>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html data-duration="2" data-fps="60" data-name="v6-system-spike">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomBounce-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomWiggle-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/MotionPathPlugin-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/SplitText-3.15.0.min.js"></script>
+  <script src="../motion-lib.js"></script>
+  <link rel="stylesheet" href="scene-launch-villain-v6.css">
+  <style>
+    #spike-panel {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 600px; height: 400px; padding: 40px;
+    }
+    #spike-text { font-size: 48px; font-weight: 800; }
+  </style>
+</head>
+<body>
+<div id="bg-grad"></div>
+<div id="bg-grid"></div>
+<div id="bg-texture"></div>
+<div id="bg-particles"></div>
+
+<div id="spike-panel" class="panel-lime">
+  <div id="spike-text" data-copy="System spike">System spike</div>
+</div>
+
+<script>
+  gsap.ticker.lagSmoothing(0);
+  gsap.globalTimeline.pause();
+  document.fonts.ready.then(() => {
+    const tl = gsap.timeline();
+    gsap.set("#bg-grid", { opacity: 0 });
+    tl.to("#bg-grid", { opacity: 1, duration: 0.5, ease: "none" }, 0);
+    particleField(tl, "#bg-particles", 0, {
+      count: 40, seed: "v6-spike", color: "200,255,40",
+      drift: 30, sizeMin: 2, sizeMax: 5, opacityMax: 0.18, duration: 2.0
+    });
+    tl.from("#spike-panel", { scale: 0.9, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.2);
+    signalReady(tl);
+  });
+</script>
+</body>
+</html>

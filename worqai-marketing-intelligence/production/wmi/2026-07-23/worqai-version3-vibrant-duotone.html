@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI · Versión 3: Vibrant Dual-Tone Poster</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap');
+
+    :root {
+      --bg: #0c0f17;
+      --panel-left: #141a29;
+      --panel-right: #1b2234;
+      --ink: #ffffff;
+      --lime: #c9f24d;
+      --cyan: #00f0ff;
+      --coral: #ff4757;
+      --muted: #8895ad;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .poster {
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      padding: 54px;
+      background: linear-gradient(135deg, #090c14 0%, #111726 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Header Bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 4px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 22px;
+    }
+
+    .brand {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 36px;
+      letter-spacing: -0.05em;
+    }
+
+    .brand .lime { color: var(--lime); }
+
+    .stat-badge {
+      background: var(--lime);
+      color: var(--bg);
+      padding: 8px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      box-shadow: 4px 4px 0 #000;
+    }
+
+    /* Main Hero */
+    .hero {
+      margin-top: 32px;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 80px;
+      line-height: 0.88;
+      letter-spacing: -0.05em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    h1 .lime { color: var(--lime); }
+    h1 .cyan { color: var(--cyan); }
+
+    .hero-desc {
+      font-size: 23px;
+      font-weight: 650;
+      color: #b0bbd0;
+      margin-top: 18px;
+      max-width: 900px;
+      line-height: 1.25;
+    }
+
+    .hero-desc strong {
+      color: #ffffff;
+      font-weight: 850;
+    }
+
+    /* Dual Tone Comparison Board */
+    .board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .col {
+      padding: 30px 28px;
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      background: var(--panel-left);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .col.active {
+      background: var(--panel-right);
+      border-color: var(--lime);
+      box-shadow: 0 16px 40px rgba(201, 242, 77, 0.15);
+    }
+
+    .col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .col-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .col:not(.active) .col-label { color: var(--coral); }
+    .col.active .col-label { color: var(--lime); }
+
+    .col-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 26px;
+      margin: 18px 0 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .list-item {
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 4px solid var(--muted);
+    }
+
+    .col:not(.active) .list-item {
+      border-left-color: var(--coral);
+      color: #9aa7bc;
+    }
+
+    .col.active .list-item {
+      border-left-color: var(--lime);
+      background: rgba(201, 242, 77, 0.08);
+      color: #ffffff;
+    }
+
+    .list-item strong {
+      color: var(--lime);
+    }
+
+    .col-footer {
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 2px solid rgba(255, 255, 255, 0.1);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .col:not(.active) .col-footer { color: var(--coral); }
+    .col.active .col-footer { color: var(--lime); }
+
+    /* Bottom Highlight Bar */
+    .highlight-bar {
+      background: var(--lime);
+      color: var(--bg);
+      padding: 26px 32px;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 6px 6px 0 var(--cyan);
+    }
+
+    .bar-text {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 25px;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 4px solid rgba(255, 255, 255, 0.2);
+      padding-top: 22px;
+      margin-top: 28px;
+    }
+
+    .footer-left {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 22px;
+    }
+
+    .footer-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Poster Versión 3: Vibrant Dual-Tone">
+    <header class="topbar">
+      <div class="brand">WORQ<span class="lime">AI</span>.IO</div>
+      <div class="stat-badge">ESCANEO DE 5 SEGUNDOS</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">DIAGNÓSTICO DE COINCIDENCIA</div>
+      <h1>MISMA <span class="cyan">EXPERIENCIA.</span></h1>
+      <h1>OTRA <span class="lime">LECTURA.</span></h1>
+      <p class="hero-desc">
+        El reclutador no adivina lo que sabes hacer. <strong>Destaca la coincidencia real</strong> en las primeras líneas de tu CV.
+      </p>
+    </section>
+
+    <section class="board">
+      <!-- Left Column: Generic -->
+      <article class="col">
+        <div>
+          <div class="col-header">
+            <span class="col-label">CV GENÉRICO</span>
+            <span class="col-label">IGNORADO</span>
+          </div>
+          <h2 class="col-title">Redacción amplia</h2>
+          <div class="list">
+            <div class="list-item">Atención a requerimientos de clientes por diversos canales</div>
+            <div class="list-item">Gestión y seguimiento de solicitudes de soporte operativo</div>
+            <div class="list-item">Elaboración de reportes generales de la operación diaria</div>
+          </div>
+        </div>
+        <div class="col-footer">RESULTADO: EL RECLUTADOR NO ENCUENTRA PRUEBA RÁPIDA</div>
+      </article>
+
+      <!-- Right Column: Focused -->
+      <article class="col active">
+        <div>
+          <div class="col-header">
+            <span class="col-label">CV ENFOCADO</span>
+            <span class="col-label">CONFIRMADO</span>
+          </div>
+          <h2 class="col-title">Evidencia directa</h2>
+          <div class="list">
+            <div class="list-item">Soporte L1 por email con <strong>gestión de tickets en Zendesk</strong></div>
+            <div class="list-item">Resolución directa de <strong>40+ incidentes técnicos al día</strong></div>
+            <div class="list-item">Documentación de casos para escalamiento a ingeniería</div>
+          </div>
+        </div>
+        <div class="col-footer">RESULTADO: COINCIDENCIA VISIBLE EN 3 SEGUNDOS DE LECTURA</div>
+      </article>
+    </section>
+
+    <section class="highlight-bar">
+      <div class="bar-text">
+        NO INVENTES EXPERIENCIA. MOSTRAR TUS DATOS CON CLARIDAD ES LO QUE CAMBIA LA LECTURA.
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-left">WORQAI.IO</div>
+      <div class="footer-right">
+        REVISIÓN Y ADAPTACIÓN GRATUITA<br>
+        SIN TARJETA DE CRÉDITO
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

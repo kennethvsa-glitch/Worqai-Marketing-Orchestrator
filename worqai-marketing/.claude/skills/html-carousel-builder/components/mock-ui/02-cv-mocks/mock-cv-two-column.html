@@ -1,0 +1,72 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-cv-two-column",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s12",
+      "s17",
+      "s23",
+      "s33",
+      "s48"
+    ],
+    "avoid_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s40"
+    ],
+    "pairs_well_with": [
+      "org-blob-corner",
+      "light-glow-accent",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "mock-terminal-mac",
+      "mock-code-syntax-light"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CV TWO COLUMN
+Purpose: Two-column resume skeleton.
+-->
+
+<div class="cv-2col">
+  <div class="cv-col-left">
+    <div class="cv-line header"></div>
+    <div class="cv-line sub"></div>
+    <div class="cv-gap"></div>
+    <div class="cv-line full"></div>
+    <div class="cv-line full"></div>
+    <div class="cv-line mid"></div>
+  </div>
+  <div class="cv-col-right">
+    <div class="cv-line header" style="width:60%;"></div>
+    <div class="cv-gap"></div>
+    <div class="cv-line full"></div>
+    <div class="cv-line full"></div>
+    <div class="cv-line full"></div>
+    <div class="cv-line short"></div>
+  </div>
+</div>
+
+<style>
+.cv-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; padding: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; }
+.cv-col-left, .cv-col-right { display: flex; flex-direction: column; gap: 10px; }
+.cv-line { height: 10px; border-radius: 4px; background: rgba(255,255,255,0.10); }
+.cv-line.header { width: 45%; height: 14px; background: var(--text-primary); }
+.cv-line.sub { width: 30%; background: var(--text-muted); }
+.cv-line.full { width: 100%; }
+.cv-line.mid { width: 65%; }
+.cv-line.short { width: 40%; }
+.cv-gap { height: 8px; }
+</style>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brush Dark Background</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0A0A0A;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;background:#0A0A0A;}
+.canvas::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px 300px;opacity:0.05;pointer-events:none;z-index:10;}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <svg style="position:absolute;inset:0;z-index:1;" viewBox="0 0 1080 1080" width="1080" height="1080" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="bd1" cx="30%" cy="25%" r="60%"><stop offset="0%" stop-color="rgba(199,255,58,0.18)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="bd2" cx="75%" cy="70%" r="55%"><stop offset="0%" stop-color="rgba(199,255,58,0.14)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="bd3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(80,80,88,0.20)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    </defs>
+    <!-- Large lime-green circle top-left -->
+    <circle cx="180" cy="140" r="200" fill="#C7FF3A" opacity="0.85"/>
+    <!-- Halftone dots on top-left circle -->
+    <g fill="#0A0A0A" opacity="0.45">
+      <circle cx="80" cy="60" r="3"/><circle cx="100" cy="60" r="3"/><circle cx="120" cy="60" r="3"/><circle cx="140" cy="60" r="3"/><circle cx="160" cy="60" r="3"/><circle cx="180" cy="60" r="3"/><circle cx="200" cy="60" r="3"/><circle cx="220" cy="60" r="3"/><circle cx="240" cy="60" r="3"/><circle cx="260" cy="60" r="3"/>
+      <circle cx="90" cy="80" r="3"/><circle cx="110" cy="80" r="3"/><circle cx="130" cy="80" r="3"/><circle cx="150" cy="80" r="3"/><circle cx="170" cy="80" r="3"/><circle cx="190" cy="80" r="3"/><circle cx="210" cy="80" r="3"/><circle cx="230" cy="80" r="3"/><circle cx="250" cy="80" r="3"/><circle cx="270" cy="80" r="3"/>
+      <circle cx="80" cy="100" r="3"/><circle cx="100" cy="100" r="3"/><circle cx="120" cy="100" r="3"/><circle cx="140" cy="100" r="3"/><circle cx="160" cy="100" r="3"/><circle cx="180" cy="100" r="3"/><circle cx="200" cy="100" r="3"/><circle cx="220" cy="100" r="3"/><circle cx="240" cy="100" r="3"/><circle cx="260" cy="100" r="3"/>
+      <circle cx="90" cy="120" r="3"/><circle cx="110" cy="120" r="3"/><circle cx="130" cy="120" r="3"/><circle cx="150" cy="120" r="3"/><circle cx="170" cy="120" r="3"/><circle cx="190" cy="120" r="3"/><circle cx="210" cy="120" r="3"/><circle cx="230" cy="120" r="3"/><circle cx="250" cy="120" r="3"/><circle cx="270" cy="120" r="3"/>
+      <circle cx="80" cy="140" r="3"/><circle cx="100" cy="140" r="3"/><circle cx="120" cy="140" r="3"/><circle cx="140" cy="140" r="3"/><circle cx="160" cy="140" r="3"/><circle cx="180" cy="140" r="3"/><circle cx="200" cy="140" r="3"/><circle cx="220" cy="140" r="3"/><circle cx="240" cy="140" r="3"/><circle cx="260" cy="140" r="3"/>
+      <circle cx="90" cy="160" r="3"/><circle cx="110" cy="160" r="3"/><circle cx="130" cy="160" r="3"/><circle cx="150" cy="160" r="3"/><circle cx="170" cy="160" r="3"/><circle cx="190" cy="160" r="3"/><circle cx="210" cy="160" r="3"/><circle cx="230" cy="160" r="3"/><circle cx="250" cy="160" r="3"/><circle cx="270" cy="160" r="3"/>
+      <circle cx="80" cy="180" r="3"/><circle cx="100" cy="180" r="3"/><circle cx="120" cy="180" r="3"/><circle cx="140" cy="180" r="3"/><circle cx="160" cy="180" r="3"/><circle cx="180" cy="180" r="3"/><circle cx="200" cy="180" r="3"/><circle cx="220" cy="180" r="3"/><circle cx="240" cy="180" r="3"/><circle cx="260" cy="180" r="3"/>
+      <circle cx="90" cy="200" r="3"/><circle cx="110" cy="200" r="3"/><circle cx="130" cy="200" r="3"/><circle cx="150" cy="200" r="3"/><circle cx="170" cy="200" r="3"/><circle cx="190" cy="200" r="3"/><circle cx="210" cy="200" r="3"/><circle cx="230" cy="200" r="3"/><circle cx="250" cy="200" r="3"/><circle cx="270" cy="200" r="3"/>
+      <circle cx="80" cy="220" r="3"/><circle cx="100" cy="220" r="3"/><circle cx="120" cy="220" r="3"/><circle cx="140" cy="220" r="3"/><circle cx="160" cy="220" r="3"/><circle cx="180" cy="220" r="3"/><circle cx="200" cy="220" r="3"/><circle cx="220" cy="220" r="3"/><circle cx="240" cy="220" r="3"/><circle cx="260" cy="220" r="3"/>
+    </g>
+    <!-- Large grey circle bottom-left -->
+    <circle cx="200" cy="850" r="220" fill="#3A3A3E" opacity="0.8"/>
+    <!-- Black circle bottom-right -->
+    <circle cx="900" cy="880" r="180" fill="#111111" opacity="0.9"/>
+    <path d="M 780 850 L 960 780 L 980 850 L 800 920 Z" fill="#FFFFFF" opacity="0.85"/>
+    <!-- Bold black brush strokes -->
+    <path d="M 600 80 Q 750 120 950 180 Q 900 220 850 200 Q 700 160 600 80 Z" fill="#1A1A1E" opacity="0.9"/>
+    <path d="M 550 150 Q 650 180 780 240 Q 700 260 620 220 Q 550 190 550 150 Z" fill="#222226" opacity="0.85"/>
+    <path d="M 620 40 Q 800 80 1000 140 Q 950 100 850 70 Q 720 40 620 40 Z" fill="#151518" opacity="0.9"/>
+    <!-- Grey brush strokes -->
+    <path d="M 500 300 Q 600 280 720 320 Q 650 360 580 340 Q 520 330 500 300 Z" fill="#4A4A4E" opacity="0.7"/>
+    <path d="M 80 600 Q 200 580 320 640 Q 240 660 160 640 Q 100 620 80 600 Z" fill="#55555A" opacity="0.65"/>
+    <!-- Lime-green circle bottom-right with halftone -->
+    <circle cx="920" cy="700" r="120" fill="#C7FF3A" opacity="0.8"/>
+    <g fill="#0A0A0A" opacity="0.35">
+      <circle cx="860" cy="640" r="2.5"/><circle cx="880" cy="640" r="2.5"/><circle cx="900" cy="640" r="2.5"/><circle cx="920" cy="640" r="2.5"/><circle cx="940" cy="640" r="2.5"/><circle cx="960" cy="640" r="2.5"/><circle cx="980" cy="640" r="2.5"/>
+      <circle cx="870" cy="660" r="2.5"/><circle cx="890" cy="660" r="2.5"/><circle cx="910" cy="660" r="2.5"/><circle cx="930" cy="660" r="2.5"/><circle cx="950" cy="660" r="2.5"/><circle cx="970" cy="660" r="2.5"/><circle cx="990" cy="660" r="2.5"/>
+      <circle cx="860" cy="680" r="2.5"/><circle cx="880" cy="680" r="2.5"/><circle cx="900" cy="680" r="2.5"/><circle cx="920" cy="680" r="2.5"/><circle cx="940" cy="680" r="2.5"/><circle cx="960" cy="680" r="2.5"/><circle cx="980" cy="680" r="2.5"/>
+      <circle cx="870" cy="700" r="2.5"/><circle cx="890" cy="700" r="2.5"/><circle cx="910" cy="700" r="2.5"/><circle cx="930" cy="700" r="2.5"/><circle cx="950" cy="700" r="2.5"/><circle cx="970" cy="700" r="2.5"/><circle cx="990" cy="700" r="2.5"/>
+      <circle cx="860" cy="720" r="2.5"/><circle cx="880" cy="720" r="2.5"/><circle cx="900" cy="720" r="2.5"/><circle cx="920" cy="720" r="2.5"/><circle cx="940" cy="720" r="2.5"/><circle cx="960" cy="720" r="2.5"/><circle cx="980" cy="720" r="2.5"/>
+      <circle cx="870" cy="740" r="2.5"/><circle cx="890" cy="740" r="2.5"/><circle cx="910" cy="740" r="2.5"/><circle cx="930" cy="740" r="2.5"/><circle cx="950" cy="740" r="2.5"/><circle cx="970" cy="740" r="2.5"/><circle cx="990" cy="740" r="2.5"/>
+      <circle cx="860" cy="760" r="2.5"/><circle cx="880" cy="760" r="2.5"/><circle cx="900" cy="760" r="2.5"/><circle cx="920" cy="760" r="2.5"/><circle cx="940" cy="760" r="2.5"/><circle cx="960" cy="760" r="2.5"/><circle cx="980" cy="760" r="2.5"/>
+    </g>
+    <!-- Thin curved accent lines -->
+    <path d="M 120 320 Q 160 380 140 440" fill="none" stroke="rgba(199,255,58,0.15)" stroke-width="2" opacity="0.6"/>
+    <path d="M 950 500 Q 900 580 960 620" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1.5" opacity="0.5"/>
+  </svg>
+</div>
+</body>
+</html>

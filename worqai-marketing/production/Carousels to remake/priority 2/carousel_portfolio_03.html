@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sela Studio — Carousel 03</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500&family=Parisienne&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --cream:#f5ece1;
+    --rose:#e7c8b9;
+    --rose-2:#d6a293;
+    --terra:#b6745f;
+    --ink:#3a2a25;
+    --soft:#7a655e;
+    --gold:#c89a5b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#241a17;font-family:'Inter',sans-serif;min-height:100vh;padding:40px 20px;color:#eee}
+  .controls{max-width:1080px;margin:0 auto 24px;display:flex;gap:12px;align-items:center}
+  .controls button{background:var(--terra);color:#fff;border:0;padding:12px 22px;font-family:'Inter';font-weight:500;letter-spacing:0.05em;cursor:pointer;border-radius:999px;text-transform:uppercase;font-size:12px}
+  .controls button:hover{background:var(--gold)}
+  .dots{display:flex;gap:8px;margin-left:auto}
+  .dots span{width:8px;height:8px;border-radius:50%;background:#444}
+  .dots span.active{background:var(--rose-2)}
+  .stage{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .slide{
+    width:1080px;height:1080px;
+    position:relative;overflow:hidden;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Fraunces',serif;
+  }
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:0.18;mix-blend-mode:multiply;z-index:6}
+  .grain svg{width:100%;height:100%}
+
+  .topbar{position:absolute;top:48px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;font-family:'Inter';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--soft);z-index:7}
+  .footer-bar{position:absolute;bottom:48px;left:64px;right:64px;display:flex;justify-content:space-between;font-family:'Inter';font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--soft);z-index:7}
+
+  /* SLIDE 1 — cover, before */
+  .s1{background:
+    radial-gradient(circle at 30% 20%, #f7e8da 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, #e7c8b9 0%, transparent 60%),
+    linear-gradient(160deg, #f5ece1 0%, #ecd6c5 100%);
+  }
+  .s1 .blob{position:absolute;top:-100px;right:-100px;width:600px;height:600px;z-index:1;opacity:0.7}
+  .s1 .blob2{position:absolute;bottom:-150px;left:-150px;width:550px;height:550px;z-index:1;opacity:0.55}
+  .s1 .script{position:absolute;top:170px;left:64px;font-family:'Parisienne',cursive;font-size:62px;color:var(--terra);line-height:1;z-index:7}
+  .s1 h1{position:absolute;top:280px;left:64px;right:64px;font-family:'Fraunces';font-weight:300;font-size:128px;line-height:0.92;letter-spacing:-0.03em;color:var(--ink);z-index:7;font-style:italic}
+  .s1 h1 strong{font-weight:500;font-style:normal;color:var(--terra)}
+  .s1 .pair{position:absolute;bottom:200px;left:64px;right:64px;display:grid;grid-template-columns:1fr 1fr;gap:36px;z-index:7}
+  .s1 .pair .col{padding:28px;background:rgba(255,253,250,0.55);border:1px solid rgba(182,116,95,0.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:18px}
+  .s1 .pair .lbl{font-family:'Inter';font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--soft);margin-bottom:14px}
+  .s1 .pair h3{font-family:'Fraunces';font-style:italic;font-weight:400;font-size:34px;line-height:1.05;color:var(--ink)}
+  .s1 .pair small{font-family:'Inter';font-size:13px;color:var(--soft);margin-top:10px;display:block;line-height:1.5;font-weight:400}
+  .s1 .stamp{position:absolute;top:64px;right:64px;width:128px;height:128px;border:1px solid var(--terra);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter';font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terra);text-align:center;line-height:1.4;z-index:7;background:rgba(255,253,250,0.88);backdrop-filter:blur(8px)}
+
+  /* SLIDE 2 — agitate */
+  .s2{background:
+    radial-gradient(circle at 70% 30%, #e7c8b9 0%, transparent 55%),
+    linear-gradient(180deg, #f5ece1 0%, #efd9c8 100%);
+  }
+  .s2 .blob{position:absolute;top:60%;left:-200px;width:700px;height:600px;z-index:1;opacity:0.6}
+  .s2 .script{position:absolute;top:140px;left:64px;font-family:'Parisienne';font-size:48px;color:var(--terra);z-index:7}
+  .s2 h2{position:absolute;top:240px;left:64px;right:64px;font-family:'Fraunces';font-style:italic;font-weight:300;font-size:96px;line-height:1.0;letter-spacing:-0.02em;z-index:7;color:var(--ink)}
+  .s2 h2 strong{font-style:normal;font-weight:500;color:var(--terra)}
+  .s2 .checklist{position:absolute;top:600px;left:64px;right:64px;display:flex;flex-direction:column;gap:16px;z-index:7}
+  .s2 .item{display:flex;gap:18px;align-items:flex-start;padding:18px 22px;background:rgba(255,253,250,0.55);border:1px solid rgba(182,116,95,0.15);border-radius:14px;backdrop-filter:blur(10px)}
+  .s2 .item .x{width:28px;height:28px;border-radius:50%;background:var(--terra);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Inter';font-weight:500;font-size:14px;flex-shrink:0;margin-top:2px}
+  .s2 .item .txt{font-family:'Fraunces';font-style:italic;font-size:24px;color:var(--ink);line-height:1.3;font-weight:400}
+  .s2 .item .txt small{display:block;font-style:normal;font-family:'Inter';font-size:13px;color:var(--soft);margin-top:6px;font-weight:400;letter-spacing:0.02em}
+
+  /* SLIDE 3 — transformation */
+  .s3{background:linear-gradient(160deg, #f5ece1 0%, #e7c8b9 60%, #d6a293 100%)}
+  .s3 .blob{position:absolute;top:-150px;right:-100px;width:540px;height:540px;z-index:1;opacity:0.7}
+  .s3 .topbar{color:var(--ink)}
+  .s3 .script{position:absolute;top:160px;left:64px;font-family:'Parisienne';font-size:54px;color:var(--terra);z-index:7}
+  .s3 h2{position:absolute;top:260px;left:64px;right:64px;font-family:'Fraunces';font-style:italic;font-weight:300;font-size:104px;line-height:0.95;letter-spacing:-0.02em;color:var(--ink);z-index:7}
+  .s3 h2 strong{font-style:normal;font-weight:500;color:#5e3527}
+  .s3 .panel{position:absolute;bottom:160px;left:64px;right:64px;display:grid;grid-template-columns:1fr 1px 1fr;gap:32px;align-items:center;z-index:7;padding:32px;background:rgba(255,253,250,0.5);border:1px solid rgba(94,53,39,0.18);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:24px}
+  .s3 .panel .col .lbl{font-family:'Inter';font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--soft);margin-bottom:12px}
+  .s3 .panel .col .big{font-family:'Fraunces';font-style:italic;font-weight:300;font-size:80px;color:var(--ink);line-height:0.95}
+  .s3 .panel .col .big em{font-style:normal;color:var(--terra);font-weight:500}
+  .s3 .panel .col p{font-family:'Inter';font-size:13px;color:var(--soft);margin-top:10px;line-height:1.5}
+  .s3 .panel .div{background:rgba(94,53,39,0.25);height:80%;align-self:center}
+
+  /* SLIDE 4 — proof */
+  .s4{background:linear-gradient(180deg, #f5ece1 0%, #f0dccb 100%)}
+  .s4 .blob{position:absolute;bottom:-200px;right:-150px;width:600px;height:600px;z-index:1;opacity:0.55}
+  .s4 .script{position:absolute;top:140px;left:64px;font-family:'Parisienne';font-size:48px;color:var(--terra);z-index:7}
+  .s4 h2{position:absolute;top:230px;left:64px;right:64px;font-family:'Fraunces';font-style:italic;font-weight:300;font-size:84px;line-height:1.0;letter-spacing:-0.02em;color:var(--ink);z-index:7}
+  .s4 h2 strong{font-style:normal;font-weight:500;color:var(--terra)}
+  .s4 .quote{position:absolute;top:480px;left:64px;right:64px;padding:38px 42px;background:rgba(255,253,250,0.65);border:1px solid rgba(182,116,95,0.2);border-radius:24px;backdrop-filter:blur(14px);z-index:7}
+  .s4 .quote .mark{font-family:'Fraunces';font-style:italic;font-size:84px;color:var(--terra);line-height:0.4;margin-bottom:8px}
+  .s4 .quote p{font-family:'Fraunces';font-style:italic;font-weight:300;font-size:30px;line-height:1.3;color:var(--ink)}
+  .s4 .quote p em{font-style:normal;color:var(--terra);font-weight:500}
+  .s4 .quote .author{margin-top:24px;display:flex;justify-content:space-between;align-items:flex-end;padding-top:20px;border-top:1px solid rgba(94,53,39,0.15)}
+  .s4 .quote .author .nm{font-family:'Fraunces';font-style:italic;font-size:18px;color:var(--ink)}
+  .s4 .quote .author .role{font-family:'Inter';font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--soft);margin-top:4px}
+  .s4 .quote .author .stars{font-family:'Inter';font-size:13px;letter-spacing:0.2em;color:var(--gold)}
+
+  /* SLIDE 5 — CTA */
+  .s5{background:
+    radial-gradient(circle at 30% 70%, #d6a293 0%, transparent 55%),
+    radial-gradient(circle at 75% 25%, #e7c8b9 0%, transparent 50%),
+    linear-gradient(160deg, #efd9c8 0%, #d6a293 100%);}
+  .s5 .blob{position:absolute;top:-100px;left:-150px;width:540px;height:540px;z-index:1;opacity:0.65}
+  .s5 .topbar{color:#3a2a25}
+  .s5 .script{position:absolute;top:200px;left:64px;font-family:'Parisienne';font-size:72px;color:#5e3527;z-index:7;line-height:1}
+  .s5 h2{position:absolute;top:330px;left:64px;right:64px;font-family:'Fraunces';font-style:italic;font-weight:300;font-size:128px;line-height:0.9;letter-spacing:-0.03em;color:var(--ink);z-index:7}
+  .s5 h2 strong{font-style:normal;font-weight:500;color:#5e3527;display:block}
+  .s5 .panel{position:absolute;bottom:160px;left:64px;right:64px;padding:28px 32px;background:rgba(255,253,250,0.7);border:1px solid rgba(94,53,39,0.2);border-radius:24px;backdrop-filter:blur(14px);display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;z-index:7}
+  .s5 .panel .meta{font-family:'Inter';font-size:13px;color:var(--ink);line-height:1.7}
+  .s5 .panel .meta strong{font-family:'Fraunces';font-style:italic;font-weight:500;color:var(--terra);font-size:18px}
+  .s5 .panel .cta{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;background:#5e3527;color:#f5ece1;border-radius:999px;font-family:'Inter';font-weight:500;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;white-space:nowrap}
+
+</style>
+</head>
+<body>
+  <div class="controls">
+    <button id="exportBtn">Export ZIP</button>
+    <span style="color:#aaa;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Sela Studio — 5 slides</span>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 1 -->
+    <div class="slide s1" id="slide-1">
+      <svg class="blob" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg"><path fill="#d6a293" d="M464.5 340.5q-37 84-117.5 119t-156.5-21.5Q121 386 99.5 295.5 78 205 154.5 152T323 99q92 0 138.5 84.5T464.5 340.5z"/></svg>
+      <svg class="blob2" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg"><path fill="#e7c8b9" d="M484 332q-30 76-104.5 122T220 487Q105 460 79 360.5T127 178q44-83 156.5-110T448 132q60 51 60 100t-24 100z"/></svg>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="sn1"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#sn1)" opacity="0.4"/></svg></div>
+      <div class="topbar">
+        <span>Sela Studio · Skin Atelier</span>
+        <span>Edit 06 / Spring</span>
+      </div>
+      <div class="stamp">Made in<br>small<br>batches</div>
+      <div class="script">a quiet ritual,</div>
+      <h1>not <em>another</em><br><strong>10-step routine.</strong></h1>
+      <div class="pair">
+        <div class="col">
+          <div class="lbl">Day 0</div>
+          <h3>9 products. 22 minutes. Tight skin by 3pm.</h3>
+          <small>Self-reported by 412 customers before starting Sela.</small>
+        </div>
+        <div class="col">
+          <div class="lbl">Day 28</div>
+          <h3>3 products. 4 minutes. Skin that doesn't ask for backup.</h3>
+          <small>Median across our pilot of 184 customers.</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide s2" id="slide-2">
+      <svg class="blob" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg"><path fill="#d6a293" d="M580 320q-30 100-130 145T243 472Q132 432 86 333T108 138Q150 53 256 28t214 38q108 63 116 142t-6 112z"/></svg>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="sn2"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#sn2)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span>02 / 05 — The shelf you don't need</span><span>Sela Studio</span></div>
+      <div class="script">honestly,</div>
+      <h2>your skin is <strong>tired,</strong><br>not deficient.</h2>
+      <div class="checklist">
+        <div class="item"><div class="x">×</div><div class="txt">7 actives layered before SPF<small>Niacinamide, retinol, vitamin C, AHA, BHA — at the same time.</small></div></div>
+        <div class="item"><div class="x">×</div><div class="txt">A new TikTok serum every 14 days<small>The barrier never gets a baseline.</small></div></div>
+        <div class="item"><div class="x">×</div><div class="txt">Fragrance disguised as "essence"<small>Limonene, linalool, geraniol — top 3 irritants on flushed skin.</small></div></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide s3" id="slide-3">
+      <svg class="blob" viewBox="0 0 540 540" xmlns="http://www.w3.org/2000/svg"><path fill="#5e3527" d="M425 305q-30 70-100 110t-145 5Q105 384 75 309T80 165Q108 86 196 51t168 5q80 40 90 130t-29 119z" opacity="0.18"/></svg>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="sn3"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#sn3)" opacity="0.4"/></svg>
+      </div>
+      <div class="topbar"><span>03 / 05 — 28 days on Sela</span><span>Sela Studio</span></div>
+      <div class="script">measured, not promised</div>
+      <h2>What <strong>actually</strong><br>changes.</h2>
+      <div class="panel">
+        <div class="col">
+          <div class="lbl">Barrier (TEWL)</div>
+          <div class="big">−<em>34%</em></div>
+          <p>Trans-epidermal water loss, measured at week 4 vs baseline.</p>
+        </div>
+        <div class="div"></div>
+        <div class="col">
+          <div class="lbl">Visible redness</div>
+          <div class="big">−<em>41%</em></div>
+          <p>VISIA imaging, 84-person internal panel, 2024.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide s4" id="slide-4">
+      <svg class="blob" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg"><path fill="#e7c8b9" d="M484 332q-30 76-104.5 122T220 487Q105 460 79 360.5T127 178q44-83 156.5-110T448 132q60 51 60 100t-24 100z"/></svg>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="sn4"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#sn4)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span>04 / 05 — A note from a customer</span><span>Sela Studio</span></div>
+      <div class="script">in her words,</div>
+      <h2>"My bathroom <strong>shelf</strong><br>has six free cm now."</h2>
+      <div class="quote">
+        <div class="mark">"</div>
+        <p>I gave away the rest. <em>Three things, four minutes, and my skin stopped breaking out at the jaw line</em> by week three. I don't know what to do with the time I got back.</p>
+        <div class="author">
+          <div>
+            <div class="nm">— Camila R., México DF</div>
+            <div class="role">Sela customer, 11 weeks in</div>
+          </div>
+          <div class="stars">★ ★ ★ ★ ★</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide s5" id="slide-5">
+      <svg class="blob" viewBox="0 0 540 540" xmlns="http://www.w3.org/2000/svg"><path fill="#f5ece1" d="M425 305q-30 70-100 110t-145 5Q105 384 75 309T80 165Q108 86 196 51t168 5q80 40 90 130t-29 119z"/></svg>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="sn5"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#sn5)" opacity="0.45"/></svg></div>
+      <div class="topbar"><span>05 / 05 — The Edit</span><span>Sela Studio</span></div>
+      <div class="script">your three pieces,</div>
+      <h2>start with the<br><strong>quiet edit.</strong></h2>
+      <div class="panel">
+        <div class="meta">
+          <strong>The Sela Edit</strong> · 3 products<br>$84 · Free returns within 30 days<br>Ships from Mexico City in 48h
+        </div>
+        <a class="cta">Shop the Edit →</a>
+      </div>
+      <div class="footer-bar"><span>selastudio.co/edit</span><span>@selastudio</span></div>
+    </div>
+  </div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.getElementById('dots');
+  slides.forEach((_,i)=>{const s=document.createElement('span');if(i===0)s.classList.add('active');dots.appendChild(s);});
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){const idx=[...slides].indexOf(e.target);[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}});
+  },{threshold:0.5});
+  slides.forEach(s=>obs.observe(s));
+
+  document.getElementById('exportBtn').addEventListener('click', async ()=>{
+    const btn = document.getElementById('exportBtn');
+    btn.disabled=true; btn.textContent='Rendering...';
+    const zip = new JSZip();
+    for(let i=0;i<slides.length;i++){
+      btn.textContent=`Rendering ${i+1}/${slides.length}`;
+      const canvas = await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,backgroundColor:null});
+      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+      zip.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const out = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(out);
+    const a = document.createElement('a'); a.href=url; a.download='sela_studio_carousel.zip'; a.click();
+    btn.disabled=false; btn.textContent='Export ZIP';
+  });
+</script>
+</body>
+</html>

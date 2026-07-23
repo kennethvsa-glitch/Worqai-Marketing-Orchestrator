@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "title": "Phase 1 Visual Upgrade Test",
+    "brand": "WorqAI",
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 5,
+    "language": "es-LATAM"
+  },
+  "pacing": ["hook", "data", "diagnostic", "proof", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["geo-contour-flow"],
+      "copy": {
+        "kicker": "@worqai · Test",
+        "headline": "Nuevos layouts visuales.",
+        "body": "Probando waffle, input/output, before/after stacked, glass panel y contour flow."
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-waffle-chart",
+      "layers": ["geo-contour-flow"],
+      "copy": {
+        "kicker": "DATO",
+        "stat_number": "73%",
+        "label": "RECHAZADOS",
+        "filled": 73,
+        "headline": "de CVs eliminados antes de revisión humana",
+        "context": "El ATS filtra automáticamente"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-input-output",
+      "layers": ["geo-contour-flow"],
+      "copy": {
+        "kicker": "DIAGNÓSTICO",
+        "headline": "El ATS lee de izquierda a derecha",
+        "input_label": "LO QUE ESCRIBISTE",
+        "input_text": "EXPERIENCIA | SKILLS | Ingeniera de Datos | Python - SQL - AWS",
+        "output_label": "LO QUE VE EL ATS",
+        "output_text": "EXPERIENCIASKILLSIngenieradeDatosPythonSQLAWS"
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-before-after-stacked",
+      "layers": ["geo-contour-flow"],
+      "copy": {
+        "kicker": "TRANSFORMACIÓN",
+        "headline": "Antes vs. Después",
+        "before_label": "CV CON COLUMNAS",
+        "before_text": "El ATS ve caos estructural. Las columnas rompen el flujo de lectura.",
+        "before_pct": 3,
+        "after_label": "CV OPTIMIZADO ATS PURO",
+        "after_text": "Texto plano, estructura estándar. 100% legible para el algoritmo.",
+        "after_pct": 98
+      }
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["geo-contour-flow"],
+      "copy": {
+        "question": "¿Tu CV sobrevive el filtro?",
+        "cta_keyword": "OPTIMIZAR",
+        "reward": "Descubrilo gratis en 30 segundos.",
+        "url": "@worqai"
+      }
+    }
+  ]
+}

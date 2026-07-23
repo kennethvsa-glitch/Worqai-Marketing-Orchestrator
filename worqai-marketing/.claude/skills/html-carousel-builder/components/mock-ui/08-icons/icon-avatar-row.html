@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "icon-avatar-row",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "pairs_well_with": [
+      "deco-brand-anchor",
+      "deco-progress-dots",
+      "icon-social"
+    ],
+    "conflicts_with": [
+      "deco-masthead",
+      "deco-ticker"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: ICON AVATAR ROW
+Purpose: M8 — Overlapping avatar circles.
+-->
+
+<div class="mock-avatar-row">
+  <div class="mar-item"></div>
+  <div class="mar-item"></div>
+  <div class="mar-item"></div>
+  <div class="mar-item mar-more">+12</div>
+</div>
+
+<style>
+.mock-avatar-row { display: flex; align-items: center; }
+.mar-item { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 2px solid var(--bg-base); margin-left: -10px; }
+.mar-item:first-child { margin-left: 0; }
+.mar-more { display: flex; align-items: center; justify-content: center; font-family: var(--font-mono), monospace; font-size: 9px; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.03); }
+</style>

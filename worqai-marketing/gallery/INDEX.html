@@ -1,0 +1,2952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WorqAI · Component Gallery · 124</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+:root{
+  --accent:#C7FF3A;
+  --accent-dim:rgba(199,255,58,0.12);
+  --bg:#080c0e;
+  --panel:#0b0f14;
+  --border:#111820;
+  --border-light:#1a2332;
+  --text:#c9d1d9;
+  --text-dim:#8a9bb0;
+  --text-faint:#3a4a5a;
+  --text-dark:#1e2d3d;
+}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:grid;
+  grid-template-rows:auto auto 1fr;
+  grid-template-columns:minmax(300px,40%) 1fr;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+header{
+  grid-column:1/-1;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;height:56px;
+  background:#0d1117;
+  border-bottom:1px solid var(--border-light);
+}
+.logo{
+  font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:700;letter-spacing:0.14em;
+  color:var(--accent);
+  text-shadow:0 0 18px rgba(199,255,58,0.45),0 0 40px rgba(199,255,58,0.15);
+}
+.logo-sep{color:#2d4a6a;margin:0 8px}
+.logo-sub{color:#4a5568;font-weight:400;font-size:12px;letter-spacing:0.08em}
+.header-stats{
+  display:flex;gap:20px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;color:#2d4a6a;
+  letter-spacing:0.06em;
+}
+.hs-item span{color:var(--accent)}
+.hs-sep{color:var(--border-light)}
+
+/* ── Filter bar ─────────────────────────────────────────────────────── */
+.filter-bar{
+  grid-column:1/-1;
+  display:flex;align-items:center;gap:6px;padding:0 14px;height:44px;
+  background:var(--panel);border-bottom:1px solid var(--border);
+}
+.filter-btn{
+  font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:4px 12px;background:transparent;
+  border:1px solid var(--border-light);color:var(--text-faint);cursor:pointer;
+  border-radius:3px;
+}
+.filter-btn:hover{border-color:#2d4a6a;color:#6a8aaa}
+.filter-btn.on{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:700}
+.filter-sep{width:1px;height:20px;background:var(--border-light);margin:0 4px}
+.filter-count{
+  font-family:'JetBrains Mono',monospace;font-size:9px;color:#2d4a6a;
+  letter-spacing:0.06em;margin-left:auto;
+}
+.filter-count span{color:#4a6a8a}
+
+/* ── Nav panel ──────────────────────────────────────────────────────── */
+nav{
+  overflow-y:auto;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  scrollbar-width:thin;
+  scrollbar-color:var(--border-light) transparent;
+  padding-bottom:20px;
+}
+nav::-webkit-scrollbar{width:3px}
+nav::-webkit-scrollbar-track{background:transparent}
+nav::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:1px}
+
+/* ── Cards ──────────────────────────────────────────────────────────── */
+.card{
+  display:grid;grid-template-columns:36px 1fr auto;
+  gap:0 10px;align-items:start;
+  padding:11px 14px;
+  border-bottom:1px solid #0f141a;
+  color:var(--text-dim);
+  
+  cursor:pointer;position:relative;
+}
+.card:hover{background:#0f141a;color:var(--text);border-left:2px solid var(--accent);padding-left:12px}
+.card.active{
+  background:#0f1a24;
+  border-left:2px solid var(--accent);
+  padding-left:12px;
+  color:#e0e8f0;
+}
+.card-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;color:var(--text-dark);letter-spacing:0.04em;
+  padding-top:1px;
+}
+.card:hover .card-num,.card.active .card-num{color:#4a6a4a}
+.card-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.card-cat{
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;
+}
+.card-title{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-desc{font-size:10px;color:var(--text-faint);line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card:hover .card-desc{color:#4a6a7a}
+
+/* Card toggle (Component / Context) */
+.card-toggle{
+  display:flex;flex-direction:column;gap:2px;align-self:start;margin-top:1px;
+}
+.ct-btn{
+  font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;
+  padding:2px 5px;background:transparent;border:1px solid var(--border-light);
+  color:var(--text-faint);cursor:pointer;border-radius:2px;
+  line-height:1;
+}
+.ct-btn:hover{border-color:#2d4a6a;color:#6a8aaa}
+.ct-btn.active{background:var(--accent-dim);border-color:rgba(199,255,58,0.35);color:var(--accent)}
+
+.badge-new{
+  font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;
+  padding:2px 5px;letter-spacing:0.1em;text-transform:uppercase;
+  background:var(--accent-dim);border:1px solid rgba(199,255,58,0.35);
+  color:var(--accent);border-radius:2px;white-space:nowrap;
+  position:absolute;top:11px;right:11px;
+}
+
+/* ── Preview panel ──────────────────────────────────────────────────── */
+main{
+  display:flex;flex-direction:column;
+  background:#060a0c;
+  overflow:hidden;
+}
+.preview-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 14px;height:36px;
+  background:var(--panel);border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.preview-path{
+  font-family:'JetBrains Mono',monospace;font-size:9px;color:#2d4a6a;
+  letter-spacing:0.08em;
+}
+.preview-path span{color:#4a8a6a}
+.preview-actions{display:flex;gap:6px}
+.preview-btn{
+  font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.1em;
+  text-transform:uppercase;padding:3px 8px;
+  background:transparent;border:1px solid var(--border-light);color:#2d4a6a;cursor:pointer;
+  text-decoration:none;border-radius:2px;
+}
+.preview-btn:hover{border-color:var(--accent);color:var(--accent)}
+.preview-frame{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:20px;overflow:hidden;position:relative;
+}
+iframe{
+  width:100%;
+  max-width:min(calc(100vh - 160px), calc(100% - 40px));
+  aspect-ratio:1/1;
+  border:1px solid var(--border-light);
+  background:#0a0a12;
+  display:none;
+  
+}
+.empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  width:100%;height:100%;gap:16px;
+  font-family:'JetBrains Mono',monospace;color:var(--text-dark);
+}
+.empty-prompt{
+  font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
+}
+.empty-sub{font-size:9px;color:#141c24;letter-spacing:0.06em;margin-top:4px}
+.cursor{
+  display:inline-block;width:8px;height:14px;background:var(--accent);
+  opacity:0.7;vertical-align:middle;
+}
+
+/* ── System cards ───────────────────────────────────────────────────── */
+.scard{
+  display:grid;grid-template-columns:28px 1fr;
+  gap:0 10px;align-items:center;
+  padding:9px 14px;
+  border-bottom:1px solid #0f141a;
+  cursor:pointer;
+}
+.scard:hover{background:#0f141a;border-left:2px solid var(--accent);padding-left:12px}
+.scard.active{background:#0f1a24;border-left:2px solid var(--accent);padding-left:12px}
+.scard-dots{display:flex;flex-direction:column;gap:3px;align-items:flex-start}
+.scard-dot{width:18px;height:18px;border-radius:4px;flex-shrink:0}
+.scard-dot-bg{border:1px solid rgba(255,255,255,0.15)!important}
+.scard-info{display:flex;flex-direction:column;gap:1px;min-width:0}
+.scard-id{
+  font-family:'JetBrains Mono',monospace;font-size:8px;
+  letter-spacing:0.18em;color:#2d4a6a;text-transform:uppercase;
+}
+.scard:hover .scard-id,.scard.active .scard-id{color:#4a7a4a}
+.scard-name{
+  font-size:11px;font-weight:700;letter-spacing:0.06em;
+  color:var(--text-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.scard:hover .scard-name,.scard.active .scard-name{color:var(--text)}
+.scard-fonts{
+  font-size:9px;color:var(--text-faint);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sys-section-header{
+  padding:10px 14px 4px;
+  font-family:'JetBrains Mono',monospace;font-size:8px;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:#2d4a6a;border-bottom:1px solid #0f141a;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────── */
+@media(max-width:768px){
+  html,body{height:auto;overflow:auto}
+  body{grid-template-rows:auto auto 50vh auto;grid-template-columns:1fr}
+  main{order:-1;height:50vh}
+  nav{max-height:none}
+  iframe{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    WORQAI<span class="logo-sep">·</span><span class="logo-sub">Component Gallery</span>
+  </div>
+  <div class="header-stats">
+    <span class="hs-item"><span>124</span> components</span>
+    <span class="hs-sep">|</span>
+    <span class="hs-item"><span>42</span> Geo</span>
+    <span class="hs-item"><span>3</span> Chrome</span>
+    <span class="hs-item"><span>52</span> Layout</span>
+    <span class="hs-item"><span>22</span> Sub</span>
+    <span class="hs-item"><span>3</span> CSS</span>
+    <span class="hs-item"><span>2</span> AI-BG</span>
+    <span class="hs-sep">|</span>
+    <span class="hs-item"><span>48</span> Systems</span>
+  </div>
+</header>
+
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-btn on" data-cat="all">All</button>
+  <button class="filter-btn" data-cat="Geo">Geo</button>
+  <button class="filter-btn" data-cat="Chrome">Chrome</button>
+  <button class="filter-btn" data-cat="Layout">Layout</button>
+  <button class="filter-btn" data-cat="Sub">Sub</button>
+  <button class="filter-btn" data-cat="CSS">CSS</button>
+  <button class="filter-btn" data-cat="AI-BG">AI-BG</button>
+  <button class="filter-btn" data-cat="Systems">Systems (48)</button>
+  <span class="filter-sep"></span>
+  <span class="filter-count">showing <span id="vis-count">124</span> / 124</span>
+</div>
+
+<nav id="nav">
+
+      <div class="card" data-cat="Geo" data-slug="geo-mesh-noise"
+           data-component="01-geo-mesh-noise-component.html"
+           data-context="01-geo-mesh-noise-context.html">
+        <span class="card-num">01</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Mesh Noise</span>
+          <span class="card-desc">Animated soft mesh-gradient blob. Warm + light systems.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-pixel-grid"
+           data-component="02-geo-pixel-grid-component.html"
+           data-context="02-geo-pixel-grid-context.html">
+        <span class="card-num">02</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Pixel Grid</span>
+          <span class="card-desc">Tight dot matrix. Cyberpunk + dark.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-conic-rays"
+           data-component="03-geo-conic-rays-component.html"
+           data-context="03-geo-conic-rays-context.html">
+        <span class="card-num">03</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Conic Rays</span>
+          <span class="card-desc">Conic sunburst. Brutalist + warm.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-chevron-stripe"
+           data-component="04-geo-chevron-stripe-component.html"
+           data-context="04-geo-chevron-stripe-context.html">
+        <span class="card-num">04</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Chevron Stripe</span>
+          <span class="card-desc">Diagonal repeating chevrons. Brutalist + dark.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-iso-grid"
+           data-component="05-geo-iso-grid-component.html"
+           data-context="05-geo-iso-grid-context.html">
+        <span class="card-num">05</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Isometric Grid</span>
+          <span class="card-desc">Isometric grid, no perspective rotation. Tech + dark.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-paper-texture"
+           data-component="06-geo-paper-texture-component.html"
+           data-context="06-geo-paper-texture-context.html">
+        <span class="card-num">06</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Paper Texture</span>
+          <span class="card-desc">Organic paper fiber. Light editorial.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-halftone"
+           data-component="07-geo-halftone-component.html"
+           data-context="07-geo-halftone-context.html">
+        <span class="card-num">07</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Halftone</span>
+          <span class="card-desc">Print-style halftone dots. Brutalist + editorial.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-ribbon-flow"
+           data-component="08-geo-ribbon-flow-component.html"
+           data-context="08-geo-ribbon-flow-context.html">
+        <span class="card-num">08</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Ribbon Flow</span>
+          <span class="card-desc">Bezier ribbons. Warm + light.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-circuit-trace"
+           data-component="09-geo-circuit-trace-component.html"
+           data-context="09-geo-circuit-trace-context.html">
+        <span class="card-num">09</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Circuit Trace</span>
+          <span class="card-desc">PCB circuit lines — cyberpunk only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-starfield"
+           data-component="10-geo-starfield-component.html"
+           data-context="10-geo-starfield-context.html">
+        <span class="card-num">10</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Starfield</span>
+          <span class="card-desc">Sparse star/dot scatter. Dark + cyberpunk.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-gradient-bands"
+           data-component="11-geo-gradient-bands-component.html"
+           data-context="11-geo-gradient-bands-context.html">
+        <span class="card-num">11</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Gradient Bands</span>
+          <span class="card-desc">Horizontal stripe gradient. Warm + light editorial.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-contour-flow"
+           data-component="12-geo-contour-flow-component.html"
+           data-context="12-geo-contour-flow-context.html">
+        <span class="card-num">12</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Contour Flow</span>
+          <span class="card-desc">Flowing topographic contour lines. Dark + brutalist editorial.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-perspective-grid"
+           data-component="13-geo-perspective-grid-component.html"
+           data-context="13-geo-perspective-grid-context.html">
+        <span class="card-num">13</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Perspective Grid</span>
+          <span class="card-desc">3D wireframe receding to vanishing point. PLAYWRIGHT ONLY.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-hex-mesh"
+           data-component="14-geo-hex-mesh-component.html"
+           data-context="14-geo-hex-mesh-context.html">
+        <span class="card-num">14</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Hex Mesh</span>
+          <span class="card-desc">Hexagonal tessellation. Molecular / honeycomb pattern.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-constellation"
+           data-component="15-geo-constellation-component.html"
+           data-context="15-geo-constellation-context.html">
+        <span class="card-num">15</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Constellation</span>
+          <span class="card-desc">Particle network with dots and connections. Static SVG.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-neon-ring"
+           data-component="16-geo-neon-ring-component.html"
+           data-context="16-geo-neon-ring-context.html">
+        <span class="card-num">16</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Neon Ring</span>
+          <span class="card-desc">Glowing portal/aura ring with multi-layer SVG circles.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-bokeh"
+           data-component="17-geo-bokeh-component.html"
+           data-context="17-geo-bokeh-context.html">
+        <span class="card-num">17</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Bokeh</span>
+          <span class="card-desc">Atmospheric lens blur orbs. CSS radial-gradient + blur.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-scan-lines"
+           data-component="18-geo-scan-lines-component.html"
+           data-context="18-geo-scan-lines-context.html">
+        <span class="card-num">18</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Scan Lines</span>
+          <span class="card-desc">Subtle CRT scan-line texture overlay. All renderers.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-chromatic-edge"
+           data-component="19-geo-chromatic-edge-component.html"
+           data-context="19-geo-chromatic-edge-context.html">
+        <span class="card-num">19</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Chromatic Edge</span>
+          <span class="card-desc">RGB lens aberration bleed at viewport edges. CSS only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-data-streaks"
+           data-component="20-geo-data-streaks-component.html"
+           data-context="20-geo-data-streaks-context.html">
+        <span class="card-num">20</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Data Streaks</span>
+          <span class="card-desc">Static diagonal data stream lines. SVG stroke elements.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-liquid-morph"
+           data-component="21-geo-liquid-morph-component.html"
+           data-context="21-geo-liquid-morph-context.html">
+        <span class="card-num">21</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Liquid Morph</span>
+          <span class="card-desc">Overlapping blurred circles creating metaball intersections. SVG filter.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-blob-bg"
+           data-component="22-geo-blob-bg-component.html"
+           data-context="22-geo-blob-bg-context.html">
+        <span class="card-num">22</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Blob Background</span>
+          <span class="card-desc">CSS radial ellipse blur — base layer for warm/organic systems.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-glow-orb"
+           data-component="23-geo-glow-orb-component.html"
+           data-context="23-geo-glow-orb-context.html">
+        <span class="card-num">23</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Glow Orb</span>
+          <span class="card-desc">Central radial glow sphere. Dark + cyberpunk systems.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-zoom-rings"
+           data-component="24-geo-zoom-rings-component.html"
+           data-context="24-geo-zoom-rings-context.html">
+        <span class="card-num">24</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Zoom Rings</span>
+          <span class="card-desc">Concentric expanding rings. Cyberpunk only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-grid-bg"
+           data-component="25-geo-grid-bg-component.html"
+           data-context="25-geo-grid-bg-context.html">
+        <span class="card-num">25</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Grid Background</span>
+          <span class="card-desc">Flat CSS grid. Brutalist + dark editorial base.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-diag-band"
+           data-component="26-geo-diag-band-component.html"
+           data-context="26-geo-diag-band-context.html">
+        <span class="card-num">26</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Diagonal Band</span>
+          <span class="card-desc">Single diagonal accent band. Light editorial only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="pw-grid"
+           data-component="27-pw-grid-component.html"
+           data-context="27-pw-grid-context.html">
+        <span class="card-num">27</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">PW Grid</span>
+          <span class="card-desc">Cyberpunk wireframe background. Dark systems only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="vol-light"
+           data-component="28-vol-light-component.html"
+           data-context="28-vol-light-context.html">
+        <span class="card-num">28</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Vol Light</span>
+          <span class="card-desc">Volumetric glow beams. Atmospheric depth.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-tr"
+           data-component="29-svg-blob-tr-component.html"
+           data-context="29-svg-blob-tr-context.html">
+        <span class="card-num">29</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob TR</span>
+          <span class="card-desc">v2: real SVG bezier blob, top-right. Replaces ellipse blob-bg.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-bl"
+           data-component="30-svg-blob-bl-component.html"
+           data-context="30-svg-blob-bl-context.html">
+        <span class="card-num">30</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob BL</span>
+          <span class="card-desc">v2: SVG blob, bottom-left.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-center"
+           data-component="31-svg-blob-center-component.html"
+           data-context="31-svg-blob-center-context.html">
+        <span class="card-num">31</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Center</span>
+          <span class="card-desc">v2: SVG blob centered behind hero. Low opacity.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-asymmetric"
+           data-component="32-svg-blob-asymmetric-component.html"
+           data-context="32-svg-blob-asymmetric-context.html">
+        <span class="card-num">32</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Asymmetric</span>
+          <span class="card-desc">v2: aggressive asymmetric blob, top-right.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-scattered"
+           data-component="33-svg-blob-scattered-component.html"
+           data-context="33-svg-blob-scattered-context.html">
+        <span class="card-num">33</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Scattered</span>
+          <span class="card-desc">v2: three scattered small blobs as atmosphere.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-angular"
+           data-component="34-svg-blob-angular-component.html"
+           data-context="34-svg-blob-angular-context.html">
+        <span class="card-num">34</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Angular</span>
+          <span class="card-desc">v3: sharp 8-point polygon. Brutalist/dark edge tension.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-crystal"
+           data-component="35-svg-blob-crystal-component.html"
+           data-context="35-svg-blob-crystal-context.html">
+        <span class="card-num">35</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Crystal</span>
+          <span class="card-desc">v3: faceted gem-like shards. Cyberpunk/tech premium.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-wave"
+           data-component="36-svg-blob-wave-component.html"
+           data-context="36-svg-blob-wave-context.html">
+        <span class="card-num">36</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Wave</span>
+          <span class="card-desc">v3: smooth horizontal S-curve. Warm/light continuity.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-arch"
+           data-component="37-svg-blob-arch-component.html"
+           data-context="37-svg-blob-arch-context.html">
+        <span class="card-num">37</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Arch</span>
+          <span class="card-desc">v3: architectural column/vault. Art deco, authority.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-splatter"
+           data-component="38-svg-blob-splatter-component.html"
+           data-context="38-svg-blob-splatter-context.html">
+        <span class="card-num">38</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Splatter</span>
+          <span class="card-desc">v3: irregular paint-splatter edges. Creative energy.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="svg-blob-ribbon"
+           data-component="39-svg-blob-ribbon-component.html"
+           data-context="39-svg-blob-ribbon-context.html">
+        <span class="card-num">39</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">SVG Blob Ribbon</span>
+          <span class="card-desc">v3: twisted Möbius-style loop. Modern SaaS, motion.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-flow-wave"
+           data-component="40-geo-flow-wave-component.html"
+           data-context="40-geo-flow-wave-context.html">
+        <span class="card-num">40</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Flow Wave</span>
+          <span class="card-desc">v3: sine-wave line spanning slide. Use with continuity:wave.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-flow-arrow"
+           data-component="41-geo-flow-arrow-component.html"
+           data-context="41-geo-flow-arrow-context.html">
+        <span class="card-num">41</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Flow Arrow</span>
+          <span class="card-desc">v3: large dashed arrow entering left. Progression signal.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Geo" data-slug="geo-flow-data"
+           data-component="42-geo-flow-data-component.html"
+           data-context="42-geo-flow-data-context.html">
+        <span class="card-num">42</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#C7FF3A">Geo</span>
+          <span class="card-title">Flow Data</span>
+          <span class="card-desc">v3: dotted particle trail with nodes. Tech continuity.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Chrome" data-slug="chrome-vertical-counter"
+           data-component="43-chrome-vertical-counter-component.html"
+           data-context="43-chrome-vertical-counter-context.html">
+        <span class="card-num">43</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#feca57">Chrome</span>
+          <span class="card-title">Vertical Counter</span>
+          <span class="card-desc">Rotated counter on right edge. Light editorial.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Chrome" data-slug="chrome-badge-stamp"
+           data-component="44-chrome-badge-stamp-component.html"
+           data-context="44-chrome-badge-stamp-context.html">
+        <span class="card-num">44</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#feca57">Chrome</span>
+          <span class="card-title">Badge Stamp</span>
+          <span class="card-desc">Wax-seal style circular stamp. Universal.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Chrome" data-slug="chrome-header-bar"
+           data-component="45-chrome-header-bar-component.html"
+           data-context="45-chrome-header-bar-context.html">
+        <span class="card-num">45</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#feca57">Chrome</span>
+          <span class="card-title">Header Bar</span>
+          <span class="card-desc">Magazine top bar. Light editorial only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-myth-vs-fact"
+           data-component="46-slide-myth-vs-fact-component.html"
+           data-context="46-slide-myth-vs-fact-context.html">
+        <span class="card-num">46</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Myth vs Fact</span>
+          <span class="card-desc">Speech-bubble myth + fact callout.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-step-flow"
+           data-component="47-slide-step-flow-component.html"
+           data-context="47-slide-step-flow-context.html">
+        <span class="card-num">47</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Step Flow</span>
+          <span class="card-desc">Horizontal 3-4 step process with arrows.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-comparison-table"
+           data-component="48-slide-comparison-table-component.html"
+           data-context="48-slide-comparison-table-context.html">
+        <span class="card-num">48</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Comparison Table</span>
+          <span class="card-desc">2-3 col matrix with checks.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-faq-stack"
+           data-component="49-slide-faq-stack-component.html"
+           data-context="49-slide-faq-stack-context.html">
+        <span class="card-num">49</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">FAQ Stack</span>
+          <span class="card-desc">Q&A stack for objection handling.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-quote-cascade"
+           data-component="50-slide-quote-cascade-component.html"
+           data-context="50-slide-quote-cascade-context.html">
+        <span class="card-num">50</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Quote Cascade</span>
+          <span class="card-desc">Multiple short testimonials.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-bento-grid"
+           data-component="51-slide-bento-grid-component.html"
+           data-context="51-slide-bento-grid-context.html">
+        <span class="card-num">51</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Bento Grid</span>
+          <span class="card-desc">2x2 or 3x2 bento cards.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-timeline"
+           data-component="52-slide-timeline-component.html"
+           data-context="52-slide-timeline-context.html">
+        <span class="card-num">52</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Timeline</span>
+          <span class="card-desc">Vertical timeline with milestones.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-stat-row"
+           data-component="53-slide-stat-row-component.html"
+           data-context="53-slide-stat-row-context.html">
+        <span class="card-num">53</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Stat Row</span>
+          <span class="card-desc">3 stat cards side-by-side.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-pull-quote-author"
+           data-component="54-slide-pull-quote-author-component.html"
+           data-context="54-slide-pull-quote-author-context.html">
+        <span class="card-num">54</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Pull Quote + Author</span>
+          <span class="card-desc">Editorial pull-quote with author block.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-warning-banner"
+           data-component="55-slide-warning-banner-component.html"
+           data-context="55-slide-warning-banner-context.html">
+        <span class="card-num">55</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Warning Banner</span>
+          <span class="card-desc">Single alert card, sparse text — high impact.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-icon-grid"
+           data-component="56-slide-icon-grid-component.html"
+           data-context="56-slide-icon-grid-context.html">
+        <span class="card-num">56</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Icon Grid</span>
+          <span class="card-desc">6 icon+label tiles.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-progress-bars"
+           data-component="57-slide-progress-bars-component.html"
+           data-context="57-slide-progress-bars-context.html">
+        <span class="card-num">57</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Progress Bars</span>
+          <span class="card-desc">Horizontal bars showing metric improvements.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-list-numbered"
+           data-component="58-slide-list-numbered-component.html"
+           data-context="58-slide-list-numbered-context.html">
+        <span class="card-num">58</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Numbered List</span>
+          <span class="card-desc">Large ranked numbered list (top 5).</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-data-viz-donut"
+           data-component="59-slide-data-viz-donut-component.html"
+           data-context="59-slide-data-viz-donut-context.html">
+        <span class="card-num">59</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Donut Chart</span>
+          <span class="card-desc">Donut + center number + legend.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-typeset-poster"
+           data-component="60-slide-typeset-poster-component.html"
+           data-context="60-slide-typeset-poster-context.html">
+        <span class="card-num">60</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Typeset Poster</span>
+          <span class="card-desc">Type-as-art editorial poster.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-waffle-chart"
+           data-component="61-slide-waffle-chart-component.html"
+           data-context="61-slide-waffle-chart-context.html">
+        <span class="card-num">61</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Waffle Chart</span>
+          <span class="card-desc">10×10 proportion grid. N cells filled with accent glow.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-input-output"
+           data-component="62-slide-input-output-component.html"
+           data-context="62-slide-input-output-context.html">
+        <span class="card-num">62</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Input / Output</span>
+          <span class="card-desc">Side-by-side ATS demo: human-readable vs garbled.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-before-after-stacked"
+           data-component="63-slide-before-after-stacked-component.html"
+           data-context="63-slide-before-after-stacked-context.html">
+        <span class="card-num">63</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Before/After Stacked</span>
+          <span class="card-desc">Stacked panels with VS badge and progress bars.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-proof"
+           data-component="64-slide-proof-component.html"
+           data-context="64-slide-proof-context.html">
+        <span class="card-num">64</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Social Proof</span>
+          <span class="card-desc">Testimonial card + stat result + mechanism block.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-tip-blocks"
+           data-component="65-slide-tip-blocks-component.html"
+           data-context="65-slide-tip-blocks-context.html">
+        <span class="card-num">65</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Tip Blocks</span>
+          <span class="card-desc">3 colored tip blocks: bad / neutral / good.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-massive-number"
+           data-component="66-slide-massive-number-component.html"
+           data-context="66-slide-massive-number-context.html">
+        <span class="card-num">66</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Massive Number</span>
+          <span class="card-desc">Oversized single stat — dominant typographic element.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-full-bleed-type"
+           data-component="67-slide-full-bleed-type-component.html"
+           data-context="67-slide-full-bleed-type-context.html">
+        <span class="card-num">67</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Full Bleed Type</span>
+          <span class="card-desc">Typography as the full canvas — editorial poster format.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-diagonal-split"
+           data-component="68-slide-diagonal-split-component.html"
+           data-context="68-slide-diagonal-split-context.html">
+        <span class="card-num">68</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Diagonal Split</span>
+          <span class="card-desc">Diagonal band dividing content zone and accent stat.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-asymmetric-lockup"
+           data-component="69-slide-asymmetric-lockup-component.html"
+           data-context="69-slide-asymmetric-lockup-context.html">
+        <span class="card-num">69</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Asymmetric Lockup</span>
+          <span class="card-desc">Off-center type composition — editorial asymmetry.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-type-over-shape"
+           data-component="70-slide-type-over-shape-component.html"
+           data-context="70-slide-type-over-shape-context.html">
+        <span class="card-num">70</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Type Over Shape</span>
+          <span class="card-desc">Large typography floating over an organic blob or shape.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-stacked-type"
+           data-component="71-slide-stacked-type-component.html"
+           data-context="71-slide-stacked-type-context.html">
+        <span class="card-num">71</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Stacked Type</span>
+          <span class="card-desc">Multiple weight/size type layers stacked vertically.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-corner-manifesto"
+           data-component="72-slide-corner-manifesto-component.html"
+           data-context="72-slide-corner-manifesto-context.html">
+        <span class="card-num">72</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Corner Manifesto</span>
+          <span class="card-desc">Strong editorial text anchored to a corner of the canvas.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-data-wall"
+           data-component="73-slide-data-wall-component.html"
+           data-context="73-slide-data-wall-context.html">
+        <span class="card-num">73</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Data Wall</span>
+          <span class="card-desc">Dense grid of stat cards — data dashboard aesthetic.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-side-by-side"
+           data-component="74-slide-side-by-side-component.html"
+           data-context="74-slide-side-by-side-context.html">
+        <span class="card-num">74</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Side by Side</span>
+          <span class="card-desc">Large stat on left, text content on right.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-frame-within-frame"
+           data-component="75-slide-frame-within-frame-component.html"
+           data-context="75-slide-frame-within-frame-context.html">
+        <span class="card-num">75</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Frame Within Frame</span>
+          <span class="card-desc">Quote or content inside a nested decorative frame.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-terminal-fullscreen"
+           data-component="76-slide-terminal-fullscreen-component.html"
+           data-context="76-slide-terminal-fullscreen-context.html">
+        <span class="card-num">76</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Terminal Fullscreen</span>
+          <span class="card-desc">Full-bleed terminal window with macOS chrome — cyberpunk.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-editorial-column"
+           data-component="77-slide-editorial-column-component.html"
+           data-context="77-slide-editorial-column-context.html">
+        <span class="card-num">77</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Editorial Column</span>
+          <span class="card-desc">Single justified text column — magazine editorial format.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-badge-grid"
+           data-component="78-slide-badge-grid-component.html"
+           data-context="78-slide-badge-grid-context.html">
+        <span class="card-num">78</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Badge Grid</span>
+          <span class="card-desc">Grid of icon + label + description badges.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-contrast-knockout"
+           data-component="79-slide-contrast-knockout-component.html"
+           data-context="79-slide-contrast-knockout-context.html">
+        <span class="card-num">79</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Contrast Knockout</span>
+          <span class="card-desc">High-contrast two-zone layout: dark top / light knockout bottom.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-circular-quote"
+           data-component="80-slide-circular-quote-component.html"
+           data-context="80-slide-circular-quote-context.html">
+        <span class="card-num">80</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Circular Quote</span>
+          <span class="card-desc">Short quote centered inside a large circle.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-waterfall-list"
+           data-component="81-slide-waterfall-list-component.html"
+           data-context="81-slide-waterfall-list-context.html">
+        <span class="card-num">81</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Waterfall List</span>
+          <span class="card-desc">Numbered items with cascading offset — waterfall flow.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-angled-text"
+           data-component="82-slide-angled-text-component.html"
+           data-context="82-slide-angled-text-context.html">
+        <span class="card-num">82</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Angled Text</span>
+          <span class="card-desc">Rotated headline — dynamic editorial diagonal composition.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-minimal-card-stack"
+           data-component="83-slide-minimal-card-stack-component.html"
+           data-context="83-slide-minimal-card-stack-context.html">
+        <span class="card-num">83</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Minimal Card Stack</span>
+          <span class="card-desc">Clean stacked cards with minimal border/shadow separation.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-logo-wall"
+           data-component="84-slide-logo-wall-component.html"
+           data-context="84-slide-logo-wall-context.html">
+        <span class="card-num">84</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Logo Wall</span>
+          <span class="card-desc">Client logos or press mentions in a full grid.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-receipt"
+           data-component="85-slide-receipt-component.html"
+           data-context="85-slide-receipt-context.html">
+        <span class="card-num">85</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Receipt</span>
+          <span class="card-desc">Thermal receipt UI — itemized line-by-line breakdown.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-polaroid-grid"
+           data-component="86-slide-polaroid-grid-component.html"
+           data-context="86-slide-polaroid-grid-context.html">
+        <span class="card-num">86</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Polaroid Grid</span>
+          <span class="card-desc">Polaroid-style photo cards with caption — testimonials.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-tag-cloud"
+           data-component="87-slide-tag-cloud-component.html"
+           data-context="87-slide-tag-cloud-context.html">
+        <span class="card-num">87</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Tag Cloud</span>
+          <span class="card-desc">Keyword cloud with variable size + opacity scatter.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-morse-code"
+           data-component="88-slide-morse-code-component.html"
+           data-context="88-slide-morse-code-context.html">
+        <span class="card-num">88</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Morse Code</span>
+          <span class="card-desc">Message encoded in Morse dots/dashes — cyberpunk only.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-scroll-code"
+           data-component="89-slide-scroll-code-component.html"
+           data-context="89-slide-scroll-code-context.html">
+        <span class="card-num">89</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Scroll Code</span>
+          <span class="card-desc">Scrollable code snippet with syntax color — dev aesthetic.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-pull-quote"
+           data-component="90-slide-pull-quote-component.html"
+           data-context="90-slide-pull-quote-context.html">
+        <span class="card-num">90</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Pull Quote</span>
+          <span class="card-desc">Centered quote with large decorative quotation mark.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-cross-slide-connector"
+           data-component="91-slide-cross-slide-connector-component.html"
+           data-context="91-slide-cross-slide-connector-context.html">
+        <span class="card-num">91</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Cross-Slide Connector</span>
+          <span class="card-desc">Visual anchor slide for multi-slide continuity flows.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-checklist"
+           data-component="92-slide-checklist-component.html"
+           data-context="92-slide-checklist-context.html">
+        <span class="card-num">92</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Checklist</span>
+          <span class="card-desc">Numbered checklist with problem label + fix per row.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-big-number"
+           data-component="93-slide-big-number-component.html"
+           data-context="93-slide-big-number-context.html">
+        <span class="card-num">93</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Big Number</span>
+          <span class="card-desc">Large centered stat with kicker and supporting body text.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-hook-lockup"
+           data-component="94-slide-hook-lockup-component.html"
+           data-context="94-slide-hook-lockup-context.html">
+        <span class="card-num">94</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Hook Lockup</span>
+          <span class="card-desc">Default hook slide. Kicker + headline + body + swipe prompt.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-cta"
+           data-component="95-slide-cta-component.html"
+           data-context="95-slide-cta-context.html">
+        <span class="card-num">95</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">CTA Slide</span>
+          <span class="card-desc">Question + keyword CTA + reward. Final slide default.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-terminal"
+           data-component="96-slide-terminal-component.html"
+           data-context="96-slide-terminal-context.html">
+        <span class="card-num">96</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Terminal</span>
+          <span class="card-desc">Mock terminal output. Diagnostic / shock slides.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Layout" data-slug="slide-before-after"
+           data-component="97-slide-before-after-component.html"
+           data-context="97-slide-before-after-context.html">
+        <span class="card-num">97</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#ff7eb3">Layout</span>
+          <span class="card-title">Before/After Columns</span>
+          <span class="card-desc">Column comparison. Coexists with stacked variant.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-stamp-circle"
+           data-component="98-sub-stamp-circle-component.html"
+           data-context="98-sub-stamp-circle-context.html">
+        <span class="card-num">98</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Stamp Circle</span>
+          <span class="card-desc">Round badge: NUEVO/GRATIS/URGENTE.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-pill-tag"
+           data-component="99-sub-pill-tag-component.html"
+           data-context="99-sub-pill-tag-context.html">
+        <span class="card-num">99</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Pill Tag</span>
+          <span class="card-desc">Small accent category pill.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-arrow-flow"
+           data-component="100-sub-arrow-flow-component.html"
+           data-context="100-sub-arrow-flow-context.html">
+        <span class="card-num">100</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Arrow Flow</span>
+          <span class="card-desc">Directional arrow between steps.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-icon-circle"
+           data-component="101-sub-icon-circle-component.html"
+           data-context="101-sub-icon-circle-context.html">
+        <span class="card-num">101</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Icon Circle</span>
+          <span class="card-desc">Circular icon container.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-dotted-divider"
+           data-component="102-sub-dotted-divider-component.html"
+           data-context="102-sub-dotted-divider-context.html">
+        <span class="card-num">102</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Dotted Divider</span>
+          <span class="card-desc">Horizontal dotted separator.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-rating-stars"
+           data-component="103-sub-rating-stars-component.html"
+           data-context="103-sub-rating-stars-context.html">
+        <span class="card-num">103</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Rating Stars</span>
+          <span class="card-desc">5-star rating row.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-logo-row"
+           data-component="104-sub-logo-row-component.html"
+           data-context="104-sub-logo-row-context.html">
+        <span class="card-num">104</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Logo Row</span>
+          <span class="card-desc">'As seen in' press logo row.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-avatar-stack"
+           data-component="105-sub-avatar-stack-component.html"
+           data-context="105-sub-avatar-stack-context.html">
+        <span class="card-num">105</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Avatar Stack</span>
+          <span class="card-desc">Overlapping circular avatars.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-fact-bubble"
+           data-component="106-sub-fact-bubble-component.html"
+           data-context="106-sub-fact-bubble-context.html">
+        <span class="card-num">106</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Fact Bubble</span>
+          <span class="card-desc">Speech bubble for myth vs fact.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-timeline-dot"
+           data-component="107-sub-timeline-dot-component.html"
+           data-context="107-sub-timeline-dot-context.html">
+        <span class="card-num">107</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Timeline Dot</span>
+          <span class="card-desc">Connector dot for timeline.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-bento-card"
+           data-component="108-sub-bento-card-component.html"
+           data-context="108-sub-bento-card-context.html">
+        <span class="card-num">108</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Bento Card</span>
+          <span class="card-desc">Base card for bento grid.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-inline-stat"
+           data-component="109-sub-inline-stat-component.html"
+           data-context="109-sub-inline-stat-context.html">
+        <span class="card-num">109</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Inline Stat</span>
+          <span class="card-desc">Large accent stat embedded inline.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-status-pill"
+           data-component="110-sub-status-pill-component.html"
+           data-context="110-sub-status-pill-context.html">
+        <span class="card-num">110</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Status Pill</span>
+          <span class="card-desc">Pass/fail/warn colored pill.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-comment-mock"
+           data-component="111-sub-comment-mock-component.html"
+           data-context="111-sub-comment-mock-context.html">
+        <span class="card-num">111</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Comment Mock</span>
+          <span class="card-desc">Fake IG/LinkedIn comment.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-handle-line"
+           data-component="112-sub-handle-line-component.html"
+           data-context="112-sub-handle-line-context.html">
+        <span class="card-num">112</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Handle Line</span>
+          <span class="card-desc">@user · 2h attribution line.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-stat-card"
+           data-component="113-sub-stat-card-component.html"
+           data-context="113-sub-stat-card-context.html">
+        <span class="card-num">113</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Stat Card</span>
+          <span class="card-desc">Base card for stat-row layout.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-chip-list"
+           data-component="114-sub-chip-list-component.html"
+           data-context="114-sub-chip-list-context.html">
+        <span class="card-num">114</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Chip List</span>
+          <span class="card-desc">Small chip/tag list.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-download-card"
+           data-component="115-sub-download-card-component.html"
+           data-context="115-sub-download-card-context.html">
+        <span class="card-num">115</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Download Card</span>
+          <span class="card-desc">File icon + download CTA.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-emoji-callout"
+           data-component="116-sub-emoji-callout-component.html"
+           data-context="116-sub-emoji-callout-context.html">
+        <span class="card-num">116</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Emoji Callout</span>
+          <span class="card-desc">Single large emoji + caption.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="sub-swipe-arrow-stack"
+           data-component="117-sub-swipe-arrow-stack-component.html"
+           data-context="117-sub-swipe-arrow-stack-context.html">
+        <span class="card-num">117</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Swipe Arrow Stack</span>
+          <span class="card-desc">Vertical chevron stack alt to swipe-pill.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="glass-panel"
+           data-component="118-glass-panel-component.html"
+           data-context="118-glass-panel-context.html">
+        <span class="card-num">118</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Glassmorphism Panel</span>
+          <span class="card-desc">Frosted glass with backdrop-filter. PLAYWRIGHT recommended.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="Sub" data-slug="watermark"
+           data-component="119-watermark-component.html"
+           data-context="119-watermark-context.html">
+        <span class="card-num">119</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#4ecdc4">Sub</span>
+          <span class="card-title">Watermark</span>
+          <span class="card-desc">Giant faint letter/symbol behind content.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="CSS" data-slug="css-text-gradient"
+           data-component="120-css-text-gradient-component.html"
+           data-context="120-css-text-gradient-context.html">
+        <span class="card-num">120</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#a855f7">CSS</span>
+          <span class="card-title">Text Gradient</span>
+          <span class="card-desc">SVG linearGradient text fill. Accent to white.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="CSS" data-slug="css-text-glow"
+           data-component="121-css-text-glow-component.html"
+           data-context="121-css-text-glow-context.html">
+        <span class="card-num">121</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#a855f7">CSS</span>
+          <span class="card-title">Text Glow</span>
+          <span class="card-desc">Multi-layer neon text-shadow glow.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="CSS" data-slug="css-text-stroke"
+           data-component="122-css-text-stroke-component.html"
+           data-context="122-css-text-stroke-context.html">
+        <span class="card-num">122</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#a855f7">CSS</span>
+          <span class="card-title">Text Stroke</span>
+          <span class="card-desc">Outline stroke with transparent fill.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        <span class="badge-new">NEW</span>
+      </div>
+
+      <div class="card" data-cat="AI-BG" data-slug="ai-bubbles-01"
+           data-component="123-ai-bubbles-01-component.html"
+           data-context="123-ai-bubbles-01-context.html">
+        <span class="card-num">123</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#00f0ff">AI-BG</span>
+          <span class="card-title">Bubbles 01</span>
+          <span class="card-desc">AI-generated background image, color-adapted to visual systems.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+
+      <div class="card" data-cat="AI-BG" data-slug="vector-field-distortion"
+           data-component="124-vector-field-distortion-component.html"
+           data-context="124-vector-field-distortion-context.html">
+        <span class="card-num">124</span>
+        <span class="card-body">
+          <span class="card-cat" style="color:#00f0ff">AI-BG</span>
+          <span class="card-title">Vector Field Distortion</span>
+          <span class="card-desc">AI-generated background image, color-adapted to visual systems.</span>
+        </span>
+        <span class="card-toggle">
+          <button class="ct-btn active" data-mode="component" title="Isolated">ISO</button>
+          <button class="ct-btn" data-mode="context" title="In Slide">CTX</button>
+        </span>
+        
+      </div>
+<div class="sys-section-header" data-cat="Systems" style="display:none">
+  <span>Visual Systems</span>
+</div>
+
+      <div class="scard" data-cat="Systems" data-slug="s01" data-src="sys-s01.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#C8A84B" title="Accent: #C8A84B"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#080a10" title="Base: #080a10"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S01</span>
+          <span class="scard-name">NOIR GOLD</span>
+          <span class="scard-fonts">Space Grotesk / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s02" data-src="sys-s02.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#4a8fff" title="Accent: #4a8fff"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050a1a" title="Base: #050a1a"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S02</span>
+          <span class="scard-name">ROYAL BLUE</span>
+          <span class="scard-fonts">Space Grotesk / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s03" data-src="sys-s03.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#5ab07a" title="Accent: #5ab07a"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050d08" title="Base: #050d08"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S03</span>
+          <span class="scard-name">DEEP FOREST</span>
+          <span class="scard-fonts">Space Grotesk / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s04" data-src="sys-s04.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#e05a7a" title="Accent: #e05a7a"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0608" title="Base: #0a0608"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S04</span>
+          <span class="scard-name">CRIMSON NIGHT</span>
+          <span class="scard-fonts">Poppins / Cormorant Garamond</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s05" data-src="sys-s05.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#1463F3" title="Accent: #1463F3"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#FFFFFF" title="Base: #FFFFFF"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S05</span>
+          <span class="scard-name">STARK WHITE</span>
+          <span class="scard-fonts">Poppins / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s06" data-src="sys-s06.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#a855f7" title="Accent: #a855f7"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#08050f" title="Base: #08050f"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S06</span>
+          <span class="scard-name">AURORA</span>
+          <span class="scard-fonts">Space Grotesk / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s07" data-src="sys-s07.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#FF3300" title="Accent: #FF3300"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0a0a" title="Base: #0a0a0a"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S07</span>
+          <span class="scard-name">BRUTALIST</span>
+          <span class="scard-fonts">Space Grotesk / JetBrains Mono</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s08" data-src="sys-s08.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#60a5fa" title="Accent: #60a5fa"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050a18" title="Base: #050a18"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S08</span>
+          <span class="scard-name">GLASSMORPHISM</span>
+          <span class="scard-fonts">DM Sans / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s09" data-src="sys-s09.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#b0bcd4" title="Accent: #b0bcd4"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0c12" title="Base: #0a0c12"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S09</span>
+          <span class="scard-name">CHROME SILVER</span>
+          <span class="scard-fonts">DM Sans / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s10" data-src="sys-s10.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#e07040" title="Accent: #e07040"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0d0806" title="Base: #0d0806"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S10</span>
+          <span class="scard-name">TERRA COTTA</span>
+          <span class="scard-fonts">DM Sans / Cormorant Garamond</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s11" data-src="sys-s11.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#00d68f" title="Accent: #00d68f"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050d0a" title="Base: #050d0a"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S11</span>
+          <span class="scard-name">TROPIC</span>
+          <span class="scard-fonts">Nunito / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s12" data-src="sys-s12.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#d4a862" title="Accent: #d4a862"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0d0b06" title="Base: #0d0b06"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S12</span>
+          <span class="scard-name">WARM SAND</span>
+          <span class="scard-fonts">DM Sans / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s13" data-src="sys-s13.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#e879a0" title="Accent: #e879a0"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0508" title="Base: #0a0508"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S13</span>
+          <span class="scard-name">OBSIDIAN ROSE</span>
+          <span class="scard-fonts">DM Sans / Cormorant Garamond</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s14" data-src="sys-s14.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#38bdf8" title="Accent: #38bdf8"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#040c18" title="Base: #040c18"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S14</span>
+          <span class="scard-name">DEEP SEA</span>
+          <span class="scard-fonts">Poppins / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s15" data-src="sys-s15.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#818cf8" title="Accent: #818cf8"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#08080f" title="Base: #08080f"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S15</span>
+          <span class="scard-name">OXFORD NIGHT</span>
+          <span class="scard-fonts">Source Serif 4 / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s16" data-src="sys-s16.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#00f0a0" title="Accent: #00f0a0"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#04080f" title="Base: #04080f"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S16</span>
+          <span class="scard-name">NEON GRID</span>
+          <span class="scard-fonts">Space Grotesk / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s17" data-src="sys-s17.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#C7FF3A" title="Accent: #C7FF3A"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#1A1A18" title="Base: #1A1A18"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S17</span>
+          <span class="scard-name">WORQAI VERDE</span>
+          <span class="scard-fonts">Nunito / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s18" data-src="sys-s18.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff6b35" title="Accent: #ff6b35"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#FFFDF8" title="Base: #FFFDF8"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S18</span>
+          <span class="scard-name">RISO LAB</span>
+          <span class="scard-fonts">IBM Plex Sans / Space Grotesk</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s19" data-src="sys-s19.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff0033" title="Accent: #ff0033"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#FFFFFF" title="Base: #FFFFFF"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S19</span>
+          <span class="scard-name">SWISS GRID</span>
+          <span class="scard-fonts">Inter / Space Grotesk</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s20" data-src="sys-s20.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#44f5ff" title="Accent: #44f5ff"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#03060f" title="Base: #03060f"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S20</span>
+          <span class="scard-name">Y2K CHROME</span>
+          <span class="scard-fonts">Space Grotesk / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s21" data-src="sys-s21.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ffef74" title="Accent: #ffef74"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#08060e" title="Base: #08060e"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S21</span>
+          <span class="scard-name">VAPOR GRIDWAVE</span>
+          <span class="scard-fonts">DM Sans / Space Grotesk</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s22" data-src="sys-s22.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#c39d63" title="Accent: #c39d63"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0806" title="Base: #0a0806"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S22</span>
+          <span class="scard-name">DARK ACADEMIA</span>
+          <span class="scard-fonts">Crimson Pro / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s23" data-src="sys-s23.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#b89a6c" title="Accent: #b89a6c"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#FAF8F5" title="Base: #FAF8F5"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S23</span>
+          <span class="scard-name">QUIET LUXURY</span>
+          <span class="scard-fonts">DM Sans / Cormorant Garamond</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s24" data-src="sys-s24.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff5faf" title="Accent: #ff5faf"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0508" title="Base: #0a0508"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S24</span>
+          <span class="scard-name">HARAJUKU POP</span>
+          <span class="scard-fonts">Noto Sans JP / Poppins</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s25" data-src="sys-s25.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff0015" title="Accent: #ff0015"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#ffffff" title="Base: #ffffff"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S25</span>
+          <span class="scard-name">SWISS BRUT</span>
+          <span class="scard-fonts">Archivo / JetBrains Mono</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s26" data-src="sys-s26.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#5c65ff" title="Accent: #5c65ff"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#faf8ff" title="Base: #faf8ff"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S26</span>
+          <span class="scard-name">MATTE PASTEL</span>
+          <span class="scard-fonts">DM Sans / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s27" data-src="sys-s27.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#00ffd1" title="Accent: #00ffd1"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050a08" title="Base: #050a08"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S27</span>
+          <span class="scard-name">NEO RISO</span>
+          <span class="scard-fonts">Poppins / IBM Plex Sans</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s28" data-src="sys-s28.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#f5f7ff" title="Accent: #f5f7ff"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#080810" title="Base: #080810"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S28</span>
+          <span class="scard-name">MONO CONTRAST</span>
+          <span class="scard-fonts">Work Sans / JetBrains Mono</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s29" data-src="sys-s29.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#00ff9c" title="Accent: #00ff9c"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#040408" title="Base: #040408"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S29</span>
+          <span class="scard-name">CYBERPUNK</span>
+          <span class="scard-fonts">Space Grotesk / JetBrains Mono</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s30" data-src="sys-s30.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ffba3a" title="Accent: #ffba3a"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0d0a04" title="Base: #0d0a04"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S30</span>
+          <span class="scard-name">ANALOG LO-FI</span>
+          <span class="scard-fonts">Work Sans / Cormorant Garamond</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s31" data-src="sys-s31.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff5a5f" title="Accent: #ff5a5f"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0506" title="Base: #0a0506"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S31</span>
+          <span class="scard-name">NEOBRUT</span>
+          <span class="scard-fonts">Poppins / JetBrains Mono</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s32" data-src="sys-s32.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff3f6b" title="Accent: #ff3f6b"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a050a" title="Base: #0a050a"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S32</span>
+          <span class="scard-name">MAXIMALIST</span>
+          <span class="scard-fonts">Work Sans / DM Sans</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s33" data-src="sys-s33.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#3b82f6" title="Accent: #3b82f6"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050814" title="Base: #050814"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S33</span>
+          <span class="scard-name">CLEAN SAAS</span>
+          <span class="scard-fonts">DM Sans / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s34" data-src="sys-s34.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ec4899" title="Accent: #ec4899"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#080510" title="Base: #080510"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S34</span>
+          <span class="scard-name">PANTONE EDI</span>
+          <span class="scard-fonts">Nunito / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s35" data-src="sys-s35.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#facc6b" title="Accent: #facc6b"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#050608" title="Base: #050608"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S35</span>
+          <span class="scard-name">ART DECO</span>
+          <span class="scard-fonts">Cinzel Decorative / Cormorant Garamond</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s36" data-src="sys-s36.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#1f7a8c" title="Accent: #1f7a8c"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#040c10" title="Base: #040c10"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S36</span>
+          <span class="scard-name">MEXICAN MOD</span>
+          <span class="scard-fonts">Work Sans / DM Sans</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s37" data-src="sys-s37.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#f97316" title="Accent: #f97316"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#08050a" title="Base: #08050a"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S37</span>
+          <span class="scard-name">AFROFUTURIST</span>
+          <span class="scard-fonts">DM Sans / Space Grotesk</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s38" data-src="sys-s38.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#1a535c" title="Accent: #1a535c"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#040d0e" title="Base: #040d0e"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S38</span>
+          <span class="scard-name">LATAM MURAL</span>
+          <span class="scard-fonts">Nunito / DM Sans</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s39" data-src="sys-s39.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#1f2933" title="Accent: #1f2933"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#FAFAFA" title="Base: #FAFAFA"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S39</span>
+          <span class="scard-name">MINIMAL JPN</span>
+          <span class="scard-fonts">Noto Sans / Noto Serif</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s40" data-src="sys-s40.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#22d3ee" title="Accent: #22d3ee"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#040810" title="Base: #040810"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S40</span>
+          <span class="scard-name">GLITCH</span>
+          <span class="scard-fonts">JetBrains Mono / Space Grotesk</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s41" data-src="sys-s41.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#c084fc" title="Accent: #c084fc"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0814" title="Base: #0a0814"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S41</span>
+          <span class="scard-name">HOLOGRAPHIC</span>
+          <span class="scard-fonts">Nunito / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s42" data-src="sys-s42.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#e5e7eb" title="Accent: #e5e7eb"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#080a0c" title="Base: #080a0c"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S42</span>
+          <span class="scard-name">ARCHITECTURAL</span>
+          <span class="scard-fonts">Inter / DM Sans</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s43" data-src="sys-s43.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff006e" title="Accent: #ff006e"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0a12" title="Base: #0a0a12"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S43</span>
+          <span class="scard-name">GEN Z POP</span>
+          <span class="scard-fonts">DM Sans / Poppins</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s44" data-src="sys-s44.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#f9fafb" title="Accent: #f9fafb"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#0a0f1a" title="Base: #0a0f1a"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S44</span>
+          <span class="scard-name">CHALKBOARD</span>
+          <span class="scard-fonts">IBM Plex Sans / Space Grotesk</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s45" data-src="sys-s45.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#ff3368" title="Accent: #ff3368"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#FFFFFF" title="Base: #FFFFFF"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S45</span>
+          <span class="scard-name">RISO BLUE-RED</span>
+          <span class="scard-fonts">Archivo / Inter</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s46" data-src="sys-s46.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#38bdf8" title="Accent: #38bdf8"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#040810" title="Base: #040810"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S46</span>
+          <span class="scard-name">BLUEPRINT</span>
+          <span class="scard-fonts">JetBrains Mono / IBM Plex Sans</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s47" data-src="sys-s47.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#1f2937" title="Accent: #1f2937"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#F8F6F0" title="Base: #F8F6F0"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S47</span>
+          <span class="scard-name">STONE LIBRARY</span>
+          <span class="scard-fonts">Noto Sans / Source Serif 4</span>
+        </div>
+      </div>
+
+      <div class="scard" data-cat="Systems" data-slug="s48" data-src="sys-s48.html">
+        <div class="scard-dots">
+          <div class="scard-dot" style="background:#9A7330" title="Accent: #9A7330"></div>
+          <div class="scard-dot scard-dot-bg" style="background:#F3F2EF" title="Base: #F3F2EF"></div>
+        </div>
+        <div class="scard-info">
+          <span class="scard-id">S48</span>
+          <span class="scard-name">BOUTIQUE EDI</span>
+          <span class="scard-fonts">DM Sans / Cormorant Garamond</span>
+        </div>
+      </div>
+</nav>
+
+<main>
+  <div class="preview-topbar">
+    <div class="preview-path">gallery / <span id="preview-slug">—</span>.html</div>
+    <div class="preview-actions">
+      <a class="preview-btn" id="open-btn" href="#" target="_blank">open ↗</a>
+    </div>
+  </div>
+  <div class="preview-frame">
+    <div class="empty" id="empty">
+      <div class="empty-prompt">← select a component<span class="cursor"></span></div>
+      <div class="empty-sub">124 components · isolated + context demos</div>
+    </div>
+    <iframe name="preview" id="preview"></iframe>
+  </div>
+</main>
+
+<script>
+const nav   = document.getElementById('nav');
+const empty = document.getElementById('empty');
+const frame = document.getElementById('preview');
+const slugEl = document.getElementById('preview-slug');
+const openBtn = document.getElementById('open-btn');
+const visCount = document.getElementById('vis-count');
+
+function loadPreview(url, slug) {
+  frame.style.opacity = '0';
+  setTimeout(() => {
+    frame.src = url;
+    slugEl.textContent = slug.replace('.html','');
+    openBtn.href = url;
+    empty.style.display = 'none';
+    frame.style.display = 'block';
+    frame.onload = () => { frame.style.opacity = '1'; };
+  }, 150);
+}
+
+function setActiveCard(card) {
+  document.querySelectorAll('.card,.scard').forEach(c => c.classList.remove('active'));
+  card.classList.add('active');
+}
+
+// ── Category filter ──────────────────────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const cat = btn.dataset.cat;
+    let n = 0;
+    document.querySelectorAll('.card,.scard').forEach(card => {
+      const show = cat === 'all' || card.dataset.cat === cat;
+      card.style.display = show ? '' : 'none';
+      if (show) n++;
+    });
+    // Show/hide systems section header
+    const sysHeader = document.querySelector('.sys-section-header');
+    if (sysHeader) sysHeader.style.display = (cat === 'all' || cat === 'Systems') ? '' : 'none';
+    visCount.textContent = n;
+  });
+});
+
+// ── Card click (loads default component view) ────────────────────────
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('click', e => {
+    if (e.target.closest('.ct-btn')) return;
+    const mode = card.querySelector('.ct-btn.active')?.dataset.mode || 'component';
+    const url = mode === 'context' ? card.dataset.context : card.dataset.component;
+    const slug = url.split('/').pop();
+    loadPreview(url, slug);
+    setActiveCard(card);
+  });
+});
+
+// ── Toggle buttons ───────────────────────────────────────────────────
+document.querySelectorAll('.ct-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const card = btn.closest('.card');
+    card.querySelectorAll('.ct-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.mode;
+    const url = mode === 'context' ? card.dataset.context : card.dataset.component;
+    const slug = url.split('/').pop();
+    loadPreview(url, slug);
+    setActiveCard(card);
+  });
+});
+
+// ── System card click ────────────────────────────────────────────────
+document.querySelectorAll('.scard').forEach(card => {
+  card.addEventListener('click', () => {
+    const url = card.dataset.src;
+    const slug = `sys-${card.dataset.slug}`;
+    loadPreview(url, slug);
+    setActiveCard(card);
+  });
+});
+
+// ── Keyboard navigation ──────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+  const visible = [...document.querySelectorAll('.card,.scard')].filter(c => c.style.display !== 'none');
+  const active  = document.querySelector('.card.active,.scard.active');
+  const idx     = visible.indexOf(active);
+  let next;
+  if (e.key === 'ArrowDown') next = visible[idx + 1] || visible[0];
+  else                       next = visible[idx - 1] || visible[visible.length - 1];
+  if (next) { next.scrollIntoView({block:'nearest'}); next.click(); }
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

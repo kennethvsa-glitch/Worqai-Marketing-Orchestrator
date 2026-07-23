@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "system": "s21",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "cincuenta-a-cinco",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "data",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": [
+        "galactic-dream-full",
+        "geo-starfield",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "kicker": "EL FUNNEL",
+        "headline": "50 aplicaciones → 5 entrevistas",
+        "body": "El bot descarta el 90% antes de que un humano abra tu CV. No es tu perfil. Es tu formato.",
+        "swipe_prompt": "Desliza →"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(32px,7cqw,54px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s1-body { opacity: 0.95; max-width: 40ch; font-size: 16px; margin-top: 20px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-waffle-chart",
+      "density": "demo",
+      "layers": [
+        "galactic-dream-full",
+        "geo-starfield",
+        "geo-pixel-grid"
+      ],
+      "copy": {
+        "kicker": "VISUAL",
+        "headline": "Solo 1 de 10 pasa ambos filtros",
+        "stat_number": "10%",
+        "filled": 10,
+        "context": "De 100 CVs, 10 llegan a entrevista. El resto mueren antes."
+      },
+      "custom_css": ".s2-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .s2-stat { font-size: clamp(48px,10cqw,80px); font-weight: 900; letter-spacing: -0.05em; color: var(--accent); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-icon-grid",
+      "density": "heavy",
+      "layers": [
+        "galactic-dream-full",
+        "geo-starfield",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "CÓMO ESTAR EN EL 10%",
+        "headline": "4 movimientos que multiplican chances",
+        "tiles": [
+          {
+            "icon": "target",
+            "title": "Aplicá con precisión",
+            "desc": "10 puestos bien elegidos > 50 al azar."
+          },
+          {
+            "icon": "lock",
+            "title": "Formato limpio",
+            "desc": "docx simple, sin tablas, sin imágenes."
+          },
+          {
+            "icon": "chart",
+            "title": "Palabras clave",
+            "desc": "Copialas del aviso. No inventes."
+          },
+          {
+            "icon": "trophy",
+            "title": "Números concretos",
+            "desc": "% y $ en cada logro."
+          }
+        ]
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .s3-tile-title { font-weight: 700; font-size: 15px; } .s3-tile-desc { font-size: 13px; opacity: 0.88; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "galactic-dream-full",
+        "geo-starfield",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "question": "¿Querés pasar del 50 al 5?",
+        "cta_keyword": "OPTIMIZAR",
+        "reward": "Plan personalizado para tu perfil. Primera sesión gratis."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

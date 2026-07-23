@@ -1,0 +1,53 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "atm-fog-full",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s30",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s19",
+      "s23",
+      "s31",
+      "s39",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "deco-ticker",
+      "slide-cinematic-title",
+      "mock-app-browser"
+    ],
+    "conflicts_with": [
+      "light-volumetric-beam",
+      "light-neon-border"
+    ]
+  }
+-->
+
+<!--
+LAYER: FOG FULL
+All-over mist wash.
+Best for: dream, mystery, ethereal systems.
+-->
+
+<div class="fog-full"></div>
+
+<style>
+.fog-full {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255,255,255,0.05), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 30% 0%, rgba(255,255,255,0.03), transparent 50%);
+}
+</style>

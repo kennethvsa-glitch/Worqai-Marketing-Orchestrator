@@ -1,0 +1,73 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-warning-box",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: WARNING BOX
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_pdf-ats-error_worqai-verde.html, carousel_0-a-4-entrevistas_crimson.html
+Purpose: S3-S6 — Eye-catching warning/alert moment.
+-->
+
+<div class="content">
+  <p class="tip-label">Alerta</p>
+  <h2 class="tip-headline">Tu CV esta en peligro</h2>
+  <div class="warn-box">
+    <div class="warn-icon">!</div>
+    <div class="warn-body">
+      <p class="warn-tag">Error critico</p>
+      <p class="warn-title">El ATS no lee tu PDF</p>
+      <p class="warn-desc">Las imagenes, tablas y fuentes decorativas hacen que tu CV sea invisible para los filtros automaticos.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.warn-box {
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 28px; border-radius: 12px;
+  background: rgba(255,50,50,0.06);
+  border: 1px solid rgba(255,80,80,0.18);
+  margin-top: 24px;
+}
+.warn-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(255,80,80,0.15);
+  border: 2px solid rgba(255,80,80,0.40);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 24px; font-weight: 900; color: rgba(255,80,80,0.80);
+  flex-shrink: 0;
+}
+.warn-body { display: flex; flex-direction: column; gap: 6px; }
+.warn-tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: rgba(255,80,80,0.70);
+}
+.warn-title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--text-primary); line-height: 1.2;
+}
+.warn-desc {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 18px; font-weight: 300;
+  line-height: 1.5; color: var(--text-secondary);
+  max-width: 720px;
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Icon: !, X, or SVG warning triangle
+- Colors: red (default), yellow, or system accent
+- Layout: horizontal (default) or vertical stack
+-->

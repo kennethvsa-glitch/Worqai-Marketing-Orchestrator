@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI · Antes de subir su CV a una IA</title>
+  <style>
+    @font-face {
+      font-family: "General Sans";
+      src: url("file:///C:/Users/kenne/OneDrive/Documentos/cv-tailored/fonts/General-Sans/GeneralSans-Variable.woff2") format("woff2");
+      font-weight: 300 900;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "JetBrains Mono";
+      src: url("file:///C:/Users/kenne/OneDrive/Documentos/cv-tailored/fonts/JetBrains-Mono/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+      font-weight: 300 900;
+      font-display: swap;
+    }
+
+    :root {
+      --ink: #11130f;
+      --paper: #f3f2ea;
+      --white: #fcfcf7;
+      --lime: #c8ff20;
+      --lime-dark: #7da000;
+      --red: #ff5e54;
+      --muted: #6e7168;
+      --line: rgba(17, 19, 15, 0.16);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "General Sans", "Segoe UI", Arial, sans-serif;
+    }
+
+    .poster {
+      isolation: isolate;
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      padding: 54px 58px 48px;
+      background:
+        radial-gradient(circle at 92% 8%, rgba(200, 255, 32, 0.40), transparent 23%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.54), transparent 46%),
+        var(--paper);
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      opacity: 0.34;
+      background-image:
+        linear-gradient(rgba(17, 19, 15, 0.095) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 19, 15, 0.095) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.62) 72%, transparent 100%);
+    }
+
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.038;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .w-mark {
+      position: absolute;
+      right: -144px;
+      top: -118px;
+      z-index: -2;
+      margin: 0;
+      color: transparent;
+      font-size: 600px;
+      font-weight: 900;
+      line-height: 0.8;
+      letter-spacing: -0.14em;
+      -webkit-text-stroke: 3px rgba(17, 19, 15, 0.065);
+      user-select: none;
+    }
+
+    .rail {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 8px;
+      background: var(--lime);
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 38px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: baseline;
+      color: var(--ink);
+      font-size: 31px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.055em;
+    }
+
+    .brand .q {
+      color: var(--lime-dark);
+    }
+
+    .brand-note,
+    .folio,
+    .eyebrow,
+    .group-label,
+    .field-label,
+    .micro,
+    .save-chip {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .brand-note {
+      margin-left: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: 0.14em;
+    }
+
+    .folio {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 36px;
+      padding: 0 14px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: rgba(252, 252, 247, 0.56);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .folio::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime-dark);
+      box-shadow: 0 0 0 4px rgba(125, 160, 0, 0.14);
+    }
+
+    .intro {
+      position: relative;
+      z-index: 2;
+      margin-top: 49px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 17px;
+      color: var(--lime-dark);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.17em;
+    }
+
+    .eyebrow::before {
+      content: "01";
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      border: 1px solid rgba(125, 160, 0, 0.56);
+      border-radius: 7px;
+      background: rgba(200, 255, 32, 0.22);
+      color: var(--ink);
+      font-size: 11px;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      max-width: 960px;
+      margin: 0;
+      font-size: 78px;
+      font-weight: 850;
+      line-height: 0.92;
+      letter-spacing: -0.063em;
+      text-wrap: balance;
+    }
+
+    h1 .line {
+      display: block;
+    }
+
+    h1 .strike {
+      position: relative;
+      display: inline-block;
+      color: var(--ink);
+    }
+
+    h1 .strike::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      right: -18px;
+      bottom: 2px;
+      left: -10px;
+      height: 25px;
+      border-radius: 2px;
+      background: var(--lime);
+      transform: rotate(-1.2deg);
+    }
+
+    .dek {
+      max-width: 800px;
+      margin: 25px 0 0;
+      color: #3f423a;
+      font-size: 26px;
+      font-weight: 530;
+      line-height: 1.26;
+      letter-spacing: -0.025em;
+    }
+
+    .dek strong {
+      color: var(--ink);
+      font-weight: 760;
+    }
+
+    .board {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.48fr 0.92fr;
+      gap: 28px;
+      height: 610px;
+      margin-top: 39px;
+      padding: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(17, 19, 15, 0.68);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 72% 20%, rgba(200, 255, 32, 0.10), transparent 29%),
+        linear-gradient(145deg, #191c17, #0f110e 72%);
+      box-shadow: 0 28px 70px rgba(17, 19, 15, 0.20);
+    }
+
+    .board::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.10;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.24) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    .document-wrap {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+    }
+
+    .clip {
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      z-index: 4;
+      width: 104px;
+      height: 23px;
+      border: 1px solid #74776e;
+      border-radius: 7px 7px 3px 3px;
+      background: linear-gradient(#c9cbc3, #81847b);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.22);
+      transform: translateX(-50%);
+    }
+
+    .document {
+      position: relative;
+      height: 546px;
+      padding: 29px 30px 24px;
+      overflow: hidden;
+      border: 1px solid rgba(17, 19, 15, 0.22);
+      border-radius: 13px;
+      background: var(--white);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.27);
+      transform: rotate(-0.7deg);
+    }
+
+    .doc-head {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 17px;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .portrait {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 94, 84, 0.52);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 33%, #c5c8bd 0 17%, transparent 18%),
+        radial-gradient(ellipse at 50% 100%, #c5c8bd 0 33%, transparent 34%),
+        #e7e8e1;
+    }
+
+    .portrait::before,
+    .portrait::after {
+      content: "";
+      position: absolute;
+      top: 32px;
+      left: 5px;
+      width: 62px;
+      height: 3px;
+      border-radius: 10px;
+      background: var(--red);
+    }
+
+    .portrait::before {
+      transform: rotate(42deg);
+    }
+
+    .portrait::after {
+      transform: rotate(-42deg);
+    }
+
+    .identity {
+      display: grid;
+      gap: 9px;
+    }
+
+    .redaction {
+      display: block;
+      height: 12px;
+      border-radius: 2px;
+      background: var(--ink);
+    }
+
+    .redaction.name {
+      width: 75%;
+      height: 17px;
+    }
+
+    .redaction.email {
+      width: 58%;
+    }
+
+    .redaction.phone {
+      width: 45%;
+    }
+
+    .remove-stamp {
+      padding: 8px 9px 7px;
+      border: 2px solid var(--red);
+      border-radius: 6px;
+      color: #d9433b;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.10em;
+      line-height: 1;
+      text-transform: uppercase;
+      transform: rotate(3deg);
+    }
+
+    .sensitive-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 17px;
+    }
+
+    .sensitive-field {
+      position: relative;
+      min-height: 58px;
+      padding: 11px 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 94, 84, 0.34);
+      border-radius: 8px;
+      background: rgba(255, 94, 84, 0.07);
+    }
+
+    .sensitive-field::after {
+      content: "";
+      position: absolute;
+      right: 10px;
+      bottom: 9px;
+      left: 10px;
+      height: 7px;
+      border-radius: 2px;
+      background: repeating-linear-gradient(112deg, var(--ink) 0 8px, #343730 8px 12px);
+    }
+
+    .field-label {
+      color: #ac3832;
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 19px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--lime-dark);
+      box-shadow: 0 0 0 4px rgba(125, 160, 0, 0.14);
+    }
+
+    .experience {
+      display: grid;
+      gap: 11px;
+      margin-top: 13px;
+    }
+
+    .experience-row {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 13px;
+      align-items: start;
+    }
+
+    .year {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .text-lines {
+      display: grid;
+      gap: 6px;
+    }
+
+    .text-line {
+      height: 7px;
+      border-radius: 999px;
+      background: #c9cbc2;
+    }
+
+    .text-line.dark {
+      width: 61%;
+      height: 9px;
+      background: #63675d;
+    }
+
+    .text-line.short {
+      width: 74%;
+    }
+
+    .keep-strip {
+      position: absolute;
+      right: 22px;
+      bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 31px;
+      padding: 0 11px;
+      border: 1px solid rgba(125, 160, 0, 0.48);
+      border-radius: 999px;
+      background: rgba(200, 255, 32, 0.23);
+      color: #536700;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 9px;
+      font-weight: 850;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .keep-strip::before {
+      content: "✓";
+      display: grid;
+      width: 16px;
+      height: 16px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--lime-dark);
+      color: #fff;
+      font-size: 10px;
+    }
+
+    .checklist {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      padding: 7px 2px 5px 0;
+    }
+
+    .group-label {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: 0.13em;
+    }
+
+    .group-label::before {
+      content: "×";
+      display: grid;
+      width: 23px;
+      height: 23px;
+      place-items: center;
+      border: 1px solid rgba(255, 94, 84, 0.52);
+      border-radius: 50%;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .group-label.keep {
+      margin-top: 24px;
+      color: var(--lime);
+    }
+
+    .group-label.keep::before {
+      content: "✓";
+      border-color: rgba(200, 255, 32, 0.55);
+      font-size: 12px;
+    }
+
+    .items {
+      display: grid;
+      gap: 0;
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .items li {
+      position: relative;
+      padding: 9px 0 9px 19px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 18px;
+      font-weight: 590;
+      line-height: 1.08;
+      letter-spacing: -0.018em;
+    }
+
+    .items li::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      left: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.58;
+    }
+
+    .items.keep-list li {
+      color: rgba(240, 255, 193, 0.92);
+    }
+
+    .micro {
+      margin-top: auto;
+      padding-top: 17px;
+      color: rgba(255, 255, 255, 0.48);
+      font-size: 10px;
+      font-weight: 650;
+      line-height: 1.45;
+      letter-spacing: 0.06em;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: end;
+      margin-top: 28px;
+    }
+
+    .closing {
+      margin: 0;
+      font-size: 25px;
+      font-weight: 760;
+      line-height: 1.12;
+      letter-spacing: -0.032em;
+    }
+
+    .closing span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 530;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .save-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 46px;
+      padding: 0 17px;
+      border: 1px solid var(--ink);
+      border-radius: 10px;
+      background: var(--lime);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      box-shadow: 5px 5px 0 var(--ink);
+    }
+
+    .save-chip::after {
+      content: "↘";
+      font-family: "General Sans", "Segoe UI", sans-serif;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    @media print {
+      @page {
+        size: 1080px 1350px;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" id="poster" aria-label="Checklist de privacidad antes de subir un CV a una herramienta de inteligencia artificial">
+    <div class="rail" aria-hidden="true"></div>
+    <div class="w-mark" aria-hidden="true">W</div>
+
+    <header class="topbar">
+      <div>
+        <span class="brand">wor<span class="q">q</span>ai</span>
+        <span class="brand-note">CV intelligence</span>
+      </div>
+      <div class="folio">Privacidad primero · 01</div>
+    </header>
+
+    <section class="intro">
+      <div class="eyebrow">Checklist antes de subir</div>
+      <h1>
+        <span class="line">NO SUBA SU CV</span>
+        <span class="line">A NINGUNA IA.</span>
+        <span class="line"><span class="strike">TODAVÍA.</span></span>
+      </h1>
+      <p class="dek">Primero quite lo que la herramienta <strong>no necesita</strong> para ayudarle.</p>
+    </section>
+
+    <section class="board" aria-label="Ejemplo de un CV anonimizado y lista de información que conviene quitar o conservar">
+      <div class="document-wrap">
+        <div class="clip" aria-hidden="true"></div>
+        <article class="document" aria-label="Ejemplo ilustrativo de un CV con datos personales eliminados">
+          <div class="doc-head">
+            <div class="portrait" aria-hidden="true"></div>
+            <div class="identity" aria-hidden="true">
+              <span class="redaction name"></span>
+              <span class="redaction email"></span>
+              <span class="redaction phone"></span>
+            </div>
+            <div class="remove-stamp">Quitar</div>
+          </div>
+
+          <div class="sensitive-grid">
+            <div class="sensitive-field"><span class="field-label">Cédula / pasaporte</span></div>
+            <div class="sensitive-field"><span class="field-label">Dirección exacta</span></div>
+            <div class="sensitive-field"><span class="field-label">Fecha de nacimiento</span></div>
+            <div class="sensitive-field"><span class="field-label">Datos de referencias</span></div>
+          </div>
+
+          <div class="section-title">Experiencia y evidencia</div>
+          <div class="experience" aria-hidden="true">
+            <div class="experience-row">
+              <div class="year">2023—2026</div>
+              <div class="text-lines">
+                <span class="text-line dark"></span>
+                <span class="text-line"></span>
+                <span class="text-line short"></span>
+              </div>
+            </div>
+            <div class="experience-row">
+              <div class="year">2021—2023</div>
+              <div class="text-lines">
+                <span class="text-line dark"></span>
+                <span class="text-line"></span>
+                <span class="text-line short"></span>
+              </div>
+            </div>
+            <div class="experience-row">
+              <div class="year">SKILLS</div>
+              <div class="text-lines">
+                <span class="text-line"></span>
+                <span class="text-line short"></span>
+              </div>
+            </div>
+          </div>
+          <div class="keep-strip">Esto sí ayuda al análisis</div>
+        </article>
+      </div>
+
+      <aside class="checklist">
+        <div class="group-label">Quite</div>
+        <ul class="items">
+          <li>Cédula o pasaporte</li>
+          <li>Dirección exacta</li>
+          <li>Fecha de nacimiento</li>
+          <li>Foto y firma</li>
+          <li>Datos de referencias</li>
+        </ul>
+
+        <div class="group-label keep">Deje</div>
+        <ul class="items keep-list">
+          <li>Experiencia real</li>
+          <li>Logros y habilidades</li>
+          <li>Educación relevante</li>
+        </ul>
+
+        <p class="micro">Aplica a cualquier herramienta de IA. Revise siempre su política de privacidad.</p>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <p class="closing">
+        Su experiencia sí. Sus datos sensibles, no.
+        <span>Guía para cualquier herramienta — incluida WorqAI.</span>
+      </p>
+      <div class="save-chip">Guardar checklist</div>
+    </footer>
+  </main>
+</body>
+</html>

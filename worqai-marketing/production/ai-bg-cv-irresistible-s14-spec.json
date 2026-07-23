@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "system": "s14",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "cv-irresistible",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "proof", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["blue-accent-waves", "glow-orb", "geo-hex-mesh"],
+      "copy": {
+        "kicker": "DIFERENCIACIÓN",
+        "headline": "De 200 CVs iguales, el reclutador para en el que tiene estas 4 cosas.",
+        "body": "No es diseño. No es color. Son decisiones de contenido.",
+        "text_treatment": "gradient"
+      },
+      "decoratives": [
+        { "id": "corner-frame" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(24px,5cqw,36px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; } .hook-body { opacity: 0.88; font-size: clamp(13px,2.4cqw,17px); } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-contrast-knockout",
+      "density": "heavy",
+      "layers": ["blue-accent-waves", "geo-neon-ring"],
+      "copy": {
+        "kicker": "EL PRINCIPIO",
+        "headline": "Titular con keywords + cargo específico + resultado cuantificado",
+        "body": "Eso es lo que separa un CV que para a un reclutador de uno que sigue de largo."
+      },
+      "decoratives": [],
+      "custom_css": ".ck-top { background: var(--accent) !important; } .ck-top-text { color: var(--bg-base) !important; font-size: clamp(18px,3.5cqw,28px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; } .ck-bottom-text { font-size: clamp(15px,2.8cqw,20px); opacity: 0.92; line-height: 1.35; } .t-label { color: var(--bg-base) !important; font-size: 11px !important; letter-spacing: 0.18em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["blue-accent-waves", "geo-hex-mesh"],
+      "copy": {
+        "kicker": "RESULTADO REAL",
+        "headline": "De 0 respuestas a 3 entrevistas en 10 días",
+        "bad_label": "ANTES",
+        "good_label": "DESPUÉS",
+        "before_score": "0",
+        "after_score": "3",
+        "before_items": ["Titular genérico sin keywords", "Sin logros cuantificados", "Objetivo profesional obsoleto"],
+        "after_items": ["Titular con cargo + keywords + resultado", "4 logros con números concretos", "Resumen de 3 líneas enfocado al puesto"]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.08) !important; border-color: rgba(255,80,80,0.25) !important; } .ba-col.good { background: rgba(56,189,248,0.08) !important; border-color: rgba(56,189,248,0.3) !important; } .ba-score.bad-score { color: rgba(255,80,80,0.9); } .ba-score.good-score { color: var(--accent); } .kicker { color: var(--accent); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["blue-accent-waves", "glow-orb"],
+      "copy": {
+        "question": "¿Tu CV tiene las 4 cosas que hacen que paren?",
+        "cta_keyword": "REVISAR",
+        "reward": "Diagnóstico ATS + legibilidad. Sin costo.",
+        "cta_variant": "button"
+      },
+      "decoratives": [
+        { "id": "svg-starburst-spark", "position": "tl" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

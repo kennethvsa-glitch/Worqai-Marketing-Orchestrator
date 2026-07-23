@@ -1,0 +1,55 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-app-notification",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s16",
+      "s26",
+      "s33",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s22",
+      "s30",
+      "s35"
+    ],
+    "pairs_well_with": [
+      "geo-wireframe-flat",
+      "light-glow-radial-corner",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "mock-terminal-minimal",
+      "mock-cv-two-column"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: NOTIFICATION TOAST
+Purpose: App notification popup.
+-->
+
+<div class="notif-toast">
+  <div class="notif-icon"></div>
+  <div class="notif-body">
+    <p class="notif-title">Nueva entrevista</p>
+    <p class="notif-desc">TechCorp te ha invitado a entrevista</p>
+  </div>
+</div>
+
+<style>
+.notif-toast { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); max-width: 400px; }
+.notif-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); flex-shrink: 0; }
+.notif-body { display: flex; flex-direction: column; gap: 2px; }
+.notif-title { font-family: var(--font-display), system-ui, sans-serif; font-size: 15px; font-weight: 600; color: var(--text-primary); }
+.notif-desc { font-family: var(--font-body), system-ui, sans-serif; font-size: 13px; font-weight: 300; color: var(--text-muted); }
+</style>

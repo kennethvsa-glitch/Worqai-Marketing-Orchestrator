@@ -1,0 +1,1892 @@
+diff --git a/src/app/[locale]/(acquisition)/[slug]/page.tsx b/src/app/[locale]/(acquisition)/[slug]/page.tsx
+new file mode 100644
+index 0000000..f2404fe
+--- /dev/null
++++ b/src/app/[locale]/(acquisition)/[slug]/page.tsx
+@@ -0,0 +1,61 @@
++import type { Metadata } from "next";
++import { notFound } from "next/navigation";
++import { setRequestLocale } from "next-intl/server";
++import { AcquisitionPage } from "@/components/seo/acquisition-page";
++import {
++  getAcquisitionPage,
++  getAcquisitionParams,
++} from "@/lib/seo/acquisition-pages";
++
++interface AcquisitionRouteProps {
++  params: Promise<{ locale: string; slug: string }>;
++}
++
++export const dynamicParams = false;
++
++export function generateStaticParams() {
++  return getAcquisitionParams();
++}
++
++export async function generateMetadata({
++  params,
++}: AcquisitionRouteProps): Promise<Metadata> {
++  const { locale, slug } = await params;
++  const content = getAcquisitionPage(locale, slug);
++
++  if (!content) {
++    return {};
++  }
++
++  return {
++    title: content.title,
++    description: content.description,
++    openGraph: {
++      type: "website",
++      title: content.title,
++      description: content.description,
++      url: "/" + locale + "/" + slug,
++      locale,
++    },
++    twitter: {
++      card: "summary_large_image",
++      title: content.title,
++      description: content.description,
++    },
++  };
++}
++
++export default async function AcquisitionRoute({
++  params,
++}: AcquisitionRouteProps) {
++  const { locale, slug } = await params;
++  const content = getAcquisitionPage(locale, slug);
++
++  if (!content) {
++    notFound();
++  }
++
++  setRequestLocale(content.locale);
++
++  return <AcquisitionPage page={content} />;
++}
+diff --git a/src/components/seo/acquisition-page.tsx b/src/components/seo/acquisition-page.tsx
+new file mode 100644
+index 0000000..998f203
+--- /dev/null
++++ b/src/components/seo/acquisition-page.tsx
+@@ -0,0 +1,346 @@
++import { ArrowRight, ArrowUpRight, Check, LockKeyhole, TriangleAlert } from "lucide-react";
++import { Link } from "@/i18n/navigation";
++import { Button } from "@/components/ui/button";
++import type {
++  AcquisitionLink,
++  AcquisitionPageData,
++} from "@/lib/seo/acquisition-pages";
++
++interface AcquisitionPageProps {
++  page: AcquisitionPageData;
++}
++
++function InternalLink({
++  link,
++  className,
++  children,
++}: {
++  link: AcquisitionLink;
++  className?: string;
++  children?: React.ReactNode;
++}) {
++  return (
++    <Link href={link.href} className={className}>
++      {children ?? link.label}
++    </Link>
++  );
++}
++
++export function AcquisitionPage({ page }: AcquisitionPageProps) {
++  return (
++    <main className="relative z-[1] overflow-hidden">
++      <section className="mx-auto grid w-full max-w-[1280px] gap-12 px-6 pb-20 pt-14 lg:grid-cols-[minmax(0,1.16fr)_minmax(360px,0.84fr)] lg:gap-20 lg:pb-28 lg:pt-24">
++        <div className="max-w-[760px]">
++          <p className="font-jetbrains-mono text-[11px] font-semibold tracking-[0.13em] text-[#4f6d00]">
++            {page.eyebrow}
++          </p>
++          <h1 className="mt-5 max-w-[820px] font-heading text-[clamp(2.65rem,6.4vw,5.85rem)] font-[650] leading-[0.93] tracking-[-0.055em] text-[#151515]">
++            {page.headline}
++          </h1>
++          <p className="mt-7 max-w-[680px] text-[17px] leading-7 text-[#505050] sm:text-[19px] sm:leading-8">
++            {page.intro}
++          </p>
++          <div className="mt-9 flex flex-col items-start gap-3">
++            <Button
++              asChild
++              variant="dark"
++              size="marketing"
++              data-icon="inline-end"
++              className="min-h-12 px-6 text-[15px]"
++            >
++              <InternalLink link={page.cta}>
++                {page.cta.label}
++                <span className="flex size-6 items-center justify-center rounded-full bg-[#c8ff00] text-black">
++                  <ArrowRight className="size-3.5" />
++                </span>
++              </InternalLink>
++            </Button>
++            <p className="max-w-[510px] text-[12px] leading-5 text-muted-foreground">
++              {page.note}
++            </p>
++          </div>
++        </div>
++
++        <aside className="self-end border-t border-black/15 pt-5 lg:mb-1">
++          <p className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
++            {page.mechanismTitle}
++          </p>
++          <p className="mt-4 max-w-[480px] text-[15px] leading-6 text-[#4b4b4b]">
++            {page.mechanismIntro}
++          </p>
++          <ol className="mt-7 space-y-0">
++            {page.mechanism.map((item, index) => (
++              <li
++                key={item}
++                className="grid grid-cols-[34px_1fr] gap-3 border-t border-black/10 py-4 first:border-t-0"
++              >
++                <span className="font-jetbrains-mono text-[11px] font-semibold text-[#678f00]">
++                  {String(index + 1).padStart(2, "0")}
++                </span>
++                <span className="text-[14px] leading-6 text-[#222]">{item}</span>
++              </li>
++            ))}
++          </ol>
++        </aside>
++      </section>
++
++      <section className="border-y border-black/10 bg-[#141414] text-white">
++        <div className="mx-auto flex max-w-[1280px] flex-col justify-between gap-3 px-6 py-5 sm:flex-row sm:items-center">
++          <span className="font-jetbrains-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
++            {page.kind === "comparison"
++              ? page.locale === "es"
++                ? "DECISIÓN"
++                : "DECISION"
++              : page.locale === "es"
++                ? "PRINCIPIO"
++                : "PRINCIPLE"}
++          </span>
++          <p className="max-w-[780px] text-left font-heading text-[19px] font-medium leading-6 sm:text-right">
++            {page.promise}
++          </p>
++        </div>
++      </section>
++
++      <section className="mx-auto w-full max-w-[1280px] px-6 py-20 lg:py-28">
++        <div className="grid gap-x-16 gap-y-14 lg:grid-cols-2">
++          {page.sections.map((section, index) => (
++            <article
++              key={section.title}
++              className={index === 1 ? "lg:border-l lg:border-black/10 lg:pl-16" : ""}
++            >
++              <p className="font-jetbrains-mono text-[10px] font-semibold tracking-[0.14em] text-[#5b7807]">
++                {section.eyebrow}
++              </p>
++              <h2 className="mt-4 max-w-[560px] font-heading text-[32px] font-[650] leading-[1.03] tracking-[-0.035em] text-[#171717] sm:text-[42px]">
++                {section.title}
++              </h2>
++              <p className="mt-5 max-w-[590px] text-[15px] leading-7 text-[#555]">
++                {section.body}
++              </p>
++              <ul className="mt-7 space-y-3">
++                {section.items.map((item) => (
++                  <li key={item} className="flex gap-3 text-[14px] leading-6 text-[#242424]">
++                    <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-[#86b600]" />
++                    <span>{item}</span>
++                  </li>
++                ))}
++              </ul>
++            </article>
++          ))}
++        </div>
++      </section>
++
++      <ExampleBlock page={page} />
++
++      {page.comparison ? <ComparisonBlock page={page} /> : null}
++
++      <section className="mx-auto grid w-full max-w-[1280px] gap-8 px-6 py-20 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16 lg:py-28">
++        <div>
++          <p className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5b7807]">
++            {page.locale === "es" ? "REVISIÓN FINAL" : "FINAL REVIEW"}
++          </p>
++          <h2 className="mt-4 max-w-[500px] font-heading text-[36px] font-[650] leading-[1.02] tracking-[-0.035em] sm:text-[48px]">
++            {page.checklistTitle}
++          </h2>
++        </div>
++        <ul className="divide-y divide-white/12 rounded-[22px] bg-[#181818] px-5 py-2 text-white sm:px-7">
++          {page.checklist.map((item) => (
++            <li key={item} className="flex gap-4 py-5 text-[14px] leading-6 text-white/80">
++              <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#c8ff00] text-black">
++                <Check className="size-3" strokeWidth={3} />
++              </span>
++              {item}
++            </li>
++          ))}
++        </ul>
++      </section>
++
++      <section className="border-y border-black/10 bg-white/45">
++        <div className="mx-auto grid w-full max-w-[1280px] gap-0 px-6 lg:grid-cols-2">
++          <InfoBlock
++            icon={<TriangleAlert className="size-5" />}
++            title={page.limitationTitle}
++            body={page.limitation}
++          />
++          <InfoBlock
++            icon={<LockKeyhole className="size-5" />}
++            title={page.privacyTitle}
++            body={page.privacy}
++            second
++          />
++        </div>
++      </section>
++
++      <section className="mx-auto w-full max-w-[1280px] px-6 pb-2 pt-20 lg:pt-28">
++        <div className="flex flex-col gap-6 border-b border-black/10 pb-9 sm:flex-row sm:items-end sm:justify-between">
++          <h2 className="max-w-[680px] font-heading text-[30px] font-[650] leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
++            {page.relatedTitle}
++          </h2>
++          <span className="font-jetbrains-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
++            {page.locale === "es" ? "RUTAS RELACIONADAS" : "RELATED PATHS"}
++          </span>
++        </div>
++        <div className="divide-y divide-black/10">
++          {page.related.map((link) => (
++            <InternalLink
++              key={link.href}
++              link={link}
++              className="group flex items-center justify-between gap-4 py-5 text-[15px] font-medium text-[#242424] transition-colors hover:text-[#4f7000]"
++            >
++              <span>{link.label}</span>
++              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
++            </InternalLink>
++          ))}
++        </div>
++      </section>
++    </main>
++  );
++}
++
++function ExampleBlock({ page }: { page: AcquisitionPageData }) {
++  return (
++    <section className="border-y border-black/10 bg-[#e7e6e0]">
++      <div className="mx-auto w-full max-w-[1280px] px-6 py-20 lg:py-24">
++        <div className="mb-9 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
++          <div>
++            <p className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5b7807]">
++              {page.example.label}
++            </p>
++            <h2 className="mt-3 max-w-[760px] font-heading text-[29px] font-[650] leading-[1.05] tracking-[-0.03em] sm:text-[38px]">
++              {page.example.context}
++            </h2>
++          </div>
++          <span className="w-fit rounded-full border border-black/15 px-3 py-1.5 font-jetbrains-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
++            {page.locale === "es" ? "NO ES UN CASO REAL" : "NOT A REAL CASE"}
++          </span>
++        </div>
++        <div className="grid overflow-hidden rounded-[24px] border border-black/10 bg-[#f8f7f2] lg:grid-cols-2">
++          <div className="border-b border-black/10 p-6 lg:border-b-0 lg:border-r lg:p-8">
++            <span className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
++              {page.locale === "es" ? "ANTES" : "BEFORE"}
++            </span>
++            <p className="mt-8 font-heading text-[22px] leading-8 text-[#5c5c5c]">
++              “{page.example.before}”
++            </p>
++          </div>
++          <div className="relative p-6 lg:p-8">
++            <div className="absolute right-7 top-7 size-2.5 rounded-full bg-[#9fd000]" />
++            <span className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5b7807]">
++              {page.locale === "es" ? "DESPUÉS" : "AFTER"}
++            </span>
++            <p className="mt-8 whitespace-pre-line font-heading text-[22px] leading-8 text-[#181818]">
++              “{page.example.after}”
++            </p>
++          </div>
++        </div>
++        <p className="mt-5 max-w-[880px] text-[13px] leading-6 text-muted-foreground">
++          {page.example.why}
++        </p>
++      </div>
++    </section>
++  );
++}
++
++function ComparisonBlock({ page }: { page: AcquisitionPageData }) {
++  const comparison = page.comparison;
++  if (!comparison) return null;
++
++  return (
++    <section className="mx-auto w-full max-w-[1280px] px-6 py-20 lg:py-28">
++      <div className="max-w-[760px]">
++        <p className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5b7807]">
++          {page.locale === "es" ? "DATOS VERIFICADOS" : "VERIFIED DETAILS"}
++        </p>
++        <h2 className="mt-4 font-heading text-[36px] font-[650] leading-none tracking-[-0.035em] sm:text-[48px]">
++          WorqAI / {comparison.competitorName}
++        </h2>
++        <p className="mt-5 text-[14px] leading-6 text-muted-foreground">
++          {comparison.intro}{" "}
++          <span className="font-medium text-foreground">
++            {page.locale === "es" ? "Revisado:" : "Reviewed:"} {comparison.verifiedAt}.
++          </span>
++        </p>
++      </div>
++      <div className="mt-10 overflow-x-auto rounded-[22px] border border-black/10 bg-white/55">
++        <table className="w-full min-w-[720px] border-collapse text-left">
++          <thead>
++            <tr className="border-b border-black/10">
++              <th className="px-5 py-4 font-jetbrains-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
++                {page.locale === "es" ? "Criterio" : "Criterion"}
++              </th>
++              <th className="px-5 py-4 font-jetbrains-mono text-[10px] uppercase tracking-[0.12em] text-[#4f7000]">
++                WorqAI
++              </th>
++              <th className="px-5 py-4 font-jetbrains-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
++                {comparison.competitorName}
++              </th>
++            </tr>
++          </thead>
++          <tbody>
++            {comparison.rows.map((row) => (
++              <tr key={row.criterion} className="border-b border-black/10 last:border-b-0">
++                <th className="w-[25%] px-5 py-5 text-[13px] font-semibold text-[#222]">
++                  {row.criterion}
++                </th>
++                <td className="w-[37.5%] px-5 py-5 text-[13px] leading-5 text-[#333]">
++                  {row.worqai}
++                </td>
++                <td className="w-[37.5%] px-5 py-5 text-[13px] leading-5 text-[#555]">
++                  {row.competitor}
++                </td>
++              </tr>
++            ))}
++          </tbody>
++        </table>
++      </div>
++      <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2">
++        {comparison.sources.map((source) =>
++          source.href.startsWith("http") ? (
++            <a
++              key={source.href}
++              href={source.href}
++              target="_blank"
++              rel="noreferrer"
++              className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#4f7000] hover:underline"
++            >
++              {source.label}
++              <ArrowUpRight className="size-3" />
++            </a>
++          ) : (
++            <InternalLink
++              key={source.href}
++              link={source}
++              className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#4f7000] hover:underline"
++            />
++          )
++        )}
++      </div>
++    </section>
++  );
++}
++
++function InfoBlock({
++  icon,
++  title,
++  body,
++  second = false,
++}: {
++  icon: React.ReactNode;
++  title: string;
++  body: string;
++  second?: boolean;
++}) {
++  return (
++    <article className={second ? "py-10 lg:border-l lg:border-black/10 lg:py-14 lg:pl-12" : "py-10 lg:py-14 lg:pr-12"}>
++      <div className="flex size-10 items-center justify-center rounded-full border border-black/10 bg-[#c8ff00]/50">
++        {icon}
++      </div>
++      <h2 className="mt-5 font-heading text-[25px] font-[650] tracking-[-0.025em]">
++        {title}
++      </h2>
++      <p className="mt-3 max-w-[560px] text-[13px] leading-6 text-muted-foreground">
++        {body}
++      </p>
++    </article>
++  );
++}
+diff --git a/src/lib/seo/acquisition-pages.ts b/src/lib/seo/acquisition-pages.ts
+new file mode 100644
+index 0000000..eb02852
+--- /dev/null
++++ b/src/lib/seo/acquisition-pages.ts
+@@ -0,0 +1,1401 @@
++export type AcquisitionLocale = "es" | "en";
++export type AcquisitionPageKind = "commercial" | "comparison" | "role";
++
++export interface AcquisitionLink {
++  href: string;
++  label: string;
++}
++
++export interface AcquisitionExample {
++  label: string;
++  context: string;
++  before: string;
++  after: string;
++  why: string;
++}
++
++export interface AcquisitionSection {
++  eyebrow: string;
++  title: string;
++  body: string;
++  items: string[];
++}
++
++export interface AcquisitionComparison {
++  competitorName: string;
++  verifiedAt: string;
++  intro: string;
++  rows: Array<{ criterion: string; worqai: string; competitor: string }>;
++  sources: AcquisitionLink[];
++}
++
++export interface AcquisitionPageData {
++  locale: AcquisitionLocale;
++  slug: string;
++  kind: AcquisitionPageKind;
++  title: string;
++  description: string;
++  eyebrow: string;
++  headline: string;
++  intro: string;
++  promise: string;
++  cta: AcquisitionLink;
++  note: string;
++  mechanismTitle: string;
++  mechanismIntro: string;
++  mechanism: string[];
++  sections: AcquisitionSection[];
++  example: AcquisitionExample;
++  checklistTitle: string;
++  checklist: string[];
++  limitationTitle: string;
++  limitation: string;
++  privacyTitle: string;
++  privacy: string;
++  relatedTitle: string;
++  related: AcquisitionLink[];
++  comparison?: AcquisitionComparison;
++}
++
++const SHARED = {
++  es: {
++    cta: { href: "/signup", label: "Probar WorqAI gratis" },
++    note: "Incluye un análisis ATS y una mejora o adaptación gratis. Sin tarjeta.",
++    limitationTitle: "Lo que este análisis no puede prometer",
++    limitation:
++      "Cada empresa configura su ATS de forma distinta y la decisión final la toma un equipo humano. WorqAI revisa legibilidad, relevancia y coincidencia con la vacante; no puede garantizar que un CV pase un filtro ni que genere una entrevista.",
++    privacyTitle: "Tu CV no es material de marketing",
++    privacy:
++      "Procesamos el archivo para darte el resultado y guardarlo en tu cuenta. No publicamos tu CV ni usamos tus datos personales como ejemplo. Cualquier caso real requiere permiso expreso y datos sensibles eliminados.",
++    relatedTitle: "Sigue por el problema que realmente quieres resolver",
++  },
++  en: {
++    cta: { href: "/signup", label: "Try WorqAI free" },
++    note: "Includes one ATS check and one resume improvement or tailoring. No card required.",
++    limitationTitle: "What this analysis cannot promise",
++    limitation:
++      "Every employer configures its ATS differently, and a person still makes the hiring decision. WorqAI checks readability, relevance, and job alignment; it cannot guarantee that a resume passes a filter or earns an interview.",
++    privacyTitle: "Your resume is not marketing material",
++    privacy:
++      "We process your file to produce the result and save it to your account. We do not publish your resume or turn personal details into examples. Any real case study requires explicit consent and full redaction.",
++    relatedTitle: "Continue with the problem you actually need to solve",
++  },
++} as const;
++
++function page(
++  data: Omit<
++    AcquisitionPageData,
++    | "cta"
++    | "note"
++    | "limitationTitle"
++    | "limitation"
++    | "privacyTitle"
++    | "privacy"
++    | "relatedTitle"
++  > &
++    Partial<
++      Pick<
++        AcquisitionPageData,
++        | "cta"
++        | "note"
++        | "limitationTitle"
++        | "limitation"
++        | "privacyTitle"
++        | "privacy"
++        | "relatedTitle"
++      >
++    >
++): AcquisitionPageData {
++  return { ...SHARED[data.locale], ...data };
++}
++
++const commercialPages: AcquisitionPageData[] = [
++  page({
++    locale: "es",
++    slug: "analizador-cv-ats",
++    kind: "commercial",
++    title: "Analizador de CV ATS gratis con IA | WorqAI",
++    description:
++      "Analiza la legibilidad, estructura y relevancia de tu CV. Compáralo con una vacante y recibe hallazgos concretos antes de postularte.",
++    eyebrow: "ANÁLISIS ATS GRATUITO",
++    headline: "Ve lo que un filtro puede perderse de tu CV.",
++    intro:
++      "Sube el CV que ya usas. WorqAI separa dos problemas que suelen mezclarse: si el archivo se puede leer con claridad y si lo que dice responde a la vacante.",
++    promise: "Un resultado útil, incluso antes de reescribir una sola línea.",
++    cta: { href: "/auditoria", label: "Analizar mi CV gratis" },
++    mechanismTitle: "Dos lecturas, no un número mágico",
++    mechanismIntro:
++      "Un CV puede estar bien formateado y seguir siendo poco relevante. Por eso el diagnóstico distingue la forma del contenido.",
++    mechanism: [
++      "Legibilidad: secciones, fechas, jerarquía y texto que pueda extraerse del archivo.",
++      "Relevancia: requisitos presentes, vacíos y afirmaciones que necesitan evidencia.",
++      "Acción: primero los tres cambios que más claridad aportan.",
++    ],
++    sections: [
++      {
++        eyebrow: "ANTES DE SUBIRLO",
++        title: "La prueba rápida que puedes hacer tú",
++        body:
++          "Copia el texto del PDF y pégalo en un documento vacío. Si desaparecen cargos o las fechas quedan lejos de la experiencia, hay un problema de lectura antes de hablar de keywords.",
++        items: [
++          "Pon tus datos de contacto en el cuerpo del documento.",
++          "Usa títulos directos: Experiencia, Educación y Habilidades.",
++          "No uses gráficos para representar años o nivel de una habilidad.",
++        ],
++      },
++      {
++        eyebrow: "CON UNA VACANTE",
++        title: "Coincidir no significa copiar",
++        body:
++          "Si la vacante pide SQL y realmente lo usaste, muestra dónde y para qué. Si nunca lo usaste, repetir SQL cinco veces no corrige el vacío.",
++        items: [
++          "Separa requisitos comprobables de frases generales de cultura.",
++          "Busca evidencia antes de añadir términos.",
++          "Deja fuera lo que no puedas defender en una entrevista.",
++        ],
++      },
++    ],
++    example: {
++      label: "Ejemplo ilustrativo",
++      context: "Vacante de analista que pide SQL, dashboards y comunicación con Operaciones.",
++      before: "Responsable de reportes mensuales para diferentes áreas.",
++      after:
++        "Automaticé en SQL el reporte mensual de inventario y preparé un dashboard para que Operaciones revisara variaciones por sede.",
++      why:
++        "Conecta herramienta, entregable y usuario interno. Los detalles son ficticios y deben sustituirse por tu experiencia real.",
++    },
++    checklistTitle: "Qué revisa el primer diagnóstico",
++    checklist: [
++      "Extracción consistente del texto.",
++      "Secciones esenciales claras y bien ordenadas.",
++      "Requisitos respaldados por experiencia.",
++      "Bullets con acciones y resultados, no solo responsabilidades.",
++    ],
++    related: [
++      { href: "/adaptar-cv-a-vacante", label: "Adaptar un CV a una vacante" },
++      { href: "/cv-ats", label: "Entender el formato de un CV ATS" },
++      { href: "/cv-analista-datos", label: "Guía para analistas de datos" },
++    ],
++  }),
++  page({
++    locale: "en",
++    slug: "free-ats-resume-checker",
++    kind: "commercial",
++    title: "Free ATS resume checker and job match analysis | WorqAI",
++    description:
++      "Check resume readability, structure, and job-description alignment without treating one score as a hiring prediction.",
++    eyebrow: "FREE ATS RESUME CHECK",
++    headline: "See what a screening system may miss in your resume.",
++    intro:
++      "Upload the resume you already use. WorqAI separates two issues most scores blur together: whether the file reads cleanly and whether the content answers this specific job.",
++    promise: "A useful diagnosis before you rewrite a single line.",
++    cta: { href: "/auditoria", label: "Check my resume free" },
++    mechanismTitle: "Two readings, not a magic number",
++    mechanismIntro:
++      "A resume can be perfectly readable and still be a weak match. The report keeps document structure and job relevance separate.",
++    mechanism: [
++      "Readability: sections, dates, hierarchy, and file text extraction.",
++      "Relevance: requirements present, missing, or unsupported.",
++      "Action: the three clearest improvements first.",
++    ],
++    sections: [
++      {
++        eyebrow: "BEFORE UPLOADING",
++        title: "A one-minute test you can run yourself",
++        body:
++          "Copy the PDF text into a blank document. If titles disappear or dates detach from roles, fix extraction before worrying about keywords.",
++        items: [
++          "Keep contact details in the document body.",
++          "Use conventional section names.",
++          "Do not use charts to communicate skill level.",
++        ],
++      },
++      {
++        eyebrow: "WITH A JOB DESCRIPTION",
++        title: "Matching is not copying",
++        body:
++          "If the posting asks for SQL and you have used it, show where and why. If you have not, repeating the term does not close the gap.",
++        items: [
++          "Separate demonstrable requirements from culture language.",
++          "Find evidence before adding a term.",
++          "Leave out anything you could not defend in an interview.",
++        ],
++      },
++    ],
++    example: {
++      label: "Illustrative example",
++      context: "An analyst role asking for SQL, dashboards, and Operations communication.",
++      before: "Responsible for monthly reports for several departments.",
++      after:
++        "Automated the monthly inventory report in SQL and built a dashboard Operations used to review location-level variance.",
++      why:
++        "The rewrite connects tool, deliverable, and internal user. The details are fictional and must be replaced with your own.",
++    },
++    checklistTitle: "What the first diagnosis covers",
++    checklist: [
++      "Consistent text extraction.",
++      "Clear, sensibly ordered sections.",
++      "Requirements supported by resume evidence.",
++      "Bullets that show actions and outcomes.",
++    ],
++    related: [
++      { href: "/resume-job-description-match", label: "Match a resume to a job description" },
++      { href: "/ats-friendly-resume", label: "Build an ATS-friendly resume" },
++      { href: "/data-analyst-resume", label: "Data analyst resume guide" },
++    ],
++  }),
++  page({
++    locale: "es",
++    slug: "adaptar-cv-a-vacante",
++    kind: "commercial",
++    title: "Adaptar tu CV a una vacante con IA | WorqAI",
++    description:
++      "Convierte un CV general en una versión relevante para una vacante, sin inventar experiencia ni llenarlo de palabras clave.",
++    eyebrow: "CV POR VACANTE",
++    headline: "No cambies tu historia. Cambia el foco.",
++    intro:
++      "La adaptación buena no disfraza tu perfil. Selecciona la evidencia que ya existe, la ordena según el puesto y explica por qué importa.",
++    promise: "Una versión distinta para la vacante, fiel a la misma persona.",
++    mechanismTitle: "El cruce de tres columnas",
++    mechanismIntro:
++      "WorqAI cruza lo que pide el puesto, dónde aparece en tu CV y qué evidencia sigue escondida.",
++    mechanism: [
++      "Requisito: la habilidad o contexto que pide la empresa.",
++      "Evidencia: el proyecto o resultado real que lo respalda.",
++      "Decisión: destacar, aclarar o dejar fuera; nunca inventar.",
++    ],
++    sections: [
++      {
++        eyebrow: "ORDEN",
++        title: "La primera mitad tiene un trabajo concreto",
++        body:
++          "Resumen, habilidades y primeros bullets deben explicar el encaje sin obligar a la persona reclutadora a reconstruirlo.",
++        items: [
++          "Abre con el problema que sabes resolver.",
++          "Prioriza logros cercanos al puesto.",
++          "Cambia el énfasis, no los hechos.",
++        ],
++      },
++      {
++        eyebrow: "LENGUAJE",
++        title: "Usa el vocabulario de la vacante solo cuando es tuyo",
++        body:
++          "Alinear términos ayuda cuando la experiencia es equivalente. No conviertas una exposición breve en dominio avanzado.",
++        items: [
++          "Escribe nombre completo y sigla cuando sea útil.",
++          "Conserva tu nivel real.",
++          "Lee cada bullet en voz alta.",
++        ],
++      },
++    ],
++    example: {
++      label: "Ejemplo ilustrativo",
++      context: "Customer Success pide adopción, renovaciones y trabajo con Producto.",
++      before: "Atendí clientes y resolví consultas sobre la plataforma.",
++      after:
++        "Acompañé la adopción de la plataforma en 18 cuentas y documenté fricciones recurrentes para priorizarlas con Producto.",
++      why:
++        "Hace visible alcance y colaboración. El número es ficticio: si no conoces el real, describe el alcance sin inventarlo.",
++    },
++    checklistTitle: "Qué debe sobrevivir a cualquier adaptación",
++    checklist: [
++      "Cargos, empresas y fechas reales.",
++      "Nivel honesto de herramientas e idiomas.",
++      "Resultados que puedas explicar.",
++      "Una voz que reconozcas como propia.",
++    ],
++    related: [
++      { href: "/analizador-cv-ats", label: "Analizar el CV antes" },
++      { href: "/mejorar-cv-con-ia", label: "Mejorar un CV sin vacante" },
++      { href: "/cv-servicio-al-cliente", label: "Guía de Customer Success" },
++    ],
++  }),
++  page({
++    locale: "en",
++    slug: "resume-job-description-match",
++    kind: "commercial",
++    title: "Match your resume to a job description | WorqAI",
++    description:
++      "Find evidence your resume already has, requirements it misses, and wording that needs clarification before you apply.",
++    eyebrow: "JOB-SPECIFIC RESUME",
++    headline: "Keep your history. Change the emphasis.",
++    intro:
++      "Good tailoring does not disguise your background. It selects evidence you already have and orders it around the role.",
++    promise: "A different version for the job, grounded in the same person.",
++    mechanismTitle: "The three-column match",
++    mechanismIntro:
++      "WorqAI connects each requirement to resume evidence and flags what is still unsupported.",
++    mechanism: [
++      "Requirement: the skill or context named in the posting.",
++      "Evidence: the real project or outcome that supports it.",
++      "Decision: emphasize, clarify, or leave out—never fabricate.",
++    ],
++    sections: [
++      {
++        eyebrow: "ORDER",
++        title: "The top half has one job",
++        body:
++          "Your summary, skills, and first bullets should make the fit visible without asking a recruiter to reconstruct it.",
++        items: [
++          "Open with the problem you solve.",
++          "Lead with outcomes close to the role.",
++          "Change emphasis, not history.",
++        ],
++      },
++      {
++        eyebrow: "LANGUAGE",
++        title: "Use the posting's vocabulary only when it is yours",
++        body:
++          "Aligning language helps when the underlying experience is real. Do not turn brief exposure into advanced proficiency.",
++        items: [
++          "Use full names and acronyms when helpful.",
++          "Keep proficiency honest.",
++          "Read every bullet aloud.",
++        ],
++      },
++    ],
++    example: {
++      label: "Illustrative example",
++      context: "Customer Success asks for adoption, renewals, and Product collaboration.",
++      before: "Supported customers and answered questions about the platform.",
++      after:
++        "Guided platform adoption across 18 accounts and documented recurring friction for prioritization with Product.",
++      why:
++        "It makes scope and collaboration visible. The number is fictional; describe scope another way if you do not know the real figure.",
++    },
++    checklistTitle: "What must survive every tailored version",
++    checklist: [
++      "Real titles, employers, and dates.",
++      "Honest tool and language proficiency.",
++      "Outcomes you can explain.",
++      "A voice you recognize as your own.",
++    ],
++    related: [
++      { href: "/free-ats-resume-checker", label: "Check the resume first" },
++      { href: "/ai-resume-tailor", label: "See AI-assisted tailoring" },
++      { href: "/customer-success-resume", label: "Customer Success resume guide" },
++    ],
++  }),
++  page({
++    locale: "es",
++    slug: "mejorar-cv-con-ia",
++    kind: "commercial",
++    title: "Mejorar tu CV con IA sin inventar experiencia | WorqAI",
++    description:
++      "Aclara logros, reduce frases vacías y mejora la estructura de tu CV con IA manteniendo tus hechos y tu voz.",
++    eyebrow: "MEJORA DE CV CON IA",
++    headline: "Que suene mejor, sin dejar de sonar a ti.",
++    intro:
++      "WorqAI trabaja sobre un CV existente. Localiza información débil y deja los vacíos como preguntas, no como hechos inventados.",
++    promise: "Más precisión y menos relleno en el CV que ya tienes.",
++    mechanismTitle: "Editar antes de adornar",
++    mechanismIntro:
++      "A veces toca reescribir; otras, cortar o pedir un dato que solo tú conoces.",
++    mechanism: [
++      "Aclarar una responsabilidad amplia.",
++      "Sustentar con alcance o resultados reales.",
++      "Recortar adjetivos que no prueban nada.",
++    ],
++    sections: [
++      {
++        eyebrow: "VOZ",
++        title: "La prueba de la entrevista",
++        body:
++          "Si una frase se siente prestada, será difícil sostenerla. Una buena edición profesionaliza sin borrar tu manera de explicar.",
++        items: [
++          "Prefiere verbos concretos.",
++          "Conserva el vocabulario técnico que usas.",
++          "Evita excelente, altamente y excepcional.",
++        ],
++      },
++      {
++        eyebrow: "EVIDENCIA",
++        title: "No todo logro necesita un porcentaje",
++        body:
++          "Si no tienes una métrica confiable, explica el alcance: sedes, proceso, frecuencia o personas involucradas.",
++        items: [
++          "Nombra el entregable.",
++          "Aclara quién lo usó.",
++          "Usa cifras solo si conoces su origen.",
++        ],
++      },
++    ],
++    example: {
++      label: "Ejemplo ilustrativo",
++      context: "Una experiencia operativa descrita de forma demasiado general.",
++      before: "Encargado de apoyar diferentes procesos administrativos de la empresa.",
++      after:
++        "Organicé órdenes de compra y conciliaciones semanales para Finanzas y coordiné correcciones con tres proveedores.",
++      why:
++        "Reemplaza 'diferentes procesos' por trabajo observable. Los detalles son ficticios y muestran estructura, no contenido para copiar.",
++    },
++    checklistTitle: "Señales de una mejora honesta",
++    checklist: [
++      "Puedes explicar cada frase.",
++      "Los verbos describen algo que hiciste.",
++      "Las cifras tienen una fuente.",
++      "El documento se entiende en 30 segundos.",
++    ],
++    related: [
++      { href: "/adaptar-cv-a-vacante", label: "Adaptarlo a una vacante" },
++      { href: "/cv-ats", label: "Revisar el formato ATS" },
++      { href: "/cv-project-manager", label: "Ejemplo para Project Manager" },
++    ],
++  }),
++  page({
++    locale: "en",
++    slug: "ai-resume-tailor",
++    kind: "commercial",
++    title: "AI resume tailor grounded in your real experience | WorqAI",
++    description:
++      "Tailor an existing resume to a job while keeping your facts intact. Review gaps, evidence, and changes before export.",
++    eyebrow: "AI RESUME TAILOR",
++    headline: "Reveal your fit. Do not manufacture it.",
++    intro:
++      "WorqAI starts with an existing resume and a real job description. It brings relevant evidence forward and keeps unsupported requirements visible as gaps.",
++    promise: "A faster edit without handing your judgment to a chatbot.",
++    mechanismTitle: "A controlled rewrite",
++    mechanismIntro:
++      "The useful part is deciding what to keep, foreground, and leave unsupported.",
++    mechanism: [
++      "Map requirements to existing evidence.",
++      "Reorder and rewrite around role priorities.",
++      "Keep missing qualifications visible.",
++    ],
++    sections: [
++      {
++        eyebrow: "REVIEW",
++        title: "Treat every suggestion as an edit, not a fact",
++        body:
++          "You remain the source of truth. Check titles, dates, scope, tools, and numbers before exporting.",
++        items: [
++          "Compare each rewrite with its source.",
++          "Check that scope did not grow.",
++          "Use language you would say naturally.",
++        ],
++      },
++      {
++        eyebrow: "BILINGUAL WORK",
++        title: "Translation and localization are different jobs",
++        body:
++          "Review title conventions, date formats, abbreviations, and the level of directness expected in the target language.",
++        items: [
++          "Keep standard product names unchanged.",
++          "Translate meaning, not word order.",
++          "Use a fluent reviewer for high-stakes applications.",
++        ],
++      },
++    ],
++    example: {
++      label: "Illustrative example",
++      context: "A project role asks for risk management and executive reporting.",
++      before: "Managed several projects and sent status updates to stakeholders.",
++      after:
++        "Maintained the risk register for three concurrent launches and prepared weekly decision briefs for the leadership team.",
++      why:
++        "It clarifies mechanism and audience. Every detail is fictional and must be replaced with evidence from your work.",
++    },
++    checklistTitle: "The final human review",
++    checklist: [
++      "Every claim exists in your source information.",
++      "Job language appears only where experience is equivalent.",
++      "The top half makes the fit legible.",
++      "The final document still sounds like you.",
++    ],
++    related: [
++      { href: "/resume-job-description-match", label: "Understand the match" },
++      { href: "/free-ats-resume-checker", label: "Run a free check first" },
++      { href: "/project-manager-resume", label: "Project Manager resume guide" },
++    ],
++  }),
++  page({
++    locale: "es",
++    slug: "cv-ats",
++    kind: "commercial",
++    title: "CV ATS: formato, estructura y prueba de lectura | WorqAI",
++    description:
++      "Aprende qué hace legible un CV para un ATS, prueba la extracción del archivo y evita cambios que esconden experiencia.",
++    eyebrow: "FORMATO CV ATS",
++    headline: "Un CV ATS no tiene que parecer un recibo.",
++    intro:
++      "La prioridad es que el contenido sobreviva al archivo: nombre, secciones, cargos, fechas y bullets en un orden claro.",
++    promise: "Legibilidad primero; monotonía, no necesariamente.",
++    cta: { href: "/auditoria", label: "Probar la lectura de mi CV" },
++    mechanismTitle: "La prueba de extracción",
++    mechanismIntro:
++      "Revisa qué texto sale del documento y en qué orden aparece.",
++    mechanism: [
++      "Texto principal seleccionable.",
++      "Fechas y cargos unidos a su experiencia.",
++      "Nombres de sección previsibles.",
++    ],
++    sections: [
++      {
++        eyebrow: "SÍ FUNCIONA",
++        title: "Un sistema visual sencillo",
++        body:
++          "Tipografía legible, contraste alto, espacio consistente y jerarquía clara suelen ser suficientes.",
++        items: [
++          "Una columna principal.",
++          "Fechas escritas como texto.",
++          "Bullets cortos con espacio.",
++        ],
++      },
++      {
++        eyebrow: "REVISA DOS VECES",
++        title: "Elementos que necesitan prueba real",
++        body:
++          "No toda columna falla. El problema es asumir. Si usas una estructura compleja, comprueba la extracción.",
++        items: [
++          "Tablas con fechas separadas.",
++          "Contacto solo en encabezado.",
++          "Iconos sin etiqueta de texto.",
++        ],
++      },
++    ],
++    example: {
++      label: "Ejemplo ilustrativo",
++      context: "Un bloque que mantiene sus relaciones al extraer texto.",
++      before: "2022—2024 | Analista | Empresa Norte | Logros en una caja lateral.",
++      after: "Analista — Empresa Norte\nEnero 2022–Marzo 2024\n• Automaticé el reporte semanal…",
++      why:
++        "Agrupar cargo, empresa y fechas reduce la reconstrucción que debe hacer un lector humano o automático.",
++    },
++    checklistTitle: "Prueba de cinco minutos",
++    checklist: [
++      "Copia todo el texto.",
++      "Busca correo, cargo y fecha.",
++      "Comprueba que secciones no se mezclaron.",
++      "Revisa saltos de página en otro dispositivo.",
++    ],
++    related: [
++      { href: "/analizador-cv-ats", label: "Analizar mi CV gratis" },
++      { href: "/mejorar-cv-con-ia", label: "Mejorar el contenido" },
++      { href: "/cv-desarrollador-software", label: "Ver un CV técnico" },
++    ],
++  }),
++  page({
++    locale: "en",
++    slug: "ats-friendly-resume",
++    kind: "commercial",
++    title: "ATS-friendly resume format and readability test | WorqAI",
++    description:
++      "Learn what makes a resume readable to an ATS, test extracted text, and avoid formatting that hides good experience.",
++    eyebrow: "ATS-FRIENDLY FORMAT",
++    headline: "An ATS-friendly resume does not have to look like a receipt.",
++    intro:
++      "The priority is that name, sections, roles, dates, and bullets survive the file in a clear reading order.",
++    promise: "Readability first; blandness is optional.",
++    cta: { href: "/auditoria", label: "Test my resume readability" },
++    mechanismTitle: "The extraction test",
++    mechanismIntro:
++      "Inspect what text comes out and the order in which it appears.",
++    mechanism: [
++      "Selectable main text.",
++      "Dates and titles attached to the right role.",
++      "Predictable section labels.",
++    ],
++    sections: [
++      {
++        eyebrow: "WHAT WORKS",
++        title: "A restrained visual system",
++        body:
++          "Readable type, strong contrast, consistent spacing, and clear hierarchy are usually enough.",
++        items: [
++          "One main column.",
++          "Dates written as text.",
++          "Short bullets with breathing room.",
++        ],
++      },
++      {
++        eyebrow: "TEST TWICE",
++        title: "Elements that need a real extraction check",
++        body:
++          "Columns do not fail everywhere. The risk is assuming. Test complex layouts and keep a simple version.",
++        items: [
++          "Tables separating dates and content.",
++          "Contact details only in a header.",
++          "Icons without text labels.",
++        ],
++      },
++    ],
++    example: {
++      label: "Illustrative example",
++      context: "A work-history block that keeps its relationships after extraction.",
++      before: "2022—2024 | Analyst | North Company | Achievements in a sidebar.",
++      after: "Analyst — North Company\nJanuary 2022–March 2024\n• Automated the weekly report…",
++      why:
++        "Grouping title, employer, and dates reduces reconstruction for a human reader or parser.",
++    },
++    checklistTitle: "A five-minute pre-application test",
++    checklist: [
++      "Copy all text.",
++      "Search for email, title, and date.",
++      "Confirm sections did not interleave.",
++      "Inspect page breaks on another device.",
++    ],
++    related: [
++      { href: "/free-ats-resume-checker", label: "Check my resume free" },
++      { href: "/ai-resume-tailor", label: "Tailor it to a job" },
++      { href: "/software-engineer-resume", label: "Technical resume guide" },
++    ],
++  }),
++];
++
++const comparisonPages: AcquisitionPageData[] = [
++  page({
++    locale: "es",
++    slug: "worqai-vs-jobscan",
++    kind: "comparison",
++    title: "WorqAI vs Jobscan: cuál encaja con tu búsqueda | WorqAI",
++    description:
++      "Comparación verificable entre WorqAI y Jobscan para analizar y adaptar un CV. Sin rankings inventados ni promesas de entrevistas.",
++    eyebrow: "COMPARACIÓN HONESTA",
++    headline: "WorqAI o Jobscan: empieza por tu forma de trabajar.",
++    intro:
++      "Ambas herramientas contrastan un CV con una vacante. La decisión útil está en el flujo, el idioma y cuánto quieres editar manualmente.",
++    promise: "No hay un ganador universal. Hay una herramienta más adecuada para cada tarea.",
++    mechanismTitle: "Tres preguntas antes de elegir",
++    mechanismIntro:
++      "Prueba con la misma vacante y compara el resultado que realmente usarías.",
++    mechanism: [
++      "¿Necesitas diagnóstico detallado o una adaptación lista para revisar?",
++      "¿Trabajas de forma natural en español, inglés o ambos?",
++      "¿Quieres editar recomendación por recomendación o partir de una versión completa?",
++    ],
++    sections: [
++      {
++        eyebrow: "JOBSCAN PUEDE ENCAJAR",
++        title: "Cuando quieres inspeccionar muchas señales",
++        body:
++          "Jobscan publica que su escáner realiza más de 30 revisiones y separa habilidades, formato, secciones y contenido.",
++        items: [
++          "Quieres un reporte granular.",
++          "Te interesa identificar el ATS de una empresa mediante su URL.",
++          "Prefieres aplicar recomendaciones dentro de un ecosistema amplio.",
++        ],
++      },
++      {
++        eyebrow: "WORQAI PUEDE ENCAJAR",
++        title: "Cuando tu unidad de trabajo es la vacante",
++        body:
++          "WorqAI parte de tu CV existente, revisa el cruce y crea una versión completa en español o inglés para que la edites.",
++        items: [
++          "Buscas un flujo bilingüe en una sola cuenta.",
++          "Quieres adaptar y exportar DOCX o PDF.",
++          "Prefieres mantener visibles los vacíos sin inventar experiencia.",
++        ],
++      },
++    ],
++    example: {
++      label: "Escenario ilustrativo",
++      context: "Tienes un CV en español y una vacante remota escrita en inglés.",
++      before: "Traducir el CV completo y luego revisar manualmente cada requisito.",
++      after: "Cruzar primero la evidencia, adaptar el foco y revisar la versión inglesa contra el original.",
++      why:
++        "Si tu problema principal es traducción más adaptación, WorqAI reduce cambios de herramienta. Si necesitas un diagnóstico de 30+ señales, prueba también Jobscan.",
++    },
++    checklistTitle: "Compara con el mismo material",
++    checklist: [
++      "Mismo CV y misma vacante.",
++      "Cantidad de cambios que sí usarías.",
++      "Facilidad para verificar que no se inventó nada.",
++      "Formato final que necesitas enviar.",
++    ],
++    comparison: {
++      competitorName: "Jobscan",
++      verifiedAt: "13 de julio de 2026",
++      intro:
++        "Esta tabla usa información pública de ambas herramientas. Los planes y límites pueden cambiar; revisa las páginas oficiales antes de pagar.",
++      rows: [
++        { criterion: "Entrada principal", worqai: "CV existente + vacante", competitor: "CV + vacante" },
++        { criterion: "Resultado publicado", worqai: "Análisis y adaptación editable", competitor: "Match Report y recomendaciones; AI Optimize disponible" },
++        { criterion: "Idiomas de trabajo", worqai: "Español e inglés en el mismo flujo", competitor: "La página pública consultada está orientada al inglés" },
++        { criterion: "Exportación", worqai: "DOCX y PDF en planes con adaptación", competitor: "Su builder publica descargas PDF y DOCX" },
++        { criterion: "Fortaleza visible", worqai: "Adaptación bilingüe del CV existente", competitor: "30+ revisiones y ATS Tip" },
++      ],
++      sources: [
++        { href: "https://www.jobscan.co/resume-scanner", label: "Escáner oficial de Jobscan" },
++        { href: "https://www.jobscan.co/ai-resume", label: "Builder oficial de Jobscan" },
++        { href: "/precios", label: "Precios y funciones de WorqAI" },
++      ],
++    },
++    related: [
++      { href: "/analizador-cv-ats", label: "Probar el analizador ATS" },
++      { href: "/adaptar-cv-a-vacante", label: "Ver cómo se adapta un CV" },
++      { href: "/alternativas-a-resume-io", label: "Comparar con Resume.io" },
++    ],
++  }),
++  page({
++    locale: "en",
++    slug: "worqai-vs-jobscan",
++    kind: "comparison",
++    title: "WorqAI vs Jobscan: choose for your workflow | WorqAI",
++    description:
++      "A factual WorqAI and Jobscan comparison for resume checking and tailoring, without invented rankings or interview promises.",
++    eyebrow: "AN HONEST COMPARISON",
++    headline: "WorqAI or Jobscan: start with how you work.",
++    intro:
++      "Both products compare a resume with a job. The useful distinction is workflow, language, and how much editing you want to do manually.",
++    promise: "There is no universal winner—only a better fit for a particular task.",
++    mechanismTitle: "Three questions before choosing",
++    mechanismIntro: "Use the same job description in both and compare what you would actually act on.",
++    mechanism: [
++      "Do you want a detailed diagnosis or a full draft to review?",
++      "Do you work naturally in Spanish, English, or both?",
++      "Do you prefer applying recommendations one by one?",
++    ],
++    sections: [
++      {
++        eyebrow: "JOBSCAN MAY FIT",
++        title: "When you want to inspect many signals",
++        body:
++          "Jobscan states that its scanner runs more than 30 checks across skills, formatting, sections, and content.",
++        items: [
++          "You want a granular report.",
++          "You value ATS detection from a company URL.",
++          "You want a broad job-search toolkit.",
++        ],
++      },
++      {
++        eyebrow: "WORQAI MAY FIT",
++        title: "When the job description is your unit of work",
++        body:
++          "WorqAI starts with your existing resume and creates a full Spanish or English version for review.",
++        items: [
++          "You need one bilingual workflow.",
++          "You want tailored DOCX and PDF exports.",
++          "You want unsupported gaps kept visible.",
++        ],
++      },
++    ],
++    example: {
++      label: "Illustrative scenario",
++      context: "You have a Spanish resume and an English-language remote role.",
++      before: "Translate the full resume, then check every requirement manually.",
++      after: "Map evidence first, tailor the emphasis, and review the English version against the source.",
++      why:
++        "If translation plus tailoring is the main problem, WorqAI reduces tool switching. For 30+ diagnostic checks, test Jobscan too.",
++    },
++    checklistTitle: "Compare with the same material",
++    checklist: [
++      "Same resume and posting.",
++      "Changes you would actually use.",
++      "Ease of checking factual accuracy.",
++      "The export format you need.",
++    ],
++    comparison: {
++      competitorName: "Jobscan",
++      verifiedAt: "July 13, 2026",
++      intro:
++        "This table uses public product information. Plans and limits change; check the official pages before paying.",
++      rows: [
++        { criterion: "Primary input", worqai: "Existing resume + job", competitor: "Resume + job" },
++        { criterion: "Published output", worqai: "Analysis and editable tailoring", competitor: "Match Report; AI Optimize available" },
++        { criterion: "Working languages", worqai: "Spanish and English in one flow", competitor: "Public scanner page reviewed is English-first" },
++        { criterion: "Export", worqai: "DOCX and PDF with tailoring plans", competitor: "Builder advertises PDF and DOCX" },
++        { criterion: "Visible strength", worqai: "Bilingual tailoring of an existing resume", competitor: "30+ checks and ATS Tip" },
++      ],
++      sources: [
++        { href: "https://www.jobscan.co/resume-scanner", label: "Jobscan official scanner" },
++        { href: "https://www.jobscan.co/ai-resume", label: "Jobscan official builder" },
++        { href: "/precios", label: "WorqAI pricing and features" },
++      ],
++    },
++    related: [
++      { href: "/free-ats-resume-checker", label: "Try the ATS checker" },
++      { href: "/resume-job-description-match", label: "See the matching workflow" },
++      { href: "/jobscan-alternative-for-spanish-resumes", label: "Spanish-resume alternative" },
++    ],
++  }),
++  page({
++    locale: "es",
++    slug: "alternativas-a-resume-io",
++    kind: "comparison",
++    title: "Alternativas a Resume.io para adaptar tu CV | WorqAI",
++    description:
++      "Compara Resume.io y WorqAI si ya tienes un CV y quieres analizarlo o adaptarlo a una vacante en español o inglés.",
++    eyebrow: "ALTERNATIVA A RESUME.IO",
++    headline: "¿Necesitas construir un CV o adaptar el que ya tienes?",
++    intro:
++      "Resume.io ofrece un builder amplio con plantillas, cartas y herramientas de búsqueda. WorqAI se concentra en diagnosticar y adaptar un CV existente por vacante.",
++    promise: "La diferencia está en el punto de partida, no en un ranking.",
++    mechanismTitle: "Elige por el trabajo pendiente",
++    mechanismIntro:
++      "Antes de comparar precios, decide si tu problema es crear, diseñar, diagnosticar o adaptar.",
++    mechanism: [
++      "Crear desde cero: un builder con plantillas puede ser más natural.",
++      "Diagnosticar: prueba qué feedback entiendes y puedes usar.",
++      "Adaptar: compara cuánto trabajo manual queda antes de enviar.",
++    ],
++    sections: [
++      {
++        eyebrow: "RESUME.IO PUEDE ENCAJAR",
++        title: "Cuando quieres un ecosistema de creación",
++        body:
++          "Resume.io publica más de 30 plantillas premium, cartas, Job Tracker y cambio de idioma del documento.",
++        items: [
++          "Empiezas con una página en blanco.",
++          "La selección de plantilla es importante.",
++          "También quieres crear cartas.",
++        ],
++      },
++      {
++        eyebrow: "WORQAI PUEDE ENCAJAR",
++        title: "Cuando ya tienes una historia que preservar",
++        body:
++          "WorqAI analiza el archivo existente, lo cruza con la vacante y produce una versión para revisar y exportar.",
++        items: [
++          "Quieres una primera adaptación gratis.",
++          "Alternas entre español e inglés.",
++          "Prefieres un pack sin suscripción o un plan mensual.",
++        ],
++      },
++    ],
++    example: {
++      label: "Escenario ilustrativo",
++      context: "Ya tienes un CV de dos páginas y aplicarás a tres puestos distintos.",
++      before: "Cambiar de plantilla y duplicar el documento antes de decidir qué evidencia importa.",
++      after: "Conservar el formato base y crear tres versiones enfocadas en requisitos distintos.",
++      why:
++        "Para esta tarea, la adaptación puede importar más que la biblioteca de plantillas. Si necesitas diseñar desde cero, Resume.io puede encajar mejor.",
++    },
++    checklistTitle: "Qué comprobar en tu prueba",
++    checklist: [
++      "Qué incluye realmente el plan gratuito.",
++      "Formato disponible al descargar.",
++      "Renovación y moneda mostrada en tu país.",
++      "Facilidad para crear una versión por vacante.",
++    ],
++    comparison: {
++      competitorName: "Resume.io",
++      verifiedAt: "13 de julio de 2026",
++      intro:
++        "Resume.io indica que precios y condiciones varían por ubicación. Evitamos una cifra única y enlazamos su página oficial.",
++      rows: [
++        { criterion: "Punto de partida", worqai: "Un CV existente", competitor: "Builder desde cero o CV existente" },
++        { criterion: "Centro del producto", worqai: "Análisis y adaptación por vacante", competitor: "Builder, plantillas y herramientas de carrera" },
++        { criterion: "Español", worqai: "Español e inglés en una cuenta", competitor: "Publica variantes ES, CL y MX" },
++        { criterion: "Plan gratis", worqai: "1 análisis + 1 mejora o adaptación", competitor: "Builder limitado; condiciones de descarga dependen del plan/mercado" },
++        { criterion: "Pago sin mensualidad", worqai: "Starter Pack publicado", competitor: "Publica pagos únicos en ciertos países" },
++      ],
++      sources: [
++        { href: "https://resume.io/pricing", label: "Precios oficiales de Resume.io" },
++        { href: "https://help.resume.io/en/articles/3784768", label: "Idiomas admitidos por Resume.io" },
++        { href: "https://resume.io/ats-resume-checker", label: "Analizador oficial de Resume.io" },
++        { href: "/precios", label: "Precios y funciones de WorqAI" },
++      ],
++    },
++    related: [
++      { href: "/mejorar-cv-con-ia", label: "Mejorar un CV existente" },
++      { href: "/adaptar-cv-a-vacante", label: "Adaptarlo a una vacante" },
++      { href: "/worqai-vs-jobscan", label: "Comparar con Jobscan" },
++    ],
++  }),
++  page({
++    locale: "en",
++    slug: "jobscan-alternative-for-spanish-resumes",
++    kind: "comparison",
++    title: "A Jobscan alternative for Spanish resumes | WorqAI",
++    description:
++      "Compare Jobscan and WorqAI when your source resume, target job, or final application needs Spanish and English.",
++    eyebrow: "FOR SPANISH RESUMES",
++    headline: "Bilingual tailoring is more than translating keywords.",
++    intro:
++      "If your search crosses Latin American and US-remote roles, the job is to preserve evidence while changing language, conventions, and emphasis.",
++    promise: "Choose the workflow that makes bilingual review easiest for you.",
++    mechanismTitle: "Test the language boundary",
++    mechanismIntro:
++      "Use one Spanish resume and one English posting. Inspect what happens to titles, tools, dates, and claims.",
++    mechanism: [
++      "Do technical terms remain recognizable?",
++      "Does the English version preserve the original scope?",
++      "Can you trace every rewritten claim to the Spanish source?",
++    ],
++    sections: [
++      {
++        eyebrow: "JOBSCAN MAY FIT",
++        title: "When the diagnostic report is the priority",
++        body:
++          "Jobscan advertises 30+ checks, a Match Report, and ATS detection from a company URL.",
++        items: [
++          "You work mainly in English.",
++          "You want a detailed checklist.",
++          "You prefer applying fixes yourself.",
++        ],
++      },
++      {
++        eyebrow: "WORQAI MAY FIT",
++        title: "When the bilingual document is the priority",
++        body:
++          "WorqAI supports Spanish and English analysis, tailoring, and export in one account.",
++        items: [
++          "Your source and target languages differ.",
++          "You need a full version to review.",
++          "You want a one-time pack option.",
++        ],
++      },
++    ],
++    example: {
++      label: "Illustrative scenario",
++      context: "A Costa Rican product manager applies to a US-remote role.",
++      before: "Translate 'seguimiento de entregables' literally and leave the business context behind.",
++      after: "Describe the operating cadence, stakeholders, and decision made, then localize the wording.",
++      why:
++        "The point is not replacing Spanish with English terms. It is carrying the same evidence across markets without increasing scope.",
++    },
++    checklistTitle: "Review both versions side by side",
++    checklist: [
++      "Titles mean the same thing.",
++      "Numbers and scope are unchanged.",
++      "Technical names remain standard.",
++      "The final voice sounds natural.",
++    ],
++    comparison: {
++      competitorName: "Jobscan",
++      verifiedAt: "July 13, 2026",
++      intro:
++        "We found no clear multilingual claim on the public Jobscan scanner page reviewed. This describes the visible workflow, not every private capability.",
++      rows: [
++        { criterion: "Public scanner language", worqai: "Spanish and English", competitor: "English-first page reviewed" },
++        { criterion: "Bilingual tailoring", worqai: "Built into one workflow", competitor: "Not stated on the scanner page reviewed" },
++        { criterion: "Diagnostic depth", worqai: "ATS analysis plus grounded rewrite", competitor: "30+ checks advertised" },
++        { criterion: "ATS detection", worqai: "Not advertised", competitor: "ATS Tip advertised" },
++        { criterion: "One-time pack", worqai: "Published Starter Pack", competitor: "Check current official pricing" },
++      ],
++      sources: [
++        { href: "https://www.jobscan.co/resume-scanner", label: "Jobscan official scanner" },
++        { href: "/precios", label: "WorqAI pricing and features" },
++      ],
++    },
++    related: [
++      { href: "/ai-resume-tailor", label: "See bilingual tailoring" },
++      { href: "/worqai-vs-jobscan", label: "Read the full comparison" },
++      { href: "/software-engineer-resume", label: "Technical resume guide" },
++    ],
++  }),
++];
++
++interface RoleDefinition {
++  locale: AcquisitionLocale;
++  slug: string;
++  role: string;
++  title: string;
++  description: string;
++  headline: string;
++  intro: string;
++  focus: string;
++  skills: string[];
++  evidence: string[];
++  risk: string;
++  before: string;
++  after: string;
++  why: string;
++  interviewTest: string;
++  related: AcquisitionLink[];
++}
++
++const roleDefinitions: RoleDefinition[] = [
++  {
++    locale: "es", slug: "cv-analista-datos", role: "Analista de datos",
++    title: "CV de analista de datos: evidencia y ejemplo ATS | WorqAI",
++    description: "Convierte herramientas y reportes en decisiones visibles en tu CV de analista de datos.",
++    headline: "Las herramientas no cuentan la historia. La decisión sí.",
++    intro: "SQL, Excel o Power BI ocupan poco espacio. Lo que distingue tu CV es explicar qué pregunta resolviste, con qué datos y quién actuó después.",
++    focus: "Del dataset a una decisión verificable",
++    skills: ["SQL", "Excel", "Power BI o Tableau", "limpieza de datos", "estadística", "comunicación"],
++    evidence: ["Fuente y tamaño aproximado del dato.", "Análisis, dashboard o automatización entregada.", "Decisión, ahorro o seguimiento habilitado."],
++    risk: "Listar diez herramientas sin mostrar una sola pregunta de negocio.",
++    before: "Creación de dashboards y reportes para el equipo.",
++    after: "Construí en Power BI un tablero semanal de inventario que permitió a Operaciones detectar quiebres por sede antes del cierre.",
++    why: "Nombra herramienta, cadencia, usuario y decisión. El caso es ficticio; usa solo detalles reales.",
++    interviewTest: "¿Puedes explicar qué cambió después de que alguien vio tu análisis?",
++    related: [{ href: "/analizador-cv-ats", label: "Analizar el CV" }, { href: "/adaptar-cv-a-vacante", label: "Adaptarlo a una vacante" }],
++  },
++  {
++    locale: "en", slug: "data-analyst-resume", role: "Data analyst",
++    title: "Data analyst resume: evidence and ATS example | WorqAI",
++    description: "Turn tools and reporting into decision evidence on a data analyst resume.",
++    headline: "Tools do not tell the story. The decision does.",
++    intro: "SQL, Excel, and Power BI take one line. The useful part explains the question, the data, and who acted on the result.",
++    focus: "From dataset to a defensible decision",
++    skills: ["SQL", "Excel", "Power BI or Tableau", "data cleaning", "statistics", "communication"],
++    evidence: ["Data source and approximate scale.", "Analysis, dashboard, or automation delivered.", "Decision or monitoring enabled."],
++    risk: "Listing ten tools without one business question.",
++    before: "Created dashboards and reports for the team.",
++    after: "Built a weekly inventory dashboard in Power BI that helped Operations spot location-level stockouts before close.",
++    why: "It names tool, cadence, user, and decision. The scenario is fictional; use only real details.",
++    interviewTest: "Can you explain what changed after someone saw your analysis?",
++    related: [{ href: "/free-ats-resume-checker", label: "Check the resume" }, { href: "/resume-job-description-match", label: "Match it to a job" }],
++  },
++  {
++    locale: "es", slug: "cv-desarrollador-software", role: "Desarrollador de software",
++    title: "CV de desarrollador de software: proyectos y ATS | WorqAI",
++    description: "Explica arquitectura, cambios y calidad en tu CV técnico sin convertirlo en una lista de tecnologías.",
++    headline: "Tu stack importa. Lo que construiste con él importa más.",
++    intro: "Un CV técnico fuerte conecta sistema, restricción y cambio. El repositorio puede demostrar código; el CV debe explicar tu contribución.",
++    focus: "Contribución técnica con contexto",
++    skills: ["lenguaje principal", "framework", "APIs", "bases de datos", "testing", "cloud y CI/CD"],
++    evidence: ["Componente o servicio del que eras responsable.", "Restricción de escala, confiabilidad o seguridad.", "Cambio observable en usuarios o equipo."],
++    risk: "Copiar el stack completo del proyecto sin distinguir lo que tú tocaste.",
++    before: "Desarrollé funcionalidades en React y Node.js.",
++    after: "Implementé en React y Node.js el flujo de recuperación de cuenta, con pruebas de integración y trazas para fallos de correo.",
++    why: "Delimita el flujo, el trabajo y la calidad. Es un ejemplo ficticio, no una métrica para copiar.",
++    interviewTest: "¿Puedes dibujar el cambio y señalar exactamente qué parte era tuya?",
++    related: [{ href: "/cv-ats", label: "Revisar formato ATS" }, { href: "/adaptar-cv-a-vacante", label: "Adaptar a la vacante" }],
++  },
++  {
++    locale: "en", slug: "software-engineer-resume", role: "Software engineer",
++    title: "Software engineer resume: projects and ATS evidence | WorqAI",
++    description: "Show architecture, delivery, and quality without turning your software engineer resume into a stack dump.",
++    headline: "Your stack matters. What you changed with it matters more.",
++    intro: "A technical resume connects system, constraint, and change. A repository can show code; the resume should explain your contribution.",
++    focus: "Technical ownership with context",
++    skills: ["primary language", "framework", "APIs", "databases", "testing", "cloud and CI/CD"],
++    evidence: ["Component or service you owned.", "Scale, reliability, or security constraint.", "Observable change for users or the team."],
++    risk: "Copying the project stack without separating your contribution.",
++    before: "Developed features using React and Node.js.",
++    after: "Implemented the account-recovery flow in React and Node.js, adding integration tests and traces for email failures.",
++    why: "It defines the flow, contribution, and quality practice. The example is fictional.",
++    interviewTest: "Can you sketch the change and point to the part you owned?",
++    related: [{ href: "/ats-friendly-resume", label: "Review ATS format" }, { href: "/ai-resume-tailor", label: "Tailor it to a job" }],
++  },
++  {
++    locale: "es", slug: "cv-product-manager", role: "Product Manager",
++    title: "CV de Product Manager: decisiones, producto y ATS | WorqAI",
++    description: "Muestra decisiones, aprendizaje y coordinación en un CV de Product Manager orientado a vacantes.",
++    headline: "Un roadmap no es un resultado. La decisión detrás puede serlo.",
++    intro: "Evita convertir tu CV en una cronología de ceremonias. Explica qué señal cambió la prioridad y qué equipo pudo actuar.",
++    focus: "Decisiones de producto con evidencia",
++    skills: ["discovery", "priorización", "métricas de producto", "experimentos", "roadmapping", "alineación"],
++    evidence: ["Problema de usuario o negocio investigado.", "Trade-off y criterio de priorización.", "Aprendizaje, lanzamiento o decisión resultante."],
++    risk: "Describir Scrum como si fuera el impacto del producto.",
++    before: "Gestioné el roadmap y trabajé con Diseño e Ingeniería.",
++    after: "Reprioricé el onboarding con Diseño e Ingeniería después de identificar el paso con mayor abandono en entrevistas y analítica.",
++    why: "Hace visible la señal y la decisión sin inventar un uplift. El escenario es ilustrativo.",
++    interviewTest: "¿Qué dijiste que no y con qué evidencia?",
++    related: [{ href: "/analizador-cv-ats", label: "Analizar el CV" }, { href: "/adaptar-cv-a-vacante", label: "Adaptarlo" }],
++  },
++  {
++    locale: "en", slug: "product-manager-resume", role: "Product Manager",
++    title: "Product Manager resume: decisions and ATS evidence | WorqAI",
++    description: "Show product decisions, learning, and cross-functional work in a role-specific Product Manager resume.",
++    headline: "A roadmap is not an outcome. The decision behind it can be.",
++    intro: "Do not turn the resume into a list of ceremonies. Show the signal that changed a priority and the team that acted.",
++    focus: "Product decisions with evidence",
++    skills: ["discovery", "prioritization", "product metrics", "experiments", "roadmapping", "alignment"],
++    evidence: ["User or business problem investigated.", "Trade-off and prioritization criterion.", "Learning, release, or decision that followed."],
++    risk: "Describing Scrum as if it were product impact.",
++    before: "Managed the roadmap and worked with Design and Engineering.",
++    after: "Reprioritized onboarding with Design and Engineering after interviews and funnel data exposed the highest-friction step.",
++    why: "It makes the signal and decision visible without inventing uplift. The scenario is illustrative.",
++    interviewTest: "What did you say no to, and what evidence supported that choice?",
++    related: [{ href: "/free-ats-resume-checker", label: "Check the resume" }, { href: "/resume-job-description-match", label: "Match it" }],
++  },
++  {
++    locale: "es", slug: "cv-marketing-digital", role: "Marketing digital",
++    title: "CV de marketing digital: campañas y resultados | WorqAI",
++    description: "Presenta campañas, canal, audiencia y aprendizaje sin inflar atribución en tu CV de marketing digital.",
++    headline: "Una campaña no cabe en tres siglas.",
++    intro: "CTR, CAC y ROAS dicen poco sin canal, objetivo y periodo. Tu CV debe separar lo que ejecutaste de lo que realmente puedes atribuir.",
++    focus: "Campaña, audiencia y aprendizaje",
++    skills: ["paid media", "SEO o contenido", "email", "analítica", "experimentación", "copy"],
++    evidence: ["Objetivo y audiencia.", "Canal, presupuesto o cadencia bajo tu control.", "Resultado con ventana y limitación de atribución."],
++    risk: "Atribuir todo el crecimiento a una campaña que solo influyó en una parte.",
++    before: "Mejoré el rendimiento de campañas digitales.",
++    after: "Reorganicé campañas de búsqueda por intención y reduje consultas irrelevantes durante seis semanas, según términos de búsqueda.",
++    why: "Describe una intervención y su señal sin atribuir ventas inventadas. El caso es ficticio.",
++    interviewTest: "¿Qué métrica cambió y qué otra explicación podría haber?",
++    related: [{ href: "/mejorar-cv-con-ia", label: "Mejorar el CV" }, { href: "/adaptar-cv-a-vacante", label: "Adaptarlo" }],
++  },
++  {
++    locale: "en", slug: "digital-marketing-resume", role: "Digital marketer",
++    title: "Digital marketing resume: campaigns and evidence | WorqAI",
++    description: "Show channel, audience, results, and attribution limits in a digital marketing resume.",
++    headline: "A campaign does not fit inside three acronyms.",
++    intro: "CTR, CAC, and ROAS mean little without channel, objective, and time window. Separate what you executed from what you can attribute.",
++    focus: "Campaign, audience, and learning",
++    skills: ["paid media", "SEO or content", "email", "analytics", "experimentation", "copy"],
++    evidence: ["Objective and audience.", "Channel, budget, or cadence you controlled.", "Result with window and attribution limits."],
++    risk: "Claiming all growth came from one campaign that influenced only part of it.",
++    before: "Improved digital campaign performance.",
++    after: "Reorganized paid-search campaigns by intent and reduced irrelevant queries over six weeks, based on search-term reports.",
++    why: "It states an intervention and signal without inventing revenue attribution. The case is fictional.",
++    interviewTest: "What metric changed, and what else might explain the change?",
++    related: [{ href: "/ai-resume-tailor", label: "Improve the resume" }, { href: "/resume-job-description-match", label: "Match it" }],
++  },
++  {
++    locale: "es", slug: "cv-project-manager", role: "Project Manager",
++    title: "CV de Project Manager: alcance, riesgos y entregas | WorqAI",
++    description: "Explica alcance, riesgos y decisiones en tu CV de Project Manager, más allá de reuniones y cronogramas.",
++    headline: "Gestionar no es asistir a reuniones.",
++    intro: "Haz visible el sistema que usaste para mover trabajo: alcance, dependencias, riesgos, decisiones y personas que necesitaban información.",
++    focus: "Control del trabajo sin heroísmo",
++    skills: ["planificación", "riesgos", "presupuesto", "dependencias", "stakeholders", "Agile o predictivo"],
++    evidence: ["Alcance y equipos coordinados.", "Riesgo o dependencia identificada.", "Decisión o entrega protegida."],
++    risk: "Presentarte como responsable único de un resultado colectivo.",
++    before: "Lideré reuniones y di seguimiento al proyecto.",
++    after: "Mantuve el registro de riesgos de tres lanzamientos y preparé decisiones semanales para responsables de Producto, Operaciones y Legal.",
++    why: "Muestra mecanismo, escala y audiencias sin apropiarse del trabajo del equipo. Ejemplo ficticio.",
++    interviewTest: "¿Qué riesgo detectaste antes de que se convirtiera en incidente?",
++    related: [{ href: "/mejorar-cv-con-ia", label: "Mejorar el CV" }, { href: "/cv-ats", label: "Revisar formato" }],
++  },
++  {
++    locale: "en", slug: "project-manager-resume", role: "Project Manager",
++    title: "Project Manager resume: scope, risk, and delivery | WorqAI",
++    description: "Show scope, risk, and decisions beyond meetings and timelines on a Project Manager resume.",
++    headline: "Managing is not the same as attending meetings.",
++    intro: "Make the operating system visible: scope, dependencies, risks, decisions, and the people who needed information.",
++    focus: "Control without the hero narrative",
++    skills: ["planning", "risk", "budget", "dependencies", "stakeholders", "Agile or predictive delivery"],
++    evidence: ["Scope and teams coordinated.", "Risk or dependency identified.", "Decision or delivery protected."],
++    risk: "Taking sole credit for a collective outcome.",
++    before: "Led meetings and tracked the project.",
++    after: "Maintained the risk register for three launches and prepared weekly decisions for Product, Operations, and Legal owners.",
++    why: "It shows mechanism, scale, and audience without taking the team's credit. The example is fictional.",
++    interviewTest: "What risk did you surface before it became an incident?",
++    related: [{ href: "/ai-resume-tailor", label: "Improve the resume" }, { href: "/ats-friendly-resume", label: "Review format" }],
++  },
++  {
++    locale: "es", slug: "cv-servicio-al-cliente", role: "Customer Success",
++    title: "CV de Customer Success: adopción y cuentas | WorqAI",
++    description: "Distingue soporte, adopción y expansión en un CV de Customer Success con evidencia real.",
++    headline: "Resolver tickets y lograr adopción no son el mismo trabajo.",
++    intro: "Aclara si atendías incidentes, acompañabas cambios de hábito o gestionabas riesgo comercial. Cada vacante espera una mezcla distinta.",
++    focus: "Del contacto con clientes al resultado de cuenta",
++    skills: ["onboarding", "adopción", "renovación", "CRM", "QBR", "voz del cliente"],
++    evidence: ["Tipo y cantidad aproximada de cuentas.", "Momento del ciclo que gestionabas.", "Señal de adopción, riesgo o aprendizaje."],
++    risk: "Llamar Customer Success a un rol puramente reactivo sin explicar el alcance.",
++    before: "Atendí clientes y resolví sus solicitudes.",
++    after: "Guié el onboarding de cuentas nuevas y agrupé bloqueos recurrentes para revisarlos mensualmente con Producto.",
++    why: "Separa acompañamiento de soporte y muestra el bucle con Producto. Ejemplo ficticio.",
++    interviewTest: "¿Cómo sabías que una cuenta estaba adoptando el producto?",
++    related: [{ href: "/adaptar-cv-a-vacante", label: "Adaptar el CV" }, { href: "/analizador-cv-ats", label: "Analizarlo" }],
++  },
++  {
++    locale: "en", slug: "customer-success-resume", role: "Customer Success",
++    title: "Customer Success resume: adoption and account evidence | WorqAI",
++    description: "Separate support, adoption, and expansion with honest evidence on a Customer Success resume.",
++    headline: "Resolving tickets and driving adoption are not the same job.",
++    intro: "Clarify whether you handled incidents, changed usage habits, or managed commercial risk. Each role expects a different mix.",
++    focus: "From customer contact to account outcome",
++    skills: ["onboarding", "adoption", "renewal", "CRM", "QBRs", "voice of customer"],
++    evidence: ["Type and approximate account load.", "Lifecycle stage you owned.", "Adoption, risk, or learning signal."],
++    risk: "Calling reactive support Customer Success without explaining scope.",
++    before: "Supported customers and resolved their requests.",
++    after: "Guided new-account onboarding and grouped recurring blockers for a monthly review with Product.",
++    why: "It separates enablement from support and shows the Product feedback loop. The example is fictional.",
++    interviewTest: "How did you know an account was adopting the product?",
++    related: [{ href: "/resume-job-description-match", label: "Match the resume" }, { href: "/free-ats-resume-checker", label: "Check it" }],
++  },
++  {
++    locale: "es", slug: "cv-contador", role: "Contabilidad",
++    title: "CV de contabilidad: cierres, controles y precisión | WorqAI",
++    description: "Muestra cierres, controles y alcance operativo en tu CV de contabilidad sin frases vagas.",
++    headline: "Precisión no se declara. Se demuestra con el proceso.",
++    intro: "Nombra el ciclo que llevabas, la frecuencia, el sistema y el control. Un CV contable gana credibilidad con límites claros.",
++    focus: "Cierre y control con trazabilidad",
++    skills: ["cierres", "conciliaciones", "NIIF o normativa local", "ERP", "impuestos", "auditoría"],
++    evidence: ["Entidad, proceso o cuentas bajo tu alcance.", "Cadencia y control aplicado.", "Excepción resuelta o tiempo protegido."],
++    risk: "Poner 'manejo de SAP' sin decir qué módulo o proceso tocabas.",
++    before: "Responsable de conciliaciones y cierres mensuales.",
++    after: "Concilié semanalmente cuentas de proveedores y preparé soportes de variaciones para el cierre mensual en el ERP.",
++    why: "Aclara cadencia, objeto y entregable sin inventar exactitud perfecta. Ejemplo ficticio.",
++    interviewTest: "¿Qué excepción era más común y cómo la detectabas?",
++    related: [{ href: "/cv-ats", label: "Revisar formato ATS" }, { href: "/mejorar-cv-con-ia", label: "Mejorar el CV" }],
++  },
++  {
++    locale: "en", slug: "accountant-resume", role: "Accountant",
++    title: "Accountant resume: close, controls, and evidence | WorqAI",
++    description: "Show close ownership, controls, and operational scope without vague accuracy claims.",
++    headline: "Accuracy is not an adjective. Show the control.",
++    intro: "Name the cycle, frequency, system, and control you owned. Clear boundaries make an accounting resume credible.",
++    focus: "Close and control with traceability",
++    skills: ["month-end close", "reconciliations", "GAAP or IFRS", "ERP", "tax", "audit support"],
++    evidence: ["Entity, process, or accounts in scope.", "Cadence and control applied.", "Exception resolved or time protected."],
++    risk: "Writing 'SAP experience' without naming the module or process.",
++    before: "Responsible for reconciliations and monthly close.",
++    after: "Reconciled vendor accounts weekly and prepared variance support for the monthly close in the ERP.",
++    why: "It clarifies cadence, object, and deliverable without claiming perfect accuracy. The example is fictional.",
++    interviewTest: "What exception appeared most often, and how did you catch it?",
++    related: [{ href: "/ats-friendly-resume", label: "Review ATS format" }, { href: "/ai-resume-tailor", label: "Improve the resume" }],
++  },
++  {
++    locale: "es", slug: "cv-ventas", role: "Ventas",
++    title: "CV de ventas: cuota, pipeline y territorio | WorqAI",
++    description: "Da contexto a cuota, pipeline y ciclo comercial en tu CV de ventas sin cifras aisladas.",
++    headline: "Una cifra de ventas sin contexto puede impresionar poco.",
++    intro: "Explica segmento, territorio, ticket y ciclo. Así una cuota o un porcentaje significan algo y se pueden defender.",
++    focus: "Rendimiento comercial con contexto",
++    skills: ["prospección", "discovery", "CRM", "negociación", "forecast", "gestión de territorio"],
++    evidence: ["Segmento, producto y tipo de cuenta.", "Cuota o responsabilidad comercial.", "Periodo, resultado y participación del equipo."],
++    risk: "Publicar ingresos del equipo como si fueran ventas individuales.",
++    before: "Superé objetivos y aumenté las ventas.",
++    after: "Gestioné oportunidades mid-market desde discovery hasta cierre y mantuve el forecast semanal actualizado en HubSpot.",
++    why: "Explica el proceso sin inventar una cuota. Añade cifras solo si conoces el periodo y la atribución.",
++    interviewTest: "¿Qué parte del ciclo controlabas y cuál dependía de otras personas?",
++    related: [{ href: "/adaptar-cv-a-vacante", label: "Adaptar el CV" }, { href: "/analizador-cv-ats", label: "Analizarlo" }],
++  },
++  {
++    locale: "en", slug: "sales-representative-resume", role: "Sales representative",
++    title: "Sales representative resume: quota and pipeline context | WorqAI",
++    description: "Give quota, pipeline, territory, and cycle context on a sales resume without isolated numbers.",
++    headline: "A sales number without context may say very little.",
++    intro: "Explain segment, territory, deal size, and cycle. Then quota and attainment become meaningful and defensible.",
++    focus: "Commercial performance with context",
++    skills: ["prospecting", "discovery", "CRM", "negotiation", "forecasting", "territory management"],
++    evidence: ["Segment, product, and account type.", "Quota or commercial responsibility.", "Time period, result, and team contribution."],
++    risk: "Claiming team revenue as individual sales.",
++    before: "Exceeded targets and increased sales.",
++    after: "Managed mid-market opportunities from discovery through close and maintained the weekly forecast in HubSpot.",
++    why: "It explains process without inventing attainment. Add numbers only when period and attribution are known.",
++    interviewTest: "Which part of the cycle did you control, and what depended on others?",
++    related: [{ href: "/resume-job-description-match", label: "Match the resume" }, { href: "/free-ats-resume-checker", label: "Check it" }],
++  },
++  {
++    locale: "es", slug: "cv-recursos-humanos", role: "Recursos Humanos",
++    title: "CV de Recursos Humanos: procesos y experiencia | WorqAI",
++    description: "Muestra alcance, confidencialidad y mejora de procesos en tu CV de Recursos Humanos.",
++    headline: "People skills necesitan evidencia operativa.",
++    intro: "Aclara población, proceso y responsabilidad. Reclutamiento, HRBP y operaciones de personas comparten vocabulario, pero no el mismo trabajo.",
++    focus: "Procesos de personas con alcance claro",
++    skills: ["reclutamiento", "onboarding", "HRIS", "relaciones laborales", "people analytics", "capacitación"],
++    evidence: ["Población, sedes o roles atendidos.", "Etapa del proceso bajo tu responsabilidad.", "Cambio, control o experiencia mejorada."],
++    risk: "Mezclar coordinación administrativa con decisión estratégica sin explicar tu rol.",
++    before: "Apoyé selección y onboarding de colaboradores.",
++    after: "Coordiné entrevistas y documentación de ingreso para roles operativos en dos sedes, manteniendo el estado de cada vacante en el ATS.",
++    why: "Delimita población, sedes y sistema sin atribuir la decisión de contratación. Ejemplo ficticio.",
++    interviewTest: "¿Qué decisión tomabas tú y cuál pertenecía al hiring manager?",
++    related: [{ href: "/mejorar-cv-con-ia", label: "Mejorar el CV" }, { href: "/cv-ats", label: "Revisar formato" }],
++  },
++  {
++    locale: "en", slug: "hr-specialist-resume", role: "HR specialist",
++    title: "HR specialist resume: process and people evidence | WorqAI",
++    description: "Show scope, confidentiality, and process improvement on an HR specialist resume.",
++    headline: "People skills still need operating evidence.",
++    intro: "Clarify population, process, and responsibility. Recruiting, HRBP, and People Operations share language but not the same work.",
++    focus: "People processes with clear scope",
++    skills: ["recruiting", "onboarding", "HRIS", "employee relations", "people analytics", "learning"],
++    evidence: ["Population, locations, or roles supported.", "Process stage you owned.", "Control, change, or experience improved."],
++    risk: "Blurring administrative coordination and strategic decisions.",
++    before: "Supported employee selection and onboarding.",
++    after: "Coordinated interviews and onboarding documents for operations roles across two sites, tracking every vacancy in the ATS.",
++    why: "It defines population, locations, and system without claiming the hiring decision. The example is fictional.",
++    interviewTest: "Which decision was yours, and which belonged to the hiring manager?",
++    related: [{ href: "/ai-resume-tailor", label: "Improve the resume" }, { href: "/ats-friendly-resume", label: "Review format" }],
++  },
++  {
++    locale: "es", slug: "cv-ciberseguridad", role: "Analista de ciberseguridad",
++    title: "CV de ciberseguridad: incidentes, controles y ATS | WorqAI",
++    description: "Explica detección, respuesta y controles en tu CV de ciberseguridad sin exponer datos sensibles.",
++    headline: "Demuestra criterio sin revelar el incidente.",
++    intro: "Un CV de seguridad necesita detalle técnico y discreción. Explica señal, proceso y responsabilidad sin publicar información que comprometa a una empresa.",
++    focus: "Defensa técnica con confidencialidad",
++    skills: ["SIEM", "respuesta a incidentes", "vulnerabilidades", "IAM", "cloud security", "marcos de control"],
++    evidence: ["Tipo de señal o control, sin datos sensibles.", "Acción de triage, contención o remediación.", "Alcance, tiempo o aprendizaje seguro de compartir."],
++    risk: "Nombrar clientes, vulnerabilidades abiertas o arquitectura confidencial.",
++    before: "Monitoreé alertas y respondí a incidentes de seguridad.",
++    after: "Clasifiqué alertas del SIEM, documenté falsos positivos recurrentes y escalé eventos según el playbook de respuesta.",
++    why: "Muestra criterio y proceso sin revelar un incidente concreto. El ejemplo es ficticio.",
++    interviewTest: "¿Puedes explicar tu decisión sin compartir información protegida?",
++    related: [{ href: "/analizador-cv-ats", label: "Analizar el CV" }, { href: "/adaptar-cv-a-vacante", label: "Adaptarlo" }],
++  },
++  {
++    locale: "en", slug: "cybersecurity-analyst-resume", role: "Cybersecurity analyst",
++    title: "Cybersecurity analyst resume: incidents and controls | WorqAI",
++    description: "Show detection, response, and control evidence without exposing sensitive details.",
++    headline: "Show judgment without disclosing the incident.",
++    intro: "A security resume needs technical detail and restraint. Explain signal, process, and responsibility without compromising an employer.",
++    focus: "Technical defense with confidentiality",
++    skills: ["SIEM", "incident response", "vulnerability management", "IAM", "cloud security", "control frameworks"],
++    evidence: ["Signal or control type without sensitive data.", "Triage, containment, or remediation action.", "Safe-to-share scope, time, or learning."],
++    risk: "Naming clients, open vulnerabilities, or confidential architecture.",
++    before: "Monitored alerts and responded to security incidents.",
++    after: "Triaged SIEM alerts, documented recurring false positives, and escalated events through the incident-response playbook.",
++    why: "It shows judgment and process without disclosing a specific incident. The example is fictional.",
++    interviewTest: "Can you explain the decision without sharing protected information?",
++    related: [{ href: "/free-ats-resume-checker", label: "Check the resume" }, { href: "/resume-job-description-match", label: "Match it" }],
++  },
++];
++
++function rolePage(role: RoleDefinition): AcquisitionPageData {
++  const es = role.locale === "es";
++  return page({
++    locale: role.locale,
++    slug: role.slug,
++    kind: "role",
++    title: role.title,
++    description: role.description,
++    eyebrow: es ? "GUÍA DE CV POR ROL" : "ROLE-SPECIFIC RESUME GUIDE",
++    headline: role.headline,
++    intro: role.intro,
++    promise: role.focus,
++    mechanismTitle: es ? "El mapa de evidencia para este rol" : "The evidence map for this role",
++    mechanismIntro: es
++      ? "No copies esta lista completa. Úsala para localizar los requisitos de la vacante que realmente puedes demostrar."
++      : "Do not copy this whole list. Use it to locate job requirements you can actually demonstrate.",
++    mechanism: role.skills,
++    sections: [
++      {
++        eyebrow: es ? "QUÉ PROBAR" : "WHAT TO PROVE",
++        title: es ? "La experiencia necesita contexto" : "Experience needs context",
++        body: es
++          ? "Tres datos convierten una responsabilidad en evidencia que se puede evaluar."
++          : "Three details turn a responsibility into evidence someone can evaluate.",
++        items: role.evidence,
++      },
++      {
++        eyebrow: es ? "RIESGO COMÚN" : "COMMON RISK",
++        title: role.risk,
++        body: es
++          ? "Corrígelo delimitando tu parte, el contexto y lo que ocurrió de verdad. No llenes el vacío con una cifra decorativa."
++          : "Fix it by defining your contribution, context, and what actually happened. Do not fill the gap with a decorative metric.",
++        items: [role.interviewTest],
++      },
++    ],
++    example: {
++      label: es ? "Ejemplo ilustrativo" : "Illustrative example",
++      context: es
++        ? "Una estructura posible para un perfil de " + role.role + "."
++        : "One possible structure for a " + role.role + " profile.",
++      before: role.before,
++      after: role.after,
++      why: role.why,
++    },
++    checklistTitle: es ? "Antes de enviar este CV" : "Before sending this resume",
++    checklist: es
++      ? [
++          "Comprueba que las habilidades aparecen en experiencia, no solo en una lista.",
++          "Conserva únicamente cifras que puedas explicar.",
++          "Usa el título de la vacante cuando sea equivalente a tu trabajo real.",
++          role.interviewTest,
++        ]
++      : [
++          "Make sure skills appear in experience, not only a list.",
++          "Keep only numbers you can explain.",
++          "Use the job title only when it matches your real work.",
++          role.interviewTest,
++        ],
++    related: role.related,
++  });
++}
++
++export const acquisitionPages: AcquisitionPageData[] = [
++  ...commercialPages,
++  ...comparisonPages,
++  ...roleDefinitions.map(rolePage),
++];
++
++export const ACQUISITION_PAGE_PATHS = acquisitionPages.map(({ locale, slug }) => ({
++  locale,
++  slug,
++  path: "/" + locale + "/" + slug,
++}));
++
++export function getAcquisitionPage(locale: string, slug: string) {
++  return acquisitionPages.find((item) => item.locale === locale && item.slug === slug);
++}
++
++export function getAcquisitionParams() {
++  return acquisitionPages.map(({ locale, slug }) => ({ locale, slug }));
++}
+diff --git a/tests/lib/acquisition-pages.test.ts b/tests/lib/acquisition-pages.test.ts
+new file mode 100644
+index 0000000..23e5e59
+--- /dev/null
++++ b/tests/lib/acquisition-pages.test.ts
+@@ -0,0 +1,60 @@
++import { describe, expect, it } from "vitest";
++import {
++  ACQUISITION_PAGE_PATHS,
++  acquisitionPages,
++  getAcquisitionPage,
++} from "@/lib/seo/acquisition-pages";
++
++describe("acquisition page registry", () => {
++  it("contains the approved 32 localized acquisition routes", () => {
++    expect(acquisitionPages).toHaveLength(32);
++    expect(acquisitionPages.filter((page) => page.kind === "commercial")).toHaveLength(8);
++    expect(acquisitionPages.filter((page) => page.kind === "comparison")).toHaveLength(4);
++    expect(acquisitionPages.filter((page) => page.kind === "role")).toHaveLength(20);
++    expect(ACQUISITION_PAGE_PATHS).toHaveLength(32);
++  });
++
++  it("has unique locale/slug, title, description, and example combinations", () => {
++    const keys = acquisitionPages.map((page) => page.locale + "/" + page.slug);
++    const titles = acquisitionPages.map((page) => page.title);
++    const descriptions = acquisitionPages.map((page) => page.description);
++    const examples = acquisitionPages.map(
++      (page) => page.example.before + "\n" + page.example.after
++    );
++
++    expect(new Set(keys).size).toBe(keys.length);
++    expect(new Set(titles).size).toBe(titles.length);
++    expect(new Set(descriptions).size).toBe(descriptions.length);
++    expect(new Set(examples).size).toBe(examples.length);
++  });
++
++  it("keeps every page useful, bounded, and internally connected", () => {
++    for (const page of acquisitionPages) {
++      expect(page.mechanism.length).toBeGreaterThanOrEqual(3);
++      expect(page.sections).toHaveLength(2);
++      expect(page.checklist.length).toBeGreaterThanOrEqual(4);
++      expect(page.related.length).toBeGreaterThanOrEqual(2);
++      expect(page.example.label.toLowerCase()).toMatch(/ilustrativo|illustrative|escenario/);
++      expect(page.limitation.toLowerCase()).toMatch(/garant|guarantee/);
++      expect(page.privacy.length).toBeGreaterThan(80);
++      expect(page.cta.href.startsWith("/")).toBe(true);
++    }
++  });
++
++  it("labels time-sensitive comparison claims and links their sources", () => {
++    for (const page of acquisitionPages.filter(
++      (candidate) => candidate.kind === "comparison"
++    )) {
++      expect(page.comparison).toBeDefined();
++      expect(page.comparison?.verifiedAt.length).toBeGreaterThan(8);
++      expect(page.comparison?.rows.length).toBeGreaterThanOrEqual(5);
++      expect(
++        page.comparison?.sources.some((source) => source.href.startsWith("https://"))
++      ).toBe(true);
++    }
++  });
++
++  it("returns undefined for unknown routes", () => {
++    expect(getAcquisitionPage("es", "pagina-inventada")).toBeUndefined();
++  });
++});

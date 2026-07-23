@@ -1,0 +1,40 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="sc-wrap">
+    {% if copy.headline %}
+    <div class="sc-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+    {% endif %}
+    <div class="sc-header">
+      <span class="sc-lang-dot"></span>
+      <span>{{ copy.language | default('python') }}</span>
+    </div>
+    <div class="sc-block">
+      {% for line in copy.get('code_lines', []) %}
+      {% if line.startswith('#') %}
+      <div class="sc-cmt">{{ line }}</div>
+      {% elif 'def ' in line or 'class ' in line or 'function ' in line or 'const ' in line or 'let ' in line %}
+      <div>{% for word in line.split(' ') %}{% if word in ['def','class','function','const','let','import','from','return','if','else','elif','for','while','try','except'] %}<span class="sc-kw">{{ word }}</span> {% else %}<span>{{ word }}</span> {% endif %}{% endfor %}</div>
+      {% elif '"' in line or "'" in line %}
+      <div class="sc-str">{{ line }}</div>
+      {% else %}
+      <div>{{ line }}</div>
+      {% endif %}
+      {% else %}
+      <div class="sc-cmt"># install: pip install worqai</div>
+      <div><span class="sc-kw">from</span> worqai <span class="sc-kw">import</span> CVOptimizer</div>
+      <div></div>
+      <div class="sc-cmt"># Optimiza tu CV en 3 líneas</div>
+      <div>optimizer <span class="sc-fn">= CVOptimizer</span>()</div>
+      <div>result <span class="sc-fn">= optimizer.analyze</span>(<span class="sc-str">"cv.pdf"</span>)</div>
+      <div class="sc-fn">print</div><div>(result.<span class="sc-kw">score</span>, result.suggestions)</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

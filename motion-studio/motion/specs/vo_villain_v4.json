@@ -1,0 +1,13 @@
+[
+  { "label": "proof",         "line": "Tres mensajes. El mismo texto. Ningún humano los escribió.",                           "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "wound_turn",    "line": "Y tú creíste que el problema eras tú.",                                                "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "score_low",     "line": "No eras tú. Era el filtro.",                                                           "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "cheat_code",    "line": "Los que consiguen entrevistas no son mejores. Solo conocen las reglas: un CV por vacante.", "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "tailor1_start", "line": "WorqAI lo hace en segundos.",                                                          "volume": 1.0, "offset_ms_add": 600 },
+  { "label": "tailor1_score", "line": "Mismo perfil. Noventa y dos puntos.",                                                  "volume": 1.0, "offset_ms_add": 100 },
+  { "label": "tailor2_score", "line": "Noventa y cuatro.",                                                                    "volume": 1.0, "offset_ms_add": 100 },
+  { "label": "tailor3_score", "line": "Noventa y tres.",                                                                      "volume": 1.0, "offset_ms_add": 200 },
+  { "label": "callback",      "line": "Hola Andrés, tu perfil nos interesó.",                                                 "volume": 1.0, "offset_ms_add": 400 },
+  { "label": "human_close",   "line": "Solo dejaste de ser invisible.",                                                       "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "cta",           "line": "Deja de ser invisible. Sube tu CV en worqai punto io.",                                "volume": 1.0, "offset_ms_add": 800 }
+]

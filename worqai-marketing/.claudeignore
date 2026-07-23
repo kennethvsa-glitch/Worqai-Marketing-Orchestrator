@@ -1,0 +1,35 @@
+# Working directories — only pull into context when explicitly referenced
+production/*
+export/*
+ideation/*
+distribution/*
+clients/*/
+
+# Client confidential materials should never auto-load
+clients/**/audit_*.md
+clients/**/*.pdf
+clients/**/*.docx
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+
+# Secrets (extra safety - should never exist but just in case)
+.env
+.env.local
+*.pem
+*.key

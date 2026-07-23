@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI — Origen</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  /* === WORQAI DARK LIME — UNIFIED BRAND BUILD === */
+  /* System: WorqAI Dark Lime | Fonts: Inter / JetBrains Mono */
+  /* Build mode: Bespoke | Technique budget: max 3 layers per slide */
+  /* Tension: S1 (grid + glow orb + corner accents) */
+  /* Silence: S2 (0 decorative, pure gradient + quote) */
+  /* Impact: S3 (grid + pipeline + guardrail) */
+  /* Release: S4 (grid + dual CTA) */
+  /* Average layers: 2.5 | Max layers: 3 | html2canvas-safe: yes */
+
+  /* === RESET & BASE === */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    background: #F5F5F5;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #333333;
+  }
+  .viewer { width: 1080px; max-width: 100%; }
+  .wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #F5F5F5;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 28px 90px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.03);
+  }
+  .slides { display: flex; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+  .slide {
+    position: relative;
+    width: 1080px;
+    min-width: 1080px;
+    height: 1080px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 84px 76px 124px;
+    overflow: hidden;
+  }
+
+  /* === BACKGROUND BASE === */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(165deg, #FFFFFF 0%, #F5F5F5 45%, #FAFAFA 100%);
+    z-index: 0;
+  }
+
+  /* === GRAIN TEXTURE (all slides) === */
+  .grain {
+    position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 240px 300px;
+  }
+
+  /* === DOT MATRIX PATTERN (subtle, all slides) === */
+  .dot-matrix {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='1' fill='%23C7FF3A'/%3E%3Ccircle cx='0' cy='0' r='0.5' fill='%23C7FF3A'/%3E%3Ccircle cx='40' cy='0' r='0.5' fill='%23C7FF3A'/%3E%3Ccircle cx='0' cy='40' r='0.5' fill='%23C7FF3A'/%3E%3Ccircle cx='40' cy='40' r='0.5' fill='%23C7FF3A'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+  }
+
+  /* === PARAMETRIC GRID (TENSION + IMPACT slides) === */
+  .grid-lines {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.035;
+    background-image:
+      linear-gradient(to right, rgba(199,255,58,0.30) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(199,255,58,0.30) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  /* === S2 SILENCE — NO GRID === */
+  .s2-grid { display: none; }
+
+  /* === GLOW ORB (S1 only) === */
+  .glow-orb {
+    position: absolute;
+    width: 50%; aspect-ratio: 1/1; border-radius: 50%;
+    background: radial-gradient(circle, rgba(199,255,58,0.13) 0%, transparent 65%);
+    filter: blur(70px); pointer-events: none; z-index: 1;
+    top: -12%; right: -8%;
+    animation: orb-float 8s ease-in-out infinite alternate;
+  }
+  @keyframes orb-float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-20px, 15px) scale(1.08); }
+  }
+
+  /* === TYPOGRAPHY SYSTEM === */
+  .display {
+    font-family: 'Inter', sans-serif;
+    font-size: 82px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: #0A0A0A;
+    position: relative;
+    z-index: 5;
+  }
+  .headline {
+    font-family: 'Inter', sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.12;
+    color: #0A0A0A;
+    position: relative;
+    z-index: 5;
+  }
+  .body-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: rgba(0,0,0,0.65);
+    position: relative;
+    z-index: 5;
+  }
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #C7FF3A;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* === S1 HOOK — TENSION === */
+  .s1-display { max-width: 720px; }
+  .s1-body { margin-top: 22px; max-width: 500px; }
+  .s1-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, #C7FF3A, transparent);
+    z-index: 5;
+    opacity: 0.5;
+  }
+  .swipe-pill {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(199,255,58,0.7);
+    border: 1px solid rgba(199,255,58,0.22);
+    padding: 8px 16px;
+    border-radius: 6px;
+    z-index: 10;
+    letter-spacing: 0.06em;
+  }
+
+  /* === S2 PULL QUOTE — SILENCE (0 decorative, 2 layers) === */
+  .s2-slide { justify-content: center; align-items: center; text-align: center; }
+  .s2-slide::before {
+    background: linear-gradient(165deg, #FFFFFF 0%, #F5F5F5 45%, #FAFAFA 100%);
+  }
+  .quote-mark {
+    font-size: 100px;
+    color: #C7FF3A;
+    opacity: 0.1;
+    line-height: 1;
+    position: relative; z-index: 5;
+    margin-bottom: -24px;
+    font-family: 'Inter', serif;
+  }
+  .s2-headline {
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 400;
+    max-width: 740px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .s2-attrib {
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(0,0,0,0.35);
+    letter-spacing: 0.08em;
+    position: relative; z-index: 5;
+  }
+  .s2-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #C7FF3A, transparent);
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === S3 PIPELINE — IMPACT === */
+  .s3-label { color: #C7FF3A; }
+  .s3-headline { max-width: 720px; }
+  .s3-sub {
+    margin-top: 8px;
+    font-size: 16px;
+    opacity: 0.55;
+  }
+  .pipeline-grid {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 28px;
+    position: relative;
+    z-index: 5;
+  }
+  .pipeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.75);
+    line-height: 1.45;
+  }
+  .pipeline-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #C7FF3A;
+    font-weight: 500;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .guardrail-box {
+    margin-top: 28px;
+    padding: 16px 24px;
+    border-left: 2px solid #C7FF3A;
+    background: rgba(199,255,58,0.05);
+    border-radius: 0 8px 8px 0;
+    position: relative;
+    z-index: 5;
+    max-width: 720px;
+  }
+  .guardrail-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #C7FF3A;
+    margin-bottom: 6px;
+  }
+  .guardrail-text {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.65);
+    line-height: 1.55;
+  }
+  .s3-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    width: 40px;
+    height: 2px;
+    background: #C7FF3A;
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === SUBTLE CORNER ACCENTS (TENSION + IMPACT slides) === */
+  .corner-accent {
+    position: absolute;
+    width: 32px; height: 32px;
+    border-color: rgba(199,255,58,0.12);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .corner-accent.tl { top: 32px; left: 32px; border-top: 2px solid; border-left: 2px solid; }
+  .corner-accent.tr { top: 32px; right: 32px; border-top: 2px solid; border-right: 2px solid; }
+  .corner-accent.bl { bottom: 32px; left: 32px; border-bottom: 2px solid; border-left: 2px solid; }
+  .corner-accent.br { bottom: 32px; right: 32px; border-bottom: 2px solid; border-right: 2px solid; }
+
+  /* === S4 CTA — RELEASE === */
+  .s4-slide { justify-content: center; align-items: center; text-align: center; }
+  .s4-headline { text-align: center; }
+  .cta-stack {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+    z-index: 5;
+  }
+  .cta-card {
+    border: 1px dashed rgba(199,255,58,0.35);
+    padding: 20px 36px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 620px;
+  }
+  .cta-card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #C7FF3A;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+  .cta-card-fine {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(0,0,0,0.55);
+    margin-top: 8px;
+  }
+  .s4-cta-line {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #C7FF3A, transparent);
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === BRAND ANCHOR === */
+  .brand {
+    position: absolute;
+    bottom: 52px;
+    left: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(0,0,0,0.28);
+    letter-spacing: 0.1em;
+    z-index: 10;
+  }
+  .counter {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(0,0,0,0.28);
+    z-index: 10;
+  }
+
+  /* === CONTROLS === */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .ctrl-btn {
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.08);
+    color: #333333;
+    padding: 10px 26px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.15); }
+  .dots { display: flex; gap: 8px; align-items: center; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.15);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .dot:hover { background: rgba(0,0,0,0.3); }
+  .dot.on { background: #C7FF3A; transform: scale(1.4); box-shadow: 0 0 8px rgba(199,255,58,0.25); }
+  .hint {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.22);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .zip-btn {
+    display: block;
+    margin: 18px auto 0;
+    background: rgba(199,255,58,0.1);
+    border: 1px solid rgba(199,255,58,0.28);
+    color: #C7FF3A;
+    padding: 12px 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .zip-btn:hover { background: rgba(199,255,58,0.18); box-shadow: 0 0 20px rgba(199,255,58,0.1); }
+
+  /* === SCROLL INDICATOR (S1 only) === */
+  .scroll-hint {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 5;
+    opacity: 0.3;
+  }
+  .scroll-hint .line {
+    width: 24px;
+    height: 1px;
+    background: #C7FF3A;
+  }
+  .scroll-hint span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #C7FF3A;
+    letter-spacing: 0.1em;
+  }
+
+  /* === ADDITIONAL TRANSITIONS & STATES === */
+  .slide { transition: opacity 0.3s ease; }
+  .cta-card:hover {
+    border-color: rgba(199,255,58,0.55);
+    box-shadow: 0 0 24px rgba(199,255,58,0.08);
+  }
+  .pipeline-item {
+    transition: color 0.2s ease;
+  }
+  .pipeline-item:hover {
+    color: rgba(0,0,0,0.90);
+  }
+</style>
+</head>
+<body>
+
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="slides" id="slides">
+
+      <!-- === S1: HOOK — TENSION === -->
+      <div class="slide">
+        <div class="grid-lines"></div>
+        <div class="dot-matrix"></div>
+        <div class="grain"></div>
+        <div class="glow-orb"></div>
+        <div class="corner-accent tl"></div><div class="corner-accent tr"></div>
+        <div class="corner-accent bl"></div><div class="corner-accent br"></div>
+        <div class="label">ORIGEN WORQAI</div>
+        <div class="display s1-display">NADIE TE<br>RECHAZÓ.<br>NADIE TE LEYÓ.</div>
+        <div class="body-text s1-body">Kenneth y Cesar construyeron WorqAI porque estaban cansados de ver gente capaz sentirse invisible después de decenas de rechazos. El mismo talento, contado diferente.</div>
+        <div class="s1-accent-line"></div>
+        <div class="scroll-hint"><div class="line"></div><span>01 / 04</span></div>
+        <div class="swipe-pill">Desliza →</div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">01 / 04</div>
+      </div>
+
+      <!-- === S2: PULL QUOTE — SILENCE (0 decorative, 2 layers) === -->
+      <div class="slide s2-slide">
+        <div class="grain"></div>
+        <div class="quote-mark">"</div>
+        <div class="headline s2-headline">No es que no seas bueno.<br>Es que el sistema no te leyó.</div>
+        <div class="s2-attrib">— WORQAI · 6 ETAPAS DETERMINISTAS · DATOS QUE NO SE TOCAN · LATAM 2025</div>
+        <div class="s2-accent-line"></div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">02 / 04</div>
+      </div>
+
+      <!-- === S3: PIPELINE — IMPACT === -->
+      <div class="slide">
+        <div class="grid-lines"></div>
+        <div class="dot-matrix"></div>
+        <div class="grain"></div>
+        <div class="corner-accent tl"></div><div class="corner-accent tr"></div>
+        <div class="corner-accent bl"></div><div class="corner-accent br"></div>
+        <div class="label s3-label">CÓMO FUNCIONA</div>
+        <div class="headline s3-headline">6 etapas. Nada de trucos.</div>
+        <div class="body-text s3-sub">Un pipeline determinista que toma tu CV y lo prepara para que los ATS y los reclutadores te lean.</div>
+        <div class="pipeline-grid">
+          <div class="pipeline-item"><span class="pipeline-num">01</span>Parse — Lee tu CV, extrae datos, ignora el formato original</div>
+          <div class="pipeline-item"><span class="pipeline-num">02</span>Improve — Mejora redacción, claridad e impacto</div>
+          <div class="pipeline-item"><span class="pipeline-num">03</span>Tailor — Ajusta al puesto que buscas</div>
+          <div class="pipeline-item"><span class="pipeline-num">04</span>Bullet shape — Reformula en bullets accionables</div>
+          <div class="pipeline-item"><span class="pipeline-num">05</span>Post-validation — Verifica que nada se perdió ni se inventó</div>
+          <div class="pipeline-item"><span class="pipeline-num">06</span>One-page + PDF — Fuerza una página clara y exporta listo</div>
+        </div>
+        <div class="guardrail-box">
+          <div class="guardrail-title">Guardrail honesto</div>
+          <div class="guardrail-text">Empresas, fechas, escuelas: nunca se tocan. Solo mejoramos cómo se cuentan. Los ATS llegaron a LATAM antes que la educación sobre cómo funcionan. Eso deja a muchos fuera por formato, no por falta de talento.</div>
+        </div>
+        <div class="s3-accent-line"></div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">03 / 04</div>
+      </div>
+
+      <!-- === S4: CTA — RELEASE === -->
+      <div class="slide s4-slide">
+        <div class="grid-lines"></div>
+        <div class="dot-matrix"></div>
+        <div class="grain"></div>
+        <div class="cta-headline" style="font-size:56px;font-weight:800;color:#0A0A0A;margin-bottom:24px;position:relative;z-index:2;line-height:1.1;">¿Tu CV está pasando el filtro?</div>
+        <div class="cta-card" style="background:#F5F5F5;border:2px solid rgba(199,255,58,0.25);border-radius:32px;padding:48px 44px;margin-top:auto;margin-bottom:60px;position:relative;overflow:hidden;width:100%;max-width:none;text-align:left;">
+          <div style="display:flex;flex-direction:column;gap:16px;position:relative;z-index:2;">
+            <div>
+              <div style="font-size:24px;font-weight:700;color:#C7FF3A;margin-bottom:4px;">CV mejorado gratis — listo para descargar</div>
+              <div style="font-size:15px;opacity:.55;color:#0A0A0A;">Sin tarjeta. Sin costo.</div>
+            </div>
+            <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(199,255,58,0.4),transparent);"></div>
+            <div>
+              <div style="font-size:24px;font-weight:700;color:#C7FF3A;margin-bottom:4px;">Puntuacion ATS para tu CV gratis</div>
+              <div style="font-size:15px;opacity:.55;color:#0A0A0A;">Sin tarjeta. Sin costo.</div>
+            </div>
+          </div>
+          <div style="display:inline-flex;align-items:center;gap:14px;padding:18px 28px;border:2px dashed #C7FF3A;border-radius:14px;margin-top:20px;margin-bottom:20px;position:relative;z-index:2;">
+            <span style="font-size:13px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#C7FF3A;opacity:.7;">URL</span>
+            <span style="font-weight:900;font-size:42px;color:#C7FF3A;letter-spacing:0.06em;">WORQAI.IO</span>
+          </div>
+          <div style="font-size:24px;font-weight:600;color:rgba(0,0,0,0.78);line-height:1.4;position:relative;z-index:2;">Subi tu CV a <span style="color:#C7FF3A;font-weight:800;">worqai.io</span>. Te pasamos el diagnostico completo: que falla, por que, y como arreglarlo. En espanol o en ingles.</div>
+          <div style="position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.18),transparent 65%);filter:blur(40px);"></div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">04 / 04</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" onclick="prev()">←</button>
+    <div class="dots" id="dots"></div>
+    <button class="ctrl-btn" onclick="next()">→</button>
+  </div>
+  <div class="hint">Usá las flechas o los dots para navegar</div>
+  <button class="zip-btn" onclick="exportZip()">📦 Exportar ZIP</button>
+</div>
+
+<script>
+  const slides = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const total = 4;
+  let current = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.onclick = () => go(i);
+    dotsContainer.appendChild(d);
+  }
+
+  function go(n) {
+    current = n;
+    slides.style.transform = `translateX(-${n * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === n));
+  }
+  function next() { go((current + 1) % total); }
+  function prev() { go((current - 1 + total) % total); }
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') next(); if (e.key === 'ArrowLeft') prev(); });
+
+  async function exportZip() {
+    const btn = document.querySelector('.zip-btn');
+    btn.textContent = 'Generando...';
+    const zip = new JSZip();
+    const folder = zip.folder('slides');
+    const wrap = document.getElementById('wrap');
+    for (let i = 0; i < total; i++) {
+      go(i);
+      await new Promise(r => setTimeout(r, 600));
+      const canvas = await html2canvas(wrap, { scale: 2, backgroundColor: '#F5F5F5' });
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      folder.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const content = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(content);
+    a.download = 'worqai-origin-lime.zip';
+    a.click();
+    btn.textContent = '✅ Listo';
+    setTimeout(() => btn.textContent = '📦 Exportar ZIP', 2000);
+  }
+</script>
+
+</body>
+</html>

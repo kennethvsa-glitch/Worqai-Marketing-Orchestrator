@@ -1,0 +1,32 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="diags-wrap">
+    <div class="diags-bg"></div>
+    <div class="diags-content">
+      {% if copy.kicker %}
+      <div class="t-label" style="margin-bottom:16px">{{ copy.kicker }}</div>
+      {% endif %}
+      <div class="diags-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+      {% if copy.body %}
+      <div class="diags-body">{{ copy.body }}</div>
+      {% endif %}
+    </div>
+    <div class="diags-side">
+      {% if copy.stat_number %}
+      <div class="diags-stat">{{ copy.stat_number }}</div>
+      {% if copy.stat_context %}
+      <div class="diags-stat-label">{{ copy.stat_context }}</div>
+      {% endif %}
+      {% elif copy.body_right %}
+      <div class="diags-body">{{ copy.body_right }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

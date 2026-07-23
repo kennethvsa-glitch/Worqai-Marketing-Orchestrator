@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "system": "s06",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "experiencia-valida-formato-no",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "silence",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": [
+        "energy-flow-full",
+        "geo-starfield",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "kicker": "LA PARADOJA",
+        "headline": "Tu experiencia es válida. Tu formato, no.",
+        "body": "El ATS no juzga lo que hiciste. Juzga cómo lo escribiste.",
+        "swipe_prompt": "Desliza"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(32px,6.5cqw,50px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s1-kicker { color: var(--accent); letter-spacing: 0.20em; font-size: 12px; } .s1-body { opacity: 0.92; max-width: 40ch; font-size: 16px; margin-top: 20px; } .brand { opacity: 1; color: var(--accent); }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-pull-quote",
+      "density": "heavy",
+      "layers": [
+        "energy-flow-full",
+        "geo-starfield",
+        "geo-neon-ring"
+      ],
+      "copy": {
+        "quote": "Tengo 8 años de experiencia. El ATS me dio 12 puntos de 100.",
+        "attribution": "Usuario WorqAI, sector retail"
+      },
+      "custom_css": ".s2-quote { font-size: clamp(22px,4.8cqw,34px); font-weight: 400; font-style: italic; line-height: 1.3; } .s2-attr { opacity: 0.88; font-size: 14px; margin-top: 20px; color: var(--accent); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": [
+        "energy-flow-full",
+        "geo-starfield",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "SCORE ATS: ANTES / DESPUÉS",
+        "headline": "Mismo perfil, distinto resultado",
+        "bad_label": "Score ATS antes",
+        "good_label": "Score ATS después",
+        "before_items": [
+          "PDF con columnas dobles",
+          "Títulos creativos sin palabras clave",
+          "Fechas en formato libre"
+        ],
+        "after_items": [
+          ".docx lineal, texto plano",
+          "Títulos del puesto copiados",
+          "Fechas en formato estándar"
+        ],
+        "before_score": "12",
+        "after_score": "89"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 900; letter-spacing: -0.02em; } .ba-score.bad-score { color: rgba(255,80,80,0.90); } .ba-score.good-score { color: var(--accent); } .ba-col-list li { font-size: 14px; opacity: 0.90; } .brand { opacity: 1; color: var(--accent); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "energy-flow-full",
+        "geo-starfield",
+        "geo-neon-ring"
+      ],
+      "copy": {
+        "question": "¿Tu experiencia se ve en tu CV como es?",
+        "cta_keyword": "REVISAR",
+        "reward": "Te mostramos si el bot entiende tu trayectoria. Sin costo."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

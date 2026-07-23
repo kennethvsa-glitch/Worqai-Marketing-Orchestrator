@@ -1,0 +1,43 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-social-proof-badges",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: SOCIAL PROOF BADGES
+Purpose: S7 — Trust badges and ratings.
+-->
+
+<div class="content">
+  <p class="tip-label">Confianza</p>
+  <h2 class="tip-headline">Reconocimiento y resultados</h2>
+  <div class="sp-badges">
+    <div class="spb-item">
+      <span class="spb-num">4.9</span>
+      <span class="spb-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span class="spb-lbl">Rating promedio</span>
+    </div>
+    <div class="spb-item">
+      <span class="spb-num">500+</span>
+      <span class="spb-lbl">CVs optimizados</span>
+    </div>
+    <div class="spb-item">
+      <span class="spb-num">96%</span>
+      <span class="spb-lbl">Tasa de exito</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.sp-badges { display: flex; gap: 24px; margin-top: 36px; }
+.spb-item { flex: 1; padding: 32px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.spb-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 48px; font-weight: 900; line-height: 1; color: var(--accent); }
+.spb-stars { font-size: 20px; color: var(--accent); letter-spacing: 2px; }
+.spb-lbl { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+</style>

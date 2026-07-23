@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "system": "s01",
+    "fps": 30,
+    "video_mode": true
+  },
+  "scenes": [
+    {
+      "scene": "stat-reveal",
+      "duration": 8,
+      "seed": "worqai-multi-stat",
+      "copy": {
+        "kicker": "CV rechazado por ATS",
+        "stat": 73,
+        "stat_suffix": "%",
+        "context": "de CVs latinos no pasan el filtro",
+        "source": "Dato interno WorqAI · 2025"
+      }
+    },
+    {
+      "scene": "text-poster",
+      "duration": 6,
+      "seed": "worqai-multi-poster",
+      "copy": {
+        "eyebrow": "Tu CV importa",
+        "headline_1": "Tu CV no llega",
+        "headline_2": "al reclutador",
+        "subhead": "Así es como lo cambiamos",
+        "handle": "@worqai"
+      }
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "system": "s07",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "reclutador-vs-bot",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "diagnostic",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": [
+        "futuristic-glass-panel",
+        "geo-data-streaks",
+        "grid-bg"
+      ],
+      "copy": {
+        "kicker": "DOS JUECES",
+        "headline": "El reclutador busca talento. El bot, coincidencias.",
+        "body": "Uno lee intención. El otro lee texto. Ganás si pasás los dos filtros.",
+        "swipe_prompt": "Desliza →"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(28px,6cqw,44px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; } .s1-body { opacity: 0.92; max-width: 36ch; font-size: 16px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-myth-vs-fact",
+      "density": "heavy",
+      "layers": [
+        "futuristic-glass-panel",
+        "geo-data-streaks",
+        "geo-ribbon-flow"
+      ],
+      "copy": {
+        "kicker": "MITO VS. REALIDAD",
+        "headline": "Lo que creés vs. lo que pasa",
+        "myth": "Un CV bonito impresiona al reclutador.",
+        "fact": "El reclutador nunca ve el CV bonito si el bot lo rechaza primero.",
+        "myth_label": "MITO",
+        "fact_label": "REALIDAD"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s2-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .sub-fact-bubble.myth { opacity: 0.75; border-left-width: 3px; } .sub-fact-bubble.fact { border-left-width: 3px; border-left-color: var(--accent); } .sub-fact-bubble { padding: 22px 28px; font-size: 15px; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-stat-row",
+      "density": "heavy",
+      "layers": [
+        "futuristic-glass-panel",
+        "geo-data-streaks",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "DATOS",
+        "headline": "Los números no mienten",
+        "stats": [
+          {
+            "num": "250+",
+            "label": "CVs por puesto",
+            "body": "Promedio en empresas medianas."
+          },
+          {
+            "num": "73%",
+            "label": "Rechazo automático",
+            "body": "El bot filtra antes del humano."
+          },
+          {
+            "num": "6s",
+            "label": "Tiempo humano",
+            "body": "Segundos que el reclutador te dedica."
+          }
+        ]
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .s3-stat-num { font-weight: 900; font-size: clamp(36px,7cqw,56px); letter-spacing: -0.04em; color: var(--accent); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "futuristic-glass-panel",
+        "geo-data-streaks",
+        "grid-bg"
+      ],
+      "copy": {
+        "question": "¿Tu CV gana los dos filtros?",
+        "cta_keyword": "COMPROBAR",
+        "reward": "Diagnóstico ATS + checklist del reclutador. Gratis."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

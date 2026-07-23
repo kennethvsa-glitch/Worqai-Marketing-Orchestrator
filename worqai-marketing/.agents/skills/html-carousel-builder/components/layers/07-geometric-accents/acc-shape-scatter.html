@@ -1,0 +1,53 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "acc-shape-scatter",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s01",
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s35",
+      "s37",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s23",
+      "s32",
+      "s36"
+    ],
+    "pairs_well_with": [
+      "deco-corner-frame",
+      "deco-border-double",
+      "slide-editorial-index"
+    ],
+    "conflicts_with": [
+      "org-ink-splash",
+      "org-smoke-trail"
+    ]
+  }
+-->
+
+<!--
+LAYER: SHAPE SCATTER
+Random geometric shapes scattered.
+Best for: playful, abstract, artistic systems.
+-->
+
+<div class="shape-scatter">
+  <div class="sh" style="width:40px;height:40px;top:15%;left:20%;border-radius:50%;"></div>
+  <div class="sh" style="width:24px;height:24px;top:70%;left:75%;transform:rotate(45deg);"></div>
+  <div class="sh" style="width:60px;height:12px;top:45%;left:60%;border-radius:6px;"></div>
+  <div class="sh" style="width:16px;height:16px;top:80%;left:30%;border-radius:2px;"></div>
+</div>
+
+<style>
+.shape-scatter { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.shape-scatter .sh { position: absolute; background: var(--accent); opacity: 0.10; }
+</style>

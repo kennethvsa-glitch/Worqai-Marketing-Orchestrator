@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-social-proof-cta",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: SOCIAL PROOF CTA
+Purpose: S8 — CTA reinforced with proof numbers.
+-->
+
+<div class="content">
+  <div class="sp-cta">
+    <p class="sp-question">Unete a los que ya transformaron su CV</p>
+    <div class="sp-stats">
+      <div class="sp-stat"><span class="sp-num">500+</span><span class="sp-lbl">CVs optimizados</span></div>
+      <div class="sp-stat"><span class="sp-num">4.9</span><span class="sp-lbl">Rating promedio</span></div>
+      <div class="sp-stat"><span class="sp-num">96%</span><span class="sp-lbl">Tasa de exito</span></div>
+    </div>
+    <button class="sp-btn">Quiero mi revision</button>
+  </div>
+</div>
+
+<style>
+.sp-cta { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 32px; margin-top: auto; margin-bottom: auto; }
+.sp-question { font-family: var(--font-display), system-ui, sans-serif; font-size: 48px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); max-width: 800px; }
+.sp-stats { display: flex; gap: 40px; margin: 8px 0; }
+.sp-stat { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.sp-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 40px; font-weight: 900; color: var(--accent); line-height: 1; }
+.sp-lbl { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.sp-btn { background: var(--accent); color: var(--bg-base); border: none; padding: 18px 44px; border-radius: 12px; font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: transform 0.2s; }
+.sp-btn:hover { transform: translateY(-2px); }
+</style>

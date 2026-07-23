@@ -1,0 +1,42 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-urgency-countdown",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: URGENCY COUNTDOWN
+Purpose: S8 — Scarcity/urgency-driven CTA.
+-->
+
+<div class="content">
+  <div class="urgency-cta">
+    <p class="uc-label">Oferta limitada</p>
+    <p class="uc-headline">Auditoria gratuita esta semana</p>
+    <div class="uc-timer">
+      <div class="uc-unit"><span class="uc-val">03</span><span class="uc-unit-lbl">dias</span></div>
+      <div class="uc-unit"><span class="uc-val">12</span><span class="uc-unit-lbl">horas</span></div>
+      <div class="uc-unit"><span class="uc-val">45</span><span class="uc-unit-lbl">min</span></div>
+    </div>
+    <button class="uc-btn">Reservar mi spot</button>
+    <p class="uc-note">Solo 10 spots disponibles esta semana.</p>
+  </div>
+</div>
+
+<style>
+.urgency-cta { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; margin-top: auto; margin-bottom: auto; }
+.uc-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.30em; text-transform: uppercase; color: var(--accent); }
+.uc-headline { font-family: var(--font-display), system-ui, sans-serif; font-size: 52px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); max-width: 800px; }
+.uc-timer { display: flex; gap: 24px; margin: 12px 0; }
+.uc-unit { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px 24px; background: rgba(255,255,255,0.03); border: 1px solid var(--accent-line); border-radius: 10px; min-width: 80px; }
+.uc-val { font-family: var(--font-display), system-ui, sans-serif; font-size: 36px; font-weight: 900; color: var(--accent); line-height: 1; }
+.uc-unit-lbl { font-family: var(--font-mono), monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.uc-btn { background: var(--accent); color: var(--bg-base); border: none; padding: 18px 44px; border-radius: 12px; font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: transform 0.2s; }
+.uc-btn:hover { transform: translateY(-2px); }
+.uc-note { font-family: var(--font-body), system-ui, sans-serif; font-size: 14px; font-weight: 300; color: var(--text-muted); }
+</style>

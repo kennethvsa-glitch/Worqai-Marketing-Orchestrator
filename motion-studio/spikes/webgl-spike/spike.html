@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html data-duration="2" data-fps="60" data-name="webgl-spike">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080a10; }
+    #gl-canvas { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+  </style>
+</head>
+<body>
+
+<canvas id="gl-canvas" width="1080" height="1920"></canvas>
+
+<script>
+  // Lock 1
+  gsap.ticker.lagSmoothing(0);
+
+  // ── WebGL determinism spike ─────────────────────────────────────────────────
+  // Tests whether a fragment shader driven by uTime (from the GSAP timeline, never
+  // wall clock — Lock 3/10) produces bit-identical frames across two full exports.
+  // The shader exercises the operations the real effects would use: sin/cos waves
+  // (heat haze), smoothstep sheens (holographic scan), hash-based value noise
+  // (texture), and mix gradients. If THIS isn't deterministic, nothing fancier is.
+  //
+  // Determinism-relevant context settings:
+  //   antialias: false           — MSAA is GPU/driver-dependent (same lesson as ctx.arc)
+  //   preserveDrawingBuffer: true — screenshot must read a stable framebuffer
+  //   alpha: false               — no compositor blending surprises
+
+  const VSRC = `
+attribute vec2 aPos;
+void main() { gl_Position = vec4(aPos, 0.0, 1.0); }
+`;
+
+  const FSRC = `
+precision highp float;
+uniform float uTime;
+uniform vec2  uRes;
+
+// hash-based value noise — analytic, no texture lookups
+float hash(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / uRes;
+
+  // base gradient drifting with time (mix)
+  vec3 base = mix(vec3(0.031, 0.039, 0.063), vec3(0.059, 0.078, 0.125),
+                  uv.y + 0.15 * sin(uTime * 1.7 + uv.x * 3.0));
+
+  // heat-haze style distortion band (sin/cos)
+  float band = exp(-pow((uv.y - 0.5 - 0.2 * sin(uTime * 2.0)) * 6.0, 2.0));
+  base += band * 0.08 * vec3(0.788, 0.949, 0.302) * (0.5 + 0.5 * cos(uTime * 5.0 + uv.x * 20.0));
+
+  // holographic sheen sweep (smoothstep)
+  float sweep = smoothstep(0.02, 0.0, abs(uv.x + uv.y * 0.3 - fract(uTime * 0.45) * 1.4 + 0.1));
+  base += sweep * vec3(0.314, 0.471, 0.945) * 0.35;
+
+  // animated grain (hash noise)
+  float g = noise(uv * uRes * 0.25 + floor(uTime * 60.0));
+  base += (g - 0.5) * 0.04;
+
+  gl_FragColor = vec4(base, 1.0);
+}
+`;
+
+  // Lock 2
+  gsap.globalTimeline.pause();
+
+  document.fonts.ready.then(() => {
+    const canvas = document.getElementById("gl-canvas");
+    const gl = canvas.getContext("webgl", {
+      antialias: false,
+      preserveDrawingBuffer: true,
+      alpha: false,
+      powerPreference: "high-performance"
+    });
+    if (!gl) { document.title = "WEBGL-UNAVAILABLE"; window.motionReady = true; return; }
+
+    function compile(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+        throw new Error(gl.getShaderInfoLog(s));
+      return s;
+    }
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VSRC));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FSRC));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    // fullscreen quad
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, "aPos");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const uTime = gl.getUniformLocation(prog, "uTime");
+    const uRes  = gl.getUniformLocation(prog, "uRes");
+    gl.uniform2f(uRes, 1080, 1920);
+    gl.viewport(0, 0, 1080, 1920);
+
+    function render(t) {
+      gl.uniform1f(uTime, t);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      gl.finish(); // force synchronous completion before the screenshot reads the buffer
+    }
+
+    // Lock 4/10: proxy tween drives uTime from the timeline, never wall clock
+    const tl = gsap.timeline();
+    const proxy = { t: 0 };
+    tl.fromTo(proxy, { t: 0 }, {
+      t: 2.0, duration: 2.0, ease: "none",
+      onUpdate: () => render(proxy.t)
+    }, 0);
+
+    render(0); // first frame before any seek
+
+    tl.addLabel("start", 0.0);
+    tl.addLabel("mid", 1.0);
+
+    window.motionReady = true;
+    window.MOTION_LABELS = { start: 0, mid: 1000 };
+  });
+</script>
+</body>
+</html>

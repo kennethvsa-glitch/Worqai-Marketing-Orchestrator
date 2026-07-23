@@ -1,0 +1,40 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "form-login",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+MOCK-UI: FORM LOGIN
+Purpose: M5 — Login form mockup.
+-->
+
+<div class="mock-form-login">
+  <div class="mfl-card">
+    <p class="mfl-title">Iniciar sesion</p>
+    <div class="mfl-field">
+      <span class="mfl-label">Email</span>
+      <span class="mfl-val">tu@email.com</span>
+    </div>
+    <div class="mfl-field">
+      <span class="mfl-label">Password</span>
+      <span class="mfl-val">********</span>
+    </div>
+    <div class="mfl-btn">Entrar</div>
+  </div>
+</div>
+
+<style>
+.mock-form-login { display: flex; justify-content: center; }
+.mfl-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 24px; width: 260px; display: flex; flex-direction: column; gap: 16px; }
+.mfl-title { font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.mfl-field { display: flex; flex-direction: column; gap: 4px; }
+.mfl-label { font-family: var(--font-mono), monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.10em; text-transform: uppercase; color: var(--text-muted); }
+.mfl-val { font-family: var(--font-body), system-ui, sans-serif; font-size: 14px; color: var(--text-secondary); }
+.mfl-btn { background: var(--accent); color: var(--bg-base); padding: 12px; border-radius: 8px; font-family: var(--font-display), system-ui, sans-serif; font-size: 14px; font-weight: 700; text-align: center; margin-top: 4px; }
+</style>

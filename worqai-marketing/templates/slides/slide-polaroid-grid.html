@@ -1,0 +1,27 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="pg-wrap">
+    {% for card in copy.get('cards', []) %}
+    <div class="pg-card">
+      <div class="pg-img" style="background:{{ card.color_gradient | default('linear-gradient(135deg,#333,#111)') }}">
+        {% if card.icon %}
+        <svg class="icon icon-xl" aria-hidden="true"><use href="#icon-{{ card.icon }}"/></svg>
+        {% endif %}
+      </div>
+      <div class="pg-caption">{{ card.caption | default('') }}</div>
+    </div>
+    {% else %}
+    <div class="pg-card">
+      <div class="pg-img" style="background:linear-gradient(135deg,var(--accent),rgba(0,0,0,0.5))"></div>
+      <div class="pg-caption">{{ copy.headline | default('') }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

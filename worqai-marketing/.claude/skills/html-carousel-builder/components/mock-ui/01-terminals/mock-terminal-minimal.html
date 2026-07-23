@@ -1,0 +1,65 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-terminal-minimal",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "light-neon-border",
+      "atm-scan-lines",
+      "deco-progress-dots"
+    ],
+    "conflicts_with": [
+      "mock-cv-lines",
+      "mock-app-iphone",
+      "frame-polaroid"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: TERMINAL MINIMAL
+Purpose: Minimal terminal with just a red pip.
+-->
+
+<div class="terminal-min">
+  <div class="term-min-bar"><span></span></div>
+  <div class="term-min-body">
+    <p>$ ats --scan cv.pdf</p>
+    <p>[FAIL] 0 keywords matched</p>
+    <p>_</p>
+  </div>
+</div>
+
+<style>
+.terminal-min {
+  background: rgba(0,0,0,0.30); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px; overflow: hidden;
+}
+.term-min-bar { padding: 10px 14px; background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.term-min-bar span { display: block; width: 8px; height: 8px; border-radius: 50%; background: var(--term-red, #ff5f56); }
+.term-min-body { padding: 16px 18px; font-family: var(--font-mono), monospace; font-size: 15px; line-height: 1.7; color: var(--text-secondary); }
+</style>

@@ -1,0 +1,12 @@
+[
+  { "label": "proof",         "offset_ms_add":  400, "file": "lat_dull_notificatio_#3", "volume": 0.40 },
+  { "label": "proof",         "offset_ms_add": 1200, "file": "lat_dull_notificatio_#3", "volume": 0.40 },
+  { "label": "proof",         "offset_ms_add": 1800, "file": "lat_dull_notificatio_#3", "volume": 0.40 },
+  { "label": "stamp",         "offset_ms_add":    0, "file": "lat_dull_notificatio_#3", "volume": 0.75 },
+  { "label": "stamp",         "offset_ms_add":  160, "file": "Scan_sweep_Sounds_lik_#2","volume": 0.25 },
+  { "label": "tailor1_start", "offset_ms_add": 1080, "file": "gentle_soft_shimmer__#2", "volume": 0.22 },
+  { "label": "tailor2_start", "offset_ms_add":  730, "file": "gentle_soft_shimmer__#2", "volume": 0.22 },
+  { "label": "tailor3_start", "offset_ms_add":  730, "file": "gentle_soft_shimmer__#2", "volume": 0.22 },
+  { "label": "tailor1_score", "offset_ms_add":  900, "file": "short_soft_pop,_UI_e_#3", "volume": 0.55 },
+  { "label": "callback",      "offset_ms_add":    0, "file": "clean_bright_confirm_#1", "volume": 0.65 }
+]

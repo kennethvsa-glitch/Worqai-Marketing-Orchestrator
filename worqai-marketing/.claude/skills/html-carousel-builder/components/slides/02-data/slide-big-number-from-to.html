@@ -1,0 +1,43 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-big-number-from-to",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: BIG NUMBER FROM-TO
+Found in: carousel_0-a-4-entrevistas_crimson.html
+Purpose: S2 — Before/after metric transformation.
+-->
+
+<div class="content">
+  <div class="bn-fromto">
+    <div class="bn-col">
+      <span class="bn-label">Antes</span>
+      <span class="bn-num bn-before">0</span>
+      <span class="bn-context">entrevistas en 3 meses</span>
+    </div>
+    <div class="bn-arrow">&rarr;</div>
+    <div class="bn-col">
+      <span class="bn-label">Despues</span>
+      <span class="bn-num bn-after">4</span>
+      <span class="bn-context">entrevistas en 8 dias</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.bn-fromto { display: flex; align-items: center; gap: 48px; margin-top: auto; margin-bottom: auto; }
+.bn-col { display: flex; flex-direction: column; gap: 12px; }
+.bn-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); }
+.bn-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 200px; font-weight: 900; line-height: 0.85; letter-spacing: -0.04em; }
+.bn-before { color: var(--text-muted); text-decoration: line-through; opacity: 0.5; }
+.bn-after { color: var(--accent); }
+.bn-context { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; color: var(--text-secondary); max-width: 280px; }
+.bn-arrow { font-family: var(--font-display), system-ui, sans-serif; font-size: 64px; color: var(--accent); opacity: 0.4; }
+</style>

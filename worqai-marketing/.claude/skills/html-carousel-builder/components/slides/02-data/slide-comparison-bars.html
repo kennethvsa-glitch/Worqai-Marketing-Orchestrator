@@ -1,0 +1,42 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-comparison-bars",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: COMPARISON BARS
+Purpose: S2 — Side-by-side horizontal bar comparison.
+-->
+
+<div class="content">
+  <p class="tip-label">Comparativa</p>
+  <h2 class="tip-headline">Antes vs Despues</h2>
+  <div class="comp-bars">
+    <div class="cb-row">
+      <span class="cb-label">Respuestas</span>
+      <div class="cb-track"><div class="cb-fill before" style="width:15%;"></div></div>
+      <div class="cb-track"><div class="cb-fill after" style="width:85%;"></div></div>
+    </div>
+    <div class="cb-row">
+      <span class="cb-label">Entrevistas</span>
+      <div class="cb-track"><div class="cb-fill before" style="width:10%;"></div></div>
+      <div class="cb-track"><div class="cb-fill after" style="width:78%;"></div></div>
+    </div>
+  </div>
+</div>
+
+<style>
+.comp-bars { display: flex; flex-direction: column; gap: 28px; margin-top: 36px; }
+.cb-row { display: grid; grid-template-columns: 140px 1fr 1fr; align-items: center; gap: 20px; }
+.cb-label { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; color: var(--text-secondary); }
+.cb-track { height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden; }
+.cb-fill { height: 100%; border-radius: 8px; }
+.cb-fill.before { background: var(--text-muted); opacity: 0.3; }
+.cb-fill.after { background: var(--accent); }
+</style>

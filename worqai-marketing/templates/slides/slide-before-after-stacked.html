@@ -1,0 +1,45 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="bas-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+    {% if copy.headline %}
+    <div class="bas-headline">{{ copy.headline }}</div>
+    {% endif %}
+
+    <div class="bas-panels">
+      <div class="bas-panel bas-before">
+        <div class="bas-label">{{ copy.before_label | default('ANTES') }}</div>
+        <div class="bas-text">{{ copy.before_text }}</div>
+        <div class="bas-bar">
+          <div class="bas-bar-track">
+            <div class="bas-bar-fill bas-red" style="width: {{ copy.before_pct }}%"></div>
+          </div>
+          <span class="bas-pct bas-red">{{ copy.before_pct }}%</span>
+        </div>
+      </div>
+
+      <div class="bas-vs">VS</div>
+
+      <div class="bas-panel bas-after">
+        <div class="bas-label">{{ copy.after_label | default('DESPUÉS') }}</div>
+        <div class="bas-text">{{ copy.after_text }}</div>
+        <div class="bas-bar">
+          <div class="bas-bar-track">
+            <div class="bas-bar-fill bas-green" style="width: {{ copy.after_pct }}%"></div>
+          </div>
+          <span class="bas-pct bas-green">{{ copy.after_pct }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

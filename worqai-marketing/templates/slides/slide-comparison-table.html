@@ -1,0 +1,53 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="comp-table-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="comp-headline {{ text_treatment_class }}">{{ copy.headline }}</div>{% endif %}
+
+    {# Two-card layout: copy.sides = [{label, items:[str,...]}, {label, items:[str,...]}]  #}
+    {# Fallback: if copy.sides missing, derive from legacy headers/rows format              #}
+    {% if copy.sides %}
+      {% set sides = copy.sides %}
+    {% else %}
+      {% set headers = copy.get('headers', ['Antes', 'Después']) %}
+      {% set rows = copy.get('rows', []) %}
+      {% set side_a_items = [] %}
+      {% set side_b_items = [] %}
+      {% for row in rows %}
+        {% if row|length >= 2 %}
+          {% set _ = side_a_items.append(row[0] ~ ': ' ~ row[1]) %}
+          {% if row|length >= 3 %}{% set _ = side_b_items.append(row[0] ~ ': ' ~ row[2]) %}{% endif %}
+        {% endif %}
+      {% endfor %}
+      {% set sides = [
+        {"label": headers[0] if headers|length > 0 else "Antes",  "items": side_a_items},
+        {"label": headers[1] if headers|length > 1 else "Después", "items": side_b_items}
+      ] %}
+    {% endif %}
+
+    <div class="comp-cards">
+      {% for side in sides %}
+      <div class="comp-card {{ 'before' if loop.index0 == 0 else 'after' }}">
+        <div class="comp-card-title">{{ side['label'] }}</div>
+        {% for item in side['items'] %}
+        <div class="comp-item">
+          {% if loop.index0 == 0 %}
+          <svg class="icon" aria-hidden="true"><use href="#icon-error"/></svg>
+          {% else %}
+          <svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg>
+          {% endif %}
+          <span>{{ item }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>worqai - Hackea tu CV para más entrevistas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#C7FF3A;--coral:#FF5C3C;--coral-text:#FF8B70;--term-bad:#FF5C3C;--term-good:#C7FF3A;--term-cursor:#C7FF3A;--term-prompt:#C7FF3A;--big-num:#C7FF3A;--big-num-text-shadow:0 0 20px rgba(199,255,58,0.3);--big-item-interrupt-num:#FF5C3C;--big-item-interrupt-num-text-shadow:0 0 20px rgba(255,92,60,0.3);--big-item-interrupt-border:#FF5C3C;--big-item-interrupt-bg:rgba(255,92,60,0.05);--big-item-interrupt-body-strong-color:#FF5C3C;--big-item-interrupt-body-strong-bg:rgba(255,92,60,0.12);--big-item-border:rgba(199,255,58,0.15);--big-text-body-strong-bg:rgba(199,255,58,0.10);--big-text-body-strong-color:#C7FF3A;--echo-ghost:#C7FF3A;--url-box-border:#C7FF3A;--url-text:#C7FF3A;--proof-metric:#C7FF3A;--stat-num:#C7FF3A;--swipe-pill:#C7FF3A;--lime-badge-bg:#C7FF3A;--fu-tag:#C7FF3A;--col-tag-bad:#FF5C3C;--col-tag-good:#C7FF3A;--col-list-li-before-x:#FF5C3C;--col-list-li-before-arrow:#C7FF3A;--col-stat-bad:#FF5C3C;--col-stat-good:#C7FF3A;--glass-tag-bad:#FF8B70;--glass-tag-good:#C7FF3A;--pill-tag-bg:rgba(255,92,60,0.10);--pill-tag-color:#FF8B70;--pill-tag-border:#FF8B70;--warning-text-strong:#FF5C3C;--warning-icon-bg:#FF5C3C;--warning-tag-color:#FF5C3C;--warning-tag-bg:rgba(255,92,60,0.12);--warning-box-shadow:0 0 30px rgba(255,92,60,0.08);--warning-icon-box-shadow:0 0 20px rgba(255,92,60,0.4);--term-cursor-box-shadow:0 0 8px rgba(199,255,58,0.6);--lime-pip-box-shadow:0 0 8px rgba(199,255,58,0.6);--btn-disabled-opacity:0.2;--coral-glow:radial-gradient(circle,rgba(255,92,60,0.70) 0%,rgba(255,92,60,0) 70%);--cta-card-after:radial-gradient(circle,rgba(199,255,58,0.18),transparent 65%);--bg:#1a1a2e;--slide-bg:linear-gradient(148deg,#242430 0%,#1a1a2e 100%);--text:#e2e2f0;--headline:#f0f0f5;--body:#c0c0d0;--muted:#8888a0;--lime-badge-color:#1a1a2e;--echo-real-color:#1a1a2e;--warning-icon-color:#1a1a2e;--glass:rgba(36,36,48,0.5);--glass-border:rgba(136,136,160,0.15);--glass-bad-bg:rgba(255,92,60,0.08);--glass-bad-border:rgba(255,92,60,0.25);--glass-good-bg:rgba(199,255,58,0.08);--glass-good-border:rgba(199,255,58,0.20);--cta-card:#242430;--cta-card-border:rgba(199,255,58,0.30);--term-bg:rgba(26,26,46,0.95);--term-border:rgba(199,255,58,0.35);--term-bar-bg:rgba(199,255,58,0.10);--term-bar-color:#C7FF3A;--term-bar-border:rgba(199,255,58,0.2);--term-body:#e8e8f0;--term-comment:rgba(199,255,58,0.35);--term-highlight-bg:rgba(199,255,58,0.18);--term-highlight-color:#C7FF3A;--term-box-shadow:0 0 30px rgba(199,255,58,0.08),inset 0 0 60px rgba(199,255,58,0.03);--col-bad-bg:rgba(255,92,60,0.08);--col-good-bg:rgba(199,255,58,0.06);--col-stat-bg:rgba(26,26,46,0.8);--col-stat:#e8e8f0;--col-stat-border:rgba(136,136,160,0.15);--col-headline:#e8e8f0;--col-list-li:rgba(232,232,240,0.72);--warning-bg:rgba(255,92,60,0.06);--warning-border:rgba(255,92,60,0.3);--warning-headline:#e8e8f0;--warning-text:rgba(232,232,240,0.78);--fu-card-bg:rgba(36,36,48,0.5);--fu-card-border:rgba(136,136,160,0.15);--fu-headline:#e8e8f0;--fu-body:rgba(232,232,240,0.58);--btn-bg:rgba(136,136,160,0.15);--btn-color:#e8e8f0;--dot-bg:rgba(136,136,160,0.3);--deco-num:rgba(136,136,160,0.08);--band:linear-gradient(115deg,transparent 45%,rgba(199,255,58,0.06) 45%,rgba(199,255,58,0.06) 47%,transparent 47%);--brand-w:rgba(199,255,58,0.05);--site-url:rgba(136,136,160,0.55);--counter:rgba(136,136,160,0.55);--brand-anchor:#8888a0;--brand-anchor-worq:#f0f0f5;--proof-city:rgba(136,136,160,0.40);--stat-pct:#f0f0f5;--url-box-bg:rgba(199,255,58,0.04);--echo-outline:#e8e8f0;--echo-byline-border:rgba(199,255,58,0.18);--echo-byline-color:rgba(199,255,58,0.55);--echo-real-bg:#C7FF3A;--echo-real-box-shadow:0 0 30px rgba(199,255,58,0.35);--hint:rgba(136,136,160,0.35);--big-text-headline:#e8e8f0;--big-text-body:rgba(232,232,240,0.68);--echo-line-heavy:#e8e8f0;--echo-line-light:#c7ff9a;--echo-eyebrow-text-shadow:0 0 8px rgba(199,255,58,0.3);--proof-stmt:#f0f0f5;--proof-ctx:#8888a0;--source-tag:#8888a0;--stat-context:#e2e2f0;--hook-sub:#e2e2f0;--hook-display:#f0f0f5;--glass-text:#f0f0f5;--cta-headline:#f0f0f5;--cta-fine:rgba(232,232,240,0.55);--cta-closing:rgba(232,232,240,0.78);--cta-micro:rgba(232,232,240,0.45);--glow:radial-gradient(circle,rgba(199,255,58,0.15) 0%,transparent 65%);--slide-before-opacity:0.06;--wrap-box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);font-family:'Inter',system-ui,sans-serif;color:var(--body);min-height:100vh}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.preview-cage{width:1080px;margin:0 auto}@media(min-width:1200px){.preview-cage{transform:scale(0.5);transform-origin:top center;height:540px}}
+.viewer{width:1080px;max-width:1080px}
+.wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:var(--wrap-box-shadow)cursor:grab;user-select:none;-webkit-user-select:none;}
+.track{display:flex;width:auto;height:100%;transition:transform 0.42s cubic-bezier(0.4,0,0.2,1)}
+.slide{position:relative;width:1080px;min-width:1080px;height:1080px;overflow:hidden;background:var(--slide-bg);color:var(--text)}
+.slide::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px 300px;opacity:var(--slide-before-opacity);pointer-events:none;z-index:1}
+.glow{position:absolute;width:780px;height:780px;border-radius:50%;background:var(--glow);filter:blur(80px);pointer-events:none;z-index:1}
+.coral{position:absolute;width:140px;height:140px;border-radius:50%;background:var(--coral-glow);filter:blur(8px);pointer-events:none;z-index:1}
+.band{position:absolute;top:-15%;left:-10%;width:130%;height:35%;background:var(--band);pointer-events:none;z-index:1}
+.brand-w{position:absolute;font-family:'Inter',sans-serif;font-weight:900;font-size:880px;line-height:0.78;letter-spacing:-0.07em;pointer-events:none;user-select:none;z-index:1;color:var(--brand-w)}
+.content{position:relative;z-index:3;height:100%;padding:68px 64px 148px;display:flex;flex-direction:column}
+.deco-num{position:absolute;top:-26px;right:46px;font-weight:900;font-size:280px;line-height:1;letter-spacing:-0.05em;pointer-events:none;user-select:none;z-index:2;color:var(--deco-num)}
+.label{font-size:18px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:var(--lime);margin-bottom:28px;display:inline-block}
+.headline{font-weight:900;font-size:78px;line-height:1.04;letter-spacing:-0.035em;color:var(--headline)}
+.body-text{font-weight:400;font-size:30px;line-height:1.5;color:var(--body)}
+.lime{color:var(--lime)}
+.coral-text{color:var(--coral-text)}
+.stat-num{font-weight:900;font-size:380px;line-height:0.85;letter-spacing:-0.06em;color:var(--stat-num)}
+.stat-pct{font-size:200px;color:var(--stat-pct);font-weight:900;line-height:0.85}
+.stat-context{font-weight:800;font-size:42px;line-height:1.1;letter-spacing:-0.02em;margin-top:40px;max-width:840px;color:var(--stat-context)}
+.source-tag{font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:1.0;margin-top:24px;color:var(--source-tag)}
+.hook-stack{margin-top:auto;margin-bottom:60px}
+.hook-display{font-weight:900;font-size:124px;line-height:0.95;letter-spacing:-0.05em;color:var(--hook-display)}
+.hook-sub{font-weight:600;font-size:32px;line-height:1.4;margin-top:32px;opacity:0.75;max-width:780px;color:var(--hook-sub)}
+.swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;padding:14px 26px;border:2px solid var(--lime);color:var(--lime);border-radius:999px;font-size:18px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;margin-top:36px}
+.pill-tag{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;background:var(--pill-tag-bg);border:1px solid var(--pill-tag-border);border-radius:999px;font-weight:800;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;color:var(--pill-tag-color);margin-bottom:24px}
+.proof-metric{font-weight:900;font-size:280px;line-height:0.85;letter-spacing:-0.05em;color:var(--proof-metric)}
+.proof-city{font-size:18px;font-weight:500;letter-spacing:0.24em;text-transform:uppercase;color:var(--proof-city);margin-bottom:22px}
+.proof-stmt{font-size:46px;font-weight:800;line-height:1.18;letter-spacing:-0.02em;color:var(--proof-stmt);max-width:820px;margin-bottom:18px}
+.proof-ctx{font-size:26px;font-weight:400;color:var(--proof-ctx);line-height:1.55}
+.glass-block{padding:24px 28px;border-radius:14px;background:var(--glass);border:1px solid var(--glass-border);margin-bottom:14px}
+.glass-block.bad{background:var(--glass-bad-bg);border-color:var(--glass-bad-border)}
+.glass-block.good{background:var(--glass-good-bg);border-color:var(--glass-good-border)}
+.glass-tag{font-size:13px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px}
+.glass-block.bad .glass-tag{color:var(--glass-tag-bad)}
+.glass-block.good .glass-tag{color:var(--glass-tag-good)}
+.glass-text{font-size:22px;font-weight:600;line-height:1.42;color:var(--glass-text)}
+.cta-card{background:var(--cta-card);border:2px solid var(--cta-card-border);border-radius:32px;padding:36px 40px;margin-top:auto;margin-bottom:60px;position:relative;overflow:hidden}
+.cta-card::after{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:var(--cta-card-after);filter:blur(40px);pointer-events:none;z-index:0}
+.cta-headline-out{font-weight:900;font-size:52px;line-height:1.05;letter-spacing:-0.03em;color:var(--cta-headline);margin-bottom:24px;position:relative;z-index:2}
+.lime-badge{display:inline-flex;align-items:center;padding:8px 16px;background:var(--lime-badge-bg);color:var(--lime-badge-color);border-radius:8px;font-size:14px;font-weight:900;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:20px;position:relative;z-index:2}
+.cta-offer{font-weight:800;font-size:30px;line-height:1.25;color:var(--lime);margin-bottom:6px;position:relative;z-index:2}
+.cta-fine{font-size:18px;font-weight:600;color:var(--cta-fine);margin-top:10px;position:relative;z-index:2}
+.url-box{display:inline-flex;align-items:center;justify-content:center;padding:18px 48px;border:3px dashed var(--url-box-border);border-radius:16px;margin-top:22px;margin-bottom:22px;background:var(--url-box-bg);position:relative;z-index:2}
+.url-text{font-family:'Inter',sans-serif;font-size:42px;font-weight:900;color:var(--url-text);letter-spacing:0.04em;text-transform:uppercase}
+.cta-closing{font-size:22px;color:var(--cta-closing);margin-top:6px;font-weight:600;max-width:840px;line-height:1.4;position:relative;z-index:2}
+.cta-micro{font-size:16px;color:var(--cta-micro);margin-top:14px;position:relative;z-index:2}
+.brand-anchor{position:absolute;bottom:46px;left:64px;z-index:5;font-weight:900;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;color:var(--brand-anchor)}
+.brand-anchor .worq{color:var(--brand-anchor-worq)}
+.brand-anchor .ai{color:var(--lime)}
+.site-url{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:5;font-weight:700;font-size:16px;letter-spacing:0.1em;color:var(--site-url);text-transform:lowercase}
+.counter{position:absolute;bottom:50px;right:64px;z-index:5;font-weight:700;font-size:18px;letter-spacing:0.2em;color:var(--counter)}
+.left-spine{position:absolute;top:0;left:0;width:6px;height:100%;background:linear-gradient(180deg,var(--lime) 0%,transparent 70%);z-index:2}
+.controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px}
+.btn{background:var(--btn-bg);border:none;color:var(--btn-color);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.btn:disabled{opacity:var(--btn-disabled-opacity);cursor:default}
+.dots{display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--dot-bg);cursor:pointer;transition:all 0.2s}
+.dot.on{background:var(--lime);width:18px;border-radius:3px}
+.hint{font-size:10px;color:var(--hint);letter-spacing:0.18em;text-transform:uppercase;margin-top:10px;text-align:center}
+.terminal{background:var(--term-bg);border:2px solid var(--term-border);margin-top:28px;box-shadow:var(--term-box-shadow)}
+.term-bar{padding:10px 18px;background:var(--term-bar-bg);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--term-bar-color);letter-spacing:0.10em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--term-bar-border)}
+.term-bar .lime-pip{display:inline-block;width:10px;height:10px;background:var(--lime);border-radius:50%;box-shadow:var(--lime-pip-box-shadow)}
+.term-body{padding:28px 30px;font-family:'JetBrains Mono',monospace;font-size:17px;line-height:1.85;color:var(--term-body)}
+.term-prompt{color:var(--term-prompt);font-weight:700}
+.term-comment{color:var(--term-comment)}
+.term-highlight{background:var(--term-highlight-bg);padding:0 4px;font-weight:700;color:var(--term-highlight-color)}
+.term-bad{color:var(--term-bad);font-weight:700}
+.term-good{color:var(--term-good);font-weight:700}
+.term-cursor{display:inline-block;width:10px;height:22px;background:var(--term-cursor);vertical-align:text-bottom;margin-left:4px;animation:blink 1s infinite;box-shadow:var(--term-cursor-box-shadow)}
+@keyframes blink{50%{opacity:0}}
+.cols-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:28px;flex:1}
+.col{padding:32px 30px;display:flex;flex-direction:column;gap:18px}
+.col.bad{background:var(--col-bad-bg);border-left:4px solid var(--coral)}
+.col.good{background:var(--col-good-bg);border-left:4px solid var(--lime)}
+.col-tag{font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.34em;text-transform:uppercase}
+.col.bad .col-tag{color:var(--col-tag-bad)}
+.col.good .col-tag{color:var(--col-tag-good)}
+.col-headline{font-family:'Inter',sans-serif;font-weight:900;font-size:26px;line-height:1.15;color:var(--col-headline)}
+.col-list{list-style:none;display:flex;flex-direction:column;gap:14px;flex:1}
+.col-list li{font-family:'Inter',sans-serif;font-weight:500;font-size:15px;line-height:1.45;color:var(--col-list-li);padding-left:22px;position:relative}
+.col.bad .col-list li::before{content:'x';position:absolute;left:0;top:-2px;color:var(--col-list-li-before-x);font-weight:900;font-size:22px;line-height:1}
+.col.good .col-list li::before{content:'->';position:absolute;left:0;top:0;color:var(--col-list-li-before-arrow);font-weight:900;font-size:16px;line-height:1}
+.col-stat{padding:14px 16px;background:var(--col-stat-bg);color:var(--col-stat);font-family:'Inter',sans-serif;font-weight:700;font-size:15px;margin-top:auto;border:1px solid var(--col-stat-border)}
+.col-stat strong{font-weight:900;font-size:24px;display:inline-block;margin-right:8px}
+.col.bad .col-stat strong{color:var(--col-stat-bad)}
+.col.good .col-stat strong{color:var(--col-stat-good)}
+.warning{display:flex;gap:28px;padding:32px 32px;background:var(--warning-bg);border:2px solid var(--warning-border);margin-top:28px;box-shadow:var(--warning-box-shadow)}
+.warning-icon{width:72px;height:72px;background:var(--warning-icon-bg);color:var(--warning-icon-color);font-family:'Inter',sans-serif;font-weight:900;font-size:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--warning-icon-box-shadow);line-height:1}
+.warning-body{flex:1}
+.warning-tag{font-family:'Inter',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.32em;text-transform:uppercase;color:var(--warning-tag-color);background:var(--warning-tag-bg);padding:4px 10px;display:inline-block;margin-bottom:14px}
+.warning-headline{font-family:'Inter',sans-serif;font-weight:900;font-size:34px;line-height:1.1;color:var(--warning-headline);margin-bottom:14px}
+.warning-text{font-family:'Inter',sans-serif;font-weight:400;font-size:17px;line-height:1.5;color:var(--warning-text)}
+.warning-text strong{color:var(--warning-text-strong);font-weight:700}
+.followup{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+.fu-card{padding:22px 22px;background:var(--fu-card-bg);border:1px solid var(--fu-card-border)}
+.fu-tag{font-family:'Inter',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.30em;text-transform:uppercase;color:var(--fu-tag);margin-bottom:8px}
+.fu-headline{font-family:'Inter',sans-serif;font-weight:700;font-size:17px;line-height:1.3;color:var(--fu-headline);margin-bottom:6px}
+.fu-body{font-family:'Inter',sans-serif;font-weight:400;font-size:14px;line-height:1.5;color:var(--fu-body)}
+.big-list{display:flex;flex-direction:column;gap:14px;margin-top:24px;flex:1}
+.big-item{display:grid;grid-template-columns:120px 1fr;gap:28px;align-items:center;padding:12px 0;border-bottom:2px solid var(--big-item-border)}
+.big-item:last-child{border-bottom:none}
+.big-num{font-family:'Inter',sans-serif;font-weight:900;font-size:82px;line-height:0.85;letter-spacing:-0.06em;color:var(--big-num);text-shadow:var(--big-num-text-shadow)}
+.big-num span{font-size:44px;vertical-align:top;opacity:1.0}
+.big-text-headline{font-family:'Inter',sans-serif;font-weight:900;font-size:24px;line-height:1.1;color:var(--big-text-headline);margin-bottom:6px}
+.big-text-body{font-family:'Inter',sans-serif;font-weight:400;font-size:15px;line-height:1.45;color:var(--big-text-body)}
+.big-text-body strong{color:var(--big-text-body-strong-color);font-weight:700;background:var(--big-text-body-strong-bg);padding:0 4px}
+.big-item.interrupt{border-left:3px solid var(--big-item-interrupt-border);padding-left:20px;background:var(--big-item-interrupt-bg);margin-left:-20px}
+.big-item.interrupt .big-num{color:var(--big-item-interrupt-num);text-shadow:var(--big-item-interrupt-num-text-shadow)}
+.big-item.interrupt .big-text-headline{color:var(--big-text-headline)}
+.big-item.interrupt .big-text-body strong{color:var(--big-item-interrupt-body-strong-color);background:var(--big-item-interrupt-body-strong-bg)}
+.echo-stack{display:flex;flex-direction:column;gap:14px}
+.echo-line{font-family:'Inter',sans-serif;font-size:72px;line-height:0.94;letter-spacing:-0.035em}
+.echo-line.heavy{font-weight:900;text-transform:uppercase;color:var(--echo-line-heavy)}
+.echo-line.light{font-weight:400;color:var(--echo-line-light);font-style:italic}
+.echo-wrap{position:relative;display:inline-block;z-index:3}
+.echo-ghost{position:absolute;top:6px;left:6px;font-size:72px;font-weight:900;line-height:0.94;letter-spacing:-0.035em;color:var(--echo-ghost);opacity:0.20;white-space:nowrap;pointer-events:none}
+.echo-real{position:relative;font-size:72px;font-weight:900;line-height:0.94;letter-spacing:-0.035em;color:var(--echo-real-color);background:var(--echo-real-bg);padding:2px 14px;align-self:flex-start;box-shadow:var(--echo-real-box-shadow);white-space:nowrap}
+.echo-line.outline{font-weight:900;text-transform:uppercase;color:rgba(241,245,249,0.36);-webkit-text-stroke:0;letter-spacing:-0.02em;text-shadow:0 0 22px rgba(241,245,249,0.10)}
+.echo-byline{margin-top:36px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;color:var(--echo-byline-color);letter-spacing:0.04em;padding-top:18px;border-top:1px solid var(--echo-byline-border);max-width:520px;line-height:1.6}
+.echo-eyebrow{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:0.34em;text-transform:uppercase;color:var(--lime);margin-bottom:36px;padding-bottom:18px;border-bottom:2px solid var(--lime);max-width:380px;text-shadow:var(--echo-eyebrow-text-shadow)}
+
+
+/* codex readability pass */
+:root{--body:#172033;--muted:#334155;}
+.text-backdrop{background:rgba(255,255,255,0.94)!important;border:2px solid rgba(15,23,42,0.18)!important;box-shadow:0 16px 36px rgba(15,23,42,0.10)!important;}
+.text-backdrop .hook-display,.text-backdrop .hook-sub,.text-backdrop .headline,.text-backdrop .body-text,.text-backdrop .stat-context,.text-backdrop .stat-ctx,.text-backdrop .stat-pct,.text-backdrop .proof-stmt,.text-backdrop .proof-ctx,.text-backdrop .cta-headline-out,.text-backdrop .cta-headline-above,.text-backdrop .disp,.text-backdrop .hdl,.text-backdrop .body{color:#0B1220!important;opacity:1!important;text-shadow:none!important;}
+.text-backdrop .lime,.text-backdrop .stat-num,.text-backdrop .stat-n,.text-backdrop .proof-metric{color:#4B8F00!important;text-shadow:-1px -1px 0 rgba(15,23,42,0.38),1px -1px 0 rgba(15,23,42,0.38),-1px 1px 0 rgba(15,23,42,0.38),1px 1px 0 rgba(15,23,42,0.38)!important;}
+.body,.body-text,.hook-sub,.stat-context,.stat-ctx,.glass-text,.proof-ctx,.step-desc,.cta-closing,.cta-fine,.cta-sub,.cta-honest,.cta-micro{opacity:1!important;}
+.glass-text{font-weight:700!important;}
+.source-tag,.src,.proof-city,.site-url,.counter,.label-top{opacity:1!important;font-weight:800!important;text-shadow:0 1px 2px rgba(255,255,255,0.65),0 0 1px rgba(15,23,42,0.35)!important;}
+
+
+
+
+/* === EDITOR: draggable elements + editable text === */
+[data-editable="true"],[data-movable="true"]{position:relative;cursor:move;}
+[data-editable="true"]:hover,[data-movable="true"]:hover{outline:1px dashed rgba(199,255,58,0.35);outline-offset:2px;}
+[data-editable="true"]:focus,[data-movable="true"]:focus{outline:2px solid #C7FF3A;outline-offset:2px;}
+[data-dragging="true"]{outline:2px solid #FF8B70!important;outline-offset:3px!important;cursor:grabbing!important;z-index:100!important;}
+[data-dragging="true"] [data-editable="true"]{pointer-events:none;}
+
+.glass-block,.cta-card,.hook-stack,.content,.swipe-pill,.url-box,.pill-tag{position:relative;}
+[data-editable="true"]:hover{outline:1px dashed rgba(199,255,58,0.25);outline-offset:2px;}
+[data-editable="true"]:focus{outline:2px solid #C7FF3A;outline-offset:2px;}
+[data-dragging="true"]{outline:2px solid #FF8B70!important;outline-offset:3px!important;cursor:grabbing!important;z-index:100!important;}
+[data-dragging="true"] [data-editable="true"]{pointer-events:none;}
+
+.glass-block,.cta-card,.hook-stack,.content,.stat-num,.proof-metric,.headline,.body-text,.hook-display,.hook-sub,.proof-stmt,.proof-ctx,.cta-headline-out,.cta-offer,.cta-fine,.cta-closing,.cta-micro,.url-text,.label,.lime-badge,.pill-tag,.source-tag,.site-url,.counter,.brand-anchor,.proof-city,.stat-context,.stat-ctx,.glass-text,.deco-num{position:relative;}
+[data-editable="true"]:hover{outline:1px dashed rgba(199,255,58,0.35);outline-offset:2px;cursor:text;}
+[data-editable="true"]:focus{outline:2px solid #C7FF3A;outline-offset:2px;}
+[data-dragging="true"]{outline:2px solid #FF8B70!important;outline-offset:3px!important;cursor:grabbing!important;z-index:100!important;}
+</style>
+</head>
+<body>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+      <div class="slide" data-slide="1">
+        <div class="brand-w" style="top:-12%;left:-8%;">W</div><div class="glow" style="top:-25%;right:-10%;"></div><div class="band"></div><div class="left-spine"></div><div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai - hackea tu CV</div>
+          <div class="echo-eyebrow">más entrevistas, menos espera</div>
+          <div class="echo-stack">
+            <div class="echo-line heavy">HACKEA</div>
+<div class="echo-line light">tu CV</div>
+<div class="echo-line heavy">PARA MAS</div>
+<div class="echo-line outline">entrevistas.</div>
+          </div>
+          <p class="echo-byline">- No es que no sos bueno. Es que el ATS no te leyo. Y hay hacks que cambian eso.</p>
+          <div class="swipe-pill">Desliza &rarr;</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">01 / 07</div>
+      </div>
+      <div class="slide" data-slide="2">
+        <div class="brand-w" style="bottom:-22%;right:-12%;">W</div><div class="glow" style="top:55%;right:-22%;"></div><div class="band"></div><div class="left-spine"></div><div class="deco-num">02</div>
+        <div class="content">
+          <div class="label">el dato</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:24px;">
+            <div class="stat-num">3</div>
+            <div class="stat-pct"><span style="font-size:120px;">x</span></div>
+          </div>
+          <div class="stat-context">más entrevistas con un CV optimizado para el ATS. No es magia. Es entender el algoritmo.</div>
+          <div class="source-tag">Dato interno WorqAI - base de datos 2025</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">02 / 07</div>
+      </div>
+      <div class="slide" data-slide="3">
+        <div class="brand-w" style="top:8%;right:-26%;">W</div><div class="glow" style="top:-12%;right:50%;"></div><div class="coral" style="top:14%;right:120px;"></div><div class="band"></div><div class="left-spine"></div><div class="deco-num">03</div>
+        <div class="content">
+          <div class="pill-tag">Hack 01 - El titulo</div>
+          <div class="headline" style="max-width:900px;">El ATS lee tu titulo <span class="coral-text">antes</span> que tu nombre.</div>
+          <div style="margin-top:38px;">
+            <div class="glass-block bad">
+              <div class="glass-tag">lo que pasa</div>
+              <div class="glass-text">Tu CV se llama CV 2024. El ATS no sabe que puesto buscas. Te descarta antes de leer tu nombre.</div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">por que</div>
+              <div class="glass-text">El ATS clasifica por puesto. Si tu titulo no coincide con el aviso, no pasas. Es el primer filtro, no el ultimo.</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">03 / 07</div>
+      </div>
+      <div class="slide" data-slide="4">
+        <div class="brand-w" style="bottom:-26%;left:-18%;">W</div><div class="glow" style="top:50%;right:60%;"></div><div class="coral" style="bottom:160px;right:100px;"></div><div class="band"></div><div class="left-spine"></div><div class="deco-num">04</div>
+        <div class="content">
+          <div class="pill-tag">Hack 02 - Keywords</div>
+          <div class="headline" style="max-width:900px;">El ATS busca <span class="lime">palabras exactas.</span> No sinonimios.</div>
+          <div class="terminal">
+            <div class="term-bar">
+              <span><span class="lime-pip"></span> ATS_KEYWORD_SCAN</span>
+              <span>v3.2.1 - PROD</span>
+            </div>
+            <div class="term-body">
+              <span class="term-comment">// El aviso pide analisis de datos</span><br>
+<span class="term-bad">> data science => NO COINCIDE</span><br>
+<span class="term-good">> analisis de datos => COINCIDE</span><br>
+<span class="term-comment">// El ATS no traduce jerga</span><br>
+<span class="term-bad">> Python => NO COINCIDE (solo skill)</span><br>
+<span class="term-good">> analisis de datos con Python => COINCIDE</span><br>
+<span class="term-comment">// Usa el lenguaje del aviso, no el de LinkedIn</span><br>
+              <span class="term-cursor"></span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">04 / 07</div>
+      </div>
+      <div class="slide" data-slide="5">
+        <div class="brand-w" style="top:-25%;right:8%;">W</div><div class="glow" style="top:-20%;right:-15%;"></div><div class="band"></div><div class="left-spine"></div><div class="deco-num">05</div>
+        <div class="content">
+          <div class="label">Hack 03 - Formato</div>
+          <div class="headline" style="max-width:900px;margin-top:8px;">El ATS no lee <span class="lime">tu diseño.</span> Lee tu texto.</div>
+          <div class="warning">
+            <div class="warning-icon">!</div>
+            <div class="warning-body">
+              <div class="warning-tag">Error critico</div>
+              <div class="warning-headline">Tu PDF con columnas, fotos y colores se rompe en el ATS.</div>
+              <div class="warning-text">El bot extrae <strong>texto plano</strong> de tu PDF. Si hay tablas, imagenes o columnas, el texto sale desordenado.</div>
+            </div>
+          </div>
+          <div class="followup">
+            <div class="fu-card">
+              <div class="fu-tag">Lo que hay que hacer</div>
+              <div class="fu-headline">Usa un formato limpio: una sola columna, sin imagenes, sin tablas.</div>
+              <div class="fu-body">El ATS lee de arriba a abajo, de izquierda a derecha. Si tu formato es claro, te lee bien.</div>
+            </div>
+            <div class="fu-card">
+              <div class="fu-tag">Lo que NO hay que hacer</div>
+              <div class="fu-headline">Mandar un PDF con diseño grafico pensando que impresiona.</div>
+              <div class="fu-body">El ATS no ve tu diseño. Solo ve texto. Y si el texto esta roto, te descarta.</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">05 / 07</div>
+      </div>
+      <div class="slide" data-slide="6">
+        <div class="brand-w" style="top:18%;left:-32%;">W</div><div class="glow" style="top:55%;right:-24%;"></div><div class="left-spine"></div><div class="deco-num">06</div>
+        <div class="content">
+          <div class="label">resultado real</div>
+          <div style="display:flex;flex-direction:column;flex:1;justify-content:center;gap:10px;">
+            <div class="proof-metric">4</div>
+            <div class="proof-city">entrevistas - bogota, co</div>
+            <div class="proof-stmt">11 dias después de hackear el CV.</div>
+            <div class="proof-ctx">Llevaba 5 meses aplicando sin respuesta.<br>Mismo perfil. Tres hacks. Otro resultado.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">06 / 07</div>
+      </div>
+      <div class="slide" data-slide="7">
+        <div class="brand-w" style="bottom:-30%;right:-15%;">W</div><div class="glow" style="top:-10%;right:40%;"></div><div class="coral" style="top:160px;left:140px;"></div><div class="band"></div><div class="left-spine"></div><div class="deco-num">07</div>
+        <div class="content">
+          <div class="label">próximo paso</div>
+          <div class="cta-headline-out">querés hackear tu CV para más entrevistas?</div>
+          <div class="cta-card">
+            <div class="lime-badge">POR TIEMPO LIMITADO</div>
+            <div class="cta-offer">Puntuacion ATS de tu CV - gratis</div>
+            <div class="cta-offer">CV hackeado y listo para descargar - gratis</div>
+            <div class="cta-fine">Las dos cosas gratis, por tiempo limitado. Sin tarjeta.</div>
+            <div class="url-box">
+              <span class="url-text">WORQAI.IO</span>
+            </div>
+            <div class="cta-closing">Subí tu CV a worqai.io. Te decimos que hacks aplicar y te devolvemos el CV listo. En español o en inglés.</div>
+            <div class="cta-micro">Tu puntuacion es un manual, no un veredicto.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">07 / 07</div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="prev">&#8249;</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+      <span class="dot" onclick="go(5)"></span>
+      <span class="dot" onclick="go(6)"></span>
+    </div>
+    <button class="btn" id="next">&#8250;</button>
+  </div>
+  <div class="hint">flechas &#8592; &#8594; &#183; swipe &#183; click los puntos</div>
+</div>
+</div>
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+const wrap=document.getElementById('wrap');
+
+function go(n){
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  track.style.transform='translateX(-'+cur*1080+'px)';
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  if(prevBtn) prevBtn.disabled=cur===0;
+  if(nextBtn) nextBtn.disabled=cur===slides.length-1;
+}
+function move(d){go(cur+d);}
+if(prevBtn) prevBtn.addEventListener('click',()=>move(-1));
+if(nextBtn) nextBtn.addEventListener('click',()=>move(1));
+
+// --- ELEMENT EDITOR: make ALL text elements editable + draggable ---
+const EDITABLE_SELECTORS='.headline,.body-text,.glass-text,.glass-tag,.stat-context,.stat-ctx,.proof-stmt,.proof-ctx,.cta-headline-out,.cta-headline-above,.cta-offer,.cta-fine,.cta-closing,.cta-micro,.url-text,.hook-display,.hook-sub,.label,.lime-badge,.pill-tag,.source-tag,.src,.site-url,.counter,.brand-anchor,.proof-city,.proof-metric,.deco-num,.cta-headline';
+document.querySelectorAll(EDITABLE_SELECTORS).forEach(el=>{
+  el.contentEditable='true';
+  el.dataset.editable='true';
+  el.dataset.movable='true';
+  el.style.position='relative';
+  el.style.cursor='move';
+  el.title='Click to edit. Drag to move.';
+});
+
+// Also make glass-blocks, cta-cards, hook-stacks draggable as units
+const CONTAINER_SELECTORS='.glass-block,.cta-card,.hook-stack,.content,.swipe-pill,.url-box,.pill-tag';
+document.querySelectorAll(CONTAINER_SELECTORS).forEach(el=>{
+  el.dataset.movable='true';
+  el.style.position='relative';
+  el.style.cursor='move';
+});
+
+// --- FIND DRAGGABLE ELEMENT (handle text nodes) ---
+function findDraggable(el){
+  // If text node, get parent element first
+  if(el && el.nodeType!==1) el=el.parentElement;
+  while(el && el!==document.body && !el.classList.contains('wrap')){
+    if(el.dataset && el.dataset.movable==='true') return el;
+    el=el.parentElement;
+  }
+  return null;
+}
+
+// --- RESTORE SAVED POSITIONS ---
+function restoreOffsets(){
+  document.querySelectorAll('[data-dx]').forEach(el=>{
+    const dx=parseFloat(el.dataset.dx||0);
+    const dy=parseFloat(el.dataset.dy||0);
+    if(dx||dy) el.style.transform='translate('+dx+'px,'+dy+'px)';
+  });
+}
+restoreOffsets();
+
+// --- UNIFIED DRAG: element vs slide ---
+let dragEl=null, dragStartX=0, dragStartY=0, elStartX=0, elStartY=0;
+let isDragging=false;
+let slideDrag=false, slideDragStartX=0, slideStartTrans=0, slideScale=1;
+
+wrap.addEventListener('mousedown',function(e){
+  // 1. Try to find a draggable element or container
+  const el=findDraggable(e.target);
+  if(el){
+    dragEl=el;
+    dragStartX=e.clientX;
+    dragStartY=e.clientY;
+    isDragging=false;
+    elStartX=parseFloat(dragEl.dataset.dx||0);
+    elStartY=parseFloat(dragEl.dataset.dy||0);
+    // DO NOT preventDefault — let browser place cursor for editing
+    return;
+  }
+  // 2. Slide drag on empty background
+  slideDrag=true;
+  slideDragStartX=e.clientX;
+  const cage=document.querySelector('.preview-cage');
+  if(cage){
+    const rect=cage.getBoundingClientRect();
+    const w=parseFloat(getComputedStyle(cage).width);
+    if(w>0) slideScale=rect.width/w;
+  }
+  slideStartTrans=-cur*1080;
+  wrap.style.cursor='grabbing';
+  track.style.transition='none';
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove',function(e){
+  if(dragEl){
+    const dx=e.clientX-dragStartX;
+    const dy=e.clientY-dragStartY;
+    if(!isDragging && (Math.abs(dx)>3||Math.abs(dy)>3)){
+      isDragging=true;
+      e.preventDefault(); // prevent text selection during drag
+      dragEl.dataset.dragging='true';
+      wrap.style.cursor='grabbing';
+    }
+    if(isDragging){
+      dragEl.style.transform='translate('+(elStartX+dx)+'px,'+(elStartY+dy)+'px)';
+    }
+    return;
+  }
+  if(slideDrag){
+    const dx=(e.clientX-slideDragStartX)/slideScale;
+    track.style.transform='translateX('+(slideStartTrans+dx)+'px)';
+  }
+});
+
+document.addEventListener('mouseup',function(e){
+  if(dragEl){
+    if(isDragging){
+      const dx=e.clientX-dragStartX;
+      const dy=e.clientY-dragStartY;
+      dragEl.dataset.dx=elStartX+dx;
+      dragEl.dataset.dy=elStartY+dy;
+      delete dragEl.dataset.dragging;
+    }
+    dragEl=null;
+    isDragging=false;
+    wrap.style.cursor='grab';
+    return;
+  }
+  if(slideDrag){
+    const dx=(e.clientX-slideDragStartX)/slideScale;
+    slideDrag=false;
+    wrap.style.cursor='grab';
+    track.style.transition='transform 0.42s cubic-bezier(0.4,0,0.2,1)';
+    if(Math.abs(dx)>120) move(dx<0?1:-1);
+    else go(cur);
+  }
+});
+
+// --- TOUCH SWIPE (mobile) ---
+let sx=0;
+wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+
+// --- KEYBOARD NAV ---
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+
+wrap.style.cursor='grab';
+go(0);
+</script>
+</body>
+</html>

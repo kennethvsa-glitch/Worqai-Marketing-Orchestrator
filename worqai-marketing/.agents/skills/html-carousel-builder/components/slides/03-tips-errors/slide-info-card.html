@@ -1,0 +1,35 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-info-card",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: INFO CARD
+Purpose: S3-S6 — Single highlighted info block.
+-->
+
+<div class="content">
+  <p class="tip-label">Dato clave</p>
+  <h2 class="tip-headline">El ATS decide en segundos</h2>
+  <div class="info-card">
+    <div class="info-icon">i</div>
+    <div class="info-body">
+      <p class="info-title">6 segundos promedio</p>
+      <p class="info-desc">Es todo el tiempo que un reclutador pasa en tu CV antes de decidir. Si no encuentra lo que busca en ese lapso, pasa al siguiente.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.info-card { display: flex; align-items: flex-start; gap: 24px; padding: 32px; background: rgba(255,255,255,0.03); border: 1px solid var(--accent-line); border-radius: 14px; margin-top: 28px; }
+.info-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--accent-soft); display: flex; align-items: center; justify-content: center; font-family: var(--font-display), system-ui, sans-serif; font-size: 22px; font-weight: 900; color: var(--accent); flex-shrink: 0; }
+.info-body { display: flex; flex-direction: column; gap: 8px; }
+.info-title { font-family: var(--font-display), system-ui, sans-serif; font-size: 28px; font-weight: 700; color: var(--text-primary); }
+.info-desc { font-family: var(--font-body), system-ui, sans-serif; font-size: 18px; font-weight: 300; line-height: 1.55; color: var(--text-secondary); max-width: 720px; }
+</style>

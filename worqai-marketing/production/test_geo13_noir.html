@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>GEO-13 test · NOIR GOLD · left-bleed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #060606;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  gap: 32px;
+}
+.label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+}
+
+.cage { width: 1080px; margin: 0 auto; }
+@media (min-width: 1200px) {
+  .cage { transform: scale(0.5); transform-origin: top center; height: 540px; }
+}
+
+/* ── SLIDE ────────────────────────────────────────────────── */
+.slide {
+  position: relative;
+  width: 1080px; height: 1080px;
+  overflow: hidden; border-radius: 24px;
+  background: linear-gradient(148deg, #100A00 0%, #0A0800 55%, #1A1000 100%);
+  box-shadow: 0 40px 100px rgba(20,10,0,0.9), 0 0 0 1px rgba(240,180,0,0.08);
+}
+
+/* GRAIN */
+.slide::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px; mix-blend-mode: overlay; opacity: 0.10;
+  pointer-events: none;
+}
+
+/* ATMOSPHERIC — gold top-right + amber bottom-left */
+.slide::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 50% at 85% 20%, rgba(240,180,0,0.12), transparent 65%),
+    radial-gradient(ellipse 42% 46% at 12% 82%, rgba(255,120,0,0.09), transparent 60%);
+}
+
+/* ── GEO-13 · LEFT-BLEED VARIANT ───────────────────────────── */
+.pw-wrap {
+  position: absolute; inset: 0;
+  perspective: 600px;
+  overflow: hidden;
+  pointer-events: none; z-index: 2;
+}
+.pw-grid {
+  position: absolute;
+  width: 160%; height: 160%;
+  top: -10%; left: -20%;
+  transform-origin: 50% 100%;
+  transform: rotateX(58deg) rotateZ(12deg);
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(240,180,0,0.18) 0, rgba(240,180,0,0.18) 1px,
+      transparent 1px, transparent 80px),
+    repeating-linear-gradient(90deg,
+      rgba(240,180,0,0.18) 0, rgba(240,180,0,0.18) 1px,
+      transparent 1px, transparent 80px);
+  /* fade toward right (content zone) */
+  -webkit-mask-image: linear-gradient(65deg, black 18%, rgba(0,0,0,0.5) 50%, transparent 75%);
+  mask-image:         linear-gradient(65deg, black 18%, rgba(0,0,0,0.5) 50%, transparent 75%);
+}
+
+/* GLOW — mirrors where the grid is */
+.glow-main {
+  position: absolute; width: 680px; height: 680px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,180,0,0.16) 0%, transparent 65%);
+  filter: blur(90px); pointer-events: none; z-index: 3;
+  top: -18%; left: -12%;
+}
+.glow-secondary {
+  position: absolute; width: 360px; height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,100,0,0.18) 0%, transparent 65%);
+  filter: blur(55px); pointer-events: none; z-index: 3;
+  bottom: 8%; right: -6%;
+}
+
+/* GHOST */
+.ghost {
+  position: absolute; z-index: 2;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 480px; line-height: 0.85; letter-spacing: -0.05em;
+  color: rgba(240,180,0,0.042); pointer-events: none; user-select: none;
+  bottom: -18%; right: -10%;
+}
+
+/* CONTENT — pushed right so grid stays visible on left */
+.content {
+  position: relative; z-index: 5;
+  height: 100%;
+  /* more left padding on left-bleed to clear the grid */
+  padding: 96px 88px 140px 108px;
+  display: flex; flex-direction: column;
+}
+.lbl {
+  font-size: 18px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #F0B400; margin-bottom: 28px;
+}
+.hdl {
+  font-weight: 700; font-size: 68px;
+  line-height: 1.06; letter-spacing: -0.025em; color: #FFF8E7;
+}
+.hdl .hi { color: #F0B400; }
+
+/* GLASS BLOCKS */
+.glass-block {
+  padding: 28px 32px; border-radius: 18px;
+  background: rgba(255,255,255,0.055);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.09);
+  margin-bottom: 14px; margin-top: 6px;
+}
+.glass-block.bad  { background: rgba(255,80,0,0.10);  border-color: rgba(255,80,0,0.20); }
+.glass-block.good { background: rgba(240,180,0,0.09); border-color: rgba(240,180,0,0.22); }
+.glass-tag {
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 10px;
+}
+.glass-block.bad  .glass-tag { color: #FF6030; }
+.glass-block.good .glass-tag { color: #F0B400; }
+.glass-text { font-size: 24px; font-weight: 500; line-height: 1.42; color: #FFF8E7; }
+
+/* PROGRESS */
+.prog { display: flex; gap: 12px; margin-top: auto; padding-top: 10px; }
+.pd { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,248,231,0.18); }
+.pd.on { color: #F0B400; }
+
+/* BRAND + COUNTER */
+.brand {
+  position: absolute; bottom: 46px; left: 108px; z-index: 5;
+  font-weight: 700; font-size: 30px; letter-spacing: -1.2px;
+  text-transform: lowercase; color: #FFF8E7;
+}
+.brand .ai { color: #F0B400; }
+.counter {
+  position: absolute; bottom: 50px; right: 88px; z-index: 5;
+  font-weight: 500; font-size: 18px; letter-spacing: 0.2em;
+  color: rgba(255,248,231,0.35);
+}
+</style>
+</head>
+<body>
+
+<div class="label">NOIR GOLD · GEO-13 LEFT-BLEED · error slide layout</div>
+<div class="cage">
+  <div class="slide">
+
+    <!-- GEO-13 left-bleed -->
+    <div class="pw-wrap">
+      <div class="pw-grid"></div>
+    </div>
+
+    <div class="glow-main"></div>
+    <div class="glow-secondary"></div>
+    <div class="ghost">01</div>
+
+    <div class="content">
+      <div class="lbl">error 01 / 04</div>
+      <div class="hdl">Mandas el mismo CV<br>a <span class="hi">todas</span> las vacantes.</div>
+
+      <div style="margin-top:38px;">
+        <div class="glass-block bad">
+          <div class="glass-tag">consecuencia</div>
+          <div class="glass-text">El ATS no encuentra las keywords del puesto y te descarta en segundos.</div>
+        </div>
+        <div class="glass-block good">
+          <div class="glass-tag">fix</div>
+          <div class="glass-text">Copiá 3 palabras clave del job description y ponlas exactamente en tu resumen.</div>
+        </div>
+      </div>
+
+      <div class="prog">
+        <span class="pd on">01</span>
+        <span class="pd">02</span>
+        <span class="pd">03</span>
+        <span class="pd">04</span>
+      </div>
+    </div>
+
+    <div class="brand"><span>worq</span><span class="ai">ai</span></div>
+    <div class="counter">03 / 08</div>
+
+  </div>
+</div>
+
+</body>
+</html>

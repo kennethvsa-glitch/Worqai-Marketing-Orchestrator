@@ -1,0 +1,1254 @@
+diff --git a/db.sql b/db.sql
+index 11c58a9dbcf6b6c32452d67776e6f92420aeaa3c..7853ee75b5c63fe9151d5962955f663721ad8ae9 100644
+--- a/db.sql
++++ b/db.sql
+@@ -91,6 +91,35 @@ create index user_billing_usage_user_id_idx      on public.user_billing_usage (u
+ alter table public.user_billing_usage enable row level security;
+ 
+ 
++-- ----------------------------------------------------------------------------
++-- marketing_conversions: privacy-safe, server-authoritative paid orders.
++-- RLS on, no policies: server-only via the verified Polar webhook.
++-- ----------------------------------------------------------------------------
++create table public.marketing_conversions (
++  id                  uuid not null primary key default gen_random_uuid(),
++  provider            text not null check (provider in ('polar')),
++  provider_order_id   text not null unique,
++  event_name          text not null check (event_name in ('purchase')),
++  plan                text not null check (plan in ('monthly','bundle','other')),
++  amount_minor        integer not null check (amount_minor >= 0),
++  currency            text not null check (currency ~ '^[A-Z]{3}$'),
++  checkout_surface    text not null check (checkout_surface in ('pricing','audit','workbench','unknown')),
++  first_touch_source  text not null check (first_touch_source in ('direct','google','bing','linkedin','reddit','facebook','instagram','tiktok','other_search','other_referral','other_campaign','unknown')),
++  first_touch_medium  text not null check (first_touch_medium in ('direct','organic','paid','social','referral','email','other','unknown')),
++  first_touch_landing text not null check (first_touch_landing in ('home','audit','pricing','tool','content','other','unknown')),
++  first_touch_locale  text not null check (first_touch_locale in ('es','en','unknown')),
++  purchased_at        timestamptz not null,
++  created_at          timestamptz not null default now()
++);
++
++create index marketing_conversions_purchased_at_idx
++  on public.marketing_conversions (purchased_at desc);
++create index marketing_conversions_attribution_idx
++  on public.marketing_conversions (first_touch_source, first_touch_medium, purchased_at desc);
++
++alter table public.marketing_conversions enable row level security;
++
++
+ -- ----------------------------------------------------------------------------
+ -- anon_ats_usage: anonymous /auditoria ATS scan cap (per token + per IP hash).
+ -- RLS on, no policies: server-only via service-role (which bypasses RLS).
+diff --git a/docs/analytics.md b/docs/analytics.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7c1498a461e4415a25cb4dfab6a79192312226f8
+--- /dev/null
++++ b/docs/analytics.md
+@@ -0,0 +1,33 @@
++# Analytics contract
++
++Worqai sends only closed, typed conversion properties to Vercel Analytics.
++Résumé content, job descriptions, names, email addresses, session/order IDs,
++raw URLs, referrers, and raw UTM values are excluded.
++
++## Required mount
++
++The locale layout already owns `<Analytics />`. Add the standalone first-touch
++bootstrap beside it; this is the only global integration required:
++
++```tsx
++import { AnalyticsBootstrap } from "@/components/analytics/analytics-bootstrap";
++
++<AnalyticsBootstrap />
++<Analytics />
++```
++
++Without this mount, checkout still captures a safe attribution value, but it
++will describe the checkout page rather than the browser's original landing.
++
++## Event semantics
++
++- `audit_start`: the API accepted the request, not merely a file selection.
++- `audit_complete`: polling observed the authoritative `audited` status.
++- `signup_complete`: the fresh-account welcome page observed an authenticated user.
++- `tailor_complete`: polling observed the authoritative `tailored` status.
++- `checkout_start`: Polar created a checkout session successfully.
++- `purchase`: a verified Polar `order.paid` webhook was durably inserted.
++
++Apply `scripts/migrations/2026-07-13-marketing-conversions.sql` before deploying
++the webhook changes.
++
+diff --git a/scripts/migrations/2026-07-13-marketing-conversions.sql b/scripts/migrations/2026-07-13-marketing-conversions.sql
+new file mode 100644
+index 0000000000000000000000000000000000000000..e6f2691f2ef8c8e53fcf6ee5ada89d2cb407e554
+--- /dev/null
++++ b/scripts/migrations/2026-07-13-marketing-conversions.sql
+@@ -0,0 +1,28 @@
++-- Privacy-safe, server-authoritative purchase attribution.
++-- No customer identifiers, email, IP, CV/job content, or raw URLs/UTMs.
++
++create table public.marketing_conversions (
++  id                  uuid not null primary key default gen_random_uuid(),
++  provider            text not null check (provider in ('polar')),
++  provider_order_id   text not null unique,
++  event_name          text not null check (event_name in ('purchase')),
++  plan                text not null check (plan in ('monthly','bundle','other')),
++  amount_minor        integer not null check (amount_minor >= 0),
++  currency            text not null check (currency ~ '^[A-Z]{3}$'),
++  checkout_surface    text not null check (checkout_surface in ('pricing','audit','workbench','unknown')),
++  first_touch_source  text not null check (first_touch_source in ('direct','google','bing','linkedin','reddit','facebook','instagram','tiktok','other_search','other_referral','other_campaign','unknown')),
++  first_touch_medium  text not null check (first_touch_medium in ('direct','organic','paid','social','referral','email','other','unknown')),
++  first_touch_landing text not null check (first_touch_landing in ('home','audit','pricing','tool','content','other','unknown')),
++  first_touch_locale  text not null check (first_touch_locale in ('es','en','unknown')),
++  purchased_at        timestamptz not null,
++  created_at          timestamptz not null default now()
++);
++
++create index marketing_conversions_purchased_at_idx
++  on public.marketing_conversions (purchased_at desc);
++create index marketing_conversions_attribution_idx
++  on public.marketing_conversions (first_touch_source, first_touch_medium, purchased_at desc);
++
++alter table public.marketing_conversions enable row level security;
++-- Intentionally no client policies. Service-role webhook writes only.
++
+diff --git a/src/app/[locale]/bienvenida/page.tsx b/src/app/[locale]/bienvenida/page.tsx
+index 5f38760229969bd53954de6a412780dc4dd87518..2fb18e69981c4d487ef8be766a03ec1d40166fb6 100644
+--- a/src/app/[locale]/bienvenida/page.tsx
++++ b/src/app/[locale]/bienvenida/page.tsx
+@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
+ import { createClient } from "@/utils/supabase/server";
+ import { sanitizeNextPath } from "@/lib/auth/safe-next";
+ import { ReferralSourceForm } from "@/components/onboarding/referral-source-form";
++import { SignupCompleteTracker } from "@/components/analytics/signup-complete-tracker";
+ import {
+   Card,
+   CardContent,
+@@ -71,9 +72,11 @@ export default async function BienvenidaPage({ searchParams }: BienvenidaPagePro
+   }
+ 
+   const t = await getTranslations("onboarding.referral");
++  const signupMethod = user.app_metadata.provider === "email" ? "email" : "oauth";
+ 
+   return (
+     <main className="flex flex-1 items-center justify-center px-4 py-12">
++      <SignupCompleteTracker locale={locale} method={signupMethod} />
+       <Card className="w-full max-w-md rounded-[28px]">
+         <CardHeader className="text-center">
+           <CardTitle className="text-xl">{t("title")}</CardTitle>
+diff --git a/src/app/api/polar/checkout/route.ts b/src/app/api/polar/checkout/route.ts
+index 1b8088d018232067671516e6b680ae1c87fe5f70..80ea34a81e80467c88b6dfc84d04f6735cf1cd64 100644
+--- a/src/app/api/polar/checkout/route.ts
++++ b/src/app/api/polar/checkout/route.ts
+@@ -7,10 +7,27 @@ import { handleRouteError } from '@/app/api/_helpers/route-handler-utils';
+ import { supabaseAdmin } from '@/lib/db/supabase-admin';
+ import { ANON_TOKEN_COOKIE } from '@/lib/ats/anon-cookie';
+ import { claimAnonSession } from '@/lib/db/ats-sessions';
++import {
++  ATTRIBUTION_MEDIA,
++  ATTRIBUTION_SOURCES,
++  CHECKOUT_SURFACES,
++  LANDING_GROUPS,
++  normalizeAnalyticsLocale,
++} from '@/lib/analytics/contract';
++import { trackServerEvent } from '@/lib/analytics/server';
++
++const attributionSchema = z.object({
++  source: z.enum(ATTRIBUTION_SOURCES),
++  medium: z.enum(ATTRIBUTION_MEDIA),
++  landing: z.enum(LANDING_GROUPS),
++  locale: z.enum(['es', 'en']),
++});
+ 
+ const bodySchema = z.object({
+   plan: z.enum(['monthly', 'bundle']),
+   locale: z.string().optional(),
++  surface: z.enum(CHECKOUT_SURFACES).default('pricing'),
++  attribution: attributionSchema.optional(),
+   // When present, the checkout originated from an ATS audit conversion: land
+   // the user back in the Improve workbench with that session preloaded.
+   sessionId: z.string().uuid().optional(),
+@@ -25,8 +42,14 @@ export async function POST(request: NextRequest) {
+     if (!parsed.success) {
+       return NextResponse.json({ error: 'invalid_plan' }, { status: 400 });
+     }
+-    const { plan, sessionId } = parsed.data;
+-    const locale = resolveAppLocale(parsed.data.locale);
++    const { plan, sessionId, surface } = parsed.data;
++    const locale = normalizeAnalyticsLocale(resolveAppLocale(parsed.data.locale));
++    const attribution = parsed.data.attribution ?? {
++      source: 'direct' as const,
++      medium: 'direct' as const,
++      landing: 'other' as const,
++      locale,
++    };
+ 
+     // Defense in depth: if this is an audit conversion, make sure the session is
+     // bound to the user before checkout (the explicit claim call may have been
+@@ -117,17 +140,31 @@ export async function POST(request: NextRequest) {
+         successUrl,
+         returnUrl: cancelUrl,
+         locale: POLAR_LOCALE,
+-        // Store sessionId as metadata if present for audit conversion tracking
+-        ...(sessionId && {
+-          metadata: {
+-            session_id: sessionId,
+-          },
+-        }),
++        // Closed, classified values only. Never send raw URLs, UTM strings,
++        // CV/job text, email, or other user-provided content to Polar metadata.
++        metadata: {
++          ...(sessionId ? { session_id: sessionId } : {}),
++          checkout_plan: plan,
++          checkout_surface: surface,
++          first_touch_source: attribution.source,
++          first_touch_medium: attribution.medium,
++          first_touch_landing: attribution.landing,
++          first_touch_locale: attribution.locale,
++        },
+       });
+     } catch (error) {
+       throw new Error(`Failed to create Polar checkout: ${error instanceof Error ? error.message : 'unknown error'}`);
+     }
+ 
++    await trackServerEvent('checkout_start', {
++      locale,
++      plan,
++      surface,
++      first_touch_source: attribution.source,
++      first_touch_medium: attribution.medium,
++      first_touch_landing: attribution.landing,
++    }, request);
++
+     return NextResponse.json({
+       url: checkout.url,
+     });
+diff --git a/src/app/api/polar/webhook/route.ts b/src/app/api/polar/webhook/route.ts
+index 5f6f8f909bcd62b78b9b775c1624a8bb48168258..c89adca8b50a4e66df749c141e7299a993c7010f 100644
+--- a/src/app/api/polar/webhook/route.ts
++++ b/src/app/api/polar/webhook/route.ts
+@@ -10,6 +10,8 @@ import type { WebhookCustomerStateChangedPayload } from '@polar-sh/sdk/models/co
+ import { syncSubscriptionToProfile } from '@/lib/polar/sync';
+ import { supabaseAdmin } from '@/lib/db/supabase-admin';
+ import { getBundleProductId } from '@/lib/polar/config';
++import { recordPurchase } from '@/lib/analytics/purchase';
++import { trackServerEvent } from '@/lib/analytics/server';
+ 
+ const WEBHOOK_SECRET = process.env.POLAR_WEBHOOK_SECRET;
+ 
+@@ -71,6 +73,19 @@ export async function POST(request: NextRequest) {
+       // If subscription.created fires first, this is defensive backup.
+       const payload = event as WebhookOrderPaidPayload;
+       const externalCustomerId = payload.data.customer?.externalId as string | undefined;
++
++      const purchase = await recordPurchase({
++        orderId: payload.data.id,
++        productId: payload.data.productId,
++        amountMinor: payload.data.totalAmount,
++        currency: payload.data.currency,
++        purchasedAt: payload.data.createdAt,
++        metadata: payload.data.metadata,
++      });
++      if (purchase.inserted) {
++        await trackServerEvent('purchase', purchase.properties, request);
++      }
++
+       if (externalCustomerId) {
+         // Try to link customer if not already linked
+         const customerId = payload.data.customerId;
+diff --git a/src/components/analytics/analytics-bootstrap.tsx b/src/components/analytics/analytics-bootstrap.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..68ccc6b88639d4622e2d02d32814ecebfd7ab6a0
+--- /dev/null
++++ b/src/components/analytics/analytics-bootstrap.tsx
+@@ -0,0 +1,13 @@
++"use client";
++
++import { useEffect } from "react";
++import { getFirstTouchAttribution } from "@/lib/analytics/attribution";
++
++/** Mount once near <Analytics /> so later conversions retain the true first page. */
++export function AnalyticsBootstrap() {
++  useEffect(() => {
++    getFirstTouchAttribution();
++  }, []);
++  return null;
++}
++
+diff --git a/src/components/analytics/signup-complete-tracker.tsx b/src/components/analytics/signup-complete-tracker.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b4dd3c1bfa499641afe0c8b66607626443649b2
+--- /dev/null
++++ b/src/components/analytics/signup-complete-tracker.tsx
+@@ -0,0 +1,20 @@
++"use client";
++
++import { useEffect } from "react";
++import { trackClientEventOnce } from "@/lib/analytics/client";
++import type { AnalyticsLocale } from "@/lib/analytics/contract";
++
++export function SignupCompleteTracker({
++  locale,
++  method,
++}: {
++  locale: AnalyticsLocale;
++  method: "email" | "oauth";
++}) {
++  useEffect(() => {
++    // The welcome page is only rendered for a freshly authenticated account.
++    trackClientEventOnce("signup_complete", { locale, method }, "fresh-account");
++  }, [locale, method]);
++  return null;
++}
++
+diff --git a/src/components/ats/audit-upload.tsx b/src/components/ats/audit-upload.tsx
+index 6cd3054c8740837a4460a8c398b45feff7f83499..093b1c3ef223f036db7acb0f43968630d69bd13a 100644
+--- a/src/components/ats/audit-upload.tsx
++++ b/src/components/ats/audit-upload.tsx
+@@ -4,11 +4,13 @@ import { useCallback, useState } from "react";
+ import { useDropzone } from "react-dropzone";
+ import { Upload, FileText, Loader2, AlertCircle } from "lucide-react";
+ import { cn } from "@/lib/utils";
+-import { useTranslations } from "next-intl";
++import { useLocale, useTranslations } from "next-intl";
+ import { useRouter, Link } from "@/i18n/navigation";
+ import { translateErrorCode } from "@/lib/errors/translate";
+ import type { ParsedCV } from "@/types/cv";
+ import type { AtsReport } from "@/types/ats";
++import { trackClientEventOnce } from "@/lib/analytics/client";
++import { normalizeAnalyticsLocale } from "@/lib/analytics/contract";
+ 
+ export interface AuditResult {
+   parsedCV: ParsedCV;
+@@ -32,6 +34,7 @@ export function AuditUpload({ onComplete }: AuditUploadProps) {
+   const tParseCv = useTranslations("errors.parseCv");
+   const tApi = useTranslations("errors.api");
+   const router = useRouter();
++  const locale = normalizeAnalyticsLocale(useLocale());
+ 
+   const [uploading, setUploading] = useState(false);
+   const [error, setError] = useState<string | null>(null);
+@@ -98,7 +101,18 @@ export function AuditUpload({ onComplete }: AuditUploadProps) {
+           throw new Error(msg ?? t("error"));
+         }
+ 
++        trackClientEventOnce(
++          "audit_start",
++          { locale, surface: "public" },
++          data.sessionId,
++        );
++
+         const result = await pollUntilAudited(data.sessionId);
++        trackClientEventOnce(
++          "audit_complete",
++          { locale, surface: "public" },
++          result.sessionId,
++        );
+         onComplete(result);
+       } catch (err) {
+         setErrorKind("generic");
+@@ -108,7 +122,7 @@ export function AuditUpload({ onComplete }: AuditUploadProps) {
+         setUploading(false);
+       }
+     },
+-    [onComplete, t, tApi, tParseCv, pollUntilAudited]
++    [locale, onComplete, t, tApi, tParseCv, pollUntilAudited]
+   );
+ 
+   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+diff --git a/src/components/ats/use-audit-conversion.ts b/src/components/ats/use-audit-conversion.ts
+index 3501a3c6b590e2c19b136a5c9c395f7f8a05f200..f8c3bec1cb3acc0fef3494fca022321c71b8003a 100644
+--- a/src/components/ats/use-audit-conversion.ts
++++ b/src/components/ats/use-audit-conversion.ts
+@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
+ import { useLocale, useTranslations } from "next-intl";
+ import { toast } from "sonner";
+ import { useRouter } from "@/i18n/navigation";
++import { getFirstTouchAttribution } from "@/lib/analytics/attribution";
+ 
+ export type AuditPlan = "bundle" | "monthly";
+ 
+@@ -36,7 +37,13 @@ export function useAuditConversion() {
+         const res = await fetch("/api/polar/checkout", {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+-          body: JSON.stringify({ plan, locale, sessionId }),
++          body: JSON.stringify({
++            plan,
++            locale,
++            sessionId,
++            surface: "audit",
++            attribution: getFirstTouchAttribution(),
++          }),
+         });
+ 
+         if (res.status === 401) {
+diff --git a/src/components/job-input-form.tsx b/src/components/job-input-form.tsx
+index 950a03f5fa221aff66b905207d1f8f9e6bab6263..9ae034e853c90f6ccd4a754c45249c2dd0217412 100644
+--- a/src/components/job-input-form.tsx
++++ b/src/components/job-input-form.tsx
+@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
+ import { Label } from "@/components/ui/label";
+ import { Checkbox } from "@/components/ui/checkbox";
+ import { Loader2 } from "lucide-react";
+-import { useTranslations } from "next-intl";
++import { useLocale, useTranslations } from "next-intl";
+ import { translateErrorCode } from "@/lib/errors/translate";
+ import { apiFetch } from "@/lib/api/api-fetch";
+ import { pollSessionStatus } from "@/lib/api/poll-session";
+ import type { OutputLanguage } from "@/lib/validators/schemas";
++import { trackClientEventOnce } from "@/lib/analytics/client";
++import { normalizeAnalyticsLocale } from "@/lib/analytics/contract";
+ 
+ interface JobInputFormProps {
+   parsedCV: object | null;
+@@ -54,6 +56,7 @@ export function JobInputForm({
+   const tRoot = useTranslations();
+   const tParseCv = useTranslations("errors.parseCv");
+   const tApi = useTranslations("errors.api");
++  const locale = normalizeAnalyticsLocale(useLocale());
+   const [companyName, setCompanyName] = useState(initialCompanyName);
+   const [roleDescription, setRoleDescription] = useState(initialRoleDescription);
+   const [jobDescription, setJobDescription] = useState(initialJobDescription);
+@@ -125,6 +128,11 @@ export function JobInputForm({
+           ),
+         buildTimeoutError: () => new Error(t("timeout")),
+       });
++      trackClientEventOnce(
++        "tailor_complete",
++        { locale },
++        postData.sessionId,
++      );
+       onResult();
+     } catch (err) {
+       setError(
+diff --git a/src/components/marketing/pricing-checkout-button.tsx b/src/components/marketing/pricing-checkout-button.tsx
+index cc85b233ead42142e1f50769a76dd6254071d4eb..6179f723ef7a3e37390900fabaec0e6a89e9dd62 100644
+--- a/src/components/marketing/pricing-checkout-button.tsx
++++ b/src/components/marketing/pricing-checkout-button.tsx
+@@ -6,6 +6,8 @@ import { useSearchParams } from "next/navigation";
+ import { toast } from "sonner";
+ import { useRouter, usePathname } from "@/i18n/navigation";
+ import { useUser } from "@/lib/auth/auth-provider";
++import { getFirstTouchAttribution } from "@/lib/analytics/attribution";
++import type { CheckoutSurface } from "@/lib/analytics/contract";
+ 
+ type Plan = "bundle" | "monthly";
+ 
+@@ -18,6 +20,7 @@ interface PricingCheckoutButtonProps {
+   label: string;
+   note?: string;
+   featured?: boolean;
++  surface?: CheckoutSurface;
+ }
+ 
+ /**
+@@ -32,6 +35,7 @@ export function PricingCheckoutButton({
+   label,
+   note,
+   featured,
++  surface = "pricing",
+ }: PricingCheckoutButtonProps) {
+   const t = useTranslations("checkout");
+   const { user, loading } = useUser();
+@@ -49,7 +53,12 @@ export function PricingCheckoutButton({
+         const res = await fetch("/api/polar/checkout", {
+           method: "POST",
+           headers: { "Content-Type": "application/json" },
+-          body: JSON.stringify({ plan: selectedPlan, locale }),
++          body: JSON.stringify({
++            plan: selectedPlan,
++            locale,
++            surface,
++            attribution: getFirstTouchAttribution(),
++          }),
+         });
+ 
+         if (res.status === 401) {
+@@ -71,7 +80,7 @@ export function PricingCheckoutButton({
+         setPending(false);
+       }
+     },
+-    [locale, pathname, router, t]
++    [locale, pathname, router, surface, t]
+   );
+ 
+   const onClick = useCallback(() => {
+diff --git a/src/components/workbench/panes/ats-scoring-pane.tsx b/src/components/workbench/panes/ats-scoring-pane.tsx
+index 96b7cd99913baf79351563e2f8d5d6888c05438d..907d07d307ae54d60afff5e63906d7f298c07476 100644
+--- a/src/components/workbench/panes/ats-scoring-pane.tsx
++++ b/src/components/workbench/panes/ats-scoring-pane.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import { useCallback, useEffect, useState } from "react";
+-import { useTranslations } from "next-intl";
++import { useLocale, useTranslations } from "next-intl";
+ import { useRouter as useNextRouter } from "next/navigation";
+ import { useRouter } from "@/i18n/navigation";
+ import { toast } from "sonner";
+@@ -18,6 +18,8 @@ import { translateErrorCode } from "@/lib/errors/translate";
+ import type { HistorySession } from "@/types/history";
+ import type { ParsedCV } from "@/types/cv";
+ import type { AtsReport } from "@/types/ats";
++import { trackClientEventOnce } from "@/lib/analytics/client";
++import { normalizeAnalyticsLocale } from "@/lib/analytics/contract";
+ 
+ interface AtsScoringPaneProps {
+   session: HistorySession | null;
+@@ -46,6 +48,7 @@ export function AtsScoringPane({
+   const tApi = useTranslations("errors.api");
+   const router = useRouter();
+   const nextRouter = useNextRouter();
++  const locale = normalizeAnalyticsLocale(useLocale());
+ 
+   const status = session?.status ?? null;
+ 
+@@ -105,6 +108,12 @@ export function AtsScoringPane({
+         throw new Error(msg ?? tAud("upload.error"));
+       }
+ 
++      trackClientEventOnce(
++        "audit_start",
++        { locale, surface: "workbench" },
++        sessionId,
++      );
++
+       await pollSessionStatus({
+         endpoint: "/api/ats",
+         sessionId,
+@@ -117,6 +126,12 @@ export function AtsScoringPane({
+         timeoutMs: 120_000,
+       });
+ 
++      trackClientEventOnce(
++        "audit_complete",
++        { locale, surface: "workbench" },
++        sessionId,
++      );
++
+       await loadAudited(sessionId);
+       nextRouter.refresh();
+     } catch (err) {
+diff --git a/src/components/workbench/panes/tailor-pane.tsx b/src/components/workbench/panes/tailor-pane.tsx
+index 3f5b32c14e9ad046f21c144ca10e00c968779919..1ab72fbcd8ae92ed702f4992a075ab490f76d33f 100644
+--- a/src/components/workbench/panes/tailor-pane.tsx
++++ b/src/components/workbench/panes/tailor-pane.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import { useCallback, useEffect, useState } from "react";
+-import { useTranslations } from "next-intl";
++import { useLocale, useTranslations } from "next-intl";
+ import { useRouter as useNextRouter } from "next/navigation";
+ import { toast } from "sonner";
+ import { Card } from "@/components/ui/card";
+@@ -15,6 +15,8 @@ import { pollSessionStatus } from "@/lib/api/poll-session";
+ import { useUploadedCv } from "@/lib/hooks/use-uploaded-cv";
+ import { translateErrorCode } from "@/lib/errors/translate";
+ import type { HistorySession } from "@/types/history";
++import { trackClientEventOnce } from "@/lib/analytics/client";
++import { normalizeAnalyticsLocale } from "@/lib/analytics/contract";
+ 
+ interface TailorPaneProps {
+   session: HistorySession | null;
+@@ -28,6 +30,7 @@ export function TailorPane({ session, hasDefaultCv, locked = false }: TailorPane
+   const tParseCv = useTranslations("errors.parseCv");
+   const tApi = useTranslations("errors.api");
+   const nextRouter = useNextRouter();
++  const locale = normalizeAnalyticsLocale(useLocale());
+ 
+   const sessionId = session?.id ?? null;
+   const status = session?.status ?? null;
+@@ -86,13 +89,14 @@ export function TailorPane({ session, hasDefaultCv, locked = false }: TailorPane
+     setError(null);
+     pollUntilTailored(sessionId)
+       .then(() => {
++        trackClientEventOnce("tailor_complete", { locale }, sessionId);
+         nextRouter.refresh();
+       })
+       .catch((err: Error) => {
+         setError(err.message);
+       })
+       .finally(() => setProcessing(false));
+-  }, [status, sessionId, processing, pollUntilTailored, nextRouter]);
++  }, [status, sessionId, processing, pollUntilTailored, nextRouter, locale]);
+ 
+   function handleResult() {
+     // JobInputForm calls this when polling sees status='tailored'. The pane
+diff --git a/src/components/workbench/workbench-upgrade-modal.tsx b/src/components/workbench/workbench-upgrade-modal.tsx
+index 19e159a058fa416eadca0706a3a567d87b80f560..28504d46b68fd5b858f7a0ec22f3362db4ea1dfe 100644
+--- a/src/components/workbench/workbench-upgrade-modal.tsx
++++ b/src/components/workbench/workbench-upgrade-modal.tsx
+@@ -102,7 +102,7 @@ export function WorkbenchUpgradeModal({ open, onOpenChange }: WorkbenchUpgradeMo
+       popularLabel={t("tiers.pro.popularLabel")}
+       ctaSlot={
+         <Suspense>
+-          <PricingCheckoutButton plan="monthly" label={t("tiers.pro.cta")} featured />
++          <PricingCheckoutButton plan="monthly" label={t("tiers.pro.cta")} featured surface="workbench" />
+         </Suspense>
+       }
+     />,
+@@ -120,6 +120,7 @@ export function WorkbenchUpgradeModal({ open, onOpenChange }: WorkbenchUpgradeMo
+             plan="bundle"
+             label={t("tiers.bundle.cta")}
+             note={t("tiers.bundle.note")}
++            surface="workbench"
+           />
+         </Suspense>
+       }
+diff --git a/src/lib/analytics/attribution.ts b/src/lib/analytics/attribution.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..cbd407a424b8ab75780858d848da2db095ae0b50
+--- /dev/null
++++ b/src/lib/analytics/attribution.ts
+@@ -0,0 +1,163 @@
++import {
++  ANALYTICS_LOCALES,
++  ATTRIBUTION_MEDIA,
++  ATTRIBUTION_SOURCES,
++  LANDING_GROUPS,
++  isOneOf,
++  type AttributionMedium,
++  type AttributionSource,
++  type FirstTouchAttribution,
++  type LandingGroup,
++} from "./contract";
++
++const STORAGE_KEY = "worqai:first-touch:v1";
++
++const SEARCH_HOSTS: ReadonlyArray<[RegExp, AttributionSource]> = [
++  [/(^|\.)google\./, "google"],
++  [/(^|\.)bing\.com$/, "bing"],
++  [/(^|\.)search\.yahoo\.com$/, "other_search"],
++  [/(^|\.)duckduckgo\.com$/, "other_search"],
++];
++
++const SOCIAL_HOSTS: ReadonlyArray<[RegExp, AttributionSource]> = [
++  [/(^|\.)linkedin\.com$/, "linkedin"],
++  [/(^|\.)reddit\.com$/, "reddit"],
++  [/(^|\.)facebook\.com$/, "facebook"],
++  [/(^|\.)instagram\.com$/, "instagram"],
++  [/(^|\.)tiktok\.com$/, "tiktok"],
++];
++
++function sourceFromToken(value: string | null): AttributionSource | null {
++  const token = value?.trim().toLowerCase();
++  if (!token) return null;
++  if (token === "google") return "google";
++  if (token === "bing") return "bing";
++  if (token === "linkedin") return "linkedin";
++  if (token === "reddit") return "reddit";
++  if (token === "facebook" || token === "fb") return "facebook";
++  if (token === "instagram" || token === "ig") return "instagram";
++  if (token === "tiktok") return "tiktok";
++  return "other_campaign";
++}
++
++function mediumFromToken(value: string | null): AttributionMedium | null {
++  const token = value?.trim().toLowerCase();
++  if (!token) return null;
++  if (["cpc", "ppc", "paid", "paid_search", "paid_social"].includes(token)) {
++    return "paid";
++  }
++  if (["organic", "seo"].includes(token)) return "organic";
++  if (["social", "organic_social"].includes(token)) return "social";
++  if (token === "email") return "email";
++  if (token === "referral") return "referral";
++  return "other";
++}
++
++function landingGroup(pathname: string): LandingGroup {
++  const path = pathname.toLowerCase().replace(/^\/(es|en)(?=\/|$)/, "") || "/";
++  if (path === "/") return "home";
++  if (path.startsWith("/auditoria") || path.includes("ats")) return "audit";
++  if (path.startsWith("/precios") || path.startsWith("/pricing")) return "pricing";
++  if (path.startsWith("/blog") || path.startsWith("/recursos") || path.startsWith("/resources")) {
++    return "content";
++  }
++  if (
++    path.startsWith("/mejorar") ||
++    path.startsWith("/adaptar") ||
++    path.startsWith("/resume") ||
++    path.startsWith("/cv")
++  ) {
++    return "tool";
++  }
++  return "other";
++}
++
++function hostname(value: string): string | null {
++  if (!value) return null;
++  try {
++    return new URL(value).hostname.toLowerCase();
++  } catch {
++    return null;
++  }
++}
++
++/** Pure classifier used by the browser adapter and unit tests. */
++export function deriveFirstTouch(href: string, referrer = ""): FirstTouchAttribution {
++  const url = new URL(href);
++  const locale = url.pathname.split("/")[1] === "en" ? "en" : "es";
++  const campaignSource = sourceFromToken(url.searchParams.get("utm_source"));
++  const campaignMedium = mediumFromToken(url.searchParams.get("utm_medium"));
++
++  if (campaignSource || campaignMedium) {
++    return {
++      source: campaignSource ?? "other_campaign",
++      medium: campaignMedium ?? "other",
++      landing: landingGroup(url.pathname),
++      locale,
++    };
++  }
++
++  const referrerHost = hostname(referrer);
++  if (!referrerHost || referrerHost === url.hostname.toLowerCase()) {
++    return { source: "direct", medium: "direct", landing: landingGroup(url.pathname), locale };
++  }
++
++  for (const [pattern, source] of SEARCH_HOSTS) {
++    if (pattern.test(referrerHost)) {
++      return { source, medium: "organic", landing: landingGroup(url.pathname), locale };
++    }
++  }
++
++  for (const [pattern, source] of SOCIAL_HOSTS) {
++    if (pattern.test(referrerHost)) {
++      return { source, medium: "social", landing: landingGroup(url.pathname), locale };
++    }
++  }
++
++  return {
++    source: "other_referral",
++    medium: "referral",
++    landing: landingGroup(url.pathname),
++    locale,
++  };
++}
++
++export function isFirstTouchAttribution(value: unknown): value is FirstTouchAttribution {
++  if (!value || typeof value !== "object") return false;
++  const candidate = value as Record<string, unknown>;
++  return (
++    isOneOf(ATTRIBUTION_SOURCES, candidate.source) &&
++    isOneOf(ATTRIBUTION_MEDIA, candidate.medium) &&
++    isOneOf(LANDING_GROUPS, candidate.landing) &&
++    isOneOf(ANALYTICS_LOCALES, candidate.locale)
++  );
++}
++
++/**
++ * Returns the original classified touch for this browser. No raw URL,
++ * referrer, UTM value, or user-provided content is retained.
++ */
++export function getFirstTouchAttribution(): FirstTouchAttribution {
++  const fallback: FirstTouchAttribution = {
++    source: "direct",
++    medium: "direct",
++    landing: "other",
++    locale: "es",
++  };
++  if (typeof window === "undefined") return fallback;
++
++  try {
++    const stored = window.localStorage.getItem(STORAGE_KEY);
++    if (stored) {
++      const parsed: unknown = JSON.parse(stored);
++      if (isFirstTouchAttribution(parsed)) return parsed;
++    }
++
++    const attribution = deriveFirstTouch(window.location.href, document.referrer);
++    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(attribution));
++    return attribution;
++  } catch {
++    return deriveFirstTouch(window.location.href, document.referrer);
++  }
++}
++
+diff --git a/src/lib/analytics/client.ts b/src/lib/analytics/client.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..77ac767f3e772f4b56462e1cdf4f219ae06f89f3
+--- /dev/null
++++ b/src/lib/analytics/client.ts
+@@ -0,0 +1,34 @@
++"use client";
++
++import { track } from "@vercel/analytics";
++import type { AnalyticsEventMap, AnalyticsEventName } from "./contract";
++
++const DEDUPE_PREFIX = "worqai:event:v1:";
++
++export function trackClientEvent<Name extends AnalyticsEventName>(
++  name: Name,
++  properties: AnalyticsEventMap[Name],
++): void {
++  track(name, properties);
++}
++
++/**
++ * Dedupe keys stay in sessionStorage and are never included in the event.
++ * A session ID may be used as `dedupeKey`; it cannot reach Vercel Analytics.
++ */
++export function trackClientEventOnce<Name extends AnalyticsEventName>(
++  name: Name,
++  properties: AnalyticsEventMap[Name],
++  dedupeKey: string,
++): void {
++  if (typeof window === "undefined") return;
++  const storageKey = `${DEDUPE_PREFIX}${name}:${dedupeKey}`;
++  try {
++    if (window.sessionStorage.getItem(storageKey)) return;
++    window.sessionStorage.setItem(storageKey, "1");
++  } catch {
++    // Storage can be unavailable in privacy modes. Tracking still works.
++  }
++  trackClientEvent(name, properties);
++}
++
+diff --git a/src/lib/analytics/contract.ts b/src/lib/analytics/contract.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..1d0eda7a5b119a6f0c14b0c1471fd305cf560d94
+--- /dev/null
++++ b/src/lib/analytics/contract.ts
+@@ -0,0 +1,102 @@
++export const ANALYTICS_LOCALES = ["es", "en"] as const;
++export type AnalyticsLocale = (typeof ANALYTICS_LOCALES)[number];
++
++export const ATTRIBUTION_SOURCES = [
++  "direct",
++  "google",
++  "bing",
++  "linkedin",
++  "reddit",
++  "facebook",
++  "instagram",
++  "tiktok",
++  "other_search",
++  "other_referral",
++  "other_campaign",
++] as const;
++export type AttributionSource = (typeof ATTRIBUTION_SOURCES)[number];
++
++export const ATTRIBUTION_MEDIA = [
++  "direct",
++  "organic",
++  "paid",
++  "social",
++  "referral",
++  "email",
++  "other",
++] as const;
++export type AttributionMedium = (typeof ATTRIBUTION_MEDIA)[number];
++
++export const LANDING_GROUPS = [
++  "home",
++  "audit",
++  "pricing",
++  "tool",
++  "content",
++  "other",
++] as const;
++export type LandingGroup = (typeof LANDING_GROUPS)[number];
++
++export const CHECKOUT_SURFACES = ["pricing", "audit", "workbench"] as const;
++export type CheckoutSurface = (typeof CHECKOUT_SURFACES)[number];
++
++export interface FirstTouchAttribution {
++  source: AttributionSource;
++  medium: AttributionMedium;
++  landing: LandingGroup;
++  locale: AnalyticsLocale;
++}
++
++/**
++ * Deliberately closed event map. Callers cannot attach CV text, job text,
++ * names, email addresses, session IDs, URLs, or arbitrary campaign strings.
++ */
++export interface AnalyticsEventMap {
++  audit_start: {
++    locale: AnalyticsLocale;
++    surface: "public" | "workbench";
++  };
++  audit_complete: {
++    locale: AnalyticsLocale;
++    surface: "public" | "workbench";
++  };
++  signup_complete: {
++    locale: AnalyticsLocale;
++    method: "email" | "oauth";
++  };
++  tailor_complete: {
++    locale: AnalyticsLocale;
++  };
++  checkout_start: {
++    locale: AnalyticsLocale;
++    plan: "monthly" | "bundle";
++    surface: CheckoutSurface;
++    first_touch_source: AttributionSource;
++    first_touch_medium: AttributionMedium;
++    first_touch_landing: LandingGroup;
++  };
++  purchase: {
++    locale: AnalyticsLocale | "unknown";
++    plan: "monthly" | "bundle" | "other";
++    surface: CheckoutSurface | "unknown";
++    first_touch_source: AttributionSource | "unknown";
++    first_touch_medium: AttributionMedium | "unknown";
++    first_touch_landing: LandingGroup | "unknown";
++    currency: "usd" | "other";
++    value: number;
++  };
++}
++
++export type AnalyticsEventName = keyof AnalyticsEventMap;
++
++export function normalizeAnalyticsLocale(value: string): AnalyticsLocale {
++  return value === "en" ? "en" : "es";
++}
++
++export function isOneOf<const T extends readonly string[]>(
++  values: T,
++  value: unknown,
++): value is T[number] {
++  return typeof value === "string" && values.includes(value as T[number]);
++}
++
+diff --git a/src/lib/analytics/purchase.ts b/src/lib/analytics/purchase.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..36addbd79b08d691ba48c6a21b3256eb40d64567
+--- /dev/null
++++ b/src/lib/analytics/purchase.ts
+@@ -0,0 +1,86 @@
++import { supabaseAdmin } from "@/lib/db/supabase-admin";
++import { getBundleProductId, getMonthlySubProductId } from "@/lib/polar/config";
++import {
++  ANALYTICS_LOCALES,
++  ATTRIBUTION_MEDIA,
++  ATTRIBUTION_SOURCES,
++  CHECKOUT_SURFACES,
++  LANDING_GROUPS,
++  isOneOf,
++  type AnalyticsEventMap,
++} from "./contract";
++
++interface PaidOrderInput {
++  orderId: string;
++  productId: string | null;
++  amountMinor: number;
++  currency: string;
++  purchasedAt: Date;
++  metadata: Record<string, unknown>;
++}
++
++function metadataValue(metadata: Record<string, unknown>, key: string): unknown {
++  return metadata[key];
++}
++
++export function purchaseProperties(input: PaidOrderInput): AnalyticsEventMap["purchase"] {
++  const source = metadataValue(input.metadata, "first_touch_source");
++  const medium = metadataValue(input.metadata, "first_touch_medium");
++  const landing = metadataValue(input.metadata, "first_touch_landing");
++  const locale = metadataValue(input.metadata, "first_touch_locale");
++  const surface = metadataValue(input.metadata, "checkout_surface");
++  const plan =
++    input.productId === getBundleProductId()
++      ? "bundle"
++      : input.productId === getMonthlySubProductId()
++        ? "monthly"
++        : "other";
++
++  return {
++    plan,
++    surface: isOneOf(CHECKOUT_SURFACES, surface) ? surface : "unknown",
++    first_touch_source: isOneOf(ATTRIBUTION_SOURCES, source) ? source : "unknown",
++    first_touch_medium: isOneOf(ATTRIBUTION_MEDIA, medium) ? medium : "unknown",
++    first_touch_landing: isOneOf(LANDING_GROUPS, landing) ? landing : "unknown",
++    locale: isOneOf(ANALYTICS_LOCALES, locale) ? locale : "unknown",
++    currency: input.currency.toLowerCase() === "usd" ? "usd" : "other",
++    value: Math.max(0, input.amountMinor) / 100,
++  };
++}
++
++/**
++ * Durable and idempotent: Polar retries do not create duplicate purchase rows.
++ * The table intentionally stores no customer ID, email, IP, CV, or job content.
++ */
++export async function recordPurchase(input: PaidOrderInput): Promise<{
++  inserted: boolean;
++  properties: AnalyticsEventMap["purchase"];
++}> {
++  const properties = purchaseProperties(input);
++  const { error } = await supabaseAdmin.from("marketing_conversions").insert({
++    provider: "polar",
++    provider_order_id: input.orderId,
++    event_name: "purchase",
++    plan: properties.plan,
++    amount_minor: Math.max(0, Math.round(input.amountMinor)),
++    currency: input.currency.toUpperCase().slice(0, 3),
++    checkout_surface: properties.surface,
++    first_touch_source: properties.first_touch_source,
++    first_touch_medium: properties.first_touch_medium,
++    first_touch_landing: properties.first_touch_landing,
++    first_touch_locale: properties.locale,
++    purchased_at: input.purchasedAt.toISOString(),
++  });
++
++  if (error?.code === "23505") {
++    return { inserted: false, properties };
++  }
++  if (error) {
++    console.error("recordPurchase: database error", {
++      orderId: input.orderId,
++      code: error.code,
++    });
++    throw new Error("record_purchase_failed");
++  }
++  return { inserted: true, properties };
++}
+diff --git a/src/lib/analytics/server.ts b/src/lib/analytics/server.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..890d812da9c86b6f6f0d0d7be213d6e7ad105e2c
+--- /dev/null
++++ b/src/lib/analytics/server.ts
+@@ -0,0 +1,11 @@
++import { track } from "@vercel/analytics/server";
++import type { AnalyticsEventMap, AnalyticsEventName } from "./contract";
++
++/** Server events inherit request headers so Vercel can attach session context. */
++export async function trackServerEvent<Name extends AnalyticsEventName>(
++  name: Name,
++  properties: AnalyticsEventMap[Name],
++  request: Request,
++): Promise<void> {
++  await track(name, properties, { request: { headers: request.headers } });
++}
+diff --git a/tests/api/polar-checkout.test.ts b/tests/api/polar-checkout.test.ts
+index fe29ea07c6bf7f5bd46366652d1ff0f938834178..e4703f935db2a26e8061fa1abe0cf5f57a709e09 100644
+--- a/tests/api/polar-checkout.test.ts
++++ b/tests/api/polar-checkout.test.ts
+@@ -2,6 +2,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
+ 
+ const requireUser = vi.fn();
+ const single = vi.fn();
++const { checkoutCreate, trackServerEvent } = vi.hoisted(() => ({
++  checkoutCreate: vi.fn(() => Promise.resolve({ url: "https://checkout.polar.com/session" })),
++  trackServerEvent: vi.fn(() => Promise.resolve()),
++}));
+ 
+ vi.mock("@/lib/auth/get-current-user", () => ({
+   requireUser: () => requireUser(),
+@@ -23,11 +27,15 @@ vi.mock("@/lib/polar/client", () => ({
+       create: vi.fn(() => Promise.resolve({ id: "cus_new_123" })),
+     },
+     checkouts: {
+-      create: vi.fn(() => Promise.resolve({ url: "https://checkout.polar.com/session" })),
++      create: checkoutCreate,
+     },
+   },
+ }));
+ 
++vi.mock("@/lib/analytics/server", () => ({
++  trackServerEvent,
++}));
++
+ vi.mock("@/lib/polar/config", () => ({
+   getMonthlySubProductId: () => "prod_monthly_123",
+   getBundleProductId: () => "prod_bundle_123",
+@@ -53,6 +61,8 @@ describe("POST /api/polar/checkout", () => {
+   beforeEach(() => {
+     requireUser.mockReset().mockResolvedValue(USER);
+     single.mockReset().mockResolvedValue({ data: { polar_customer_id: "cus_existing" }, error: null });
++    checkoutCreate.mockClear();
++    trackServerEvent.mockClear();
+   });
+ 
+   it("rejects an unknown plan with 400", async () => {
+@@ -91,4 +101,37 @@ describe("POST /api/polar/checkout", () => {
+     const res = await POST(makeRequest({ plan: "monthly", locale: "en" }) as never);
+     expect(res.status).toBe(200);
+   });
++
++  it("copies only classified first-touch values into checkout metadata", async () => {
++    const attribution = {
++      source: "google",
++      medium: "organic",
++      landing: "audit",
++      locale: "es",
++    };
++    const res = await POST(makeRequest({
++      plan: "bundle",
++      locale: "es",
++      surface: "audit",
++      attribution,
++    }) as never);
++
++    expect(res.status).toBe(200);
++    expect(checkoutCreate).toHaveBeenCalledWith(expect.objectContaining({
++      metadata: expect.objectContaining({
++        checkout_plan: "bundle",
++        checkout_surface: "audit",
++        first_touch_source: "google",
++        first_touch_medium: "organic",
++        first_touch_landing: "audit",
++        first_touch_locale: "es",
++      }),
++    }));
++    expect(trackServerEvent).toHaveBeenCalledWith(
++      "checkout_start",
++      expect.objectContaining({ plan: "bundle", first_touch_source: "google" }),
++      expect.any(Request),
++    );
++    expect(JSON.stringify(checkoutCreate.mock.calls[0])).not.toContain("email");
++  });
+ });
+diff --git a/tests/lib/analytics/attribution.test.ts b/tests/lib/analytics/attribution.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..badbc1ceb7a7105af0f18dac1d95ee56f0711e22
+--- /dev/null
++++ b/tests/lib/analytics/attribution.test.ts
+@@ -0,0 +1,57 @@
++import { describe, expect, it } from "vitest";
++import {
++  deriveFirstTouch,
++  isFirstTouchAttribution,
++} from "@/lib/analytics/attribution";
++
++describe("privacy-safe first-touch attribution", () => {
++  it("classifies Google organic without retaining the query or referrer URL", () => {
++    const result = deriveFirstTouch(
++      "https://www.worqai.io/es/auditoria?q=private-search",
++      "https://www.google.com/search?q=private-search",
++    );
++
++    expect(result).toEqual({
++      source: "google",
++      medium: "organic",
++      landing: "audit",
++      locale: "es",
++    });
++    expect(JSON.stringify(result)).not.toContain("private-search");
++  });
++
++  it("reduces unknown campaign values to closed categories", () => {
++    const result = deriveFirstTouch(
++      "https://www.worqai.io/en/pricing?utm_source=someone%40example.com&utm_medium=email",
++    );
++
++    expect(result).toEqual({
++      source: "other_campaign",
++      medium: "email",
++      landing: "pricing",
++      locale: "en",
++    });
++    expect(JSON.stringify(result)).not.toContain("example.com");
++  });
++
++  it("treats same-origin navigation as direct", () => {
++    expect(
++      deriveFirstTouch(
++        "https://www.worqai.io/es/precios",
++        "https://www.worqai.io/es",
++      ),
++    ).toMatchObject({ source: "direct", medium: "direct" });
++  });
++
++  it("rejects stored values outside the closed contract", () => {
++    expect(
++      isFirstTouchAttribution({
++        source: "email@example.com",
++        medium: "organic",
++        landing: "home",
++        locale: "es",
++      }),
++    ).toBe(false);
++  });
++});
++
+diff --git a/tests/lib/analytics/purchase.test.ts b/tests/lib/analytics/purchase.test.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..fca8d4d607d9c85de1ffb7b489fbfd3aa2dd10df
+--- /dev/null
++++ b/tests/lib/analytics/purchase.test.ts
+@@ -0,0 +1,82 @@
++import { beforeEach, describe, expect, it, vi } from "vitest";
++
++const insert = vi.fn();
++
++vi.mock("@/lib/db/supabase-admin", () => ({
++  supabaseAdmin: {
++    from: vi.fn(() => ({ insert })),
++  },
++}));
++
++vi.mock("@/lib/polar/config", () => ({
++  getBundleProductId: () => "prod_bundle",
++  getMonthlySubProductId: () => "prod_monthly",
++}));
++
++import { purchaseProperties, recordPurchase } from "@/lib/analytics/purchase";
++
++const paidOrder = {
++  orderId: "order_123",
++  productId: "prod_monthly",
++  amountMinor: 1799,
++  currency: "USD",
++  purchasedAt: new Date("2026-07-13T12:00:00.000Z"),
++  metadata: {
++    checkout_surface: "audit",
++    first_touch_source: "google",
++    first_touch_medium: "organic",
++    first_touch_landing: "audit",
++    first_touch_locale: "es",
++    ignored_email: "buyer@example.com",
++  },
++};
++
++describe("purchase attribution", () => {
++  beforeEach(() => {
++    insert.mockReset().mockResolvedValue({ error: null });
++  });
++
++  it("builds closed analytics properties from trusted Polar fields", () => {
++    expect(purchaseProperties(paidOrder)).toEqual({
++      plan: "monthly",
++      surface: "audit",
++      first_touch_source: "google",
++      first_touch_medium: "organic",
++      first_touch_landing: "audit",
++      locale: "es",
++      currency: "usd",
++      value: 17.99,
++    });
++  });
++
++  it("drops unknown metadata rather than forwarding it", () => {
++    const properties = purchaseProperties({
++      ...paidOrder,
++      metadata: {
++        first_touch_source: "buyer@example.com",
++        checkout_surface: "private-page",
++      },
++    });
++
++    expect(properties.first_touch_source).toBe("unknown");
++    expect(properties.surface).toBe("unknown");
++    expect(JSON.stringify(properties)).not.toContain("example.com");
++  });
++
++  it("persists no customer identifiers or user content", async () => {
++    const result = await recordPurchase(paidOrder);
++    expect(result.inserted).toBe(true);
++
++    const row = insert.mock.calls[0][0] as Record<string, unknown>;
++    expect(row.provider_order_id).toBe("order_123");
++    expect(row).not.toHaveProperty("user_id");
++    expect(row).not.toHaveProperty("email");
++    expect(JSON.stringify(row)).not.toContain("buyer@example.com");
++  });
++
++  it("treats a unique violation as an idempotent webhook retry", async () => {
++    insert.mockResolvedValue({ error: { code: "23505" } });
++    await expect(recordPurchase(paidOrder)).resolves.toMatchObject({ inserted: false });
++  });
++});
++

@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>worqai — Por qué tu CV no genera entrevistas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #111110;
+  font-family: 'Nunito', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 48px 24px 80px;
+}
+
+/* ============================================================
+   SLIDE BASE — 1080×1080
+   ============================================================ */
+.slide {
+  width: 1080px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+/* Grain texture overlay */
+.slide::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* Dark slide theme */
+.slide.dark { background: #1A1A18; }
+.slide.dark::before { opacity: 0.045; }
+
+/* Light slide theme */
+.slide.light { background: #FFF8E7; }
+.slide.light::before { opacity: 0.018; }
+
+/* ============================================================
+   STRUCTURAL DECORATIONS
+   ============================================================ */
+
+/* Left accent spine — lime on dark, ink on light */
+.slide::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 5px; height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+.slide.dark::after {
+  background: linear-gradient(180deg, #C7FF3A 0%, rgba(199,255,58,0) 75%);
+}
+.slide.light::after {
+  background: linear-gradient(180deg, #0F0F12 0%, rgba(15,15,18,0) 70%);
+}
+
+/* Bottom rule — dark slides only */
+.bottom-rule {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: #C7FF3A;
+  z-index: 5;
+}
+
+/* Deco number — large background number */
+.deco-num {
+  position: absolute;
+  right: 48px;
+  bottom: 80px;
+  font-weight: 900;
+  font-size: 240px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  pointer-events: none;
+  z-index: 2;
+  user-select: none;
+}
+.dark .deco-num { color: #C7FF3A; opacity: 0.06; }
+.light .deco-num { color: #0F0F12; opacity: 0.05; }
+
+/* ============================================================
+   CONTENT AREA
+   ============================================================ */
+.content {
+  position: relative;
+  z-index: 3;
+  padding: 76px 92px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  display: inline-block;
+}
+.dark .label { color: #C7FF3A; }
+.light .label {
+  background: #0F0F12;
+  color: #C7FF3A;
+  padding: 6px 14px 7px;
+  border-radius: 5px;
+}
+
+.display {
+  font-weight: 900;
+  font-size: 74px;
+  line-height: 1.07;
+  letter-spacing: -0.035em;
+  margin-bottom: 30px;
+}
+.dark .display { color: #FFF8E7; }
+.light .display { color: #0F0F12; }
+
+.display .accent { color: #C7FF3A; }
+.display .muted { opacity: 0.45; }
+
+.body-text {
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.62;
+  letter-spacing: -0.01em;
+  max-width: 780px;
+}
+.dark .body-text { color: rgba(255,248,231,0.65); }
+.light .body-text { color: rgba(15,15,18,0.62); }
+
+.body-text strong {
+  font-weight: 700;
+}
+.dark .body-text strong { color: rgba(255,248,231,0.90); }
+.light .body-text strong { color: #0F0F12; }
+
+/* ============================================================
+   SPECIAL ELEMENTS
+   ============================================================ */
+
+/* Stat block */
+.stat-block { margin: 28px 0; }
+.stat-num {
+  font-weight: 900;
+  font-size: 168px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.dark .stat-num { color: #C7FF3A; }
+.light .stat-num { color: #0F0F12; }
+
+.stat-caption {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-top: 10px;
+  max-width: 640px;
+}
+.dark .stat-caption { color: rgba(255,248,231,0.80); }
+.light .stat-caption { color: rgba(15,15,18,0.75); }
+
+/* Comparison blocks */
+.blk-row {
+  display: flex;
+  gap: 18px;
+  margin-top: 36px;
+}
+.blk {
+  flex: 1;
+  border-radius: 14px;
+  padding: 22px 26px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.blk-icon {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 8px;
+}
+.blk-bad-dark {
+  background: rgba(255,92,60,0.09);
+  border: 1px solid rgba(255,92,60,0.28);
+  color: rgba(255,248,231,0.82);
+}
+.blk-bad-dark .blk-icon { color: #FF5C3C; }
+.blk-good-dark {
+  background: rgba(199,255,58,0.07);
+  border: 1px solid rgba(199,255,58,0.28);
+  color: rgba(255,248,231,0.82);
+}
+.blk-good-dark .blk-icon { color: #C7FF3A; }
+
+/* Number comparison (3% vs 40%) */
+.num-compare {
+  display: flex;
+  align-items: flex-end;
+  gap: 48px;
+  margin: 40px 0 28px;
+}
+.num-blk { display: flex; flex-direction: column; }
+.num-val {
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.num-val.low  { font-size: 96px;  color: rgba(255,248,231,0.22); }
+.num-val.high { font-size: 148px; color: #C7FF3A; }
+.num-lbl {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.num-lbl.low  { color: rgba(255,248,231,0.30); }
+.num-lbl.high { color: rgba(199,255,58,0.65); }
+.vs-divider {
+  font-size: 32px;
+  font-weight: 900;
+  color: rgba(255,248,231,0.15);
+  padding-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+/* Steps list */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  margin-top: 36px;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+}
+.step-badge {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900;
+  font-size: 19px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: #0F0F12;
+  color: #C7FF3A;
+}
+.step-body { display: flex; flex-direction: column; gap: 3px; }
+.step-title {
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #0F0F12;
+  line-height: 1.2;
+}
+.step-detail {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(15,15,18,0.52);
+  line-height: 1.5;
+}
+
+/* Pull quote */
+.pull-quote {
+  border-left: 5px solid #C7FF3A;
+  padding: 4px 0 4px 28px;
+  margin: 32px 0 28px;
+}
+.pull-quote-text {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+  color: #0F0F12;
+}
+.pull-quote-text em {
+  font-style: normal;
+  background: #0F0F12;
+  color: #C7FF3A;
+  padding: 0 5px;
+  border-radius: 3px;
+}
+
+/* CTA button */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #C7FF3A;
+  color: #0F0F12;
+  padding: 20px 40px;
+  border-radius: 100px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-top: 44px;
+  width: fit-content;
+}
+
+/* ============================================================
+   BOTTOM BAR
+   ============================================================ */
+.bottom-bar {
+  position: relative;
+  z-index: 4;
+  height: 72px;
+  padding: 0 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+.dark .bottom-bar  { border-top: 1px solid rgba(199,255,58,0.10); }
+.light .bottom-bar { border-top: 1px solid rgba(15,15,18,0.08); }
+
+.brand {
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.dark  .brand .w { color: #FFF8E7; }
+.light .brand .w { color: #0F0F12; }
+.brand .ai { color: #C7FF3A; }
+
+.dots {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.dot {
+  height: 6px;
+  border-radius: 3px;
+  transition: width 0.2s;
+}
+.dark  .dot { background: rgba(255,248,231,0.20); width: 6px; }
+.light .dot { background: rgba(15,15,18,0.15);    width: 6px; }
+.dark  .dot.on { background: #C7FF3A; width: 22px; }
+.light .dot.on { background: #0F0F12; width: 22px; }
+
+.counter {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.dark  .counter { color: rgba(255,248,231,0.28); }
+.light .counter { color: rgba(15,15,18,0.28); }
+
+/* Swipe pill — slide 1 only */
+.swipe-pill {
+  position: absolute;
+  right: 48px;
+  bottom: 108px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,248,231,0.08);
+  border: 1px solid rgba(255,248,231,0.14);
+  border-radius: 100px;
+  padding: 8px 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,248,231,0.45);
+  z-index: 5;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SLIDE 1 — COVER / HOOK  (dark)
+     ============================================================ -->
+<div class="slide dark" data-slide="1">
+  <div class="deco-num">01</div>
+  <div class="bottom-rule"></div>
+
+  <div class="content">
+    <span class="label">El problema</span>
+
+    <div class="display">
+      Tu CV lo rechaza<br>
+      una <span class="accent">máquina</span><br>
+      antes de que<br>
+      alguien lo lea.
+    </div>
+
+    <p class="body-text">
+      El sistema se llama ATS. Filtra el <strong>75% de los CVs</strong>
+      antes de que lleguen a manos de un reclutador.<br>
+      No es tu experiencia. Es cómo lo presentás.
+    </p>
+  </div>
+
+  <div class="swipe-pill">Deslizá → </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot on"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="counter">01 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 2 — BIG STAT  (light)
+     ============================================================ -->
+<div class="slide light" data-slide="2">
+  <div class="deco-num">02</div>
+
+  <div class="content">
+    <span class="label">La realidad</span>
+
+    <div class="stat-block">
+      <div class="stat-num">75%</div>
+      <div class="stat-caption">
+        de los CVs son descartados por un algoritmo<br>
+        antes de que un humano los abra.
+      </div>
+    </div>
+
+    <p class="body-text" style="margin-top: 24px;">
+      El ATS —Applicant Tracking System— escanea tu CV buscando
+      palabras clave, formato correcto y estructura específica.
+      Si no las encuentra, <strong>te elimina en segundos.</strong>
+      No importa que estés calificado.
+    </p>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot"></div>
+      <div class="dot on"></div>
+      <div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="counter">02 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 3 — ERROR 01: formato incorrecto  (dark)
+     ============================================================ -->
+<div class="slide dark" data-slide="3">
+  <div class="deco-num">03</div>
+  <div class="bottom-rule"></div>
+
+  <div class="content">
+    <span class="label">Error 01</span>
+
+    <div class="display">
+      Usás el formato<br>
+      <span class="accent">equivocado</span>
+    </div>
+
+    <p class="body-text">
+      Columnas dobles, tablas, iconos, fotos, fuentes decorativas:
+      el ATS los convierte en texto revuelto o los ignora por completo.
+    </p>
+
+    <div class="blk-row">
+      <div class="blk blk-bad-dark">
+        <span class="blk-icon">✗</span>
+        CV con columnas, tablas y diseño gráfico
+      </div>
+      <div class="blk blk-good-dark">
+        <span class="blk-icon">✓</span>
+        CV en columna única, texto plano, bien estructurado
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div>
+      <div class="dot on"></div>
+      <div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="counter">03 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 4 — ERROR 02: keywords  (light)
+     ============================================================ -->
+<div class="slide light" data-slide="4">
+  <div class="deco-num">04</div>
+
+  <div class="content">
+    <span class="label">Error 02</span>
+
+    <div class="display">
+      Ignorás las palabras<br>
+      exactas de la oferta
+    </div>
+
+    <div class="pull-quote">
+      <div class="pull-quote-text">
+        La empresa pide <em>"gestión de proyectos"</em>.<br>
+        Vos escribiste <em>"coordinación de equipos"</em>.<br>
+        Para el ATS, son cosas distintas.
+      </div>
+    </div>
+
+    <p class="body-text">
+      El algoritmo busca coincidencias de texto, no sinónimos ni contexto.
+      Si no copiás las palabras exactas de la oferta,
+      <strong>no existís para el sistema.</strong>
+    </p>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot on"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="counter">04 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 5 — ERROR 03: CV genérico  (dark)
+     ============================================================ -->
+<div class="slide dark" data-slide="5">
+  <div class="deco-num">05</div>
+  <div class="bottom-rule"></div>
+
+  <div class="content">
+    <span class="label">Error 03</span>
+
+    <div class="display">
+      Mandás el mismo<br>
+      CV a <span class="accent">todas</span>
+    </div>
+
+    <div class="num-compare">
+      <div class="num-blk">
+        <div class="num-val low">3%</div>
+        <div class="num-lbl low">CV genérico</div>
+      </div>
+      <div class="vs-divider">vs</div>
+      <div class="num-blk">
+        <div class="num-val high">40%</div>
+        <div class="num-lbl high">CV tailored</div>
+      </div>
+    </div>
+
+    <p class="body-text">
+      Esa diferencia no es anecdótica. Es la diferencia entre
+      <strong>silencio total y una llamada de entrevista.</strong>
+    </p>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot on"></div>
+      <div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="counter">05 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 6 — SOLUCIÓN: 3 pasos  (light)
+     ============================================================ -->
+<div class="slide light" data-slide="6">
+  <div class="deco-num">06</div>
+
+  <div class="content">
+    <span class="label">La solución</span>
+
+    <div class="display" style="font-size: 64px;">
+      Tres cosas que<br>
+      <span style="color: #C7FF3A; -webkit-text-stroke: 1px #0F0F12;">cambian todo</span>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-badge">1</div>
+        <div class="step-body">
+          <div class="step-title">Copiá las palabras exactas de la oferta</div>
+          <div class="step-detail">No paráfrasis. No sinónimos. El texto literal que usó la empresa.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-badge">2</div>
+        <div class="step-body">
+          <div class="step-title">Formato de columna única, sin adornos</div>
+          <div class="step-detail">Sin tablas, sin columnas dobles, sin iconos. Texto que el ATS pueda leer.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-badge">3</div>
+        <div class="step-body">
+          <div class="step-title">Adaptá tu experiencia a lo que piden</div>
+          <div class="step-detail">Reorganizá y enfatizá lo relevante para este puesto específico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div>
+      <div class="dot on"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="counter">06 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     SLIDE 7 — CTA  (dark)
+     ============================================================ -->
+<div class="slide dark" data-slide="7">
+  <div class="deco-num">07</div>
+  <div class="bottom-rule"></div>
+
+  <div class="content">
+    <span class="label">worqai</span>
+
+    <div class="display">
+      Lo hacemos<br>
+      <span class="accent">solos.</span><br>
+      <span class="muted" style="font-size: 52px;">En 60 segundos.</span>
+    </div>
+
+    <p class="body-text">
+      Subís tu CV y la oferta de trabajo.
+      worqai lee las palabras clave, adapta tu experiencia,
+      reformatea el documento y te entrega el archivo listo
+      para pasar el ATS — <strong>sin que toques nada.</strong>
+    </p>
+
+    <div class="cta-btn">
+      Probalo ahora  →
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="brand"><span class="w">worq</span><span class="ai">ai</span></div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot on"></div>
+    </div>
+    <div class="counter">07 / 07</div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     VISUAL EDITOR — dev only, remove before export
+     ============================================================ -->
+<style>
+#__ed {
+  position: fixed; top: 20px; right: 20px; z-index: 9999;
+  width: 226px; background: #0F0F12;
+  border: 1.5px solid rgba(199,255,58,0.55); border-radius: 13px;
+  padding: 16px 16px 14px;
+  font-family: 'Nunito', system-ui, sans-serif;
+  color: #FFF8E7; box-shadow: 0 14px 48px rgba(0,0,0,0.75);
+  user-select: none;
+}
+#__ed h3 {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #C7FF3A; margin-bottom: 13px;
+}
+#__ed label {
+  display: block; font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(255,248,231,0.35); margin-bottom: 4px;
+}
+#__ed select {
+  width: 100%; background: rgba(255,255,255,0.06);
+  color: #FFF8E7; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px; padding: 6px 8px; font-size: 12px;
+  margin-bottom: 11px; cursor: pointer;
+}
+.__edb {
+  display: block; width: 100%; border: none; border-radius: 7px;
+  padding: 9px 10px; font-size: 12px; font-weight: 900;
+  cursor: pointer; margin-bottom: 6px; letter-spacing: -0.01em;
+}
+.__edb.p { background: #C7FF3A; color: #0F0F12; }
+.__edb.s { background: rgba(199,255,58,0.1); color: #C7FF3A; }
+.__edb.d { background: rgba(255,92,60,0.12); color: #FF5C3C; }
+#__ed-sel {
+  font-size: 10.5px; color: rgba(199,255,58,0.75);
+  min-height: 13px; margin: 8px 0 6px;
+  word-break: break-all; line-height: 1.4;
+}
+#__ed-status {
+  font-size: 9.5px; color: rgba(255,248,231,0.3);
+  min-height: 13px; margin-top: 8px; line-height: 1.5;
+}
+#__ed-hr { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 10px 0; }
+.__ed-row { display: flex; gap: 6px; margin-bottom: 10px; }
+.__ed-row button {
+  flex: 1; background: rgba(199,255,58,0.09); color: #C7FF3A;
+  border: 1px solid rgba(199,255,58,0.22); border-radius: 6px;
+  padding: 7px 4px; font-size: 16px; font-weight: 900; cursor: pointer;
+}
+.__ed-row button:hover { background: rgba(199,255,58,0.2); }
+
+/* Editable element states */
+.ed-t  { outline: 1px dashed rgba(199,255,58,0.25); cursor: grab; }
+.ed-t:hover { outline: 1px solid rgba(199,255,58,0.6); }
+.ed-t.ed-on { outline: 2px solid #C7FF3A; cursor: grab; }
+.ed-t:active { cursor: grabbing; }
+
+/* Output modal */
+#__ed-out {
+  display: none; position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0,0,0,0.72); align-items: center; justify-content: center;
+}
+#__ed-out.show { display: flex; }
+#__ed-out-box {
+  background: #0F0F12; border: 1.5px solid #C7FF3A;
+  border-radius: 14px; padding: 22px; width: 560px; max-height: 72vh; overflow-y: auto;
+}
+#__ed-out-box h4 {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: #C7FF3A; margin-bottom: 12px;
+  font-family: 'Nunito', system-ui, sans-serif;
+}
+#__ed-out-box pre {
+  font-size: 11px; color: rgba(255,248,231,0.8); white-space: pre-wrap;
+  line-height: 1.75; background: rgba(255,255,255,0.04);
+  padding: 14px; border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  font-family: monospace;
+}
+#__ed-hint {
+  font-size: 10px; color: rgba(255,248,231,0.28);
+  margin-top: 8px; font-family: 'Nunito', system-ui, sans-serif;
+}
+</style>
+
+<!-- Toolbar -->
+<div id="__ed">
+  <h3>✏ Slide Editor</h3>
+
+  <label>Slide</label>
+  <select id="__ed-slide">
+    <option value="1">01 — Cover</option>
+    <option value="2">02 — Big Stat</option>
+    <option value="3">03 — Error 01</option>
+    <option value="4" selected>04 — Error 02</option>
+    <option value="5">05 — Error 03</option>
+    <option value="6">06 — Solución</option>
+    <option value="7">07 — CTA</option>
+  </select>
+
+  <button class="__edb p" id="__ed-toggle">Activate Editor</button>
+
+  <div id="__ed-sel">—</div>
+
+  <hr id="__ed-hr">
+
+  <label>Font size</label>
+  <div class="__ed-row">
+    <button id="__ed-fd">−</button>
+    <button id="__ed-fu">+</button>
+  </div>
+
+  <button class="__edb s" id="__ed-copy">Copy Changes as CSS</button>
+  <button class="__edb d" id="__ed-reset">Reset Slide</button>
+
+  <div id="__ed-status">Arrow keys nudge 1px · Shift = 10px</div>
+</div>
+
+<!-- CSS output modal -->
+<div id="__ed-out">
+  <div id="__ed-out-box">
+    <h4>Paste this into the &lt;style&gt; block · also copied to clipboard</h4>
+    <pre id="__ed-css"></pre>
+    <p id="__ed-hint">Give this output to Claude to make the changes permanent.</p>
+    <button class="__edb p" style="margin-top:14px;font-family:'Nunito',system-ui,sans-serif" id="__ed-close">Close</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ── Targets ──────────────────────────────────────────────────
+  const TARGET_SELS = [
+    '.label', '.display', '.body-text',
+    '.stat-block', '.blk-row', '.num-compare',
+    '.pull-quote', '.steps', '.cta-btn',
+    '.swipe-pill', '.deco-num', '.bottom-bar'
+  ];
+
+  // ── State ────────────────────────────────────────────────────
+  let active    = false;
+  let slideNum  = 4;
+  let selected  = null;
+  let dragging  = false;
+  let dragEl    = null;
+  let dragStart = {};
+
+  // Persists across slide switches so CSS output covers everything
+  const elData  = new Map(); // Element → { tx, ty, fontSize, sel }
+  let   curEls  = [];        // Elements in the currently active slide
+
+  // ── Helpers ──────────────────────────────────────────────────
+  const $  = id => document.getElementById(id);
+  const setStatus  = m => $('__ed-status').textContent = m;
+  const setSelInfo = m => $('__ed-sel').textContent = m;
+
+  function getSlide(n) {
+    return document.querySelector(`[data-slide="${n}"]`);
+  }
+
+  function buildSel(n, el) {
+    const slide     = getSlide(n);
+    const cls       = Array.from(el.classList).find(c => !c.startsWith('ed-'));
+    if (!cls) return null;
+    const matches   = Array.from(slide.querySelectorAll(`.${cls}`));
+    if (matches.length === 1) return `[data-slide="${n}"] .${cls}`;
+    const siblings  = Array.from(el.parentElement.children);
+    const nth       = siblings.indexOf(el) + 1;
+    return `[data-slide="${n}"] .${cls}:nth-child(${nth})`;
+  }
+
+  function applyTransform(el) {
+    const d = elData.get(el) || {};
+    el.style.transform = `translate(${d.tx || 0}px, ${d.ty || 0}px)`;
+    if (d.fontSize) el.style.fontSize = d.fontSize + 'px';
+  }
+
+  function updateSelInfo() {
+    if (!selected) { setSelInfo('—'); return; }
+    const d  = elData.get(selected) || {};
+    const fs = d.fontSize || Math.round(parseFloat(getComputedStyle(selected).fontSize));
+    const tx = Math.round(d.tx || 0), ty = Math.round(d.ty || 0);
+    const label = (d.sel || '?').split(' ').pop();
+    setSelInfo(`${label}\n${fs}px · translate(${tx}px, ${ty}px)`);
+  }
+
+  // ── Activate / Deactivate ────────────────────────────────────
+  function activate() {
+    active   = true;
+    curEls   = [];
+    const slide = getSlide(slideNum);
+    if (!slide) { setStatus('Slide not found.'); return; }
+
+    TARGET_SELS.forEach(s => {
+      slide.querySelectorAll(s).forEach(el => {
+        if (el.closest('[data-slide]') !== slide) return;
+        if (!elData.has(el)) {
+          elData.set(el, {
+            tx: 0, ty: 0, fontSize: null,
+            sel: buildSel(slideNum, el)
+          });
+        }
+        el.classList.add('ed-t');
+        applyTransform(el);
+        el.addEventListener('mousedown', onMousedown);
+        curEls.push(el);
+      });
+    });
+
+    slide.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    $('__ed-toggle').textContent = 'Deactivate Editor';
+    setStatus(`Slide ${slideNum} active. Click → select, drag → move.`);
+  }
+
+  function deactivate() {
+    active = false;
+    curEls.forEach(el => {
+      el.classList.remove('ed-t', 'ed-on');
+      el.removeEventListener('mousedown', onMousedown);
+    });
+    curEls   = [];
+    selected = null;
+    setSelInfo('—');
+    $('__ed-toggle').textContent = 'Activate Editor';
+    setStatus('Editor off.');
+  }
+
+  // ── Selection ────────────────────────────────────────────────
+  function selectEl(el) {
+    curEls.forEach(e => e.classList.remove('ed-on'));
+    el.classList.add('ed-on');
+    selected = el;
+    updateSelInfo();
+  }
+
+  // ── Drag ─────────────────────────────────────────────────────
+  function onMousedown(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectEl(this);
+    const d  = elData.get(this) || {};
+    dragging = true;
+    dragEl   = this;
+    dragStart = { mx: e.clientX, my: e.clientY, tx: d.tx || 0, ty: d.ty || 0 };
+  }
+
+  document.addEventListener('mousemove', e => {
+    if (!dragging || !dragEl) return;
+    const d = elData.get(dragEl);
+    d.tx = dragStart.tx + (e.clientX - dragStart.mx);
+    d.ty = dragStart.ty + (e.clientY - dragStart.my);
+    applyTransform(dragEl);
+    updateSelInfo();
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (dragging && dragEl) {
+      const d = elData.get(dragEl) || {};
+      setStatus(`translate(${Math.round(d.tx||0)}px, ${Math.round(d.ty||0)}px)`);
+    }
+    dragging = false;
+    dragEl   = null;
+  });
+
+  // ── Arrow nudge ──────────────────────────────────────────────
+  document.addEventListener('keydown', e => {
+    if (!active || !selected) return;
+    const arrows = ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'];
+    if (!arrows.includes(e.key)) return;
+    e.preventDefault();
+    const step = e.shiftKey ? 10 : 1;
+    const d = elData.get(selected);
+    if (e.key === 'ArrowLeft')  d.tx = (d.tx || 0) - step;
+    if (e.key === 'ArrowRight') d.tx = (d.tx || 0) + step;
+    if (e.key === 'ArrowUp')    d.ty = (d.ty || 0) - step;
+    if (e.key === 'ArrowDown')  d.ty = (d.ty || 0) + step;
+    applyTransform(selected);
+    updateSelInfo();
+  });
+
+  // ── Font size ────────────────────────────────────────────────
+  function changeFontSize(delta) {
+    if (!selected) { setStatus('Select an element first.'); return; }
+    const d = elData.get(selected);
+    const cur = d.fontSize || parseFloat(getComputedStyle(selected).fontSize);
+    d.fontSize = Math.max(8, Math.round(cur) + delta);
+    applyTransform(selected);
+    updateSelInfo();
+    setStatus(`font-size: ${d.fontSize}px`);
+  }
+  $('__ed-fu').onclick = () => changeFontSize(2);
+  $('__ed-fd').onclick = () => changeFontSize(-2);
+
+  // ── Toggle ───────────────────────────────────────────────────
+  $('__ed-toggle').onclick = () => {
+    if (active) deactivate();
+    else { slideNum = parseInt($('__ed-slide').value); activate(); }
+  };
+
+  $('__ed-slide').onchange = () => {
+    if (active) {
+      deactivate();
+      slideNum = parseInt($('__ed-slide').value);
+      activate();
+    }
+  };
+
+  // ── Reset ────────────────────────────────────────────────────
+  $('__ed-reset').onclick = () => {
+    curEls.forEach(el => {
+      const d = elData.get(el);
+      if (d) { d.tx = 0; d.ty = 0; d.fontSize = null; }
+      el.style.transform = '';
+      el.style.fontSize  = '';
+    });
+    selected = null;
+    setSelInfo('—');
+    setStatus('Slide reset.');
+  };
+
+  // ── CSS output ───────────────────────────────────────────────
+  function generateCSS() {
+    const lines = ['/* Visual Editor overrides — paste into <style> block */'];
+    let any = false;
+    for (const [el, d] of elData) {
+      const props = [];
+      if (d.tx || d.ty) props.push(`  transform: translate(${Math.round(d.tx||0)}px, ${Math.round(d.ty||0)}px);`);
+      if (d.fontSize)   props.push(`  font-size: ${d.fontSize}px;`);
+      if (!props.length) continue;
+      any = true;
+      lines.push(`${d.sel} {`);
+      props.forEach(p => lines.push(p));
+      lines.push('}');
+    }
+    return any ? lines.join('\n') : '/* No changes yet. */';
+  }
+
+  $('__ed-copy').onclick = () => {
+    const css = generateCSS();
+    $('__ed-css').textContent = css;
+    $('__ed-out').classList.add('show');
+    navigator.clipboard.writeText(css).catch(() => {});
+  };
+
+  $('__ed-close').onclick   = () => $('__ed-out').classList.remove('show');
+  $('__ed-out').onclick = e => {
+    if (e.target === $('__ed-out')) $('__ed-out').classList.remove('show');
+  };
+
+})();
+</script>
+
+</body>
+</html>

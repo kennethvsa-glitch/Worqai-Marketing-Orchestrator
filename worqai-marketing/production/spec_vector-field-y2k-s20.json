@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "system": "s20",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "vector-field-y2k-ats",
+    "bg_recipe": "extracted"
+  },
+  "pacing": ["hook", "problem", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["vector-field-distortion"],
+      "copy": {
+        "kicker": "WorqAI",
+        "headline": "Tu CV fue\nbloqueado.",
+        "body": "El ATS lo descartó antes de que alguien lo abriera."
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["vector-field-distortion"],
+      "copy": {
+        "kicker": "El filtro",
+        "stat_number": "75%",
+        "stat_context": "de CVs rechazados",
+        "headline": "El algoritmo gana.",
+        "body": "Sin keywords correctas, el ATS te descarta solo.",
+        "source": "Dato interno WorqAI · base de datos 2025"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "layers": ["vector-field-distortion"],
+      "decoratives": [],
+      "constraints": { "silence": true },
+      "copy": {
+        "kicker": "WorqAI lo cambia",
+        "headline": "Rewrite en minutos.",
+        "before_label": "Tu CV actual",
+        "before_items": [
+          "Tablas y columnas que el ATS no lee",
+          "Keywords genéricas sin contexto",
+          "Formato incompatible con parsers"
+        ],
+        "after_label": "Con WorqAI",
+        "after_items": [
+          "Estructura plana 100% parseable",
+          "Keywords exactas del puesto",
+          "Score ATS validado antes de enviar"
+        ]
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["vector-field-distortion"],
+      "copy": {
+        "question": "¿Querés que el ATS te deje pasar?",
+        "cta_keyword": "REESCRIBIR",
+        "reward": "Primer rewrite gratis. Resultado en 48h.",
+        "url": "worqai.co"
+      }
+    }
+  ]
+}

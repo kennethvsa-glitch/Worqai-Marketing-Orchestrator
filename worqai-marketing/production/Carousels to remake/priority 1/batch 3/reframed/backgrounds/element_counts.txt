@@ -1,0 +1,82 @@
+Exact decorative DOM element counts per background (per slide for carousels):
+
+═══════════════════════════════════════════════════════════════════
+
+ABSTRACT DARK (standalone + carousel slides)
+  Top-level decorative divs: 4
+    - glow-center
+    - lime-glow-tl
+    - lime-glow-br
+    - SVG container
+  SVG children: 23
+    - 3 organic blob paths (lime TL, lime BR, dark BL)
+    - 3 grey wave layer paths
+    - 4 concentric arc paths
+    - 10 scattered dot circles
+    - 3 thin curved connecting lines
+  Carousel only: +1 deco-num div
+  ──> Standalone total: 27 DOM elements
+  ──> Carousel per slide: 28 DOM elements
+
+ABSTRACT LIGHT (standalone + carousel slides)
+  Same structure as Abstract Dark, lower opacities on all elements
+  ──> Standalone total: 27 DOM elements
+  ──> Carousel per slide: 28 DOM elements
+
+PLAYFUL DARK (standalone + carousel slides)
+  Top-level decorative divs: 4
+    - glow-center
+    - lime-glow-tl
+    - lime-glow-br
+    - SVG container
+  SVG children: 20
+    - 2 organic blob paths (lime TL, lime BR)
+    - 2 highlight ellipses
+    - 1 wavy line path (left side)
+    - 1 spiral/loop path (near top)
+    - 4 dot grid circles (2×2)
+    - 4 X mark lines (2 X marks)
+    - 1 circle outline
+    - 1 squiggly line path (bottom-center)
+    - 1 dashed curved line (bottom-right to center-right)
+    - 3 accent dot circles
+  Carousel only: +1 deco-num div
+  ──> Standalone total: 24 DOM elements
+  ──> Carousel per slide: 25 DOM elements
+
+PLAYFUL LIGHT (standalone + carousel slides)
+  Same structure as Playful Dark, lower opacities on all elements
+  ──> Standalone total: 24 DOM elements
+  ──> Carousel per slide: 25 DOM elements
+
+═══════════════════════════════════════════════════════════════════
+ALL COUNTS ARE UNDER THE 30 DECORATIVE DOM ELEMENT LIMIT ✓
+═══════════════════════════════════════════════════════════════════
+
+Files delivered to:
+C:\Users\kenne\OneDrive\Documentos\worqai-marketing\production\Carousels to remake\priority 1\batch 3\reframed\
+
+1. TEST_bg3_abstract_reconstructed_dark.html          (6,088 bytes)
+2. TEST_bg3_abstract_reconstructed_light.html         (5,935 bytes)
+3. TEST_bg3_abstract_dark-carousel_worqai-lime.html   (37,996 bytes)
+4. TEST_bg3_abstract_light-carousel_worqai-lime.html (40,188 bytes)
+5. TEST_bg3_playful_reconstructed_dark.html           (6,580 bytes)
+6. TEST_bg3_playful_reconstructed_light.html           (6,726 bytes)
+7. TEST_bg3_playful_dark-carousel_worqai-lime.html   (34,757 bytes)
+8. TEST_bg3_playful_light-carousel_worqai-lime.html  (36,872 bytes)
+
+Universal checks:
+  ✓ 1080×1080 canvas
+  ✓ html2canvas-safe (no mix-blend-mode on text, no backdrop-filter on text)
+  ✓ worqai.io on every slide
+  ✓ Spanish es-LATAM, register tú
+  ✓ No job/interview promises
+  ✓ All decorations: position:absolute; pointer-events:none; z-index:1
+  ✓ Content: position:relative; z-index:3
+  ✓ Max 30 decorative DOM elements per background
+  ✓ SVG for complex shapes, CSS for simple elements
+  ✓ Text-backdrop applied to main headlines on all slides
+  ✓ Dark text-backdrop: rgba(10,10,10,0.55) with white border
+  ✓ Light text-backdrop: rgba(250,250,250,0.75) with dark border
+  ✓ 7-slide carousel structure (S1 Hook → S2 Data → S3 Error → S4 Error → S5 Fix → S6 Proof → S7 CTA)
+  ✓ CTA includes POR TIEMPO LIMITADO badge, both offers, honest microline

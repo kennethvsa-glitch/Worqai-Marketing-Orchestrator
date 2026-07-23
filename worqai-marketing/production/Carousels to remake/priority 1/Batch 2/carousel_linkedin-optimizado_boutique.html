@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI · LinkedIn que trabaja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,700&family=Raleway:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-crema:    #F4F0EB;
+  --bg-taupe:    #DDD4C8;
+  --bg-blush:    #EBE0D8;
+  --text-dark:   #2D2B2A;
+  --text-navy:   #22334A;
+  --accent-gold: #9A7330;
+  --card-white:  #FFFFFF;
+  --legara-ivory: #FFFBF5;
+  /* Light-system chrome override */
+  --ui-chrome:       rgba(45, 43, 42, 0.42);
+  --ui-chrome-faint: rgba(45, 43, 42, 0.16);
+}
+html, body { background: #1a1815; min-height: 100vh; font-family: 'DM Sans', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 600; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #9A7330; margin-bottom: 18px; text-align: center; }
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         color: var(--text-dark); }
+
+/* Light-system grain — Layer 1 (full slide) */
+.slide::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 8;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.76' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 240px 300px; opacity: 0.040; mix-blend-mode: overlay;
+}
+
+/* No deco-num */
+.deco-num { display: none; }
+
+/* Mastheads — top of every slide */
+.masthead { position: absolute; top: 56px; left: 60px; right: 60px; z-index: 6;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-logo { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-style: italic;
+             font-size: 26px; color: var(--text-dark); letter-spacing: 0.01em; }
+.mast-logo span { color: var(--accent-gold); }
+.mast-section { font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 11px;
+                letter-spacing: 0.32em; text-transform: uppercase; color: rgba(45,43,42,0.50); }
+
+/* Brand anchor — bottom */
+.brand-mark { position: absolute; bottom: 50px; left: 60px; z-index: 6;
+              font-family: 'Cormorant Garamond', serif; font-weight: 600; font-style: italic;
+              font-size: 18px; color: var(--text-dark); letter-spacing: 0.01em; }
+.brand-mark span { color: var(--accent-gold); }
+.handle { position: absolute; bottom: 50px; left: 200px; z-index: 6;
+          font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 10px;
+          letter-spacing: 0.30em; text-transform: uppercase; color: rgba(45,43,42,0.42); }
+.counter { position: absolute; bottom: 52px; right: 60px; z-index: 6;
+           font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 11px;
+           letter-spacing: 0.20em; text-transform: uppercase; color: rgba(45,43,42,0.42); }
+
+/* Progress dots */
+.prog { display: flex; gap: 8px; position: absolute; bottom: 90px; left: 60px; z-index: 6; }
+.pd { width: 24px; height: 2px; background: rgba(45,43,42,0.18); }
+.pd.on { background: var(--accent-gold); }
+
+/* Swipe pill */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px;
+              padding: 11px 20px; border: 1px solid var(--accent-gold); color: var(--accent-gold);
+              font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.24em; text-transform: uppercase; border-radius: 999px;
+              background: rgba(244,240,235,0.5); }
+
+/* === SLIDE 1: VELLUM EDITORIAL SPLIT === */
+.s1 { background: var(--bg-crema); }
+.s1-photo { position: absolute; left: 42%; right: 0; top: 0; bottom: 0; z-index: 1;
+            background-size: cover; background-position: center top; background-repeat: no-repeat;
+            background-color: #d8cdc0;
+            background-image: linear-gradient(135deg, #c9b89e 0%, #a89578 35%, #8a7355 65%, #5d4836 100%); }
+.s1-photo-overlay { position: absolute; left: 42%; right: 0; top: 0; bottom: 0; z-index: 2;
+                    background:
+                      radial-gradient(ellipse 60% 80% at 70% 40%, rgba(255,250,240,0.18), transparent 60%),
+                      radial-gradient(ellipse 50% 70% at 30% 90%, rgba(45,30,15,0.30), transparent 70%); }
+.s1-photo-grain { position: absolute; left: 42%; right: 0; top: 0; bottom: 0; z-index: 2;
+                  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+                  background-size: 200px 250px; opacity: 0.18; mix-blend-mode: overlay; }
+.s1-photo-label { position: absolute; right: 50px; bottom: 90px; z-index: 4;
+                  font-family: 'Raleway', sans-serif; font-size: 10px; font-weight: 500;
+                  letter-spacing: 0.32em; text-transform: uppercase; color: rgba(255,251,245,0.65);
+                  text-align: right; }
+/* Frosted vellum blend — 3-layer */
+.s1-vellum { position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background:
+    linear-gradient(to right,
+      transparent 50%,
+      rgba(244,240,235,0.05) 62%,
+      rgba(244,240,235,0.07) 80%,
+      rgba(244,240,235,0.05) 100%),
+    linear-gradient(to right,
+      transparent 26%,
+      rgba(252,244,228,0.22) 33%,
+      rgba(252,244,228,0.14) 42%,
+      rgba(252,244,228,0.02) 54%,
+      transparent 100%),
+    linear-gradient(to right,
+      rgba(244,240,235,1.00) 0%,
+      rgba(244,240,235,1.00) 30%,
+      rgba(244,240,235,0.90) 36%,
+      rgba(244,240,235,0.38) 43%,
+      rgba(244,240,235,0.06) 54%,
+      transparent 100%);
+}
+.s1-vellum-grain { position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 220px; opacity: 0.050; mix-blend-mode: multiply;
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.3) 44%, transparent 58%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.9) 30%, rgba(0,0,0,0.3) 44%, transparent 58%);
+}
+.s1-content { position: relative; z-index: 5; width: 46%; height: 100%;
+              padding: 180px 16px 180px 60px;
+              display: flex; flex-direction: column; justify-content: center; gap: 0; }
+.s1-issue { font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 11px;
+            letter-spacing: 0.40em; text-transform: uppercase; color: rgba(45,43,42,0.55);
+            margin-bottom: 36px; display: flex; gap: 18px; align-items: center; }
+.s1-issue::after { content: ''; flex: 1; height: 1px; background: rgba(45,43,42,0.20); max-width: 80px; }
+
+.s1-line-1 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+             font-size: 78px; line-height: 0.95; color: var(--text-dark);
+             letter-spacing: -0.01em; }
+.s1-line-2 { font-family: 'Raleway', sans-serif; font-weight: 500;
+             font-size: 24px; line-height: 1.1; color: var(--text-dark);
+             letter-spacing: 0.18em; text-transform: uppercase;
+             margin-top: 22px; }
+.s1-line-3 { font-family: 'Raleway', sans-serif; font-weight: 500;
+             font-size: 24px; line-height: 1.1; color: var(--text-dark);
+             letter-spacing: 0.18em; text-transform: uppercase;
+             margin-top: 4px; }
+.s1-rule { width: 60%; height: 1px; background: var(--accent-gold); margin: 30px 0 22px; }
+.s1-line-4 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
+             font-size: 44px; line-height: 1.0; color: var(--accent-gold);
+             margin-right: -14px; }
+.s1-line-5 { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700;
+             font-size: 56px; line-height: 1.0; color: var(--accent-gold);
+             margin-top: 2px; margin-right: -14px; }
+
+.s1-swipe-pos { position: absolute; bottom: 50px; right: 50px; z-index: 6;
+                background: rgba(255,251,245,0.18);
+                backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+                border-color: rgba(255,251,245,0.55); color: rgba(255,251,245,0.92);
+                padding: 11px 20px; border-radius: 999px; border-style: solid; border-width: 1px;
+                font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 500;
+                letter-spacing: 0.24em; text-transform: uppercase;
+                display: inline-flex; align-items: center; gap: 10px; }
+
+/* === SLIDE 2: FLOATING CARD ON TAUPE === */
+.s2 { background: var(--bg-taupe); padding: 120px 60px 140px; display: flex;
+      flex-direction: column; }
+.s2-section-tag { font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 11px;
+                  letter-spacing: 0.40em; text-transform: uppercase; color: var(--accent-gold);
+                  margin-bottom: 28px; display: flex; gap: 18px; align-items: center; }
+.s2-section-tag::before { content: '02'; font-family: 'Cormorant Garamond', serif;
+                          font-style: italic; font-size: 22px; font-weight: 500;
+                          letter-spacing: 0; text-transform: none; color: var(--accent-gold); }
+.s2-section-tag::after { content: ''; flex: 1; height: 1px; background: var(--accent-gold); max-width: 200px; }
+
+.s2-headline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+               font-size: 60px; line-height: 1.05; color: var(--text-dark);
+               max-width: 780px; }
+.s2-headline strong { font-style: italic; font-weight: 700; color: var(--accent-gold); }
+
+.s2-card-wrap { flex: 1; display: flex; align-items: center; justify-content: center;
+                margin-top: 32px; }
+.s2-card { background: var(--card-white); border-radius: 4px;
+           padding: 46px 50px;
+           box-shadow: 0 28px 80px -20px rgba(45,43,42,0.22),
+                       0 12px 40px -16px rgba(45,43,42,0.18);
+           max-width: 880px; width: 100%; position: relative; }
+.s2-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+                   background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold) 35%, transparent 90%); }
+.s2-card-eyebrow { font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 10px;
+                   letter-spacing: 0.34em; text-transform: uppercase; color: var(--accent-gold);
+                   margin-bottom: 18px; }
+.s2-card-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.s2-card-list li { display: grid; grid-template-columns: 36px 1fr; gap: 22px; align-items: baseline;
+                   padding-bottom: 18px; border-bottom: 1px solid rgba(45,43,42,0.08); }
+.s2-card-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.s2-card-list .num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
+                     font-size: 28px; color: var(--accent-gold); line-height: 1; }
+.s2-card-list .body strong { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 19px;
+                             color: var(--text-dark); display: block; line-height: 1.3; margin-bottom: 4px; }
+.s2-card-list .body p { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 16px;
+                        color: rgba(45,43,42,0.66); line-height: 1.5; }
+.s2-quote-bottom { margin-top: 32px; padding-top: 26px; border-top: 1px dashed rgba(45,43,42,0.20);
+                   font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
+                   font-size: 22px; line-height: 1.4; color: rgba(45,43,42,0.78); }
+
+/* === SLIDE 3: TWO-PANEL REFRAME === */
+.s3 { background: var(--bg-crema); padding: 120px 60px 140px; display: flex;
+      flex-direction: column; }
+.s3-tag { font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.40em; text-transform: uppercase; color: var(--accent-gold);
+          margin-bottom: 24px; display: flex; gap: 18px; align-items: center; }
+.s3-tag::before { content: '03'; font-family: 'Cormorant Garamond', serif;
+                  font-style: italic; font-size: 22px; font-weight: 500;
+                  letter-spacing: 0; text-transform: none; color: var(--accent-gold); }
+.s3-tag::after { content: ''; flex: 1; height: 1px; background: var(--accent-gold); max-width: 220px; }
+
+.s3-reframe { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+              font-size: 64px; line-height: 1.05; color: var(--text-dark);
+              max-width: 880px; margin-bottom: 36px; }
+.s3-reframe strong { font-style: italic; font-weight: 700; color: var(--accent-gold); }
+.s3-reframe .strike { text-decoration: line-through; text-decoration-color: rgba(45,43,42,0.45);
+                       text-decoration-thickness: 2px; color: rgba(45,43,42,0.45); font-style: italic; font-weight: 400; }
+
+.s3-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; align-items: stretch; }
+.s3-col { background: var(--card-white); padding: 36px 32px; border-radius: 4px;
+          box-shadow: 0 16px 40px -16px rgba(45,43,42,0.16);
+          display: flex; flex-direction: column; gap: 18px; position: relative; }
+.s3-col::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.s3-col.before::before { background: rgba(45,43,42,0.20); }
+.s3-col.after::before { background: var(--accent-gold); }
+.s3-col-tag { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 10px;
+              letter-spacing: 0.36em; text-transform: uppercase; }
+.s3-col.before .s3-col-tag { color: rgba(45,43,42,0.55); }
+.s3-col.after .s3-col-tag { color: var(--accent-gold); }
+.s3-col-headline { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 22px;
+                   color: var(--text-dark); line-height: 1.25; }
+.s3-mock { background: #FAFAFA; border-radius: 4px; padding: 18px 16px;
+           border: 1px solid rgba(45,43,42,0.06); margin-top: 4px; }
+.s3-mock-handle { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+.s3-mock-avatar { width: 38px; height: 38px; border-radius: 50%;
+                  background: linear-gradient(135deg, #c9b89e, #8a7355); flex-shrink: 0; }
+.s3-mock-name { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13px;
+                color: var(--text-dark); line-height: 1.2; }
+.s3-mock-pos { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 11px;
+               color: rgba(45,43,42,0.58); }
+.s3-mock-headline-text { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 13px;
+                          line-height: 1.4; padding-top: 12px;
+                          border-top: 1px solid rgba(45,43,42,0.08); }
+.s3-col.before .s3-mock-headline-text { color: rgba(45,43,42,0.66); }
+.s3-col.after .s3-mock-headline-text { color: var(--text-dark); }
+.s3-col.after .kw { background: rgba(154,115,48,0.16); color: var(--accent-gold); font-weight: 700;
+                    padding: 1px 5px; border-radius: 2px; }
+.s3-col-footer { padding-top: 16px; border-top: 1px solid rgba(45,43,42,0.08);
+                 font-family: 'DM Sans', sans-serif; font-size: 14px;
+                 color: rgba(45,43,42,0.62); margin-top: auto; line-height: 1.4; }
+.s3-col-footer strong { color: var(--text-dark); font-weight: 700; }
+
+.s3-proof { margin-top: 28px; padding: 24px 28px;
+            background: var(--legara-ivory); border-left: 3px solid var(--accent-gold);
+            font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
+            font-size: 19px; line-height: 1.5; color: rgba(45,43,42,0.86); }
+.s3-proof strong { font-style: normal; font-family: 'DM Sans', sans-serif; font-weight: 700;
+                    color: var(--text-dark); font-size: 16px; }
+
+/* === SLIDE 4: RESOLUCIÓN — MINIMAL CTA === */
+.s4 { background: var(--bg-blush); padding: 120px 60px 140px; display: flex;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.s4-tag { font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.40em; text-transform: uppercase; color: var(--accent-gold);
+          margin-bottom: 36px; display: inline-flex; gap: 18px; align-items: center; }
+.s4-tag::before, .s4-tag::after { content: ''; width: 60px; height: 1px; background: var(--accent-gold); }
+
+.s4-headline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+               font-size: 84px; line-height: 1.0; color: var(--text-dark); letter-spacing: -0.01em;
+               max-width: 880px; }
+.s4-headline strong { font-style: italic; font-weight: 700; color: var(--accent-gold); }
+.s4-rule { width: 80px; height: 2px; background: var(--accent-gold); margin: 36px 0; }
+.s4-sub { font-family: 'DM Sans', sans-serif; font-weight: 400; font-size: 19px;
+          line-height: 1.55; color: rgba(45,43,42,0.72); max-width: 620px; }
+
+.s4-cta { margin-top: 50px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.s4-cta-q { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 16px;
+            color: rgba(45,43,42,0.72); letter-spacing: 0.04em; }
+.s4-keyword-line { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.s4-keyword-line span { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 18px;
+                        color: var(--text-dark); }
+.s4-keyword-box { display: inline-block; border: 2px dashed var(--accent-gold);
+                  padding: 10px 24px; border-radius: 4px; background: var(--legara-ivory);
+                  font-family: 'Cormorant Garamond', serif; font-weight: 700; font-style: italic;
+                  font-size: 32px; color: var(--accent-gold); letter-spacing: 0.06em; }
+.s4-reward { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500;
+             font-size: 22px; color: rgba(45,43,42,0.78); margin-top: 12px; }
+
+/* Controls */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: rgba(244,240,235,0.85); border: 1px solid rgba(45,43,42,0.18);
+       color: rgba(45,43,42,0.72); width: 44px; height: 44px; border-radius: 50%;
+       cursor: pointer; font-size: 18px; }
+.btn:disabled { opacity: 0.30; cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(244,240,235,0.30); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #9A7330; width: 20px; border-radius: 3px; }
+.hint { font-size: 11px; color: rgba(244,240,235,0.40); letter-spacing: 0.16em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #9A7330; color: #F4F0EB; border: none; border-radius: 999px;
+           font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 13px;
+           letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(244,240,235,0.45); text-align: center;
+                letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px; }
+
+/* Hidden file inputs */
+.file-input-hidden { display: none; }
+.upload-panel-label { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 500;
+                      letter-spacing: 0.30em; text-transform: uppercase; color: rgba(244,240,235,0.65);
+                      text-align: center; margin: 36px auto 16px; }
+.upload-panel { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: 700px; margin: 0 auto; }
+.up-btn { display: inline-flex; align-items: center; gap: 14px; padding: 12px 22px;
+          background: rgba(244,240,235,0.08); border: 1px dashed rgba(244,240,235,0.35);
+          color: rgba(244,240,235,0.85); border-radius: 4px; cursor: pointer;
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+.up-btn:hover { background: rgba(244,240,235,0.14); border-color: var(--accent-gold); color: #F4F0EB; }
+.up-btn.done { border-color: var(--accent-gold); border-style: solid; color: var(--accent-gold); }
+.up-check { display: inline-block; width: 18px; height: 18px; border-radius: 50%;
+            border: 1px solid currentColor; text-align: center; line-height: 16px;
+            font-size: 11px; opacity: 0.4; }
+.up-btn.done .up-check { opacity: 1; background: var(--accent-gold); color: #1a1815; border-color: var(--accent-gold); }
+</style>
+</head>
+<body>
+<p class="label-top">Profile Pro LATAM · Tu LinkedIn que trabaja por vos · 4 slides</p>
+
+<input type="file" id="file-s1" class="file-input-hidden" accept="image/*">
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ============ SLIDE 1 — VELLUM EDITORIAL SPLIT ============ -->
+      <section class="slide s1" id="slide-1">
+        <div id="zone-s1" class="s1-photo img-zone"
+             data-image-prompt="Professional woman, torso crop, jaw cropped, reviewing documents on a desk, soft directional window light from upper right, matte editorial film finish, documentary realism not lifestyle, asymmetric editorial composition, neutral warm background, 4:5 aspect"
+             data-image-position="right-split"></div>
+        <div class="s1-photo-overlay"></div>
+        <div class="s1-photo-grain"></div>
+        <div class="s1-vellum"></div>
+        <div class="s1-vellum-grain"></div>
+
+        <div class="masthead">
+          <div class="mast-logo">worq<span>ai</span></div>
+          <div class="mast-section">Edición · LinkedIn</div>
+        </div>
+
+        <div class="s1-content">
+          <div class="s1-issue">N° 04 <span style="color:rgba(45,43,42,0.42); font-weight:400;">— Mayo 2026</span></div>
+          <h1 class="s1-line-1">Hay perfiles</h1>
+          <p class="s1-line-2">QUE LOS RECLUTADORES BUSCAN</p>
+          <p class="s1-line-3">Y HAY PERFILES…</p>
+          <div class="s1-rule"></div>
+          <p class="s1-line-4">que solo</p>
+          <p class="s1-line-5">existen.</p>
+        </div>
+
+        <div class="s1-photo-label">Encontrabilidad ·<br>el factor invisible</div>
+        <div class="s1-swipe-pos">Desliza →</div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="counter">01 · 04</div>
+      </section>
+
+      <!-- ============ SLIDE 2 — DIAGNÓSTICO · FLOATING CARD ============ -->
+      <section class="slide s2" id="slide-2">
+        <div class="masthead">
+          <div class="mast-logo">worq<span>ai</span></div>
+          <div class="mast-section">Diagnóstico</div>
+        </div>
+        <div class="s2-section-tag">Diagnóstico</div>
+        <h2 class="s2-headline">Postear no es lo mismo que <strong>ser encontrada.</strong></h2>
+
+        <div class="s2-card-wrap">
+          <article class="s2-card">
+            <div class="s2-card-eyebrow">Lo que estás haciendo bien · pero no mueve la aguja</div>
+            <ul class="s2-card-list">
+              <li>
+                <span class="num">i.</span>
+                <div class="body">
+                  <strong>Tu headline dice "Storyteller · Brand · Communications".</strong>
+                  <p>Hermoso. Pero ningún reclutador en LATAM busca "storyteller". Buscan "Communications Director" o "Gerente de Comunicación".</p>
+                </div>
+              </li>
+              <li>
+                <span class="num">ii.</span>
+                <div class="body">
+                  <strong>Tratás LinkedIn como un currículum estático.</strong>
+                  <p>Listás roles cronológicamente. Sin keywords del rol que buscás. La búsqueda de reclutador te ignora.</p>
+                </div>
+              </li>
+              <li>
+                <span class="num">iii.</span>
+                <div class="body">
+                  <strong>Posteás dos veces al mes y esperás que pase algo.</strong>
+                  <p>Pero los posts no aparecen en búsquedas de talento. Solo aparecés cuando tu perfil tiene los términos exactos que el reclutador busca.</p>
+                </div>
+              </li>
+            </ul>
+            <p class="s2-quote-bottom">Lo que parece "estar activa" no es lo mismo que "ser visible". Son dos juegos distintos.</p>
+          </article>
+        </div>
+
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span>ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">02 · 04</div>
+      </section>
+
+      <!-- ============ SLIDE 3 — REVELACIÓN · TWO-PANEL + PROOF ============ -->
+      <section class="slide s3" id="slide-3">
+        <div class="masthead">
+          <div class="mast-logo">worq<span>ai</span></div>
+          <div class="mast-section">Revelación</div>
+        </div>
+        <div class="s3-tag">Revelación</div>
+        <h2 class="s3-reframe">No es <span class="strike">tener más conexiones.</span> Es ser <strong>encontrable</strong> cuando alguien busca tu skill.</h2>
+
+        <div class="s3-cols">
+          <div class="s3-col before">
+            <div class="s3-col-tag">Antes · perfil invisible</div>
+            <div class="s3-col-headline">Headline poético, sin keywords del rol.</div>
+            <div class="s3-mock">
+              <div class="s3-mock-handle">
+                <div class="s3-mock-avatar"></div>
+                <div>
+                  <div class="s3-mock-name">Sofía R.</div>
+                  <div class="s3-mock-pos">San José · 600 conexiones</div>
+                </div>
+              </div>
+              <div class="s3-mock-headline-text">"Communications · Brand · Storyteller · Crafting authentic narratives that move people."</div>
+            </div>
+            <div class="s3-col-footer"><strong>0 búsquedas</strong> de reclutador en 6 meses.</div>
+          </div>
+          <div class="s3-col after">
+            <div class="s3-col-tag">Después · keywords del rol</div>
+            <div class="s3-col-headline">Headline reescrito con 3 términos de la industria.</div>
+            <div class="s3-mock">
+              <div class="s3-mock-handle">
+                <div class="s3-mock-avatar"></div>
+                <div>
+                  <div class="s3-mock-name">Sofía R.</div>
+                  <div class="s3-mock-pos">San José · Communications</div>
+                </div>
+              </div>
+              <div class="s3-mock-headline-text"><span class="kw">Communications Director</span> · 12 años · <span class="kw">brand strategy</span> + <span class="kw">internal comms</span> en SaaS LATAM.</div>
+            </div>
+            <div class="s3-col-footer"><strong>4 apariciones</strong> en búsquedas la primera semana.</div>
+          </div>
+        </div>
+
+        <div class="s3-proof">"Cliente de San José. Misma experiencia, headline reescrito con 3 keywords de su industria. <strong>4 apariciones en búsquedas de reclutadores en la primera semana.</strong>"</div>
+
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span>ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">03 · 04</div>
+      </section>
+
+      <!-- ============ SLIDE 4 — RESOLUCIÓN ============ -->
+      <section class="slide s4" id="slide-4">
+        <div class="masthead">
+          <div class="mast-logo">worq<span>ai</span></div>
+          <div class="mast-section">Resolución</div>
+        </div>
+        <div class="s4-tag">Resolución</div>
+        <h2 class="s4-headline">Tu perfil puede <strong>trabajar por vos.</strong></h2>
+        <div class="s4-rule"></div>
+        <p class="s4-sub">WorqAI reescribe tu headline, resumen y skills con los keywords exactos de los roles que buscás. Completalo en 10 minutos y empezá a aparecer en búsquedas de reclutadores.</p>
+
+        <div class="s4-cta">
+          <p class="s4-cta-q">¿Querés el checklist de optimización gratis?</p>
+          <div class="s4-keyword-line">
+            <span>Escribime</span>
+            <span class="s4-keyword-box">LINKEDIN</span>
+            <span>al DM</span>
+          </div>
+          <p class="s4-reward">y te mando el checklist de 12 puntos en PDF.</p>
+        </div>
+
+        <div class="brand-mark">worq<span>ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">04 · 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<p class="upload-panel-label">Foto del carousel</p>
+<div class="upload-panel">
+  <label class="up-btn" for="file-s1" id="btn-s1">
+    <span class="up-label">Slide 1 · Retrato editorial</span>
+    <span class="up-check">✓</span>
+  </label>
+</div>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · editorial finish</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+// Photo upload
+const uploadMap = [
+  { inputId: 'file-s1', zoneId: 'zone-s1', btnId: 'btn-s1', bgOpacity: null },
+];
+uploadMap.forEach(({ inputId, zoneId, btnId, bgOpacity }) => {
+  document.getElementById(inputId).addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const zone = document.getElementById(zoneId);
+      zone.style.backgroundImage = `url(${ev.target.result})`;
+      zone.style.backgroundSize = 'cover';
+      zone.style.backgroundPosition = 'center top';
+      zone.classList.add('has-image');
+      if (bgOpacity) zone.style.opacity = bgOpacity;
+      document.getElementById(btnId).classList.add('done');
+    };
+    reader.readAsDataURL(file);
+    this.value = '';
+  });
+});
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel-linkedin-optimizado.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–04.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · editorial finish';
+  }, 3000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+[
+  { "label": "wound",         "volume": 1.0, "offset_ms_add": 0,
+    "line": "Mandaste el mismo CV a cuarenta vacantes y no te llamaron. No eres tú. Es un filtro que te descarta antes de que un humano te lea." },
+
+  { "label": "score_low",     "volume": 1.0, "offset_ms_add": 200,
+    "line": "Hoy tu puntuacion es veintitres sobre cien. El filtro no encontró las palabras que pide la vacante." },
+
+  { "label": "cheat_code",    "volume": 1.0, "offset_ms_add": 0,
+    "line": "Los que sí consiguen entrevista no tienen un mejor CV. Tienen uno para cada vacante." },
+
+  { "label": "tailor1",       "volume": 1.0, "offset_ms_add": 0,
+    "line": "Workái lee la vacante y reescribe cada linea con tus logros reales. De veintitres a noventa y dos." },
+
+  { "label": "tailor2",       "volume": 1.0, "offset_ms_add": 0,
+    "line": "Otra vacante, otro CV, en segundos." },
+
+  { "label": "tailor3",       "volume": 1.0, "offset_ms_add": 0,
+    "line": "Y hasta para un puesto que no es técnico... noventa y tres." },
+
+  { "label": "human_close",   "volume": 1.0, "offset_ms_add": 0,
+    "line": "Tú no cambiaste, tu historial tampoco. Solo dejó de ser invisible para el filtro." },
+
+  { "label": "cta",           "volume": 1.0, "offset_ms_add": 0,
+    "line": "Sube tu CV y descubre tu puntuacion. Gratis, en workái punto io." }
+]

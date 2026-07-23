@@ -1,0 +1,30 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-color-block",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: COLOR BLOCK
+Purpose: Rhythm break — solid accent color block with text.
+-->
+
+<div class="content">
+  <div class="color-block">
+    <p class="cb-label">Interludio</p>
+    <h2 class="cb-display">El problema<br>no eres tu.</h2>
+    <p class="cb-body">Es tu CV. Y se puede arreglar.</p>
+  </div>
+</div>
+
+<style>
+.color-block { display: flex; flex-direction: column; gap: 20px; margin-top: auto; margin-bottom: auto; }
+.cb-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.30em; text-transform: uppercase; color: var(--accent); }
+.cb-display { font-family: var(--font-display), system-ui, sans-serif; font-size: 88px; font-weight: 900; line-height: 1.02; letter-spacing: -0.03em; color: var(--text-primary); max-width: 800px; }
+.cb-body { font-family: var(--font-body), system-ui, sans-serif; font-size: 24px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 560px; }
+</style>

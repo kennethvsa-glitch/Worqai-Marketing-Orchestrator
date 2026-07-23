@@ -1,0 +1,69 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "geo-cross-grid",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s19",
+      "s25",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "light-neon-border",
+      "deco-progress-dots",
+      "mock-terminal-mac",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "org-blob-scattered",
+      "tex-paper-fibers",
+      "pat-waves-subtle"
+    ]
+  }
+-->
+
+<!--
+LAYER: FLAT GRID
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_portfolio_04.html
+Purpose: Mathematical grid background. Best for brutalist, editorial, Swiss systems.
+-->
+
+<div class="grid-bg"></div>
+
+<style>
+.grid-bg {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0, transparent 79px, currentColor 79px, currentColor 80px),
+    repeating-linear-gradient(90deg, transparent 0, transparent 79px, currentColor 79px, currentColor 80px);
+  color: var(--text-muted);
+  opacity: var(--geo-opacity, 0.05);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Grid spacing: 40px (dense) to 120px (sparse)
+- color: inherits from --text-muted or use --accent-line
+- opacity: 0.03 (ghost) to 0.10 (visible)
+-->

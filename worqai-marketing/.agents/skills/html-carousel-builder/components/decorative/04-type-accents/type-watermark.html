@@ -1,0 +1,36 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "type-watermark",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s01",
+      "s04",
+      "s07",
+      "s13",
+      "s22",
+      "s25",
+      "s35",
+      "s37"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s26",
+      "s39"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: WATERMARK
+Purpose: D4 — Subtle repeating watermark text.
+-->
+
+<div class="watermark-text">OPTIMIZAR</div>
+
+<style>
+.watermark-text { font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 2em; text-transform: uppercase; color: var(--text-primary); opacity: 0.02; position: absolute; top: 50%; left: 0; width: 100%; text-align: center; pointer-events: none; z-index: 0; transform: rotate(-12deg); white-space: nowrap; }
+</style>

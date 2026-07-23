@@ -1,0 +1,57 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "tex-dust-particles",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s07",
+      "s18",
+      "s22",
+      "s30",
+      "s32",
+      "s35",
+      "s40",
+      "s42",
+      "s44",
+      "s45"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s26",
+      "s39"
+    ],
+    "pairs_well_with": [
+      "deco-stamp",
+      "deco-corner-frame",
+      "slide-pull-quote"
+    ],
+    "conflicts_with": [
+      "light-lens-flare",
+      "light-ambient-orb"
+    ]
+  }
+-->
+
+<!--
+LAYER: DUST PARTICLES
+Floating specks like dust motes.
+Best for: sunlit, atmospheric, magical systems.
+-->
+
+<div class="dust"></div>
+
+<style>
+.dust {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.15) 1.5px, transparent 1.5px);
+  background-size: 120px 120px, 300px 300px;
+  background-position: 0 0, 60px 150px;
+  opacity: 0.20;
+}
+</style>

@@ -1,0 +1,69 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "geo-wireframe-isometric",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s19",
+      "s25",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "light-neon-border",
+      "deco-progress-dots",
+      "mock-terminal-mac",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "org-blob-scattered",
+      "tex-paper-fibers",
+      "pat-waves-subtle"
+    ]
+  }
+-->
+
+<!--
+LAYER: WIREFRAME ISOMETRIC
+3D grid with isometric rotation (rotateX + rotateZ at 30deg increments).
+Best for: tech, data, architectural systems.
+-->
+
+<div class="wf-iso-wrap"><div class="wf-iso"></div></div>
+
+<style>
+.wf-iso-wrap {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none; z-index: 1;
+  perspective: 800px;
+}
+.wf-iso {
+  position: absolute;
+  width: 200%; height: 200%;
+  left: -50%; top: -50%;
+  background-image:
+    linear-gradient(to right, var(--accent) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--accent) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: var(--geo-opacity, 0.08);
+  transform: rotateX(55deg) rotateZ(-30deg);
+}
+</style>

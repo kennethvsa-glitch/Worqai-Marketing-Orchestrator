@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layout Tests 01–08</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 40px;
+  --space-5: 64px;
+  --space-6: 96px;
+}
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 20px 60px;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 540px;
+}
+
+.viewer-title {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  font-weight: 400;
+}
+
+.viewer-counter {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.22);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.viewport {
+  width: 540px;
+  height: 675px;
+  overflow: hidden;
+  position: relative;
+}
+
+.track {
+  display: flex;
+  height: 675px;
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 1080×1350 slide, scaled 50% → 540×675 display */
+.slide-wrapper {
+  flex-shrink: 0;
+  width: 540px;
+  height: 675px;
+  overflow: hidden;
+}
+
+.slide {
+  position: relative;
+  width: 1080px;
+  height: 1350px;
+  overflow: hidden;
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 540px;
+  justify-content: space-between;
+}
+
+.nav-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.11);
+  color: rgba(255,255,255,0.85);
+}
+
+.slide-name {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  font-weight: 400;
+  flex: 1;
+}
+
+.dots-row {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+  cursor: pointer;
+  transition: all 0.22s;
+}
+
+.dot.active {
+  background: rgba(255,255,255,0.65);
+  width: 22px;
+  border-radius: 3px;
+}
+
+
+/* ========================================================
+   SLIDE 01 — LUXURY FRAME GRID
+   ======================================================== */
+
+.slide-01 {
+  background: #f7f5f2;
+}
+
+/* Slide number */
+.s01-num {
+  position: absolute;
+  top: 66px;
+  left: 76px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #b87040;
+  letter-spacing: 0.05em;
+}
+
+/* Main inner floating frame */
+.s01-frame {
+  position: absolute;
+  inset: 128px;
+  border: 1px solid rgba(175, 120, 75, 0.22);
+}
+
+/* Copper L-bracket at top-left of frame */
+.s01-bracket-tl {
+  position: absolute;
+  top: 128px;
+  left: 128px;
+  width: 0;
+  height: 0;
+}
+
+.s01-bracket-tl::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 52px;
+  height: 2px;
+  background: #b87040;
+  opacity: 0.7;
+}
+
+.s01-bracket-tl::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 2px;
+  height: 52px;
+  background: #b87040;
+  opacity: 0.7;
+}
+
+/* Small solid copper accent block — upper right inside frame */
+.s01-accent-block {
+  position: absolute;
+  top: 148px;
+  right: 228px;
+  width: 22px;
+  height: 22px;
+  background: #b87040;
+  opacity: 0.72;
+}
+
+/* Left floating vertical line */
+.s01-side-line {
+  position: absolute;
+  left: 80px;
+  top: 350px;
+  width: 2px;
+  height: 120px;
+  background: rgba(0,0,0,0.07);
+}
+
+/* Left side tick marks */
+.s01-side-ticks {
+  position: absolute;
+  left: 66px;
+  top: 352px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.s01-tick {
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+}
+
+/* 3×3 dot matrix — upper-right quadrant */
+.s01-dot-matrix {
+  position: absolute;
+  top: 195px;
+  right: 156px;
+  display: grid;
+  grid-template-columns: repeat(3, 14px);
+  gap: 8px;
+}
+
+.s01-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #111;
+  opacity: 0.17;
+  justify-self: center;
+  align-self: center;
+}
+
+/* Bottom-left staggered horizontal lines */
+.s01-lines {
+  position: absolute;
+  bottom: 155px;
+  left: 156px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.s01-hline {
+  height: 1.5px;
+  background: rgba(0,0,0,0.2);
+}
+
+/* Small empty circle indicator */
+.s01-circle {
+  position: absolute;
+  right: 218px;
+  bottom: 298px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.16);
+}
+
+/* Right side vertical tick marks */
+.s01-right-ticks {
+  position: absolute;
+  right: 72px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.s01-rtick {
+  height: 1px;
+  background: rgba(0,0,0,0.09);
+}
+
+/* Bottom name label */
+.s01-name {
+  position: absolute;
+  bottom: 74px;
+  left: 76px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(0,0,0,0.18);
+  text-transform: uppercase;
+}
+
+
+/* ========================================================
+   SLIDE 02 — SOFT GLASSMORPHIC PANELS
+   ======================================================== */
+
+.slide-02 {
+  background: linear-gradient(145deg, #e8e5f5 0%, #dde0f3 38%, #e5e0f4 68%, #ddd8ef 100%);
+}
+
+.s02-num {
+  position: absolute;
+  top: 66px;
+  left: 86px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(90,80,150,0.45);
+  letter-spacing: 0.05em;
+}
+
+.s02-panel {
+  position: absolute;
+  background: rgba(255,255,255,0.26);
+  border: 1px solid rgba(255,255,255,0.44);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 8px 36px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Large panel — upper right */
+.s02-panel-a {
+  top: 88px;
+  right: 86px;
+  width: 448px;
+  height: 336px;
+  border-radius: 36px;
+}
+
+/* Medium panel — left, overlapping */
+.s02-panel-b {
+  top: 268px;
+  left: 86px;
+  width: 336px;
+  height: 408px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.2);
+}
+
+/* Wide shallow panel — bottom center */
+.s02-panel-c {
+  bottom: 108px;
+  left: 176px;
+  width: 536px;
+  height: 232px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.17);
+}
+
+/* Small panel — bottom right, on top */
+.s02-panel-d {
+  bottom: 126px;
+  right: 96px;
+  width: 206px;
+  height: 144px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.34);
+}
+
+.s02-name {
+  position: absolute;
+  bottom: 74px;
+  left: 86px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(80,70,130,0.28);
+  text-transform: uppercase;
+}
+
+
+/* ========================================================
+   SLIDE 03 — ARCHITECTURAL EDITORIAL LINES
+   ======================================================== */
+
+.slide-03 {
+  background: #f8f8f7;
+}
+
+.s03-num {
+  position: absolute;
+  top: 66px;
+  left: 76px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.05em;
+}
+
+/* Large primary rectangle — right-offset */
+.s03-main-rect {
+  position: absolute;
+  top: 165px;
+  left: 206px;
+  width: 668px;
+  height: 812px;
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+/* 2×4 dot matrix — upper right */
+.s03-dot-matrix {
+  position: absolute;
+  top: 186px;
+  right: 100px;
+  display: grid;
+  grid-template-columns: repeat(4, 13px);
+  gap: 7px;
+}
+
+.s03-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #111;
+  opacity: 0.15;
+  justify-self: center;
+  align-self: center;
+}
+
+/* Fat black anchor bar */
+.s03-anchor {
+  position: absolute;
+  top: 648px;
+  left: 224px;
+  width: 98px;
+  height: 9px;
+  background: #111;
+}
+
+/* Inner lower rectangle */
+.s03-inner-rect {
+  position: absolute;
+  top: 772px;
+  left: 436px;
+  width: 386px;
+  height: 172px;
+  border: 1px solid rgba(0,0,0,0.15);
+}
+
+/* Left measurement line */
+.s03-measure {
+  position: absolute;
+  top: 330px;
+  left: 178px;
+  width: 1px;
+  height: 198px;
+  background: rgba(0,0,0,0.08);
+}
+
+/* Measurement end caps */
+.s03-cap-t {
+  position: absolute;
+  top: 329px;
+  left: 172px;
+  width: 13px;
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+}
+
+.s03-cap-b {
+  position: absolute;
+  top: 527px;
+  left: 172px;
+  width: 13px;
+  height: 1px;
+  background: rgba(0,0,0,0.12);
+}
+
+.s03-name {
+  position: absolute;
+  bottom: 74px;
+  left: 76px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(0,0,0,0.18);
+  text-transform: uppercase;
+}
+
+
+/* ========================================================
+   SLIDE 04 — CYBER LUXURY HUD
+   ======================================================== */
+
+.slide-04 {
+  background: #fafafa;
+}
+
+.s04-num {
+  position: absolute;
+  top: 66px;
+  left: 76px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(62,207,255,0.65);
+  letter-spacing: 0.05em;
+}
+
+/* Outer HUD frame */
+.s04-frame {
+  position: absolute;
+  inset: 100px;
+  border: 1px solid rgba(62,207,255,0.26);
+}
+
+/* Scan text labels */
+.s04-scan-tl {
+  position: absolute;
+  top: 104px;
+  left: 198px;
+  font-size: 11px;
+  color: rgba(62,207,255,0.72);
+  letter-spacing: 0.14em;
+  font-weight: 300;
+}
+
+.s04-scan-tr {
+  position: absolute;
+  top: 104px;
+  right: 164px;
+  font-size: 11px;
+  color: rgba(62,207,255,0.52);
+  letter-spacing: 0.1em;
+  font-weight: 300;
+}
+
+/* Bottom dash row */
+.s04-dashes {
+  position: absolute;
+  bottom: 108px;
+  right: 166px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.s04-dash {
+  height: 2px;
+  background: rgba(62,207,255,0.36);
+  border-radius: 1px;
+}
+
+.s04-name {
+  position: absolute;
+  bottom: 74px;
+  left: 76px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(62,207,255,0.3);
+  text-transform: uppercase;
+}
+
+
+/* ========================================================
+   SLIDE 05 — TOPOGRAPHIC FLOW SYSTEM
+   ======================================================== */
+
+.slide-05 {
+  background: #f6f7f4;
+}
+
+.s05-num {
+  position: absolute;
+  top: 66px;
+  left: 76px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+.s05-circle {
+  position: absolute;
+  top: 692px;
+  right: 316px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(75,95,70,0.26);
+  z-index: 2;
+}
+
+.s05-name {
+  position: absolute;
+  bottom: 74px;
+  left: 76px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(0,0,0,0.18);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+
+/* ========================================================
+   SLIDE 06 — MODULAR SAAS BLOCK SYSTEM
+   ======================================================== */
+
+.slide-06 {
+  background: #f9fbff;
+}
+
+.s06-num {
+  position: absolute;
+  top: 66px;
+  left: 80px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.05em;
+}
+
+.s06-grid {
+  position: absolute;
+  top: 126px;
+  left: 80px;
+  right: 80px;
+  bottom: 96px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr 1.35fr;
+  gap: 22px;
+}
+
+.s06-module {
+  border: 1px solid rgba(80,120,255,0.19);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.52);
+  padding: 26px 26px 22px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.s06-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.s06-bullet {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(80,120,255,0.28);
+  flex-shrink: 0;
+}
+
+.s06-hline {
+  height: 1px;
+  flex: 1;
+  background: rgba(80,120,255,0.08);
+}
+
+.s06-arrow {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+  font-size: 17px;
+  color: rgba(80,120,255,0.28);
+  line-height: 1;
+}
+
+.s06-name {
+  position: absolute;
+  bottom: 74px;
+  left: 80px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(0,0,0,0.18);
+  text-transform: uppercase;
+}
+
+
+/* ========================================================
+   SLIDE 07 — BRUTALIST MINIMAL TECH
+   ======================================================== */
+
+.slide-07 {
+  background: #fdfdfd;
+}
+
+.s07-num {
+  position: absolute;
+  top: 66px;
+  left: 76px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.32);
+  letter-spacing: 0.05em;
+}
+
+/* Large black block — upper right */
+.s07-block-main {
+  position: absolute;
+  top: 148px;
+  right: 0;
+  width: 580px;
+  height: 396px;
+  background: #111;
+}
+
+/* Diagonal stripe strip — left edge transition */
+.s07-stripe {
+  position: absolute;
+  top: 148px;
+  right: 580px;
+  width: 76px;
+  height: 396px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #111 0px,
+    #111 3px,
+    transparent 3px,
+    transparent 10px
+  );
+  opacity: 0.85;
+}
+
+/* Smaller black bar — lower area */
+.s07-block-sm {
+  position: absolute;
+  bottom: 204px;
+  right: 84px;
+  width: 306px;
+  height: 82px;
+  background: #111;
+}
+
+/* 3×3 dot matrix — upper left */
+.s07-dot-matrix {
+  position: absolute;
+  top: 196px;
+  left: 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 16px);
+  gap: 7px;
+}
+
+.s07-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #111;
+  opacity: 0.26;
+  justify-self: center;
+  align-self: center;
+}
+
+/* Diagonal slash mark */
+.s07-slash {
+  position: absolute;
+  bottom: 362px;
+  left: 136px;
+  width: 3px;
+  height: 86px;
+  background: #111;
+  transform: rotate(28deg);
+  transform-origin: center;
+}
+
+/* Small dot cluster — lower left */
+.s07-dot-cluster {
+  position: absolute;
+  bottom: 246px;
+  left: 96px;
+  display: grid;
+  grid-template-columns: repeat(3, 10px);
+  gap: 6px;
+}
+
+.s07-dot-sm {
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: #111;
+  opacity: 0.2;
+  justify-self: center;
+  align-self: center;
+}
+
+.s07-name {
+  position: absolute;
+  bottom: 74px;
+  left: 76px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(0,0,0,0.18);
+  text-transform: uppercase;
+}
+
+
+/* ========================================================
+   SLIDE 08 — MOTION GRAPHIC STRUCTURES
+   ======================================================== */
+
+.slide-08 {
+  background: #fafafa;
+}
+
+.s08-num {
+  position: absolute;
+  top: 66px;
+  left: 76px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.3);
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+/* Corner bracket — top right */
+.s08-corner-tr {
+  position: absolute;
+  top: 88px;
+  right: 108px;
+  width: 42px;
+  height: 42px;
+  border-top: 1px solid rgba(140,80,240,0.26);
+  border-right: 1px solid rgba(140,80,240,0.26);
+}
+
+/* Corner bracket — bottom left */
+.s08-corner-bl {
+  position: absolute;
+  bottom: 88px;
+  left: 108px;
+  width: 42px;
+  height: 42px;
+  border-bottom: 1px solid rgba(140,80,240,0.26);
+  border-left: 1px solid rgba(140,80,240,0.26);
+}
+
+/* Small horizontal line detail near top-right */
+.s08-line-detail {
+  position: absolute;
+  top: 106px;
+  right: 176px;
+  width: 62px;
+  height: 1px;
+  background: rgba(140,80,240,0.18);
+}
+
+.s08-name {
+  position: absolute;
+  bottom: 74px;
+  left: 76px;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(0,0,0,0.18);
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+</style>
+</head>
+<body>
+
+<div class="viewer">
+  <div class="viewer-header">
+    <span class="viewer-title">Layout Tests — 01/08</span>
+    <span class="viewer-counter" id="counter">01 / 08</span>
+  </div>
+
+  <div class="viewport">
+    <div class="track" id="track">
+
+      <!-- ===============================================================
+           SLIDE 01 — LUXURY FRAME GRID
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-01">
+          <div class="s01-num">01</div>
+          <div class="s01-frame"></div>
+          <div class="s01-bracket-tl"></div>
+          <div class="s01-accent-block"></div>
+          <div class="s01-side-line"></div>
+          <div class="s01-side-ticks">
+            <div class="s01-tick" style="width:14px"></div>
+            <div class="s01-tick" style="width:8px"></div>
+            <div class="s01-tick" style="width:14px"></div>
+            <div class="s01-tick" style="width:8px"></div>
+            <div class="s01-tick" style="width:14px"></div>
+          </div>
+          <div class="s01-dot-matrix">
+            <div class="s01-dot"></div><div class="s01-dot"></div><div class="s01-dot"></div>
+            <div class="s01-dot"></div><div class="s01-dot"></div><div class="s01-dot"></div>
+            <div class="s01-dot"></div><div class="s01-dot"></div><div class="s01-dot"></div>
+          </div>
+          <div class="s01-lines">
+            <div class="s01-hline" style="width:54px"></div>
+            <div class="s01-hline" style="width:40px"></div>
+            <div class="s01-hline" style="width:26px"></div>
+          </div>
+          <div class="s01-circle"></div>
+          <div class="s01-right-ticks">
+            <div class="s01-rtick" style="width:18px"></div>
+            <div class="s01-rtick" style="width:10px"></div>
+            <div class="s01-rtick" style="width:18px"></div>
+            <div class="s01-rtick" style="width:10px"></div>
+            <div class="s01-rtick" style="width:18px"></div>
+          </div>
+          <div class="s01-name">Luxury Frame Grid</div>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 02 — SOFT GLASSMORPHIC PANELS
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-02">
+          <div class="s02-num">02</div>
+          <div class="s02-panel s02-panel-a"></div>
+          <div class="s02-panel s02-panel-b"></div>
+          <div class="s02-panel s02-panel-c"></div>
+          <div class="s02-panel s02-panel-d"></div>
+          <div class="s02-name">Soft Glassmorphic Panels</div>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 03 — ARCHITECTURAL EDITORIAL LINES
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-03">
+          <div class="s03-num">03</div>
+          <div class="s03-main-rect"></div>
+          <div class="s03-dot-matrix">
+            <div class="s03-dot"></div><div class="s03-dot"></div><div class="s03-dot"></div><div class="s03-dot"></div>
+            <div class="s03-dot"></div><div class="s03-dot"></div><div class="s03-dot"></div><div class="s03-dot"></div>
+          </div>
+          <div class="s03-anchor"></div>
+          <div class="s03-inner-rect"></div>
+          <div class="s03-measure"></div>
+          <div class="s03-cap-t"></div>
+          <div class="s03-cap-b"></div>
+          <!-- Circle arc + small horizontal line crossing the rect -->
+          <svg style="position:absolute;inset:0;width:1080px;height:1350px;pointer-events:none" viewBox="0 0 1080 1350">
+            <circle cx="1110" cy="1260" r="530" stroke="rgba(0,0,0,0.10)" stroke-width="1" fill="none"/>
+            <line x1="158" y1="488" x2="216" y2="488" stroke="rgba(0,0,0,0.09)" stroke-width="1"/>
+          </svg>
+          <div class="s03-name">Architectural Editorial Lines</div>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 04 — CYBER LUXURY HUD
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-04">
+          <div class="s04-num">04</div>
+          <div class="s04-frame"></div>
+          <div class="s04-scan-tl">SCAN 3.04</div>
+          <div class="s04-scan-tr">SYS_ACTIVE</div>
+          <div class="s04-dashes">
+            <div class="s04-dash" style="width:26px"></div>
+            <div class="s04-dash" style="width:13px"></div>
+            <div class="s04-dash" style="width:20px"></div>
+            <div class="s04-dash" style="width:8px"></div>
+            <div class="s04-dash" style="width:18px"></div>
+          </div>
+          <!-- HUD corners + reticle via SVG -->
+          <svg style="position:absolute;inset:0;width:1080px;height:1350px;pointer-events:none" viewBox="0 0 1080 1350">
+            <!-- Corner L-brackets -->
+            <path d="M100 165 L100 100 L165 100" stroke="rgba(62,207,255,0.68)" stroke-width="1.5" fill="none"/>
+            <path d="M980 165 L980 100 L915 100" stroke="rgba(62,207,255,0.68)" stroke-width="1.5" fill="none"/>
+            <path d="M100 1185 L100 1250 L165 1250" stroke="rgba(62,207,255,0.68)" stroke-width="1.5" fill="none"/>
+            <path d="M980 1185 L980 1250 L915 1250" stroke="rgba(62,207,255,0.68)" stroke-width="1.5" fill="none"/>
+            <!-- Frame inner tick marks -->
+            <line x1="100" y1="420" x2="122" y2="420" stroke="rgba(62,207,255,0.28)" stroke-width="1"/>
+            <line x1="100" y1="640" x2="115" y2="640" stroke="rgba(62,207,255,0.18)" stroke-width="1"/>
+            <line x1="980" y1="420" x2="958" y2="420" stroke="rgba(62,207,255,0.28)" stroke-width="1"/>
+            <line x1="980" y1="940" x2="965" y2="940" stroke="rgba(62,207,255,0.18)" stroke-width="1"/>
+            <!-- Reticle outer ring -->
+            <circle cx="540" cy="675" r="46" stroke="rgba(70,213,255,0.66)" stroke-width="1" fill="none"/>
+            <!-- Reticle inner dot ring -->
+            <circle cx="540" cy="675" r="9" stroke="rgba(70,213,255,0.38)" stroke-width="1" fill="none"/>
+            <!-- Crosshair lines -->
+            <line x1="488" y1="675" x2="525" y2="675" stroke="rgba(70,213,255,0.66)" stroke-width="1"/>
+            <line x1="555" y1="675" x2="592" y2="675" stroke="rgba(70,213,255,0.66)" stroke-width="1"/>
+            <line x1="540" y1="623" x2="540" y2="660" stroke="rgba(70,213,255,0.66)" stroke-width="1"/>
+            <line x1="540" y1="690" x2="540" y2="727" stroke="rgba(70,213,255,0.66)" stroke-width="1"/>
+            <!-- Outer tick marks around reticle -->
+            <line x1="540" y1="612" x2="540" y2="619" stroke="rgba(70,213,255,0.28)" stroke-width="1"/>
+            <line x1="540" y1="731" x2="540" y2="738" stroke="rgba(70,213,255,0.28)" stroke-width="1"/>
+            <line x1="482" y1="675" x2="489" y2="675" stroke="rgba(70,213,255,0.28)" stroke-width="1"/>
+            <line x1="591" y1="675" x2="598" y2="675" stroke="rgba(70,213,255,0.28)" stroke-width="1"/>
+          </svg>
+          <div class="s04-name">Cyber Luxury HUD</div>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 05 — TOPOGRAPHIC FLOW SYSTEM
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-05" id="slide05">
+          <div class="s05-num">05</div>
+          <div class="s05-circle"></div>
+          <div class="s05-name">Topographic Flow System</div>
+          <!-- SVG topo lines injected by JS -->
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 06 — MODULAR SAAS BLOCK SYSTEM
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-06">
+          <div class="s06-num">06</div>
+          <div class="s06-grid">
+            <!-- Row 1 left -->
+            <div class="s06-module">
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline" style="flex:0.6"></div></div>
+            </div>
+            <!-- Row 1 right -->
+            <div class="s06-module">
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-arrow">→</div>
+            </div>
+            <!-- Row 2 left -->
+            <div class="s06-module">
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline" style="flex:0.55"></div></div>
+            </div>
+            <!-- Row 2 right -->
+            <div class="s06-module">
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline"></div></div>
+              <div class="s06-row"><div class="s06-bullet"></div><div class="s06-hline" style="flex:0.7"></div></div>
+              <div class="s06-arrow">→</div>
+            </div>
+            <!-- Row 3 full-width -->
+            <div class="s06-module" style="grid-column:1/-1">
+              <div class="s06-row">
+                <div class="s06-bullet"></div><div class="s06-hline"></div>
+                <div class="s06-bullet"></div><div class="s06-hline"></div>
+              </div>
+              <div class="s06-row">
+                <div class="s06-bullet"></div><div class="s06-hline"></div>
+                <div class="s06-bullet"></div><div class="s06-hline" style="flex:0.6"></div>
+              </div>
+              <div class="s06-arrow">→</div>
+            </div>
+          </div>
+          <div class="s06-name">Modular SaaS Block System</div>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 07 — BRUTALIST MINIMAL TECH
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-07">
+          <div class="s07-num">07</div>
+          <div class="s07-block-main"></div>
+          <div class="s07-stripe"></div>
+          <div class="s07-block-sm"></div>
+          <div class="s07-dot-matrix">
+            <div class="s07-dot"></div><div class="s07-dot"></div><div class="s07-dot"></div>
+            <div class="s07-dot"></div><div class="s07-dot"></div><div class="s07-dot"></div>
+            <div class="s07-dot"></div><div class="s07-dot"></div><div class="s07-dot"></div>
+          </div>
+          <div class="s07-slash"></div>
+          <div class="s07-dot-cluster">
+            <div class="s07-dot-sm"></div><div class="s07-dot-sm"></div><div class="s07-dot-sm"></div>
+            <div class="s07-dot-sm"></div><div class="s07-dot-sm"></div><div class="s07-dot-sm"></div>
+          </div>
+          <div class="s07-name">Brutalist Minimal Tech</div>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           SLIDE 08 — MOTION GRAPHIC STRUCTURES
+           =============================================================== -->
+      <div class="slide-wrapper">
+        <div class="slide slide-08" id="slide08">
+          <div class="s08-num">08</div>
+          <div class="s08-corner-tr"></div>
+          <div class="s08-corner-bl"></div>
+          <div class="s08-line-detail"></div>
+          <div class="s08-name">Motion Graphic Structures</div>
+          <!-- SVG wave paths injected by JS -->
+        </div>
+      </div>
+
+    </div><!-- /track -->
+  </div><!-- /viewport -->
+
+  <div class="nav">
+    <button class="nav-btn" onclick="navigate(-1)">&#8592;</button>
+    <div class="slide-name" id="slide-name">Luxury Frame Grid</div>
+    <button class="nav-btn" onclick="navigate(1)">&#8594;</button>
+  </div>
+
+  <div class="dots-row" id="dots-row"></div>
+
+</div><!-- /viewer -->
+
+<script>
+/* ============================================================
+   CAROUSEL NAVIGATION
+   ============================================================ */
+let current = 0;
+const total = 8;
+
+const slideNames = [
+  'Luxury Frame Grid',
+  'Soft Glassmorphic Panels',
+  'Architectural Editorial Lines',
+  'Cyber Luxury HUD',
+  'Topographic Flow System',
+  'Modular SaaS Block System',
+  'Brutalist Minimal Tech',
+  'Motion Graphic Structures'
+];
+
+const track     = document.getElementById('track');
+const dotsRow   = document.getElementById('dots-row');
+const nameEl    = document.getElementById('slide-name');
+const counterEl = document.getElementById('counter');
+
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.addEventListener('click', () => goTo(i));
+  dotsRow.appendChild(d);
+}
+
+function navigate(dir) {
+  goTo((current + dir + total) % total);
+}
+
+function goTo(idx) {
+  current = idx;
+  track.style.transform = `translateX(-${current * 540}px)`;
+  nameEl.textContent = slideNames[current];
+  counterEl.textContent = String(current + 1).padStart(2, '0') + ' / 08';
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+});
+
+
+/* ============================================================
+   SLIDE 05 — TOPOGRAPHIC FLOW LINES (generated)
+   ============================================================ */
+(function buildTopoLines() {
+  const ns  = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 1080 1350');
+  svg.setAttribute('width',   '1080');
+  svg.setAttribute('height',  '1350');
+  svg.style.cssText = 'position:absolute;inset:0;pointer-events:none';
+
+  const W = 1080, H = 1350;
+  const count = 64;
+
+  for (let i = 0; i < count; i++) {
+    const t = i / (count - 1);
+
+    /* Distribute lines vertically, denser toward center */
+    const baseY = 120 + t * 1100;
+
+    /* Organic horizontal flow with two independent sine components */
+    const a1 = 90  + Math.sin(t * Math.PI) * 140;
+    const a2 = 40  + Math.cos(t * Math.PI * 1.3) * 60;
+    const f1 = 0.0018 + t * 0.0006;
+    const f2 = 0.0038 + t * 0.0004;
+    const ph = i * 0.55;
+
+    /* Build path as polyline through samples */
+    const steps = 28;
+    let d = '';
+    for (let s = 0; s <= steps; s++) {
+      const x = (s / steps) * (W + 120) - 60;
+      const y = baseY
+              + Math.sin(x * f1 + ph)            * a1
+              + Math.sin(x * f2 + ph * 1.7 + 1)  * a2
+              + Math.cos(x * 0.0009 + ph * 0.4)  * 55;
+      d += (s === 0 ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`);
+    }
+
+    /* Opacity peaks in the center band */
+    const centerDist = Math.abs(t - 0.45) * 2;
+    const opacity = Math.max(0.035, 0.21 - centerDist * 0.17);
+
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', `rgba(68,88,65,${opacity.toFixed(3)})`);
+    path.setAttribute('stroke-width', '1.15');
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+  }
+
+  document.getElementById('slide05').insertBefore(svg, document.getElementById('slide05').firstChild);
+})();
+
+
+/* ============================================================
+   SLIDE 08 — MOTION GRAPHIC WAVE PATHS (generated)
+   ============================================================ */
+(function buildWavePaths() {
+  const ns  = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 1080 1350');
+  svg.setAttribute('width',   '1080');
+  svg.setAttribute('height',  '1350');
+  svg.style.cssText = 'position:absolute;inset:0;pointer-events:none';
+
+  const count = 44;
+
+  for (let i = 0; i < count; i++) {
+    const t = i / (count - 1);
+
+    /* Entry: spread across left side */
+    const startY = 140 + t * 1060;
+
+    /* Control points create sweeping S-curves */
+    const sweep = (t < 0.5 ? t : 1 - t) * 2;         /* 0→1→0 bell */
+    const curveDepth = 180 + sweep * 380;
+    const sign = (i % 2 === 0 ? 1 : -1);
+
+    const cp1x = 220  + Math.sin(t * 5.2 + i * 0.3) * 80;
+    const cp1y = startY + sign * curveDepth * (0.4 + Math.sin(i * 0.7) * 0.3);
+
+    const cp2x = 660  + Math.cos(i * 0.4 + 1.1) * 110;
+    const cp2y = startY - sign * curveDepth * (0.25 + Math.cos(i * 0.5) * 0.2)
+                       + (t - 0.5) * 200;
+
+    /* Exit: converge toward right-center zone */
+    const endY = 320 + Math.sin(t * Math.PI * 1.8 + i * 0.15) * 420 + t * 380;
+
+    const d = `M 0 ${startY.toFixed(1)} C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, 1080 ${endY.toFixed(1)}`;
+
+    /* Opacity: denser in the main sweep band */
+    const opacity = 0.10 + sweep * 0.34 * (0.6 + Math.sin(i * 0.9) * 0.4);
+    const sw      = (0.9 + sweep * 0.9).toFixed(2);
+
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', `rgba(138,75,248,${Math.min(0.48, opacity).toFixed(3)})`);
+    path.setAttribute('stroke-width', sw);
+    path.setAttribute('fill', 'none');
+    svg.appendChild(path);
+  }
+
+  document.getElementById('slide08').insertBefore(svg, document.getElementById('slide08').firstChild);
+})();
+</script>
+</body>
+</html>

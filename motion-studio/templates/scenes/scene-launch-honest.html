@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html data-duration="46" data-fps="60">
+<head>
+  <meta charset="UTF-8"><script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomBounce-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomWiggle-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/MotionPathPlugin-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/SplitText-3.15.0.min.js"></script>
+  <script src="../motion-lib.js"></script>
+  <link rel="stylesheet" href="scene-launch-honest.css">
+</head>
+<body class="cv-clean-mode">
+
+<div id="bg-grid"></div>
+<div id="bg-glow"></div>
+
+<div id="cursor">
+  <svg viewBox="0 0 28 28" fill="none"><path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#16160F" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- Scene 1: Intro (0-7s) -->
+<div id="intro-group">
+  <div id="intro-kicker">Un CV para cada vacante</div>
+  <div class="intro-line" id="intro-l1">Tu CV actual no pasa el filtro.</div>
+  <div class="intro-line" id="intro-l2">Nadie reescribe su CV para 50 vacantes.</div>
+  <div class="intro-line lime" id="intro-l3">WorqAI arma uno a la medida. En segundos.</div>
+  <div class="intro-line intro-bridge" id="intro-l4">Mira como lo hace.</div>
+</div>
+
+<!-- Demo (7s-) -->
+<div id="demo-group">
+
+  <!-- Banners above CV card — both clear the candidate name -->
+  <div id="banner-area">
+    <div class="cv-banner" id="banner-generic">CV genérico · sin adaptar a ninguna vacante</div>
+    <div class="cv-banner" id="banner-stat"><span id="banner-stat-text">x10.6 más entrevistas. Solo por adaptar el CV a la vacante.</span><div id="job-chip"><span id="job-chip-text">Analista de Seguridad</span></div></div>
+  </div>
+
+  <div id="cv-panel">
+    <div class="ghost-card" id="ghost-card-1"></div>
+    <div class="ghost-card" id="ghost-card-2"></div>
+    <div class="ghost-card" id="ghost-card-3"></div>
+    <div id="tailor-score">Puntuación 92</div>
+
+    <div class="cv-card" id="cv-card">
+      <div class="scan-bar" id="scan-bar"></div>
+
+      <div class="cv-name">Andres Quesada R.</div>
+      <div class="cv-role" id="cv-role">Especialista en Servicio al Cliente · Bilingüe EN/ES</div>
+      <div class="cv-contact">andres.quesada@email.com · Parrita, Costa Rica<br>linkedin.com/in/andresq</div>
+      <div class="cv-divider"></div>
+
+      <!-- Resumen -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="resumen-flag"></div>
+        <div class="cv-section-label">Resumen</div>
+        <div class="cv-body-text" id="cv-resumen">Estudiante de TI bilingüe (EN/ES, B2+) con experiencia en <span class="kw-bad">servicio al cliente</span>, <span class="kw-bad">seguridad</span> y análisis de datos. Certificado en Data Analytics (Excel, SQL, Tableau).</div>
+        <div class="section-warn" id="resumen-warn">sin métricas ni palabras clave de la vacante</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <!-- Habilidades -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="habilidades-flag"></div>
+        <div class="cv-section-label">Habilidades</div>
+        <div class="cv-skills-row" id="skills-row"></div>
+        <div class="section-warn" id="habilidades-warn">faltan palabras clave del puesto</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <!-- Experiencia -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="experiencia-flag"></div>
+        <div class="cv-section-label">Experiencia</div>
+
+        <div class="exp-block">
+          <div class="exp-title">Monitor de Seguridad de Activos</div>
+          <div class="exp-meta">Control y Monitoreo CYMSA · Puntarenas, CR · Dic 2023 - Abr 2024</div>
+          <div class="bullet-text" id="bullet-1">Cuidaba la <span class="kw-bad">seguridad</span> de las instalaciones del cliente y llevaba el <span class="kw-bad">control</span> de quien entraba y salia.</div>
+          <div class="bullet-text" id="bullet-1b"></div>
+          <div class="exp-flag" id="flag-1">línea débil · sin palabras clave ATS</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Recepcionista Bilingüe</div>
+          <div class="exp-meta">Hotel Monte Campana · Dic 2016 - May 2018</div>
+          <div class="bullet-text" id="bullet-2">Atendí la <span class="kw-bad">recepción</span> del hotel y ayude a huespedes nacionales e internacionales con sus necesidades.</div>
+          <div class="bullet-text" id="bullet-2b"></div>
+          <div class="exp-flag" id="flag-2">línea débil · sin palabras clave ATS</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Asistente Administrativo</div>
+          <div class="exp-meta">TechValle Soluciones · Feb 2018 - Nov 2019</div>
+          <div class="bullet-text" id="bullet-3">Apoyaba con <span class="kw-bad">tareas de oficina</span> y archivado de documentos para el equipo administrativo.</div>
+          <div class="bullet-text" id="bullet-3b"></div>
+          <div class="exp-flag" id="flag-3">línea débil · sin palabras clave ATS</div>
+        </div>
+      </div>
+
+      <div id="reasoning">
+        <div class="reason-line" id="r1">&gt; leyendo keywords de la vacante...</div>
+        <div class="reason-line" id="r2">&gt; reordenando por relevancia...</div>
+        <div class="reason-line" id="r3">&gt; reescribiendo con evidencia real...</div>
+      </div>
+
+      <div class="audit-panel" id="issues-panel">
+        <div class="panel-kicker">Diagnóstico</div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Faltan palabras clave de la vacante.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Logros sin números ni evidencia.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Resumen genérico para un puesto específico.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Formato vulnerable al parser ATS.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fan-out caption (Scene 8) -->
+  <div id="s7-texts">
+    <div id="s7-caption">Personaliza tu CV a cada vacante en segundos.</div>
+  </div>
+
+  <div id="bottom-panel">
+    <div class="ring-center" id="ring-center">
+      <svg id="ring-svg" viewBox="0 0 200 200">
+        <circle id="ring-track" cx="100" cy="100" r="80"/>
+        <circle id="ring-fill"  cx="100" cy="100" r="80"/>
+      </svg>
+      <div class="ring-val-group">
+        <div id="score-val">·</div>
+        <div class="score-denom" id="score-denom">/100</div>
+      </div>
+    </div>
+    <div id="score-info">
+      <div id="score-label">Puntuación</div>
+      <div id="score-state"></div>
+    </div>
+    <div id="verify-btn"><span>Verificar</span></div>
+    <div id="optimize-btn">
+      <span>Optimizar con WorqAI</span>
+      <div id="btn-ripple"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Turn overlay (15-17.5s) -->
+<div id="turn-scene">
+  <div class="turn-line" id="turn-l1">No necesitas un mejor CV.</div>
+  <div class="turn-line" id="turn-l2">Necesitas uno para cada vacante.</div>
+</div>
+
+<!-- CTA (dynamic start) -->
+<div id="cta-group">
+  <div id="cta-logo">W</div>
+  <div id="cta-wordmark">worqai</div>
+  <div id="cta-headline">Tu CV, hecho para pasar el filtro.</div>
+  <div id="cta-subline">Sube tu CV y descubre tu puntuación. Gratis.</div>
+  <div id="cta-btn">Analiza mi CV gratis</div>
+  <div id="cta-domain">worqai.io · español e inglés</div>
+</div>
+
+<script>
+  // ── LOCK 1 ────────────────────────────────────────────────────────────────
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Content model ─────────────────────────────────────────────────────────
+  const generic = {
+    skills: ["Excel","SQL","Tableau","Power BI","Java","C++","Español nativo","Inglés B2+"]
+  };
+
+  const tailors = [
+    {
+      vacante: "Analista de Seguridad",
+      role:    "Monitor de Seguridad & Analista de Incidentes · Bilingüe EN/ES",
+      resumen: "Analista de seguridad bilingüe (EN/ES, B2+) con 5 meses en monitoreo de activos. Registros de acceso documentados. Certificado en Excel y SQL.",
+      skills:  ["Excel","SQL","Power BI","Seguridad operativa","Control de accesos","Análisis de incidentes","Inglés B2+"],
+      bullets: [
+        "Monitoreé <span class='kw'>accesos vehiculares</span> en <span class='kw'>3 instalaciones</span> de clientes. Registré <span class='kw'>incidentes</span> y generé <span class='kw'>reportes diarios</span> para supervisores.",
+        "Mantuve <span class='kw'>bitacora digital</span> de novedades por turno. Estandaricé el <span class='kw'>formato de reporte</span> para reducir errores de registro.",
+        "Gestioné recepción bilingüe (EN/ES) para <span class='kw'>40+ huespedes</span> diarios. Coordiné <span class='kw'>accesos</span> e <span class='kw'>identificacion de visitantes</span>.",
+        "Atendí solicitudes de seguridad de huespedes de varias nacionalidades. Escalé <span class='kw'>incidentes</span> al <span class='kw'>equipo de turno</span>.",
+        "Administré <span class='kw'>archivo digital</span> para equipo de 8 personas. Reportes Excel con <span class='kw'>análisis de acceso</span> e inventario.",
+        "Diseñé <span class='kw'>plantilla de seguimiento</span> de activos adoptada por el equipo. Redujo el tiempo de <span class='kw'>reporte semanal</span>."
+      ],
+      score: 92
+    },
+    {
+      vacante: "Analista de Datos · Reporting",
+      role:    "Analista de Datos & Reporting · Bilingüe EN/ES",
+      resumen: "Analista de datos bilingüe (EN/ES, B2+) certificado en Excel, SQL y Tableau. Experiencia en reportes operativos y análisis de inventario en entornos reales.",
+      skills:  ["Excel","SQL","Tableau","Power BI","Análisis de datos","Reporting","Visualizacion de datos","Inglés B2+"],
+      bullets: [
+        "Generé <span class='kw'>reportes de control de acceso</span> para 3 instalaciones. Identifiqué <span class='kw'>patrones de incidentes</span> con análisis de tendencias.",
+        "Consolidé <span class='kw'>registros diarios</span> en Excel con <span class='kw'>tablas dinamicas</span>. Entregué resumenes semanales al supervisor de turno.",
+        "Produje <span class='kw'>reportes diarios de ocupacion</span> para 40+ huespedes. Mantuve <span class='kw'>base de datos</span> de reservas en Excel.",
+        "Crucé datos de reservas y pagos para detectar inconsistencias. Preparé <span class='kw'>reportes de cierre de turno</span> en Excel.",
+        "Desarrollé <span class='kw'>reportes semanales de inventario</span> en Excel para equipo de 8. Optimicé <span class='kw'>tablas de seguimiento</span> y calculos.",
+        "Construí <span class='kw'>tableros en Tableau</span> para inventario y consumo. Automaticé calculos repetitivos con <span class='kw'>formulas</span> avanzadas."
+      ],
+      score: 94
+    },
+    {
+      vacante: "Coordinador Bilingüe",
+      role:    "Coordinador Administrativo Bilingüe · EN/ES",
+      resumen: "Coordinador bilingüe (EN/ES, B2+) con experiencia en atención y coordinación operativa. Certificado en gestión documental y herramientas de oficina.",
+      skills:  ["Inglés B2+","Español nativo","Coordinacion operativa","Atención al cliente","Excel","Gestión documental","Comunicación corporativa"],
+      bullets: [
+        "Coordiné <span class='kw'>accesos y comunicación bilingüe</span> con clientes corporativos en 3 sedes. Generé <span class='kw'>informes diarios</span> de operaciones.",
+        "Serví de <span class='kw'>enlace bilingüe</span> entre supervisores y personal de turno. Documenté procedimientos para <span class='kw'>nuevos ingresos</span>.",
+        "Coordiné <span class='kw'>check-in y check-out bilingüe</span> para 40+ huespedes. Atendí solicitudes de <span class='kw'>visitantes de 5+ paises</span>.",
+        "Gestioné reservas, pagos y quejas en <span class='kw'>turnos de 8 horas</span>. Resolví incidencias de huéspedes en <span class='kw'>EN/ES</span>.",
+        "Gestioné <span class='kw'>archivo documental</span> y comunicaciones para equipo de 8 personas. Primer punto de <span class='kw'>contacto bilingüe</span> con clientes externos.",
+        "Coordiné <span class='kw'>agenda de reuniones</span> y correspondencia de ejecutivos. Preparé documentos en <span class='kw'>inglés y español</span>."
+      ],
+      score: 93
+    }
+  ];
+
+  // ── DOM helpers (buildSkillsHTML, morphSection, morphSkills from motion-lib) ──
+  document.getElementById("skills-row").innerHTML = buildSkillsHTML(generic.skills);
+
+  // ── Ring / score helpers (makeScoreRing from motion-lib) ──────────────────
+  const scoreEl = document.getElementById("score-val");
+  const stateEl = document.getElementById("score-state");
+  const denomEl = document.getElementById("score-denom");
+  const { applyRing, pATS, pScore, CIRCUM } = makeScoreRing(
+    scoreEl,
+    document.getElementById("ring-fill"),
+    stateEl,
+    2 * Math.PI * 80
+  );
+
+  // ── runTailor: cursor click + full CV rewrite + score update ──────────────
+  // Returns the time the tailor ends (chip + badge hidden).
+  // oCX/oCY injected via closure (set after fonts.ready resolves).
+  function makeRunTailor(oCX, oCY) {
+    return function runTailor(tl, startT, idx, speed) {
+      const tailor   = tailors[idx];
+      const isSlow   = speed === "slow";
+      const d        = isSlow ? 0.40 : 0.18;
+      const gap      = isSlow ? 0.60 : 0.28;
+      const scoreDur = isSlow ? 1.0  : 0.50;
+      const hold     = isSlow ? 0.95 : 0.80;
+
+      // Read gap: show the target role first so viewers read the vacante,
+      // THEN click optimize to apply it.
+      const readGap = isSlow ? 1.20 : 0.85;
+      const clickT  = startT + readGap;
+
+      tl.addLabel(`tailor${idx + 1}_start`, startT);
+
+      // 1) Job chip (target role) slides in first — viewer reads the vacante
+      tl.set("#job-chip",     { x: 28, opacity: 0 }, startT);
+      tl.set("#tailor-score", { scale: 0.8, opacity: 0 }, startT);
+      tl.add(() => {
+        document.getElementById("job-chip-text").textContent = tailor.vacante;
+      }, startT + 0.02);
+      tl.to("#job-chip", { x: 0, opacity: 1, duration: 0.34, ease: "power3.out" }, startT + 0.08);
+
+      // 2) After the role is readable, cursor presses optimize — clear click beat
+      cursorPress(tl, oCX, oCY, clickT, "#optimize-btn", "#btn-ripple");
+      tl.addLabel(`tailor${idx + 1}_click`, clickT);
+
+      // 3) Scan sweep (after the click)
+      const scanT = clickT + 0.30;
+      tl.fromTo("#scan-bar",
+        { clipPath: "inset(0% 0% 100% 0%)" },
+        { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power1.inOut" }, scanT);
+      tl.to("#scan-bar", { clipPath: "inset(100% 0% 0% 0%)", duration: 0.4, ease: "power1.in" }, scanT + 0.5);
+
+      // Reasoning lines
+      tl.to("#reasoning", { opacity: 1, duration: 0.22, ease: "none" }, scanT + 0.05);
+      tl.fromTo("#r1", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1);
+      tl.fromTo("#r2", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1 + gap * 0.28);
+      tl.fromTo("#r3", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1 + gap * 0.56);
+
+      // 4) Morph all sections (role, resumen, skills, 6 bullets)
+      const m = scanT + 0.4;
+      morphSection(tl, m,           "#cv-role",    tailor.role,       d, false);
+      morphSection(tl, m + gap,     "#cv-resumen", tailor.resumen,    d, false);
+      morphSkills( tl, m + gap * 2, tailor.skills,                    d);
+      morphSection(tl, m + gap * 3, "#bullet-1",   tailor.bullets[0], d, true);
+      morphSection(tl, m + gap * 4, "#bullet-1b",  tailor.bullets[1], d, true);
+      morphSection(tl, m + gap * 5, "#bullet-2",   tailor.bullets[2], d, true);
+      morphSection(tl, m + gap * 6, "#bullet-2b",  tailor.bullets[3], d, true);
+      morphSection(tl, m + gap * 7, "#bullet-3",   tailor.bullets[4], d, true);
+      morphSection(tl, m + gap * 8, "#bullet-3b",  tailor.bullets[5], d, true);
+
+      const scoreT = m + gap * 9;
+      tl.to("#reasoning", { opacity: 0, duration: 0.28, ease: "none" }, scoreT - 0.35);
+
+      // Score ring (Lock 4: explicit fromTo, immediateRender: false prevents proxy bleed)
+      const prevScore = idx === 0 ? 23 : tailors[idx - 1].score;
+      const prevR     = idx === 0 ? 224 : 169;
+      const prevG     = idx === 0 ? 89  : 217;
+      const prevB     = idx === 0 ? 59  : 46;
+      tl.fromTo(pScore,
+        { val: prevScore, offset: CIRCUM * (1 - prevScore / 100), r: prevR, g: prevG, b: prevB },
+        {
+          val: tailor.score, offset: CIRCUM * (1 - tailor.score / 100),
+          r: 169, g: 217, b: 46,
+          duration: scoreDur, ease: "back.out(1.7)",
+          immediateRender: false,
+          onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+        },
+        scoreT);
+      tl.add(() => { stateEl.innerText = "Excelente"; }, scoreT);
+      tl.addLabel(`tailor${idx + 1}_score`, scoreT);
+
+      // Ring pulse + tailor-score badge
+      tl.to("#ring-center", { scale: 1.05, duration: 0.2, ease: "power2.out" }, scoreT + scoreDur - 0.1);
+      tl.to("#ring-center", { scale: 1.0,  duration: 0.3, ease: "back.out(2)" }, scoreT + scoreDur + 0.1);
+      tl.add(() => {
+        document.getElementById("tailor-score").textContent = `Puntuación ${tailor.score}`;
+      }, scoreT - 0.05);
+      tl.to("#tailor-score", { opacity: 1, scale: 1, duration: 0.24, ease: "back.out(2)" }, scoreT + 0.1);
+
+      // Hide chip + badge to make room for next tailor
+      const endT = scoreT + scoreDur + hold;
+      tl.to(["#job-chip","#tailor-score"], { opacity: 0, duration: 0.2, ease: "none" }, endT);
+
+      return endT;
+    };
+  }
+
+  // ── Initial states ────────────────────────────────────────────────────────
+  gsap.set(["#bg-grid","#bg-glow"],    { opacity: 0 });
+  gsap.set("#intro-kicker",             { opacity: 0, y: 16 });
+  gsap.set(["#intro-l1","#intro-l2","#intro-l3","#intro-l4"], { opacity: 0, y: 18 });
+  gsap.set("#demo-group",               { opacity: 0 });
+  gsap.set("#cv-card",                  { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set("#bottom-panel",             { opacity: 0 });
+  gsap.set("#optimize-btn",             { opacity: 0 });
+  gsap.set("#cursor",                   { opacity: 0 });
+  gsap.set("#scan-bar",                 { clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set("#reasoning",                { opacity: 0 });
+  gsap.set(".reason-line",              { opacity: 0 });
+  gsap.set(".section-flag",             { opacity: 0 });
+  gsap.set(".section-warn",             { opacity: 0 });
+  gsap.set(".exp-flag",                 { opacity: 0 });
+  gsap.set("#score-denom",              { opacity: 0 });
+  gsap.set(["#issues-panel"],           { opacity: 0, y: 18 });
+  gsap.set(".panel-row",                { opacity: 0, x: -8 });
+  gsap.set(".ghost-card",               { opacity: 0, scale: 0.92, x: 0, y: 0, rotate: 0 });
+  gsap.set(["#job-chip","#tailor-score"], { opacity: 0 });
+  gsap.set(["#banner-generic","#banner-stat"], { opacity: 0, y: 8 });
+  gsap.set("#banner-stat", { display: "none" });
+  gsap.set(["#bullet-1b","#bullet-2b","#bullet-3b"], { opacity: 0 });
+  gsap.set("#turn-scene",               { opacity: 0 });
+  gsap.set(["#turn-l1","#turn-l2"],     { opacity: 0, y: 18 });
+  gsap.set("#s7-texts",                 { opacity: 0 });
+  gsap.set("#cta-group",                { opacity: 0 });
+  gsap.set(["#cta-logo","#cta-wordmark","#cta-headline","#cta-subline","#cta-btn","#cta-domain"], { opacity: 0 });
+  gsap.set(["#cta-logo","#cta-headline"], { scale: 0.88 });
+  gsap.set("#cta-headline",             { y: 20 });
+
+  // ── LOCK 2 ────────────────────────────────────────────────────────────────
+  gsap.globalTimeline.pause();
+
+  document.fonts.ready.then(() => {
+    const vBtn = document.getElementById("verify-btn");
+    const oBtn = document.getElementById("optimize-btn");
+    const vR   = vBtn.getBoundingClientRect();
+    const vCX  = vR.left + vR.width  / 2 - 4;
+    const vCY  = vR.top  + vR.height / 2 - 4;
+    const oR   = oBtn.getBoundingClientRect();
+    const oCX  = oR.left + oR.width  / 2 - 4;
+    const oCY  = oR.top  + oR.height / 2 - 4;
+
+    const runTailor = makeRunTailor(oCX, oCY);
+    const tl = gsap.timeline();
+
+    // ── Scene 1: Intro (0.0 – 7.0s) ──────────────────────────────────────────
+    tl.to(["#bg-grid","#bg-glow"], { opacity: 1, duration: 0.8, ease: "none" }, 0.0);
+    tl.addLabel("intro_kicker", 0.4);
+    tl.to("#intro-kicker", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+    tl.addLabel("intro_line1", 1.4);
+    tl.to("#intro-l1", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 1.4);
+    tl.addLabel("intro_line2", 2.7);
+    tl.to("#intro-l2", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 2.7);
+    tl.addLabel("intro_line3", 3.9);
+    tl.to("#intro-l3", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 3.9);
+    tl.addLabel("intro_line4", 5.2);
+    tl.to("#intro-l4", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 5.2);
+    // Fade intro as CV appears
+    tl.to(["#intro-kicker","#intro-l1","#intro-l2","#intro-l3","#intro-l4"],
+      { opacity: 0, y: -10, duration: 0.4, ease: "power3.out", stagger: 0.04 }, 6.2);
+
+    // ── Scene 2: Generic CV appears (7.0 – 10.0s) ────────────────────────────
+    tl.addLabel("cv_appears", 7.0);
+    tl.set("#demo-group", { opacity: 1 }, 7.0);
+    tl.fromTo("#cv-card",
+      { clipPath: "inset(100% 0% 0% 0%)" },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power2.out" }, 7.0);
+    tl.to("#banner-generic", { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 7.0);
+    tl.to("#bottom-panel",   { opacity: 1, duration: 0.5, ease: "power3.out" }, 7.8);
+
+    // Cursor moves to verify
+    cursorTravel(tl, vCX, vCY, 8.6, 9.9, "#verify-btn");
+
+    // ── Scene 3: Verify -> bad score (10.0 – 15.0s) ───────────────────────────
+    tl.addLabel("verify_click", 10.0);
+    tl.addLabel("score_low",    10.0);
+    // Score ring: 0->23, red (Lock 4: explicit fromTo + immediateRender:false)
+    tl.add(() => { denomEl.style.opacity = "1"; scoreEl.innerText = "0"; }, 10.0);
+    tl.fromTo(pATS,
+      { val: 0, offset: CIRCUM, r: 160, g: 160, b: 160 },
+      {
+        val: 23, offset: CIRCUM * (1 - 0.23), r: 224, g: 89, b: 59,
+        duration: 0.9, ease: "power1.out",
+        immediateRender: false,
+        onUpdate: () => applyRing(pATS.val, pATS.offset, pATS.r, pATS.g, pATS.b)
+      }, 10.0);
+    tl.add(() => { stateEl.innerText = "Bajo"; stateEl.style.color = "#E0593B"; }, 10.0);
+
+    // Reveal kw-bad highlights
+    tl.add(() => document.body.classList.remove("cv-clean-mode"), 10.6);
+
+    // Section flags + warns
+    tl.to("#resumen-flag",     { opacity: 1, duration: 0.28, ease: "power3.out" }, 10.7);
+    tl.to("#resumen-warn",     { opacity: 1, duration: 0.28, ease: "power3.out" }, 10.8);
+    tl.to("#habilidades-flag", { opacity: 1, duration: 0.28, ease: "power3.out" }, 11.0);
+    tl.to("#habilidades-warn", { opacity: 1, duration: 0.28, ease: "power3.out" }, 11.1);
+    tl.to("#experiencia-flag", { opacity: 1, duration: 0.28, ease: "power3.out" }, 11.3);
+    tl.addLabel("flags", 11.0);
+    tl.to(["#flag-1","#flag-2","#flag-3"], { opacity: 1, duration: 0.28, ease: "power3.out" }, 11.3);
+
+    // Issues panel
+    tl.addLabel("issues_panel", 11.5);
+    tl.to("#issues-panel",   { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, 11.5);
+    tl.to("#issues-panel .panel-row", { opacity: 1, x: 0, duration: 0.24, stagger: 0.12, ease: "power3.out" }, 11.7);
+
+    tl.to("#optimize-btn", { opacity: 1, duration: 0.4, ease: "power3.out" }, 13.0);
+
+    // ── Scene 4: The Turn (15.0 – 19.0s) ──────────────────────────────────────
+    tl.to("#issues-panel", { opacity: 0, y: 16, duration: 0.32, ease: "power2.in" }, 14.8);
+    tl.to("#cursor",       { opacity: 0, duration: 0.2, ease: "none" }, 14.8);
+    tl.addLabel("turn_start", 15.0);
+    tl.to("#turn-scene",   { opacity: 1, duration: 0.38, ease: "none" }, 15.0);
+    tl.addLabel("turn_line1", 15.3);
+    tl.to("#turn-l1",      { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 15.3);
+    tl.addLabel("turn_line2", 16.6);
+    tl.to("#turn-l2",      { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 16.6);
+
+    // Reset the CV to its clean "before" state WHILE the Turn still covers the screen,
+    // so the lift reveals it all at once (stat banner up, red gone) — no buggy pop-in.
+    resetUnderCover(tl, 18.3);
+
+    // Turn lifts → reveals the clean CV + stat banner in one cut
+    tl.addLabel("turn_end", 19.0);
+    tl.to("#turn-scene", { opacity: 0, duration: 0.45, ease: "power2.out" }, 19.0);
+
+    // ── Scenes 5-7: Three tailors ─────────────────────────────────────────────
+    // Each tailor: role chip slides in first → read gap → optimize click → morph.
+    // Tailor 1 (slow): start 19.8, readGap 1.2 → click 21.0, scoreT ~27.1, end ~29.05
+    const t1end = runTailor(tl, 19.8, 0, "slow");
+
+    // Tailor 2: Analista de Datos · Reporting -> 94 (medium-fast)
+    const t2end = runTailor(tl, t1end, 1, "fast");
+
+    // Tailor 3: Coordinador Bilingüe -> 93 (medium-fast)
+    const t3end = runTailor(tl, t2end, 2, "fast");
+
+    // ── Scene 8: Fan-out (t3end) ──────────────────────────────────────────────
+    // Hold the fan-out caption longer so the line is readable before the CTA.
+    const fanT     = t3end;
+    const demoFadeT = fanT + 2.4;
+    const ctaT     = fanT + 3.0;
+
+    tl.addLabel("fanout", fanT);
+    fanOut(tl, fanT);
+
+    // Fade demo before CTA
+    tl.to("#demo-group", { scale: 0.96, opacity: 0.10, duration: 0.5, ease: "power3.out" }, demoFadeT);
+
+    // ── Scene 9: CTA (dynamic start) ─────────────────────────────────────────
+    tl.addLabel("cta", ctaT);
+    tl.set("#cta-group",   { opacity: 1 }, ctaT);
+    tl.to("#cta-logo",     { opacity: 1, scale: 1,    duration: 0.45, ease: "power3.out" }, ctaT);
+    tl.to("#cta-wordmark", { opacity: 1,              duration: 0.45, ease: "power3.out" }, ctaT + 0.22);
+    tl.to("#cta-headline", { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power3.out" }, ctaT + 0.30);
+    tl.to("#cta-subline",  { opacity: 1,              duration: 0.4,  ease: "none" },       ctaT + 1.20);
+    tl.to("#cta-btn",      { opacity: 1, scale: 1,    duration: 0.45, ease: "back.out(1.8)" }, ctaT + 1.90);
+    tl.to("#cta-domain",   { opacity: 1,              duration: 0.4,  ease: "none" },       ctaT + 2.50);
+
+    signalReady(tl);
+  });
+</script>
+</body>
+</html>

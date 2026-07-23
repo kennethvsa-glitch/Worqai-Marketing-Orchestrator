@@ -1,0 +1,25 @@
+{
+  "name": "villain_v6",
+  "scene": "templates/scenes/scene-launch-villain-v6.html",
+  "sounds": "motion/specs/sounds_villain_v6.json",
+  "voiceover": {
+    "audio": "export-video/vo_villain_v6.mp3",
+    "script": "motion/specs/vo_villain_v6.json"
+  },
+  "music": {
+    "file": "Ideation/Sound effects/monume-modern-futuristic-technology-519250.mp3",
+    "volume": 0.16,
+    "duck_db": 8.0,
+    "extra_duck": [
+      { "label": "filter_reject", "dur_s": 1.1 },
+      { "label": "success_banner", "dur_s": 1.2 },
+      { "label": "cta", "dur_s": 3.0 }
+    ]
+  },
+  "cutdowns": [
+    { "name": "hook-6s", "from_sec": 0, "to_sec": 6.0 },
+    { "name": "diagnosis-15s", "from_sec": 10.6, "to_sec": 26.35 },
+    { "name": "cta-9s", "from_label": "human_close", "to_sec": 46.0 }
+  ],
+  "captions": true
+}

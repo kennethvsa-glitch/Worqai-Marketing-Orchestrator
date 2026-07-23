@@ -1,0 +1,163 @@
+{
+  "_meta": {
+    "purpose": "Evidence gate for Pipeline V2 (plan sec.6A). Every cutaway asset must have an entry here BEFORE it appears in a timeline. A cutaway without a registry entry, or whose privacy_status is not 'cleared', is a build failure.",
+    "schema": {
+      "id": "stable slug used by timeline JSON",
+      "file": "repo-relative path under remotion/public/clips/ or assets/",
+      "kind": "screen_recording | still_evidence | document | staged_broll | generated_image",
+      "source": "where it came from (who recorded it, publication, generator)",
+      "capture_date": "YYYY-MM-DD",
+      "permission": "who authorized use, or citation requirement",
+      "privacy_status": "cleared | pending | excluded",
+      "redactions": "what was removed/blurred, or 'none needed'",
+      "crop_notes": "1080x1920 safe-area notes",
+      "supports_transcript_lines": "exact transcript sentence(s) this asset supports",
+      "approved_by": "human name once reviewed"
+    }
+  },
+  "assets": [
+    {
+      "id": "worqai-demo-workflow",
+      "file": "PENDING",
+      "kind": "screen_recording",
+      "source": "PENDING - safe WorqAI test account (authorized 2026-07-17, no real applications)",
+      "capture_date": null,
+      "permission": "internal product footage",
+      "privacy_status": "pending",
+      "redactions": "must avoid: account email, notifications, bookmarks, autofill, customer data",
+      "crop_notes": "record 1920x1080+, keep action near center for vertical crop; 5-10s handles before/after each action",
+      "supports_transcript_lines": "R01: 'pegar la descripcion del puesto y adaptar su curriculum ... llamarlo de vuelta'",
+      "approved_by": null
+    },
+    {
+      "id": "staged-application-workflow",
+      "file": "PENDING",
+      "kind": "screen_recording",
+      "source": "PENDING - staged application, stops before any real submission",
+      "capture_date": null,
+      "permission": "self-produced",
+      "privacy_status": "pending",
+      "redactions": "no real personal data; use sample CV and public/sample job description",
+      "crop_notes": "same capture spec as worqai-demo-workflow",
+      "supports_transcript_lines": "R01: 'utilizan algun tipo de sistema que filtra su curriculum de acuerdo a la descripcion del puesto'",
+      "approved_by": null
+    },
+    {
+      "id": "sample-cv-document",
+      "file": "PENDING",
+      "kind": "document",
+      "source": "PENDING - clean one-page sample CV, no personal data",
+      "capture_date": null,
+      "permission": "self-produced",
+      "privacy_status": "pending",
+      "redactions": "fictional name/contact only",
+      "crop_notes": "high-res still; highlights applied in Remotion, one at a time",
+      "supports_transcript_lines": "R01: 'Claro, facil de leer, sin tablas, ni colores, ni formas' + metricas/logros line",
+      "approved_by": null
+    },
+    {
+      "id": "expansion-headline",
+      "file": "PENDING",
+      "kind": "still_evidence",
+      "source": "Expansion (publication) - PENDING confirmation of use with visible source name + date",
+      "capture_date": null,
+      "permission": "editorial citation with publication name and date on screen",
+      "privacy_status": "pending",
+      "redactions": "none needed if citation shown",
+      "crop_notes": "2-3 second cutaway max; Ken Burns <=5% drift",
+      "supports_transcript_lines": "R01: 'ha pasado por algun despido o ... mucho tiempo sin tener un trabajo'",
+      "approved_by": null
+    },
+    {
+      "id": "application-register-scene-01",
+      "file": "remotion/public/application-register/scene-01-role-index.png",
+      "kind": "generated_image",
+      "source": "OpenAI image generation; user-approved visual reconstruction",
+      "capture_date": "2026-07-20",
+      "permission": "WorqAI internal campaign asset",
+      "privacy_status": "cleared",
+      "redactions": "no personal data; resume body intentionally defocused",
+      "crop_notes": "native 941x1672 vertical artwork; fitted to 1080x1920",
+      "supports_transcript_lines": "CÓMO CONSEGUIR TRABAJO EN 2026 / EL MISMO CV NO ENCAJA EN TODAS LAS VACANTES",
+      "approved_by": "user approval in Codex, 2026-07-20"
+    },
+    {
+      "id": "application-register-scene-02",
+      "file": "remotion/public/application-register/scene-02-vacancy-key.png",
+      "kind": "generated_image",
+      "source": "OpenAI image generation; user-approved visual reconstruction",
+      "capture_date": "2026-07-20",
+      "permission": "WorqAI internal campaign asset",
+      "privacy_status": "cleared",
+      "redactions": "fictional and defocused resume content only",
+      "crop_notes": "native 941x1672 vertical artwork; fitted to 1080x1920",
+      "supports_transcript_lines": "EL ATS NO BUSCA LAS MISMAS PALABRAS / BUSCA EVIDENCIA DE QUE ENCAJÁS",
+      "approved_by": "user approval in Codex, 2026-07-20"
+    },
+    {
+      "id": "application-register-scene-03",
+      "file": "remotion/public/application-register/scene-03-application-audit.png",
+      "kind": "generated_image",
+      "source": "OpenAI image generation; user-approved visual reconstruction",
+      "capture_date": "2026-07-20",
+      "permission": "WorqAI internal campaign asset",
+      "privacy_status": "cleared",
+      "redactions": "fictional and defocused resume content only",
+      "crop_notes": "native 941x1672 vertical artwork; fitted to 1080x1920",
+      "supports_transcript_lines": "CADA APLICACIÓN EXIGE UNA REVISIÓN",
+      "approved_by": "user approval in Codex, 2026-07-20"
+    },
+    {
+      "id": "application-register-scene-04",
+      "file": "remotion/public/application-register/scene-04-application-accordion.png",
+      "kind": "generated_image",
+      "source": "OpenAI image generation; user-approved visual reconstruction",
+      "capture_date": "2026-07-20",
+      "permission": "WorqAI internal campaign asset",
+      "privacy_status": "cleared",
+      "redactions": "none needed",
+      "crop_notes": "native 941x1672 vertical artwork; fitted to 1080x1920",
+      "supports_transcript_lines": "Y REPETIRLO EN CADA VACANTE / EL TIEMPO SE ACUMULA",
+      "approved_by": "user approval in Codex, 2026-07-20"
+    },
+    {
+      "id": "application-register-scene-05",
+      "file": "remotion/public/application-register/scene-05-product-window.png",
+      "kind": "generated_image",
+      "source": "OpenAI image generation using authentic WorqAI homepage reference; user-approved visual reconstruction",
+      "capture_date": "2026-07-20",
+      "permission": "WorqAI internal campaign asset",
+      "privacy_status": "cleared",
+      "redactions": "no account or personal data",
+      "crop_notes": "native 941x1672 vertical artwork; product aperture expands into real footage",
+      "supports_transcript_lines": "TODO ESO EN UN SOLO FLUJO / AHORA MÍRALO EN ACCIÓN",
+      "approved_by": "user approval in Codex, 2026-07-20"
+    },
+    {
+      "id": "worqai-safe-workflow-draft",
+      "file": "remotion/public/clips/worqai-safe-workflow-draft.mp4",
+      "kind": "screen_recording",
+      "source": "User-provided WorqAI recording; safe segments derived locally",
+      "capture_date": "2026-07-20",
+      "permission": "internal product footage",
+      "privacy_status": "cleared",
+      "redactions": "CV selection and tailored-result segments containing personal information were fully omitted",
+      "crop_notes": "1920x1080 source; 18.1-second safe-only draft; center action for vertical product window",
+      "supports_transcript_lines": "Homepage, role, company, job-description paste, and analysis-start workflow",
+      "approved_by": "user authorized recording use; privacy segment audit completed in Codex"
+    },
+    {
+      "id": "rejection-inbox-screenshot",
+      "file": "EXCLUDED",
+      "kind": "still_evidence",
+      "source": "user inbox",
+      "capture_date": null,
+      "permission": "EXCLUDED by decision 2026-07-17: must not be anonymized, altered, or used",
+      "privacy_status": "excluded",
+      "redactions": "n/a",
+      "crop_notes": "n/a",
+      "supports_transcript_lines": "none - excluded from R01",
+      "approved_by": "resolved 2026-07-17 (V2 plan sec.11)"
+    }
+  ]
+}

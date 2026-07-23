@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "ats-diagnostico",
+    "density": "standard"
+  },
+  "pacing": ["hook", "diagnostic", "data", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["glow-orb", "geo-topo-lines", {"id": "svg-blob-tr"}],
+      "decoratives": [{"id": "svg-starburst-burst", "position": "bl"}, "corner-frame"],
+      "copy": {
+        "kicker": "POSTULACIONES EN LATAM",
+        "headline": "Tu CV fue rechazado antes de que alguien lo abriera.",
+        "body": "Hay un filtro automático que elimina el 73% de los CVs. Así funciona y cómo lo evitas.",
+        "text_treatment": "gradient",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-headline { font-size: clamp(34px,6.8cqw,52px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.92; } .s1-kicker { letter-spacing: 0.18em; font-size: 11px; opacity: 0.88; } .s1-body { font-size: 14px; line-height: 1.6; opacity: 0.82; max-width: 500px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "layers": ["zoom-rings", "glow-orb", "geo-circuit-trace"],
+      "decoratives": [{"id": "chrome-badge-stamp", "text": "ATS", "value": "SCAN"}],
+      "copy": {
+        "kicker": "DIAGNÓSTICO EN VIVO",
+        "headline": "Lo que el sistema ve en tu CV",
+        "command": "worqai scan --file cv_candidato.pdf --puesto \"Analista Financiero\"",
+        "tab_title": "worqai-scan.sh",
+        "output_lines": [
+          {"type": "cmd", "text": "Analizando 934 criterios del puesto..."},
+          {"type": "err", "text": "ERROR: 0/14 palabras clave técnicas encontradas"},
+          {"type": "warn", "text": "WARN: formato en columnas — parser omitió 3 secciones"},
+          {"type": "warn", "text": "WARN: fechas de empleo incompletas — historial ignorado"},
+          {"type": "info", "text": "Score ATS: 24/100 — mínimo requerido: 65"}
+        ]
+      },
+      "custom_css": ".s2-headline { font-size: clamp(22px,4.5cqw,30px); font-weight: 900; letter-spacing: -0.02em; } .terminal-output { font-size: 13px; line-height: 1.65; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-massive-number",
+      "layers": ["glow-orb", "geo-gradient-bands"],
+      "decoratives": [{"id": "watermark", "text": "73"}],
+      "copy": {
+        "kicker": "EL DATO QUE CAMBIA TODO",
+        "stat_number": "73%",
+        "headline": "de CVs eliminados antes de revisión humana.",
+        "body": "No es tu experiencia ni tus logros. Es el formato, las secciones mal nombradas y las palabras clave que faltan.",
+        "text_treatment": "glow-bold",
+        "source": "Jobscan, 2025"
+      },
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,34px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; } .s3-body { font-size: 14px; line-height: 1.55; opacity: 0.82; max-width: 480px; } .s3-kicker { letter-spacing: 0.18em; font-size: 11px; opacity: 0.9; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-step-flow",
+      "layers": ["glow-orb", "svg-blob-bl"],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}, {"id": "chrome-vertical-counter"}],
+      "copy": {
+        "kicker": "EL MÉTODO WORQAI",
+        "headline": "Del rechazo automático a la entrevista.",
+        "steps": [
+          {"title": "Analiza la oferta", "desc": "Extrae las palabras clave exactas del aviso."},
+          {"title": "Optimiza el CV", "desc": "Agrega competencias donde el ATS las espera."},
+          {"title": "Descarga y postula", "desc": "PDF compatible con el 98% de los sistemas ATS."}
+        ]
+      },
+      "custom_css": ".s4-headline { font-size: clamp(26px,5.2cqw,38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; } .step-title { font-weight: 800; font-size: 16px; letter-spacing: -0.01em; } .step-desc { font-size: 13px; opacity: 0.80; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["glow-orb", "geo-topo-lines"],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}, {"id": "svg-starburst-mark", "position": "tl"}],
+      "copy": {
+        "question": "¿Cuántas palabras clave le faltan a tu CV?",
+        "cta_keyword": "DIAGNÓSTICO",
+        "reward": "Te mando el análisis ATS completo de tu CV. Gratis, sin letra pequeña."
+      },
+      "custom_css": ".s5-question { font-size: clamp(28px,5.8cqw,42px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.97; } .s5-keyword { letter-spacing: 0.08em; } .s5-reward { font-size: 15px; opacity: 0.85; line-height: 1.5; }"
+    }
+  ]
+}

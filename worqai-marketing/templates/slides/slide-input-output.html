@@ -1,0 +1,59 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="io-wrap">
+    <div class="io-header">
+      {% if copy.kicker %}
+      <div class="io-kicker">{{ copy.kicker }}</div>
+      {% endif %}
+      {% if copy.headline %}
+      <h2>{{ copy.headline }}</h2>
+      {% endif %}
+    </div>
+
+    {#
+      Input/Output rules (v2):
+      - Asymmetric: human panel is narrower (42), ATS panel is wider (58) — set by Phase 1 CSS
+      - copy.input_label  / copy.output_label: panel header labels
+      - copy.input_text   / copy.output_text:  panel body copy
+      - copy.output_score: optional big result number — renders as .io-ats-score (bold, accent)
+        Example: "SCORE 28/100" or "34% PARSEADO" or "RECHAZADO"
+      - Icons in labels are SVG (no HTML entities)
+      - Max 4 lines of copy per panel on mobile-read carousels
+    #}
+    <div class="io-comparison">
+
+      {# Human input panel — softer, human copy #}
+      <div class="io-panel io-human">
+        <div class="io-panel-label">
+          <svg class="icon" aria-hidden="true" style="color:#4ecdc4;margin-right:5px"><use href="#icon-ok"/></svg>{{ copy.input_label | default('LO QUE ESCRIBISTE') }}
+        </div>
+        <div class="io-panel-content">{{ copy.input_text }}</div>
+      </div>
+
+      {# Arrow — SVG icon, not HTML entity #}
+      <div style="align-self:center;flex-shrink:0;color:var(--accent);opacity:0.50;padding:0 2px">
+        <svg class="icon icon-lg" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+      </div>
+
+      {# ATS output panel — terminal-like, harder, mono font #}
+      <div class="io-panel io-ats">
+        <div class="io-panel-label">
+          <svg class="icon" aria-hidden="true" style="color:#ff7eb3;margin-right:5px"><use href="#icon-error"/></svg>{{ copy.output_label | default('LO QUE VE EL ATS') }}
+        </div>
+        <div class="io-panel-content">{{ copy.output_text }}</div>
+        {% if copy.output_score %}
+        <div class="io-ats-score">{{ copy.output_score }}</div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

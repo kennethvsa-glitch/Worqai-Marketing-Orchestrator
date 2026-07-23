@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sculpture Light Background</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#F5F5F5;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;background:#F5F5F5;}
+.canvas::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px 300px;opacity:0.04;pointer-events:none;z-index:10;}
+</style>
+</head>
+<body>
+<div class="canvas">
+  <svg style="position:absolute;inset:0;z-index:1;" viewBox="0 0 1080 1080" width="1080" height="1080" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="sl1" cx="35%" cy="35%" r="55%"><stop offset="0%" stop-color="rgba(180,180,190,0.40)"/><stop offset="60%" stop-color="rgba(160,160,170,0.15)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="sl2" cx="65%" cy="65%" r="50%"><stop offset="0%" stop-color="rgba(175,175,185,0.35)"/><stop offset="70%" stop-color="rgba(155,155,165,0.10)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="sl3" cx="25%" cy="75%" r="45%"><stop offset="0%" stop-color="rgba(170,170,180,0.30)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="sl4" cx="80%" cy="20%" r="40%"><stop offset="0%" stop-color="rgba(165,165,175,0.25)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="slg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(199,255,58,0.30)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+      <radialGradient id="slg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(199,255,58,0.18)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+    </defs>
+    <!-- Large 3D spheres (light grey) -->
+    <circle cx="220" cy="200" r="160" fill="url(#sl1)" opacity="0.9"/>
+    <circle cx="850" cy="780" r="180" fill="url(#sl2)" opacity="0.9"/>
+    <circle cx="180" cy="820" r="120" fill="url(#sl3)" opacity="0.85"/>
+    <circle cx="900" cy="180" r="140" fill="url(#sl4)" opacity="0.8"/>
+    <circle cx="420" cy="120" r="80" fill="url(#sl4)" opacity="0.7"/>
+    <circle cx="700" cy="920" r="90" fill="url(#sl3)" opacity="0.75"/>
+    <!-- Curved architectural forms -->
+    <path d="M 0 400 Q 200 300 400 450 Q 600 600 800 480 Q 1000 360 1080 420" fill="none" stroke="rgba(200,200,210,0.18)" stroke-width="60" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 0 650 Q 250 550 500 700 Q 750 850 1080 720" fill="none" stroke="rgba(180,180,190,0.14)" stroke-width="45" stroke-linecap="round" opacity="0.6"/>
+    <!-- Glowing lime orbs -->
+    <circle cx="120" cy="120" r="40" fill="url(#slg1)" opacity="0.9"/>
+    <circle cx="120" cy="120" r="12" fill="#C7FF3A" opacity="0.95"/>
+    <circle cx="960" cy="880" r="50" fill="url(#slg2)" opacity="0.85"/>
+    <circle cx="960" cy="880" r="14" fill="#C7FF3A" opacity="0.9"/>
+    <circle cx="320" cy="880" r="35" fill="url(#slg1)" opacity="0.8"/>
+    <circle cx="320" cy="880" r="10" fill="#C7FF3A" opacity="0.85"/>
+    <circle cx="880" cy="280" r="30" fill="url(#slg2)" opacity="0.75"/>
+    <circle cx="880" cy="280" r="8" fill="#C7FF3A" opacity="0.8"/>
+    <!-- Thin vertical lines -->
+    <line x1="280" y1="0" x2="280" y2="280" stroke="rgba(199,255,58,0.18)" stroke-width="1.5" opacity="0.6"/>
+    <line x1="800" y1="700" x2="800" y2="1080" stroke="rgba(199,255,58,0.14)" stroke-width="1.5" opacity="0.5"/>
+    <line x1="600" y1="0" x2="600" y2="200" stroke="rgba(17,17,17,0.08)" stroke-width="1" opacity="0.4"/>
+    <path d="M 120 80 Q 180 100 160 160" fill="none" stroke="rgba(199,255,58,0.12)" stroke-width="1" opacity="0.5"/>
+    <path d="M 900 820 Q 940 840 920 900" fill="none" stroke="rgba(199,255,58,0.12)" stroke-width="1" opacity="0.5"/>
+  </svg>
+</div>
+</body>
+</html>

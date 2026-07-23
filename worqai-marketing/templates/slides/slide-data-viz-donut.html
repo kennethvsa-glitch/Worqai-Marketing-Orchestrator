@@ -1,0 +1,42 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  {% set pct = copy.percent | default(75) | int %}
+  {% set circ = 314 %}
+  {% set offset = circ - (circ * pct / 100) %}
+  <div class="donut-wrap">
+    <div class="donut-chart">
+      <svg viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="14"/>
+        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--accent)" stroke-width="14" stroke-dasharray="{{ circ }}" stroke-dashoffset="{{ offset }}" stroke-linecap="round"/>
+      </svg>
+      <div class="center">
+        <div class="center-num">{{ pct }}<span class="unit">%</span></div>
+        {% if copy.center_label %}<div class="center-label">{{ copy.center_label }}</div>{% endif %}
+      </div>
+    </div>
+
+    <div class="donut-side">
+      {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+      {% if copy.headline %}<div class="ds-headline">{{ copy.headline }}</div>{% endif %}
+      {% if copy.body %}<div style="font-size:13px;line-height:1.5;opacity:0.7">{{ copy.body }}</div>{% endif %}
+      {% if copy.legend %}
+      <div class="ds-legend">
+        {% for row in copy.legend %}
+        <div class="legend-row">
+          <div class="legend-dot" style="background:{{ row.color | default('var(--accent)') }}"></div>
+          <span>{{ row.label }} — <strong>{{ row.value }}</strong></span>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if copy.source %}<div class="stat-source">{{ copy.source }}</div>{% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

@@ -1,0 +1,658 @@
+def main(ctx):
+    carousel7_html = r'''<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI · El ATS filtra antes de que un humano te vea</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0A;font-family:'Inter',sans-serif;color:#E5E5E5;overflow-x:hidden}
+
+.preview-cage{display:flex;flex-direction:column;align-items:center;gap:28px;padding:44px 24px}
+.viewer{width:1080px;max-width:100%;aspect-ratio:1/1;border-radius:18px;overflow:hidden;box-shadow:0 48px 140px rgba(0,0,0,0.75),0 0 0 1px rgba(199,255,58,0.06),inset 0 1px 0 rgba(255,255,255,0.04)}
+@media(min-width:1200px){.viewer{transform:scale(0.52);transform-origin:center top}}
+
+.slide{position:relative;width:1080px;height:1080px;overflow:hidden;display:flex;flex-direction:column;padding:68px 64px 148px;background:linear-gradient(160deg,#0A0A0A 0%,#111111 35%,#141414 65%,#0A0A0A 100%)}
+.slide::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:4}
+.slide::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 80%,rgba(199,255,58,0.03),transparent 60%);pointer-events:none;z-index:2}
+
+.pw-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;perspective:750px}
+.pw-grid{position:absolute;width:240%;height:240%;left:-70%;top:-70%;background-image:linear-gradient(to right,rgba(199,255,58,0.045) 1px,transparent 1px),linear-gradient(to bottom,rgba(199,255,58,0.045) 1px,transparent 1px);background-size:48px 48px;opacity:0.1;transform:rotateX(56deg) rotateZ(-10deg)}
+
+.scan-lines{position:absolute;inset:0;pointer-events:none;z-index:3;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.14) 3px,rgba(0,0,0,0.14) 6px);mix-blend-mode:overlay;opacity:0.5}
+
+.glow-orb{position:absolute;width:55%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.12) 0%,rgba(199,255,58,0.05) 45%,transparent 75%);filter:blur(75px);pointer-events:none;z-index:1}
+
+.zoom-rings{position:absolute;inset:0;pointer-events:none;z-index:1}
+.zoom-rings .ring{position:absolute;top:50%;left:50%;border:1px solid rgba(199,255,58,0.09);border-radius:50%;transform:translate(-50%,-50%)}
+.zoom-rings .ring:nth-child(1){width:300px;height:300px;opacity:0.18}
+.zoom-rings .ring:nth-child(2){width:520px;height:520px;opacity:0.1}
+.zoom-rings .ring:nth-child(3){width:740px;height:740px;opacity:0.05}
+
+.wave-bg{position:absolute;inset:0;z-index:1;opacity:0.1;pointer-events:none}
+
+.controls{display:flex;gap:14px;justify-content:center;margin-top:18px}
+.controls button{background:#111111;border:1px solid rgba(199,255,58,0.18);color:#C7FF3A;padding:12px 28px;border-radius:10px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;transition:all .25s}
+.controls button:hover{background:rgba(199,255,58,0.1);border-color:rgba(199,255,58,0.45);transform:translateY(-1px);box-shadow:0 4px 16px rgba(199,255,58,0.08)}
+.hint{text-align:center;color:rgba(255,255,255,0.28);font-size:12px;margin-top:10px;font-family:'JetBrains Mono',monospace;letter-spacing:0.04em}
+.zip-btn{display:block;margin:18px auto 0;background:linear-gradient(135deg,#C7FF3A 0%,#9AE600 50%,#C7FF3A 100%);border:none;color:#0A0A0A;padding:16px 44px;border-radius:12px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;cursor:pointer;letter-spacing:0.03em;box-shadow:0 8px 36px rgba(199,255,58,0.22),0 0 0 1px rgba(199,255,58,0.15);transition:all .2s}
+.zip-btn:hover{transform:translateY(-2px);box-shadow:0 12px 44px rgba(199,255,58,0.3)}
+
+.brand{position:absolute;bottom:28px;left:64px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.28);letter-spacing:0.14em;text-transform:uppercase;z-index:10}
+.counter{position:absolute;bottom:28px;right:64px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.28);letter-spacing:0.12em;z-index:10}
+.swipe-pill{position:absolute;bottom:28px;right:64px;background:rgba(199,255,58,0.08);border:1px solid rgba(199,255,58,0.25);color:#C7FF3A;padding:10px 22px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;z-index:10}
+
+.corner-frame{position:absolute;width:48px;height:48px;border-color:#C7FF3A;opacity:0.14;pointer-events:none;z-index:6}
+.corner-frame.tl{top:28px;left:28px;border-top:2px solid;border-left:2px solid}
+.corner-frame.tr{top:28px;right:28px;border-top:2px solid;border-right:2px solid}
+.corner-frame.bl{bottom:28px;left:28px;border-bottom:2px solid;border-left:2px solid}
+.corner-frame.br{bottom:28px;right:28px;border-bottom:2px solid;border-right:2px solid}
+
+.ornament{position:absolute;z-index:6;font-size:22px;color:#C7FF3A;opacity:0.18;line-height:1;pointer-events:none}
+
+#slides{position:relative;width:100%;height:100%}
+#slides .slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .55s ease}
+#slides .slide.active{opacity:1;pointer-events:auto}
+
+.s1-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s1-watermark{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);font-size:440px;font-weight:700;color:#C7FF3A;opacity:0.015;line-height:1;user-select:none;font-family:'Space Grotesk',sans-serif;z-index:0;letter-spacing:-0.04em}
+.s1-headline{font-family:'Space Grotesk',sans-serif;font-size:88px;font-weight:700;line-height:1.02;letter-spacing:-0.025em;position:relative;z-index:5;max-width:900px}
+.s1-headline .accent{color:#C7FF3A;display:inline}
+.s1-headline .script{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;color:#FFFFFF;opacity:0.92}
+.s1-sub{font-family:'Inter',sans-serif;font-size:25px;font-weight:300;line-height:1.55;margin-top:30px;opacity:0.68;max-width:640px;position:relative;z-index:5}
+.s1-bars{display:flex;gap:8px;margin-top:48px;position:relative;z-index:5;align-items:flex-end;height:120px}
+.s1-bar{width:11px;background:linear-gradient(180deg,#C7FF3A 0%,rgba(199,255,58,0.2) 60%,transparent 100%);border-radius:5px;opacity:0.5;animation:s1float 2.8s ease-in-out infinite;transform-origin:bottom}
+.s1-bar:nth-child(1){height:52px;animation-delay:0s}
+.s1-bar:nth-child(2){height:88px;animation-delay:.22s}
+.s1-bar:nth-child(3){height:68px;animation-delay:.44s}
+.s1-bar:nth-child(4){height:112px;animation-delay:.66s}
+.s1-bar:nth-child(5){height:56px;animation-delay:.88s}
+.s1-bar:nth-child(6){height:96px;animation-delay:1.1s}
+.s1-bar:nth-child(7){height:76px;animation-delay:1.32s}
+.s1-bar:nth-child(8){height:62px;animation-delay:1.54s}
+@keyframes s1float{0%,100%{opacity:.3;transform:scaleY(.88)}50%{opacity:.8;transform:scaleY(1)}}
+.s1-typewriter{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(199,255,58,0.5);margin-top:36px;position:relative;z-index:5;letter-spacing:0.06em;border-right:2px solid #C7FF3A;white-space:nowrap;overflow:hidden;width:0;animation:typewrite 3.2s steps(42,end) 1.2s forwards,blinkcaret .75s step-end infinite 4.4s}
+@keyframes typewrite{to{width:100%}}@keyframes blinkcaret{50%{border-color:transparent}}
+.s1-deco-line{position:absolute;top:68px;right:64px;width:100px;height:1px;background:linear-gradient(90deg,transparent,#C7FF3A,transparent);opacity:.35;z-index:5}
+.s1-orb-small{position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.08),transparent 70%);filter:blur(30px);pointer-events:none;z-index:1;top:20%;left:10%}
+
+.s2-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s2-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:#C7FF3A;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:14px;opacity:.72}
+.s2-headline{font-family:'Space Grotesk',sans-serif;font-size:64px;font-weight:700;line-height:1.06;max-width:800px}
+.s2-headline em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;color:#C7FF3A;font-size:1.12em}
+.s2-data-zone{display:flex;align-items:center;gap:44px;margin-top:44px}
+.s2-waffle{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;width:360px;flex-shrink:0}
+.s2-waffle-cell{aspect-ratio:1/1;border-radius:3px;transition:all .4s}
+.s2-waffle-cell.on{background:#C7FF3A;box-shadow:0 0 12px rgba(199,255,58,0.2);animation:wafflepop .45s ease-out both}
+.s2-waffle-cell.off{background:rgba(255,255,255,0.04)}
+@keyframes wafflepop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+.s2-donut-wrap{position:relative;width:190px;height:190px;flex-shrink:0}
+.s2-donut{transform:rotate(-90deg)}
+.s2-donut-bg{fill:none;stroke:rgba(255,255,255,0.05);stroke-width:20}
+.s2-donut-fill{fill:none;stroke:#C7FF3A;stroke-width:20;stroke-linecap:round;stroke-dasharray:440;stroke-dashoffset:440;animation:donutdraw 2s ease-out 1.4s forwards;filter:drop-shadow(0 0 8px rgba(199,255,58,0.2))}
+@keyframes donutdraw{to{stroke-dashoffset:110}}
+.s2-donut-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.s2-donut-num{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;color:#C7FF3A;line-height:1}
+.s2-donut-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.4;margin-top:4px}
+.s2-legend{display:flex;flex-direction:column;gap:18px;flex:1}
+.s2-leg-row{display:flex;align-items:center;gap:14px}
+.s2-leg-dot{width:18px;height:18px;border-radius:4px;flex-shrink:0}
+.s2-leg-dot.on{background:#C7FF3A;box-shadow:0 0 10px rgba(199,255,58,0.15)}
+.s2-leg-dot.off{background:rgba(255,255,255,0.06)}
+.s2-leg-text{font-size:16px;opacity:.72;line-height:1.45}
+.s2-leg-text strong{color:#fff;font-weight:600;display:block;font-size:19px;margin-bottom:3px}
+.s2-source{font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.28;margin-top:24px;letter-spacing:.06em}
+.s2-stacked-bar{margin-top:28px;display:flex;flex-direction:column;gap:6px}
+.s2-sb-row{display:flex;align-items:center;gap:12px}
+.s2-sb-label{font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.4;width:90px;flex-shrink:0;text-transform:uppercase;letter-spacing:.06em}
+.s2-sb-track{height:22px;background:rgba(255,255,255,0.03);border-radius:6px;overflow:hidden;flex:1;position:relative}
+.s2-sb-fill{height:100%;border-radius:6px;width:0;animation:sbfill 1.2s ease-out forwards}
+.s2-sb-fill.r{background:linear-gradient(90deg,rgba(199,255,58,.5),rgba(199,255,58,.1))}
+.s2-sb-fill.g{background:linear-gradient(90deg,rgba(154,230,0,.5),rgba(154,230,0,.1))}
+.s2-sb-fill.b{background:linear-gradient(90deg,rgba(199,255,58,.4),rgba(199,255,58,.08))}
+@keyframes sbfill{to{width:var(--sw)}}
+.s2-sb-pct{position:absolute;top:50%;transform:translateY(-50%);right:10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700}
+
+.s3-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s3-term-bar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:rgba(0,0,0,0.55);border:1px solid rgba(255,255,255,0.08);border-radius:12px 12px 0 0;width:fit-content}
+.s3-dot{width:11px;height:11px;border-radius:50%}
+.s3-dot.r{background:#C7FF3A}.s3-dot.y{background:#9AE600}.s3-dot.g{background:#C7FF3A}
+.s3-term-title{font-family:'JetBrains Mono',monospace;font-size:10px;opacity:.32;margin-left:8px;letter-spacing:.04em}
+.s3-terminal{background:rgba(0,0,0,0.65);border:1px solid rgba(199,255,58,0.1);border-top:none;border-radius:0 0 16px 16px;padding:32px;font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.8;position:relative}
+.s3-cmd{color:#C7FF3A;font-weight:500}
+.s3-ok{color:#9AE600;margin-top:8px;opacity:0;animation:fadein .5s ease forwards}
+.s3-ok:nth-of-type(2){animation-delay:.5s}.s3-ok:nth-of-type(3){animation-delay:1s}.s3-ok:nth-of-type(4){animation-delay:1.5s}
+.s3-warn{color:#A0A0A0;margin-top:8px;opacity:0;animation:fadein .5s ease 2s forwards;font-weight:500}
+@keyframes fadein{to{opacity:1}}
+.s3-cv-mock{display:flex;flex-direction:column;gap:10px;margin-top:28px;padding-top:24px;border-top:1px dashed rgba(255,255,255,0.07)}
+.s3-cv-row{display:flex;align-items:center;gap:14px}
+.s3-cv-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.32;width:90px;flex-shrink:0}
+.s3-cv-line{height:11px;border-radius:5px;flex:1}
+.s3-cv-line.parsed{background:linear-gradient(90deg,rgba(199,255,58,.55),rgba(199,255,58,.06))}
+.s3-cv-line.unparsed{background:linear-gradient(90deg,rgba(160,160,160,.45),rgba(160,160,160,.04))}
+.s3-cv-line.partial{background:linear-gradient(90deg,rgba(154,230,0,.4),rgba(154,230,0,.05))}
+.s3-cv-status{font-size:11px;width:70px;text-align:right;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.s3-cv-status.ok{color:#C7FF3A}.s3-cv-status.fail{color:#A0A0A0;opacity:.8}.s3-cv-status.warn{color:#9AE600;opacity:.8}
+.s3-float-ornament{position:absolute;top:22px;right:26px;font-size:32px;color:#C7FF3A;opacity:.1;animation:floaty 4.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.s3-check-panel{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.s3-chk{display:flex;align-items:center;gap:12px}
+.s3-chk-box{width:20px;height:20px;border-radius:5px;border:2px solid rgba(199,255,58,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s3-chk-box.on{background:rgba(199,255,58,0.12);border-color:rgba(199,255,58,0.5)}
+.s3-chk-box.on::after{content:'✓';color:#C7FF3A;font-size:12px;font-weight:700}
+.s3-chk-box.off{border-color:rgba(160,160,160,0.3)}
+.s3-chk-box.off::after{content:'×';color:rgba(160,160,160,0.6);font-size:14px}
+.s3-chk-text{font-size:13px;opacity:.7}
+
+.s4-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s4-glass{background:rgba(255,255,255,0.035);border:1px solid rgba(255,255,255,0.08);border-radius:28px;padding:44px 48px;position:relative;overflow:hidden}
+.s4-glass::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#C7FF3A,transparent);opacity:.45}
+.s4-glass::after{content:'';position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.06),transparent 70%);pointer-events:none}
+.s4-headline{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:700;line-height:1.08;margin-bottom:10px}
+.s4-sub{font-size:18px;opacity:.52;margin-bottom:40px;font-weight:300}
+.s4-checklist{display:flex;flex-direction:column;gap:14px}
+.s4-item{display:flex;align-items:center;gap:18px;padding:18px 22px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:14px;transition:all .3s;position:relative}
+.s4-item:hover{background:rgba(255,255,255,0.045);border-color:rgba(199,255,58,0.1);transform:translateX(5px)}
+.s4-check{width:30px;height:30px;border-radius:8px;border:2px solid #C7FF3A;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.s4-check svg{width:16px;height:16px;stroke:#C7FF3A;stroke-width:2.5;fill:none;stroke-dasharray:26;stroke-dashoffset:26;animation:checkdraw .7s ease forwards}
+.s4-item:nth-child(1) .s4-check svg{animation-delay:.3s}.s4-item:nth-child(2) .s4-check svg{animation-delay:.6s}.s4-item:nth-child(3) .s4-check svg{animation-delay:.9s}.s4-item:nth-child(4) .s4-check svg{animation-delay:1.2s}.s4-item:nth-child(5) .s4-check svg{animation-delay:1.5s}
+@keyframes checkdraw{to{stroke-dashoffset:0}}
+.s4-item-text{font-size:18px;font-weight:500}
+.s4-item-text span{opacity:.42;font-size:13px;display:block;margin-top:4px;font-weight:400;font-family:'Inter',sans-serif}
+.s4-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:#C7FF3A;opacity:.45;margin-right:6px}
+.s4-stamp{position:absolute;top:36px;right:44px;width:90px;height:90px;border-radius:50%;border:2px solid rgba(199,255,58,0.25);display:flex;align-items:center;justify-content:center;font-size:9px;text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1.4;color:#C7FF3A;transform:rotate(-12deg);font-family:'JetBrains Mono',monospace;z-index:8;pointer-events:none}
+.s4-corner-deco{position:absolute;bottom:18px;right:22px;font-size:36px;color:#C7FF3A;opacity:.06}
+
+.s5-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s5-headline{font-family:'Space Grotesk',sans-serif;font-size:54px;font-weight:700;line-height:1.06;margin-bottom:10px}
+.s5-sub{font-size:18px;opacity:.48;margin-bottom:44px;font-weight:300;max-width:520px}
+.s5-comparison{display:flex;flex-direction:column;gap:28px}
+.s5-block{padding:32px 36px;border-radius:18px;position:relative;overflow:hidden}
+.s5-block.before{background:linear-gradient(135deg,rgba(160,160,160,0.07),rgba(160,160,160,0.02));border:1px solid rgba(160,160,160,0.1)}
+.s5-block.after{background:linear-gradient(135deg,rgba(199,255,58,0.07),rgba(199,255,58,0.02));border:1px solid rgba(199,255,58,0.12)}
+.s5-block-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.14em;margin-bottom:16px;opacity:.55}
+.s5-block.before .s5-block-label{color:#A0A0A0;opacity:.65}.s5-block.after .s5-block-label{color:#C7FF3A;opacity:.75}
+.s5-block-desc{font-size:19px;line-height:1.45;margin-bottom:20px}
+.s5-bar-track{height:44px;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden;position:relative}
+.s5-bar-fill{height:100%;border-radius:10px;width:0;animation:barfill 1.5s cubic-bezier(.22,1,.36,1) forwards}
+.s5-bar-fill.before{background:linear-gradient(90deg,rgba(160,160,160,.5),rgba(160,160,160,.06))}
+.s5-bar-fill.after{background:linear-gradient(90deg,#C7FF3A,rgba(199,255,58,.12))}
+.s5-bar-text{position:absolute;top:50%;transform:translateY(-50%);left:18px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700}
+.s5-block.before .s5-bar-text{color:rgba(160,160,160,.9)}.s5-block.after .s5-bar-text{color:#C7FF3A}
+@keyframes barfill{to{width:var(--bw)}}
+.s5-versus{position:absolute;left:50%;transform:translateX(-50%);background:#0A0A0A;border:1px solid rgba(255,255,255,.1);padding:7px 18px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.4;margin-top:-16px;align-self:center;z-index:5}
+.s5-editorial-index{display:flex;flex-direction:column;gap:0;margin-top:32px;border-top:1px solid rgba(255,255,255,0.08)}
+.s5-ei-row{display:flex;align-items:baseline;gap:18px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.s5-ei-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:#C7FF3A;opacity:.55;min-width:32px}
+.s5-ei-tag{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#C7FF3A;border:1px solid rgba(199,255,58,0.25);padding:3px 10px;border-radius:4px;min-width:80px;text-align:center;font-family:'JetBrains Mono',monospace}
+.s5-ei-body{font-size:14px;line-height:1.45;opacity:.65;flex:1}
+
+.s6-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s6-headline{font-family:'Space Grotesk',sans-serif;font-size:52px;font-weight:700;line-height:1.06;margin-bottom:10px}
+.s6-sub{font-size:18px;opacity:.48;margin-bottom:40px;font-weight:300}
+.s6-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.s6-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:40px 28px;text-align:center;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.s6-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#C7FF3A,transparent);opacity:.5}
+.s6-card::after{content:'';position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);width:80%;height:70px;background:radial-gradient(ellipse,rgba(199,255,58,0.08),transparent 70%);pointer-events:none}
+.s6-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(199,255,58,0.08)}
+.s6-card-num{font-family:'Space Grotesk',sans-serif;font-size:64px;font-weight:700;color:#C7FF3A;line-height:1;margin-top:4px;text-shadow:0 0 40px rgba(199,255,58,0.12)}
+.s6-card-label{font-size:13px;opacity:.55;margin-top:16px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.s6-card-desc{font-size:14px;opacity:.32;margin-top:6px;font-weight:300}
+.s6-ornament{position:absolute;top:20px;right:20px;font-size:20px;color:#C7FF3A;opacity:.18}
+.s6-ticker{position:absolute;bottom:100px;left:0;right:0;overflow:hidden;white-space:nowrap;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:10px 0;opacity:.3}
+.s6-ticker-track{display:inline-block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;animation:ticker 24s linear infinite}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.s7-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center}
+.s7-headline{font-family:'Space Grotesk',sans-serif;font-size:46px;font-weight:700;line-height:1.12;margin-bottom:12px;max-width:820px}
+.s7-headline em{font-family:'Cormorant Garamond',serif;font-style:italic;color:#C7FF3A;font-weight:600}
+.s7-cascade{display:flex;flex-direction:column;gap:24px;margin-top:32px}
+.s7-item{display:grid;grid-template-columns:88px 1fr;gap:10px 26px;align-items:start;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.06);border-radius:22px;padding:32px 36px;position:relative}
+.s7-avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,#C7FF3A,#9AE600);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:36px;color:#0A0A0A;grid-row:span 2;flex-shrink:0;position:relative;overflow:hidden;border:3px solid rgba(199,255,58,0.18);box-shadow:0 10px 40px rgba(199,255,58,0.1)}
+.s7-avatar-photo{position:absolute;inset:0;background:linear-gradient(135deg,rgba(199,255,58,0.12),rgba(154,230,0,0.12));display:flex;align-items:center;justify-content:center}
+.s7-avatar-photo::after{content:'PHOTO';font-size:9px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.45);letter-spacing:.1em;border:1px dashed rgba(255,255,255,0.15);padding:4px 8px;border-radius:4px}
+.s7-quote{font-size:21px;line-height:1.55;font-style:italic;font-family:'Cormorant Garamond',serif;opacity:.9;font-weight:500}
+.s7-meta{font-size:12px;opacity:.38;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.s7-stamp{position:absolute;top:48px;right:48px;width:110px;height:110px;border-radius:50%;border:2.5px solid rgba(199,255,58,0.22);display:flex;align-items:center;justify-content:center;font-size:10px;text-transform:uppercase;letter-spacing:.07em;text-align:center;line-height:1.4;color:rgba(199,255,58,0.65);transform:rotate(-14deg);font-family:'JetBrains Mono',monospace;z-index:6;pointer-events:none}
+.s7-stamp-inner{width:90px;height:90px;border-radius:50%;border:1px dashed rgba(199,255,58,0.18);display:flex;align-items:center;justify-content:center}
+.s7-press-row{display:flex;align-items:center;gap:18px;margin-top:28px;border-top:1px solid rgba(255,255,255,0.08);padding-top:18px}
+.s7-press-logo{font-size:13px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#C7FF3A;opacity:.55;font-family:'JetBrains Mono',monospace}
+.s7-press-div{width:1px;height:20px;background:rgba(255,255,255,0.1)}
+.s7-press-source{font-size:12px;opacity:.3;letter-spacing:.04em}
+
+.s8-wrap{position:relative;z-index:5;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.s8-watermark{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);font-size:480px;font-weight:700;color:#C7FF3A;opacity:.012;line-height:1;user-select:none;font-family:'Space Grotesk',sans-serif;z-index:0;letter-spacing:-.04em}
+.s8-headline{font-family:'Space Grotesk',sans-serif;font-size:68px;font-weight:700;line-height:1.06;position:relative;z-index:5;max-width:860px}
+.s8-headline em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;color:#C7FF3A}
+.s8-keyword-box{display:inline-block;border:2px dashed #C7FF3A;padding:20px 44px;border-radius:14px;margin-top:40px;animation:keywordpulse 3.2s ease-in-out infinite;position:relative;z-index:5;background:rgba(199,255,58,0.025)}
+@keyframes keywordpulse{0%,100%{box-shadow:0 0 0 rgba(199,255,58,0)}50%{box-shadow:0 0 50px rgba(199,255,58,0.1)}}
+.s8-keyword{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:900;color:#C7FF3A;letter-spacing:.06em;text-transform:uppercase}
+.s8-reward{font-size:21px;opacity:.6;margin-top:28px;position:relative;z-index:5;font-weight:300;max-width:520px;line-height:1.55}
+.s8-float-ornament{position:absolute;font-size:26px;color:#C7FF3A;opacity:.1;z-index:4;pointer-events:none}
+.s8-float-ornament.o1{top:12%;left:10%;animation:orbit1 9s linear infinite}
+.s8-float-ornament.o2{top:72%;right:12%;animation:orbit2 11s linear infinite}
+.s8-float-ornament.o3{top:35%;right:8%;animation:orbit3 7s linear infinite;font-size:18px;opacity:.08}
+@keyframes orbit1{0%{transform:translate(0,0)rotate(0deg)}25%{transform:translate(10px,-14px)rotate(8deg)}50%{transform:translate(0,-10px)rotate(0deg)}75%{transform:translate(-10px,-14px)rotate(-8deg)}100%{transform:translate(0,0)rotate(0deg)}}
+@keyframes orbit2{0%{transform:translate(0,0)rotate(0deg)}25%{transform:translate(-12px,10px)rotate(-6deg)}50%{transform:translate(0,14px)rotate(0deg)}75%{transform:translate(12px,10px)rotate(6deg)}100%{transform:translate(0,0)rotate(0deg)}}
+@keyframes orbit3{0%{transform:translate(0,0)}33%{transform:translate(-8px,-8px)}66%{transform:translate(8px,-6px)}100%{transform:translate(0,0)}}
+
+.deco-line-h{position:absolute;height:1px;background:linear-gradient(90deg,transparent,rgba(199,255,58,0.15),transparent);pointer-events:none;z-index:5}
+.deco-line-v{position:absolute;width:1px;background:linear-gradient(180deg,transparent,rgba(199,255,58,0.12),transparent);pointer-events:none;z-index:5}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:#C7FF3A;opacity:0;pointer-events:none;z-index:3;animation:particlefloat 6s ease-in-out infinite}
+@keyframes particlefloat{0%{opacity:0;transform:translateY(0)scale(0)}20%{opacity:.3;transform:translateY(-30px)scale(1)}80%{opacity:.2;transform:translateY(-80px)scale(.6)}100%{opacity:0;transform:translateY(-120px)scale(0)}}
+.riso-halftone{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.08;background-image:radial-gradient(circle,#C7FF3A 1px,transparent 1px);background-size:10px 10px}
+
+.sparkline{display:flex;align-items:flex-end;gap:3px;height:40px}
+.spark-bar{width:5px;background:linear-gradient(180deg,#C7FF3A,transparent);border-radius:2px;animation:sparkgrow .8s ease-out both}
+@keyframes sparkgrow{0%{height:0}100%{height:var(--sh)}}
+
+.pull-frame{position:relative;padding:28px 32px;border:1px solid rgba(255,255,255,0.06);border-radius:16px;background:rgba(255,255,255,0.015)}
+.pull-frame::before{content:'"';position:absolute;top:-8px;left:20px;font-family:'Cormorant Garamond',serif;font-size:64px;color:#C7FF3A;opacity:.12;line-height:1}
+
+.browser-frame{border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;background:rgba(0,0,0,0.35)}
+.browser-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06)}
+.browser-dot{width:8px;height:8px;border-radius:50%}
+
+@keyframes slidedown{0%{transform:translateY(-20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes slideup{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes scalein{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes rotatein{0%{transform:rotate(-5deg)scale(.95);opacity:0}100%{transform:rotate(0)scale(1);opacity:1}}
+@keyframes glowpulse{0%,100%{filter:drop-shadow(0 0 4px rgba(199,255,58,0.1))}50%{filter:drop-shadow(0 0 12px rgba(199,255,58,0.25))}}
+@keyframes dashslide{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}
+
+.s6-card{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s}
+.s4-item{transition:all .3s cubic-bezier(.22,1,.36,1)}
+.s5-block{transition:all .3s}
+.s5-block.before:hover{border-color:rgba(160,160,160,.2)}
+.s5-block.after:hover{border-color:rgba(199,255,58,.25);box-shadow:0 8px 32px rgba(199,255,58,0.05)}
+.s7-item{transition:all .3s}
+.s7-item:hover{border-color:rgba(199,255,58,.1);transform:translateY(-2px)}
+
+.abs-tl{position:absolute;top:0;left:0}.abs-tr{position:absolute;top:0;right:0}
+.abs-bl{position:absolute;bottom:0;left:0}.abs-br{position:absolute;bottom:0;right:0}
+.abs-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+
+.glass-light{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:24px}
+.glass-tint{background:linear-gradient(135deg,rgba(199,255,58,0.04),rgba(154,230,0,0.03));border:1px solid rgba(199,255,58,0.1);border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06)}
+
+.sunburst{position:absolute;inset:0;z-index:1;opacity:.04;pointer-events:none}
+.sunburst line{stroke:#C7FF3A;stroke-width:1}
+
+.depth-hint{transform-style:preserve-3d;perspective:800px}
+.depth-layer{transform:translateZ(20px)}
+
+.marquee-fast{animation-duration:14s}
+.marquee-slow{animation-duration:32s}
+
+.s6-card-num{transition:all .4s}
+.s6-card:hover .s6-card-num{text-shadow:0 0 50px rgba(199,255,58,0.2);transform:scale(1.05)}
+.s2-donut-wrap{filter:drop-shadow(0 0 20px rgba(199,255,58,0.08))}
+.s3-terminal{box-shadow:0 20px 60px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.03)}
+.s4-glass{box-shadow:0 24px 80px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.04)}
+.s7-item{box-shadow:0 8px 32px rgba(0,0,0,0.15)}
+.s8-keyword-box{background:rgba(199,255,58,0.03)}
+.pw-grid{animation:gridshift 20s linear infinite}
+@keyframes gridshift{0%{transform:rotateX(58deg) rotateZ(-10deg) translateY(0)}100%{transform:rotateX(58deg) rotateZ(-10deg) translateY(52px)}}
+
+.cursor-blink::after{content:'_';animation:blink 1s step-end infinite;color:#C7FF3A}
+@keyframes blink{50%{opacity:0}}
+
+.ripple{position:relative;overflow:hidden}
+.ripple::after{content:'';position:absolute;width:100%;height:100%;top:0;left:0;background:radial-gradient(circle,rgba(199,255,58,0.2),transparent 70%);transform:scale(0);opacity:0;transition:transform .5s,opacity .5s}
+.ripple:active::after{transform:scale(2.5);opacity:1;transition:0s}
+
+.photo-zone{position:relative;overflow:hidden;border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));border:1px dashed rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center}
+.photo-zone::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.015) 8px,rgba(255,255,255,0.015) 16px)}
+.photo-label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.12);padding:5px 10px;border-radius:4px;background:rgba(0,0,0,0.3)}
+
+.divider-glow{height:1px;background:linear-gradient(90deg,transparent,#C7FF3A,transparent);opacity:.3;margin:24px 0}
+.divider-dashed{height:1px;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.1),rgba(255,255,255,0.1) 6px,transparent 6px,transparent 12px);margin:20px 0}
+
+.tag{display:inline-block;padding:4px 12px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+.tag-accent{background:rgba(199,255,58,0.08);color:#C7FF3A;border:1px solid rgba(199,255,58,0.2)}
+.tag-warn{background:rgba(160,160,160,0.06);color:#A0A0A0;border:1px solid rgba(160,160,160,0.15)}
+.tag-info{background:rgba(154,230,0,0.06);color:#9AE600;border:1px solid rgba(154,230,0,0.15)}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0A0A0A}
+::-webkit-scrollbar-thumb{background:rgba(199,255,58,0.15);border-radius:3px}
+
+::selection{background:rgba(199,255,58,0.2);color:#fff}
+
+.beyond-layer{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.04;background:repeating-radial-gradient(circle at 50% 50%,transparent 0,transparent 8px,rgba(199,255,58,.015) 8px,rgba(199,255,58,.015) 16px)}
+.beyond-halo{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,.06),transparent 70%);filter:blur(30px);pointer-events:none;z-index:1;animation:beyondhalo 8s ease-in-out infinite}
+@keyframes beyondhalo{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.3);opacity:.8}}
+.beyond-accent-line{position:absolute;height:2px;background:linear-gradient(90deg,transparent,#C7FF3A,transparent);opacity:.15;pointer-events:none;z-index:5}
+.beyond-particle{position:absolute;width:3px;height:3px;border-radius:50%;background:#C7FF3A;opacity:0;pointer-events:none;z-index:3;animation:beyondparticle 6s ease-in-out infinite}
+@keyframes beyondparticle{0%{opacity:0;transform:translateY(0)scale(0)}20%{opacity:.2;transform:translateY(-20px)scale(1)}80%{opacity:.1;transform:translateY(-60px)scale(.7)}100%{opacity:0;transform:translateY(-90px)scale(0)}}
+.beyond-gradient-mesh{position:absolute;inset:0;background:radial-gradient(at 40% 20%,rgba(199,255,58,.02) 0,transparent 50%),radial-gradient(at 80% 0%,rgba(154,230,0,.015) 0,transparent 50%),radial-gradient(at 0% 50%,rgba(199,255,58,.01) 0,transparent 50%);pointer-events:none;z-index:1}
+.beyond-text-glow{text-shadow:0 0 20px rgba(199,255,58,.05),0 0 40px rgba(199,255,58,.02)}
+.beyond-card-shine{position:relative;overflow:hidden}.beyond-card-shine::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(to bottom right,rgba(255,255,255,0) 0%,rgba(255,255,255,.01) 50%,rgba(255,255,255,0) 100%);transform:rotate(30deg);animation:beyondshine 6s ease-in-out infinite}
+@keyframes beyondshine{0%{transform:rotate(30deg)translate(-30%,-30%)}100%{transform:rotate(30deg)translate(30%,30%)}}
+.beyond-orb-pulse{animation:beyondorbpulse 4s ease-in-out infinite}
+@keyframes beyondorbpulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:.9}}
+.beyond-border-glow{position:relative}.beyond-border-glow::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(199,255,58,.1),transparent,rgba(154,230,0,.08));-webkit-mask:linear-gradient(#fff 0 0)content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0)content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s}.beyond-border-glow:hover::before{opacity:1}
+
+.worqai-url{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(199,255,58,0.45);letter-spacing:0.12em;text-transform:lowercase;z-index:10}
+</style>
+</head>
+<body>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div id="slides">
+
+      <!-- ===== S1 HOOK ===== -->
+      <div class="slide active">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:-20%;right:-14%;"></div>
+        <div class="s1-orb-small"></div>
+        <div class="zoom-rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="top:68px;right:110px;">&#10022;</div>
+        <div class="ornament" style="bottom:90px;left:45px;font-size:16px;opacity:.1;">&#10023;</div>
+        <div class="s1-deco-line"></div>
+        <div class="s1-watermark">73</div>
+        <div class="s1-wrap">
+          <div class="s1-headline">73% de los CVs mueren antes de que un <span class="accent">humano</span> los vea</div>
+          <div class="s1-sub">Ese es el dato. No es opinion. WorqAI existe porque el filtro ATS es real, y la mayoria no sabe como pasarlo.</div>
+          <div class="s1-bars">
+            <div class="s1-bar"></div><div class="s1-bar"></div><div class="s1-bar"></div><div class="s1-bar"></div>
+            <div class="s1-bar"></div><div class="s1-bar"></div><div class="s1-bar"></div><div class="s1-bar"></div>
+          </div>
+          <div class="s1-typewriter">$ worqai --scan cv.pdf --diagnostic --pipeline</div>
+        </div>
+        <div class="swipe-pill">Desliza &rarr;</div>
+        <div class="brand">worqai.io</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S2 DATA VIZ ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:58%;right:-24%;"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="bottom:85px;left:55px;">&#10022;</div>
+        <div class="ornament" style="top:75px;right:85px;font-size:16px;">&#10023;</div>
+        <svg class="wave-bg" viewBox="0 0 1080 1080" preserveAspectRatio="none"><path d="M0,600 Q270,460 540,600 T1080,600" fill="none" stroke="#C7FF3A" stroke-width="1.5" opacity="0.4"/><path d="M0,660 Q270,520 540,660 T1080,660" fill="none" stroke="#C7FF3A" stroke-width="1" opacity="0.25"/><path d="M0,540 Q270,400 540,540 T1080,540" fill="none" stroke="#9AE600" stroke-width="1" opacity="0.2"/></svg>
+        <div class="s2-wrap">
+          <div class="s2-label">Dato verificado / 2025</div>
+          <div class="s2-headline">De cada 100 CVs, solo <em>27</em> llegan a un humano</div>
+          <div class="s2-data-zone">
+            <div class="s2-waffle" id="waffle"></div>
+            <div class="s2-donut-wrap">
+              <svg class="s2-donut" viewBox="0 0 180 180" width="180" height="180"><circle class="s2-donut-bg" cx="90" cy="90" r="70"/><circle class="s2-donut-fill" cx="90" cy="90" r="70"/></svg>
+              <div class="s2-donut-text"><div class="s2-donut-num">73%</div><div class="s2-donut-label">Filtrados</div></div>
+            </div>
+            <div class="s2-legend">
+              <div class="s2-leg-row"><div class="s2-leg-dot on"></div><div class="s2-leg-text"><strong>27 CVs</strong>llegan al reclutador humano</div></div>
+              <div class="s2-leg-row"><div class="s2-leg-dot off"></div><div class="s2-leg-text"><strong>73 CVs</strong>eliminados automaticamente por ATS</div></div>
+              <div class="s2-stacked-bar">
+                <div class="s2-sb-row"><div class="s2-sb-label">Startups</div><div class="s2-sb-track"><div class="s2-sb-fill g" style="--sw:62%;"></div><div class="s2-sb-pct" style="color:#C7FF3A;">62%</div></div></div>
+                <div class="s2-sb-row"><div class="s2-sb-label">Corporativo</div><div class="s2-sb-track"><div class="s2-sb-fill r" style="--sw:89%;"></div><div class="s2-sb-pct" style="color:#C7FF3A;">89%</div></div></div>
+                <div class="s2-sb-row"><div class="s2-sb-label">Remoto US</div><div class="s2-sb-track"><div class="s2-sb-fill b" style="--sw:94%;"></div><div class="s2-sb-pct" style="color:#9AE600;">94%</div></div></div>
+              </div>
+              <div class="s2-source">Fuente: Profile Pro LATAM / analisis 2025</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">02 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S3 TERMINAL MOCK UI ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:-14%;left:-20%;"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="top:85px;right:80px;">&#10023;</div>
+        <div class="ornament" style="bottom:75px;left:60px;font-size:18px;opacity:.08;">&#10022;</div>
+        <div class="s3-wrap">
+          <div class="s3-term-bar">
+            <div class="s3-dot r"></div><div class="s3-dot y"></div><div class="s3-dot g"></div>
+            <div class="s3-term-title">worqai-pipeline --diagnostic.py</div>
+          </div>
+          <div class="s3-terminal">
+            <div class="s3-float-ornament">&#10022;</div>
+            <div class="s3-cmd">$ worqai --scan cv_juan_perez.pdf --pipeline --verbose</div>
+            <div class="s3-ok">&#10003; Etapa 1: Parseo — formato PDF hibrido detectado</div>
+            <div class="s3-ok">&#10003; Etapa 2: Keywords — 3 de 12 secciones con match</div>
+            <div class="s3-ok">&#10003; Etapa 3: Formato — tablas y columnas bloquean lectura</div>
+            <div class="s3-warn">&#10007; Diagnostico: 6 de 8 puntos de falla activos. El CV no pasaria el ATS.</div>
+            <div class="s3-cv-mock">
+              <div class="s3-cv-row"><div class="s3-cv-label">Nombre</div><div class="s3-cv-line parsed" style="flex:.92"></div><div class="s3-cv-status ok">OK</div></div>
+              <div class="s3-cv-row"><div class="s3-cv-label">Email</div><div class="s3-cv-line parsed" style="flex:.88"></div><div class="s3-cv-status ok">OK</div></div>
+              <div class="s3-cv-row"><div class="s3-cv-label">Skills</div><div class="s3-cv-line partial" style="flex:.45"></div><div class="s3-cv-status warn">PARCIAL</div></div>
+              <div class="s3-cv-row"><div class="s3-cv-label">Experiencia</div><div class="s3-cv-line unparsed" style="flex:.28"></div><div class="s3-cv-status fail">FAIL</div></div>
+              <div class="s3-cv-row"><div class="s3-cv-label">Educacion</div><div class="s3-cv-line unparsed" style="flex:.22"></div><div class="s3-cv-status fail">FAIL</div></div>
+            </div>
+            <div class="s3-check-panel">
+              <div class="s3-chk"><div class="s3-chk-box off"></div><div class="s3-chk-text">Formato single-column</div></div>
+              <div class="s3-chk"><div class="s3-chk-box off"></div><div class="s3-chk-text">Sin elementos graficos</div></div>
+              <div class="s3-chk"><div class="s3-chk-box on"></div><div class="s3-chk-text">Extension menor a 2MB</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">03 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S4 CHECKLIST GLASS ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:44%;right:-14%;"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="top:105px;left:50px;">&#10023;</div>
+        <div class="ornament" style="bottom:70px;right:90px;font-size:16px;">&#10022;</div>
+        <div class="s4-wrap">
+          <div class="s4-glass">
+            <div class="s4-stamp"><div class="s4-stamp-inner">Check<br>List</div></div>
+            <div class="s4-headline">El ATS busca esto. WorqAI lo arregla.</div>
+            <div class="s4-sub">5 puntos de falla que matan tu CV. Cada uno tiene una solucion en el pipeline de WorqAI.</div>
+            <div class="s4-checklist">
+              <div class="s4-item"><div class="s4-check"><svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg></div><div class="s4-item-text"><span class="s4-num">01</span>Formato limpio sin tablas ni columnas<span>Sin graficos, sin fotos en el cuerpo del documento</span></div></div>
+              <div class="s4-item"><div class="s4-check"><svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg></div><div class="s4-item-text"><span class="s4-num">02</span>Palabras clave del puesto<span>Copia terminos exactos de la descripcion de la vacante</span></div></div>
+              <div class="s4-item"><div class="s4-check"><svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg></div><div class="s4-item-text"><span class="s4-num">03</span>Secciones estandar claras<span>Experiencia, Educacion, Habilidades — en ese orden</span></div></div>
+              <div class="s4-item"><div class="s4-check"><svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg></div><div class="s4-item-text"><span class="s4-num">04</span>Extension de 1 a 2 paginas<span>El ATS trunca contenido despues del limite</span></div></div>
+              <div class="s4-item"><div class="s4-check"><svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg></div><div class="s4-item-text"><span class="s4-num">05</span>Archivo .docx o PDF puro<span>Evita escaneres de imagen, scans y fotos del pasaporte</span></div></div>
+            </div>
+            <div class="s4-corner-deco">&#10022;</div>
+          </div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">04 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S5 BEFORE/AFTER ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="bottom:-24%;left:-14%;"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="top:58px;right:100px;">&#10022;</div>
+        <div class="ornament" style="bottom:80px;left:55px;font-size:16px;opacity:.1;">&#10023;</div>
+        <div class="s5-wrap">
+          <div class="s5-headline">Antes vs. Despues</div>
+          <div class="s5-sub">Mismo perfil, dos formatos. WorqAI convierte el caos en estructura que el ATS lee al 100%.</div>
+          <div class="s5-comparison">
+            <div class="s5-block before">
+              <div class="s5-block-label">CV con columnas, colores y diseno grafico</div>
+              <div class="s5-block-desc">El ATS ve caos estructural. No puede leer tablas, ni graficos, ni columnas paralelas.</div>
+              <div class="s5-bar-track"><div class="s5-bar-fill before" style="--bw:15%;"></div><div class="s5-bar-text">3% legible por ATS</div></div>
+            </div>
+            <div class="s5-versus">VS</div>
+            <div class="s5-block after">
+              <div class="s5-block-label">CV pasado por el pipeline WorqAI</div>
+              <div class="s5-block-desc">Texto plano, estructura estandar, keywords alineadas al puesto. El ATS lo lee al 100%.</div>
+              <div class="s5-bar-track"><div class="s5-bar-fill after" style="--bw:94%;"></div><div class="s5-bar-text">94% legible por ATS</div></div>
+            </div>
+          </div>
+          <div class="s5-editorial-index">
+            <div class="s5-ei-row"><div class="s5-ei-num">01</div><div class="s5-ei-tag">ANTES</div><div class="s5-ei-body">Diseno visual prioritario, legibilidad humana</div></div>
+            <div class="s5-ei-row"><div class="s5-ei-num">02</div><div class="s5-ei-tag">DESPUES</div><div class="s5-ei-body">Estructura semantica, legibilidad algoritmica</div></div>
+            <div class="s5-ei-row"><div class="s5-ei-num">03</div><div class="s5-ei-tag">IMPACTO</div><div class="s5-ei-body">10.6x mas probabilidad de pasar el primer filtro</div></div>
+          </div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">05 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S6 GLASSMORPHISM STATS ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="bottom:95px;right:60px;">&#10023;</div>
+        <div class="ornament" style="top:80px;left:50px;font-size:16px;opacity:.1;">&#10022;</div>
+        <div class="s6-wrap">
+          <div class="s6-headline">Los numeros no mienten</div>
+          <div class="s6-sub">Impacto medible de un CV pasado por el pipeline de WorqAI.</div>
+          <div class="s6-cards">
+            <div class="s6-card">
+              <div class="s6-ornament">&#10022;</div>
+              <div class="s6-card-num">10.6<span style="font-size:28px;opacity:.55">x</span></div>
+              <div class="s6-card-label">Mas entrevistas</div>
+              <div class="s6-card-desc">CV ajustado al puesto vs. CV generico</div>
+            </div>
+            <div class="s6-card">
+              <div class="s6-ornament">&#10022;</div>
+              <div class="s6-card-num">30<span style="font-size:28px;opacity:.55">s</span></div>
+              <div class="s6-card-label">Tiempo de scan</div>
+              <div class="s6-card-desc">Lo que dura el filtro automatico promedio por documento</div>
+            </div>
+            <div class="s6-card">
+              <div class="s6-ornament">&#10022;</div>
+              <div class="s6-card-num">87<span style="font-size:28px;opacity:.55">%</span></div>
+              <div class="s6-card-label">Empresas usan ATS</div>
+              <div class="s6-card-desc">En LATAM, Estados Unidos y mercados remotos globales</div>
+            </div>
+          </div>
+          <div class="s6-ticker"><div class="s6-ticker-track">WORQAI &middot; CV ATS-FRIENDLY &middot; MAS ENTREVISTAS &middot; PIPELINE 6 ETAPAS &middot; WORQAI &middot; CV ATS-FRIENDLY &middot; MAS ENTREVISTAS &middot; PIPELINE 6 ETAPAS &middot;&nbsp;</div></div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">06 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S7 TESTIMONIAL + PHOTO ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:-14%;right:30%;"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="ornament" style="top:90px;left:55px;font-size:16px;opacity:.1;">&#10022;</div>
+        <div class="s7-stamp"><div class="s7-stamp-inner">Caso<br>Real</div></div>
+        <div class="s7-wrap">
+          <div class="s7-headline">&ldquo;Pase de 0 a <em>3 entrevistas</em> en una semana&rdquo;</div>
+          <div class="s7-cascade">
+            <div class="s7-item">
+              <div class="s7-avatar"><div class="s7-avatar-photo"></div></div>
+              <div class="s7-quote">&ldquo;No invente experiencia. No agregue skills falsas. Sube mi CV a WorqAI, segui las indicaciones del pipeline, y el reclutador me llamo 3 dias despues. El score es un diagnostico, no una sentencia.&rdquo;</div>
+              <div class="s7-meta">Juan Perez — Ingeniero de Software — San Jose, Costa Rica</div>
+            </div>
+          </div>
+          <div class="s7-press-row">
+            <div class="s7-press-logo">WorqAI Case Study</div>
+            <div class="s7-press-div"></div>
+            <div class="s7-press-source">Resultado verificado — marzo 2025</div>
+          </div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">07 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+      <!-- ===== S8 CTA ===== -->
+      <div class="slide">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="glow-orb" style="top:20%;left:-20%;"></div>
+        <div class="corner-frame tl"></div><div class="corner-frame tr"></div><div class="corner-frame bl"></div><div class="corner-frame br"></div>
+        <div class="s8-watermark">W</div>
+        <div class="s8-float-ornament o1">&#10022;</div>
+        <div class="s8-float-ornament o2">&#10023;</div>
+        <div class="s8-float-ornament o3">&#10022;</div>
+        <div class="s8-wrap">
+          <div class="s8-headline">&iquest;Tu CV esta pasando <em>el filtro</em>?</div>
+          <div class="s8-keyword-box">
+            <div class="s8-keyword">WORQAI</div>
+          </div>
+          <div class="s8-reward" style="max-width:720px;margin-top:36px;">
+            <div style="display:flex;flex-direction:column;gap:20px;align-items:center;">
+              <div style="text-align:center;">
+                <div style="font-size:26px;font-weight:700;color:#C7FF3A;margin-bottom:4px;">CV mejorado gratis — listo para descargar</div>
+                <div style="font-size:16px;opacity:.55;">Sin tarjeta. Sin costo.</div>
+              </div>
+              <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,rgba(199,255,58,0.4),transparent);"></div>
+              <div style="text-align:center;">
+                <div style="font-size:26px;font-weight:700;color:#C7FF3A;margin-bottom:4px;">Puntuacion ATS para tu CV gratis</div>
+                <div style="font-size:16px;opacity:.55;">Sin tarjeta. Sin costo.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="brand">worqai.io</div>
+        <div class="counter">08 / 08</div>
+        <div class="worqai-url">worqai.io</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="prevSlide()">&larr; Anterior</button>
+    <button onclick="nextSlide()">Siguiente &rarr;</button>
+  </div>
+  <div class="hint">Navega con las flechas. Resolucion: 1080 x 1080 px</div>
+  <button class="zip-btn" onclick="exportZip()">Exportar PNG + ZIP</button>
+</div>
+
+<script>
+let current=0;
+const slides=document.querySelectorAll('#slides .slide');
+const total=slides.length;
+function showSlide(i){slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));current=i}
+function nextSlide(){showSlide((current+1)%total)}
+function prevSlide(){showSlide((current-1+total)%total)}
+
+const waffle=document.getElementById('waffle');
+if(waffle){for(let i=0;i<100;i++){const c=document.createElement('div');c.className='s2-waffle-cell '+(i<73?'off':'on');c.style.animationDelay=(i*0.01)+'s';waffle.appendChild(c)}}
+
+async function exportZip(){
+  const zip=new JSZip();
+  const folder=zip.folder('carousel_worqai-data');
+  for(let i=0;i<total;i++){
+    showSlide(i);
+    await new Promise(r=>setTimeout(r,800));
+    const canvas=await html2canvas(slides[i],{width:1080,height:1080,scale:2,backgroundColor:'#0A0A0A'});
+    const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+    folder.file(`slide_${String(i+1).padStart(2,'0')}.png`,blob);
+  }
+  const content=await zip.generateAsync({type:'blob'});
+  const url=URL.createObjectURL(content);
+  const a=document.createElement('a');a.href=url;a.download='carousel_worqai-data.zip';a.click();
+  URL.revokeObjectURL(url);showSlide(current);
+}
+</script>
+</body>
+</html>'''
+
+    import os
+    output_path = r'C:\Users\kenne\OneDrive\Documentos\worqai-marketing\production\Carousels to remake\priority 1\Batch 1\reframed\reframed_carousel_ats-data_worqai-lime.html'
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(carousel7_html)
+    return {"path": output_path, "bytes": len(carousel7_html.encode('utf-8'))}

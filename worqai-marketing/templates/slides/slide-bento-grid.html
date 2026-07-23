@@ -1,0 +1,26 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="bento-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="bento-headline">{{ copy.headline }}</div>{% endif %}
+
+    {% set tiles = copy.get('tiles', []) %}
+    {% set layout = copy.get('grid', 'g-2x2') %}
+    <div class="bento-grid {{ layout }}">
+      {% for tile in tiles %}
+      <div class="sub-bento-card{% if tile.accent %} accent{% endif %}{% if tile.span_2 %} span-2{% endif %}">
+        {% if tile.label %}<div class="bento-label">{{ tile.label }}</div>{% endif %}
+        {% if tile.title %}<div class="bento-title">{{ tile.title }}</div>{% endif %}
+        {% if tile.body %}<div class="bento-body">{{ tile.body }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

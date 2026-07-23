@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html data-duration="56" data-fps="60" data-name="villain-v3-1">
+<head>
+  <meta charset="UTF-8"><script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomBounce-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomWiggle-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/MotionPathPlugin-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/SplitText-3.15.0.min.js"></script>
+  <script src="../motion-lib.js"></script>
+  <link rel="stylesheet" href="scene-launch-villain-v3-1.css">
+</head>
+<body class="cv-clean-mode">
+
+<div id="bg-grid"></div>
+
+<div id="cursor">
+  <svg viewBox="0 0 28 28" fill="none"><path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#F0EDE4" stroke="#0C0E16" stroke-width="1.5" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- Scene 1: The Wound (0–10s) -->
+<div id="intro-group">
+  <div class="intro-line" id="intro-l1" data-copy="40 postulaciones.">40 postulaciones.</div>
+  <div class="intro-line" id="intro-l2" data-copy="0 respuestas.">0 respuestas.</div>
+  <div class="intro-line muted-intro" id="intro-l3" data-copy='Y la pregunta que te persigue: "¿qué estoy haciendo mal?"'>Y la pregunta que te persigue: "¿qué estoy haciendo mal?"</div>
+  <div class="intro-line" id="intro-l4" data-copy="Nadie te rechazó.">Nadie te rechazó.</div>
+  <div class="intro-line" id="intro-l5" data-copy="Nadie te leyó.">Nadie te leyó.</div>
+  <div class="intro-line intro-kicker" id="intro-l6" data-copy="El filtro te descartó sin llegar a un humano.">El filtro te descartó sin llegar a un humano.</div>
+</div>
+
+<!-- Scene 3: Cheat-Code overlay (12–16s) — covers the demo while CV resets underneath -->
+<div id="turn-scene">
+  <div class="turn-line" id="turn-l1" data-copy="Los que consiguen entrevistas no tienen mejor experiencia que tú.">Los que consiguen entrevistas no tienen mejor experiencia que tú.</div>
+  <div class="turn-line" id="turn-l2" data-copy="Tienen un CV distinto para cada vacante.">Tienen un CV distinto para cada vacante.</div>
+  <div id="turn-l3" data-copy="Escrito en el idioma que el filtro entiende.">Escrito en el idioma que el filtro entiende.</div>
+  <!-- Scene 3 Tier B: lime underline draws under the key phrase -->
+  <svg id="turn-l3-underline" viewBox="0 0 560 14" preserveAspectRatio="none" aria-hidden="true">
+    <path id="turn-l3-underline-path" d="M4 10 C 140 3, 420 3, 556 8"
+          fill="none" stroke="var(--lime)" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- Scene 8: La Inversión -->
+<div id="human-close">
+  <div class="human-line" id="human-l1" data-copy="Las empresas usan bots para descartarte.">Las empresas usan bots para descartarte.</div>
+  <div class="human-line human-lime" id="human-l2" data-copy="Nosotros invertimos el proceso.">Nosotros invertimos el proceso.</div>
+  <div class="human-line" id="human-l3" data-copy="WorqAI reconstruye tu CV con todo lo que el bot busca.">WorqAI reconstruye tu CV con todo lo que el bot busca.</div>
+  <div class="human-line human-lime human-hero" id="human-l4" data-copy="Ellos tienen un algoritmo. Ahora tú también.">Ellos tienen un algoritmo. Ahora tú también.</div>
+</div>
+
+<!-- Scene 9: CTA -->
+<div id="cta-group">
+  <!-- Decorative layer (behind text) -->
+  <div id="cta-particles-layer"></div>
+  <svg id="cta-decor" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="cta-trail-grad" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%"  stop-color="rgba(201,242,77,0)"/>
+        <stop offset="60%" stop-color="rgba(201,242,77,0.35)"/>
+        <stop offset="100%" stop-color="rgba(201,242,77,0.9)"/>
+      </linearGradient>
+    </defs>
+    <path id="cta-trail" d="M540 1920 C 460 1740, 640 1560, 540 1400 S 460 1240, 560 1150"
+          fill="none" stroke="url(#cta-trail-grad)" stroke-width="3" stroke-linecap="round"/>
+    <g id="cta-star" transform="translate(560 1150)">
+      <path d="M0 -22 L6 -6 L22 0 L6 6 L0 22 L-6 6 L-22 0 L-6 -6 Z"
+            fill="var(--lime)"/>
+    </g>
+  </svg>
+
+  <!-- Content -->
+  <div id="cta-logo-wrap"><img id="cta-logo-img" src="../../Ideation/worqai_logo.png" alt="WorqAI"></div>
+
+  <div id="cta-badge">
+    <svg class="cta-badge-icon" viewBox="0 0 24 24" fill="none">
+      <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z" fill="currentColor"/>
+    </svg>
+    <span id="cta-badge-text" data-copy="TE DESCARTARON EN SEGUNDOS.">TE DESCARTARON EN SEGUNDOS.</span>
+  </div>
+
+  <div id="cta-subtext" data-copy="Sin siquiera llegar a un humano.">Sin siquiera llegar a un humano.</div>
+
+  <div id="cta-headline">
+    <span class="cta-h-line cta-h-lime" data-copy="Así que les copiamos el filtro y">Así que les copiamos el filtro y</span>
+    <span class="cta-h-line cta-h-ink"  data-copy="lo pusimos de tu lado.">lo pusimos de tu lado.</span>
+    <svg id="cta-underline" viewBox="0 0 320 14" preserveAspectRatio="none" aria-hidden="true">
+      <path id="cta-underline-path" d="M4 9 C 90 2, 230 2, 316 7" fill="none"
+            stroke="var(--lime)" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div id="cta-desc" data-copy="Con WorqAI podés adaptar tu CV a cualquier vacante en segundos.">Con WorqAI podés adaptar tu CV a cualquier vacante <span class="cta-accent">en segundos.</span></div>
+
+  <div id="cta-btn">
+    <svg class="cta-btn-icon" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2v6m0 8v6m10-10h-6M8 12H2m15.07-7.07l-4.24 4.24M11.17 12.83l-4.24 4.24m12.14 0l-4.24-4.24M11.17 11.17L6.93 6.93" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <span id="cta-btn-text">Analiza mi CV gratis</span>
+    <span id="cta-btn-arrow" aria-hidden="true">&#8594;</span>
+  </div>
+
+  <div id="cta-features">
+    <div class="cta-feat">
+      <svg class="cta-feat-icon" viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span data-copy="Rápido">Rápido</span>
+    </div>
+    <span class="cta-feat-sep">·</span>
+    <div class="cta-feat">
+      <svg class="cta-feat-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <span data-copy="Seguro">Seguro</span>
+    </div>
+    <span class="cta-feat-sep">·</span>
+    <div class="cta-feat">
+      <svg class="cta-feat-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span data-copy="Preciso">Preciso</span>
+    </div>
+  </div>
+
+  <div id="cta-domain" data-copy="worqai.io · español e inglés">worqai.io · español e inglés</div>
+</div>
+
+<!-- Scenes 2–7: Demo group -->
+<div id="demo-group">
+
+  <!-- Scene 7 Tier B: lime particle layer (behind cards) -->
+  <div id="s7-particles"></div>
+
+  <div id="banner-area">
+    <div class="cv-banner" id="banner-generic">
+      <span id="banner-generic-head" data-copy="Así te lee el filtro.">Así te lee el filtro.</span>
+      <span id="banner-generic-sub" data-copy="El software que las empresas usan para descartar candidatos — antes de que un humano vea tu CV.">El software que las empresas usan para descartar candidatos — antes de que un humano vea tu CV.</span>
+    </div>
+    <div class="cv-banner" id="banner-stat">
+      <span id="banner-stat-text">10.6× más entrevistas. Solo por adaptar el CV a cada vacante.</span>
+      <div id="job-chip"><span id="job-chip-text">Analista de Seguridad</span></div>
+    </div>
+  </div>
+
+  <div id="cv-panel">
+    <!-- Ghost cards (fan-out, Scene 7) -->
+    <div class="ghost-card" id="ghost-card-1"></div>
+    <div class="ghost-card" id="ghost-card-2"></div>
+    <div class="ghost-card" id="ghost-card-3"></div>
+    <div id="tailor-score">Puntuación 92</div>
+
+    <div class="cv-card" id="cv-card">
+      <div class="scan-bar" id="scan-bar"></div>
+      <div id="rechazado-stamp" data-copy="DESCARTADO">DESCARTADO</div>
+
+      <div class="cv-name">Andres Quesada R.</div>
+      <div class="cv-role" id="cv-role">Especialista en Servicio al Cliente · Bilingüe EN/ES</div>
+      <div class="cv-contact">andres.quesada@email.com · Parrita, Costa Rica<br>linkedin.com/in/andresq</div>
+      <div class="cv-divider"></div>
+
+      <!-- Resumen -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="resumen-flag"></div>
+        <div class="cv-section-label">Resumen</div>
+        <div class="cv-body-text" id="cv-resumen">Estudiante de TI bilingüe (EN/ES, B2+) con experiencia en <span class="kw-bad">servicio al cliente</span>, <span class="kw-bad">seguridad</span> y análisis de datos. Certificado en Data Analytics (Excel, SQL, Tableau).</div>
+        <div class="section-warn" id="resumen-warn" data-copy="✗ palabras clave: 4 de 12">✗ palabras clave: 4 de 12</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <!-- Habilidades -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="habilidades-flag"></div>
+        <div class="cv-section-label">Habilidades</div>
+        <div class="cv-skills-row" id="skills-row"></div>
+        <div class="section-warn" id="habilidades-warn" data-copy="✗ coincidencia con la vacante: baja">✗ coincidencia con la vacante: baja</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <!-- Experiencia -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="experiencia-flag"></div>
+        <div class="cv-section-label">Experiencia</div>
+
+        <div class="exp-block">
+          <div class="exp-title">Monitor de Seguridad de Activos</div>
+          <div class="exp-meta">Control y Monitoreo CYMSA · Puntarenas, CR · Dic 2023 - Abr 2024</div>
+          <div class="bullet-text" id="bullet-1">Cuidaba la <span class="kw-bad">seguridad</span> de las instalaciones del cliente y llevaba el <span class="kw-bad">control</span> de quien entraba y salía.</div>
+          <div class="bullet-text" id="bullet-1b"></div>
+          <div class="exp-flag" id="flag-1" data-copy="✗ formato: ilegible para el bot">✗ formato: ilegible para el bot</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Recepcionista Bilingüe</div>
+          <div class="exp-meta">Hotel Monte Campana · Dic 2016 - May 2018</div>
+          <div class="bullet-text" id="bullet-2">Atendí la <span class="kw-bad">recepción</span> del hotel y ayudé a huéspedes nacionales e internacionales con sus necesidades.</div>
+          <div class="bullet-text" id="bullet-2b"></div>
+          <div class="exp-flag" id="flag-2" data-copy="✗ experiencia relevante: no detectada">✗ experiencia relevante: no detectada</div>
+        </div>
+
+        <div class="exp-block">
+          <div class="exp-title">Asistente Administrativo</div>
+          <div class="exp-meta">TechValle Soluciones · Feb 2018 - Nov 2019</div>
+          <div class="bullet-text" id="bullet-3">Apoyaba con <span class="kw-bad">tareas de oficina</span> y archivado de documentos para el equipo administrativo.</div>
+          <div class="bullet-text" id="bullet-3b"></div>
+          <div class="exp-flag" id="flag-3" data-copy="✗ candidato no priorizado">✗ candidato no priorizado</div>
+        </div>
+      </div>
+
+      <!-- Reasoning overlay (appears during tailor scans) -->
+      <div id="reasoning">
+        <div class="reason-line" id="r1">&gt; leyendo keywords de la vacante...</div>
+        <div class="reason-line" id="r2">&gt; reordenando por relevancia...</div>
+        <div class="reason-line" id="r3">&gt; reescribiendo con evidencia real...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fan-out caption (Scene 7) -->
+  <div id="s7-texts">
+    <div id="s7-caption">Esto es lo que hacen los que sí consiguen entrevista.</div>
+  </div>
+
+  <div id="bottom-panel">
+    <div class="ring-center" id="ring-center">
+      <svg id="ring-svg" viewBox="0 0 200 200">
+        <circle id="ring-track" cx="100" cy="100" r="80"/>
+        <circle id="ring-fill"  cx="100" cy="100" r="80"/>
+      </svg>
+      <div class="ring-val-group">
+        <div id="score-val">·</div>
+        <div class="score-denom" id="score-denom">/100</div>
+      </div>
+    </div>
+    <div id="score-info">
+      <div id="score-label">Puntuación</div>
+      <div id="score-state"></div>
+    </div>
+    <div id="verify-btn"><span>Ver mi puntuación</span></div>
+    <div id="optimize-btn">
+      <span>Optimizar con WorqAI</span>
+      <div id="btn-ripple"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Lock 1 ───────────────────────────────────────────────────────────────────
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Content model ────────────────────────────────────────────────────────────
+  const generic = {
+    skills: ["Excel","SQL","Tableau","Power BI","Java","C++","Español nativo","Inglés B2+"]
+  };
+
+  const tailors = [
+    {
+      vacante: "Analista de Seguridad",
+      role:    "Monitor de Seguridad & Analista de Incidentes · Bilingüe EN/ES",
+      resumen: "Analista de seguridad bilingüe (EN/ES, B2+) con 5 meses en monitoreo de activos. Registros de acceso documentados. Certificado en Excel y SQL.",
+      skills:  ["Excel","SQL","Power BI","Seguridad operativa","Control de accesos","Análisis de incidentes","Inglés B2+"],
+      bullets: [
+        "Monitoreé <span class='kw'>accesos vehiculares</span> en <span class='kw'>3 instalaciones</span> de clientes. Registré <span class='kw'>incidentes</span> y generé <span class='kw'>reportes diarios</span> para supervisores.",
+        "Mantuve <span class='kw'>bitácora digital</span> de novedades por turno. Estandaricé el <span class='kw'>formato de reporte</span> para reducir errores de registro.",
+        "Gestioné recepción bilingüe (EN/ES) para <span class='kw'>40+ huéspedes</span> diarios. Coordiné <span class='kw'>accesos</span> e <span class='kw'>identificación de visitantes</span>.",
+        "Atendí solicitudes de seguridad de huéspedes de varias nacionalidades. Escalé <span class='kw'>incidentes</span> al <span class='kw'>equipo de turno</span>.",
+        "Administré <span class='kw'>archivo digital</span> para equipo de 8 personas. Reportes Excel con <span class='kw'>análisis de acceso</span> e inventario.",
+        "Diseñé <span class='kw'>plantilla de seguimiento</span> de activos adoptada por el equipo. Redujo el tiempo de <span class='kw'>reporte semanal</span>."
+      ],
+      score: 92
+    },
+    {
+      vacante: "Analista de Datos · Reporting",
+      role:    "Analista de Datos & Reporting · Bilingüe EN/ES",
+      resumen: "Analista de datos bilingüe (EN/ES, B2+) certificado en Excel, SQL y Tableau. Experiencia en reportes operativos y análisis de inventario en entornos reales.",
+      skills:  ["Excel","SQL","Tableau","Power BI","Análisis de datos","Reporting","Visualización de datos","Inglés B2+"],
+      bullets: [
+        "Generé <span class='kw'>reportes de control de acceso</span> para 3 instalaciones. Identifiqué <span class='kw'>patrones de incidentes</span> con análisis de tendencias.",
+        "Consolidé <span class='kw'>registros diarios</span> en Excel con <span class='kw'>tablas dinámicas</span>. Entregué resúmenes semanales al supervisor de turno.",
+        "Produje <span class='kw'>reportes diarios de ocupación</span> para 40+ huéspedes. Mantuve <span class='kw'>base de datos</span> de reservas en Excel.",
+        "Crucé datos de reservas y pagos para detectar inconsistencias. Preparé <span class='kw'>reportes de cierre de turno</span> en Excel.",
+        "Desarrollé <span class='kw'>reportes semanales de inventario</span> en Excel para equipo de 8. Optimicé <span class='kw'>tablas de seguimiento</span> y cálculos.",
+        "Construí <span class='kw'>tableros en Tableau</span> para inventario y consumo. Automaticé cálculos repetitivos con <span class='kw'>fórmulas</span> avanzadas."
+      ],
+      score: 94
+    },
+    {
+      vacante: "Coordinador Bilingüe",
+      role:    "Coordinador Administrativo Bilingüe · EN/ES",
+      resumen: "Coordinador bilingüe (EN/ES, B2+) con experiencia en atención y coordinación operativa. Certificado en gestión documental y herramientas de oficina.",
+      skills:  ["Inglés B2+","Español nativo","Coordinación operativa","Atención al cliente","Excel","Gestión documental","Comunicación corporativa"],
+      bullets: [
+        "Coordiné <span class='kw'>accesos y comunicación bilingüe</span> con clientes corporativos en 3 sedes. Generé <span class='kw'>informes diarios</span> de operaciones.",
+        "Serví de <span class='kw'>enlace bilingüe</span> entre supervisores y personal de turno. Documenté procedimientos para <span class='kw'>nuevos ingresos</span>.",
+        "Coordiné <span class='kw'>check-in y check-out bilingüe</span> para 40+ huéspedes. Atendí solicitudes de <span class='kw'>visitantes de 5+ países</span>.",
+        "Gestioné reservas, pagos y quejas en <span class='kw'>turnos de 8 horas</span>. Resolví incidencias de huéspedes en <span class='kw'>EN/ES</span>.",
+        "Gestioné <span class='kw'>archivo documental</span> y comunicaciones para equipo de 8 personas. Primer punto de <span class='kw'>contacto bilingüe</span> con clientes externos.",
+        "Coordiné <span class='kw'>agenda de reuniones</span> y correspondencia de ejecutivos. Preparé documentos en <span class='kw'>inglés y español</span>."
+      ],
+      score: 93
+    }
+  ];
+
+  document.getElementById("skills-row").innerHTML = buildSkillsHTML(generic.skills);
+
+  // ── Ring helpers (makeScoreRing from motion-lib) ──────────────────────────────
+  const scoreEl = document.getElementById("score-val");
+  const stateEl = document.getElementById("score-state");
+  const denomEl = document.getElementById("score-denom");
+  const { applyRing, pATS, pScore, CIRCUM } = makeScoreRing(
+    scoreEl,
+    document.getElementById("ring-fill"),
+    stateEl,
+    2 * Math.PI * 80
+  );
+
+  // ── Initial states ────────────────────────────────────────────────────────────
+  gsap.set("#bg-grid",          { opacity: 0 });
+  gsap.set("#cursor",           { opacity: 0 });
+  gsap.set("#demo-group",       { opacity: 0 });
+  gsap.set("#cv-card",          { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set("#scan-bar",         { clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set("#bottom-panel",     { opacity: 0 });
+  gsap.set("#verify-btn",       { opacity: 0 });
+  gsap.set("#optimize-btn",     { opacity: 0 });
+  gsap.set(".section-flag",     { opacity: 0 });
+  gsap.set(".section-warn",     { opacity: 0 });
+  gsap.set(".exp-flag",         { opacity: 0 });
+  gsap.set("#score-denom",      { opacity: 0 });
+  gsap.set("#banner-generic",   { opacity: 0, y: 8 });
+  gsap.set("#banner-stat",      { display: "none" });
+  gsap.set(["#job-chip","#tailor-score"], { opacity: 0 });
+  gsap.set(".ghost-card",       { opacity: 0, scale: 0.92, x: 0, y: 0, rotate: 0 });
+  gsap.set("#s7-texts",         { opacity: 0 });
+  gsap.set("#reasoning",        { opacity: 0 });
+  gsap.set(".reason-line",      { opacity: 0 });
+  gsap.set("#turn-scene",       { opacity: 0 });
+  // Uplift: blur-in for turn lines — no y offset (assembles from fog, not slide)
+  gsap.set(["#turn-l1","#turn-l2","#turn-l3"], { opacity: 0, y: 0, filter: "blur(8px)" });
+  gsap.set("#turn-l3-underline", { opacity: 0 });
+  gsap.set("#human-close",      { opacity: 0 });
+  // Uplift: blur-in for human lines — no y offset
+  gsap.set(["#human-l1","#human-l2","#human-l3","#human-l4"], { opacity: 0, y: 0, filter: "blur(8px)" });
+  gsap.set("#cta-group",        { opacity: 0 });
+  gsap.set(["#cta-logo-wrap","#cta-badge","#cta-subtext","#cta-headline","#cta-desc","#cta-btn","#cta-features","#cta-domain"], { opacity: 0 });
+  gsap.set(["#cta-logo-wrap","#cta-btn"], { scale: 0.88 });
+  gsap.set("#cta-headline",     { y: 20 });
+  gsap.set("#cta-particles-layer", { opacity: 0 });
+  gsap.set("#cta-star", { scale: 0, transformOrigin: "center center", opacity: 0 });
+  // Trail + underline dash states set in timeline (ordering safety — see v3 fix notes)
+  gsap.set("#rechazado-stamp",  { xPercent: -50, yPercent: -50, rotate: -12, scale: 1.35, opacity: 0 });
+
+  // Uplift: Scene 1 — blur-in for all wound lines (no splitWords, no word-inner masks)
+  gsap.set(["#intro-l1","#intro-l2","#intro-l3","#intro-l4","#intro-l5","#intro-l6"],
+    { opacity: 0, filter: "blur(8px)" });
+
+  // GSAP owns kw-bad opacity (Lock 3)
+  document.body.classList.remove("cv-clean-mode");
+  gsap.set(".kw-bad", { opacity: 0 });
+
+  // ── Lock 2 ───────────────────────────────────────────────────────────────────
+  gsap.globalTimeline.pause();
+
+  document.fonts.ready.then(() => {
+    // ── Post-processing layer (initPostLayer once — zero HTML in scene) ──────────
+    // Creates #_post-vignette, #_post-ca, #_post-bloom at z-9000.
+    // All tweens reference these IDs directly.
+    initPostLayer();
+
+    // ── Position-driven keyword bleed (Scene 2 red scan) ─────────────────────
+    const cardEl   = document.getElementById("cv-card");
+    const cardRect = cardEl.getBoundingClientRect();
+    const cardH    = cardRect.height;
+
+    const morphElSelectors = ["#cv-role","#cv-resumen","#skills-row",
+      "#bullet-1","#bullet-1b","#bullet-2","#bullet-2b","#bullet-3","#bullet-3b"];
+    const morphFrac = morphElSelectors.map(sel => {
+      const r = document.querySelector(sel).getBoundingClientRect();
+      const frac = Math.max(0, Math.min(1, (r.top + r.height / 2 - cardRect.top) / cardH));
+      return { sel, frac };
+    });
+
+    const SCAN_START = 11.9;
+    const SCAN_DUR   = 0.9;
+    const kwSchedule = [];
+    document.querySelectorAll(".kw-bad").forEach(kw => {
+      const r    = kw.getBoundingClientRect();
+      const frac = Math.max(0, Math.min(1, (r.top - cardRect.top) / cardH));
+      kwSchedule.push({ el: kw, t: SCAN_START + SCAN_DUR * frac });
+    });
+
+    // ── Cursor target positions ───────────────────────────────────────────────
+    const oBtn = document.getElementById("optimize-btn");
+    const oR   = oBtn.getBoundingClientRect();
+    const oCX  = oR.left + oR.width  / 2 - 4;
+    const oCY  = oR.top  + oR.height / 2 - 4;
+
+    // ── makeRunTailor — lime scan + morphs + score rise + bloomPulse ─────────
+    function makeRunTailor(oCX, oCY, morphFrac) {
+      return function runTailor(tl, startT, idx, speed) {
+        const tailor   = tailors[idx];
+        const isSlow   = speed === "slow";
+        const d        = isSlow ? 0.40 : 0.18;
+        const gap      = isSlow ? 0.60 : 0.28;
+        const scoreDur = isSlow ? 1.0  : 0.50;
+        const hold     = isSlow ? 0.95 : 0.80;
+        const readGap  = isSlow ? 1.20 : 0.85;
+        const clickT   = startT + readGap;
+
+        tl.addLabel(`tailor${idx + 1}_start`, startT);
+
+        // 1) Job chip
+        tl.set("#job-chip",     { x: 28, opacity: 0, y: 0 }, startT);
+        tl.set("#tailor-score", { scale: 0.8, opacity: 0 }, startT);
+        tl.add(() => {
+          document.getElementById("job-chip-text").textContent = tailor.vacante;
+        }, startT + 0.02);
+        landWith(tl, "#job-chip", startT + 0.08, { x: 28, opacity: 0, duration: 0.34 });
+
+        // 2) Cursor presses Optimizar
+        cursorPress(tl, oCX, oCY, clickT, "#optimize-btn", "#btn-ripple");
+
+        // 3) Lime scan
+        const scanT = clickT + 0.30;
+        tl.set("#scan-bar", {
+          background: "linear-gradient(180deg, rgba(201,242,77,0) 0%, rgba(201,242,77,0.22) 40%, rgba(201,242,77,0.34) 50%, rgba(201,242,77,0.22) 60%, rgba(201,242,77,0) 100%)"
+        }, scanT - 0.01);
+        const morphScanDur = isSlow ? 2.6 : 1.7;
+        scanSweep(tl, "#scan-bar", [], scanT, morphScanDur, 0.4, "power1.inOut", "power1.in");
+
+        // Reasoning lines
+        tl.to("#reasoning", { opacity: 1, duration: 0.22, ease: "none" }, scanT + 0.05);
+        tl.fromTo("#r1", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1);
+        tl.fromTo("#r2", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1 + gap * 0.28);
+        tl.fromTo("#r3", { opacity: 0 }, { opacity: 1, duration: 0.18, immediateRender: false }, scanT + 0.1 + gap * 0.56);
+
+        // 4) 9-step morph
+        morphFrac.forEach(({ sel, frac }) => {
+          const mt = scanT + morphScanDur * frac;
+          if (sel === "#skills-row")      morphSkills(tl, mt, tailor.skills, d);
+          else if (sel === "#cv-role")    morphSection(tl, mt, sel, tailor.role, d, false);
+          else if (sel === "#cv-resumen") morphSection(tl, mt, sel, tailor.resumen, d, false);
+          else {
+            const bulletIdx = ["#bullet-1","#bullet-1b","#bullet-2","#bullet-2b","#bullet-3","#bullet-3b"].indexOf(sel);
+            morphSection(tl, mt, sel, tailor.bullets[bulletIdx], d, true);
+          }
+        });
+
+        const scoreT = scanT + morphScanDur + 0.25;
+        tl.to("#reasoning", { opacity: 0, duration: 0.28, ease: "none" }, scoreT - 0.35);
+
+        // 5) Score ring rises
+        const prevScore = idx === 0 ? 23 : tailors[idx - 1].score;
+        const prevR = idx === 0 ? 224 : 169;
+        const prevG = idx === 0 ? 89  : 217;
+        const prevB = idx === 0 ? 59  : 46;
+
+        if (idx === 2) {
+          // Scene 6: break the rhythm — hesitate at 68, spring to 93
+          tl.fromTo(pScore,
+            { val: prevScore, offset: CIRCUM * (1 - prevScore / 100), r: prevR, g: prevG, b: prevB },
+            {
+              val: 68, offset: CIRCUM * (1 - 0.68), r: 169, g: 217, b: 46,
+              duration: scoreDur * 0.55, ease: "luxe",
+              immediateRender: false,
+              onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+            }, scoreT);
+          // 0.4s held beat — ring dims slightly
+          tl.to(pScore, {
+            r: 130, g: 168, b: 35, duration: 0.4, ease: "none",
+            immediateRender: false,
+            onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+          }, scoreT + scoreDur * 0.55);
+          // Uplift: worq-breathe micro-oscillation during the held beat (the silence made visible)
+          tl.to("#ring-center", { scale: 0.97, duration: 0.4, ease: "worq-breathe", immediateRender: false }, scoreT + scoreDur * 0.55);
+          tl.to("#ring-center", { scale: 1.0, duration: 0.2, ease: "power2.out", immediateRender: false }, scoreT + scoreDur * 0.55 + 0.4);
+          // Spring to 93
+          tl.to(pScore, {
+            val: tailor.score, offset: CIRCUM * (1 - tailor.score / 100), r: 169, g: 217, b: 46,
+            duration: scoreDur * 0.45, ease: "settle",
+            immediateRender: false,
+            onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+          }, scoreT + scoreDur * 0.55 + 0.4);
+        } else {
+          tl.fromTo(pScore,
+            { val: prevScore, offset: CIRCUM * (1 - prevScore / 100), r: prevR, g: prevG, b: prevB },
+            {
+              val: tailor.score, offset: CIRCUM * (1 - tailor.score / 100),
+              r: 169, g: 217, b: 46,
+              duration: scoreDur, ease: "settle",
+              immediateRender: false,
+              onUpdate: () => applyRing(pScore.val, pScore.offset, pScore.r, pScore.g, pScore.b)
+            }, scoreT);
+        }
+
+        tl.add(() => { stateEl.innerText = "Excelente"; }, scoreT);
+        tl.addLabel(`tailor${idx + 1}_score`, scoreT);
+
+        // Ring pulse
+        tl.to("#ring-center", { scale: 1.05, duration: 0.2, ease: "power2.out" }, scoreT + scoreDur - 0.1);
+        tl.to("#ring-center", { scale: 1.0,  duration: 0.3, ease: "back.out(2)" }, scoreT + scoreDur + 0.1);
+        tl.add(() => {
+          document.getElementById("tailor-score").textContent = `Puntuación ${tailor.score}`;
+        }, scoreT - 0.05);
+        tl.to("#tailor-score", { opacity: 1, scale: 1, duration: 0.24, ease: "back.out(2)" }, scoreT + 0.1);
+
+        // Uplift: lime bloom pulses with the score land (warmth made visual)
+        bloomPulse(tl, scoreT + scoreDur, 0.6, 0.12, 0.35);
+
+        // Restore red scan bar color
+        const endT = scoreT + scoreDur + hold;
+        tl.to(["#job-chip","#tailor-score"], { opacity: 0, duration: 0.2, ease: "none" }, endT);
+        tl.set("#scan-bar", {
+          background: "linear-gradient(180deg, rgba(224,89,59,0) 0%, rgba(224,89,59,0.22) 40%, rgba(224,89,59,0.34) 50%, rgba(224,89,59,0.22) 60%, rgba(224,89,59,0) 100%)"
+        }, endT);
+
+        return endT;
+      };
+    }
+
+    const runTailor = makeRunTailor(oCX, oCY, morphFrac);
+
+    // ── Build master timeline ─────────────────────────────────────────────────
+    const tl = gsap.timeline();
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 1 — The Wound (0.0 – 10.3s)
+    // Uplift: blur-in (fog assembles) instead of word-mask slide.
+    //   l1/l2/l3 = the self-doubt loop; exit: blur back out.
+    //   "Nada." morph: scale lift as it claims lime (font-safe, no weightShift).
+    //   vignetteUp at kicker: the walls close in on "sin llegar a un humano."
+    // ════════════════════════════════════════════════════════════════════════════
+
+    tl.addLabel("wound", 0.4);
+
+    tl.to("#bg-grid", { opacity: 1, duration: 0.6, ease: "none" }, 0.0);
+
+    tl.to("#intro-l1", { opacity: 1, filter: "blur(0px)", duration: 0.7, ease: "luxe" }, 0.4);
+    tl.to("#intro-l2", { opacity: 1, filter: "blur(0px)", duration: 0.6, ease: "luxe" }, 1.5);
+    tl.to("#intro-l3", { opacity: 1, filter: "blur(0px)", duration: 0.65, ease: "luxe" }, 2.6);
+
+    // Hold then blur l1+l2 out (mech — snap gone, no mercy)
+    tl.to(["#intro-l1","#intro-l2"], { filter: "blur(8px)", opacity: 0, duration: 0.3, ease: "mech" }, 4.8);
+
+    // Morph l3: "¿qué estoy haciendo mal?" → "Nada." (blur-swap via morphSection)
+    morphSection(tl, 5.3, "#intro-l3", "Nada.", 0.4, false);
+    tl.add(() => {
+      const el = document.getElementById("intro-l3");
+      el.classList.remove("muted-intro"); el.classList.add("turned");
+    }, 5.3 + 0.4 + 0.02);
+    // Scale lift as the lime claims it — the one cold answer gaining weight
+    tl.to("#intro-l3", { scale: 1.04, duration: 0.3, ease: "settle", immediateRender: false }, 6.1);
+
+    // Three closing beats
+    tl.to("#intro-l4", { opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "luxe" }, 6.3);
+    tl.to("#intro-l5", { opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "luxe" }, 7.2);
+    tl.to("#intro-l6", { opacity: 1, filter: "blur(0px)", duration: 0.5,  ease: "luxe" }, 8.3);
+
+    // Uplift: vignette deepens as the kicker lands ("sin llegar a un humano")
+    vignetteUp(tl, 8.3, 0.06, 0.14, 0.7);
+
+    // Hold 1.5s then exit
+    tl.to(["#intro-l3","#intro-l4"], { opacity: 0, duration: 0.22, ease: "mech" }, 10.0);
+    tl.to(["#intro-l5","#intro-l6"], { filter: "blur(8px)", opacity: 0, duration: 0.22, ease: "mech" }, 10.0);
+    tl.set("#intro-group", { opacity: 0 }, 10.3);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 2 — Meet the Villain (10.5 – 15.7s)
+    // Uplift: caFlash on stamp impact (the frame flinches).
+    //   Sustained vignette hold — walls close in and STAY shut through the pit.
+    //   No continuous life here. Zero. The machine doesn't breathe.
+    // ════════════════════════════════════════════════════════════════════════════
+
+    tl.set("#demo-group",  { opacity: 1, scale: 1.000, transformOrigin: "center center" }, 10.5);
+    tl.to("#demo-group",   { scale: 1.020, duration: 6.0, ease: "none" }, 10.5);
+
+    tl.fromTo("#cv-card",
+      { clipPath: "inset(100% 0% 0% 0%)" },
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.85, ease: "power2.out" }, 10.5);
+    tl.to("#banner-generic", { opacity: 1, y: 0, duration: 0.4, ease: "luxe" }, 10.7);
+    tl.to("#bottom-panel",   { opacity: 1, duration: 0.5, ease: "luxe" }, 11.3);
+
+    scanSweep(tl, "#scan-bar", kwSchedule, SCAN_START, SCAN_DUR);
+
+    tl.addLabel("score_low", 13.5);
+    tl.add(() => { denomEl.style.opacity = "1"; scoreEl.innerText = "0"; }, 13.5);
+    tl.fromTo(pATS,
+      { val: 0, offset: CIRCUM, r: 160, g: 160, b: 160 },
+      {
+        val: 23, offset: CIRCUM * (1 - 23 / 100),
+        r: 224, g: 89, b: 59,
+        duration: 1.2, ease: "mech",
+        immediateRender: false,
+        onUpdate: () => applyRing(pATS.val, pATS.offset, pATS.r, pATS.g, pATS.b)
+      }, 13.5);
+    tl.add(() => { stateEl.innerText = "Bajo"; }, 13.5);
+
+    tl.addLabel("stamp", 14.0);
+    stamp(tl, "#rechazado-stamp", "#cv-card", 14.0);
+
+    // Uplift: CA flash on stamp impact — frame flinches (120ms, cold)
+    caFlash(tl, 14.16, 2);
+    // Uplift: vignette HOLDS at deep level (raw tween — vignetteUp would pulse back immediately)
+    // Walls stay shut through the pit; Scene 3 releases them at 23.8
+    tl.to("#_post-vignette", { opacity: 0.18, duration: 0.5, ease: "power2.inOut", immediateRender: false }, 14.0);
+
+    tl.to("#resumen-flag",     { opacity: 1, duration: 0.28, ease: "power3.out" }, 14.7);
+    tl.to("#resumen-warn",     { opacity: 1, duration: 0.28, ease: "power3.out" }, 14.8);
+    tl.to("#habilidades-flag", { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.0);
+    tl.to("#habilidades-warn", { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.1);
+    tl.to("#experiencia-flag", { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.3);
+    tl.to(["#flag-1","#flag-2","#flag-3"], { opacity: 1, duration: 0.28, ease: "power3.out" }, 15.4);
+
+    tl.to("#verify-btn", { opacity: 1, duration: 0.4, ease: "luxe" }, 15.7);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 3 — The Cheat Code (17.7 – 23.8s)
+    // Uplift: blur-in (secret assembles from fog, settle ease — first warmth).
+    //   bloomPulse as overlay lifts (first faint lime life enters the frame).
+    //   Vignette released back to base (Scene 2 walls open).
+    //   Tier B: lime underline draws under turn-l3 (plants the motif CTA pays off).
+    // ════════════════════════════════════════════════════════════════════════════
+
+    tl.addLabel("cheat_code", 18.1);
+
+    tl.to("#turn-scene", { opacity: 1, duration: 0.35, ease: "none" }, 17.7);
+
+    // Blur-in: the secret assembles rather than slides in
+    tl.to("#turn-l1", { opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "settle" }, 18.1);
+    tl.to("#turn-l2", { opacity: 1, filter: "blur(0px)", duration: 0.55, ease: "settle" }, 19.4);
+    tl.to("#turn-l3", { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "settle" }, 20.3);
+
+    // Tier B: lime underline draws under "el idioma que el filtro entiende"
+    const tul3El = document.getElementById("turn-l3-underline-path");
+    if (tul3El) {
+      const tul3Len = tul3El.getTotalLength();
+      tl.set(tul3El, { strokeDasharray: tul3Len, strokeDashoffset: tul3Len }, 18.1);
+      tl.set("#turn-l3-underline", { opacity: 1 }, 20.75);
+      tl.to(tul3El, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 20.75);
+    }
+
+    // Under the overlay: reset CV to clean state
+    resetUnderCover(tl, 23.5);
+    tl.set("#rechazado-stamp", { opacity: 0 }, 23.5);
+    tl.set("#verify-btn",      { opacity: 0 }, 23.5);
+    tl.set("#demo-group",      { scale: 1.0 }, 23.5);
+
+    // Overlay lifts — reveals clean CV
+    tl.to("#turn-scene", { opacity: 0, duration: 0.45, ease: "power2.out" }, 23.8);
+    tl.to("#optimize-btn", { opacity: 1, duration: 0.4, ease: "luxe" }, 23.8);
+
+    // Uplift: first faint bloom as warmth enters (centerOp 0.4, pulse to 0.48, settles at 0.32)
+    bloomPulse(tl, 23.8, 0.4, 0.08, 0.6);
+    // Uplift: release the Scene 2 vignette close — walls open as the secret is revealed
+    tl.to("#_post-vignette", { opacity: 0.06, duration: 0.7, ease: "power2.out", immediateRender: false }, 23.8);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scenes 4–6 — Three Tailors (Proof)
+    // Uplift: bloomPulse on each score land (warmth made numeric).
+    //   Tailor 3: worq-breathe on the held ring beat (the silence made visible).
+    // ════════════════════════════════════════════════════════════════════════════
+
+    // Tailor 1: slow — teach the mechanic
+    const t1end = runTailor(tl, 24.5, 0, "slow");
+
+    // Tailor 2: fast — effortless
+    const t2end = runTailor(tl, t1end, 1, "fast");
+
+    // Tailor 3: fast + score break — human hand
+    const t3end = runTailor(tl, t2end, 2, "fast");
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 7 — Fan-out + Cheat-Code Climax (t3end – t3end+3.0s)
+    // Uplift: bloomPulse as cards spread (the realization's energy).
+    //   Tier B: lime particleField from behind the card stack.
+    // ════════════════════════════════════════════════════════════════════════════
+
+    const fanT      = t3end;
+    const demoFadeT = fanT + 3.4;
+    const humanT    = fanT + 4.2;
+
+    tl.addLabel("fanout", fanT);
+    fanOut(tl, fanT);
+
+    // Uplift: bloom pulses as the fan opens (the insight bursts)
+    bloomPulse(tl, fanT + 0.5, 0.6, 0.12, 0.4);
+
+    // Tier B: lime particles rise from behind the card stack
+    particleField(tl, "#s7-particles", fanT, {
+      count: 30, seed: "v3-fan", color: "201,242,77",
+      opacityMax: 0.2, duration: 2.5
+    });
+
+    tl.to("#demo-group", { scale: 0.97, opacity: 0, duration: 0.6, ease: "power3.out" }, demoFadeT);
+
+    // Fade bloom down before Scene 8 so the breathing bloom starts clean from 0
+    tl.to("#_post-bloom", { opacity: 0, duration: 0.8, ease: "power2.out", immediateRender: false }, humanT - 0.8);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 8 — The Human Consequence (humanT – humanT+3.0s)
+    // Uplift: blur-in with varied cadence (no uniform luxe stagger).
+    //   Hero l4 ("Ahora tú también"): settle ease + scale lift — the power claiming.
+    //   Breathing bloom: one full in-out breath (repeat:1 yoyo — finite, deterministic,
+    //   ends at humanT+4.4 which is before ctaT=humanT+5.2. No kill tween needed.)
+    // ════════════════════════════════════════════════════════════════════════════
+
+    tl.addLabel("human_close", humanT + 0.5);
+
+    tl.to("#human-close", { opacity: 1, duration: 0.35, ease: "none" }, humanT);
+
+    // Blur-in with varied cadence — the four lines each have a different weight
+    tl.to("#human-l1", { opacity: 1, filter: "blur(0px)", duration: 0.5,  ease: "luxe"   }, humanT + 0.2);
+    tl.to("#human-l2", { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "settle" }, humanT + 1.0);
+    tl.to("#human-l3", { opacity: 1, filter: "blur(0px)", duration: 0.5,  ease: "luxe"   }, humanT + 1.8);
+    // Hero: settle ease + held beat of air before it (0.9s gap instead of 0.8s)
+    tl.to("#human-l4", { opacity: 1, filter: "blur(0px)", duration: 0.6,  ease: "settle" }, humanT + 2.7);
+    // Scale lift on hero line — the algorithm transferring, the line claiming its weight
+    tl.to("#human-l4", { scale: 1.05, duration: 0.3, ease: "settle", immediateRender: false }, humanT + 3.3);
+
+    // Breathing lime bloom — one in-out breath (finite: ends at humanT+4.4, before ctaT)
+    tl.to("#_post-bloom", { opacity: 0.22, duration: 2.2, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, humanT);
+
+    tl.to("#human-close", { opacity: 0, duration: 0.4, ease: "power2.out" }, humanT + 4.8);
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // Scene 9 — CTA (redesigned — unchanged from v3)
+    // ════════════════════════════════════════════════════════════════════════════
+
+    const ctaT = humanT + 5.2;
+    tl.addLabel("cta", ctaT);
+
+    tl.set("#cta-group", { opacity: 1 }, ctaT);
+
+    // Trail draw-in (dash state on tl — not standalone gsap.set — ordering safety)
+    const trailEl  = document.getElementById("cta-trail");
+    const trailLen = trailEl.getTotalLength();
+    tl.set(trailEl, { strokeDasharray: trailLen, strokeDashoffset: trailLen }, ctaT);
+    tl.to(trailEl, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, ctaT + 0.1);
+
+    // Star pops at trail head then GSAP twinkle (not CSS — Lock 7)
+    tl.to("#cta-star", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, ctaT + 1.3);
+    tl.to("#cta-star", { scale: 1.12, duration: 1.1, ease: "sine.inOut", yoyo: true, repeat: -1 }, ctaT + 1.8);
+
+    // Rising lime particles (seeded, Lock 10)
+    tl.to("#cta-particles-layer", { opacity: 1, duration: 0.6, ease: "none" }, ctaT + 0.2);
+    particleField(tl, "#cta-particles-layer", ctaT + 0.2, {
+      count: 46, seed: "v3-cta", color: "201,242,77",
+      drift: 48, sizeMin: 2, sizeMax: 5, opacityMax: 0.26, duration: 6.0
+    });
+
+    // Content reveals
+    tl.to("#cta-logo-wrap", { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, ctaT + 0.2);
+    tl.to("#cta-badge",     { opacity: 1, duration: 0.4, ease: "settle" }, ctaT + 0.7);
+    tl.to("#cta-subtext",   { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 1.1);
+
+    tl.to("#cta-headline", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, ctaT + 1.5);
+    const ulEl  = document.getElementById("cta-underline-path");
+    const ulLen = ulEl.getTotalLength();
+    tl.set(ulEl, { strokeDasharray: ulLen, strokeDashoffset: ulLen }, ctaT);
+    tl.to(ulEl, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, ctaT + 2.1);
+
+    tl.to("#cta-desc",     { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 2.6);
+    tl.to("#cta-btn",      { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, ctaT + 3.1);
+    tl.to("#cta-features", { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 3.7);
+    tl.to("#cta-domain",   { opacity: 1, duration: 0.4, ease: "none" }, ctaT + 4.2);
+
+    signalReady(tl);
+  });
+</script>
+</body>
+</html>

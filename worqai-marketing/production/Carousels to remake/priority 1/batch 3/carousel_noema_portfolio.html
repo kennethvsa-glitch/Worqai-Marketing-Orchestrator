@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Noema · Terracotta Editorial · 4 Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,700;0,900;1,400&family=Playfair+Display:ital,wght@1,400;1,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0c0804;min-height:100vh}
+body{display:flex;flex-direction:column;align-items:center;padding:32px 0 60px;font-family:'Archivo',sans-serif}
+
+.label-top{font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#C85A2A;margin-bottom:18px;font-family:'JetBrains Mono',monospace;text-align:center}
+.preview-cage{width:1080px;margin:0 auto}
+@media(min-width:1200px){.preview-cage{transform:scale(.5);transform-origin:top center;height:540px}}
+.capture-mode .preview-cage{transform:none!important}
+.viewer{width:1080px;overflow:hidden}
+.wrap{position:relative;width:1080px;height:1080px}
+.track{display:flex;width:100%;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+
+/* ── BASE ── */
+.slide{position:relative;min-width:1080px;height:1080px;overflow:hidden;display:flex;flex-direction:column;border-top:6px solid #C85A2A}
+.cream{background:#FAF0E2;color:#0C0804}
+.dark{background:#0C0804;color:#FAF0E2}
+.brick{background:#C85A2A;color:#FAF0E2}
+
+/* Chrome */
+.masthead{position:absolute;top:32px;left:80px;right:80px;display:flex;align-items:center;justify-content:space-between;z-index:10}
+.mast-brand{font-family:'Archivo',sans-serif;font-weight:900;font-size:13px;letter-spacing:.28em;text-transform:uppercase}
+.cream .mast-brand{color:#0C0804}
+.dark .mast-brand,.brick .mast-brand{color:#FAF0E2}
+.mast-brand .bk{color:#C85A2A}
+.mast-issue{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase}
+.cream .mast-issue{color:rgba(12,8,4,.40)}
+.dark .mast-issue{color:rgba(250,240,226,.35)}
+.brick .mast-issue{color:rgba(250,240,226,.55)}
+
+.brand-mark{position:absolute;bottom:38px;left:80px;z-index:10;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+.cream .brand-mark{color:rgba(12,8,4,.36)}
+.dark .brand-mark{color:rgba(250,240,226,.30)}
+.brand-mark .bk{color:#C85A2A}
+
+.counter{position:absolute;bottom:38px;right:80px;z-index:10;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em}
+.cream .counter{color:#0C0804}
+.dark .counter,.brick .counter{color:#FAF0E2}
+
+.prog{display:flex;gap:6px;position:absolute;bottom:82px;left:80px;z-index:10}
+.pd{width:26px;height:3px}
+.cream .pd{background:rgba(12,8,4,.16)}
+.dark .pd{background:rgba(250,240,226,.18)}
+.brick .pd{background:rgba(250,240,226,.30)}
+.pd.on{background:#C85A2A!important}
+
+/* ── SLIDE 1: WORDMARK COVER ── */
+.n1{padding:78px 80px 130px}
+.n1-kicker{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:#C85A2A;margin-bottom:0;padding-bottom:18px;border-bottom:3px solid #C85A2A;max-width:560px;position:relative;z-index:3;flex-shrink:0}
+.n1-spacer{flex:1}
+.n1-wordmark{font-family:'Archivo',sans-serif;font-weight:900;font-size:248px;line-height:.86;letter-spacing:-.046em;text-transform:uppercase;color:#C85A2A;position:relative;z-index:3;user-select:none;flex-shrink:0}
+.n1-rule{width:100%;height:4px;background:#0C0804;margin:28px 0 26px;position:relative;z-index:3;flex-shrink:0}
+.n1-tagline{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:52px;line-height:1.06;color:#0C0804;letter-spacing:-.018em;position:relative;z-index:3;flex-shrink:0}
+.n1-locations{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:rgba(12,8,4,.38);margin-top:18px;position:relative;z-index:3;flex-shrink:0}
+
+/* ── SLIDE 2: HORIZONTAL SPLIT (brick top / cream bottom) ── */
+.n2{padding:0;position:relative}
+.n2-top{position:absolute;top:0;left:0;right:0;height:41%;background:#C85A2A;border-top:6px solid #0C0804;padding:64px 80px 40px;display:flex;flex-direction:column;justify-content:flex-end;z-index:2}
+.n2-top-kicker{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(250,240,226,.55);margin-bottom:14px}
+.n2-top-headline{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:68px;line-height:1.0;color:#FAF0E2;letter-spacing:-.02em}
+.n2-top-headline em{font-weight:400;color:rgba(250,240,226,.80)}
+
+.n2-bottom{position:absolute;bottom:0;left:0;right:0;height:59%;background:#FAF0E2;display:flex;flex-direction:column;z-index:2}
+.n2-b-head{height:52px;padding:0 80px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(12,8,4,.12);flex-shrink:0}
+.n2-b-hl{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#C85A2A}
+.n2-b-hr{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(12,8,4,.32)}
+.n2-rows{flex:1;display:flex;flex-direction:column}
+.n2-row{flex:1;display:flex;align-items:center;padding:0 80px;border-bottom:1px solid rgba(12,8,4,.08)}
+.n2-row:last-child{border-bottom:none}
+.n2-row.hero{background:#0C0804}
+.n2-rnum{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.22em;color:rgba(12,8,4,.25);width:52px;flex-shrink:0}
+.n2-row.hero .n2-rnum{color:rgba(250,240,226,.35)}
+.n2-rname{font-family:'Archivo',sans-serif;font-weight:700;font-size:32px;letter-spacing:-.018em;line-height:1;color:#0C0804;flex:1}
+.n2-row.hero .n2-rname{font-size:42px;font-weight:900;color:#C85A2A}
+.n2-rtag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(12,8,4,.28)}
+.n2-row.hero .n2-rtag{color:#C85A2A;font-weight:700}
+
+/* n2 chrome */
+.n2 .masthead{z-index:5}
+.n2 .brand-mark{color:rgba(250,240,226,.40)}
+.n2 .brand-mark .bk{color:rgba(250,240,226,.75)}
+.n2 .counter{color:#FAF0E2}
+.n2 .prog .pd{background:rgba(250,240,226,.30)}
+.n2 .prog .pd.on{background:#FAF0E2!important}
+
+/* ── SLIDE 3: RESULTS — big stat, dark ── */
+.n3{padding:80px 80px 130px}
+.n3-kicker{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(250,240,226,.32);margin-bottom:32px;padding-bottom:18px;border-bottom:2px solid #C85A2A;max-width:400px;position:relative;z-index:3}
+.n3-headline{font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:48px;line-height:1.1;color:rgba(250,240,226,.72);letter-spacing:-.01em;max-width:680px;margin-bottom:32px;position:relative;z-index:3}
+.n3-grid{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:40px;flex:1;position:relative;z-index:3}
+.n3-big{font-family:'Archivo',sans-serif;font-weight:900;font-size:460px;line-height:.80;letter-spacing:-.07em;color:#FAF0E2;position:relative;user-select:none}
+.n3-big .pct{font-size:200px;vertical-align:top;line-height:1;color:#C85A2A;letter-spacing:0}
+.n3-big::after{content:'';position:absolute;left:-6px;bottom:-14px;width:220px;height:7px;background:#C85A2A}
+.n3-side{display:flex;flex-direction:column;gap:26px;padding-left:8px}
+.n3-side-tag{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#C85A2A}
+.n3-side-stat{font-family:'Archivo',sans-serif;font-weight:900;font-size:72px;line-height:.92;letter-spacing:-.04em;color:#FAF0E2}
+.n3-side-lbl{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,240,226,.38);margin-top:8px;padding-top:10px;border-top:1px solid rgba(250,240,226,.12);line-height:1.5}
+.n3-divider{width:1px;height:90px;background:rgba(250,240,226,.14);align-self:center}
+.n3-note{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:rgba(250,240,226,.40);padding-top:18px;border-top:2px solid #C85A2A;margin-top:8px}
+
+/* ── SLIDE 4: CTA ── */
+.n4{padding:80px 80px 0}
+.n4-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.30em;text-transform:uppercase;color:#C85A2A;margin-bottom:50px;position:relative;z-index:3}
+.n4-head{font-family:'Archivo',sans-serif;font-weight:900;text-transform:uppercase;position:relative;z-index:3;user-select:none;line-height:.86;letter-spacing:-.05em}
+.n4-l1{font-size:380px;color:#0C0804;display:block}
+.n4-l2{font-size:240px;color:#0C0804;display:block;margin-top:8px}
+.n4-l3{font-size:240px;color:transparent;-webkit-text-stroke:5px #C85A2A;display:block;margin-top:8px}
+.n4-cta{position:absolute;bottom:0;left:0;right:0;background:#C85A2A;padding:34px 80px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.n4-cta-text{font-family:'Archivo',sans-serif;font-weight:700;font-size:20px;color:#FAF0E2;line-height:1.4}
+.n4-cta-text em{font-weight:400;font-style:italic;font-size:18px;display:block;margin-top:4px}
+.n4-cta-handle{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.18em;color:#FAF0E2;text-transform:uppercase;display:flex;align-items:center;gap:14px;white-space:nowrap}
+
+/* Controls */
+.controls{display:flex;gap:16px;align-items:center;justify-content:center;margin-top:20px}
+.btn{background:rgba(255,255,255,.06);border:none;color:rgba(255,255,255,.42);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.btn:disabled{opacity:.2;cursor:default}
+.dots{display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(200,90,42,.20);cursor:pointer;transition:all .2s}
+.dot.on{background:#C85A2A;width:18px;border-radius:3px}
+.hint{font-size:10px;color:rgba(255,255,255,.16);letter-spacing:.18em;text-transform:uppercase;margin-top:12px;text-align:center;font-family:'JetBrains Mono',monospace}
+.zip-btn{display:block;margin:16px auto 0;padding:13px 30px;background:rgba(200,90,42,.08);border:1px solid rgba(200,90,42,.35);color:#C85A2A;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:opacity .2s}
+.zip-btn:hover:not(:disabled){opacity:1}
+.zip-btn:disabled{opacity:.4;cursor:default}
+.zip-progress{font-size:10px;color:rgba(255,255,255,.18);text-align:center;margin-top:7px;letter-spacing:.14em;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+
+<p class="label-top">NOEMA — Terracotta Editorial — 4 Slides</p>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- SLIDE 1: WORDMARK COVER -->
+        <div class="slide cream n1" style="display:flex;flex-direction:column">
+          <div class="masthead">
+            <span class="mast-brand"><span class="bk">NOEMA</span> &nbsp;·&nbsp; Identidad Visual</span>
+            <span class="mast-issue">Costa Rica · México · Colombia</span>
+          </div>
+
+          <p class="n1-kicker">Agencia de Identidad Visual &nbsp;·&nbsp; Est. 2020</p>
+
+          <div class="n1-spacer"></div>
+
+          <h1 class="n1-wordmark">NOEMA</h1>
+          <div class="n1-rule"></div>
+          <p class="n1-tagline">Identidad que abre puertas.</p>
+          <p class="n1-locations">Costa Rica &nbsp;·&nbsp; México &nbsp;·&nbsp; Colombia</p>
+
+          <div class="prog">
+            <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          </div>
+          <span class="brand-mark"><span class="bk">@</span>noema.studio</span>
+          <span class="counter">01 / 04</span>
+        </div>
+
+        <!-- SLIDE 2: SERVICES (horizontal split) -->
+        <div class="slide n2" style="background:#FAF0E2">
+          <div class="masthead">
+            <span class="mast-brand" style="color:#FAF0E2"><span class="bk" style="color:#FAF0E2;opacity:.75">NOEMA</span></span>
+            <span class="mast-issue" style="color:rgba(250,240,226,.50)">§ 02 · Servicios</span>
+          </div>
+
+          <!-- Brick top zone -->
+          <div class="n2-top">
+            <p class="n2-top-kicker">02 · Lo que construimos</p>
+            <h2 class="n2-top-headline">Marcas que se quedan<br><em>en la mente.</em></h2>
+          </div>
+
+          <!-- Cream bottom zone -->
+          <div class="n2-bottom">
+            <div class="n2-b-head">
+              <span class="n2-b-hl">Cinco disciplinas</span>
+              <span class="n2-b-hr">Un equipo · trabajo que dura</span>
+            </div>
+            <div class="n2-rows">
+              <div class="n2-row">
+                <span class="n2-rnum">01</span>
+                <span class="n2-rname">Estrategia de Marca</span>
+                <span class="n2-rtag">Posicionamiento</span>
+              </div>
+              <div class="n2-row hero">
+                <span class="n2-rnum">02</span>
+                <span class="n2-rname">Identidad Visual</span>
+                <span class="n2-rtag">OFERTA PRINCIPAL →</span>
+              </div>
+              <div class="n2-row">
+                <span class="n2-rnum">03</span>
+                <span class="n2-rname">Naming</span>
+                <span class="n2-rtag">Verbal · Lingüístico</span>
+              </div>
+              <div class="n2-row">
+                <span class="n2-rnum">04</span>
+                <span class="n2-rname">Contenido Social</span>
+                <span class="n2-rtag">Instagram · LinkedIn</span>
+              </div>
+              <div class="n2-row" style="border-bottom:none">
+                <span class="n2-rnum">05</span>
+                <span class="n2-rname">Dirección Creativa</span>
+                <span class="n2-rtag">Foto · Video</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="prog">
+            <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+          </div>
+          <span class="brand-mark" style="color:rgba(250,240,226,.35)"><span class="bk" style="color:rgba(250,240,226,.60)">@</span>noema.studio</span>
+          <span class="counter" style="color:#FAF0E2">02 / 04</span>
+        </div>
+
+        <!-- SLIDE 3: RESULTS — dark, massive stat -->
+        <div class="slide dark n3">
+          <div class="masthead">
+            <span class="mast-brand"><span class="bk">NOEMA</span></span>
+            <span class="mast-issue">§ 03 · Resultados</span>
+          </div>
+
+          <p class="n3-kicker">Ocho años · clientes reales</p>
+          <p class="n3-headline">Cada proyecto, un antes<br>y un después.</p>
+
+          <div class="n3-grid" style="flex:1">
+            <div class="n3-big">96<span class="pct">%</span></div>
+
+            <div class="n3-side">
+              <div>
+                <p class="n3-side-tag">Tasa de retención</p>
+                <p class="n3-side-stat">96<span style="font-size:32px;color:#C85A2A">%</span></p>
+                <p class="n3-side-lbl">Clientes que vuelven<br>al siguiente proyecto</p>
+              </div>
+              <div class="n3-divider"></div>
+              <div>
+                <p class="n3-side-tag">Marcas rediseñadas</p>
+                <p class="n3-side-stat">38</p>
+                <p class="n3-side-lbl">Fintech · Moda<br>Gastronomía · B2B SaaS</p>
+              </div>
+              <div class="n3-divider"></div>
+              <div>
+                <p class="n3-side-tag">Países</p>
+                <p class="n3-side-stat">8</p>
+                <p class="n3-side-lbl">Costa Rica · México<br>Colombia · y más</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="prog">
+            <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+          </div>
+          <span class="brand-mark"><span class="bk">@</span>noema.studio</span>
+          <span class="counter">03 / 04</span>
+        </div>
+
+        <!-- SLIDE 4: CTA -->
+        <div class="slide cream n4">
+          <div class="masthead">
+            <span class="mast-brand"><span class="bk">NOEMA</span></span>
+            <span class="mast-issue">§ 04 · El Siguiente Paso</span>
+          </div>
+
+          <p class="n4-eyebrow">04 / 04 · Empecemos</p>
+
+          <div class="n4-head">
+            <span class="n4-l1">¿TU</span>
+            <span class="n4-l2">MARCA</span>
+            <span class="n4-l3">DICE?</span>
+          </div>
+
+          <div class="n4-cta">
+            <div>
+              <p class="n4-cta-text">Escribinos y empezamos.<em>Contanos la marca y la visión.</em></p>
+            </div>
+            <p class="n4-cta-handle">@NOEMA.STUDIO &nbsp;→</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">← / → teclas · swipe en móvil</p>
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · full quality</p>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+function go(n){
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  track.style.transform=`translateX(-${cur*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  prevBtn.disabled=cur===0;nextBtn.disabled=cur===slides.length-1;
+}
+prevBtn.addEventListener('click',()=>go(cur-1));
+nextBtn.addEventListener('click',()=>go(cur+1));
+dots.forEach(d=>d.addEventListener('click',()=>go(parseInt(d.dataset.i))));
+let sx=0;
+document.getElementById('wrap').addEventListener('touchstart',e=>{sx=e.touches[0].clientX});
+document.getElementById('wrap').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1))});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+go(0);
+
+async function exportZip(){
+  if(typeof html2canvas==='undefined'||typeof JSZip==='undefined'){alert('Se requiere internet para exportar.');return;}
+  const zipBtn=document.getElementById('zipBtn');
+  const progress=document.getElementById('zipProgress');
+  const label=zipBtn.querySelector('.zip-label');
+  zipBtn.disabled=true;
+  document.body.classList.add('capture-mode');
+  const zip=new JSZip();
+  for(let i=0;i<slides.length;i++){
+    go(i);label.textContent=`Exportando ${i+1}/${slides.length}…`;
+    await new Promise(r=>setTimeout(r,400));
+    const canvas=await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,logging:false,backgroundColor:null});
+    await new Promise(resolve=>{canvas.toBlob(blob=>{zip.file(`slide_0${i+1}.png`,blob);resolve()},'image/png',1.0)});
+  }
+  document.body.classList.remove('capture-mode');
+  go(0);
+  const blob=await zip.generateAsync({type:'blob'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='noema-portfolio.zip';a.click();URL.revokeObjectURL(url);
+  zipBtn.disabled=false;label.textContent='Exportar ZIP · PNGs';progress.textContent='1080 × 1080 px · full quality';
+}
+</script>
+</body>
+</html>

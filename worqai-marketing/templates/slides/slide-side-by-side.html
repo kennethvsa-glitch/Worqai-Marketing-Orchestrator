@@ -1,0 +1,27 @@
+<div class="slide{% if is_active %} active{% endif %}" style="padding:0">
+  {{ geo_html | safe }}
+
+  <div class="sbs-wrap">
+    <div class="sbs-left">
+      <div class="sbs-big {{ text_treatment_class }}">{{ copy.left_content | default(copy.stat_number) }}<span class="unit">{{ copy.get('unit','') }}</span></div>
+      {% if copy.left_label %}
+      <div class="sbs-label">{{ copy.left_label }}</div>
+      {% endif %}
+    </div>
+    <div class="sbs-right">
+      {% if copy.kicker %}
+      <div class="t-label" style="margin-bottom:14px">{{ copy.kicker }}</div>
+      {% endif %}
+      <div class="sbs-headline">{{ copy.headline }}</div>
+      {% if copy.body %}
+      <div class="sbs-body">{{ copy.body }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

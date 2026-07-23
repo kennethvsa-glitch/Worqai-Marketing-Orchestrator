@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CREST Studio · Swiss Grid · 4 Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0d0d0d;min-height:100vh}
+body{display:flex;flex-direction:column;align-items:center;padding:32px 0 60px;font-family:'Space Grotesk',sans-serif}
+
+.label-top{font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#1D4EFF;margin-bottom:18px;font-family:'JetBrains Mono',monospace;text-align:center}
+.preview-cage{width:1080px;margin:0 auto}
+@media(min-width:1200px){.preview-cage{transform:scale(.5);transform-origin:top center;height:540px}}
+.capture-mode .preview-cage{transform:none!important}
+.viewer{width:1080px;overflow:hidden}
+.wrap{position:relative;width:1080px;height:1080px}
+.track{display:flex;width:100%;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+
+/* ── BASE ── */
+.slide{position:relative;min-width:1080px;height:1080px;overflow:hidden;display:flex;flex-direction:column;border-top:6px solid #1D4EFF}
+.light{background:#F3F0E8;color:#0A0A0A}
+.dark{background:#0A0A0A;color:#F3F0E8}
+
+/* Chrome */
+.masthead{position:absolute;top:32px;left:80px;right:80px;display:flex;align-items:center;justify-content:space-between;z-index:10}
+.mast-brand{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:13px;letter-spacing:.28em;text-transform:uppercase}
+.light .mast-brand{color:#0A0A0A}
+.dark .mast-brand{color:#F3F0E8}
+.mast-brand .bl{color:#1D4EFF}
+.mast-issue{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase}
+.light .mast-issue{color:rgba(10,10,10,.42)}
+.dark .mast-issue{color:rgba(243,240,232,.38)}
+
+.brand-mark{position:absolute;bottom:38px;left:80px;z-index:10;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+.light .brand-mark{color:rgba(10,10,10,.38)}
+.dark .brand-mark{color:rgba(243,240,232,.32)}
+.brand-mark .bl{color:#1D4EFF}
+
+.counter{position:absolute;bottom:38px;right:80px;z-index:10;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;letter-spacing:.16em}
+.light .counter{color:#0A0A0A}
+.dark .counter{color:#F3F0E8}
+
+.prog{display:flex;gap:6px;position:absolute;bottom:82px;left:80px;z-index:10}
+.pd{width:26px;height:3px}
+.light .pd{background:rgba(10,10,10,.16)}
+.dark .pd{background:rgba(243,240,232,.18)}
+.pd.on{background:#1D4EFF!important}
+
+/* ── SLIDE 1: MANIFESTO COVER ── */
+.s1{padding:80px 80px 130px}
+
+.s1-kicker{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:#1D4EFF;margin-bottom:40px;padding-bottom:18px;border-bottom:3px solid #1D4EFF;max-width:380px;position:relative;z-index:3}
+.s1-stack{display:flex;flex-direction:column;gap:10px;position:relative;z-index:3}
+.s1-line{font-family:'Space Grotesk',sans-serif;font-size:116px;line-height:.94;letter-spacing:-.038em}
+.s1-line.heavy{font-weight:900;text-transform:uppercase;color:#0A0A0A}
+.s1-line.light{font-weight:300;font-style:italic;color:#1D4EFF}
+.s1-line.fill{font-weight:900;text-transform:uppercase;color:#F3F0E8;background:#1D4EFF;padding:4px 18px;align-self:flex-start;letter-spacing:-.03em}
+.s1-line.outline{font-weight:900;text-transform:uppercase;color:transparent;-webkit-text-stroke:3px #0A0A0A;letter-spacing:-.03em}
+
+.s1-byline{margin-top:38px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;color:rgba(10,10,10,.52);letter-spacing:.03em;padding-top:20px;border-top:1px solid rgba(10,10,10,.18);max-width:540px;line-height:1.7;position:relative;z-index:3}
+
+/* ── SLIDE 2: SERVICES ── */
+.s2{padding:0}
+.s2-header{height:90px;padding:0 80px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(243,240,232,.10);flex-shrink:0}
+.s2-hl{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#1D4EFF}
+.s2-hr{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:rgba(243,240,232,.28)}
+.s2-rows{flex:1;display:flex;flex-direction:column}
+.s2-row{flex:1;display:flex;align-items:center;padding:0 80px;border-bottom:1px solid rgba(243,240,232,.07)}
+.s2-row:last-child{border-bottom:none}
+.s2-row.hero{background:#1D4EFF;border-bottom:none}
+.s2-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.22em;color:rgba(243,240,232,.22);width:56px;flex-shrink:0}
+.s2-row.hero .s2-num{color:rgba(243,240,232,.55)}
+.s2-name{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:44px;letter-spacing:-.02em;line-height:1;color:#F3F0E8;flex:1}
+.s2-row.hero .s2-name{font-size:56px}
+.s2-tag{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,240,232,.24)}
+.s2-row.hero .s2-tag{color:rgba(243,240,232,.70);font-weight:700}
+.s2-footer{height:90px;padding:0 80px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(243,240,232,.08);flex-shrink:0}
+.s2-quote{font-family:'Space Grotesk',sans-serif;font-weight:300;font-style:italic;font-size:20px;color:rgba(243,240,232,.48);line-height:1.4}
+
+/* ── SLIDE 3: RESULTS (flex row split) ── */
+.s3{border-top:none;padding:0;flex-direction:row}
+.s3l{flex:0 0 620px;background:#F3F0E8;border-top:6px solid #1D4EFF;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 0 80px 80px;overflow:hidden;position:relative}
+.s3r{flex:1;background:#0A0A0A;border-top:6px solid #1D4EFF;display:flex;flex-direction:column;justify-content:flex-end;padding:80px 60px 80px 52px}
+.s3-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:rgba(10,10,10,.35);margin-bottom:20px;position:relative;z-index:3}
+.s3-big{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:420px;line-height:.82;letter-spacing:-.065em;color:#0A0A0A;user-select:none;position:relative;z-index:3;display:block}
+.s3-big .pct{font-size:180px;vertical-align:top;line-height:1;color:#1D4EFF;letter-spacing:0}
+.s3-big::after{content:'';position:absolute;left:0;bottom:-20px;width:200px;height:7px;background:#1D4EFF}
+.s3r-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(243,240,232,.28);margin-bottom:40px}
+.s3-stat{margin-bottom:44px}
+.s3-stat:last-of-type{margin-bottom:0}
+.s3-num{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:98px;line-height:.88;letter-spacing:-.04em;color:#F3F0E8;display:block}
+.s3-slbl{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.20em;text-transform:uppercase;color:rgba(243,240,232,.36);display:block;margin-top:10px;padding-top:10px;border-top:1px solid rgba(243,240,232,.10)}
+.s3-note{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;color:rgba(243,240,232,.24);margin-top:auto;padding-top:20px;border-top:1px solid rgba(243,240,232,.07);line-height:1.8}
+.s3-bot{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.s3-handle{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.20em;color:#1D4EFF}
+
+/* ── SLIDE 4: CTA ── */
+.s4{padding:80px 80px 0}
+.s4-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:#1D4EFF;margin-bottom:46px;position:relative;z-index:3}
+.s4-head{font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:184px;line-height:.88;letter-spacing:-.05em;text-transform:uppercase;position:relative;z-index:3;user-select:none}
+.s4-head .l1{color:#F3F0E8;display:block}
+.s4-head .l2{color:transparent;-webkit-text-stroke:4px #1D4EFF;display:block;margin-top:6px}
+.s4-cta{position:absolute;bottom:0;left:0;right:0;background:#1D4EFF;padding:34px 80px;display:flex;align-items:center;justify-content:space-between;z-index:5}
+.s4-cta-text{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:#F3F0E8;line-height:1.4}
+.s4-cta-text em{font-weight:300;font-style:italic;font-size:18px;display:block;margin-top:4px}
+.s4-cta-handle{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.18em;color:#F3F0E8;text-transform:uppercase;display:flex;align-items:center;gap:14px;white-space:nowrap}
+
+/* Controls */
+.controls{display:flex;gap:16px;align-items:center;justify-content:center;margin-top:20px}
+.btn{background:rgba(255,255,255,.06);border:none;color:rgba(255,255,255,.42);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.btn:disabled{opacity:.2;cursor:default}
+.dots{display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.14);cursor:pointer;transition:all .2s}
+.dot.on{background:#1D4EFF;width:18px;border-radius:3px}
+.hint{font-size:10px;color:rgba(255,255,255,.16);letter-spacing:.18em;text-transform:uppercase;margin-top:12px;text-align:center;font-family:'JetBrains Mono',monospace}
+.zip-btn{display:block;margin:16px auto 0;padding:13px 30px;background:rgba(29,78,255,.08);border:1px solid rgba(29,78,255,.35);color:#1D4EFF;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:opacity .2s}
+.zip-btn:hover:not(:disabled){opacity:1}
+.zip-btn:disabled{opacity:.4;cursor:default}
+.zip-progress{font-size:10px;color:rgba(255,255,255,.18);text-align:center;margin-top:7px;letter-spacing:.14em;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+
+<p class="label-top">CREST·STUDIO — Swiss Grid — 4 Slides</p>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide light s1">
+          <div class="masthead">
+            <span class="mast-brand"><span class="bl">CREST</span>·STUDIO</span>
+            <span class="mast-issue">Brand Identity Studio</span>
+          </div>
+
+          <p class="s1-kicker">Brand Strategy Studio &nbsp;·&nbsp; Est. 2018</p>
+
+          <div class="s1-stack">
+            <div class="s1-line heavy">BRAND</div>
+            <div class="s1-line light">identity</div>
+            <div class="s1-line fill">THAT LASTS.</div>
+            <div class="s1-line outline">PROVEN.</div>
+          </div>
+
+          <p class="s1-byline">A studio for founders who would rather build a brand once — and build it right.&nbsp;&nbsp;London · New York · Remote</p>
+
+          <div class="prog">
+            <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          </div>
+          <span class="brand-mark"><span class="bl">@</span>creststudio</span>
+          <span class="counter">01 / 04</span>
+        </div>
+
+        <!-- SLIDE 2: SERVICES -->
+        <div class="slide dark s2">
+          <div class="masthead">
+            <span class="mast-brand"><span class="bl">CREST</span>·STUDIO</span>
+            <span class="mast-issue">§ 02 · Services</span>
+          </div>
+
+          <div class="s2-header" style="margin-top:6px">
+            <span class="s2-hl">02 · What We Build</span>
+            <span class="s2-hr">Five disciplines · one team</span>
+          </div>
+
+          <div class="s2-rows">
+            <div class="s2-row">
+              <span class="s2-num">01</span>
+              <span class="s2-name">Brand Strategy</span>
+              <span class="s2-tag">Positioning · Narrative</span>
+            </div>
+            <div class="s2-row hero">
+              <span class="s2-num">02</span>
+              <span class="s2-name">Visual Identity</span>
+              <span class="s2-tag">LEAD OFFER →</span>
+            </div>
+            <div class="s2-row">
+              <span class="s2-num">03</span>
+              <span class="s2-name">Naming</span>
+              <span class="s2-tag">Verbal · Linguistic</span>
+            </div>
+            <div class="s2-row">
+              <span class="s2-num">04</span>
+              <span class="s2-name">Positioning</span>
+              <span class="s2-tag">Category Design</span>
+            </div>
+            <div class="s2-row">
+              <span class="s2-num">05</span>
+              <span class="s2-name">Brand Systems</span>
+              <span class="s2-tag">Design Ops</span>
+            </div>
+          </div>
+
+          <div class="s2-footer">
+            <p class="s2-quote">Identity people recognise in one look.</p>
+            <div class="prog" style="position:relative;bottom:auto;left:auto">
+              <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+            </div>
+          </div>
+          <span class="brand-mark"><span class="bl">@</span>creststudio</span>
+          <span class="counter">02 / 04</span>
+        </div>
+
+        <!-- SLIDE 3: RESULTS (split panel) -->
+        <div class="slide s3">
+          <div class="s3l">
+            <p class="s3-lbl">Client retention rate · 8 years</p>
+            <div class="s3-big">92<span class="pct">%</span></div>
+          </div>
+          <div class="s3r">
+            <p class="s3r-lbl">08 years of proof · Two more numbers</p>
+
+            <div class="s3-stat">
+              <span class="s3-num">47</span>
+              <span class="s3-slbl">Brands launched</span>
+            </div>
+            <div class="s3-stat">
+              <span class="s3-num">12</span>
+              <span class="s3-slbl">Countries shipped to</span>
+            </div>
+
+            <p class="s3-note">Fintech · Fashion<br>Hospitality · B2B SaaS</p>
+
+            <div class="s3-bot">
+              <span class="s3-handle">@CRESTSTUDIO</span>
+              <div class="prog" style="position:relative;bottom:auto;left:auto">
+                <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLIDE 4: CTA -->
+        <div class="slide dark s4">
+          <div class="masthead">
+            <span class="mast-brand"><span class="bl">CREST</span>·STUDIO</span>
+            <span class="mast-issue">§ 04 · Next Step</span>
+          </div>
+
+          <p class="s4-eyebrow" style="margin-top:46px">04 / 04 · Let's Build</p>
+          <h2 class="s4-head">
+            <span class="l1">READY TO</span>
+            <span class="l2">BUILD?</span>
+          </h2>
+
+          <div class="s4-cta">
+            <div>
+              <p class="s4-cta-text">DM us to start.<em>Tell us the brand and the deadline.</em></p>
+            </div>
+            <p class="s4-cta-handle">@CRESTSTUDIO &nbsp;→</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">← / → keys · swipe on mobile</p>
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP · PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · full quality</p>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+function go(n){
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  track.style.transform=`translateX(-${cur*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  prevBtn.disabled=cur===0;nextBtn.disabled=cur===slides.length-1;
+}
+prevBtn.addEventListener('click',()=>go(cur-1));
+nextBtn.addEventListener('click',()=>go(cur+1));
+dots.forEach(d=>d.addEventListener('click',()=>go(parseInt(d.dataset.i))));
+let sx=0;
+document.getElementById('wrap').addEventListener('touchstart',e=>{sx=e.touches[0].clientX});
+document.getElementById('wrap').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1))});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+go(0);
+
+async function exportZip(){
+  if(typeof html2canvas==='undefined'||typeof JSZip==='undefined'){alert('Internet required for export.');return;}
+  const zipBtn=document.getElementById('zipBtn');
+  const progress=document.getElementById('zipProgress');
+  const label=zipBtn.querySelector('.zip-label');
+  zipBtn.disabled=true;
+  document.body.classList.add('capture-mode');
+  const zip=new JSZip();
+  for(let i=0;i<slides.length;i++){
+    go(i);label.textContent=`Exporting ${i+1}/${slides.length}…`;
+    await new Promise(r=>setTimeout(r,400));
+    const canvas=await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,logging:false,backgroundColor:null});
+    await new Promise(resolve=>{canvas.toBlob(blob=>{zip.file(`slide_0${i+1}.png`,blob);resolve()},'image/png',1.0)});
+  }
+  document.body.classList.remove('capture-mode');
+  go(0);
+  const blob=await zip.generateAsync({type:'blob'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='crest-studio.zip';a.click();URL.revokeObjectURL(url);
+  zipBtn.disabled=false;label.textContent='Export ZIP · PNGs';progress.textContent='1080 × 1080 px · full quality';
+}
+</script>
+</body>
+</html>

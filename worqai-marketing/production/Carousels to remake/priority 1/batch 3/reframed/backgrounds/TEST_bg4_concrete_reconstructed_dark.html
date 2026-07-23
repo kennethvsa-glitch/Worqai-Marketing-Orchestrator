@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concrete Dark Reconstructed</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0A0A0A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+</style>
+</head>
+<body>
+<div class="canvas">
+<!-- Concrete Dark Reconstructed Background -->
+<svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="cs1" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#3a3a3a"/>
+      <stop offset="60%" stop-color="#222222"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </radialGradient>
+    <radialGradient id="cs2" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#4a4a4a"/>
+      <stop offset="55%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#151515"/>
+    </radialGradient>
+    <radialGradient id="lg1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C7FF3A"/>
+      <stop offset="40%" stop-color="#9ED629"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </radialGradient>
+    <pattern id="dg1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1.5" fill="#C7FF3A" opacity="0.25"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="#0A0A0A"/>
+  <circle cx="180" cy="520" r="280" fill="url(#cs1)"/>
+  <circle cx="920" cy="520" r="260" fill="url(#cs2)"/>
+  <path d="M-20 800 Q200 750 350 900 L350 1080 L-20 1080 Z" fill="#222222"/>
+  <path d="M850 -20 Q1000 100 1080 250 L1080 -20 Z" fill="#1a1a1a"/>
+  <circle cx="60" cy="220" r="180" fill="url(#lg1)" opacity="0.6"/>
+  <circle cx="1080" cy="160" r="50" fill="url(#lg1)" opacity="0.7"/>
+  <circle cx="950" cy="950" r="140" fill="url(#lg1)" opacity="0.75"/>
+  <circle cx="400" cy="1050" r="45" fill="url(#lg1)" opacity="0.65"/>
+  <circle cx="220" cy="180" r="30" fill="url(#lg1)" opacity="0.8"/>
+  <line x1="240" y1="0" x2="240" y2="400" stroke="#E5E5E5" stroke-width="1" opacity="0.15"/>
+  <line x1="260" y1="0" x2="260" y2="380" stroke="#E5E5E5" stroke-width="1" opacity="0.1"/>
+  <line x1="800" y1="0" x2="800" y2="350" stroke="#E5E5E5" stroke-width="1" opacity="0.12"/>
+  <line x1="820" y1="0" x2="820" y2="320" stroke="#E5E5E5" stroke-width="1" opacity="0.08"/>
+  <rect x="0" y="0" width="160" height="160" fill="url(#dg1)"/>
+  <rect x="920" y="880" width="160" height="200" fill="url(#dg1)"/>
+  <path d="M350 1080 Q400 850 600 850" stroke="#333333" stroke-width="80" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <circle cx="1080" cy="500" r="200" fill="url(#cs1)" opacity="0.5"/>
+</svg>
+</div>
+</body>
+</html>

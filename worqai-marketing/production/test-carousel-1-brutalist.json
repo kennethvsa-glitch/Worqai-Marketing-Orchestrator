@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "title": "ATS Truth — Brutalist",
+    "brand": "WorqAI",
+    "system": "s07"
+  },
+  "slides": [
+    {
+      "layout": "slide-hook-lockup",
+      "layers": ["geo-chevron-stripe"],
+      "copy": {
+        "headline": "Your CV never reaches a human"
+      }
+    },
+    {
+      "layout": "slide-comparison-table",
+      "layers": ["geo-topo-lines"],
+      "copy": {
+        "headline": "What ATS sees vs. what you think it sees",
+        "headers": ["Your intent", "What ATS reads", "Result"],
+        "rows": [
+          ["Bold. Impactful.", "BOLDIMPACTFUL", "✗"],
+          ["Soft skills + metrics", "Soft skills", "✗"],
+          ["Clean PDF formatting", "Corrupted text", "✗"]
+        ]
+      }
+    },
+    {
+      "layout": "slide-list-numbered",
+      "layers": ["geo-halftone"],
+      "copy": {
+        "headline": "The 3 things ATS actually scans",
+        "items": [
+          {"title": "Keywords from job posting", "desc": "Exact matches only"},
+          {"title": "Dates and work history", "desc": "Timeline coherence"},
+          {"title": "Contact + location", "desc": "Basic filtering"}
+        ]
+      }
+    },
+    {
+      "layout": "slide-cta",
+      "layers": ["geo-iso-grid"],
+      "copy": {
+        "question": "Ready to write for ATS, not aesthetics?",
+        "cta_keyword": "Start free",
+        "reward": "See your CV score instantly"
+      }
+    }
+  ]
+}

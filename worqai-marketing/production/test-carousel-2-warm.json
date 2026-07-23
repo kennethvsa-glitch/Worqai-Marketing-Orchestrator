@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "title": "CV Profile — Warm & Organic",
+    "brand": "WorqAI",
+    "system": "s04"
+  },
+  "slides": [
+    {
+      "layout": "slide-pull-quote-author",
+      "layers": ["geo-mesh-noise"],
+      "copy": {
+        "quote": "The summary is the only chance to stand out",
+        "author": "Hiring manager, Tech",
+        "role": "Reads 200+ CVs monthly"
+      }
+    },
+    {
+      "layout": "slide-myth-vs-fact",
+      "layers": ["geo-ribbon-flow"],
+      "copy": {
+        "myth": "List every skill you know",
+        "fact": "Position yourself as ONE type of professional"
+      }
+    },
+    {
+      "layout": "slide-quote-cascade",
+      "layers": ["geo-gradient-bands"],
+      "copy": {
+        "headline": "What they're really looking for",
+        "quotes": [
+          "Does this person solve MY problem?",
+          "Can they do the job 6 months from now?",
+          "Will they stay for 2+ years?",
+          "Do they fit our pace?"
+        ]
+      }
+    },
+    {
+      "layout": "slide-step-flow",
+      "layers": ["geo-paper-texture"],
+      "copy": {
+        "headline": "The 3-step CV formula",
+        "steps": [
+          {"title": "Who", "desc": "One clear role"},
+          {"title": "What", "desc": "Your best proof"},
+          {"title": "Why", "desc": "For THEIR problem"}
+        ]
+      }
+    }
+  ]
+}

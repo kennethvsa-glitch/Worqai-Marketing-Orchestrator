@@ -1,0 +1,87 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-terminal",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: TERMINAL BLOCK
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_pdf-ats-error_worqai-verde.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S3-S6 — Show don't tell. Simulated command-line output.
+-->
+
+<div class="content">
+  <p class="tip-label">System Check</p>
+  <h2 class="tip-headline">Tu CV no paso el filtro</h2>
+  <div class="terminal">
+    <div class="term-bar">
+      <div class="term-dots">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="term-title">parser.log</span>
+    </div>
+    <div class="term-body">
+      <p><span class="prompt">$</span> ats --scan cv.pdf</p>
+      <p class="out">[ERROR] Table detected at page 1</p>
+      <p class="out">[WARN]  Image found: profile_photo.jpg</p>
+      <p class="out fail">[FAIL]  0 keywords matched</p>
+      <p class="cursor">_</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.terminal {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 24px;
+}
+.term-bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.term-dots { display: flex; gap: 6px; }
+.term-dots span {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+}
+.term-dots span:nth-child(1) { background: var(--term-red, #FF5F56); }
+.term-dots span:nth-child(2) { background: var(--term-yellow, #FFBD2E); }
+.term-dots span:nth-child(3) { background: var(--term-green, #27C93F); }
+.term-title {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px; color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.term-body {
+  padding: 18px 20px;
+  font-family: var(--font-mono), monospace;
+  font-size: 15px; line-height: 1.7;
+  color: var(--text-secondary);
+}
+.term-body .prompt { color: var(--accent); margin-right: 8px; }
+.term-body .out { color: var(--text-secondary); }
+.term-body .ok { color: var(--term-green, #27C93F); }
+.term-body .warn { color: var(--term-yellow, #FFBD2E); }
+.term-body .fail { color: var(--term-red, #FF5F56); }
+.term-body .cursor {
+  display: inline-block; width: 8px; height: 18px;
+  background: var(--accent);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Background: match slide darkness (darker for light slides)
+- Border: use --accent-line for tinted border
+- Content: adjust lines to match carousel topic
+-->

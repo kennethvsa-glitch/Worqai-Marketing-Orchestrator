@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "system": "s11",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "tres-ajustes-doble-entrevistas",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "data",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": [
+        "fluid-satin-waves",
+        "geo-contour-flow",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "kicker": "RESULTADO REAL",
+        "headline": "3 cambios en tu CV que duplican tus entrevistas",
+        "body": "No es magia. Es formato + palabras claras + estructura que el bot entiende.",
+        "swipe_prompt": "Desliza →"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(32px,6.5cqw,50px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s1-body { opacity: 0.90; max-width: 40ch; font-size: 16px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-massive-number",
+      "density": "heavy",
+      "layers": [
+        "fluid-satin-waves",
+        "geo-contour-flow",
+        "geo-ribbon-flow"
+      ],
+      "copy": {
+        "kicker": "ANTES / DESPUÉS",
+        "stat_number": "2.3x",
+        "headline": "Más entrevistas con el mismo perfil",
+        "body": "Usuarios de WorqAI que aplicaron los 3 ajustes reportaron 2.3x más llamadas de RRHH.",
+        "stat_context": "promedio reportado"
+      },
+      "custom_css": ".s2-stat { font-size: clamp(60px,11cqw,90px); font-weight: 900; letter-spacing: -0.05em; opacity: 0.15; } .s2-headline { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.02em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after-stacked",
+      "density": "demo",
+      "layers": [
+        "fluid-satin-waves",
+        "geo-contour-flow",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "ANTES / DESPUÉS",
+        "headline": "Mismo perfil, distinto parseo",
+        "before_label": "ANTES",
+        "before_text": "PDF con diseño creativo, tablas y columnas.",
+        "before_pct": 28,
+        "after_label": "DESPUÉS",
+        "after_text": ".docx simple, texto plano, palabras clave copiadas.",
+        "after_pct": 91
+      },
+      "decoratives": [
+        {
+          "id": "chrome-badge-stamp",
+          "text": "WORQAI",
+          "value": "TIP"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .s3-label { font-size: 11px; letter-spacing: 0.15em; } .s3-pct { font-weight: 900; color: var(--accent); } .chrome-badge-stamp { transform: scale(0.68); transform-origin: top right; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "fluid-satin-waves",
+        "geo-contour-flow",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "question": "¿Listo para duplicar tus entrevistas?",
+        "cta_keyword": "AJUSTAR",
+        "reward": "Te guiamos paso a paso. Primera revisión sin costo."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

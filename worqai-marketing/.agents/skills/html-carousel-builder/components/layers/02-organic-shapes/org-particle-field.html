@@ -1,0 +1,61 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "org-particle-field",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s03",
+      "s06",
+      "s10",
+      "s11",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s46"
+    ],
+    "pairs_well_with": [
+      "light-glow-radial-center",
+      "deco-ornament",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "geo-circuit-board",
+      "geo-hex-grid",
+      "geo-wireframe-perspective"
+    ]
+  }
+-->
+
+<!--
+LAYER: PARTICLE FIELD
+Scattered dots of varying sizes.
+Best for: space, tech, cosmic systems.
+-->
+
+<div class="particle-field"></div>
+
+<style>
+.particle-field {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(circle, var(--accent) 1.5px, transparent 1.5px),
+    radial-gradient(circle, var(--accent) 1px, transparent 1px),
+    radial-gradient(circle, var(--accent) 2px, transparent 2px);
+  background-size: 120px 120px, 80px 80px, 200px 200px;
+  background-position: 0 0, 40px 60px, 100px 20px;
+  opacity: var(--geo-opacity, 0.12);
+}
+</style>

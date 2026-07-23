@@ -1,0 +1,71 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "ecom-pricing-table",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s01",
+      "s04",
+      "s10",
+      "s13",
+      "s24",
+      "s38",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s46"
+    ],
+    "pairs_well_with": [
+      "pat-checkerboard",
+      "deco-badge-tag",
+      "ecom-pricing-table"
+    ],
+    "conflicts_with": [
+      "mock-terminal-mac",
+      "mock-code-syntax-light"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: ECOMMERCE PRICING TABLE
+Purpose: M7 — Side-by-side pricing comparison.
+-->
+
+<div class="mock-pricing">
+  <div class="mpr-col">
+    <p class="mpr-tier">Basico</p>
+    <p class="mpr-price">$19</p>
+    <ul class="mpr-list">
+      <li>CV optimizado</li>
+      <li>1 revision</li>
+    </ul>
+  </div>
+  <div class="mpr-col featured">
+    <p class="mpr-tier">Pro</p>
+    <p class="mpr-price">$49</p>
+    <ul class="mpr-list">
+      <li>CV + LinkedIn</li>
+      <li>3 revisiones</li>
+      <li>Carta de presentacion</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+.mock-pricing { display: flex; gap: 16px; justify-content: center; }
+.mpr-col { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 24px; width: 160px; display: flex; flex-direction: column; gap: 10px; }
+.mpr-col.featured { background: var(--accent-soft); border-color: var(--accent-line); }
+.mpr-tier { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.mpr-price { font-family: var(--font-display), system-ui, sans-serif; font-size: 32px; font-weight: 900; color: var(--text-primary); }
+.mpr-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.mpr-list li { font-family: var(--font-body), system-ui, sans-serif; font-size: 12px; color: var(--text-secondary); }
+.mpr-list li::before { content: "- "; color: var(--accent); }
+</style>

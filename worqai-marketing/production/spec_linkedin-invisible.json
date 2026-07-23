@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "title": "Tu LinkedIn no está muerto. Está invisible.",
+    "brand": "WorqAI",
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 4,
+    "language": "es-LATAM"
+  },
+  "pacing": ["hook", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "kicker": "@worqai · LinkedIn",
+        "headline": "Tu LinkedIn no está muerto. Está invisible.",
+        "body": "Son cosas distintas. Y la segunda tiene solución.",
+        "swipe_prompt": "Desliza →"
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-before-after",
+      "layers": ["blob-bg"],
+      "constraints": { "silence": true },
+      "copy": {
+        "kicker": "El problema real",
+        "headline": "Buscan keywords. Tu headline no tiene ninguna.",
+        "before_items": [
+          "Contador | Egresado ULACIT",
+          "5 años de experiencia",
+          "Disponible para nuevas oportunidades"
+        ],
+        "after_items": [
+          "Contador · Cierre financiero · NIIF",
+          "Costos para manufactura y retail",
+          "6 años · San José, Costa Rica"
+        ],
+        "before_score": "Apariciones en búsqueda: ~0",
+        "after_score": "Apariciones en búsqueda: 40–80×/mes"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-checklist",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "kicker": "3 cambios en el headline",
+        "headline": "Así pasas de invisible a encontrable.",
+        "items": [
+          "Cargo real + 2 especialidades concretas (no genéricas)",
+          "Keywords del reclutador — no las que vos usás",
+          "Ciudad o país — LinkedIn filtra por ubicación primero"
+        ]
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["blob-bg", "vol-light"],
+      "copy": {
+        "question": "¿Cuándo fue la última vez que un reclutador te escribió?",
+        "cta_keyword": "HEADLINE",
+        "reward": "Te reescribimos el headline y te mostramos en qué búsquedas aparecés — gratis.",
+        "url": "@worqai"
+      }
+    }
+  ],
+  "constraints": {
+    "mock_ui_required": false,
+    "silence_slide_required": true,
+    "subtraction_gate": true
+  }
+}

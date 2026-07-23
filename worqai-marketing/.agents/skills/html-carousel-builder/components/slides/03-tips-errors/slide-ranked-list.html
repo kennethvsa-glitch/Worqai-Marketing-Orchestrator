@@ -1,0 +1,81 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-ranked-list",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: RANKED LIST
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_amby-cr-demo_agency-pain.html, carousel_aura-cr-demo_services.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S3-S6 — Ordered tips, services, or steps.
+-->
+
+<div class="content">
+  <p class="tip-label">Top 3 errores</p>
+  <h2 class="tip-headline">Lo que el ATS odia</h2>
+  <div class="ranked-list">
+    <div class="rank-item">
+      <span class="rank-num">01</span>
+      <div class="rank-body">
+        <p class="rank-title">PDF con imagenes</p>
+        <p class="rank-desc">El parser no lee fotos ni logos embebidos.</p>
+      </div>
+    </div>
+    <div class="rank-item">
+      <span class="rank-num">02</span>
+      <div class="rank-body">
+        <p class="rank-title">Tablas y columnas</p>
+        <p class="rank-desc">El contenido se desordena en el parseo.</p>
+      </div>
+    </div>
+    <div class="rank-item">
+      <span class="rank-num">03</span>
+      <div class="rank-body">
+        <p class="rank-title">Falta de keywords</p>
+        <p class="rank-desc">Sin las palabras clave del puesto, no apareces.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.ranked-list {
+  display: flex; flex-direction: column;
+  gap: 24px; margin-top: 32px;
+}
+.rank-item {
+  display: flex; align-items: flex-start; gap: 24px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--accent-line);
+}
+.rank-num {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 44px; font-weight: 900;
+  line-height: 1; color: var(--accent);
+  min-width: 64px; opacity: 0.7;
+}
+.rank-body { display: flex; flex-direction: column; gap: 6px; }
+.rank-title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 24px; font-weight: 700;
+  color: var(--text-primary);
+}
+.rank-desc {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px; font-weight: 300;
+  line-height: 1.5; color: var(--text-secondary);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- rank-num: 44px (default) to 72px (emphasized)
+- Separator: border-bottom (default), gap only, or numbered circles
+- Add checkmark / X icon to each item for scanability
+- Layout: vertical (default) or horizontal cards
+-->

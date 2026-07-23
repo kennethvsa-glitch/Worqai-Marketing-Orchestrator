@@ -1,0 +1,39 @@
+{
+  "workspaces": [
+    {
+      "id": "cv-tailored",
+      "path": "C:\\Users\\kenne\\OneDrive\\Documentos\\cv-tailored",
+      "purpose": "Next.js product website, landing-page implementation, and SEO implementation.",
+      "asset_types": ["landing_page", "seo_page"],
+      "signals": ["landing", "website", "homepage", "pricing page", "seo page", "google", "rank", "cv con ia", "analizador cv ats"]
+    },
+    {
+      "id": "worqai-launch",
+      "path": "C:\\Users\\kenne\\OneDrive\\Documentos\\worqai-launch",
+      "purpose": "Launch-content library and archive for campaign copy, social posts, email templates, and launch records.",
+      "asset_types": ["campaign", "campaign_package", "linkedin_post", "email", "content_system"],
+      "signals": ["launch content", "launch campaign", "launch archive", "archive", "playbook", "launch email", "launch post"]
+    },
+    {
+      "id": "worqai-marketing",
+      "path": "C:\\Users\\kenne\\worqai\\worqai-marketing",
+      "purpose": "Marketing production workspace with the gated carousel build, QA, and export pipeline plus campaign-content archives.",
+      "asset_types": ["campaign", "campaign_package", "carousel", "ig_reel", "linkedin_post", "message_reply", "deep_research", "feedback_loop", "partnership_pitch", "ad", "email", "content_system", "brand", "research"],
+      "signals": ["campaign", "campaign package", "carousel", "slides", "reel", "instagram", "tiktok", "linkedin", "post", "reply", "message", "research", "feedback", "pitch", "outreach", "university", "institution", "companies", "ad", "email", "content"]
+    },
+    {
+      "id": "worqai-reel-factory",
+      "path": "C:\\Users\\kenne\\worqai\\worqai-reel-factory",
+      "purpose": "Human-gated production workspace for turning real vertical recordings into captioned WorqAI Reel release candidates with explicit storyboards, encoded-media QA, and hash-bound approval.",
+      "asset_types": ["ig_reel"],
+      "signals": ["reel", "reels", "ig reel", "instagram reel", "instagram", "tiktok", "youtube short", "short-form video", "vertical recording", "real footage", "talking head", "captioned clip"]
+    },
+    {
+      "id": "motion-studio",
+      "path": "C:\\Users\\kenne\\worqai\\motion-studio",
+      "purpose": "Human-gated Motion Studio production using the produce-motion-video workflow and deterministic render/export tools.",
+      "asset_types": ["motion_video", "motion_handoff", "video", "animation", "storyboard"],
+      "signals": ["motion", "video", "animation", "storyboard", "scene", "render", "manifest", "handoff"]
+    }
+  ]
+}

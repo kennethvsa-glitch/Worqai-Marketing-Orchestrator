@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "system": "s04",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "ats-no-lee-como-humano",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "diagnostic",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": [
+        "glowing-energy-flow",
+        "geo-circuit-trace",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "kicker": "EL FILTRO INVISIBLE",
+        "headline": "Tu CV se ve bien. El ATS no opina igual.",
+        "body": "El 75% de las empresas usan un bot antes de que un humano vea tu hoja de vida. Diseño no es compatibilidad.",
+        "swipe_prompt": "Desliza →"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(32px,6.5cqw,50px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s1-body { opacity: 0.95; font-size: 16px; max-width: 42ch; margin-top: 20px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "density": "demo",
+      "layers": [
+        "glowing-energy-flow",
+        "geo-circuit-trace",
+        "scan-lines"
+      ],
+      "copy": {
+        "kicker": "DIAGNÓSTICO",
+        "headline": "Esto ve el bot cuando abre tu CV",
+        "command": "worqai --scan cv.pdf",
+        "tab_title": "worqai-scan",
+        "output_lines": [
+          {
+            "type": "ok",
+            "text": "Nombre detectado: OK"
+          },
+          {
+            "type": "warn",
+            "text": "Tablas encontradas: 4 (el ATS las ignora)"
+          },
+          {
+            "type": "err",
+            "text": "ERROR: Fechas sin formato estándar ISO"
+          },
+          {
+            "type": "info",
+            "text": "Score de parseo: 34/100 — rechazado automático"
+          }
+        ]
+      },
+      "custom_css": ".s2-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 800; letter-spacing: -0.02em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-input-output",
+      "density": "demo",
+      "layers": [
+        "glowing-energy-flow",
+        "geo-circuit-trace",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "EL PROBLEMA",
+        "headline": "Lo que enviás vs. lo que lee el ATS",
+        "input_label": "Tu CV (se ve así)",
+        "input_text": "Diseño visual con iconos, tablas de habilidades y gráficos de progreso.",
+        "output_label": "El ATS lo lee así",
+        "output_text": "[NOMBRE] [TEXTO SIN FORMATO] [DATOS PERDIDOS]",
+        "output_score": "SCORE: 28/100"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 800; letter-spacing: -0.02em; } .s3-panel-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.90; } .io-panel { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "glowing-energy-flow",
+        "geo-circuit-trace",
+        "geo-mesh-noise"
+      ],
+      "copy": {
+        "question": "¿Tu CV sobrevive al bot o lo tira sin leer?",
+        "cta_keyword": "DIAGNÓSTICO",
+        "reward": "Te decimos en 60 segundos qué arreglar. Sin costo."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

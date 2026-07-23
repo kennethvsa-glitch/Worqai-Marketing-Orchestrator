@@ -1,0 +1,65 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-display-table-mini",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s14",
+      "s16",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s36"
+    ],
+    "pairs_well_with": [
+      "geo-dot-grid",
+      "deco-progress-bars",
+      "mock-display-badge-row"
+    ],
+    "conflicts_with": [
+      "mock-app-chat",
+      "message-chat"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: TABLE MINI
+Purpose: Small data table.
+-->
+
+<div class="table-mini">
+  <div class="tm-row tm-head">
+    <span>Metrica</span><span>Antes</span><span>Despues</span>
+  </div>
+  <div class="tm-row">
+    <span>Respuestas</span><span>0</span><span>12</span>
+  </div>
+  <div class="tm-row">
+    <span>Entrevistas</span><span>0</span><span>4</span>
+  </div>
+  <div class="tm-row">
+    <span>Tiempo</span><span>3m</span><span>8d</span>
+  </div>
+</div>
+
+<style>
+.table-mini { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; }
+.tm-row { display: grid; grid-template-columns: 1fr 80px 80px; gap: 16px; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.tm-row:last-child { border-bottom: none; }
+.tm-head { background: rgba(255,255,255,0.03); font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.tm-row span { font-family: var(--font-body), system-ui, sans-serif; font-size: 15px; color: var(--text-secondary); }
+.tm-row span:first-child { color: var(--text-primary); font-weight: 500; }
+</style>

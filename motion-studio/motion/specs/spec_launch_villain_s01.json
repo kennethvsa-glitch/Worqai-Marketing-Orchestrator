@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 46,
+    "fps": 60,
+    "seed": "worqai-launch-villain-2026",
+    "video_mode": true
+  },
+  "scene": "launch-villain",
+  "note": "46s villain cut. 9 scenes. 2760 frames. pATS 0->23, pScore 23->92->94->93. Three tailors (slow, fast, fast). Split score tween on tailor3. Red scan in Scene 2, lime scan in Scenes 4-6. RECHAZADO stamp. Human close beat.",
+  "copy": {
+    "score_bad": 23,
+    "score_t1": 92,
+    "score_t2": 94,
+    "score_t3": 93,
+    "vacante_1": "Analista de Seguridad",
+    "vacante_2": "Analista de Datos · Reporting",
+    "vacante_3": "Coordinador Bilingüe",
+    "stat_source": "Jobscan, Job Search Statistics: Lessons From 1 Million Job Applications",
+    "stat_figure": "10.6x interview rate for title-matched resumes"
+  }
+}

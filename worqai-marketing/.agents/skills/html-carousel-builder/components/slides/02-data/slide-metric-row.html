@@ -1,0 +1,42 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-metric-row",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: METRIC ROW
+Purpose: S2 — Horizontal row of 3-4 metrics.
+-->
+
+<div class="content">
+  <div class="metric-row">
+    <div class="mr-item">
+      <span class="mr-num">6s</span>
+      <span class="mr-lbl">Tiempo de lectura</span>
+    </div>
+    <div class="mr-div"></div>
+    <div class="mr-item">
+      <span class="mr-num">1p</span>
+      <span class="mr-lbl">Pagina ideal</span>
+    </div>
+    <div class="mr-div"></div>
+    <div class="mr-item">
+      <span class="mr-num">10+</span>
+      <span class="mr-lbl">Keywords minimo</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.metric-row { display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: auto; margin-bottom: auto; }
+.mr-item { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.mr-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 72px; font-weight: 900; line-height: 1; color: var(--accent); }
+.mr-lbl { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); max-width: 120px; }
+.mr-div { width: 1px; height: 80px; background: var(--accent-line); }
+</style>

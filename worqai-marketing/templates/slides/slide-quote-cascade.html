@@ -1,0 +1,26 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="cascade-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="cascade-headline">{{ copy.headline }}</div>{% endif %}
+
+    {% set quotes = copy.get('quotes', []) %}
+    {% for pair_start in range(0, quotes|length, 2) %}
+    <div class="cascade-row">
+      {% for q in quotes[pair_start:pair_start+2] %}
+      <div class="cascade-quote">
+        <div class="q-text">"{{ q.text }}"</div>
+        {% if q.attr %}<div class="q-attr">— {{ q.attr }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

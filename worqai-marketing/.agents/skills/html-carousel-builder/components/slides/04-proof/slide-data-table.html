@@ -1,0 +1,44 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-data-table",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: DATA TABLE
+Purpose: S7 — Structured data table for proof.
+-->
+
+<div class="content">
+  <p class="tip-label">Datos</p>
+  <h2 class="tip-headline">Resultados por industria</h2>
+  <div class="data-table">
+    <div class="dt-row dt-head">
+      <span>Industria</span><span>Clientes</span><span>% Exito</span>
+    </div>
+    <div class="dt-row">
+      <span>Tech</span><span>234</span><span>94%</span>
+    </div>
+    <div class="dt-row">
+      <span>Finanzas</span><span>128</span><span>91%</span>
+    </div>
+    <div class="dt-row">
+      <span>Marketing</span><span>89</span><span>88%</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.data-table { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; margin-top: 28px; }
+.dt-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); align-items: center; }
+.dt-row:last-child { border-bottom: none; }
+.dt-head { background: rgba(255,255,255,0.03); font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.dt-row span { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; color: var(--text-secondary); }
+.dt-row span:first-child { color: var(--text-primary); font-weight: 500; }
+.dt-row span:last-child { color: var(--accent); font-weight: 700; }
+</style>

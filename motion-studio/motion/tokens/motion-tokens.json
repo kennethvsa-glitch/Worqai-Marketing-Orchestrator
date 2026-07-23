@@ -1,0 +1,40 @@
+{
+  "s01": {
+    "name": "NOIR GOLD",
+    "bg_base": "#080a10",
+    "bg_mid": "#0f1420",
+    "accent": "#d4af37",
+    "lime": "#C9F24D",
+    "text_primary": "#ffffff",
+    "text_secondary": "rgba(255,255,255,0.72)",
+    "font_display": "Archivo Black",
+    "font_body": "Inter",
+    "font_var": "Inter Variable",
+    "grain_opacity": 0.11,
+    "duration_unit": 0.55,
+    "ease_default": "power3.out",
+    "ease_snap": "power4.out",
+    "blur_start": "14px",
+    "stagger_chars": 0.03,
+    "stagger_lines": 0.12,
+    "stagger_elements": 0.15,
+    "eases": {
+      "snap":         "0.85, 0, 0.15, 1",
+      "luxe":         "0.22, 1, 0.36, 1",
+      "settle":       "0.34, 1.4, 0.44, 1",
+      "mech":         "0.7, 0, 0.84, 0",
+      "verdict":      "0.9, 0, 1, 1",
+      "worq-settle":  "CustomBounce strength:0.3 — tiny landing bounce",
+      "worq-breathe": "CustomWiggle wiggles:4 easeInOut — micro oscillation on held elements"
+    },
+    "ease_usage": {
+      "snap":         "UI events: clicks, stamps, chips — fast, hard stop",
+      "luxe":         "hero text, card reveals — slow out, long tail",
+      "settle":       "badge/score spring — gentle overshoot",
+      "mech":         "villain/filter: accelerating in, no mercy",
+      "verdict":      "the stamp: hard arrival, zero bounce",
+      "worq-settle":  "anything that lands: badge, score ring, chips — preferred over settle for Phase 1+ scenes",
+      "worq-breathe": "score ring during hesitation beat — micro oscillation on held value"
+    }
+  }
+}

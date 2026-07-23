@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "ats-pdf-test"
+  },
+  "pacing": ["hook", "data", "terminal", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "copy": {
+        "kicker": "Error crítico",
+        "headline": "Tu CV nunca fue leído.",
+        "body": "El ATS rechazó el archivo antes de que alguien lo viera.",
+        "swipe_prompt": "Desliza →"
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "copy": {
+        "kicker": "El dato",
+        "stat_number": "75%",
+        "stat_context": "de los CVs con tablas fallan el parseo ATS",
+        "headline": "El formato mata tu candidatura",
+        "body": "Tablas y columnas múltiples son invisibles para la mayoría de los ATS en LATAM.",
+        "source": "Jobscan · Análisis interno 2024"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-terminal",
+      "copy": {
+        "kicker": "Lo que ve el ATS",
+        "headline": "Escaneando tu CV...",
+        "command": "ats-scan --input carlos_cv.pdf",
+        "output_lines": [
+          { "type": "ok", "text": "✓ Archivo recibido" },
+          { "type": "warn", "text": "⚠ Tabla — columna 2 ignorada" },
+          { "type": "err", "text": "✗ Imagen — texto perdido" },
+          { "type": "ok", "text": "→ Score ATS: 12 / 100" }
+        ],
+        "items": [
+          "Nombre | OK | ok",
+          "Experiencia | FALLO | fail",
+          "Habilidades | FALLO | fail"
+        ]
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-tip-blocks",
+      "copy": {
+        "kicker": "La solución",
+        "headline": "Tres cambios que el ATS sí lee",
+        "tips": [
+          {
+            "problem": "Elimina tablas y columnas",
+            "fix": "Usa una sola columna. El ATS lee de arriba hacia abajo, no en paralelo."
+          },
+          {
+            "problem": "Fuentes estándar únicamente",
+            "fix": "Arial, Calibri o Times New Roman. Las fuentes decorativas se corrompen al parsear."
+          },
+          {
+            "problem": "Sin fotos ni gráficos",
+            "fix": "Cualquier elemento visual ocupa espacio que el ATS no puede leer — va directo al basurero."
+          }
+        ]
+      }
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "copy": {
+        "question": "¿Querés saber si tu CV pasa el filtro?",
+        "cta_keyword": "SCANER",
+        "reward": "Te mandamos el reporte ATS de tu CV gratis — en menos de 24 horas.",
+        "url": "Link en bio"
+      }
+    }
+  ]
+}

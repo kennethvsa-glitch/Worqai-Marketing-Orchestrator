@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Layout Tests 01–08 · v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─────────────────────────────────────────────────────────
+   MASTER SYSTEM — from spec document
+   ───────────────────────────────────────────────────────── */
+:root {
+  --bg:       #f7f6f3;
+  --ink:      rgba(0,0,0,0.82);
+  --line:     rgba(0,0,0,0.12);
+  --micro:    rgba(0,0,0,0.08);
+  --accent:   #7c5cff;
+  --canvas-w: 1080px;
+  --canvas-h: 1350px;
+}
+
+.slide {
+  position: relative;
+  width: var(--canvas-w);
+  height: var(--canvas-h);
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.label {
+  position: absolute;
+  font-size: 8px;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  font-family: Inter, sans-serif;
+  color: rgba(0,0,0,.26);
+}
+
+.line {
+  position: absolute;
+  background: var(--line);
+}
+
+/* ─────────────────────────────────────────────────────────
+   VIEWER CHROME
+   ───────────────────────────────────────────────────────── */
+body {
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px 52px;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+.viewer { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 540px;
+}
+
+.v-meta {
+  font-size: 9px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.18);
+  font-weight: 300;
+}
+
+.viewport {
+  width: 540px;
+  height: 675px;
+  overflow: hidden;
+  position: relative;
+}
+
+.track {
+  display: flex;
+  height: 675px;
+  transition: transform .48s cubic-bezier(.22,.68,0,1.2);
+}
+
+/* 1080×1350 → 50% → 540×675 */
+.slide-wrapper { flex-shrink: 0; width: 540px; height: 675px; overflow: hidden; }
+.slide { transform: scale(.5); transform-origin: top left; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 540px;
+  justify-content: space-between;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.07);
+  color: rgba(255,255,255,.3);
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .16s;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.nav-btn:hover { border-color: rgba(255,255,255,.15); color: rgba(255,255,255,.65); }
+
+.slide-name {
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.26);
+  font-weight: 300;
+  flex: 1;
+}
+
+.dots-row { display: flex; gap: 6px; }
+
+.dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.12);
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.dot.active { background: rgba(255,255,255,.5); width: 18px; border-radius: 2px; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   01 — LUXURY FRAME GRID
+   ═══════════════════════════════════════════════════════════ */
+
+.s01 { background: #f8f5f1; }
+
+/* Primary drifting frame — left-heavy optical bias */
+.s01 .frame {
+  position: absolute;
+  left: 124px;
+  top: 162px;
+  width: 742px;
+  height: 918px;
+  border: 1px solid rgba(160,110,70,.16);
+}
+
+/* Left vertical axis — tension element, sits outside frame */
+.s01 .vertical-axis {
+  position: absolute;
+  left: 92px;
+  top: 310px;
+  width: 1px;
+  height: 420px;
+  background: rgba(160,110,70,.22);
+}
+
+/* Corner accent — the sole heavy anchor */
+.s01 .corner-accent {
+  position: absolute;
+  top: 162px;
+  left: 124px;
+  width: 54px;
+  height: 54px;
+  border-top: 1px solid rgba(190,120,70,.72);
+  border-left: 1px solid rgba(190,120,70,.72);
+}
+
+/* Dot field — right side tension, radial-gradient pattern */
+.s01 .dot-field {
+  position: absolute;
+  right: 168px;
+  top: 280px;
+  width: 48px;
+  height: 120px;
+  background-image: radial-gradient(rgba(0,0,0,.16) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+
+/* Micro lines — quiet lower-left zone */
+.s01 .micro-lines {
+  position: absolute;
+  left: 140px;
+  bottom: 176px;
+  width: 72px;
+  height: 28px;
+}
+
+.s01 .micro-lines::before,
+.s01 .micro-lines::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  height: 1px;
+  background: rgba(0,0,0,.22);
+}
+
+.s01 .micro-lines::before { top: 0; width: 72px; }
+.s01 .micro-lines::after  { top: 14px; width: 48px; }
+
+/* Circle node — mid-right drift, balances the corner accent */
+.s01 .circle-node {
+  position: absolute;
+  right: 214px;
+  bottom: 304px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(0,0,0,.18);
+  border-radius: 50%;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   02 — SOFT ATMOSPHERIC PANELS
+   ═══════════════════════════════════════════════════════════ */
+
+.s02 {
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.9), transparent 40%),
+    linear-gradient(135deg, #ece8f5, #e4e0ef);
+}
+
+/* Panel base — fog layer, not UI card */
+.s02 .panel {
+  position: absolute;
+  border: 1px solid rgba(255,255,255,.32);
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* p1 — dominant, top-right */
+.s02 .p1 {
+  top: 120px; right: 120px;
+  width: 440px; height: 520px;
+  border-radius: 36px;
+}
+
+/* p2 — medium, lower-left, faded */
+.s02 .p2 {
+  left: 110px; top: 420px;
+  width: 280px; height: 360px;
+  border-radius: 30px;
+  opacity: .7;
+}
+
+/* p3 — narrow pill, bottom, nearly invisible */
+.s02 .p3 {
+  left: 220px; bottom: 120px;
+  width: 420px; height: 100px;
+  border-radius: 100px;
+  opacity: .45;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   03 — ARCHITECTURAL EDITORIAL LINES
+   ═══════════════════════════════════════════════════════════ */
+
+.s03 { background: #f7f7f5; }
+
+/* Primary rect — quiet structural presence */
+.s03 .main-rect {
+  position: absolute;
+  left: 240px; top: 180px;
+  width: 620px; height: 840px;
+  border: 1px solid rgba(0,0,0,.10);
+}
+
+/* Anchor bar — sole heavy element, all else breathes */
+.s03 .anchor-bar {
+  position: absolute;
+  left: 220px; top: 640px;
+  width: 84px; height: 6px;
+  background: rgba(0,0,0,.9);
+}
+
+/* Supplementary: dot matrix upper-right */
+.s03 .dot-field {
+  position: absolute;
+  right: 108px; top: 192px;
+  width: 52px; height: 30px;
+  background-image: radial-gradient(rgba(0,0,0,.14) 1px, transparent 1px);
+  background-size: 13px 13px;
+}
+
+/* Supplementary: inner lower rect — secondary structural plane */
+.s03 .sub-rect {
+  position: absolute;
+  left: 468px; top: 790px;
+  width: 368px; height: 172px;
+  border: 1px solid rgba(0,0,0,.09);
+}
+
+/* Supplementary: measure line */
+.s03 .measure {
+  position: absolute;
+  left: 208px; top: 338px;
+  width: 1px; height: 184px;
+  background: rgba(0,0,0,.08);
+}
+
+.s03 .cap { position: absolute; left: 202px; width: 12px; height: 1px; background: rgba(0,0,0,.11); }
+.s03 .cap-t { top: 338px; }
+.s03 .cap-b { top: 521px; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   04 — CYBER LUXURY HUD
+   ═══════════════════════════════════════════════════════════ */
+
+.s04 { background: #f8f9fa; }
+
+/* Outer frame — nearly invisible structural field */
+.s04 .hud-frame {
+  position: absolute;
+  inset: 96px;
+  border: 1px solid rgba(70,210,255,.14);
+}
+
+/* Precision reticle — the one read element */
+.s04 .reticle {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 68px; height: 68px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(70,210,255,.22);
+  border-radius: 50%;
+}
+
+/* Crosshairs — LOW opacity. Not Iron Man. Luxury precision. */
+.s04 .reticle::before {
+  content: '';
+  position: absolute;
+  left: 50%; top: -16px;
+  width: 1px; height: 100px;
+  background: rgba(70,210,255,.22);
+  transform: translateX(-50%);
+}
+
+.s04 .reticle::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: -16px;
+  width: 100px; height: 1px;
+  background: rgba(70,210,255,.22);
+  transform: translateY(-50%);
+}
+
+/* Supplementary: small dash row at bottom of frame */
+.s04 .dashes {
+  position: absolute;
+  bottom: 102px;
+  right: 162px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.s04 .dash { height: 1.5px; background: rgba(70,210,255,.22); border-radius: 1px; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   05 — TOPOGRAPHIC FLOW SYSTEM
+   (SVG paths injected by JS)
+   ═══════════════════════════════════════════════════════════ */
+
+.s05 { background: var(--bg); }
+
+.s05 .circle-node {
+  position: absolute;
+  right: 318px; top: 682px;
+  width: 22px; height: 22px;
+  border: 1px solid rgba(70,90,70,.20);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   06 — MODULAR SAAS BLOCKS
+   ═══════════════════════════════════════════════════════════ */
+
+.s06 { background: #f7f9fd; }
+
+/* Editorial spatial modules — rounded but editorially placed */
+.s06 .module {
+  position: absolute;
+  border: 1px solid rgba(80,120,255,.16);
+  border-radius: 22px;
+}
+
+/* Layout from spec — offset, drifted, NOT mathematically even */
+.s06 .m1 { left: 90px;  top: 180px; width: 180px; height: 220px; }
+.s06 .m2 { left: 300px; top: 180px; width: 520px; height: 440px; }
+.s06 .m3 { left: 300px; top: 650px; width: 260px; height: 220px; }
+.s06 .m4 { left: 590px; top: 650px; width: 230px; height: 220px; }
+
+/* Dot content hints inside modules */
+.s06 .mdot {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(80,120,255,.18);
+}
+
+/* Arrow hint */
+.s06 .marrow {
+  position: absolute;
+  width: 20px; height: 1px;
+  background: rgba(80,120,255,.14);
+}
+
+.s06 .marrow::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-left: 5px solid rgba(80,120,255,.20);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   07 — BRUTALIST MINIMAL TECH
+   ═══════════════════════════════════════════════════════════ */
+
+.s07 { background: #ffffff; }
+
+/* Primary mass — bleeds off right edge, monolithic, calm */
+.s07 .mass {
+  position: absolute;
+  right: 0; top: 140px;
+  width: 460px; height: 240px;
+  background: #111;
+}
+
+/* Secondary mass — lower, offset, creates asymmetric tension */
+.s07 .secondary {
+  position: absolute;
+  right: 120px; bottom: 220px;
+  width: 220px; height: 80px;
+  background: #111;
+}
+
+/* Slash — editorial gesture, NOT cyberpunk. One line. */
+.s07 .slash {
+  position: absolute;
+  left: 120px; bottom: 320px;
+  width: 2px; height: 90px;
+  background: rgba(0,0,0,.7);
+  transform: rotate(28deg);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   08 — MOTION GRAPHIC STRUCTURES
+   (SVG paths injected by JS)
+   ═══════════════════════════════════════════════════════════ */
+
+.s08 { background: #f8f8f8; }
+
+</style>
+</head>
+<body>
+
+<div class="viewer">
+  <div class="viewer-header">
+    <span class="v-meta">Layout Tests v3</span>
+    <span class="v-meta" id="counter">01 / 08</span>
+  </div>
+
+  <div class="viewport">
+    <div class="track" id="track">
+
+      <!-- ═══════════════════ 01 — LUXURY FRAME GRID ══════════════════ -->
+      <div class="slide-wrapper"><div class="slide s01">
+        <span class="label" style="top:70px;left:76px">01 — Luxury Frame Grid</span>
+        <div class="frame"></div>
+        <div class="vertical-axis"></div>
+        <div class="corner-accent"></div>
+        <div class="dot-field"></div>
+        <div class="micro-lines"></div>
+        <div class="circle-node"></div>
+      </div></div>
+
+      <!-- ═══════════════════ 02 — SOFT ATMOSPHERIC PANELS ═══════════ -->
+      <div class="slide-wrapper"><div class="slide s02">
+        <span class="label" style="top:70px;left:86px;color:rgba(80,70,140,.32)">02 — Soft Atmospheric Panels</span>
+        <div class="panel p1"></div>
+        <div class="panel p2"></div>
+        <div class="panel p3"></div>
+      </div></div>
+
+      <!-- ═══════════════════ 03 — ARCHITECTURAL EDITORIAL ═══════════ -->
+      <div class="slide-wrapper"><div class="slide s03">
+        <span class="label" style="top:70px;left:76px">03 — Architectural Editorial Lines</span>
+        <div class="main-rect"></div>
+        <div class="anchor-bar"></div>
+        <div class="dot-field"></div>
+        <div class="sub-rect"></div>
+        <div class="measure"></div>
+        <div class="cap cap-t"></div>
+        <div class="cap cap-b"></div>
+        <!-- Large SVG arc from spec — cx:980, cy:120, r:420 — enters top-right, feels accidentally cropped -->
+        <svg style="position:absolute;inset:0;width:1080px;height:1350px;pointer-events:none" viewBox="0 0 1080 1350">
+          <circle cx="980" cy="120" r="420" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="1"/>
+          <!-- Ghost horizontal across left margin -->
+          <line x1="155" y1="498" x2="212" y2="498" stroke="rgba(0,0,0,.08)" stroke-width=".7"/>
+        </svg>
+      </div></div>
+
+      <!-- ═══════════════════ 04 — CYBER LUXURY HUD ══════════════════ -->
+      <div class="slide-wrapper"><div class="slide s04">
+        <span class="label" style="top:70px;left:76px;color:rgba(70,210,255,.48)">04 — Cyber Luxury HUD</span>
+        <div class="hud-frame"></div>
+        <div class="reticle"></div>
+        <div class="dashes">
+          <div class="dash" style="width:22px"></div>
+          <div class="dash" style="width:10px"></div>
+          <div class="dash" style="width:17px"></div>
+          <div class="dash" style="width:7px"></div>
+        </div>
+        <!-- Corner L-brackets via SVG — sparse, luxury-sparse -->
+        <svg style="position:absolute;inset:0;width:1080px;height:1350px;pointer-events:none" viewBox="0 0 1080 1350">
+          <path d="M96 156 L96 96 L156 96"    stroke="rgba(70,210,255,.28)" stroke-width="1" fill="none"/>
+          <path d="M984 156 L984 96 L924 96"   stroke="rgba(70,210,255,.28)" stroke-width="1" fill="none"/>
+          <path d="M96 1194 L96 1254 L156 1254" stroke="rgba(70,210,255,.22)" stroke-width="1" fill="none"/>
+          <path d="M984 1194 L984 1254 L924 1254" stroke="rgba(70,210,255,.22)" stroke-width="1" fill="none"/>
+          <!-- Two sparse frame tick marks only -->
+          <line x1="96"  y1="430" x2="112" y2="430" stroke="rgba(70,210,255,.14)" stroke-width=".8"/>
+          <line x1="984" y1="430" x2="968" y2="430" stroke="rgba(70,210,255,.14)" stroke-width=".8"/>
+        </svg>
+      </div></div>
+
+      <!-- ═══════════════════ 05 — TOPOGRAPHIC FLOW ══════════════════ -->
+      <div class="slide-wrapper"><div class="slide s05" id="slide05">
+        <span class="label" style="top:70px;left:76px;z-index:3">05 — Topographic Flow System</span>
+        <div class="circle-node"></div>
+      </div></div>
+
+      <!-- ═══════════════════ 06 — MODULAR SAAS BLOCKS ═══════════════ -->
+      <div class="slide-wrapper"><div class="slide s06">
+        <span class="label" style="top:70px;left:76px">06 — Modular SaaS Block System</span>
+        <!-- m1 dots -->
+        <div class="module m1">
+          <div class="mdot" style="top:28px;left:24px"></div>
+          <div class="mdot" style="top:58px;left:24px"></div>
+          <div class="mdot" style="top:88px;left:24px"></div>
+        </div>
+        <!-- m2 dots + arrow -->
+        <div class="module m2">
+          <div class="mdot" style="top:32px;left:32px"></div>
+          <div class="mdot" style="top:68px;left:32px"></div>
+          <div class="marrow" style="bottom:28px;right:28px"></div>
+        </div>
+        <!-- m3 -->
+        <div class="module m3">
+          <div class="mdot" style="top:28px;left:24px"></div>
+          <div class="mdot" style="top:60px;left:24px"></div>
+        </div>
+        <!-- m4 + arrow -->
+        <div class="module m4">
+          <div class="mdot" style="top:28px;left:22px"></div>
+          <div class="marrow" style="bottom:24px;right:22px"></div>
+        </div>
+      </div></div>
+
+      <!-- ═══════════════════ 07 — BRUTALIST MINIMAL TECH ════════════ -->
+      <div class="slide-wrapper"><div class="slide s07">
+        <span class="label" style="top:70px;left:76px">07 — Brutalist Minimal Tech</span>
+        <div class="mass"></div>
+        <div class="secondary"></div>
+        <div class="slash"></div>
+      </div></div>
+
+      <!-- ═══════════════════ 08 — MOTION GRAPHIC STRUCTURES ═════════ -->
+      <div class="slide-wrapper"><div class="slide s08" id="slide08">
+        <span class="label" style="top:70px;left:76px;z-index:3">08 — Motion Graphic Structures</span>
+      </div></div>
+
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn" onclick="navigate(-1)">&#8592;</button>
+    <div class="slide-name" id="slide-name">Luxury Frame Grid</div>
+    <button class="nav-btn" onclick="navigate(1)">&#8594;</button>
+  </div>
+
+  <div class="dots-row" id="dots-row"></div>
+</div>
+
+<script>
+/* ═════════════════════════════════════════════════
+   NAVIGATION
+   ═════════════════════════════════════════════════ */
+let current = 0;
+const names = ['Luxury Frame Grid','Soft Atmospheric Panels','Architectural Editorial Lines',
+  'Cyber Luxury HUD','Topographic Flow System','Modular SaaS Block System',
+  'Brutalist Minimal Tech','Motion Graphic Structures'];
+
+const track   = document.getElementById('track');
+const dotsRow = document.getElementById('dots-row');
+const nameEl  = document.getElementById('slide-name');
+const cntEl   = document.getElementById('counter');
+
+names.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.addEventListener('click', () => goTo(i));
+  dotsRow.appendChild(d);
+});
+
+function navigate(dir) { goTo((current + dir + names.length) % names.length); }
+function goTo(i) {
+  current = i;
+  track.style.transform = `translateX(-${i * 540}px)`;
+  nameEl.textContent = names[i];
+  cntEl.textContent = String(i + 1).padStart(2, '0') + ' / 08';
+  document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'ArrowLeft')  navigate(-1);
+});
+
+
+/* ═════════════════════════════════════════════════
+   SLIDE 05 — TOPOGRAPHIC FLOW SYSTEM
+
+   Strategy from spec document:
+   Base path: M-20 920 C 220 760 340 760 540 900 S 920 1120 1160 920
+   Duplicate with slight vertical offset + subtle control-point variation.
+   Density concentrates in one zone via opacity modulation.
+   ═════════════════════════════════════════════════ */
+(function buildTopo() {
+  const W = 1080, H = 1350;
+  const ns  = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  svg.style.cssText = 'position:absolute;inset:0;pointer-events:none';
+
+  /*
+    Base path control points (from spec):
+    Start:    (-20, 920)
+    CP1:      (220, 760)
+    CP2:      (340, 760)
+    Mid:      (540, 900)
+    CP3 (S):  implicit mirror → approx (740, 900)
+    CP4:      (920, 1120)
+    End:      (1160, 920)
+
+    For iso-contour effect: shift all y-coords by offsetY.
+    Apply non-uniform y-scale so lines compress toward density zone.
+  */
+
+  const numPaths = 54;
+
+  /* Density zone: offset range -280 to +80 (paths covering lower-center) */
+  const densityCenter = -100;
+  const densityRadius = 200;
+
+  for (let i = 0; i < numPaths; i++) {
+    const t = i / (numPaths - 1);
+
+    /* Non-uniform y-offset: wide spread top → compression near density zone → sparse bottom */
+    let offsetY;
+    if (t < 0.55) {
+      /* Upper spread: offset from -780 to densityCenter */
+      offsetY = -780 + t * ((densityCenter + 780) / 0.55);
+    } else {
+      /* Lower spread: offset from densityCenter to +340 */
+      offsetY = densityCenter + (t - 0.55) * ((340 - densityCenter) / 0.45);
+    }
+
+    /* Slight organic variation on control points */
+    const xv = Math.sin(i * 0.71) * 22;
+    const yv = Math.cos(i * 0.53) * 16;
+
+    /* Apply offset with slight compression near density zone */
+    const sc = 0.92 + 0.08 * (1 - Math.abs(offsetY - densityCenter) / 600);
+
+    const sy  = 920  + offsetY;
+    const c1y = 760  + offsetY * sc + yv;
+    const c2y = 760  + offsetY * sc - yv * 0.6;
+    const my  = 900  + offsetY * sc + yv * 0.3;
+    const c3y = 1120 + offsetY * 0.82 - yv;
+    const ey  = 920  + offsetY * 0.72;
+
+    const d = `M-20 ${sy.toFixed(0)} `
+            + `C ${(220+xv).toFixed(0)} ${c1y.toFixed(0)} `
+            + `${(340-xv*0.4).toFixed(0)} ${c2y.toFixed(0)} `
+            + `540 ${my.toFixed(0)} `
+            + `S ${(920+xv*0.2).toFixed(0)} ${c3y.toFixed(0)} `
+            + `1160 ${ey.toFixed(0)}`;
+
+    /* Opacity peaks in density zone, whispers at edges */
+    const distFromDensity = Math.abs(offsetY - densityCenter) / densityRadius;
+    const opacity = Math.max(0.024, 0.12 - Math.min(1, distFromDensity) * 0.096);
+
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', `rgba(70,90,70,${opacity.toFixed(3)})`);
+    path.setAttribute('stroke-width', '1');
+    svg.appendChild(path);
+  }
+
+  document.getElementById('slide05').insertBefore(svg, document.getElementById('slide05').firstChild);
+})();
+
+
+/* ═════════════════════════════════════════════════
+   SLIDE 08 — MOTION GRAPHIC STRUCTURES
+
+   Strategy from spec document:
+   Base family of paths (exact template from spec):
+     M-80 420 C 260 520 420 900 1120 720
+     M-80 450 C 260 540 420 920 1120 760
+     M-80 480 C 260 560 420 940 1120 800
+   Extend to full left-edge coverage with:
+   - same arc grammar (down then up)
+   - dense cluster around start y=350–620
+   - opacity + stroke-width vary with density
+   ═════════════════════════════════════════════════ */
+(function buildMotion() {
+  const W = 1080, H = 1350;
+  const ns  = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('width', W); svg.setAttribute('height', H);
+  svg.style.cssText = 'position:absolute;inset:0;pointer-events:none';
+
+  /*
+    The spec's example paths define the grammar:
+    Start x = -80
+    CP1 at roughly (260, startY + 90–100)  ← early gentle push
+    CP2 at roughly (420, 900–940)           ← deep arc nadir
+    End at (1120, 720–800)                  ← right exit, comes back up
+
+    The "down then up" arc is the signature motion gesture.
+    Dense cluster: startY ≈ 350–620 (the example paths).
+    Full spread: startY from -180 to 1300.
+  */
+
+  const numPaths = 38;
+  /* Core cluster: paths 8–22 (startY ~350–620) */
+
+  for (let i = 0; i < numPaths; i++) {
+    const t = i / (numPaths - 1);
+
+    /* Non-uniform start Y distribution: cluster around 420–520 */
+    let startY;
+    if (t < 0.45) {
+      startY = -180 + t * (620 / 0.45);
+    } else {
+      startY = 450 + (t - 0.45) * (1100 / 0.55);
+    }
+
+    /* Arc nadir: spec uses ~900–940 for startY 420–480 */
+    /* Scale nadir with startY offset */
+    const baseDelta = startY - 450;
+    const nadir = 920 + baseDelta * 0.55 + Math.sin(i * 0.62) * 40;
+
+    /* Exit Y: spec ~720–800 for startY 420–480 */
+    const exitY = 740 + baseDelta * 0.40 + Math.cos(i * 0.48) * 30;
+
+    /* CP1: slightly ahead and below the start */
+    const cp1x = 260 + Math.sin(i * 0.7) * 28;
+    const cp1y = startY + 100 + Math.sin(i * 0.55) * 24;
+
+    /* CP2: far right and low — the arc's deep sweep */
+    const cp2x = 420 + Math.cos(i * 0.4) * 22;
+    const cp2y = nadir;
+
+    const d = `M-80 ${startY.toFixed(0)} C ${cp1x.toFixed(0)} ${cp1y.toFixed(0)} ${cp2x.toFixed(0)} ${cp2y.toFixed(0)} 1120 ${exitY.toFixed(0)}`;
+
+    /* Opacity: spec uses .26 for the example paths. Scale by distance from core cluster. */
+    const distFromCore = Math.abs(startY - 470) / 500;
+    const opacity = Math.max(0.040, 0.26 - Math.min(1, distFromCore) * 0.22);
+
+    /* Stroke width: thicker in the dense bundle */
+    const sw = Math.max(0.7, 1.3 - distFromCore * 0.7);
+
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', `rgba(138,75,248,${Math.min(0.28, opacity).toFixed(3)})`);
+    path.setAttribute('stroke-width', sw.toFixed(1));
+    svg.appendChild(path);
+  }
+
+  document.getElementById('slide08').insertBefore(svg, document.getElementById('slide08').firstChild);
+})();
+</script>
+</body>
+</html>

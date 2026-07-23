@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "dimensions": ["composition", "hierarchy", "typography", "restraint", "originality", "brand_fit", "storytelling"],
+  "required_gates": ["concept", "slide_preview", "assembled", "final"],
+  "repair_rounds": 2,
+  "canvas": {"width": 1080, "height": 1080, "safe_zone": 80},
+  "prohibited_defaults": [
+    "unapproved purple gradient",
+    "generic three-card layout",
+    "decoration without communicative purpose",
+    "repeated centered composition on consecutive slides"
+  ],
+  "specialist_trigger": {"severity": "major", "confidence_below": 0.65}
+}

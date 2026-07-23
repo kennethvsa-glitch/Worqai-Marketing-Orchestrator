@@ -1,0 +1,44 @@
+TEST_background-carousel_worqai-lime.html: El filtro te gano
+  - generic consequence -> topic-specific (El filtro te gano)
+TEST_bg2_light-carousel_worqai-lime.html: Soporte remoto
+  - generic consequence -> topic-specific (Soporte remoto)
+TEST_bg3_abstract_light-carousel_worqai-lime.html: Project manager
+  - generic consequence -> topic-specific (Project manager)
+TEST_bg3_flowing_dark-carousel_worqai-lime.html: Data analyst
+  - generic consequence -> topic-specific (Data analyst)
+TEST_bg3_flowing_light-carousel_worqai-lime.html: Primer empleo
+  - generic consequence -> topic-specific (Primer empleo)
+TEST_bg3_geometric_darkblue-carousel_worqai-lime.html: LinkedIn también filtra
+  - generic consequence -> topic-specific (LinkedIn también filtra)
+TEST_bg3_playful_light-carousel_worqai-lime.html: No es tu experiencia
+  - generic consequence -> topic-specific (No es tu experiencia)
+TEST_bg3_watercolor_dark-carousel_worqai-lime.html: CV bilingue sin romperse
+  - generic consequence -> topic-specific (CV bilingue sin romperse)
+TEST_bg4_arch_light-carousel_worqai-lime.html: Certificaciones visibles
+  - generic consequence -> topic-specific (Certificaciones visibles)
+TEST_bg4_blueprint_dark-carousel_worqai-lime.html: Remote LATAM
+  - generic consequence -> topic-specific (Remote LATAM)
+TEST_bg4_concrete_dark-carousel_worqai-lime.html: El PDF llega roto
+  - generic consequence -> topic-specific (El PDF llega roto)
+TEST_bg4_grid_dark-carousel_worqai-lime.html: CV de marketing
+  - generic consequence -> topic-specific (CV de marketing)
+TEST_bg4_paper_dark-carousel_worqai-lime.html: Skills sin lista eterna
+  - generic consequence -> topic-specific (Skills sin lista eterna)
+TEST_bg4_ribbon_dark-carousel_worqai-lime.html: Personalizar por aviso
+  - generic consequence -> topic-specific (Personalizar por aviso)
+TEST_bg4_ribbon_light-carousel_worqai-lime.html: Keywords exactas
+  - generic consequence -> topic-specific (Keywords exactas)
+TEST_bg4_sculpture_dark-carousel_worqai-lime.html: Lo que el ATS ve
+  - generic consequence -> topic-specific (Lo que el ATS ve)
+TEST_bg4_sculpture_light-carousel_worqai-lime.html: CV en 10 minutos
+  - generic consequence -> topic-specific (CV en 10 minutos)
+TEST_bg4_sphere_dark-carousel_worqai-lime.html: US Hispanic
+  - generic consequence -> topic-specific (US Hispanic)
+TEST_bg4_stream_dark-carousel_worqai-lime.html: El titulo manda
+  - generic consequence -> topic-specific (El titulo manda)
+TEST_bg4_tape_dark-carousel_worqai-lime.html: ChatGPT no basta
+  - generic consequence -> topic-specific (ChatGPT no basta)
+TEST_bg4_watercolor_dark-carousel_worqai-lime.html: Ultimo check
+  - generic consequence -> topic-specific (Ultimo check)
+TEST_scene1-background_worqai-lime.html: Antes de aplicar
+  - generic consequence -> topic-specific (Antes de aplicar)

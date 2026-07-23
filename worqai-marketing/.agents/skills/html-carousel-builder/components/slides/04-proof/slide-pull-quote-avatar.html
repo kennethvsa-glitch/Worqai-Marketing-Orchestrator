@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-pull-quote-avatar",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: PULL QUOTE + AVATAR
+Purpose: S7 — Quote with photo circle and attribution row.
+-->
+
+<div class="content">
+  <div class="pq-avatar">
+    <p class="pq-text">&ldquo;El unico cambio fue optimizar mi CV con las palabras clave correctas. Resultado: 3 ofertas en 2 semanas.&rdquo;</p>
+    <div class="pq-attrib">
+      <div class="pq-photo"></div>
+      <div class="pq-meta">
+        <p class="pq-name">Andres R.</p>
+        <p class="pq-role">DevOps Engineer &middot; Costa Rica</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.pq-avatar { display: flex; flex-direction: column; gap: 32px; margin-top: auto; margin-bottom: auto; }
+.pq-text { font-family: var(--font-script), serif; font-style: italic; font-weight: 500; font-size: 42px; line-height: 1.3; color: var(--text-primary); max-width: 840px; }
+.pq-attrib { display: flex; align-items: center; gap: 18px; }
+.pq-photo { width: 72px; height: 72px; border-radius: 50%; background: var(--accent-soft); }
+.pq-meta { display: flex; flex-direction: column; gap: 4px; }
+.pq-name { font-family: var(--font-display), system-ui, sans-serif; font-size: 20px; font-weight: 700; color: var(--text-primary); }
+.pq-role { font-family: var(--font-body), system-ui, sans-serif; font-size: 15px; font-weight: 400; color: var(--text-muted); }
+</style>

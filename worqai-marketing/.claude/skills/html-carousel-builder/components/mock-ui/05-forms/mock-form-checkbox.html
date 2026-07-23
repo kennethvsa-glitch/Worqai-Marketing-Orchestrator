@@ -1,0 +1,57 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-form-checkbox",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s17",
+      "s26",
+      "s31",
+      "s33",
+      "s39",
+      "s48"
+    ],
+    "avoid_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s40"
+    ],
+    "pairs_well_with": [
+      "pat-stripe-diagonal",
+      "deco-badge-ribbon",
+      "deco-counter-circle"
+    ],
+    "conflicts_with": [
+      "mock-terminal-windows",
+      "mock-code-diff"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CHECKBOX
+Purpose: Checkbox with label.
+-->
+
+<div class="form-checkbox">
+  <div class="chk-box checked">
+    <svg viewBox="0 0 16 16"><path d="M3 8l4 4 6-8" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+  </div>
+  <span class="chk-label">Formato ATS-compatible</span>
+</div>
+
+<style>
+.form-checkbox { display: flex; align-items: center; gap: 12px; }
+.chk-box { width: 22px; height: 22px; border-radius: 5px; border: 2px solid var(--accent-line); display: flex; align-items: center; justify-content: center; color: var(--accent); }
+.chk-box.checked { background: var(--accent-soft); border-color: var(--accent); }
+.chk-box svg { width: 12px; height: 12px; }
+.chk-label { font-family: var(--font-body), system-ui, sans-serif; font-size: 15px; color: var(--text-secondary); }
+</style>

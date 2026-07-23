@@ -1,0 +1,370 @@
+{
+  "reference": "C:\\Users\\kenne\\motion-studio\\Ideation\\Escenes remake\\Scene 1.png",
+  "render": "C:\\Users\\kenne\\motion-studio\\spikes\\scene-1a-render.png",
+  "reference_size": [
+    1023,
+    1537
+  ],
+  "overall_similarity": 94.65,
+  "pass": true,
+  "target": 92,
+  "worst_regions": [
+    {
+      "row": 2,
+      "col": 1,
+      "region": [
+        255,
+        512,
+        510,
+        768
+      ],
+      "score": 82.19,
+      "label": "R2C1"
+    },
+    {
+      "row": 2,
+      "col": 2,
+      "region": [
+        510,
+        512,
+        765,
+        768
+      ],
+      "score": 84.82,
+      "label": "R2C2"
+    },
+    {
+      "row": 1,
+      "col": 0,
+      "region": [
+        0,
+        256,
+        255,
+        512
+      ],
+      "score": 86.98,
+      "label": "R1C0"
+    },
+    {
+      "row": 2,
+      "col": 0,
+      "region": [
+        0,
+        512,
+        255,
+        768
+      ],
+      "score": 91.9,
+      "label": "R2C0"
+    },
+    {
+      "row": 4,
+      "col": 1,
+      "region": [
+        255,
+        1024,
+        510,
+        1280
+      ],
+      "score": 93.29,
+      "label": "R4C1"
+    }
+  ],
+  "all_regions": [
+    {
+      "row": 2,
+      "col": 1,
+      "region": [
+        255,
+        512,
+        510,
+        768
+      ],
+      "score": 82.19,
+      "label": "R2C1"
+    },
+    {
+      "row": 2,
+      "col": 2,
+      "region": [
+        510,
+        512,
+        765,
+        768
+      ],
+      "score": 84.82,
+      "label": "R2C2"
+    },
+    {
+      "row": 1,
+      "col": 0,
+      "region": [
+        0,
+        256,
+        255,
+        512
+      ],
+      "score": 86.98,
+      "label": "R1C0"
+    },
+    {
+      "row": 2,
+      "col": 0,
+      "region": [
+        0,
+        512,
+        255,
+        768
+      ],
+      "score": 91.9,
+      "label": "R2C0"
+    },
+    {
+      "row": 4,
+      "col": 1,
+      "region": [
+        255,
+        1024,
+        510,
+        1280
+      ],
+      "score": 93.29,
+      "label": "R4C1"
+    },
+    {
+      "row": 1,
+      "col": 2,
+      "region": [
+        510,
+        256,
+        765,
+        512
+      ],
+      "score": 94.06,
+      "label": "R1C2"
+    },
+    {
+      "row": 1,
+      "col": 1,
+      "region": [
+        255,
+        256,
+        510,
+        512
+      ],
+      "score": 94.21,
+      "label": "R1C1"
+    },
+    {
+      "row": 3,
+      "col": 1,
+      "region": [
+        255,
+        768,
+        510,
+        1024
+      ],
+      "score": 94.8,
+      "label": "R3C1"
+    },
+    {
+      "row": 5,
+      "col": 2,
+      "region": [
+        510,
+        1280,
+        765,
+        1536
+      ],
+      "score": 95.1,
+      "label": "R5C2"
+    },
+    {
+      "row": 3,
+      "col": 2,
+      "region": [
+        510,
+        768,
+        765,
+        1024
+      ],
+      "score": 95.3,
+      "label": "R3C2"
+    },
+    {
+      "row": 4,
+      "col": 0,
+      "region": [
+        0,
+        1024,
+        255,
+        1280
+      ],
+      "score": 95.43,
+      "label": "R4C0"
+    },
+    {
+      "row": 2,
+      "col": 3,
+      "region": [
+        765,
+        512,
+        1020,
+        768
+      ],
+      "score": 95.96,
+      "label": "R2C3"
+    },
+    {
+      "row": 3,
+      "col": 0,
+      "region": [
+        0,
+        768,
+        255,
+        1024
+      ],
+      "score": 96.35,
+      "label": "R3C0"
+    },
+    {
+      "row": 5,
+      "col": 1,
+      "region": [
+        255,
+        1280,
+        510,
+        1536
+      ],
+      "score": 96.5,
+      "label": "R5C1"
+    },
+    {
+      "row": 4,
+      "col": 2,
+      "region": [
+        510,
+        1024,
+        765,
+        1280
+      ],
+      "score": 96.54,
+      "label": "R4C2"
+    },
+    {
+      "row": 3,
+      "col": 3,
+      "region": [
+        765,
+        768,
+        1020,
+        1024
+      ],
+      "score": 96.58,
+      "label": "R3C3"
+    },
+    {
+      "row": 1,
+      "col": 3,
+      "region": [
+        765,
+        256,
+        1020,
+        512
+      ],
+      "score": 97.12,
+      "label": "R1C3"
+    },
+    {
+      "row": 4,
+      "col": 3,
+      "region": [
+        765,
+        1024,
+        1020,
+        1280
+      ],
+      "score": 97.49,
+      "label": "R4C3"
+    },
+    {
+      "row": 0,
+      "col": 2,
+      "region": [
+        510,
+        0,
+        765,
+        256
+      ],
+      "score": 97.65,
+      "label": "R0C2"
+    },
+    {
+      "row": 0,
+      "col": 0,
+      "region": [
+        0,
+        0,
+        255,
+        256
+      ],
+      "score": 97.7,
+      "label": "R0C0"
+    },
+    {
+      "row": 0,
+      "col": 3,
+      "region": [
+        765,
+        0,
+        1020,
+        256
+      ],
+      "score": 97.74,
+      "label": "R0C3"
+    },
+    {
+      "row": 5,
+      "col": 0,
+      "region": [
+        0,
+        1280,
+        255,
+        1536
+      ],
+      "score": 97.81,
+      "label": "R5C0"
+    },
+    {
+      "row": 5,
+      "col": 3,
+      "region": [
+        765,
+        1280,
+        1020,
+        1536
+      ],
+      "score": 97.88,
+      "label": "R5C3"
+    },
+    {
+      "row": 0,
+      "col": 1,
+      "region": [
+        255,
+        0,
+        510,
+        256
+      ],
+      "score": 97.96,
+      "label": "R0C1"
+    }
+  ],
+  "guidance": {
+    "below_70": "Rebuild \u2014 structural mismatch",
+    "70_85": "Major fixes needed \u2014 layout/color wrong",
+    "85_92": "Close \u2014 spacing, font, or color drift",
+    "92_95": "PASS \u2014 acceptable for integration",
+    "95_100": "Excellent \u2014 only font glyph differences remain"
+  }
+}

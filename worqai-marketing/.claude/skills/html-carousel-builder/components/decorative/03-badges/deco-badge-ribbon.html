@@ -1,0 +1,54 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-badge-ribbon",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s04",
+      "s07",
+      "s11",
+      "s24",
+      "s31",
+      "s38",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s01",
+      "s22",
+      "s23",
+      "s42",
+      "s48"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: BADGE RIBBON
+Purpose: Ribbon banner style badge.
+-->
+
+<div class="badge-ribbon">
+  <span>GRATIS</span>
+</div>
+
+<style>
+.badge-ribbon {
+  display: inline-block; padding: 8px 28px;
+  background: var(--accent); color: var(--bg-base);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  position: relative;
+}
+.badge-ribbon::before,
+.badge-ribbon::after {
+  content: ''; position: absolute; top: 0;
+  width: 0; height: 0;
+  border-style: solid;
+}
+.badge-ribbon::before { left: -12px; border-width: 15px 12px 15px 0; border-color: transparent var(--accent) transparent transparent; }
+.badge-ribbon::after { right: -12px; border-width: 15px 0 15px 12px; border-color: transparent transparent transparent var(--accent); }
+</style>

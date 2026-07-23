@@ -1,0 +1,78 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "geo-wireframe-perspective",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s19",
+      "s25",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "light-neon-border",
+      "deco-progress-dots",
+      "mock-terminal-mac",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "org-blob-scattered",
+      "tex-paper-fibers",
+      "pat-waves-subtle"
+    ]
+  }
+-->
+
+<!--
+LAYER: WIREFRAME (3D Perspective Grid)
+Found in: carousel_pdf-ats-error_worqai-verde.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Tech depth. Best for dark systems (s02, s14, s29, s33, s46).
+-->
+
+<div class="pw-wrap"><div class="pw-grid"></div></div>
+
+<style>
+.pw-wrap {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none; z-index: 1;
+  perspective: 600px;
+}
+.pw-grid {
+  position: absolute;
+  width: 200%; height: 200%;
+  left: -50%; top: -50%;
+  background-image:
+    linear-gradient(to right, var(--accent) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--accent) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: var(--geo-opacity, 0.08);
+  transform: rotateX(60deg) rotateZ(-15deg);
+  -webkit-mask-image: linear-gradient(120deg, transparent 12%, rgba(0,0,0,0.55) 50%, black 78%);
+          mask-image: linear-gradient(120deg, transparent 12%, rgba(0,0,0,0.55) 50%, black 78%);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- perspective: 400px (extreme) to 900px (subtle)
+- rotateX: 50deg to 70deg, rotateZ: -20deg to -10deg
+- background-size: 40px (dense) to 100px (sparse)
+-->

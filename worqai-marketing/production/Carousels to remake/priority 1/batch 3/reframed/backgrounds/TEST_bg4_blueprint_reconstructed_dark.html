@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueprint Dark Reconstructed</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0A0A0A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+</style>
+</head>
+<body>
+<div class="canvas">
+<!-- Blueprint Dark Reconstructed Background -->
+<svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bpgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111111"/>
+      <stop offset="100%" stop-color="#0A0A0A"/>
+    </linearGradient>
+    <pattern id="bpdot" x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="9" cy="9" r="1.2" fill="#C7FF3A" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bpgrad)"/>
+  <circle cx="120" cy="120" r="260" fill="#C7FF3A" opacity="0.08"/>
+  <rect x="60" y="0" width="2" height="280" fill="#FFFFFF" opacity="0.08"/>
+  <rect x="72" y="0" width="1" height="260" fill="#FFFFFF" opacity="0.06"/>
+  <rect x="82" y="0" width="1" height="240" fill="#FFFFFF" opacity="0.05"/>
+  <rect x="92" y="0" width="1" height="220" fill="#FFFFFF" opacity="0.04"/>
+  <path d="M-20 400 Q-20 180 180 180 L180 1080" stroke="#333333" stroke-width="2" fill="none"/>
+  <path d="M-20 600 Q-20 400 200 400 L200 1080" stroke="#333333" stroke-width="1.5" fill="none"/>
+  <path d="M900 -20 Q900 200 700 200 L700 1080" stroke="#333333" stroke-width="2" fill="none"/>
+  <path d="M1080 -20 Q1080 200 880 200 L880 1080" stroke="#333333" stroke-width="2" fill="none"/>
+  <path d="M700 200 L880 200 L880 1080 L700 1080 Z" fill="#C7FF3A" opacity="0.12"/>
+  <rect x="0" y="360" width="1080" height="1" fill="#333333" opacity="0.5"/>
+  <rect x="0" y="520" width="1080" height="1" fill="#333333" opacity="0.3"/>
+  <rect x="320" y="0" width="1" height="1080" fill="#333333" opacity="0.4"/>
+  <rect x="520" y="0" width="1" height="1080" fill="#333333" opacity="0.3"/>
+  <rect x="720" y="0" width="1" height="1080" fill="#333333" opacity="0.5"/>
+  <circle cx="180" cy="180" r="6" fill="#111111" stroke="#C7FF3A" stroke-width="1.5"/>
+  <circle cx="700" cy="200" r="5" fill="#C7FF3A"/>
+  <circle cx="880" cy="200" r="5" fill="#C7FF3A"/>
+  <circle cx="720" cy="520" r="5" fill="#C7FF3A"/>
+  <circle cx="320" cy="360" r="5" fill="#111111"/>
+  <circle cx="520" cy="520" r="4" fill="#111111"/>
+  <rect x="520" y="880" width="160" height="120" fill="url(#bpdot)" opacity="0.6"/>
+  <path d="M-20 920 Q-20 780 120 780 L120 1080" stroke="#333333" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M400 280 Q400 80 600 80" stroke="#333333" stroke-width="1" fill="none" opacity="0.3"/>
+</svg>
+</div>
+</body>
+</html>

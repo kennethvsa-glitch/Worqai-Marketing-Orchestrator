@@ -1,0 +1,77 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-terminal-windows",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "light-neon-border",
+      "atm-scan-lines",
+      "deco-progress-dots"
+    ],
+    "conflicts_with": [
+      "mock-cv-lines",
+      "mock-app-iphone",
+      "frame-polaroid"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: TERMINAL WINDOWS
+Purpose: Windows-style command prompt.
+-->
+
+<div class="terminal-win">
+  <div class="term-win-bar">C:\\Users\\WorqAI&gt; parser.exe</div>
+  <div class="term-win-body">
+    <p>&gt; Escaneando CV...</p>
+    <p>&gt; 3 errores encontrados</p>
+    <p class="win-fail">&gt; [ERROR] Formato no compatible</p>
+    <p class="win-ok">&gt; [OK] Listo para optimizar</p>
+    <p class="win-cursor">_</p>
+  </div>
+</div>
+
+<style>
+.terminal-win {
+  background: var(--term-bg, #0c0c0c); border: 1px solid var(--term-border, #333);
+  border-radius: 8px; overflow: hidden;
+  font-family: var(--font-mono), monospace;
+}
+.term-win-bar {
+  padding: 10px 14px; background: var(--term-bar, #1a1a1a);
+  border-bottom: 1px solid var(--term-border, #333);
+  font-size: 12px; color: var(--text-muted);
+}
+.term-win-body {
+  padding: 16px 18px; font-size: 15px; line-height: 1.7;
+  color: var(--term-text, #cccccc);
+}
+.term-win-body .win-fail { color: var(--term-red, #ff5f56); }
+.term-win-body .win-ok { color: var(--term-green, #27c93f); }
+.win-cursor { display: inline-block; width: 8px; height: 16px; background: var(--accent); }
+</style>

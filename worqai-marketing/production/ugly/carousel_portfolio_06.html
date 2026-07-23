@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mesa Verde — Carousel 06</title>
+<link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Cormorant:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --bg:#0c0c0a;
+    --bg-2:#15140f;
+    --bone:#ece6d5;
+    --bone-2:#cfc7b1;
+    --rust:#a55a2a;
+    --moss:#3a4a32;
+    --line:rgba(236,230,213,0.14);
+    --muted:#8a8576;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;font-family:'Inter',sans-serif;color:#eee;min-height:100vh;padding:40px 20px}
+  .controls{max-width:1080px;margin:0 auto 24px;display:flex;gap:12px;align-items:center}
+  .controls button{background:var(--rust);color:var(--bone);border:0;padding:12px 22px;font-family:'JetBrains Mono';font-weight:500;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;font-size:12px}
+  .controls button:hover{background:var(--bone);color:var(--bg)}
+  .dots{display:flex;gap:8px;margin-left:auto}
+  .dots span{width:8px;height:8px;background:#333}
+  .dots span.active{background:var(--rust)}
+  .stage{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .slide{
+    width:1080px;height:1080px;
+    position:relative;overflow:hidden;
+    background:var(--bg);
+    color:var(--bone);
+    font-family:'Cormorant',serif;
+  }
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:0.18;mix-blend-mode:overlay;z-index:6}
+  .grain svg{width:100%;height:100%}
+
+  .topbar{position:absolute;top:48px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--bone-2);z-index:7}
+  .topbar .brand{color:var(--bone);font-weight:500;letter-spacing:0.4em}
+  .footer-bar{position:absolute;bottom:48px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--bone-2);z-index:7;border-top:1px solid var(--line);padding-top:16px}
+
+  /* SLIDE 1 — cover */
+  .s1{background:
+    radial-gradient(ellipse at 30% 20%, rgba(165,90,42,0.18) 0%, transparent 50%),
+    radial-gradient(circle at 80% 90%, rgba(58,74,50,0.4) 0%, transparent 55%),
+    linear-gradient(180deg, #0c0c0a 0%, #15140f 100%);
+  }
+  .s1 .frame{position:absolute;inset:48px;border:1px solid rgba(236,230,213,0.18);z-index:3}
+  .s1 .num-tag{position:absolute;top:140px;left:64px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--rust);z-index:7}
+  .s1 .num-tag::before{content:"— ";color:var(--rust)}
+  .s1 h1{position:absolute;top:200px;left:64px;right:64px;font-family:'GFS Didot';font-weight:400;font-size:96px;line-height:0.92;letter-spacing:-0.02em;color:var(--bone);z-index:7}
+  .s1 h1 em{font-style:italic;color:var(--bone-2);display:block;font-size:80px;line-height:1}
+  .s1 .img{position:absolute;bottom:160px;right:64px;width:380px;height:480px;
+    background:
+      linear-gradient(160deg, rgba(165,90,42,0.5) 0%, transparent 50%),
+      linear-gradient(180deg, #2a2520 0%, #0c0c0a 100%);
+    clip-path:polygon(0 0, 100% 0, 100% 100%, 0 96%);
+    z-index:3;
+    border:1px solid rgba(236,230,213,0.18);
+  }
+  .s1 .img::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(236,230,213,0.18), transparent 60%)}
+  .s1 .lead{position:absolute;bottom:200px;left:64px;width:380px;z-index:7}
+  .s1 .lead .num{font-family:'GFS Didot';font-style:italic;font-size:120px;color:var(--rust);line-height:0.85;font-weight:400}
+  .s1 .lead p{font-family:'Inter';font-weight:300;font-size:16px;color:var(--bone-2);margin-top:18px;line-height:1.6;max-width:340px}
+  .s1 .lead p strong{font-family:'GFS Didot';font-style:italic;font-weight:400;color:var(--bone);font-size:18px}
+
+  /* SLIDE 2 — proposition */
+  .s2{background:linear-gradient(180deg, #0c0c0a 0%, #1a1814 100%)}
+  .s2 .num-tag{position:absolute;top:130px;left:64px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--rust);z-index:7}
+  .s2 .quote{position:absolute;top:200px;left:64px;right:200px;font-family:'GFS Didot';font-style:italic;font-weight:400;font-size:88px;line-height:1.05;letter-spacing:-0.01em;color:var(--bone);z-index:7}
+  .s2 .quote em{font-style:normal;color:var(--rust)}
+  .s2 .mark{position:absolute;top:160px;right:64px;font-family:'GFS Didot';font-style:italic;font-size:300px;color:rgba(165,90,42,0.18);line-height:0.7;z-index:2}
+  .s2 .grid-pairs{position:absolute;bottom:140px;left:64px;right:64px;display:grid;grid-template-columns:1fr 1px 1fr;gap:36px;z-index:7;border-top:1px solid var(--line);padding-top:32px}
+  .s2 .grid-pairs .col .lbl{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--rust);margin-bottom:14px}
+  .s2 .grid-pairs .col h3{font-family:'GFS Didot';font-style:italic;font-weight:400;font-size:34px;color:var(--bone);line-height:1.15}
+  .s2 .grid-pairs .col p{font-family:'Inter';font-weight:300;font-size:13px;color:var(--bone-2);margin-top:10px;line-height:1.6}
+  .s2 .grid-pairs .div{background:var(--line)}
+
+  /* SLIDE 3 — work */
+  .s3{background:radial-gradient(ellipse at 50% 100%, rgba(58,74,50,0.35) 0%, transparent 60%), #0c0c0a}
+  .s3 .num-tag{position:absolute;top:130px;left:64px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--rust);z-index:7}
+  .s3 h2{position:absolute;top:180px;left:64px;right:64px;font-family:'GFS Didot';font-weight:400;font-size:96px;line-height:0.96;color:var(--bone);z-index:7}
+  .s3 h2 em{font-style:italic;color:var(--bone-2)}
+  .s3 .gallery{position:absolute;top:420px;left:64px;right:64px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;z-index:7}
+  .s3 .item{display:flex;flex-direction:column;gap:14px}
+  .s3 .item .img{width:100%;height:340px;background:linear-gradient(180deg,#2a2520 0%, #0c0c0a 100%);border:1px solid var(--line);position:relative;overflow:hidden}
+  .s3 .item.a .img{background:radial-gradient(circle at 50% 30%, rgba(236,230,213,0.2), transparent 60%), linear-gradient(180deg,#3a342a 0%, #14110d 100%)}
+  .s3 .item.b .img{background:radial-gradient(circle at 30% 70%, rgba(165,90,42,0.35), transparent 50%), linear-gradient(180deg,#2a2520 0%, #0c0c0a 100%)}
+  .s3 .item.c .img{background:radial-gradient(circle at 70% 30%, rgba(58,74,50,0.45), transparent 60%), linear-gradient(180deg,#1f1f1a 0%, #0c0c0a 100%)}
+  .s3 .item .img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,0.4) 100%)}
+  .s3 .item .img .tag{position:absolute;bottom:14px;left:14px;font-family:'JetBrains Mono';font-size:9px;letter-spacing:0.25em;color:var(--bone);z-index:2;text-transform:uppercase}
+  .s3 .item .meta .nm{font-family:'GFS Didot';font-style:italic;font-size:24px;color:var(--bone);line-height:1.1}
+  .s3 .item .meta .info{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--bone-2);margin-top:6px}
+
+  /* SLIDE 4 — process / numbers */
+  .s4{background:linear-gradient(180deg, #15140f 0%, #0c0c0a 100%)}
+  .s4 .num-tag{position:absolute;top:130px;left:64px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--rust);z-index:7}
+  .s4 h2{position:absolute;top:180px;left:64px;right:64px;font-family:'GFS Didot';font-weight:400;font-size:104px;line-height:0.96;letter-spacing:-0.01em;color:var(--bone);z-index:7}
+  .s4 h2 em{font-style:italic;color:var(--rust)}
+  .s4 .nums{position:absolute;top:480px;left:64px;right:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;z-index:7;border-top:1px solid var(--line)}
+  .s4 .stat{padding:32px 24px;border-right:1px solid var(--line)}
+  .s4 .stat:last-child{border-right:0}
+  .s4 .stat .n{font-family:'GFS Didot';font-style:italic;font-weight:400;font-size:120px;color:var(--bone);line-height:0.85}
+  .s4 .stat .n sup{font-family:'GFS Didot';font-size:36px;color:var(--rust);vertical-align:top;margin-left:4px;font-style:normal}
+  .s4 .stat .lbl{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--rust);margin-top:18px}
+  .s4 .stat p{font-family:'Inter';font-weight:300;font-size:13px;color:var(--bone-2);margin-top:10px;line-height:1.55}
+  .s4 .row-bottom{position:absolute;bottom:140px;left:64px;right:64px;border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--bone-2);z-index:7}
+
+  /* SLIDE 5 — direct offer / CTA */
+  .s5{background:
+    radial-gradient(ellipse at 70% 30%, rgba(165,90,42,0.25), transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(58,74,50,0.35), transparent 55%),
+    linear-gradient(180deg, #15140f 0%, #0c0c0a 100%);
+  }
+  .s5 .num-tag{position:absolute;top:140px;left:64px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--rust);z-index:7}
+  .s5 h2{position:absolute;top:220px;left:64px;right:64px;font-family:'GFS Didot';font-weight:400;font-size:148px;line-height:0.92;letter-spacing:-0.02em;color:var(--bone);z-index:7}
+  .s5 h2 em{font-style:italic;color:var(--rust);display:block}
+  .s5 .panel{position:absolute;bottom:200px;left:64px;right:64px;padding:32px;background:rgba(236,230,213,0.04);border:1px solid rgba(165,90,42,0.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:7;display:grid;grid-template-columns:1fr 1px 1fr 1px auto;gap:28px;align-items:center}
+  .s5 .panel .col .lbl{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--rust);margin-bottom:8px}
+  .s5 .panel .col .v{font-family:'GFS Didot';font-style:italic;font-weight:400;font-size:36px;color:var(--bone);line-height:1.05}
+  .s5 .panel .col p{font-family:'Inter';font-weight:300;font-size:12px;color:var(--bone-2);margin-top:6px;line-height:1.5}
+  .s5 .panel .div{height:80%;background:rgba(165,90,42,0.3);align-self:center}
+  .s5 .panel .cta{display:inline-flex;align-items:center;gap:14px;padding:22px 30px;background:var(--rust);color:var(--bone);font-family:'JetBrains Mono';font-weight:500;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;white-space:nowrap}
+
+  /* Slide 3 — move gallery down so h2 has room */
+  .s3 h2{font-size:80px}
+  .s3 .gallery{top:460px}
+
+  /* Upload zones */
+  .upload-zone{cursor:pointer;clip-path:none!important}
+  .upload-zone input[type="file"]{display:none}
+  .upload-zone .up-ui{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px;text-align:center}
+  .upload-zone.has-img .up-ui{display:none}
+  .upload-zone .up-lbl{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(236,230,213,0.85)}
+  .upload-zone .up-prompt{font-family:'Inter';font-weight:300;font-size:10px;line-height:1.55;color:rgba(236,230,213,0.48);margin-top:4px;font-style:italic;max-width:220px}
+
+</style>
+</head>
+<body>
+  <div class="controls">
+    <button id="exportBtn">Export ZIP</button>
+    <span style="color:#aaa;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Mesa Verde — 5 slides</span>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 1 -->
+    <div class="slide s1" id="slide-1">
+      <div class="frame"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="mn1"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#mn1)" opacity="0.5"/></svg></div>
+      <div class="topbar">
+        <span class="brand">M E S A · V E R D E</span>
+        <span>ARCH · STUDIO · 2014 · 01 / 05</span>
+      </div>
+      <div class="num-tag">Open commission · Spring 2026</div>
+      <h1>Three sites.<em>One studio.</em></h1>
+      <div class="lead">
+        <div class="num">06</div>
+        <p>We're opening <strong>six residential commissions</strong> for spring '26 starts. Lots between 0.4–2 hectares, anywhere in the Sonoran or Andean foothills.</p>
+      </div>
+      <div class="img upload-zone">
+        <input type="file" accept="image/*">
+        <div class="up-ui">
+          <div class="up-lbl">↑ Click to upload photo</div>
+          <div class="up-prompt">Architectural rendering of a desert house, rammed earth walls, concrete cantilever, golden hour side lighting, minimal landscaping, moody editorial</div>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <span>mesaverde.studio</span>
+        <span>RIBA III · CAB licensed</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide s2" id="slide-2">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="mn2"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#mn2)" opacity="0.45"/></svg></div>
+      <div class="topbar"><span class="brand">M E S A · V E R D E</span><span>02 / 05 · A NOTE</span></div>
+      <div class="num-tag">— Why we limit the calendar</div>
+      <div class="mark">"</div>
+      <div class="quote">A house should answer the site, <em>not the catalogue.</em> We turn down work that doesn't allow that conversation.</div>
+      <div class="grid-pairs">
+        <div class="col">
+          <div class="lbl">Commissions / yr</div>
+          <h3>Six. Never more.</h3>
+          <p>One principal architect on each project, start to occupancy. No junior handoff.</p>
+        </div>
+        <div class="div"></div>
+        <div class="col">
+          <div class="lbl">Time on site</div>
+          <h3>Eight visits, minimum.</h3>
+          <p>Two before sketching. Four during build. Two after move-in.</p>
+        </div>
+      </div>
+      <div class="footer-bar"><span>mesaverde.studio</span><span>Studio principals: A. Reyes, J. Ortega</span></div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide s3" id="slide-3">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="mn3"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#mn3)" opacity="0.45"/></svg></div>
+      <div class="topbar"><span class="brand">M E S A · V E R D E</span><span>03 / 05 · SELECTED WORKS</span></div>
+      <div class="num-tag">— Three completed houses, 2022 – 2024</div>
+      <h2>Built <em>where the wind reads</em><br>differently.</h2>
+      <div class="gallery">
+        <div class="item a">
+          <div class="img upload-zone">
+            <input type="file" accept="image/*">
+            <div class="up-ui">
+              <div class="up-lbl">↑ Upload</div>
+              <div class="up-prompt">Interior, concrete walls, full-height glazing, afternoon light, long shadows, sparse furniture, editorial architecture</div>
+            </div>
+            <span class="tag">— 01 / Casa Andén</span>
+          </div>
+          <div class="meta"><div class="nm">Casa Andén</div><div class="info">San Pedro · 2024 · 280m²</div></div>
+        </div>
+        <div class="item b">
+          <div class="img upload-zone">
+            <input type="file" accept="image/*">
+            <div class="up-ui">
+              <div class="up-lbl">↑ Upload</div>
+              <div class="up-prompt">Modern house in vineyard landscape, white render, wooden pergola, blue hour, mountains in background, architectural photography</div>
+            </div>
+            <span class="tag">— 02 / Casa Aravena</span>
+          </div>
+          <div class="meta"><div class="nm">Casa Aravena</div><div class="info">Mendoza · 2023 · 410m²</div></div>
+        </div>
+        <div class="item c">
+          <div class="img upload-zone">
+            <input type="file" accept="image/*">
+            <div class="up-ui">
+              <div class="up-lbl">↑ Upload</div>
+              <div class="up-prompt">Stone-and-timber house in arid desert, wide horizontal volumes, dust haze, golden hour light, aerial architectural photography</div>
+            </div>
+            <span class="tag">— 03 / Casa Yagán</span>
+          </div>
+          <div class="meta"><div class="nm">Casa Yagán</div><div class="info">Sonora · 2022 · 320m²</div></div>
+        </div>
+      </div>
+      <div class="footer-bar"><span>Full portfolio: mesaverde.studio/work</span><span>Photographs by P. Quiroga</span></div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide s4" id="slide-4">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="mn4"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#mn4)" opacity="0.45"/></svg></div>
+      <div class="topbar"><span class="brand">M E S A · V E R D E</span><span>04 / 05 · PRACTICE</span></div>
+      <div class="num-tag">— A studio in numbers</div>
+      <h2>Twelve years.<br><em>Forty-one houses.</em></h2>
+      <div class="nums">
+        <div class="stat"><div class="n">41</div><div class="lbl">Completed houses</div><p>Across Chile, Argentina, México and Arizona.</p></div>
+        <div class="stat"><div class="n">14<sup>mo</sup></div><div class="lbl">Median timeline</div><p>From signed brief to certificate of occupancy.</p></div>
+        <div class="stat"><div class="n">96<sup>%</sup></div><div class="lbl">On-budget delivery</div><p>Within 4% of contracted scope, last 18 builds.</p></div>
+      </div>
+      <div class="row-bottom"><span>Source: Studio audit, Q1 2025</span><span>mesaverde.studio</span></div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide s5" id="slide-5">
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="mn5"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#mn5)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span class="brand">M E S A · V E R D E</span><span>05 / 05 · COMMISSION</span></div>
+      <div class="num-tag">— Open until July 14, 2026</div>
+      <h2>Send your<br>site, then<em>let's read it.</em></h2>
+      <div class="panel">
+        <div class="col">
+          <div class="lbl">First call</div>
+          <div class="v">No fee, 45 min</div>
+          <p>Site photos, contour map, your brief in your own words.</p>
+        </div>
+        <div class="div"></div>
+        <div class="col">
+          <div class="lbl">Engagement</div>
+          <div class="v">From $48k</div>
+          <p>Schematic + full design + construction admin.</p>
+        </div>
+        <div class="div"></div>
+        <a class="cta">Send the site →</a>
+      </div>
+      <div class="footer-bar"><span>mesaverde.studio/commissions</span><span>commissions@mesaverde.studio</span></div>
+    </div>
+  </div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.getElementById('dots');
+  slides.forEach((_,i)=>{const s=document.createElement('span');if(i===0)s.classList.add('active');dots.appendChild(s);});
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){const idx=[...slides].indexOf(e.target);[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}});
+  },{threshold:0.5});
+  slides.forEach(s=>obs.observe(s));
+
+  document.getElementById('exportBtn').addEventListener('click', async ()=>{
+    const btn = document.getElementById('exportBtn');
+    btn.disabled=true; btn.textContent='Rendering...';
+    const zip = new JSZip();
+    for(let i=0;i<slides.length;i++){
+      btn.textContent=`Rendering ${i+1}/${slides.length}`;
+      const canvas = await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,backgroundColor:null});
+      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+      zip.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const out = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(out);
+    const a = document.createElement('a'); a.href=url; a.download='mesa_verde_carousel.zip'; a.click();
+    btn.disabled=false; btn.textContent='Export ZIP';
+  });
+
+  // Upload zones — click any placeholder to load a local photo
+  document.querySelectorAll('.upload-zone').forEach(zone => {
+    const inp = zone.querySelector('input[type="file"]');
+    zone.addEventListener('click', e => { if (!e.target.closest('input')) inp.click(); });
+    inp.addEventListener('change', e => {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = ev => {
+        zone.style.backgroundImage = `url(${ev.target.result})`;
+        zone.style.backgroundSize = 'cover';
+        zone.style.backgroundPosition = 'center';
+        zone.classList.add('has-img');
+      };
+      r.readAsDataURL(f);
+    });
+  });
+</script>
+</body>
+</html>

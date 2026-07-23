@@ -1,0 +1,33 @@
+inbox/
+.quantum/
+.venv/
+.transcription-runtime/
+.models/
+compositions/
+NEW_OUTPUTS/
+
+# Node dependencies
+node_modules/
+spikes/*/node_modules/
+remotion/node_modules/
+
+# Generated Remotion assets and candidates
+remotion/public/clips/
+remotion/public/fonts/
+remotion/input-*.json
+out/remotion-candidates/
+.visual-production/
+approvals/
+library/**/*.mp4
+
+# Rendered output (large binary artefacts — not committed)
+out/edits/*.mp4
+out/variants/*.mp4
+out/release-candidates/*.mp4
+**/__pycache__/
+debug.log
+
+# Local Codex and Motion Studio working directories (never production evidence)
+.codex_tmp/
+.motion-studio-job-*/
+out/v2/

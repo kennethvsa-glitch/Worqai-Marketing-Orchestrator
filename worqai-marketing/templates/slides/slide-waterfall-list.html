@@ -1,0 +1,26 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="wfl-wrap">
+    {% if copy.headline %}
+    <div class="wfl-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+    {% endif %}
+    {% for item in copy.get('items', []) %}
+    <div class="wfl-item">
+      <div class="wfl-num">{{ "%02d" % loop.index }}</div>
+      <div>
+        <div class="wfl-text">{{ item.title | default(item) if item is mapping else item }}</div>
+        {% if item is mapping and (item.desc or item.description) %}
+        <div class="wfl-desc">{{ item.desc | default(item.description) }}</div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

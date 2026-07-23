@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI · Mito ATS vs. Realidad</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+
+    :root {
+      --bg: #0c0f09;
+      --card-bg: #161a12;
+      --card-border: rgba(197, 255, 24, 0.08);
+      --ink: #f4f5f0;
+      --muted: #8a9180;
+      --lime: #c5ff18;
+      --red: #ff4d3a;
+      --red-bg: rgba(255, 77, 58, 0.08);
+      --red-border: rgba(255, 77, 58, 0.2);
+      --green: #34d97b;
+      --green-bg: rgba(52, 217, 123, 0.08);
+      --green-border: rgba(52, 217, 123, 0.25);
+      --grid: rgba(197, 255, 24, 0.03);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .poster {
+      isolation: isolate;
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      padding: 52px 58px 46px;
+      background:
+        radial-gradient(circle at 15% 5%, rgba(197, 255, 24, 0.12), transparent 30%),
+        radial-gradient(circle at 85% 95%, rgba(197, 255, 24, 0.06), transparent 30%),
+        var(--bg);
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 54px 54px;
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 40px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: baseline;
+    }
+
+    .brand {
+      font-size: 32px;
+      font-weight: 850;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      color: var(--ink);
+    }
+
+    .brand .ai {
+      color: var(--lime);
+    }
+
+    .brand-note {
+      margin-left: 14px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .folio {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 36px;
+      padding: 0 16px;
+      border: 1px solid var(--lime);
+      border-radius: 999px;
+      background: rgba(197, 255, 24, 0.06);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--lime);
+    }
+
+    .folio::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 8px var(--lime);
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 40px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow-tag {
+      padding: 5px 12px;
+      background: var(--lime);
+      color: var(--bg);
+      border-radius: 4px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 18px 0 0;
+      font-size: 76px;
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.06em;
+      color: var(--ink);
+    }
+
+    h1 .line {
+      display: block;
+    }
+
+    h1 .accent {
+      color: var(--lime);
+    }
+
+    h1 .red {
+      color: var(--red);
+    }
+
+    .dek {
+      max-width: 900px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 22px;
+      font-weight: 550;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+    }
+
+    .dek strong {
+      color: var(--ink);
+      font-weight: 750;
+    }
+
+    /* Comparison Cards */
+    .comparison {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .comp-card {
+      position: relative;
+      padding: 28px 32px;
+      border-radius: 18px;
+      border: 1px solid;
+    }
+
+    .comp-card.fail {
+      background: var(--red-bg);
+      border-color: var(--red-border);
+    }
+
+    .comp-card.pass {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      box-shadow: 0 0 40px rgba(52, 217, 123, 0.06);
+    }
+
+    .comp-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .comp-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .comp-card.fail .comp-label { color: var(--red); }
+    .comp-card.pass .comp-label { color: var(--green); }
+
+    .comp-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .comp-card.fail .comp-badge {
+      background: rgba(255, 77, 58, 0.15);
+      color: var(--red);
+      border: 1px solid rgba(255, 77, 58, 0.3);
+    }
+
+    .comp-card.pass .comp-badge {
+      background: var(--lime);
+      color: var(--bg);
+      border: 1px solid var(--lime);
+    }
+
+    .comp-text {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .comp-card.fail .comp-text {
+      color: rgba(244, 245, 240, 0.45);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255, 77, 58, 0.4);
+      text-decoration-thickness: 2px;
+    }
+
+    .comp-subtext {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 550;
+      line-height: 1.35;
+    }
+
+    .comp-card.fail .comp-subtext { color: rgba(255, 77, 58, 0.65); }
+    .comp-card.pass .comp-subtext { color: rgba(52, 217, 123, 0.75); }
+
+    /* Arrow between cards */
+    .arrow-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: -8px 0;
+      z-index: 2;
+      position: relative;
+    }
+
+    .arrow-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 2px solid var(--lime);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(197, 255, 24, 0.15);
+    }
+
+    .arrow-circle svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--lime);
+    }
+
+    /* Takeaway dark card */
+    .takeaway-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 36px;
+      padding: 28px 32px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #1a1f14, #0f1209);
+      border: 1px solid rgba(197, 255, 24, 0.15);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .takeaway-title {
+      font-size: 23px;
+      font-weight: 850;
+      letter-spacing: -0.035em;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .takeaway-title .lime {
+      color: var(--lime);
+    }
+
+    .takeaway-sub {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 550;
+    }
+
+    .takeaway-tag {
+      padding: 12px 20px;
+      background: var(--lime);
+      color: var(--bg);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* Giveaway banner */
+    .giveaway-banner {
+      margin-top: 28px;
+      padding: 22px 28px;
+      border-radius: 14px;
+      background: rgba(197, 255, 24, 0.06);
+      border: 1px dashed rgba(197, 255, 24, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .giveaway-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+
+    .giveaway-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .giveaway-text .keyword {
+      display: inline-block;
+      padding: 2px 10px;
+      background: var(--lime);
+      color: var(--bg);
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    .giveaway-text .pro {
+      color: var(--lime);
+      font-weight: 900;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 24px;
+    }
+
+    .footer-left strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 830;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .footer-left span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .footer-disclaimer {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 750;
+      line-height: 1.45;
+      letter-spacing: 0.1em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .footer-disclaimer strong {
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Mito ATS vs. Realidad — WorqAI">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand">worq<span class="ai">ai</span>.io</div>
+        <div class="brand-note">CV INTELLIGENCE</div>
+      </div>
+      <div class="folio">ANÁLISIS CV 06</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">
+        <span class="eyebrow-tag">DESMITIFICADO</span>
+        LO QUE EL ATS REALMENTE BUSCA
+      </div>
+      <h1>
+        <span class="line">MITO <span class="red">ATS</span></span>
+        <span class="line accent">VS.</span>
+        <span class="line">REALIDAD.</span>
+      </h1>
+      <p class="dek">
+        El ATS no descarta tu CV con un robot. Busca <strong>coincidencias exactas</strong> con la vacante. Si tu experiencia real está oculta bajo frases genéricas, <strong>te vuelves invisible</strong>.
+      </p>
+    </section>
+
+    <section class="comparison">
+      <!-- Fail card -->
+      <article class="comp-card fail">
+        <div class="comp-header">
+          <div class="comp-label">VERSIÓN DEL CANDIDATO</div>
+          <div class="comp-badge">DESCARTADO</div>
+        </div>
+        <div class="comp-text">"Gestión de inventario y optimización de entregas."</div>
+        <div class="comp-subtext">Frase amplia → el filtro no detecta coincidencia con la vacante.</div>
+      </article>
+
+      <!-- Arrow -->
+      <div class="arrow-divider">
+        <div class="arrow-circle">
+          <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg>
+        </div>
+      </div>
+
+      <!-- Pass card -->
+      <article class="comp-card pass">
+        <div class="comp-header">
+          <div class="comp-label">VERSIÓN ALINEADA AL FILTRO</div>
+          <div class="comp-badge">COINCIDENCIA</div>
+        </div>
+        <div class="comp-text">"Reduje costos logísticos un 15% planificando rutas en SAP TM y controlando stock con dashboards en Tableau."</div>
+        <div class="comp-subtext">Herramienta exacta + contexto del puesto → detención de lectura inmediata.</div>
+      </article>
+    </section>
+
+    <section class="takeaway-card">
+      <div>
+        <div class="takeaway-title">
+          No inventes experiencia.
+          <span class="lime">Tradúcela al idioma de la vacante.</span>
+        </div>
+        <span class="takeaway-sub">WorqAI compara tu trayectoria real contra la descripción del puesto.</span>
+      </div>
+      <div class="takeaway-tag">MISMA EXPERIENCIA</div>
+    </section>
+
+    <section class="giveaway-banner">
+      <div class="giveaway-text">
+        Comenta <span class="keyword">"CV"</span> abajo y recibe un código de <span class="pro">WorqAI Pro gratis por 1 mes</span> en tu DM.
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <strong>Primer análisis y primera adaptación gratis.</strong>
+        <span>Sin tarjeta de crédito en worqai.io</span>
+      </div>
+      <div class="footer-disclaimer">
+        <strong>EJEMPLO ILUSTRATIVO</strong><br>
+        SIN GARANTÍA DE ENTREVISTA O SELECCIÓN
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

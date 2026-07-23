@@ -1,0 +1,65 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-masthead",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s08",
+      "s16",
+      "s20",
+      "s29",
+      "s33",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s32",
+      "s36"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: MASTHEAD
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_0-a-4-entrevistas_crimson.html, carousel_amby-cr-demo_agency-pain.html, carousel_aura-cr-demo_services.html, carousel_portfolio_04.html
+Purpose: Top brand navigation. Title + issue/tag.
+-->
+
+<div class="masthead">
+  <span class="mast-title">WorqAI</span>
+  <span class="mast-issue">Issue 042</span>
+</div>
+
+<style>
+.masthead {
+  position: absolute;
+  top: 32px; left: var(--pad-x, 80px); right: var(--pad-x, 80px);
+  z-index: 4;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mast-title {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 900; font-size: 13px;
+  letter-spacing: 0.30em; text-transform: uppercase;
+  color: var(--text-primary);
+}
+.mast-issue {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Position: top-left + top-right split (default) or left-aligned only
+- mast-title: can include accent dot/pip before text
+- mast-issue: replace with slide counter, category tag, or date
+-->

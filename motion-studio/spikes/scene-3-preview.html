@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene 3 Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+
+  .canvas {
+    width: 1080px;
+    height: 1920px;
+    transform: scale(0.4);
+    transform-origin: top left;
+    position: relative;
+    overflow: hidden;
+    background: #020814;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Background layers ── */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 48%, rgba(10,20,45,0.9) 0%, transparent 75%),
+      radial-gradient(ellipse 90% 80% at 50% 50%, rgba(5,12,30,0.6) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .bg-spotlight {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 1100px;
+    background: radial-gradient(ellipse at center, rgba(10,20,35,0.6) 0%, transparent 70%);
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  /* Scan lines */
+  .scan-lines {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.03) 0px,
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+    pointer-events: none;
+  }
+
+  /* ── Outer frame border ── */
+  .frame-border {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    right: 50px;
+    bottom: 50px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 40px;
+    box-shadow: 0 0 20px rgba(198,244,45,0.08), inset 0 0 20px rgba(198,244,45,0.04);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── Corner marks ── */
+  .corner-mark {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+  }
+  .corner-mark svg { width: 100%; height: 100%; overflow: visible; }
+  .corner-mark path {
+    fill: none;
+    stroke: #C6F42D;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cm-tl { top: 62px;  left: 62px; }
+  .cm-tr { top: 62px;  right: 62px; transform: scaleX(-1); }
+  .cm-bl { bottom: 62px; left: 62px; transform: scaleY(-1); }
+  .cm-br { bottom: 62px; right: 62px; transform: scale(-1,-1); }
+
+  /* ── Dot matrices ── */
+  .dot-matrix {
+    position: absolute;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .dot-matrix canvas { display: block; }
+
+  .dm-ur { top: 80px;  right: 110px; }
+  .dm-bl { bottom: 110px; left: 110px; }
+  .dm-br { bottom: 110px; right: 110px; }
+
+  /* ── Target icon ── */
+  .target-icon {
+    position: absolute;
+    top: 180px;
+    left: 90px;
+    width: 110px;
+    height: 110px;
+  }
+  .target-icon svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 0 30px rgba(201,255,39,0.35));
+  }
+
+  .target-bracket {
+    position: absolute;
+    top: 178px;
+    left: 88px;
+    width: 114px;
+    height: 114px;
+  }
+  .target-bracket svg { width: 100%; height: 100%; overflow: visible; }
+
+  /* ── Main text block ── */
+  .text-block {
+    position: absolute;
+    top: 330px;
+    left: 90px;
+    right: 100px;
+  }
+
+  .headline-white {
+    color: #F2F2F2;
+    font-size: 76px;
+    font-weight: 900;
+    line-height: 0.97;
+    letter-spacing: -0.03em;
+    margin-bottom: 0;
+  }
+
+  .headline-white .line { display: block; overflow: hidden; }
+  .headline-white .line-inner { display: block; }
+
+  .headline-green {
+    color: #C8F22A;
+    font-size: 76px;
+    font-weight: 900;
+    line-height: 0.97;
+    letter-spacing: -0.04em;
+    margin-top: 38px;
+    text-shadow: 0 0 40px rgba(200,242,42,0.3);
+  }
+
+  .headline-green .line { display: block; overflow: hidden; }
+  .headline-green .line-inner { display: block; }
+
+  /* ── Check row ── */
+  .check-row {
+    position: absolute;
+    top: 840px;
+    left: 90px;
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    opacity: 0;
+  }
+
+  .check-icon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    margin-top: 4px;
+  }
+  .check-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 10px rgba(198,244,45,0.5));
+  }
+
+  .check-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .check-text {
+    color: rgba(255,255,255,0.5);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+
+  .underline-svg {
+    display: block;
+    width: 300px;
+    height: 18px;
+    overflow: visible;
+  }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 5px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 999px;
+    position: relative;
+  }
+
+  .progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: #C6F42D;
+    border-radius: 999px;
+    box-shadow: 0 0 15px rgba(198,244,45,0.4);
+  }
+
+  .progress-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #FF9C45;
+    border: 3px solid #C6F42D;
+    box-shadow: 0 0 18px rgba(198,244,45,0.6), 0 0 30px rgba(255,156,69,0.4);
+    left: 0%;
+  }
+</style>
+</head>
+<body>
+<div class="canvas" id="canvas">
+
+  <!-- Background -->
+  <div class="bg-gradient"></div>
+  <div class="bg-spotlight" id="bg-spotlight"></div>
+  <div class="scan-lines"></div>
+
+  <!-- Frame border -->
+  <div class="frame-border" id="frame-border"></div>
+
+  <!-- Corner marks -->
+  <div class="corner-mark cm-tl" id="cm-tl">
+    <svg viewBox="0 0 28 28">
+      <path class="cm-path" d="M18,2 L2,2 L2,18" stroke-dasharray="40" stroke-dashoffset="40"/>
+    </svg>
+  </div>
+  <div class="corner-mark cm-tr" id="cm-tr">
+    <svg viewBox="0 0 28 28">
+      <path class="cm-path" d="M18,2 L2,2 L2,18" stroke-dasharray="40" stroke-dashoffset="40"/>
+    </svg>
+  </div>
+  <div class="corner-mark cm-bl" id="cm-bl">
+    <svg viewBox="0 0 28 28">
+      <path class="cm-path" d="M18,2 L2,2 L2,18" stroke-dasharray="40" stroke-dashoffset="40"/>
+    </svg>
+  </div>
+  <div class="corner-mark cm-br" id="cm-br">
+    <svg viewBox="0 0 28 28">
+      <path class="cm-path" d="M18,2 L2,2 L2,18" stroke-dasharray="40" stroke-dashoffset="40"/>
+    </svg>
+  </div>
+
+  <!-- Dot matrices -->
+  <div class="dot-matrix dm-ur"><canvas id="dot-ur" width="120" height="120"></canvas></div>
+  <div class="dot-matrix dm-bl"><canvas id="dot-bl" width="120" height="120"></canvas></div>
+  <div class="dot-matrix dm-br"><canvas id="dot-br" width="120" height="120"></canvas></div>
+
+  <!-- Target icon -->
+  <div class="target-bracket" id="target-bracket">
+    <svg viewBox="0 0 114 114" fill="none">
+      <!-- Guide brackets around icon -->
+      <path d="M0,10 L0,0 L10,0" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M104,0 L114,0 L114,10" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M0,104 L0,114 L10,114" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M104,114 L114,114 L114,104" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="target-icon" id="target-icon">
+    <svg viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer ring -->
+      <circle id="ring-outer" cx="55" cy="55" r="48"
+        stroke="#C9FF27" stroke-width="2"
+        stroke-dasharray="301.6" stroke-dashoffset="301.6"
+        fill="none"/>
+      <!-- Middle ring -->
+      <circle id="ring-mid" cx="55" cy="55" r="34"
+        stroke="#C9FF27" stroke-width="2"
+        stroke-dasharray="213.6" stroke-dashoffset="213.6"
+        fill="none"/>
+      <!-- Crosshairs -->
+      <line id="ch-top"    x1="55" y1="0"   x2="55" y2="20"  stroke="#C9FF27" stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="ch-bottom" x1="55" y1="90"  x2="55" y2="110" stroke="#C9FF27" stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="ch-left"   x1="0"  y1="55"  x2="20" y2="55"  stroke="#C9FF27" stroke-width="2" stroke-linecap="round" opacity="0"/>
+      <line id="ch-right"  x1="90" y1="55"  x2="110" y2="55" stroke="#C9FF27" stroke-width="2" stroke-linecap="round" opacity="0"/>
+
+      <!-- Person silhouette -->
+      <g id="person-icon" opacity="0" fill="#C9FF27">
+        <!-- Head -->
+        <circle cx="55" cy="38" r="10"/>
+        <!-- Body -->
+        <path d="M35 80 C35 65 40 58 55 58 C70 58 75 65 75 80 Z"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Main text block -->
+  <div class="text-block">
+    <div class="headline-white">
+      <span class="line"><span class="line-inner hw-1">Los que consiguen</span></span>
+      <span class="line"><span class="line-inner hw-2">entrevistas no tienen</span></span>
+      <span class="line"><span class="line-inner hw-3">mejor experiencia que tú.</span></span>
+    </div>
+    <div class="headline-green">
+      <span class="line"><span class="line-inner hg-1">Tienen un CV distinto</span></span>
+      <span class="line"><span class="line-inner hg-2">para cada vacante.</span></span>
+    </div>
+  </div>
+
+  <!-- Check row -->
+  <div class="check-row" id="check-row">
+    <div class="check-icon">
+      <svg viewBox="0 0 38 38" fill="none">
+        <circle cx="19" cy="19" r="17" stroke="#C6F42D" stroke-width="2"/>
+        <path d="M11 19.5 L16.5 25 L27 14" stroke="#C6F42D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="check-text-wrap">
+      <div class="check-text">Escrito en el idioma que el filtro entiende.</div>
+      <svg class="underline-svg" viewBox="0 0 300 18" fill="none" id="underline-svg">
+        <path id="underline-path"
+          d="M4,12 C60,14 120,9 180,11 C220,12.5 260,10 296,8"
+          stroke="#C6F42D" stroke-width="3" stroke-linecap="round"
+          fill="none"
+          stroke-dasharray="300" stroke-dashoffset="300"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-thumb" id="progress-thumb"></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../vendor/gsap/gsap-3.15.0.min.js"></script>
+<script>
+(function () {
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Draw dot matrix canvases ──
+  function drawDots(id, cols, rows) {
+    const canvas = document.getElementById(id);
+    const ctx = canvas.getContext('2d');
+    const spacing = 12;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#8EA3B4';
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        ctx.beginPath();
+        ctx.arc(c * spacing + 6, r * spacing + 6, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+  drawDots('dot-ur', 9, 9);
+  drawDots('dot-bl', 9, 9);
+  drawDots('dot-br', 9, 9);
+
+  // ── Master timeline ──
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  // t=0 — Frame border
+  tl.to('#frame-border', {
+    opacity: 1,
+    scale: 1,
+    duration: 1.2,
+    ease: 'expo.out',
+    transformOrigin: 'center center',
+  }, 0);
+  gsap.set('#frame-border', { scale: 0.98 });
+
+  // t=0.3 — Corner marks stroke draw
+  const cmPaths = document.querySelectorAll('.cm-path');
+  tl.to(cmPaths, {
+    strokeDashoffset: 0,
+    duration: 0.5,
+    ease: 'power3.out',
+    stagger: 0.06,
+  }, 0.3);
+
+  // t=0.5 — Target icon: outer ring → mid ring → crosshairs → person
+  tl.to('#ring-outer', {
+    strokeDashoffset: 0,
+    duration: 0.45,
+    ease: 'power3.out',
+  }, 0.5);
+  tl.to('#ring-mid', {
+    strokeDashoffset: 0,
+    duration: 0.35,
+    ease: 'power3.out',
+  }, 0.72);
+  tl.to(['#ch-top','#ch-bottom','#ch-left','#ch-right'], {
+    opacity: 1,
+    duration: 0.25,
+    stagger: 0.05,
+    ease: 'power2.out',
+  }, 0.9);
+  tl.to('#person-icon', {
+    opacity: 1,
+    duration: 0.3,
+    ease: 'power2.out',
+  }, 1.1);
+
+  // t=0.8 — White headline stagger (lines reveal upward)
+  const hwLines = document.querySelectorAll('.hw-1, .hw-2, .hw-3');
+  gsap.set(hwLines, { y: 50, opacity: 0 });
+  tl.to(hwLines, {
+    y: 0,
+    opacity: 1,
+    duration: 0.55,
+    ease: 'power4.out',
+    stagger: 0.15,
+  }, 0.8);
+
+  // t=1.4 — Green headline stagger
+  const hgLines = document.querySelectorAll('.hg-1, .hg-2');
+  gsap.set(hgLines, { y: 60, opacity: 0 });
+  tl.to(hgLines, {
+    y: 0,
+    opacity: 1,
+    duration: 0.6,
+    ease: 'expo.out',
+    stagger: 0.15,
+  }, 1.4);
+
+  // Green glow burst on reveal
+  tl.fromTo('.headline-green', {
+    textShadow: '0 0 0px rgba(200,242,42,0)',
+  }, {
+    textShadow: '0 0 80px rgba(200,242,42,0.6)',
+    duration: 0.4,
+    ease: 'power2.out',
+    yoyo: true,
+    repeat: 1,
+  }, 1.4);
+  tl.to('.headline-green', {
+    textShadow: '0 0 40px rgba(200,242,42,0.3)',
+    duration: 0.6,
+    ease: 'power1.out',
+  }, 1.9);
+
+  // t=1.0 — Progress bar fill
+  tl.to('#progress-fill', {
+    width: '40%',
+    duration: 1,
+    ease: 'power2.out',
+  }, 1.0);
+  tl.to('#progress-thumb', {
+    left: '40%',
+    duration: 1,
+    ease: 'power2.out',
+  }, 1.0);
+
+  // t=1.9 — Check row (blur + opacity)
+  gsap.set('#check-row', { opacity: 0, filter: 'blur(12px)' });
+  tl.to('#check-row', {
+    opacity: 1,
+    filter: 'blur(0px)',
+    duration: 0.7,
+    ease: 'power2.out',
+  }, 1.9);
+
+  // t=2.1 — Underline stroke draw
+  tl.to('#underline-path', {
+    strokeDashoffset: 0,
+    duration: 0.6,
+    ease: 'power1.out',
+  }, 2.1);
+
+  // ── Ambient: breathing glow (repeat) ──
+  gsap.to('#bg-spotlight', {
+    opacity: 0.85,
+    duration: 8,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+  });
+
+  // ── Target icon radar pulse every 3s ──
+  gsap.to('#target-icon', {
+    scale: 1.03,
+    duration: 0.6,
+    ease: 'sine.inOut',
+    repeat: -1,
+    yoyo: true,
+    repeatDelay: 1.8,
+    transformOrigin: 'center center',
+  });
+
+})();
+</script>
+</body>
+</html>

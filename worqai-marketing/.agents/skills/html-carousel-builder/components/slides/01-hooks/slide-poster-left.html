@@ -1,0 +1,30 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-poster-left",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: POSTER LEFT
+Purpose: S1 — Left-aligned poster hook.
+-->
+
+<div class="content">
+  <div class="poster-left">
+    <h1 class="pl-display">3 errores<br>que <em>matan</em><br>tu CV</h1>
+    <p class="pl-intensifier">El ATS los detecta antes de que un humano te conozca.</p>
+  </div>
+  <div class="swipe-pill" style="margin-top:auto;">desliza &rarr;</div>
+</div>
+
+<style>
+.poster-left { display: flex; flex-direction: column; gap: 24px; margin-top: auto; margin-bottom: auto; }
+.pl-display { font-family: var(--font-display), system-ui, sans-serif; font-size: 92px; font-weight: 900; line-height: 1.02; letter-spacing: -0.025em; color: var(--text-primary); max-width: 800px; }
+.pl-display em { font-family: var(--font-script), serif; font-style: italic; font-weight: 600; color: var(--accent); }
+.pl-intensifier { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 560px; }
+</style>

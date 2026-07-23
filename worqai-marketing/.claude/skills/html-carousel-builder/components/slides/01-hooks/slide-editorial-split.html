@@ -1,0 +1,39 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-editorial-split",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: EDITORIAL SPLIT
+Found in: carousel_amby-cr-demo_agency-pain.html
+Purpose: S1 — Left text, right image/space. Magazine layout.
+-->
+
+<div class="content">
+  <div class="ed-split">
+    <div class="ed-left">
+      <p class="ed-kicker">Editorial</p>
+      <h1 class="ed-display">El CV que<br>te abre<br>puertas</h1>
+      <p class="ed-lede">No es suerte. Es estrategia.</p>
+    </div>
+    <div class="ed-right">
+      <div class="ed-photo-zone">PHOTO</div>
+    </div>
+  </div>
+</div>
+
+<style>
+.ed-split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: auto; margin-bottom: auto; }
+.ed-left { display: flex; flex-direction: column; gap: 24px; }
+.ed-kicker { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.30em; text-transform: uppercase; color: var(--accent); }
+.ed-display { font-family: var(--font-display), system-ui, sans-serif; font-size: 78px; font-weight: 900; line-height: 1.02; letter-spacing: -0.025em; color: var(--text-primary); }
+.ed-lede { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 400px; }
+.ed-right { display: flex; align-items: center; justify-content: center; }
+.ed-photo-zone { width: 380px; height: 500px; border: 2px dashed var(--accent-line); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono), monospace; font-size: 12px; color: var(--text-muted); letter-spacing: 0.10em; text-transform: uppercase; }
+</style>

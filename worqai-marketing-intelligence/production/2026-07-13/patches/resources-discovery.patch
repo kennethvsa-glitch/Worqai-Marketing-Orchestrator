@@ -1,0 +1,533 @@
+diff --git a/messages/en.json b/messages/en.json
+index 9c2778e..7986f99 100644
+--- a/messages/en.json
++++ b/messages/en.json
+@@ -33,6 +33,7 @@
+       "howItWorks": "How it works",
+       "examples": "Examples",
+       "pricing": "Pricing",
++      "resources": "Resources",
+       "faq": "FAQ",
+       "tailor": "Tailor"
+     }
+@@ -44,5 +45,6 @@
+       "howItWorks": "How it works",
+       "examples": "Examples",
+       "pricing": "Pricing",
++      "resources": "Resources",
+       "faq": "FAQ"
+     },
+diff --git a/messages/es.json b/messages/es.json
+index 4e4ca17..4600469 100644
+--- a/messages/es.json
++++ b/messages/es.json
+@@ -33,6 +33,7 @@
+       "howItWorks": "Cómo funciona",
+       "examples": "Ejemplos",
+       "pricing": "Precios",
++      "resources": "Guías",
+       "faq": "FAQ",
+       "tailor": "Empezar"
+     }
+@@ -44,5 +45,6 @@
+       "howItWorks": "Cómo funciona",
+       "examples": "Ejemplos",
+       "pricing": "Precios",
++      "resources": "Guías y recursos",
+       "faq": "FAQ"
+     },
+diff --git a/src/app/[locale]/(acquisition)/[slug]/page.tsx b/src/app/[locale]/(acquisition)/[slug]/page.tsx
+index d29de86..9447771 100644
+--- a/src/app/[locale]/(acquisition)/[slug]/page.tsx
++++ b/src/app/[locale]/(acquisition)/[slug]/page.tsx
+@@ -2,6 +2,7 @@ import type { Metadata } from "next";
+ import { notFound } from "next/navigation";
+ import { setRequestLocale } from "next-intl/server";
+ import { AcquisitionPage } from "@/components/seo/acquisition-page";
++import { ResourceHub } from "@/components/seo/resource-hub";
+ import {
+   getAcquisitionPage,
+   getAcquisitionLanguageAlternates,
+@@ -12,6 +13,12 @@ import {
+   serializeJsonLd,
+   SITE_ORIGIN,
+ } from "@/lib/seo/site";
++import {
++  getResourceHub,
++  getResourceHubLanguageAlternates,
++  getResourceHubParams,
++  resourceHubCanonicalPath,
++} from "@/lib/seo/resources";
+ 
+ interface AcquisitionRouteProps {
+   params: Promise<{ locale: string; slug: string }>;
+@@ -21,6 +28,6 @@ export const dynamicParams = false;
+ 
+ export function generateStaticParams() {
+-  return getAcquisitionParams();
++  return [...getAcquisitionParams(), ...getResourceHubParams()];
+ }
+ 
+ export async function generateMetadata({
+@@ -29,5 +36,38 @@ export async function generateMetadata({
+ }: AcquisitionRouteProps): Promise<Metadata> {
+   const { locale, slug } = await params;
++  const hub = getResourceHub(locale, slug);
++
++  if (hub) {
++    const canonical = absoluteSiteUrl(resourceHubCanonicalPath(hub));
++    const alternatePaths = getResourceHubLanguageAlternates();
++    const languages = Object.fromEntries(
++      Object.entries(alternatePaths).map(([language, path]) => [
++        language,
++        absoluteSiteUrl(path),
++      ])
++    );
++
++    return {
++      title: hub.title,
++      description: hub.description,
++      alternates: { canonical, languages },
++      robots: { index: true, follow: true },
++      openGraph: {
++        type: "website",
++        title: hub.title,
++        description: hub.description,
++        url: canonical,
++        locale: hub.locale === "es" ? "es_419" : "en_US",
++        alternateLocale: hub.locale === "es" ? "en_US" : "es_419",
++      },
++      twitter: {
++        card: "summary_large_image",
++        title: hub.title,
++        description: hub.description,
++      },
++    };
++  }
++
+   const content = getAcquisitionPage(locale, slug);
+ 
+   if (!content) {
+@@ -72,5 +110,65 @@ export default async function AcquisitionRoute({
+ }: AcquisitionRouteProps) {
+   const { locale, slug } = await params;
++  const hub = getResourceHub(locale, slug);
++
++  if (hub) {
++    setRequestLocale(hub.locale);
++    const canonical = absoluteSiteUrl(resourceHubCanonicalPath(hub));
++    const jsonLd = {
++      "@context": "https://schema.org",
++      "@graph": [
++        {
++          "@type": "CollectionPage",
++          "@id": `${canonical}#webpage`,
++          url: canonical,
++          name: hub.title,
++          description: hub.description,
++          inLanguage: hub.locale === "es" ? "es-419" : "en",
++          isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
++          mainEntity: {
++            "@type": "ItemList",
++            itemListElement: hub.sections.flatMap((section) =>
++              section.items.map((item, index) => ({
++                "@type": "ListItem",
++                position: index + 1,
++                name: item.title,
++                url: absoluteSiteUrl(`/${hub.locale}${item.href}`),
++              }))
++            ),
++          },
++        },
++        {
++          "@type": "BreadcrumbList",
++          "@id": `${canonical}#breadcrumb`,
++          itemListElement: [
++            {
++              "@type": "ListItem",
++              position: 1,
++              name: "Worqai",
++              item: absoluteSiteUrl(`/${hub.locale}`),
++            },
++            {
++              "@type": "ListItem",
++              position: 2,
++              name: hub.heading,
++              item: canonical,
++            },
++          ],
++        },
++      ],
++    };
++
++    return (
++      <>
++        <script
++          type="application/ld+json"
++          dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
++        />
++        <ResourceHub hub={hub} />
++      </>
++    );
++  }
++
+   const content = getAcquisitionPage(locale, slug);
+ 
+   if (!content) {
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+index 4587fe1..5343452 100644
+--- a/src/app/sitemap.ts
++++ b/src/app/sitemap.ts
+@@ -11,5 +11,9 @@ import {
+   getAcquisitionLanguageAlternates,
+ } from "@/lib/seo/acquisition-pages";
+ import { absoluteSiteUrl } from "@/lib/seo/site";
++import {
++  getResourceHubLanguageAlternates,
++  RESOURCE_HUB_PATHS,
++} from "@/lib/seo/resources";
+ 
+ export default function sitemap(): MetadataRoute.Sitemap {
+@@ -48,5 +53,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
+     }
+   );
+ 
+-  return [...existingPages, ...acquisitionPages];
++  const resourceLanguages = Object.fromEntries(
++    Object.entries(getResourceHubLanguageAlternates()).map(([language, path]) => [
++      language,
++      absoluteSiteUrl(path),
++    ])
++  );
++  const resourceHubs = RESOURCE_HUB_PATHS.map((path) => ({
++    url: absoluteSiteUrl(path),
++    changeFrequency: "weekly" as const,
++    priority: 0.85,
++    alternates: { languages: resourceLanguages },
++  }));
++
++  return [...existingPages, ...resourceHubs, ...acquisitionPages];
+ }
+diff --git a/src/components/site-footer.tsx b/src/components/site-footer.tsx
+index 71a795d..3b70408 100644
+--- a/src/components/site-footer.tsx
++++ b/src/components/site-footer.tsx
+@@ -1,4 +1,4 @@
+-import { getTranslations } from "next-intl/server";
++import { getLocale, getTranslations } from "next-intl/server";
+ import { Link } from "@/i18n/navigation";
+ import { Logo } from "@/components/logo";
+ import { LocaleSwitcher } from "@/components/locale-switcher";
+@@ -19,4 +19,5 @@ const SOCIAL_LINKS = [
+ export async function SiteFooter() {
+   const t = await getTranslations("siteFooter");
++  const locale = await getLocale();
+   const year = new Date().getFullYear();
+ 
+@@ -40,6 +41,10 @@ export async function SiteFooter() {
+             links={[
+               { label: t("product.howItWorks"), href: "/#how-it-works" },
+               { label: t("product.examples"), href: "/#examples" },
++              {
++                label: t("product.resources"),
++                href: locale === "es" ? "/recursos" : "/resources",
++              },
+               { label: t("product.pricing"), href: "/#pricing" },
+               { label: t("product.faq"), href: "/#faq" },
+             ]}
+diff --git a/src/components/site-header.tsx b/src/components/site-header.tsx
+index 045612e..a4d6856 100644
+--- a/src/components/site-header.tsx
++++ b/src/components/site-header.tsx
+@@ -2,5 +2,5 @@
+ 
+ import { useEffect, useState } from "react";
+-import { useTranslations } from "next-intl";
++import { useLocale, useTranslations } from "next-intl";
+ import { Menu, X } from "lucide-react";
+ import { Link } from "@/i18n/navigation";
+@@ -18,3 +18,4 @@ export function SiteHeader() {
+   const { entitled, loading: entitlementsLoading } = useEntitlements();
+   const t = useTranslations("siteHeader");
++  const locale = useLocale();
+   const [mobileOpen, setMobileOpen] = useState(false);
+@@ -34,5 +35,9 @@ export function SiteHeader() {
+   const navLinks: { href: string; label: string }[] = [
+     { href: "/#how-it-works", label: t("nav.howItWorks") },
+     { href: "/#examples", label: t("nav.examples") },
++    {
++      href: locale === "es" ? "/recursos" : "/resources",
++      label: t("nav.resources"),
++    },
+     { href: "/#pricing", label: t("nav.pricing") },
+     { href: "/#faq", label: t("nav.faq") },
+diff --git a/src/components/seo/resource-hub.tsx b/src/components/seo/resource-hub.tsx
+new file mode 100644
+index 0000000..3b7cf9f
+--- /dev/null
++++ b/src/components/seo/resource-hub.tsx
+@@ -0,0 +1,103 @@
++import { ArrowRight } from "lucide-react";
++import { Link } from "@/i18n/navigation";
++import { Button } from "@/components/ui/button";
++import type { ResourceHubData } from "@/lib/seo/resources";
++
++export function ResourceHub({ hub }: { hub: ResourceHubData }) {
++  return (
++    <main className="relative z-[1] overflow-hidden">
++      <section className="mx-auto w-full max-w-[1280px] px-6 pb-20 pt-14 lg:pb-24 lg:pt-24">
++        <p className="font-jetbrains-mono text-[11px] font-semibold tracking-[0.13em] text-[#4f6d00]">
++          {hub.eyebrow}
++        </p>
++        <div className="mt-5 grid gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end lg:gap-16">
++          <h1 className="max-w-[820px] font-heading text-[clamp(2.7rem,6.4vw,5.8rem)] font-[650] leading-[0.93] tracking-[-0.055em] text-[#151515]">
++            {hub.heading}
++          </h1>
++          <div className="border-t border-black/15 pt-5">
++            <p className="text-[17px] leading-7 text-[#505050]">{hub.intro}</p>
++            <Button
++              asChild
++              variant="dark"
++              size="marketing"
++              data-icon="inline-end"
++              className="mt-7 min-h-12 px-6 text-[15px]"
++            >
++              <Link href={hub.cta.href}>
++                {hub.cta.label}
++                <span className="flex size-6 items-center justify-center rounded-full bg-[#c8ff00] text-black">
++                  <ArrowRight className="size-3.5" />
++                </span>
++              </Link>
++            </Button>
++          </div>
++        </div>
++      </section>
++
++      <section className="border-y border-black/10 bg-[#141414] text-white">
++        <div className="mx-auto max-w-[1280px] px-6 py-5">
++          <p className="max-w-[840px] font-heading text-[19px] font-medium leading-7">
++            {hub.principle}
++          </p>
++        </div>
++      </section>
++
++      <div className="mx-auto w-full max-w-[1280px] px-6 py-20 lg:py-28">
++        {hub.sections.map((section, sectionIndex) => (
++          <section
++            key={section.title}
++            className={sectionIndex > 0 ? "mt-20 border-t border-black/10 pt-16" : ""}
++          >
++            <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
++              <div>
++                <p className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5b7807]">
++                  {String(sectionIndex + 1).padStart(2, "0")}
++                </p>
++                <h2 className="mt-4 max-w-[420px] font-heading text-[34px] font-[650] leading-[1.02] tracking-[-0.035em] sm:text-[44px]">
++                  {section.title}
++                </h2>
++                <p className="mt-5 max-w-[440px] text-[15px] leading-7 text-[#555]">
++                  {section.intro}
++                </p>
++              </div>
++
++              <div className="divide-y divide-black/10 border-t border-black/10">
++                {section.items.map((item) => (
++                  <Link
++                    key={item.href}
++                    href={item.href}
++                    className="group grid gap-2 py-5 sm:grid-cols-[minmax(0,0.7fr)_minmax(260px,1fr)_24px] sm:items-center sm:gap-6"
++                  >
++                    <h3 className="text-[15px] font-semibold leading-6 text-[#202020] transition-colors group-hover:text-[#4f7000]">
++                      {item.title}
++                    </h3>
++                    <p className="text-[13px] leading-5 text-muted-foreground">
++                      {item.description}
++                    </p>
++                    <ArrowRight className="hidden size-4 transition-transform group-hover:translate-x-1 sm:block" />
++                  </Link>
++                ))}
++              </div>
++            </div>
++          </section>
++        ))}
++      </div>
++
++      <section className="border-y border-black/10 bg-[#e7e6e0]">
++        <div className="mx-auto flex w-full max-w-[1280px] flex-col justify-between gap-7 px-6 py-14 sm:flex-row sm:items-center">
++          <div>
++            <p className="font-jetbrains-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#5b7807]">
++              {hub.bottomEyebrow}
++            </p>
++            <h2 className="mt-3 max-w-[680px] font-heading text-[30px] font-[650] leading-[1.05] tracking-[-0.03em] sm:text-[40px]">
++              {hub.bottomHeading}
++            </h2>
++          </div>
++          <Button asChild variant="dark" size="marketing" className="shrink-0">
++            <Link href={hub.cta.href}>{hub.cta.label}</Link>
++          </Button>
++        </div>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/lib/seo/resources.ts b/src/lib/seo/resources.ts
+new file mode 100644
+index 0000000..ec0bfe9
+--- /dev/null
++++ b/src/lib/seo/resources.ts
+@@ -0,0 +1,155 @@
++import {
++  acquisitionPages,
++  type AcquisitionLocale,
++  type AcquisitionPageKind,
++} from "@/lib/seo/acquisition-pages";
++
++export interface ResourceHubItem {
++  href: string;
++  title: string;
++  description: string;
++}
++
++export interface ResourceHubSection {
++  kind: AcquisitionPageKind;
++  title: string;
++  intro: string;
++  items: ResourceHubItem[];
++}
++
++export interface ResourceHubData {
++  locale: AcquisitionLocale;
++  slug: "recursos" | "resources";
++  title: string;
++  description: string;
++  eyebrow: string;
++  heading: string;
++  intro: string;
++  principle: string;
++  sections: ResourceHubSection[];
++  cta: { href: string; label: string };
++  bottomEyebrow: string;
++  bottomHeading: string;
++}
++
++const SECTION_COPY: Record<
++  AcquisitionLocale,
++  Record<AcquisitionPageKind, { title: string; intro: string }>
++> = {
++  es: {
++    commercial: {
++      title: "Resuelve primero el problema de tu CV",
++      intro:
++        "Empieza por la tarea que tienes enfrente: revisar el archivo, compararlo con una vacante o entender qué hace que un formato sea legible.",
++    },
++    comparison: {
++      title: "Compara antes de pagar otra suscripción",
++      intro:
++        "Revisamos diferencias concretas entre herramientas, precios y formas de trabajar. Las comparaciones llevan fecha y fuentes.",
++    },
++    role: {
++      title: "Aterriza tu experiencia al puesto",
++      intro:
++        "Ejemplos por profesión para convertir responsabilidades genéricas en evidencia clara, sin inventar métricas ni proyectos.",
++    },
++  },
++  en: {
++    commercial: {
++      title: "Start with the problem in your resume",
++      intro:
++        "Choose the task in front of you: check the file, compare it with a job, or understand what makes a format readable.",
++    },
++    comparison: {
++      title: "Compare before paying for another subscription",
++      intro:
++        "We look at specific differences in tools, pricing, and workflow. Every comparison includes a review date and sources.",
++    },
++    role: {
++      title: "Connect your experience to the role",
++      intro:
++        "Role-specific examples for turning generic responsibilities into clear evidence without inventing numbers or projects.",
++    },
++  },
++};
++
++const HUB_COPY: Record<AcquisitionLocale, Omit<ResourceHubData, "sections">> = {
++  es: {
++    locale: "es",
++    slug: "recursos",
++    title: "Guías para mejorar y adaptar tu CV | WorqAI",
++    description:
++      "Guías prácticas para revisar un CV, compararlo con una vacante, entender los filtros ATS y escribir mejor tu experiencia profesional.",
++    eyebrow: "GUÍAS DE CV, ATS Y BÚSQUEDA DE EMPLEO",
++    heading: "Menos consejos sueltos. Más cambios que puedes aplicar hoy.",
++    intro:
++      "Esta biblioteca reúne nuestras guías para revisar, adaptar y explicar mejor tu experiencia. Elige el problema que tienes ahora; no necesitas leer todo en orden.",
++    principle:
++      "Un buen CV no intenta gustarle a un algoritmo. Ayuda a que el sistema lea el archivo y a que una persona encuentre evidencia relevante rápido.",
++    cta: { href: "/auditoria", label: "Analizar mi CV gratis" },
++    bottomEyebrow: "SI YA TIENES EL PDF",
++    bottomHeading: "Deja de adivinar qué corregir. Empieza con una revisión concreta.",
++  },
++  en: {
++    locale: "en",
++    slug: "resources",
++    title: "Resume and ATS guides | WorqAI",
++    description:
++      "Practical guides for reviewing a resume, matching it to a job, understanding ATS screening, and writing stronger experience bullets.",
++    eyebrow: "RESUME, ATS, AND JOB SEARCH GUIDES",
++    heading: "Fewer scattered tips. More changes you can use today.",
++    intro:
++      "This library brings together our guides for checking, tailoring, and explaining your experience more clearly. Start with the problem you have now; there is no reading order.",
++    principle:
++      "A strong resume is not written to please an algorithm. It helps software read the file and helps a person find relevant evidence quickly.",
++    cta: { href: "/auditoria", label: "Check my resume free" },
++    bottomEyebrow: "IF YOU ALREADY HAVE THE PDF",
++    bottomHeading: "Stop guessing what to fix. Start with a concrete review.",
++  },
++};
++
++function buildHub(locale: AcquisitionLocale): ResourceHubData {
++  const sections = (["commercial", "comparison", "role"] as const).map(
++    (kind) => ({
++      kind,
++      ...SECTION_COPY[locale][kind],
++      items: acquisitionPages
++        .filter((page) => page.locale === locale && page.kind === kind)
++        .map((page) => ({
++          href: `/${page.slug}`,
++          title: page.headline,
++          description: page.description,
++        })),
++    })
++  );
++
++  return { ...HUB_COPY[locale], sections };
++}
++
++export const resourceHubs = {
++  es: buildHub("es"),
++  en: buildHub("en"),
++} as const;
++
++export const RESOURCE_HUB_PATHS = ["/es/recursos", "/en/resources"] as const;
++
++export function getResourceHub(locale: string, slug: string) {
++  if (locale !== "es" && locale !== "en") return undefined;
++  const hub = resourceHubs[locale];
++  return hub.slug === slug ? hub : undefined;
++}
++
++export function getResourceHubParams() {
++  return Object.values(resourceHubs).map(({ locale, slug }) => ({ locale, slug }));
++}
++
++export function resourceHubCanonicalPath(hub: ResourceHubData) {
++  return `/${hub.locale}/${hub.slug}`;
++}
++
++export function getResourceHubLanguageAlternates() {
++  return {
++    es: "/es/recursos",
++    en: "/en/resources",
++    "x-default": "/es/recursos",
++  } as const;
++}

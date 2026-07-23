@@ -1,0 +1,21 @@
+<div class="slide{% if is_active %} active{% endif %}" style="padding:0;overflow:hidden">
+  {{ geo_html | safe }}
+
+  <div class="ck-wrap" style="position:relative;z-index:5">
+    <div class="ck-top">
+      {% if copy.kicker %}
+      <div class="t-label" style="margin-bottom:14px;color:var(--accent)">{{ copy.kicker }}</div>
+      {% endif %}
+      <div class="ck-top-text">{{ copy.headline | default(copy.top_text) }}</div>
+    </div>
+    <div class="ck-bottom">
+      <div class="ck-bottom-text">{{ copy.body | default(copy.bottom_text) }}</div>
+    </div>
+  </div>
+
+  <div class="brand" style="color:var(--bg-base);opacity:0.5">{{ brand }}</div>
+  <div class="counter" style="color:var(--bg-base);opacity:0.5">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

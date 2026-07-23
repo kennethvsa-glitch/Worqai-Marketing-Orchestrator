@@ -1,0 +1,59 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "message-chat",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s16",
+      "s26",
+      "s33",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s22",
+      "s30",
+      "s35"
+    ],
+    "pairs_well_with": [
+      "org-blob-scattered",
+      "light-glow-accent",
+      "deco-swipe-pill"
+    ],
+    "conflicts_with": [
+      "mock-metric-card",
+      "mock-display-table-mini"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: MESSAGE CHAT
+Purpose: M6 — Chat conversation bubbles.
+-->
+
+<div class="mock-chat">
+  <div class="mc-msg mc-in">
+    <span class="mc-text">Necesito revisar mi CV</span>
+  </div>
+  <div class="mc-msg mc-out">
+    <span class="mc-text">Con gusto! Envialo y te damos feedback en 24h.</span>
+  </div>
+  <div class="mc-msg mc-in">
+    <span class="mc-text">Perfecto, gracias.</span>
+  </div>
+</div>
+
+<style>
+.mock-chat { display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+.mc-msg { padding: 12px 16px; border-radius: 14px; max-width: 85%; }
+.mc-in { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); align-self: flex-start; }
+.mc-out { background: var(--accent-soft); border: 1px solid var(--accent-line); align-self: flex-end; }
+.mc-text { font-family: var(--font-body), system-ui, sans-serif; font-size: 13px; line-height: 1.4; color: var(--text-primary); }
+</style>

@@ -1,0 +1,30 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-poster-center",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: POSTER CENTER
+Purpose: S1 — Centered poster-style hook with intensifier.
+-->
+
+<div class="content">
+  <div class="poster-center">
+    <h1 class="pc-display">Tu CV esta<br><em>roto</em></h1>
+    <p class="pc-intensifier">Y cada dia que pasa sin arreglarlo es una entrevista que pierdes.</p>
+  </div>
+  <div class="swipe-pill" style="margin-top:auto;align-self:center;">desliza &rarr;</div>
+</div>
+
+<style>
+.poster-center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; margin-top: auto; margin-bottom: auto; }
+.pc-display { font-family: var(--font-display), system-ui, sans-serif; font-size: 96px; font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; color: var(--text-primary); }
+.pc-display em { font-family: var(--font-script), serif; font-style: italic; font-weight: 600; color: var(--accent); }
+.pc-intensifier { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 640px; }
+</style>

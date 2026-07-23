@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "system": "s26",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "personaliza-cv",
+    "density": "standard"
+  },
+  "pacing": ["hook", "silence", "solution", "diagnostic", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["diag-band", {"id": "svg-blob-tr"}],
+      "decoratives": [{"id": "svg-starburst-burst", "position": "bl"}, {"id": "chrome-header-bar"}],
+      "copy": {
+        "kicker": "EL ERROR MÁS COMÚN",
+        "headline": "Enviaste el mismo CV a 30 empresas. Solo 1 respondió.",
+        "body": "No es mala suerte. Cada empresa busca algo distinto y un CV genérico habla de todo a nadie.",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-headline { font-size: clamp(34px,6.8cqw,50px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.92; } .s1-kicker { letter-spacing: 0.18em; font-size: 11px; opacity: 0.88; } .s1-body { font-size: 14px; line-height: 1.6; opacity: 0.82; max-width: 520px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-asymmetric-lockup",
+      "layers": ["diag-band", "svg-blob-center"],
+      "decoratives": [],
+      "copy": {
+        "kicker": "ESTO ES LO QUE PASA",
+        "headline": "No es el CV. Es que no habla del puesto.",
+        "body": "Un CV genérico habla de ti. Uno que funciona habla de lo que esa empresa necesita."
+      },
+      "custom_css": ".s2-headline { font-size: clamp(32px,6.5cqw,48px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.93; } .s2-body { font-size: 15px; line-height: 1.6; opacity: 0.80; max-width: 420px; font-weight: 300; } .s2-kicker { letter-spacing: 0.18em; font-size: 11px; opacity: 0.88; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-waterfall-list",
+      "layers": ["diag-band", {"id": "svg-blob-bl"}],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}],
+      "copy": {
+        "kicker": "EL SISTEMA CORRECTO",
+        "headline": "3 cambios por postulación.",
+        "items": [
+          {"title": "Lee el aviso completo", "desc": "Marca las 5 palabras que se repiten más."},
+          {"title": "Ajusta el título profesional", "desc": "Usa exactamente las palabras del puesto."},
+          {"title": "Reordena la experiencia", "desc": "Lo más relevante para ese puesto va primero."}
+        ],
+        "text_treatment": "stroke"
+      },
+      "custom_css": ".s3-headline { font-size: clamp(28px,5.6cqw,40px); font-weight: 900; letter-spacing: -0.04em; line-height: 1.0; } .wf-title { font-weight: 800; font-size: 16px; letter-spacing: -0.01em; } .wf-desc { font-size: 13px; opacity: 0.78; } .wf-num { font-size: clamp(72px,14cqw,96px); font-weight: 900; letter-spacing: -0.06em; opacity: 0.10; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-terminal",
+      "layers": ["diag-band", "geo-halftone", "zoom-rings"],
+      "decoratives": [{"id": "chrome-badge-stamp", "text": "IA", "value": "WORQAI"}],
+      "copy": {
+        "kicker": "WORQAI LO HACE POR TI",
+        "headline": "30 segundos por postulación, no 3 horas.",
+        "command": "worqai personalize --cv mi_cv.pdf --aviso linkedin/jobs/4821",
+        "tab_title": "worqai-personalize.sh",
+        "output_lines": [
+          {"type": "cmd", "text": "Leyendo aviso laboral..."},
+          {"type": "ok", "text": "14 palabras clave identificadas del aviso"},
+          {"type": "ok", "text": "Título actualizado: 'Analista de Datos Financieros'"},
+          {"type": "ok", "text": "Experiencia reordenada por relevancia al puesto"},
+          {"type": "info", "text": "CV personalizado listo en 28 segundos"}
+        ]
+      },
+      "custom_css": ".s4-headline { font-size: clamp(22px,4.5cqw,30px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; } .terminal-output { font-size: 13px; line-height: 1.65; } .s4-kicker { letter-spacing: 0.18em; font-size: 11px; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["diag-band", {"id": "svg-blob-scattered"}],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}, {"id": "svg-starburst-mark", "position": "tl"}],
+      "copy": {
+        "question": "¿Le estás hablando al puesto o a cualquier empresa?",
+        "cta_keyword": "PLANTILLA",
+        "reward": "Te mando la plantilla de personalización rápida. Gratis."
+      },
+      "custom_css": ".s5-question { font-size: clamp(26px,5.4cqw,38px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.97; } .s5-keyword { letter-spacing: 0.08em; } .s5-reward { font-size: 15px; opacity: 0.85; line-height: 1.5; }"
+    }
+  ]
+}

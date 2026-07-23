@@ -1,0 +1,60 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "geo-triangular-mesh",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s19",
+      "s25",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "light-neon-border",
+      "deco-progress-dots",
+      "mock-terminal-mac",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "org-blob-scattered",
+      "tex-paper-fibers",
+      "pat-waves-subtle"
+    ]
+  }
+-->
+
+<!--
+LAYER: TRIANGULAR MESH
+Delaunay-style triangle grid.
+Best for: low-poly, modern, abstract systems.
+-->
+
+<svg class="tri-mesh" viewBox="0 0 1080 1080" preserveAspectRatio="none">
+  <g stroke="var(--accent)" stroke-width="0.5" fill="none" opacity="0.10">
+    <path d="M0,0 L200,300 L400,0 Z"/><path d="M400,0 L600,300 L800,0 Z"/><path d="M800,0 L1080,400 L1080,0 Z"/>
+    <path d="M0,300 L200,600 L400,300 Z"/><path d="M400,300 L600,600 L800,300 Z"/><path d="M800,300 L1080,800 L1080,400 Z"/>
+    <path d="M0,600 L200,900 L400,600 Z"/><path d="M400,600 L600,900 L800,600 Z"/><path d="M800,600 L1080,1080 L1080,800 Z"/>
+  </g>
+</svg>
+
+<style>
+.tri-mesh { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: var(--geo-opacity, 0.10); }
+</style>

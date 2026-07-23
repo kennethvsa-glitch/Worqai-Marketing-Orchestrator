@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRIS — Chromatic Studio · Holographic Portfolio</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Nunito:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SYSTEM 41 · HOLOGRAPHIC SHEEN
+   IRIS — The Chromatic Studio (Portfolio Piece)
+   Techniques: TA-04 Bleed/Crop + SD-02 Z-Depth + SD-13 Mirror
+   + SD-14 Tunnel + SD-09 Portal + DV-01 Donut + Icon Library
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0a0a0a; min-height: 100vh; font-family: 'Nunito', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #ff6b6b; margin-bottom: 18px; text-align: center; }
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background:
+           radial-gradient(circle at 10% 0%, rgba(255,255,255,0.7), transparent 60%),
+           conic-gradient(from 180deg at 50% 50%, #ff9ff3, #feca57, #ff6b6b, #48dbfb, #1dd1a1, #5f27cd, #ff9ff3); }
+
+/* Grain overlay */
+.slide::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* Masthead */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #0f172a; }
+.mast-issue { font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(15,23,42,0.55); }
+
+/* Brand anchor */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px;
+              letter-spacing: -0.5px; text-transform: lowercase; color: #0f172a; }
+.handle { position: absolute; bottom: 38px; left: 180px; z-index: 4;
+          font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(15,23,42,0.45); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: #0f172a; }
+
+/* Progress dots */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(15,23,42,0.18); }
+.pd.on { background: #111827 !important; }
+
+/* Swipe pill */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #111827; color: #FFFFFF;
+              font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4; }
+
+.kicker { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #111827; }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #111827; }
+
+/* Dark glass panel (for legibility over holographic bg) */
+.glass-dark {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 32px 36px;
+  position: relative;
+  z-index: 2;
+  color: #FFFFFF;
+}
+.glass-dark .headline { color: #FFFFFF; }
+.glass-dark .body-text { color: rgba(255,255,255,0.70); }
+.glass-dark .label { color: #48dbfb; }
+
+/* Typography */
+.headline { font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: 78px; line-height: 0.96; letter-spacing: -0.03em; color: #0f172a; }
+.body-text { font-family: 'Nunito', sans-serif; font-weight: 300;
+             font-size: 18px; line-height: 1.55; color: #4b5563; }
+.label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px;
+         letter-spacing: 0.22em; text-transform: uppercase; }
+.stat-num { font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: 120px; line-height: 0.85; letter-spacing: -0.04em; color: #0f172a; }
+
+/* ===== SLIDE 1: BLEED/CROP HEADLINE (TA-04) ===== */
+.s1-wrap { display: flex; flex-direction: column; justify-content: center; flex: 1; gap: 28px; }
+.s1-bleed {
+  font-family: 'Syne', sans-serif; font-size: clamp(120px, 18vw, 220px);
+  font-weight: 800; line-height: 0.88; letter-spacing: -0.04em;
+  color: #0f172a; white-space: nowrap;
+  margin-left: -4%; position: relative; z-index: 2;
+}
+.s1-sub { font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 22px;
+          line-height: 1.5; color: #4b5563; max-width: 520px; margin-top: 8px; }
+.s1-glass { max-width: 640px; margin-top: 24px; }
+
+/* ===== SLIDE 2: Z-DEPTH LAYER STACK (SD-02) ===== */
+.s2-wrap { display: flex; flex-direction: column; justify-content: center; align-items: center;
+           flex: 1; position: relative; }
+.s2-z-stack { position: relative; width: 100%; max-width: 700px; height: 500px; }
+.s2-layer-back {
+  position: absolute; top: 10%; left: 5%; right: 5%; padding: 28px;
+  background: rgba(15,23,42,0.55); backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.10);
+  transform: scale(0.88) translateY(40px); z-index: 1;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+}
+.s2-layer-mid {
+  position: absolute; top: 6%; left: 8%; right: 8%; padding: 28px;
+  background: rgba(15,23,42,0.65); backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px); border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transform: scale(0.94) translateY(20px); z-index: 2;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.30);
+}
+.s2-layer-front {
+  position: relative; padding: 32px;
+  background: rgba(15,23,42,0.78); backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px); border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  z-index: 3; display: flex; flex-direction: column; gap: 24px;
+}
+.s2-card-row { display: flex; gap: 20px; }
+.s2-card {
+  flex: 1; padding: 24px; background: rgba(255,255,255,0.06);
+  border-radius: 12px; border: 1px solid rgba(255,255,255,0.10);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.s2-card-icon { width: 44px; height: 44px; background: rgba(72,219,251,0.15);
+                border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.s2-card-icon svg { width: 22px; height: 22px; }
+.s2-card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px;
+                 color: #FFFFFF; letter-spacing: 0.02em; }
+.s2-card-body { font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 14px;
+                line-height: 1.5; color: rgba(255,255,255,0.65); }
+
+/* ===== SLIDE 3: MIRROR REFLECTION + DONUT (SD-13 + DV-01) ===== */
+.s3-wrap { display: flex; flex-direction: column; justify-content: center; flex: 1; gap: 20px;
+           align-items: center; text-align: center; }
+.s3-donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.s3-donut {
+  width: 240px; height: 240px; border-radius: 50%;
+  background: conic-gradient(
+    #ff9ff3 0% 8%, #feca57 8% 16%, #ff6b6b 16% 25%,
+    #48dbfb 25% 60%, rgba(255,255,255,0.10) 60% 100%
+  );
+  display: flex; align-items: center; justify-content: center; position: relative;
+  box-shadow: 0 0 60px rgba(72,219,251,0.25);
+}
+.s3-donut::before { content: ''; position: absolute; inset: 32px;
+                    background: rgba(15,23,42,0.85); border-radius: 50%; }
+.s3-donut-center { position: relative; z-index: 2; text-align: center; }
+.s3-donut-value { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800;
+                  color: #FFFFFF; line-height: 1; display: block; }
+.s3-donut-label { font-family: 'Nunito', sans-serif; font-size: 10px; font-weight: 700;
+                  letter-spacing: 0.18em; text-transform: uppercase;
+                  color: rgba(255,255,255,0.60); display: block; margin-top: 6px; }
+
+/* Mirror reflection */
+.s3-mirror-wrap { position: relative; }
+.s3-mirror-original { position: relative; z-index: 2; }
+.s3-mirror-reflect {
+  transform: scaleY(-1); opacity: 0.30;
+  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 55%);
+  mask-image: linear-gradient(to top, transparent 0%, black 55%);
+  margin-top: 4px; pointer-events: none; position: relative; z-index: 1;
+}
+
+.s3-glass { max-width: 600px; text-align: center; margin-top: 8px; }
+.s3-glass .headline { font-size: 48px; color: #FFFFFF; }
+
+/* ===== SLIDE 4: TUNNEL DEPTH + PORTAL (SD-14 + SD-09) ===== */
+.s4-wrap { display: flex; flex-direction: column; justify-content: center; align-items: center;
+           flex: 1; position: relative; }
+.s4-tunnel {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  z-index: 1; pointer-events: none;
+}
+.s4-tunnel-ring {
+  position: absolute; border: 1.5px solid rgba(15,23,42,0.14); border-radius: 24px;
+}
+.tr-1 { width: 95%; height: 95%; opacity: 0.10; }
+.tr-2 { width: 78%; height: 78%; opacity: 0.14; }
+.tr-3 { width: 62%; height: 62%; opacity: 0.18; }
+.tr-4 { width: 48%; height: 48%; opacity: 0.24; }
+.tr-5 { width: 35%; height: 35%; opacity: 0.32; }
+.tr-6 { width: 23%; height: 23%; opacity: 0.45; }
+
+.s4-portal {
+  position: relative; z-index: 2;
+  width: 520px; height: 520px; border-radius: 50%; overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.35);
+  box-shadow: inset 0 0 80px rgba(0,0,0,0.35), 0 0 60px rgba(255,159,243,0.20);
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(15,23,42,0.60); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.s4-portal-inner { text-align: center; padding: 40px; }
+.s4-portal .headline { font-size: 52px; color: #FFFFFF; line-height: 1.05; }
+.s4-portal .body-text { color: rgba(255,255,255,0.70); margin-top: 16px; font-size: 18px; }
+.s4-keyword {
+  display: inline-block; background: #FFFFFF; color: #111827;
+  padding: 10px 24px; font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22px; letter-spacing: 0.06em; margin-top: 24px;
+  border: 3px solid #0f172a;
+}
+
+/* Controls */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #111827; border: none; color: #FFFFFF;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900; }
+.btn:disabled { opacity: 0.30; cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(255,255,255,0.20); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #ff6b6b; width: 24px; }
+.hint { font-size: 11px; color: rgba(255,255,255,0.30); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: linear-gradient(135deg, #ff9ff3, #48dbfb); color: #0f172a;
+           border: 3px solid #0f172a; cursor: pointer;
+           font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(255,255,255,0.50); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<p class="label-top">Portfolio · IRIS · Chromatic Studio · 4 slides</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ===== SLIDE 1 · BLEED HEADLINE HOOK ===== -->
+      <section class="slide" id="slide-1">
+        <div class="masthead">
+          <div class="mast-title">Chromatic Studio · 01</div>
+          <div class="mast-issue">Issue 001 · San José</div>
+        </div>
+        <div class="content">
+          <div class="s1-wrap">
+            <div class="kicker">The Future is Iridescent</div>
+            <div class="s1-bleed">CHROMA<br>TIC</div>
+            <div class="s1-glass glass-dark">
+              <p class="body-text" style="color:rgba(255,255,255,0.80); font-size:20px;">The future of brand identity isn't flat. It's iridescent. It's the color that shifts when you move.</p>
+            </div>
+            <div class="swipe-pill">Swipe →</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ===== SLIDE 2 · Z-DEPTH FEATURE STACK ===== -->
+      <section class="slide" id="slide-2">
+        <div class="masthead">
+          <div class="mast-title">Chromatic Studio · 01</div>
+          <div class="mast-issue">Three Dimensions of Light</div>
+        </div>
+        <div class="content">
+          <div class="kicker">Layers of Perception</div>
+          <div class="s2-wrap">
+            <div class="s2-z-stack">
+              <div class="s2-layer-back"></div>
+              <div class="s2-layer-mid"></div>
+              <div class="s2-layer-front">
+                <div class="s2-card-row">
+                  <div class="s2-card">
+                    <div class="s2-card-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#48dbfb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    </div>
+                    <div class="s2-card-title">Motion</div>
+                    <div class="s2-card-body">Identity that breathes. Logos that animate. Systems that respond to touch, scroll, and time.</div>
+                  </div>
+                  <div class="s2-card">
+                    <div class="s2-card-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#ff9ff3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    </div>
+                    <div class="s2-card-title">Depth</div>
+                    <div class="s2-card-body">Z-axis as a brand language. Layered interfaces. Glass, shadow, and spatial hierarchy.</div>
+                  </div>
+                  <div class="s2-card">
+                    <div class="s2-card-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#feca57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <div class="s2-card-title">Light</div>
+                    <div class="s2-card-body">Color that changes with context. Holographic palettes. Shimmer, sheen, and living gradients.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ===== SLIDE 3 · MIRROR + DONUT ===== -->
+      <section class="slide" id="slide-3">
+        <div class="masthead">
+          <div class="mast-title">Chromatic Studio · 01</div>
+          <div class="mast-issue">The Numbers Don't Lie</div>
+        </div>
+        <div class="content">
+          <div class="kicker">Brand Recall</div>
+          <div class="s3-wrap">
+            <div class="s3-mirror-wrap">
+              <div class="s3-mirror-original">
+                <div class="s3-donut-wrap">
+                  <div class="s3-donut">
+                    <div class="s3-donut-center">
+                      <span class="s3-donut-value">84%</span>
+                      <span class="s3-donut-label">Recall Rate</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="s3-mirror-reflect">
+                <div class="s3-donut-wrap">
+                  <div class="s3-donut">
+                    <div class="s3-donut-center">
+                      <span class="s3-donut-value">84%</span>
+                      <span class="s3-donut-label">Recall Rate</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="s3-glass glass-dark">
+              <p class="headline" style="font-size:42px;">Motion brands are <span style="color:#48dbfb;">remembered</span>.</p>
+              <p class="body-text" style="margin-top:12px; color:rgba(255,255,255,0.70);">Static identity systems fade. Chromatic brands that shift, shimmer, and respond create lasting neural imprint.</p>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ===== SLIDE 4 · TUNNEL + PORTAL CTA ===== -->
+      <section class="slide" id="slide-4">
+        <div class="masthead">
+          <div class="mast-title">Chromatic Studio · 01</div>
+          <div class="mast-issue">Ready When You Are</div>
+        </div>
+        <div class="content">
+          <div class="s4-wrap">
+            <div class="s4-tunnel">
+              <div class="s4-tunnel-ring tr-1"></div>
+              <div class="s4-tunnel-ring tr-2"></div>
+              <div class="s4-tunnel-ring tr-3"></div>
+              <div class="s4-tunnel-ring tr-4"></div>
+              <div class="s4-tunnel-ring tr-5"></div>
+              <div class="s4-tunnel-ring tr-6"></div>
+            </div>
+            <div class="s4-portal">
+              <div class="s4-portal-inner">
+                <p class="headline">Ready to<br><span style="color:#ff9ff3;">shine</span>?</p>
+                <p class="body-text">We design chromatic identities for brands that refuse to be ignored.</p>
+                <div class="s4-keyword">IRIS</div>
+                <p class="body-text" style="margin-top:12px; font-size:14px;">hello@iris.studio</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Arrows · Swipe · Click dots</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · holographic sheen</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Internet connection required to load export libraries.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturing ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} of ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 300));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Compressing...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel_iris_holographic.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = 'ZIP downloaded';
+  progress.textContent = `${slides.length} files · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Export ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · holographic sheen';
+  }, 3000);
+}
+</script>
+
+</body>
+</html>

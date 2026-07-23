@@ -1,0 +1,25 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="qauth-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    <div class="qauth-quote-mark">"</div>
+    <div class="qauth-text">{{ copy.quote | default(copy.headline) }}</div>
+
+    {% if copy.author or copy.attribution %}
+    <div class="qauth-meta">
+      <div class="qauth-photo">{{ (copy.author | default(copy.attribution | default('?')))[0] | upper }}</div>
+      <div class="qauth-tag">
+        <div class="qauth-name">{{ copy.author | default(copy.attribution) }}</div>
+        {% if copy.role %}<div class="qauth-role">{{ copy.role }}</div>{% endif %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

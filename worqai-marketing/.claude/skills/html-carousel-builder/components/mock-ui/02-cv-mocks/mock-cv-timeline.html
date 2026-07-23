@@ -1,0 +1,63 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-cv-timeline",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s12",
+      "s17",
+      "s23",
+      "s33",
+      "s48"
+    ],
+    "avoid_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s40"
+    ],
+    "pairs_well_with": [
+      "org-blob-corner",
+      "light-glow-accent",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "mock-terminal-mac",
+      "mock-code-syntax-light"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CV TIMELINE
+Purpose: Timeline-style experience section.
+-->
+
+<div class="cv-timeline">
+  <div class="cvt-item">
+    <div class="cvt-dot"></div>
+    <div class="cvt-bar" style="width:70%;"></div>
+  </div>
+  <div class="cvt-item">
+    <div class="cvt-dot"></div>
+    <div class="cvt-bar" style="width:85%;"></div>
+  </div>
+  <div class="cvt-item">
+    <div class="cvt-dot"></div>
+    <div class="cvt-bar" style="width:55%;"></div>
+  </div>
+</div>
+
+<style>
+.cv-timeline { display: flex; flex-direction: column; gap: 16px; padding: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; }
+.cvt-item { display: flex; align-items: center; gap: 14px; }
+.cvt-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+.cvt-bar { height: 10px; border-radius: 4px; background: rgba(255,255,255,0.10); }
+</style>

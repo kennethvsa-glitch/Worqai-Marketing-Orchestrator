@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>GEO-13 test · one slide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: #060606;
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #C7FF3A; margin-bottom: 14px; }
+
+.cage { width: 1080px; margin: 0 auto; }
+@media (min-width: 1200px) {
+  .cage { transform: scale(0.5); transform-origin: top center; height: 540px; }
+}
+
+/* ── SLIDE ─────────────────────────────────────────────────── */
+.slide {
+  position: relative;
+  width: 1080px; height: 1080px;
+  overflow: hidden; border-radius: 24px;
+  background: linear-gradient(148deg, #0D1A09 0%, #080F05 55%, #0F1B07 100%);
+  box-shadow: 0 40px 100px rgba(0,20,0,0.8), 0 0 0 1px rgba(199,255,58,0.07);
+}
+
+/* GRAIN */
+.slide::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px; mix-blend-mode: overlay; opacity: 0.09;
+  pointer-events: none;
+}
+
+/* ATMOSPHERIC — lime top-left + coral bottom-right */
+.slide::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 58% 52% at 16% 26%, rgba(199,255,58,0.11), transparent 65%),
+    radial-gradient(ellipse 44% 48% at 88% 80%, rgba(255,92,60,0.08), transparent 60%);
+}
+
+/* ── GEO-13 · PERSPECTIVE WIREFRAME ────────────────────────── */
+.pw-wrap {
+  position: absolute; inset: 0;
+  perspective: 600px;
+  overflow: hidden;
+  pointer-events: none; z-index: 2;
+}
+.pw-grid {
+  position: absolute;
+  width: 160%; height: 160%;
+  top: -10%; left: 20%;
+  transform-origin: 50% 100%;
+  transform: rotateX(58deg) rotateZ(-12deg);
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(199,255,58,0.18) 0, rgba(199,255,58,0.18) 1px,
+      transparent 1px, transparent 80px),
+    repeating-linear-gradient(90deg,
+      rgba(199,255,58,0.18) 0, rgba(199,255,58,0.18) 1px,
+      transparent 1px, transparent 80px);
+  -webkit-mask-image: linear-gradient(115deg, transparent 18%, rgba(0,0,0,0.5) 48%, black 72%);
+  mask-image:         linear-gradient(115deg, transparent 18%, rgba(0,0,0,0.5) 48%, black 72%);
+}
+
+/* SUPPLEMENTARY GLOW DIVS — sit on top of grid */
+.glow-main {
+  position: absolute; width: 680px; height: 680px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(199,255,58,0.16) 0%, transparent 65%);
+  filter: blur(90px); pointer-events: none; z-index: 3;
+  top: -20%; right: -10%;
+}
+.glow-secondary {
+  position: absolute; width: 380px; height: 380px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,92,60,0.20) 0%, transparent 65%);
+  filter: blur(55px); pointer-events: none; z-index: 3;
+  bottom: 5%; left: -8%;
+}
+
+/* GHOST BG */
+.ghost {
+  position: absolute; z-index: 2;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 520px; line-height: 0.85; letter-spacing: -0.05em;
+  color: rgba(199,255,58,0.04); pointer-events: none; user-select: none;
+  top: -6%; left: -4%;
+}
+
+/* CONTENT */
+.content {
+  position: relative; z-index: 5;
+  height: 100%; padding: 96px 88px 140px;
+  display: flex; flex-direction: column;
+}
+.lbl {
+  font-size: 18px; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: #C7FF3A; margin-bottom: 28px;
+}
+.disp {
+  font-weight: 700; font-size: 118px;
+  line-height: 0.96; letter-spacing: -0.04em; color: #FFF8E7;
+  margin-top: auto; margin-bottom: 32px;
+}
+.disp .hi { color: #C7FF3A; }
+.body {
+  font-weight: 300; font-size: 30px; line-height: 1.5;
+  color: rgba(255,248,231,0.70); max-width: 620px;
+}
+.swipe {
+  display: inline-flex; align-items: center; padding: 14px 26px;
+  border: 2px solid #C7FF3A; color: #C7FF3A; border-radius: 999px;
+  font-size: 18px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; margin-top: 36px; margin-bottom: auto;
+  background: rgba(199,255,58,0.08);
+}
+.brand {
+  position: absolute; bottom: 46px; left: 88px; z-index: 5;
+  font-weight: 700; font-size: 30px; letter-spacing: -1.2px;
+  text-transform: lowercase; color: #FFF8E7;
+}
+.brand .ai { color: #C7FF3A; }
+.counter {
+  position: absolute; bottom: 50px; right: 88px; z-index: 5;
+  font-weight: 500; font-size: 18px; letter-spacing: 0.2em;
+  color: rgba(255,248,231,0.38);
+}
+</style>
+</head>
+<body>
+
+<div class="label">GEO-13 PERSPECTIVE WIREFRAME · test slide</div>
+<div class="cage">
+  <div class="slide">
+
+    <!-- GEO-13 -->
+    <div class="pw-wrap">
+      <div class="pw-grid"></div>
+    </div>
+
+    <!-- supplementary glows -->
+    <div class="glow-main"></div>
+    <div class="glow-secondary"></div>
+
+    <!-- ghost brand letter -->
+    <div class="ghost">W</div>
+
+    <!-- content -->
+    <div class="content">
+      <div class="lbl">worqai / ATS</div>
+      <div class="disp">Tu CV nunca<br>llegó a ningún<br><span class="hi">humano.</span></div>
+      <div class="body">El software que lo eliminó tardó 0.3 segundos.</div>
+      <div class="swipe">Desliza →</div>
+    </div>
+
+    <div class="brand"><span>worq</span><span class="ai">ai</span></div>
+    <div class="counter">01 / 08</div>
+
+  </div>
+</div>
+
+</body>
+</html>

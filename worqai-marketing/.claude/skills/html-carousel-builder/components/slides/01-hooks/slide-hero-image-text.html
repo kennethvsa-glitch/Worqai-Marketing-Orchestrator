@@ -1,0 +1,38 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-hero-image-text",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: HERO IMAGE + TEXT
+Purpose: S1 — Full-bleed image with overlaid text.
+-->
+
+<div class="content">
+  <div class="hero-img-text">
+    <div class="hero-img"></div>
+    <div class="hero-overlay">
+      <h1 class="hero-display">El momento<br>de cambiar<br>todo</h1>
+    </div>
+  </div>
+</div>
+
+<style>
+.hero-img-text { position: absolute; inset: 0; z-index: 1; }
+.hero-img { position: absolute; inset: 0; background: linear-gradient(145deg, var(--bg-mid), var(--bg-base)); opacity: 0.6; }
+.hero-overlay { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: var(--pad-x) var(--pad-x) calc(var(--pad-bottom-safe) + 20px); background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%); }
+.hero-display { font-family: var(--font-display), system-ui, sans-serif; font-size: 72px; font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; color: #FFFFFF; }
+</style>
+
+<!--
+CUSTOMIZATION:
+- Replace .hero-img background with actual image when available
+- Adjust gradient overlay opacity for readability
+- Text position: bottom-left (default), center, or top-left
+-->

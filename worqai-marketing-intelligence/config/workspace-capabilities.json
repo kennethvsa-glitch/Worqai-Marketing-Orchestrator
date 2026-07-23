@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "capabilities": [
+    {
+      "id": "nextjs-website-seo-implementation",
+      "workspace_id": "cv-tailored",
+      "production_adapter": "nextjs_implementation",
+      "purpose": "Stage an implementation brief for the existing Next.js website and SEO codebase.",
+      "asset_types": ["landing_page", "seo_page"],
+      "signals": ["landing", "website", "homepage", "pricing", "seo", "rank", "google", "cv con ia", "analizador cv ats"],
+      "source_format": "implementation_brief_json",
+      "source_path_template": "plans/wmi/{date}/{asset_type}-{slug}.json",
+      "output_format": "nextjs_typescript_implementation",
+      "output_path_template": "src/app/{slug}",
+      "workflow": "AGENTS.md",
+      "production_commands": [],
+      "verification_commands": ["npm run lint", "npm run test", "npm run build"],
+      "priority": 30
+    },
+    {
+      "id": "launch-content-archive",
+      "workspace_id": "worqai-launch",
+      "production_adapter": "launch_content_archive",
+      "purpose": "Archive approved launch copy in the launch-content repository without treating it as product code.",
+      "asset_types": ["campaign", "campaign_package", "linkedin_post", "email", "content_system"],
+      "signals": ["launch content", "launch campaign", "launch archive", "archive", "playbook", "launch email", "launch post"],
+      "requires_any_signal": true,
+      "source_format": "launch_content_markdown",
+      "source_path_template": "archive/{date}/{asset_type}-{slug}.md",
+      "output_format": "launch_content_archive",
+      "output_path_template": "archive/{date}/{asset_type}-{slug}.md",
+      "workflow": "WorqAI-Launch-Playbook.pdf",
+      "production_commands": [],
+      "verification_commands": ["manual_review_launch_archive"],
+      "priority": 20
+    },
+    {
+      "id": "carousel-build-export",
+      "workspace_id": "worqai-marketing",
+      "production_adapter": "carousel_build_export",
+      "purpose": "Create a renderer-compatible carousel spec and hand it to the gated produce-carousel build and export workflow.",
+      "asset_types": ["carousel"],
+      "signals": ["carousel", "slides", "slide deck", "linkedin carousel", "instagram carousel"],
+      "source_format": "carousel_spec_json",
+      "source_path_template": "production/wmi/{date}/{slug}-spec.json",
+      "output_format": "carousel_html_and_zip",
+      "output_path_template": "export/{slug}.zip",
+      "workflow": ".claude/skills/produce-carousel/SKILL.md",
+      "production_commands": [
+        "py scripts/creative_job.py new {source}",
+        "py scripts/build_carousel.py {source}",
+        "py scripts/carousel_exporter.py --input production/carousel_{slug}_s17.html --output {output}"
+      ],
+      "verification_commands": [
+        "py scripts/render_carousel.py {source} --validate-only",
+        "manual_review_produce_carousel_gates"
+      ],
+      "priority": 50
+    },
+    {
+      "id": "marketing-content-production",
+      "workspace_id": "worqai-marketing",
+      "production_adapter": "marketing_content_archive",
+      "purpose": "Stage channel-specific campaign and marketing content in the production archive.",
+      "asset_types": ["campaign", "campaign_package", "ig_reel", "linkedin_post", "message_reply", "deep_research", "feedback_loop", "partnership_pitch", "ad", "email", "content_system", "brand", "research"],
+      "signals": ["campaign", "reel", "instagram", "tiktok", "linkedin", "post", "reply", "research", "pitch", "outreach", "ad", "email", "content"],
+      "source_format": "marketing_brief_json",
+      "source_path_template": "production/wmi/{date}/{asset_type}-{slug}.json",
+      "output_format": "channel_marketing_asset",
+      "output_path_template": "production/wmi/{date}/{asset_type}-{slug}.json",
+      "workflow": "AGENTS.md",
+      "production_commands": [],
+      "verification_commands": ["manual_review_marketing_content"],
+      "priority": 10
+    },
+    {
+      "id": "reel-factory-real-footage-production",
+      "workspace_id": "worqai-reel-factory",
+      "production_adapter": "reel_factory_handoff",
+      "purpose": "Stage a production brief for a real-footage Reel. The factory selects reviewed clips, requires corrected captions and an explicit storyboard, renders a local candidate, runs media QA, and stops for full human review.",
+      "asset_types": ["ig_reel"],
+      "signals": ["reel", "reels", "ig reel", "instagram reel", "instagram", "tiktok", "youtube short", "short-form video", "vertical recording", "real footage", "talking head", "captioned clip"],
+      "requires_any_signal": true,
+      "source_format": "reel_factory_brief_json",
+      "source_path_template": "production/wmi/{date}/{slug}-reel-brief.json",
+      "output_format": "human_reviewed_captioned_reel_candidate_mp4",
+      "output_path_template": "out/release-candidates/{slug}.mp4",
+      "workflow": "CLAUDE.md",
+      "production_commands": [],
+      "verification_commands": ["manual_review_reel_factory_gates"],
+      "priority": 60
+    },
+    {
+      "id": "produce-motion-video",
+      "workspace_id": "motion-studio",
+      "production_adapter": "produce_motion_video",
+      "purpose": "Stage a creative brief for the human-gated produce-motion-video workflow and its render kernel.",
+      "asset_types": ["motion_video", "motion_handoff", "video", "animation", "storyboard"],
+      "signals": ["motion", "video", "animation", "storyboard", "scene", "render", "motion handoff"],
+      "source_format": "motion_creative_brief_markdown",
+      "source_path_template": "Ideation/wmi/{date}/{asset_type}-{slug}-brief.md",
+      "output_format": "motion_video_mp4",
+      "output_path_template": "export-video/{slug}.mp4",
+      "workflow": ".claude/skills/produce-motion-video/SKILL.md",
+      "production_commands": [
+        "py .claude/skills/produce-motion-video/scripts/create_job.py {source}",
+        "py scripts/motion_preflight.py motion/specs/{slug}.json",
+        "py scripts/render_motion.py motion/specs/{slug}.json --output templates/scenes/{slug}.html",
+        "py scripts/motion_exporter.py --input templates/scenes/{slug}.html --output export-video --name {slug}"
+      ],
+      "verification_commands": ["manual_review_produce_motion_video_gates"],
+      "priority": 50
+    }
+  ]
+}

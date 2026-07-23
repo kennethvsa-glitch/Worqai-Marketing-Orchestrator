@@ -1,0 +1,85 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-metric-card",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s14",
+      "s16",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s36"
+    ],
+    "pairs_well_with": [
+      "geo-dot-grid",
+      "deco-progress-bars",
+      "mock-display-badge-row"
+    ],
+    "conflicts_with": [
+      "mock-app-chat",
+      "message-chat"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: METRIC CARD
+Found in: carousel_portfolio_04.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Dashboard-style stat widget.
+-->
+
+<div class="metric-card">
+  <span class="metric-label">Entrevistas esta semana</span>
+  <span class="metric-value">4</span>
+  <span class="metric-delta">+400% vs mes pasado</span>
+</div>
+
+<style>
+.metric-card {
+  display: flex; flex-direction: column;
+  gap: 8px; padding: 24px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.metric-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.metric-value {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 64px; font-weight: 900;
+  line-height: 1; letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+.metric-delta {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px; font-weight: 400;
+  color: var(--accent);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Background: glassmorphism (default), solid tint, or outline only
+- metric-value: 48px (small card) to 96px (hero stat)
+- Add sparkline SVG or mini bar chart below delta
+- Layout: single card or 2-4 card grid
+-->

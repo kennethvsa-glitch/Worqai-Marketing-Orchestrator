@@ -1,0 +1,61 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "light-glow-radial-corner",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s02",
+      "s06",
+      "s08",
+      "s16",
+      "s20",
+      "s21",
+      "s29",
+      "s33",
+      "s37",
+      "s40",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s07",
+      "s19",
+      "s23",
+      "s25",
+      "s31",
+      "s39",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "mock-terminal-mac",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "tex-grain-heavy",
+      "tex-scratch-overlay"
+    ]
+  }
+-->
+
+<!--
+LAYER: GLOW RADIAL CORNER
+Accent glow positioned in a corner instead of center.
+Best for: asymmetric depth, editorial layouts.
+-->
+
+<div class="glow-corner"></div>
+
+<style>
+.glow-corner {
+  position: absolute;
+  width: 50%; aspect-ratio: 1 / 1; border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 65%);
+  filter: blur(60px); pointer-events: none; z-index: 1;
+  opacity: var(--glow-opacity, 0.12);
+  bottom: -10%; left: -5%;
+}
+</style>

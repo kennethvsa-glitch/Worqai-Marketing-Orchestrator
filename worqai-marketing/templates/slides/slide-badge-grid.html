@@ -1,0 +1,30 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="badgeg-wrap">
+    {% if copy.headline %}
+    <div class="badgeg-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+    {% endif %}
+    {% set _known = ['warning','error','ok','info','clock','arrow-right','arrow-down','arrow-curved','arrow-thick','chart','trending-up','trending-down','target','lock','key','shield','heart','lightning','trophy','star','magnifier'] %}
+    {% for item in copy.get('items', []) %}
+    <div class="badgeg-row">
+      <div class="badgeg-icon">
+        {% set _ic = (item.icon | default('lightning')) | string %}
+        {% if _ic in _known %}
+        <svg class="icon icon-lg" aria-hidden="true"><use href="#icon-{{ _ic }}"/></svg>
+        {% else %}{{ _ic }}{% endif %}
+      </div>
+      <div class="badgeg-title">{{ item.title | default(item.get('label','')) }}</div>
+      {% if item.desc or item.description %}
+      <div class="badgeg-desc">{{ item.desc | default(item.description) }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

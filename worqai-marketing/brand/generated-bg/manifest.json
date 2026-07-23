@@ -1,0 +1,1511 @@
+{
+  "backgrounds": [
+    {
+      "id": "ai-bubbles-01",
+      "name": "Bubbles 01",
+      "source": "ideation/ai-backgrounds/bubbles-01.png",
+      "systems": [
+        "s01",
+        "s04",
+        "s17",
+        "s29"
+      ],
+      "dominant_hue": 180.0,
+      "variants": {
+        "s01": "brand/generated-bg/ai-bubbles-01/s01.png",
+        "s04": "brand/generated-bg/ai-bubbles-01/s04.png",
+        "s17": "brand/generated-bg/ai-bubbles-01/s17.png",
+        "s29": "brand/generated-bg/ai-bubbles-01/s29.png"
+      },
+      "recipe_variants": {
+        "glow_bloom": {
+          "s01": [
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s01/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s01/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s01/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s01/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s01/slide_05.png"
+          ],
+          "s04": [
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s04/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s04/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s04/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s04/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s04/slide_05.png"
+          ],
+          "s17": [
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s17/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s17/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s17/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s17/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s17/slide_05.png"
+          ],
+          "s29": [
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s29/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s29/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s29/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s29/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/glow_bloom/s29/slide_05.png"
+          ]
+        },
+        "deep_zoom": {
+          "s01": [
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s01/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s01/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s01/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s01/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s01/slide_05.png"
+          ],
+          "s04": [
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s04/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s04/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s04/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s04/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s04/slide_05.png"
+          ],
+          "s17": [
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s17/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s17/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s17/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s17/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s17/slide_05.png"
+          ],
+          "s29": [
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s29/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s29/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s29/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s29/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/deep_zoom/s29/slide_05.png"
+          ]
+        },
+        "phase_distort": {
+          "s01": [
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s01/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s01/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s01/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s01/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s01/slide_05.png"
+          ],
+          "s04": [
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s04/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s04/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s04/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s04/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s04/slide_05.png"
+          ],
+          "s17": [
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s17/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s17/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s17/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s17/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s17/slide_05.png"
+          ],
+          "s29": [
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s29/slide_01.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s29/slide_02.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s29/slide_03.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s29/slide_04.png",
+            "brand/generated-bg/ai-bubbles-01/recipes/phase_distort/s29/slide_05.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Iridescent bubbles; supports glow_bloom, deep_zoom, phase_distort recipes."
+    },
+    {
+      "id": "vector-field-distortion",
+      "name": "Vector Field Distortion",
+      "source": "panel extraction from vector dield distortion 5 panels.png, 5 panels",
+      "panels": 5,
+      "recipe_variants": {
+        "extracted": {
+          "s20": [
+            "brand/generated-bg/vector-field-distortion/panel_01/s20.png",
+            "brand/generated-bg/vector-field-distortion/panel_02/s20.png",
+            "brand/generated-bg/vector-field-distortion/panel_03/s20.png",
+            "brand/generated-bg/vector-field-distortion/panel_04/s20.png",
+            "brand/generated-bg/vector-field-distortion/panel_05/s20.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Strong diagonal energy; best for hook/big-number/CTA slides. Avoid on card-heavy layouts (terminal, before-after, checklist)."
+    },
+    {
+      "id": "glowing-energy-flow",
+      "name": "Glowing Energy Flow",
+      "source": "panel extraction from Abstract glowing energy flow grid 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/glowing-energy-flow/panel_01/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_02/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_03/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_04/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_05/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_06/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_07/s04.png",
+            "brand/generated-bg/glowing-energy-flow/panel_08/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/glowing-energy-flow/panel_01/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_02/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_03/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_04/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_05/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_06/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_07/s06.png",
+            "brand/generated-bg/glowing-energy-flow/panel_08/s06.png"
+          ],
+          "s08": [
+            "brand/generated-bg/glowing-energy-flow/panel_01/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_02/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_03/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_04/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_05/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_06/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_07/s08.png",
+            "brand/generated-bg/glowing-energy-flow/panel_08/s08.png"
+          ],
+          "s29": [
+            "brand/generated-bg/glowing-energy-flow/panel_01/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_02/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_03/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_04/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_05/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_06/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_07/s29.png",
+            "brand/generated-bg/glowing-energy-flow/panel_08/s29.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Vivid neon glow; needs heavy scrim on all slides. Re-trimmed 2026-05-27."
+    },
+    {
+      "id": "oceanic-wave",
+      "name": "Oceanic Wave",
+      "source": "panel extraction from Abstract oceanic wave grid design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/oceanic-wave/panel_01/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_02/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_03/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_04/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_05/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_06/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_07/s01.png",
+            "brand/generated-bg/oceanic-wave/panel_08/s01.png"
+          ],
+          "s17": [
+            "brand/generated-bg/oceanic-wave/panel_01/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_02/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_03/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_04/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_05/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_06/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_07/s17.png",
+            "brand/generated-bg/oceanic-wave/panel_08/s17.png"
+          ],
+          "s21": [
+            "brand/generated-bg/oceanic-wave/panel_01/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_02/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_03/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_04/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_05/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_06/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_07/s21.png",
+            "brand/generated-bg/oceanic-wave/panel_08/s21.png"
+          ],
+          "s25": [
+            "brand/generated-bg/oceanic-wave/panel_01/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_02/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_03/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_04/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_05/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_06/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_07/s25.png",
+            "brand/generated-bg/oceanic-wave/panel_08/s25.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel. Re-trimmed 2026-05-27. Works with most layouts at standard density."
+    },
+    {
+      "id": "pastel-waves",
+      "name": "Pastel Waves",
+      "source": "panel extraction from Calm layered wave patterns in pastel shades 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/pastel-waves/panel_01/s01.png",
+            "brand/generated-bg/pastel-waves/panel_02/s01.png",
+            "brand/generated-bg/pastel-waves/panel_03/s01.png",
+            "brand/generated-bg/pastel-waves/panel_04/s01.png",
+            "brand/generated-bg/pastel-waves/panel_05/s01.png",
+            "brand/generated-bg/pastel-waves/panel_06/s01.png",
+            "brand/generated-bg/pastel-waves/panel_07/s01.png",
+            "brand/generated-bg/pastel-waves/panel_08/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/pastel-waves/panel_01/s04.png",
+            "brand/generated-bg/pastel-waves/panel_02/s04.png",
+            "brand/generated-bg/pastel-waves/panel_03/s04.png",
+            "brand/generated-bg/pastel-waves/panel_04/s04.png",
+            "brand/generated-bg/pastel-waves/panel_05/s04.png",
+            "brand/generated-bg/pastel-waves/panel_06/s04.png",
+            "brand/generated-bg/pastel-waves/panel_07/s04.png",
+            "brand/generated-bg/pastel-waves/panel_08/s04.png"
+          ],
+          "s17": [
+            "brand/generated-bg/pastel-waves/panel_01/s17.png",
+            "brand/generated-bg/pastel-waves/panel_02/s17.png",
+            "brand/generated-bg/pastel-waves/panel_03/s17.png",
+            "brand/generated-bg/pastel-waves/panel_04/s17.png",
+            "brand/generated-bg/pastel-waves/panel_05/s17.png",
+            "brand/generated-bg/pastel-waves/panel_06/s17.png",
+            "brand/generated-bg/pastel-waves/panel_07/s17.png",
+            "brand/generated-bg/pastel-waves/panel_08/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/pastel-waves/panel_01/s25.png",
+            "brand/generated-bg/pastel-waves/panel_02/s25.png",
+            "brand/generated-bg/pastel-waves/panel_03/s25.png",
+            "brand/generated-bg/pastel-waves/panel_04/s25.png",
+            "brand/generated-bg/pastel-waves/panel_05/s25.png",
+            "brand/generated-bg/pastel-waves/panel_06/s25.png",
+            "brand/generated-bg/pastel-waves/panel_07/s25.png",
+            "brand/generated-bg/pastel-waves/panel_08/s25.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "demo",
+      "safe_for_dark_systems": false,
+      "quarantine": true,
+      "quarantine_reason": "Extremely light/pastel imagery. Even after trimming, it fights dark system text. Only safe on light systems (s25/s26/s48). Do NOT use on s01/s04/s11/s17/s21/s27/s29.",
+      "notes": "Re-trimmed 2026-05-27 but still problematic. Quarantined until replaced."
+    },
+    {
+      "id": "cosmic-ribbons",
+      "name": "Cosmic Ribbons",
+      "source": "panel extraction from Cosmic energy ribbons in space 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s11": [
+            "brand/generated-bg/cosmic-ribbons/panel_01/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_02/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_03/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_04/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_05/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_06/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_07/s11.png",
+            "brand/generated-bg/cosmic-ribbons/panel_08/s11.png"
+          ],
+          "s17": [
+            "brand/generated-bg/cosmic-ribbons/panel_01/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_02/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_03/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_04/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_05/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_06/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_07/s17.png",
+            "brand/generated-bg/cosmic-ribbons/panel_08/s17.png"
+          ],
+          "s21": [
+            "brand/generated-bg/cosmic-ribbons/panel_01/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_02/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_03/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_04/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_05/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_06/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_07/s21.png",
+            "brand/generated-bg/cosmic-ribbons/panel_08/s21.png"
+          ],
+          "s27": [
+            "brand/generated-bg/cosmic-ribbons/panel_01/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_02/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_03/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_04/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_05/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_06/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_07/s27.png",
+            "brand/generated-bg/cosmic-ribbons/panel_08/s27.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel. Re-trimmed 2026-05-27. Good for editorial/concept carousels."
+    },
+    {
+      "id": "digital-glass",
+      "name": "Digital Glass",
+      "source": "panel extraction from Digital glass wave abstracts in space 6 panels.png, 4 panels",
+      "panels": 4,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/digital-glass/panel_01/s04.png",
+            "brand/generated-bg/digital-glass/panel_02/s04.png",
+            "brand/generated-bg/digital-glass/panel_03/s04.png",
+            "brand/generated-bg/digital-glass/panel_04/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/digital-glass/panel_01/s06.png",
+            "brand/generated-bg/digital-glass/panel_02/s06.png",
+            "brand/generated-bg/digital-glass/panel_03/s06.png",
+            "brand/generated-bg/digital-glass/panel_04/s06.png"
+          ],
+          "s11": [
+            "brand/generated-bg/digital-glass/panel_01/s11.png",
+            "brand/generated-bg/digital-glass/panel_02/s11.png",
+            "brand/generated-bg/digital-glass/panel_03/s11.png",
+            "brand/generated-bg/digital-glass/panel_04/s11.png"
+          ],
+          "s25": [
+            "brand/generated-bg/digital-glass/panel_01/s25.png",
+            "brand/generated-bg/digital-glass/panel_02/s25.png",
+            "brand/generated-bg/digital-glass/panel_03/s25.png",
+            "brand/generated-bg/digital-glass/panel_04/s25.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "demo",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 4-panel."
+    },
+    {
+      "id": "dark-satin",
+      "name": "Dark Satin",
+      "source": "panel extraction from Fluid satin waves in dark tones 8 panels.png, 4 panels",
+      "panels": 4,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/dark-satin/panel_01/s01.png",
+            "brand/generated-bg/dark-satin/panel_02/s01.png",
+            "brand/generated-bg/dark-satin/panel_03/s01.png",
+            "brand/generated-bg/dark-satin/panel_04/s01.png"
+          ],
+          "s11": [
+            "brand/generated-bg/dark-satin/panel_01/s11.png",
+            "brand/generated-bg/dark-satin/panel_02/s11.png",
+            "brand/generated-bg/dark-satin/panel_03/s11.png",
+            "brand/generated-bg/dark-satin/panel_04/s11.png"
+          ],
+          "s17": [
+            "brand/generated-bg/dark-satin/panel_01/s17.png",
+            "brand/generated-bg/dark-satin/panel_02/s17.png",
+            "brand/generated-bg/dark-satin/panel_03/s17.png",
+            "brand/generated-bg/dark-satin/panel_04/s17.png"
+          ],
+          "s21": [
+            "brand/generated-bg/dark-satin/panel_01/s21.png",
+            "brand/generated-bg/dark-satin/panel_02/s21.png",
+            "brand/generated-bg/dark-satin/panel_03/s21.png",
+            "brand/generated-bg/dark-satin/panel_04/s21.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 4-panel. Prefer satin-waves-full."
+    },
+    {
+      "id": "futuristic-flow",
+      "name": "Futuristic Flow",
+      "source": "panel extraction from Futuristic energy flow grid 6 panels.png, 4 panels",
+      "panels": 4,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/futuristic-flow/panel_01/s01.png",
+            "brand/generated-bg/futuristic-flow/panel_02/s01.png",
+            "brand/generated-bg/futuristic-flow/panel_03/s01.png",
+            "brand/generated-bg/futuristic-flow/panel_04/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/futuristic-flow/panel_01/s04.png",
+            "brand/generated-bg/futuristic-flow/panel_02/s04.png",
+            "brand/generated-bg/futuristic-flow/panel_03/s04.png",
+            "brand/generated-bg/futuristic-flow/panel_04/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/futuristic-flow/panel_01/s06.png",
+            "brand/generated-bg/futuristic-flow/panel_02/s06.png",
+            "brand/generated-bg/futuristic-flow/panel_03/s06.png",
+            "brand/generated-bg/futuristic-flow/panel_04/s06.png"
+          ],
+          "s25": [
+            "brand/generated-bg/futuristic-flow/panel_01/s25.png",
+            "brand/generated-bg/futuristic-flow/panel_02/s25.png",
+            "brand/generated-bg/futuristic-flow/panel_03/s25.png",
+            "brand/generated-bg/futuristic-flow/panel_04/s25.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 4-panel. Prefer energy-flow-full."
+    },
+    {
+      "id": "glass-panel",
+      "name": "Glass Panel",
+      "source": "panel extraction from Futuristic glass panel abstract design 8 panels.png, 4 panels",
+      "panels": 4,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/glass-panel/panel_01/s04.png",
+            "brand/generated-bg/glass-panel/panel_02/s04.png",
+            "brand/generated-bg/glass-panel/panel_03/s04.png",
+            "brand/generated-bg/glass-panel/panel_04/s04.png"
+          ],
+          "s11": [
+            "brand/generated-bg/glass-panel/panel_01/s11.png",
+            "brand/generated-bg/glass-panel/panel_02/s11.png",
+            "brand/generated-bg/glass-panel/panel_03/s11.png",
+            "brand/generated-bg/glass-panel/panel_04/s11.png"
+          ],
+          "s25": [
+            "brand/generated-bg/glass-panel/panel_01/s25.png",
+            "brand/generated-bg/glass-panel/panel_02/s25.png",
+            "brand/generated-bg/glass-panel/panel_03/s25.png",
+            "brand/generated-bg/glass-panel/panel_04/s25.png"
+          ],
+          "s27": [
+            "brand/generated-bg/glass-panel/panel_01/s27.png",
+            "brand/generated-bg/glass-panel/panel_02/s27.png",
+            "brand/generated-bg/glass-panel/panel_03/s27.png",
+            "brand/generated-bg/glass-panel/panel_04/s27.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "demo",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 4-panel. Prefer glass-panel-full."
+    },
+    {
+      "id": "galactic-dream",
+      "name": "Galactic Dream",
+      "source": "panel extraction from Galactic dreamscapes in vivid color 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/galactic-dream/panel_01/s04.png",
+            "brand/generated-bg/galactic-dream/panel_02/s04.png",
+            "brand/generated-bg/galactic-dream/panel_03/s04.png",
+            "brand/generated-bg/galactic-dream/panel_04/s04.png",
+            "brand/generated-bg/galactic-dream/panel_05/s04.png",
+            "brand/generated-bg/galactic-dream/panel_06/s04.png",
+            "brand/generated-bg/galactic-dream/panel_07/s04.png",
+            "brand/generated-bg/galactic-dream/panel_08/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/galactic-dream/panel_01/s06.png",
+            "brand/generated-bg/galactic-dream/panel_02/s06.png",
+            "brand/generated-bg/galactic-dream/panel_03/s06.png",
+            "brand/generated-bg/galactic-dream/panel_04/s06.png",
+            "brand/generated-bg/galactic-dream/panel_05/s06.png",
+            "brand/generated-bg/galactic-dream/panel_06/s06.png",
+            "brand/generated-bg/galactic-dream/panel_07/s06.png",
+            "brand/generated-bg/galactic-dream/panel_08/s06.png"
+          ],
+          "s11": [
+            "brand/generated-bg/galactic-dream/panel_01/s11.png",
+            "brand/generated-bg/galactic-dream/panel_02/s11.png",
+            "brand/generated-bg/galactic-dream/panel_03/s11.png",
+            "brand/generated-bg/galactic-dream/panel_04/s11.png",
+            "brand/generated-bg/galactic-dream/panel_05/s11.png",
+            "brand/generated-bg/galactic-dream/panel_06/s11.png",
+            "brand/generated-bg/galactic-dream/panel_07/s11.png",
+            "brand/generated-bg/galactic-dream/panel_08/s11.png"
+          ],
+          "s29": [
+            "brand/generated-bg/galactic-dream/panel_01/s29.png",
+            "brand/generated-bg/galactic-dream/panel_02/s29.png",
+            "brand/generated-bg/galactic-dream/panel_03/s29.png",
+            "brand/generated-bg/galactic-dream/panel_04/s29.png",
+            "brand/generated-bg/galactic-dream/panel_05/s29.png",
+            "brand/generated-bg/galactic-dream/panel_06/s29.png",
+            "brand/generated-bg/galactic-dream/panel_07/s29.png",
+            "brand/generated-bg/galactic-dream/panel_08/s29.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel; vivid chromatic dreamscape. Needs heavy scrim."
+    },
+    {
+      "id": "blue-geometry",
+      "name": "Blue Geometry",
+      "source": "panel extraction from Geometric blue gradient grid design 8 panels.png, 4 panels",
+      "panels": 4,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/blue-geometry/panel_01/s01.png",
+            "brand/generated-bg/blue-geometry/panel_02/s01.png",
+            "brand/generated-bg/blue-geometry/panel_03/s01.png",
+            "brand/generated-bg/blue-geometry/panel_04/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/blue-geometry/panel_01/s04.png",
+            "brand/generated-bg/blue-geometry/panel_02/s04.png",
+            "brand/generated-bg/blue-geometry/panel_03/s04.png",
+            "brand/generated-bg/blue-geometry/panel_04/s04.png"
+          ],
+          "s17": [
+            "brand/generated-bg/blue-geometry/panel_01/s17.png",
+            "brand/generated-bg/blue-geometry/panel_02/s17.png",
+            "brand/generated-bg/blue-geometry/panel_03/s17.png",
+            "brand/generated-bg/blue-geometry/panel_04/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/blue-geometry/panel_01/s25.png",
+            "brand/generated-bg/blue-geometry/panel_02/s25.png",
+            "brand/generated-bg/blue-geometry/panel_03/s25.png",
+            "brand/generated-bg/blue-geometry/panel_04/s25.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 4-panel. Prefer geo-blue-grid."
+    },
+    {
+      "id": "digital-glass-wave",
+      "name": "Digital Glass Wave",
+      "source": "panel extraction from Digital glass wave abstracts in space 6 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s08": [
+            "brand/generated-bg/digital-glass-wave/panel_01/s08.png",
+            "brand/generated-bg/digital-glass-wave/panel_02/s08.png",
+            "brand/generated-bg/digital-glass-wave/panel_03/s08.png",
+            "brand/generated-bg/digital-glass-wave/panel_04/s08.png",
+            "brand/generated-bg/digital-glass-wave/panel_05/s08.png",
+            "brand/generated-bg/digital-glass-wave/panel_06/s08.png"
+          ],
+          "s17": [
+            "brand/generated-bg/digital-glass-wave/panel_01/s17.png",
+            "brand/generated-bg/digital-glass-wave/panel_02/s17.png",
+            "brand/generated-bg/digital-glass-wave/panel_03/s17.png",
+            "brand/generated-bg/digital-glass-wave/panel_04/s17.png",
+            "brand/generated-bg/digital-glass-wave/panel_05/s17.png",
+            "brand/generated-bg/digital-glass-wave/panel_06/s17.png"
+          ],
+          "s21": [
+            "brand/generated-bg/digital-glass-wave/panel_01/s21.png",
+            "brand/generated-bg/digital-glass-wave/panel_02/s21.png",
+            "brand/generated-bg/digital-glass-wave/panel_03/s21.png",
+            "brand/generated-bg/digital-glass-wave/panel_04/s21.png",
+            "brand/generated-bg/digital-glass-wave/panel_05/s21.png",
+            "brand/generated-bg/digital-glass-wave/panel_06/s21.png"
+          ],
+          "s29": [
+            "brand/generated-bg/digital-glass-wave/panel_01/s29.png",
+            "brand/generated-bg/digital-glass-wave/panel_02/s29.png",
+            "brand/generated-bg/digital-glass-wave/panel_03/s29.png",
+            "brand/generated-bg/digital-glass-wave/panel_04/s29.png",
+            "brand/generated-bg/digital-glass-wave/panel_05/s29.png",
+            "brand/generated-bg/digital-glass-wave/panel_06/s29.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 6-panel."
+    },
+    {
+      "id": "fluid-satin-waves",
+      "name": "Fluid Satin Waves",
+      "source": "panel extraction from Fluid satin waves in dark tones 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/fluid-satin-waves/panel_01/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_02/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_03/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_04/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_05/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_06/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_07/s04.png",
+            "brand/generated-bg/fluid-satin-waves/panel_08/s04.png"
+          ],
+          "s11": [
+            "brand/generated-bg/fluid-satin-waves/panel_01/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_02/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_03/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_04/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_05/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_06/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_07/s11.png",
+            "brand/generated-bg/fluid-satin-waves/panel_08/s11.png"
+          ],
+          "s17": [
+            "brand/generated-bg/fluid-satin-waves/panel_01/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_02/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_03/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_04/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_05/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_06/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_07/s17.png",
+            "brand/generated-bg/fluid-satin-waves/panel_08/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/fluid-satin-waves/panel_01/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_02/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_03/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_04/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_05/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_06/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_07/s25.png",
+            "brand/generated-bg/fluid-satin-waves/panel_08/s25.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 8-panel duplicate of satin-waves-full. Prefer satin-waves-full."
+    },
+    {
+      "id": "futuristic-energy-flow",
+      "name": "Futuristic Energy Flow",
+      "source": "panel extraction from Futuristic energy flow grid 6 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s06": [
+            "brand/generated-bg/futuristic-energy-flow/panel_01/s06.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_02/s06.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_03/s06.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_04/s06.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_05/s06.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_06/s06.png"
+          ],
+          "s08": [
+            "brand/generated-bg/futuristic-energy-flow/panel_01/s08.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_02/s08.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_03/s08.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_04/s08.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_05/s08.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_06/s08.png"
+          ],
+          "s17": [
+            "brand/generated-bg/futuristic-energy-flow/panel_01/s17.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_02/s17.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_03/s17.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_04/s17.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_05/s17.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_06/s17.png"
+          ],
+          "s29": [
+            "brand/generated-bg/futuristic-energy-flow/panel_01/s29.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_02/s29.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_03/s29.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_04/s29.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_05/s29.png",
+            "brand/generated-bg/futuristic-energy-flow/panel_06/s29.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 6-panel. Prefer energy-flow-full."
+    },
+    {
+      "id": "futuristic-glass-panel",
+      "name": "Futuristic Glass Panel",
+      "source": "panel extraction from Futuristic glass panel abstract design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/futuristic-glass-panel/panel_01/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_02/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_03/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_04/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_05/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_06/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_07/s01.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_08/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/futuristic-glass-panel/panel_01/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_02/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_03/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_04/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_05/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_06/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_07/s04.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_08/s04.png"
+          ],
+          "s17": [
+            "brand/generated-bg/futuristic-glass-panel/panel_01/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_02/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_03/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_04/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_05/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_06/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_07/s17.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_08/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/futuristic-glass-panel/panel_01/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_02/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_03/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_04/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_05/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_06/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_07/s25.png",
+            "brand/generated-bg/futuristic-glass-panel/panel_08/s25.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "demo",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel full re-extraction. Use in place of glass-panel."
+    },
+    {
+      "id": "geometric-blue-gradient",
+      "name": "Geometric Blue Gradient",
+      "source": "panel extraction from Geometric blue gradient grid design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/geometric-blue-gradient/panel_01/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_02/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_03/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_04/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_05/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_06/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_07/s04.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_08/s04.png"
+          ],
+          "s08": [
+            "brand/generated-bg/geometric-blue-gradient/panel_01/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_02/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_03/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_04/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_05/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_06/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_07/s08.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_08/s08.png"
+          ],
+          "s17": [
+            "brand/generated-bg/geometric-blue-gradient/panel_01/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_02/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_03/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_04/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_05/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_06/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_07/s17.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_08/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/geometric-blue-gradient/panel_01/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_02/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_03/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_04/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_05/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_06/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_07/s25.png",
+            "brand/generated-bg/geometric-blue-gradient/panel_08/s25.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Legacy 8-panel. Prefer geo-blue-grid."
+    },
+    {
+      "id": "geo-blue-grid",
+      "name": "geo-blue-grid",
+      "source": "panel extraction from Geometric blue gradient grid design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/geo-blue-grid/panel_01/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_02/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_03/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_04/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_05/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_06/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_07/s01.png",
+            "brand/generated-bg/geo-blue-grid/panel_08/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/geo-blue-grid/panel_01/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_02/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_03/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_04/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_05/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_06/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_07/s04.png",
+            "brand/generated-bg/geo-blue-grid/panel_08/s04.png"
+          ],
+          "s08": [
+            "brand/generated-bg/geo-blue-grid/panel_01/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_02/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_03/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_04/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_05/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_06/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_07/s08.png",
+            "brand/generated-bg/geo-blue-grid/panel_08/s08.png"
+          ],
+          "s17": [
+            "brand/generated-bg/geo-blue-grid/panel_01/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_02/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_03/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_04/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_05/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_06/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_07/s17.png",
+            "brand/generated-bg/geo-blue-grid/panel_08/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/geo-blue-grid/panel_01/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_02/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_03/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_04/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_05/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_06/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_07/s25.png",
+            "brand/generated-bg/geo-blue-grid/panel_08/s25.png"
+          ],
+          "s29": [
+            "brand/generated-bg/geo-blue-grid/panel_01/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_02/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_03/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_04/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_05/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_06/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_07/s29.png",
+            "brand/generated-bg/geo-blue-grid/panel_08/s29.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel geometric. Re-trimmed 2026-05-27. Good under checklist/icon-grid/card layouts."
+    },
+    {
+      "id": "glass-panel-full",
+      "name": "glass-panel-full",
+      "source": "panel extraction from Futuristic glass panel abstract design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/glass-panel-full/panel_01/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_02/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_03/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_04/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_05/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_06/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_07/s01.png",
+            "brand/generated-bg/glass-panel-full/panel_08/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/glass-panel-full/panel_01/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_02/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_03/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_04/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_05/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_06/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_07/s04.png",
+            "brand/generated-bg/glass-panel-full/panel_08/s04.png"
+          ],
+          "s11": [
+            "brand/generated-bg/glass-panel-full/panel_01/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_02/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_03/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_04/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_05/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_06/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_07/s11.png",
+            "brand/generated-bg/glass-panel-full/panel_08/s11.png"
+          ],
+          "s17": [
+            "brand/generated-bg/glass-panel-full/panel_01/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_02/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_03/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_04/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_05/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_06/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_07/s17.png",
+            "brand/generated-bg/glass-panel-full/panel_08/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/glass-panel-full/panel_01/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_02/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_03/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_04/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_05/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_06/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_07/s25.png",
+            "brand/generated-bg/glass-panel-full/panel_08/s25.png"
+          ],
+          "s27": [
+            "brand/generated-bg/glass-panel-full/panel_01/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_02/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_03/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_04/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_05/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_06/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_07/s27.png",
+            "brand/generated-bg/glass-panel-full/panel_08/s27.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "demo",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel. Light-through-glass. Works at demo density for terminal/IO slides."
+    },
+    {
+      "id": "satin-waves-full",
+      "name": "satin-waves-full",
+      "source": "panel extraction from Fluid satin waves in dark tones 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/satin-waves-full/panel_01/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_02/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_03/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_04/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_05/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_06/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_07/s01.png",
+            "brand/generated-bg/satin-waves-full/panel_08/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/satin-waves-full/panel_01/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_02/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_03/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_04/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_05/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_06/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_07/s04.png",
+            "brand/generated-bg/satin-waves-full/panel_08/s04.png"
+          ],
+          "s11": [
+            "brand/generated-bg/satin-waves-full/panel_01/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_02/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_03/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_04/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_05/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_06/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_07/s11.png",
+            "brand/generated-bg/satin-waves-full/panel_08/s11.png"
+          ],
+          "s17": [
+            "brand/generated-bg/satin-waves-full/panel_01/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_02/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_03/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_04/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_05/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_06/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_07/s17.png",
+            "brand/generated-bg/satin-waves-full/panel_08/s17.png"
+          ],
+          "s21": [
+            "brand/generated-bg/satin-waves-full/panel_01/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_02/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_03/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_04/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_05/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_06/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_07/s21.png",
+            "brand/generated-bg/satin-waves-full/panel_08/s21.png"
+          ],
+          "s25": [
+            "brand/generated-bg/satin-waves-full/panel_01/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_02/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_03/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_04/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_05/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_06/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_07/s25.png",
+            "brand/generated-bg/satin-waves-full/panel_08/s25.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "standard",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel. Canonical replacement for dark-satin. Smooth, versatile."
+    },
+    {
+      "id": "energy-flow-full",
+      "name": "energy-flow-full",
+      "source": "panel extraction from Futuristic energy flow grid 6 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s01": [
+            "brand/generated-bg/energy-flow-full/panel_01/s01.png",
+            "brand/generated-bg/energy-flow-full/panel_02/s01.png",
+            "brand/generated-bg/energy-flow-full/panel_03/s01.png",
+            "brand/generated-bg/energy-flow-full/panel_04/s01.png",
+            "brand/generated-bg/energy-flow-full/panel_05/s01.png",
+            "brand/generated-bg/energy-flow-full/panel_06/s01.png"
+          ],
+          "s04": [
+            "brand/generated-bg/energy-flow-full/panel_01/s04.png",
+            "brand/generated-bg/energy-flow-full/panel_02/s04.png",
+            "brand/generated-bg/energy-flow-full/panel_03/s04.png",
+            "brand/generated-bg/energy-flow-full/panel_04/s04.png",
+            "brand/generated-bg/energy-flow-full/panel_05/s04.png",
+            "brand/generated-bg/energy-flow-full/panel_06/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/energy-flow-full/panel_01/s06.png",
+            "brand/generated-bg/energy-flow-full/panel_02/s06.png",
+            "brand/generated-bg/energy-flow-full/panel_03/s06.png",
+            "brand/generated-bg/energy-flow-full/panel_04/s06.png",
+            "brand/generated-bg/energy-flow-full/panel_05/s06.png",
+            "brand/generated-bg/energy-flow-full/panel_06/s06.png"
+          ],
+          "s17": [
+            "brand/generated-bg/energy-flow-full/panel_01/s17.png",
+            "brand/generated-bg/energy-flow-full/panel_02/s17.png",
+            "brand/generated-bg/energy-flow-full/panel_03/s17.png",
+            "brand/generated-bg/energy-flow-full/panel_04/s17.png",
+            "brand/generated-bg/energy-flow-full/panel_05/s17.png",
+            "brand/generated-bg/energy-flow-full/panel_06/s17.png"
+          ],
+          "s25": [
+            "brand/generated-bg/energy-flow-full/panel_01/s25.png",
+            "brand/generated-bg/energy-flow-full/panel_02/s25.png",
+            "brand/generated-bg/energy-flow-full/panel_03/s25.png",
+            "brand/generated-bg/energy-flow-full/panel_04/s25.png",
+            "brand/generated-bg/energy-flow-full/panel_05/s25.png",
+            "brand/generated-bg/energy-flow-full/panel_06/s25.png"
+          ],
+          "s29": [
+            "brand/generated-bg/energy-flow-full/panel_01/s29.png",
+            "brand/generated-bg/energy-flow-full/panel_02/s29.png",
+            "brand/generated-bg/energy-flow-full/panel_03/s29.png",
+            "brand/generated-bg/energy-flow-full/panel_04/s29.png",
+            "brand/generated-bg/energy-flow-full/panel_05/s29.png",
+            "brand/generated-bg/energy-flow-full/panel_06/s29.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "6-panel. Canonical replacement for futuristic-flow/futuristic-energy-flow."
+    },
+    {
+      "id": "digital-glass-full",
+      "name": "digital-glass-full",
+      "source": "panel extraction from Digital glass wave abstracts in space 6 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/digital-glass-full/panel_01/s04.png",
+            "brand/generated-bg/digital-glass-full/panel_02/s04.png",
+            "brand/generated-bg/digital-glass-full/panel_03/s04.png",
+            "brand/generated-bg/digital-glass-full/panel_04/s04.png",
+            "brand/generated-bg/digital-glass-full/panel_05/s04.png",
+            "brand/generated-bg/digital-glass-full/panel_06/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/digital-glass-full/panel_01/s06.png",
+            "brand/generated-bg/digital-glass-full/panel_02/s06.png",
+            "brand/generated-bg/digital-glass-full/panel_03/s06.png",
+            "brand/generated-bg/digital-glass-full/panel_04/s06.png",
+            "brand/generated-bg/digital-glass-full/panel_05/s06.png",
+            "brand/generated-bg/digital-glass-full/panel_06/s06.png"
+          ],
+          "s08": [
+            "brand/generated-bg/digital-glass-full/panel_01/s08.png",
+            "brand/generated-bg/digital-glass-full/panel_02/s08.png",
+            "brand/generated-bg/digital-glass-full/panel_03/s08.png",
+            "brand/generated-bg/digital-glass-full/panel_04/s08.png",
+            "brand/generated-bg/digital-glass-full/panel_05/s08.png",
+            "brand/generated-bg/digital-glass-full/panel_06/s08.png"
+          ],
+          "s11": [
+            "brand/generated-bg/digital-glass-full/panel_01/s11.png",
+            "brand/generated-bg/digital-glass-full/panel_02/s11.png",
+            "brand/generated-bg/digital-glass-full/panel_03/s11.png",
+            "brand/generated-bg/digital-glass-full/panel_04/s11.png",
+            "brand/generated-bg/digital-glass-full/panel_05/s11.png",
+            "brand/generated-bg/digital-glass-full/panel_06/s11.png"
+          ],
+          "s25": [
+            "brand/generated-bg/digital-glass-full/panel_01/s25.png",
+            "brand/generated-bg/digital-glass-full/panel_02/s25.png",
+            "brand/generated-bg/digital-glass-full/panel_03/s25.png",
+            "brand/generated-bg/digital-glass-full/panel_04/s25.png",
+            "brand/generated-bg/digital-glass-full/panel_05/s25.png",
+            "brand/generated-bg/digital-glass-full/panel_06/s25.png"
+          ],
+          "s27": [
+            "brand/generated-bg/digital-glass-full/panel_01/s27.png",
+            "brand/generated-bg/digital-glass-full/panel_02/s27.png",
+            "brand/generated-bg/digital-glass-full/panel_03/s27.png",
+            "brand/generated-bg/digital-glass-full/panel_04/s27.png",
+            "brand/generated-bg/digital-glass-full/panel_05/s27.png",
+            "brand/generated-bg/digital-glass-full/panel_06/s27.png"
+          ]
+        }
+      },
+      "role": "texture",
+      "density_requirement": "demo",
+      "safe_for_dark_systems": true,
+      "quarantine": true,
+      "quarantine_reason": "Irregular extraction grid \u2014 each panel contains 2 sub-panels. Visible vertical split in all rendered slides. Do NOT use.",
+      "notes": "Source image was an irregular 2-row grid. Needs full re-generation before use."
+    },
+    {
+      "id": "galactic-dream-full",
+      "name": "galactic-dream-full",
+      "source": "panel extraction from Galactic dreamscapes in vivid color 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s04": [
+            "brand/generated-bg/galactic-dream-full/panel_01/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_02/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_03/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_04/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_05/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_06/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_07/s04.png",
+            "brand/generated-bg/galactic-dream-full/panel_08/s04.png"
+          ],
+          "s06": [
+            "brand/generated-bg/galactic-dream-full/panel_01/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_02/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_03/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_04/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_05/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_06/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_07/s06.png",
+            "brand/generated-bg/galactic-dream-full/panel_08/s06.png"
+          ],
+          "s11": [
+            "brand/generated-bg/galactic-dream-full/panel_01/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_02/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_03/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_04/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_05/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_06/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_07/s11.png",
+            "brand/generated-bg/galactic-dream-full/panel_08/s11.png"
+          ],
+          "s21": [
+            "brand/generated-bg/galactic-dream-full/panel_01/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_02/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_03/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_04/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_05/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_06/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_07/s21.png",
+            "brand/generated-bg/galactic-dream-full/panel_08/s21.png"
+          ],
+          "s29": [
+            "brand/generated-bg/galactic-dream-full/panel_01/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_02/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_03/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_04/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_05/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_06/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_07/s29.png",
+            "brand/generated-bg/galactic-dream-full/panel_08/s29.png"
+          ]
+        }
+      },
+      "role": "hero",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "Canonical 8-panel. Use this instead of galactic-dream. Re-trimmed 2026-05-27."
+    },
+    {
+      "id": "abstract-waves-digital-grid",
+      "name": "Abstract Waves Digital Grid",
+      "source": "panel extraction from Abstract waves in digital grids 8 panels .png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s07": [
+            "brand/generated-bg/abstract-waves-digital-grid/panel_01/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_02/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_03/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_04/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_05/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_06/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_07/s07.png",
+            "brand/generated-bg/abstract-waves-digital-grid/panel_08/s07.png"
+          ]
+        }
+      },
+      "role": "atmosphere",
+      "density_requirement": "heavy",
+      "safe_for_dark_systems": true,
+      "quarantine": false,
+      "notes": "8-panel. Hue-adapted to s07 red-orange (#FF3300). Extracted 2026-05-27."
+    },
+    {
+      "id": "neon-cosmic-ribbons",
+      "name": "neon-cosmic-ribbons",
+      "source": "panel extraction from Neon cosmic ribbon collage design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s29": [
+            "brand/generated-bg/neon-cosmic-ribbons/panel_01/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_02/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_03/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_04/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_05/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_06/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_07/s29.png",
+            "brand/generated-bg/neon-cosmic-ribbons/panel_08/s29.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "digital-nebula",
+      "name": "digital-nebula",
+      "source": "panel extraction from Digital nebula grid with flowing networks 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s08": [
+            "brand/generated-bg/digital-nebula/panel_01/s08.png",
+            "brand/generated-bg/digital-nebula/panel_02/s08.png",
+            "brand/generated-bg/digital-nebula/panel_03/s08.png",
+            "brand/generated-bg/digital-nebula/panel_04/s08.png",
+            "brand/generated-bg/digital-nebula/panel_05/s08.png",
+            "brand/generated-bg/digital-nebula/panel_06/s08.png",
+            "brand/generated-bg/digital-nebula/panel_07/s08.png",
+            "brand/generated-bg/digital-nebula/panel_08/s08.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "fluidos-metalicos",
+      "name": "fluidos-metalicos",
+      "source": "panel extraction from Fluidos met\u00e1licos en un lienzo digital 5 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s20": [
+            "brand/generated-bg/fluidos-metalicos/panel_01/s20.png",
+            "brand/generated-bg/fluidos-metalicos/panel_02/s20.png",
+            "brand/generated-bg/fluidos-metalicos/panel_03/s20.png",
+            "brand/generated-bg/fluidos-metalicos/panel_04/s20.png",
+            "brand/generated-bg/fluidos-metalicos/panel_05/s20.png",
+            "brand/generated-bg/fluidos-metalicos/panel_06/s20.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "neon-orbs",
+      "name": "neon-orbs",
+      "source": "panel extraction from Neon orbs in motion sequence 5 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s16": [
+            "brand/generated-bg/neon-orbs/panel_01/s16.png",
+            "brand/generated-bg/neon-orbs/panel_02/s16.png",
+            "brand/generated-bg/neon-orbs/panel_03/s16.png",
+            "brand/generated-bg/neon-orbs/panel_04/s16.png",
+            "brand/generated-bg/neon-orbs/panel_05/s16.png",
+            "brand/generated-bg/neon-orbs/panel_06/s16.png"
+          ],
+          "s41": [
+            "brand/generated-bg/neon-orbs/panel_01/s41.png",
+            "brand/generated-bg/neon-orbs/panel_02/s41.png",
+            "brand/generated-bg/neon-orbs/panel_03/s41.png",
+            "brand/generated-bg/neon-orbs/panel_04/s41.png",
+            "brand/generated-bg/neon-orbs/panel_05/s41.png",
+            "brand/generated-bg/neon-orbs/panel_06/s41.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "architectural-minimal",
+      "name": "architectural-minimal",
+      "source": "panel extraction from Minimalist architectural abstract grid design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s09": [
+            "brand/generated-bg/architectural-minimal/panel_01/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_02/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_03/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_04/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_05/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_06/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_07/s09.png",
+            "brand/generated-bg/architectural-minimal/panel_08/s09.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "gradient-ribbons",
+      "name": "gradient-ribbons",
+      "source": "panel extraction from Abstract gradient ribbon collage 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s02": [
+            "brand/generated-bg/gradient-ribbons/panel_01/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_02/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_03/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_04/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_05/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_06/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_07/s02.png",
+            "brand/generated-bg/gradient-ribbons/panel_08/s02.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "geometric-harmony",
+      "name": "geometric-harmony",
+      "source": "panel extraction from Geometric harmony in muted tones 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s33": [
+            "brand/generated-bg/geometric-harmony/panel_01/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_02/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_03/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_04/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_05/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_06/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_07/s33.png",
+            "brand/generated-bg/geometric-harmony/panel_08/s33.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cosmic-energy-field",
+      "name": "cosmic-energy-field",
+      "source": "panel extraction from Cosmic energy field abstract design 8 panels.png, 8 panels",
+      "panels": 8,
+      "recipe_variants": {
+        "extracted": {
+          "s40": [
+            "brand/generated-bg/cosmic-energy-field/panel_01/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_02/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_03/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_04/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_05/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_06/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_07/s40.png",
+            "brand/generated-bg/cosmic-energy-field/panel_08/s40.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cosmic-liquid-orbs",
+      "name": "cosmic-liquid-orbs",
+      "source": "panel extraction from Futuristic cosmic liquid orbs in motion 6 panels.png, 6 panels",
+      "panels": 6,
+      "recipe_variants": {
+        "extracted": {
+          "s41": [
+            "brand/generated-bg/cosmic-liquid-orbs/panel_01/s41.png",
+            "brand/generated-bg/cosmic-liquid-orbs/panel_02/s41.png",
+            "brand/generated-bg/cosmic-liquid-orbs/panel_03/s41.png",
+            "brand/generated-bg/cosmic-liquid-orbs/panel_04/s41.png",
+            "brand/generated-bg/cosmic-liquid-orbs/panel_05/s41.png",
+            "brand/generated-bg/cosmic-liquid-orbs/panel_06/s41.png"
+          ]
+        }
+      }
+    },
+    {
+      "id": "blue-accent-waves",
+      "name": "blue-accent-waves",
+      "source": "panel extraction from Abstract wave composition with blue accents 4 panels.png, 4 panels",
+      "panels": 4,
+      "recipe_variants": {
+        "extracted": {
+          "s14": [
+            "brand/generated-bg/blue-accent-waves/panel_01/s14.png",
+            "brand/generated-bg/blue-accent-waves/panel_02/s14.png",
+            "brand/generated-bg/blue-accent-waves/panel_03/s14.png",
+            "brand/generated-bg/blue-accent-waves/panel_04/s14.png"
+          ]
+        }
+      }
+    }
+  ]
+}

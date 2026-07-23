@@ -1,0 +1,9 @@
+[
+  { "label": "wound",         "line": "El mismo CV para todas las vacantes. Por eso no te llaman.",                              "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "score_low",     "line": "Hoy su puntuación es veintitrés sobre cien. Le faltan las palabras clave del puesto.",    "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "cheat_code",    "line": "No necesitas un mejor CV. Necesitas uno para cada vacante.",                              "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "tailor1_start", "line": "WorqAI lee la vacante y reescribe cada línea con tus logros reales.",                     "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "tailor2_start", "line": "Otra vacante. Otro CV. En segundos.",                                                     "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "tailor3_score", "line": "De veintitrés a más de noventa. En cada postulación.",                                    "volume": 1.0, "offset_ms_add": 0 },
+  { "label": "cta",           "line": "Sube tu CV y descubre tu puntuación. Gratis, en worqai.io.",                              "volume": 1.0, "offset_ms_add": 0 }
+]

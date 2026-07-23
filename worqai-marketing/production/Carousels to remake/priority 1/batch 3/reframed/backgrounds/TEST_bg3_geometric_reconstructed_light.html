@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geometric Background — Light</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: #FAFAFA; }
+body { display: flex; align-items: center; justify-content: center; padding: 24px; }
+
+.canvas {
+  position: relative;
+  width: 1080px; height: 1080px;
+  background: #FAFAFA;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.12);
+}
+
+/* Main geometric shapes — lighter, reduced opacity for light version */
+.geo-circle {
+  position: absolute; pointer-events: none; z-index: 1;
+  width: 380px; height: 380px; border-radius: 50%;
+  background: #333333;
+  opacity: 0.7;
+  top: -60px; left: -80px;
+}
+
+.geo-square {
+  position: absolute; pointer-events: none; z-index: 1;
+  width: 340px; height: 340px;
+  background: #C7FF3A;
+  opacity: 0.65;
+  top: -40px; right: -60px;
+}
+
+.geo-steps {
+  position: absolute; pointer-events: none; z-index: 1;
+  width: 440px; height: 300px;
+  background: #333333;
+  opacity: 0.6;
+  bottom: -40px; left: -60px;
+  clip-path: polygon(
+    0% 100%, 0% 55%, 12% 55%, 12% 42%, 26% 42%, 26% 28%,
+    42% 28%, 42% 15%, 58% 15%, 58% 5%, 72% 5%, 72% 0%,
+    100% 0%, 100% 100%
+  );
+}
+
+.geo-blob {
+  position: absolute; pointer-events: none; z-index: 1;
+  width: 460px; height: 400px;
+  background: #C7FF3A;
+  opacity: 0.55;
+  bottom: -80px; right: -100px;
+  border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+}
+
+/* Decorative SVG — all small elements in one SVG, much fainter for light */
+.geo-deco {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  width: 100%; height: 100%;
+}
+</style>
+</head>
+<body>
+
+<div class="canvas" id="canvas">
+  <div class="geo-circle"></div>
+  <div class="geo-square"></div>
+  <div class="geo-steps"></div>
+  <div class="geo-blob"></div>
+
+  <svg class="geo-deco" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+    <!-- 3x3 dot grid on dark circle (top-left) — very faint -->
+    <g fill="#C7FF3A" opacity="0.2">
+      <circle cx="60" cy="100" r="4"/>
+      <circle cx="80" cy="100" r="4"/>
+      <circle cx="100" cy="100" r="4"/>
+      <circle cx="60" cy="120" r="4"/>
+      <circle cx="80" cy="120" r="4"/>
+      <circle cx="100" cy="120" r="4"/>
+      <circle cx="60" cy="140" r="4"/>
+      <circle cx="80" cy="140" r="4"/>
+      <circle cx="100" cy="140" r="4"/>
+    </g>
+
+    <!-- Vertical lines (drips) hanging from lime square — very faint -->
+    <g stroke="#0A0A0A" stroke-width="2" opacity="0.12">
+      <line x1="850" y1="280" x2="850" y2="380"/>
+      <line x1="865" y1="280" x2="865" y2="400"/>
+      <line x1="880" y1="280" x2="880" y2="360"/>
+      <line x1="895" y1="280" x2="895" y2="390"/>
+      <line x1="910" y1="280" x2="910" y2="370"/>
+      <line x1="925" y1="280" x2="925" y2="410"/>
+      <line x1="940" y1="280" x2="940" y2="385"/>
+    </g>
+
+    <!-- Brush stroke / diagonal marks near top-center — very faint -->
+    <g stroke="#333333" stroke-width="3" stroke-linecap="round" opacity="0.15">
+      <line x1="400" y1="160" x2="540" y2="120"/>
+      <line x1="410" y1="175" x2="550" y2="135"/>
+      <line x1="420" y1="190" x2="560" y2="150"/>
+      <line x1="430" y1="205" x2="570" y2="165"/>
+    </g>
+
+    <!-- Three small lime triangles (downward pointing) on right side — very faint -->
+    <g fill="#C7FF3A" opacity="0.18">
+      <polygon points="760,250 770,250 765,265"/>
+      <polygon points="785,230 797,230 791,248"/>
+      <polygon points="810,260 822,260 816,278"/>
+    </g>
+
+    <!-- 5x4 dot grid in center-bottom area — very faint -->
+    <g fill="#C7FF3A" opacity="0.15">
+      <circle cx="460" cy="640" r="3"/>
+      <circle cx="480" cy="640" r="3"/>
+      <circle cx="500" cy="640" r="3"/>
+      <circle cx="520" cy="640" r="3"/>
+      <circle cx="540" cy="640" r="3"/>
+      <circle cx="460" cy="660" r="3"/>
+      <circle cx="480" cy="660" r="3"/>
+      <circle cx="500" cy="660" r="3"/>
+      <circle cx="520" cy="660" r="3"/>
+      <circle cx="540" cy="660" r="3"/>
+      <circle cx="460" cy="680" r="3"/>
+      <circle cx="480" cy="680" r="3"/>
+      <circle cx="500" cy="680" r="3"/>
+      <circle cx="520" cy="680" r="3"/>
+      <circle cx="540" cy="680" r="3"/>
+      <circle cx="460" cy="700" r="3"/>
+      <circle cx="480" cy="700" r="3"/>
+      <circle cx="500" cy="700" r="3"/>
+      <circle cx="520" cy="700" r="3"/>
+      <circle cx="540" cy="700" r="3"/>
+    </g>
+
+    <!-- Wavy black curved lines near bottom-right — very faint -->
+    <g fill="none" stroke="#333333" stroke-width="3" stroke-linecap="round" opacity="0.15">
+      <path d="M 660,760 Q 700,720 740,760 Q 780,800 820,760"/>
+      <path d="M 680,800 Q 720,760 760,800 Q 800,840 840,800"/>
+    </g>
+
+    <!-- Small asterisk / star near bottom-right on lime blob — very faint -->
+    <g stroke="#333333" stroke-width="2" stroke-linecap="round" opacity="0.18">
+      <line x1="890" y1="890" x2="910" y2="910"/>
+      <line x1="910" y1="890" x2="890" y2="910"/>
+      <line x1="880" y1="900" x2="920" y2="900"/>
+      <line x1="900" y1="880" x2="900" y2="920"/>
+    </g>
+
+    <!-- Thin curved lime line connecting top-left to mid-left — very faint -->
+    <path d="M 120,260 Q 150,380 100,500" stroke="#C7FF3A" stroke-width="2" fill="none" opacity="0.2"/>
+
+    <!-- Extra thin lime accent lines — very faint -->
+    <g stroke="#C7FF3A" stroke-width="1.5" opacity="0.1">
+      <line x1="200" y1="60" x2="200" y2="120"/>
+      <line x1="210" y1="70" x2="210" y2="110"/>
+      <line x1="220" y1="50" x2="220" y2="130"/>
+    </g>
+  </svg>
+</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const decoEls = canvas.querySelectorAll('[class^="geo-"]');
+  console.log('Decorative DOM elements:', decoEls.length); // 5
+</script>
+
+</body>
+</html>

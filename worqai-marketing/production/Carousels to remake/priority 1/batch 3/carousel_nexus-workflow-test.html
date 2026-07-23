@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS Labs · Your workflow is the product</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #020308; min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+/* ── TOP LABEL ── */
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #3b82f6; margin-bottom: 18px; text-align: center; }
+
+/* ── PREVIEW CAGE ── */
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 675px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1350px; aspect-ratio: 4 / 5; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background: linear-gradient(145deg, #050509, #090b11 60%, #0f1118);
+         color: #f0f0f5; }
+
+/* ── PERSPECTIVE WIREFRAME (persistent, all slides) ── */
+.pw-wrap { position: absolute; inset: 0; perspective: 600px; overflow: hidden;
+           pointer-events: none; z-index: 1; }
+.pw-grid { position: absolute; width: 160%; height: 160%; top: -10%; left: 20%;
+           transform-origin: 50% 100%;
+           transform: rotateX(58deg) rotateZ(-12deg);
+           background-image:
+             repeating-linear-gradient(0deg, rgba(59,130,246,0.10) 0, rgba(59,130,246,0.10) 1px, transparent 1px, transparent 80px),
+             repeating-linear-gradient(90deg, rgba(59,130,246,0.10) 0, rgba(59,130,246,0.10) 1px, transparent 1px, transparent 80px);
+           -webkit-mask-image: linear-gradient(120deg, transparent 15%, rgba(0,0,0,0.55) 50%, black 78%);
+           mask-image: linear-gradient(120deg, transparent 15%, rgba(0,0,0,0.55) 50%, black 78%); }
+
+/* ── SCAN LINES ── */
+.scan-lines { position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.3;
+              background-image: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(59,130,246,0.02) 3px, rgba(59,130,246,0.02) 4px); }
+
+/* ── GRAIN ── */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.18;
+                 pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+
+/* ── BLUE RADIAL GLOW (varies per slide) ── */
+.blue-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%;
+             background: radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 70%);
+             pointer-events: none; z-index: 1; }
+
+/* ── CONTENT LAYER ── */
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #3b82f6; }
+.mast-issue { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,240,245,0.45); }
+
+/* ── BRAND ANCHOR ── */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Inter', sans-serif; font-weight: 900; font-size: 18px;
+              letter-spacing: -0.5px; text-transform: lowercase; }
+.brand-mark .core { color: #f0f0f5; }
+.brand-mark .accent { color: #3b82f6; }
+.handle { position: absolute; bottom: 38px; left: 210px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(240,240,245,0.35); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: #f0f0f5; }
+
+/* ── PROGRESS DOTS ── */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(240,240,245,0.14); }
+.pd.on { background: #3b82f6 !important; box-shadow: 0 0 8px rgba(59,130,246,0.5); }
+
+/* ── SWIPE PILL ── */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #3b82f6; color: #020308;
+              font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(59,130,246,0.3); }
+
+/* ── KICKER ── */
+.kicker { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #3b82f6; }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #3b82f6;
+                  box-shadow: 0 0 8px rgba(59,130,246,0.4); }
+
+.headline { font-family: 'Inter', sans-serif; font-weight: 900;
+            font-size: 78px; line-height: 0.96; letter-spacing: -0.03em; color: #f0f0f5; }
+
+/* ── GLOW UTILITIES ── */
+.blue-glow-text { text-shadow: 0 0 10px rgba(59,130,246,0.4), 0 0 30px rgba(59,130,246,0.15); }
+.cyan-glow-text { text-shadow: 0 0 10px rgba(96,165,250,0.4), 0 0 30px rgba(96,165,250,0.15); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 1 · MANIFESTO STACK + OFFSET ECHO + ZOOM BURST
+   ═══════════════════════════════════════════════════════════════ */
+.s1-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 500px; height: 500px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 60%);
+            pointer-events: none; z-index: 1; }
+
+.s1-rings { position: absolute; top: 45%; left: 55%; transform: translate(-50%,-50%);
+            pointer-events: none; z-index: 1; }
+.s1-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #3b82f6;
+                  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.s1-rings .r1 { width: 80px; height: 80px; opacity: 0.45; }
+.s1-rings .r2 { width: 170px; height: 170px; opacity: 0.25; }
+.s1-rings .r3 { width: 280px; height: 280px; opacity: 0.12; border-width: 1px; }
+.s1-rings .r4 { width: 400px; height: 400px; opacity: 0.06; border-width: 1px; }
+
+.s1-eyebrow { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.34em; text-transform: uppercase; color: #3b82f6;
+              margin-bottom: 36px; padding-bottom: 18px; border-bottom: 2px solid #3b82f6;
+              max-width: 380px; text-shadow: 0 0 8px rgba(59,130,246,0.3); }
+.s1-stack { display: flex; flex-direction: column; gap: 14px; }
+.s1-line { font-family: 'Inter', sans-serif; font-size: 72px; line-height: 0.94;
+           letter-spacing: -0.035em; }
+.s1-line.heavy { font-weight: 900; text-transform: uppercase; color: #f0f0f5; }
+.s1-line.light { font-weight: 300; color: #60a5fa; font-style: italic; }
+
+.s1-echo-wrap { position: relative; display: inline-block; z-index: 3; }
+.s1-echo-ghost { position: absolute; top: 6px; left: 6px; font-size: 72px; font-weight: 900;
+                 line-height: 0.94; letter-spacing: -0.035em; color: #3b82f6; opacity: 0.20;
+                 white-space: nowrap; pointer-events: none; }
+.s1-echo-real { position: relative; font-size: 72px; font-weight: 900;
+                line-height: 0.94; letter-spacing: -0.035em; color: #020308;
+                background: #3b82f6; padding: 2px 14px; align-self: flex-start;
+                box-shadow: 0 0 30px rgba(59,130,246,0.35); white-space: nowrap; }
+
+.s1-line.outline { font-weight: 900; text-transform: uppercase; color: transparent;
+                   -webkit-text-stroke: 1.5px #f0f0f5; }
+.s1-byline { margin-top: 36px; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+             font-weight: 500; color: rgba(96,165,250,0.55); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 1px solid rgba(59,130,246,0.18); max-width: 520px;
+             line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 2 · BIG NUMBER + ZOOM BURST
+   ═══════════════════════════════════════════════════════════════ */
+.s2-rings { position: absolute; top: 40%; left: 25%; transform: translate(-50%,-50%);
+            pointer-events: none; z-index: 1; }
+.s2-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #60a5fa;
+                  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.s2-rings .r1 { width: 100px; height: 100px; opacity: 0.40; }
+.s2-rings .r2 { width: 220px; height: 220px; opacity: 0.20; }
+.s2-rings .r3 { width: 360px; height: 360px; opacity: 0.10; border-width: 1px; }
+.s2-rings .r4 { width: 500px; height: 500px; opacity: 0.05; border-width: 1px; }
+
+.s2-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+           gap: 44px; flex: 1; }
+.s2-stat { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 420px;
+           line-height: 0.80; letter-spacing: -0.07em; color: #f0f0f5;
+           position: relative; text-shadow: 0 0 40px rgba(59,130,246,0.25); }
+.s2-stat .pct { font-size: 200px; vertical-align: top; line-height: 1;
+                color: #60a5fa; text-shadow: 0 0 30px rgba(96,165,250,0.4); }
+.s2-stat::after { content: ''; position: absolute; left: -10px; bottom: -16px; width: 280px;
+                  height: 8px; background: #3b82f6;
+                  box-shadow: 0 0 15px rgba(59,130,246,0.5); }
+
+.s2-side { display: flex; flex-direction: column; gap: 22px; padding-left: 8px; }
+.s2-side-tag { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px;
+               letter-spacing: 0.32em; text-transform: uppercase; color: #60a5fa; }
+.s2-side-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 32px;
+                    line-height: 1.15; color: #f0f0f5; }
+.s2-side-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 18px;
+                line-height: 1.5; color: rgba(240,240,245,0.70); }
+.s2-side-body strong { color: #3b82f6; font-weight: 700; }
+.s2-source { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+             color: rgba(240,240,245,0.45); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 2px solid #3b82f6; margin-top: 8px; }
+.s2-source strong { color: #f0f0f5; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 3 · TERMINAL BLOCK
+   ═══════════════════════════════════════════════════════════════ */
+.s3-terminal { background: rgba(5,5,9,0.90); border: 2px solid rgba(59,130,246,0.3); margin-top: 28px;
+               box-shadow: 0 0 30px rgba(59,130,246,0.08), inset 0 0 60px rgba(59,130,246,0.03); }
+.s3-term-bar { padding: 10px 18px; background: rgba(59,130,246,0.08);
+               font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3b82f6;
+               letter-spacing: 0.10em; text-transform: uppercase; display: flex;
+               justify-content: space-between; align-items: center;
+               border-bottom: 1px solid rgba(59,130,246,0.2); }
+.s3-term-bar .blue-pip { display: inline-block; width: 10px; height: 10px; background: #3b82f6;
+                         border-radius: 50%; box-shadow: 0 0 8px rgba(59,130,246,0.6); }
+.s3-term-body { padding: 28px 30px; font-family: 'JetBrains Mono', monospace;
+                font-size: 17px; line-height: 1.85; color: #f0f0f5; }
+.s3-term-prompt { color: #3b82f6; font-weight: 700; }
+.s3-term-comment { color: rgba(96,165,250,0.35); }
+.s3-term-highlight { background: rgba(59,130,246,0.18); padding: 0 4px; font-weight: 700; color: #3b82f6; }
+.s3-term-bad { color: #ef4444; font-weight: 700; }
+.s3-term-good { color: #3b82f6; font-weight: 700; }
+.s3-term-cursor { display: inline-block; width: 10px; height: 22px; background: #3b82f6;
+                  vertical-align: text-bottom; margin-left: 4px; animation: blink 1s infinite;
+                  box-shadow: 0 0 8px rgba(59,130,246,0.6); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 4 · PROOF + CTA
+   ═══════════════════════════════════════════════════════════════ */
+.s4-grid { display: grid; grid-template-rows: auto auto; gap: 28px; flex: 1; margin-top: 28px; }
+.s4-proof { display: grid; grid-template-columns: 280px 1fr; gap: 28px;
+            padding: 28px; background: rgba(59,130,246,0.08); border: 2px solid rgba(59,130,246,0.25);
+            box-shadow: 0 0 30px rgba(59,130,246,0.10), 12px 12px 0 rgba(59,130,246,0.15); }
+.s4-proof-stat { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 100px;
+                 line-height: 0.9; letter-spacing: -0.05em; color: #f0f0f5;
+                 text-shadow: 0 0 20px rgba(59,130,246,0.3); }
+.s4-proof-stat-sub { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px;
+                      letter-spacing: 0.16em; text-transform: uppercase; color: #60a5fa;
+                      margin-top: 4px; }
+.s4-proof-text { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.s4-proof-tag { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
+                letter-spacing: 0.30em; text-transform: uppercase; color: #3b82f6; }
+.s4-proof-headline { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 26px;
+                     line-height: 1.15; color: #f0f0f5; }
+.s4-proof-body { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 16px;
+                 line-height: 1.5; color: rgba(240,240,245,0.72); }
+
+.s4-cta { background: linear-gradient(135deg, #3b82f6, #2563eb); padding: 28px 32px; display: grid;
+          grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+          border: 2px solid rgba(59,130,246,0.4);
+          box-shadow: 0 0 40px rgba(59,130,246,0.15); }
+.s4-cta-text { display: flex; flex-direction: column; gap: 8px; }
+.s4-cta-q { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 17px;
+            color: #f0f0f5; letter-spacing: 0.04em; }
+.s4-cta-keyword-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.s4-cta-keyword-row span:first-child { font-family: 'Inter', sans-serif; font-weight: 700;
+                                        font-size: 17px; color: #f0f0f5; }
+.s4-keyword-box { display: inline-block; background: #020308; color: #3b82f6;
+                  padding: 8px 18px; font-family: 'Inter', sans-serif; font-weight: 900;
+                  font-size: 26px; letter-spacing: 0.08em; border: 2px solid #3b82f6;
+                  box-shadow: 0 0 15px rgba(59,130,246,0.3); }
+.s4-cta-btn { background: #020308; color: #60a5fa; border: 2px solid #60a5fa;
+              font-family: 'Inter', sans-serif; font-weight: 900; font-size: 16px;
+              letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 26px;
+              white-space: nowrap; cursor: pointer;
+              box-shadow: 0 0 20px rgba(96,165,250,0.2); }
+
+/* ── CONTROLS ── */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #3b82f6; border: none; color: #020308;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900;
+       box-shadow: 0 0 12px rgba(59,130,246,0.3); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(240,240,245,0.15); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #3b82f6; width: 24px; box-shadow: 0 0 8px rgba(59,130,246,0.4); }
+.hint { font-size: 11px; color: rgba(240,240,245,0.20); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #3b82f6; color: #020308; border: 2px solid #3b82f6; cursor: pointer;
+           font-family: 'Inter', sans-serif; font-weight: 900; font-size: 14px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s;
+           box-shadow: 0 0 20px rgba(59,130,246,0.25); }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(240,240,245,0.40); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+<p class="label-top">NEXUS Labs · Manifesto · 4 slides · System 33 Clean SaaS 2026</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · MANIFESTO STACK ═══════ -->
+      <section class="slide" id="slide-1">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="s1-glow"></div>
+        <div class="s1-rings">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="ring r3"></div><div class="ring r4"></div>
+        </div>
+        <div class="blue-glow" style="top:-10%;right:-10%;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifesto · 01</div>
+          <div class="mast-issue">Nov 2026 · San Francisco</div>
+        </div>
+        <div class="content">
+          <div class="s1-eyebrow">Read · 9 seconds</div>
+          <div class="s1-stack">
+            <div class="s1-line heavy">Your tools</div>
+            <div class="s1-line light">aren't broken.</div>
+            <div class="s1-line heavy">Your workflow</div>
+            <div class="s1-echo-wrap">
+              <span class="s1-echo-ghost">is.</span>
+              <span class="s1-echo-real">is.</span>
+            </div>
+            <div class="s1-line outline">And you feel it.</div>
+          </div>
+          <p class="s1-byline">— Seventy-three percent of teams switch tools every eight months. Not because the tool failed. Because friction killed adoption before value could compound.</p>
+          <div class="swipe-pill">Swipe →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">nexus</span><span class="accent">labs</span></div>
+        <div class="handle">@nexuslabs · workflow intelligence</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · BIG NUMBER ═══════ -->
+      <section class="slide" id="slide-2">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="blue-glow" style="bottom:-20%;left:-15%;"></div>
+        <div class="s2-rings">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="ring r3"></div><div class="ring r4"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#60a5fa;">Manifesto · 01</div>
+          <div class="mast-issue">The number nobody talks about</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#60a5fa;">The data</div>
+          <div class="s2-grid">
+            <div class="s2-stat">73<span class="pct">%</span></div>
+            <div class="s2-side">
+              <div class="s2-side-tag">Tool abandonment</div>
+              <div class="s2-side-headline">of teams abandon their stack before it delivers ROI.</div>
+              <div class="s2-side-body">The average SaaS company pays for <strong>47 unused seats</strong> per month. The waste isn't in the invoice. It's in the friction between tools.</div>
+              <div class="s2-source"><strong>Source:</strong> NEXUS Labs · Workflow Intelligence Report Q4 2026</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">nexus</span><span class="accent">labs</span></div>
+        <div class="handle">@nexuslabs · workflow intelligence</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · TERMINAL ═══════ -->
+      <section class="slide" id="slide-3">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="blue-glow" style="top:-15%;left:30%;opacity:0.5;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#3b82f6;">Manifesto · 01</div>
+          <div class="mast-issue">Workflow audit · live scan</div>
+        </div>
+        <div class="content">
+          <div class="kicker">This is what we find when we audit your workflow</div>
+          <h2 class="headline" style="font-size:52px; max-width: 840px;">Your dashboard says "productive." The logs say otherwise.</h2>
+          <div class="s3-terminal">
+            <div class="s3-term-bar">
+              <span><span class="blue-pip"></span> workflow-scan · enterprise_audit</span>
+              <span>v3.2 · 2026.11</span>
+            </div>
+            <div class="s3-term-body">
+<span class="s3-term-comment"># initializing workflow friction analysis</span><br>
+<span class="s3-term-prompt">$</span> scan --target team-alpha --depth full<br>
+<span class="s3-term-bad">→</span> context switching:        <span class="s3-term-bad">47 times / day</span><br>
+<span class="s3-term-bad">→</span> unused seats:             <span class="s3-term-bad">$12,400 / mo</span><br>
+<span class="s3-term-bad">→</span> duplicated data entry:    <span class="s3-term-bad">6.2 hrs / week</span><br>
+<span class="s3-term-bad">→</span> integration gaps:         <span class="s3-term-bad">13 broken syncs</span><br>
+<span class="s3-term-bad">→</span> onboarding attrition:     <span class="s3-term-bad">62% quit in 30 days</span><br>
+<span class="s3-term-comment"># your tools aren't the problem. your workflow is.</span><br>
+<span class="s3-term-comment"># recommended: <span class="s3-term-highlight">consolidate → automate → measure</span></span><br>
+<span class="s3-term-comment">─────────────────────────────────────────────</span><br>
+<span class="s3-term-prompt">$</span> friction_score: <span class="s3-term-bad">84 / 100</span> · status: <span class="s3-term-bad">CRITICAL</span><span class="s3-term-cursor"></span>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">nexus</span><span class="accent">labs</span></div>
+        <div class="handle">@nexuslabs · workflow intelligence</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · PROOF + CTA ═══════ -->
+      <section class="slide" id="slide-4">
+        <div class="pw-wrap"><div class="pw-grid"></div></div>
+        <div class="scan-lines"></div>
+        <div class="blue-glow" style="top:20%;left:-15%;opacity:0.6;"></div>
+        <div class="blue-glow" style="bottom:-20%;right:10%;opacity:0.4;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#3b82f6;">Manifesto · 01</div>
+          <div class="mast-issue">Proof · Austin, TX</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#3b82f6;">The case · Series B SaaS, 140 employees, Austin</div>
+          <h2 class="headline" style="font-size:50px;">From 47 tools to 9.</h2>
+
+          <div class="s4-grid">
+            <div class="s4-proof">
+              <div>
+                <div class="s4-proof-stat">3<span style="font-size:46px;color:#3b82f6;">×</span></div>
+                <div class="s4-proof-stat-sub">Faster delivery</div>
+              </div>
+              <div class="s4-proof-text">
+                <div class="s4-proof-tag">Real case · Austin</div>
+                <div class="s4-proof-headline">From tool chaos to workflow clarity in 60 days.</div>
+                <div class="s4-proof-body">They were paying for 47 tools. Using 12. We consolidated to 9 integrated workflows. <strong style="color:#3b82f6;">Context switching dropped 68%. Onboarding time went from 3 weeks to 4 days.</strong> Same team. Different system.</div>
+              </div>
+            </div>
+
+            <div class="s4-cta">
+              <div class="s4-cta-text">
+                <div class="s4-cta-q">Ready to audit your workflow?</div>
+                <div class="s4-cta-keyword-row">
+                  <span>Comment</span>
+                  <span class="s4-keyword-box">NEXUS</span>
+                  <span>· we send the 2026 audit free.</span>
+                </div>
+              </div>
+              <button class="s4-cta-btn">Get Audit</button>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark"><span class="core">nexus</span><span class="accent">labs</span></div>
+        <div class="handle">@nexuslabs · workflow intelligence</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Arrows · Swipe · Click dots</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1350 px · clean saas · blue glow</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Needs internet to load libraries.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturing ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} of ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Compressing...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel-nexus-labs-clean-saas.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP downloaded';
+  progress.textContent = `${slides.length} files · slide_01–04.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Export ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1350 px · clean saas · blue glow';
+  }, 3000);
+}
+</script>
+</body>
+</html>

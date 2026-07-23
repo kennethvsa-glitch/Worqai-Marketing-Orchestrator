@@ -1,0 +1,37 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="tfs-wrap">
+    <div class="tfs-chrome">
+      <div class="tfs-dot r"></div>
+      <div class="tfs-dot y"></div>
+      <div class="tfs-dot g"></div>
+      <div class="tfs-tab">{{ copy.tab_title | default('terminal.sh') }}</div>
+    </div>
+    <div class="tfs-body">
+      {% if copy.command %}
+      <div class="tfs-cmd">$ {{ copy.command }}</div>
+      {% endif %}
+      {% for line in copy.output_lines | default([]) %}
+      {% set _lt = line.type | default('ok') %}
+      <div class="tfs-{{ _lt }}">{% if _lt == 'ok' %}<svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg> {% elif _lt == 'warn' %}<svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg> {% elif _lt == 'err' %}<svg class="icon" aria-hidden="true"><use href="#icon-error"/></svg> {% endif %}{{ line.text }}</div>
+      {% endfor %}
+      {% if not copy.output_lines and not copy.command %}
+      <div class="tfs-cmd">$ ats-check --verbose cv.pdf</div>
+      <div class="tfs-ok"><svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg> Iniciando análisis ATS...</div>
+      <div class="tfs-ok"><svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg> Texto extraído: 487 palabras</div>
+      <div class="tfs-warn"><svg class="icon" aria-hidden="true"><use href="#icon-warning"/></svg> Foto de perfil detectada — ignorada</div>
+      <div class="tfs-err"><svg class="icon" aria-hidden="true"><use href="#icon-error"/></svg> Tabla encontrada en sección Experiencia — parseo fallido</div>
+      <div class="tfs-ok"><svg class="icon" aria-hidden="true"><use href="#icon-ok"/></svg> Keywords relevantes: 12/20</div>
+      <div class="tfs-comment">Score ATS: 61/100 — por debajo del umbral recomendado</div>
+      <div class="tfs-comment tfs-cursor"> </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "title": "Recruiting Signals — Cyberpunk",
+    "brand": "WorqAI",
+    "system": "s29"
+  },
+  "slides": [
+    {
+      "layout": "slide-big-number",
+      "layers": ["geo-pixel-grid"],
+      "copy": {
+        "stat_number": "43%",
+        "stat_context": "of Latin American CVs fail ATS on first filter"
+      }
+    },
+    {
+      "layout": "slide-warning-banner",
+      "layers": ["geo-circuit-trace"],
+      "copy": {
+        "headline": "<em>Don't</em> optimize for humans — optimize for machines first"
+      }
+    },
+    {
+      "layout": "slide-bento-grid",
+      "layers": ["geo-starfield"],
+      "copy": {
+        "headline": "The ATS kill-switch checklist",
+        "grid": "g-3x2",
+        "tiles": [
+          {"title": "PDF parsed", "desc": "Text readable"},
+          {"title": "Keywords match", "desc": "Job posting"},
+          {"title": "Dates clear", "desc": "No gaps"},
+          {"title": "Contact present", "desc": "Email + phone"},
+          {"title": "One page clean", "desc": "No sidebars"},
+          {"title": "No images", "desc": "Text only"}
+        ]
+      }
+    },
+    {
+      "layout": "slide-progress-bars",
+      "layers": ["geo-pixel-grid"],
+      "copy": {
+        "headline": "Your CV readiness",
+        "bars": [
+          {"label": "ATS score", "pct": 0},
+          {"label": "After WorqAI", "pct": 94},
+          {"label": "Your next shot", "pct": 87}
+        ]
+      }
+    }
+  ]
+}

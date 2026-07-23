@@ -1,0 +1,40 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="mc-wrap">
+    {% if copy.headline %}
+    <div class="mc-headline">{{ copy.headline }}</div>
+    {% endif %}
+
+    {# Encode the message as Morse code dots/dashes #}
+    {% set _morse = {
+      'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---',
+      'K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-',
+      'U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..',
+      '1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----'
+    } %}
+    {% set _msg = (copy.message | default(copy.headline | default('WORQAI'))) | upper %}
+    <div class="mc-code">
+      {% for char in _msg %}
+      {% if char == ' ' %}
+      <span class="mc-word-gap"></span>
+      {% elif char in _morse %}
+      {% for sym in _morse[char] %}
+      {% if sym == '.' %}<span class="mc-dot"></span>{% else %}<span class="mc-dash"></span>{% endif %}
+      {% endfor %}
+      <span class="mc-gap"></span>
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if copy.decoded_text or copy.message %}
+    <div class="mc-decoded">{{ copy.decoded_text | default(copy.message | default('')) }}</div>
+    {% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

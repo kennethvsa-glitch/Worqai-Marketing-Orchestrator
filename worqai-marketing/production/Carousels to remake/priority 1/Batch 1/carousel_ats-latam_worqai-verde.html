@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI · Tu CV nunca fue leído · Sistema 17 WORQAI VERDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   SYSTEM 17 · WORQAI VERDE
+   Topic: ATS LATAM — "Tu CV nunca fue leído"
+   Hook: Negative · 8 slides · 1080×1080
+   Style DNA confirmed — no deco-nums, no left-borders,
+   no pill badges, layout breaks on slide 6
+   ===================================================== */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+}
+
+.label-top {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C7FF3A;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.viewer {
+  width: 100%;
+  max-width: 1080px;
+  overflow: hidden;
+}
+
+/* Preview cage: browser sees 540px, Playwright at 1080px viewport gets full size */
+@media (min-width: 1200px) {
+  .viewer { max-width: 540px; }
+}
+
+.wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Anti-AI Fatal Signal #2: deco-num suppressed globally */
+.deco-num { display: none; }
+
+/* ===== SLIDE BASE ===== */
+.slide {
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 56px 52px 140px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grain via ::before — opacity controlled by CSS custom prop */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: var(--grain-op, 0.05);
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+
+/* ===== DARK SLIDE THEME ===== */
+.slide.dark {
+  background: linear-gradient(148deg, #1A1A18 0%, #0F0F12 100%);
+  --text-p: #FFF8E7;
+  --text-s: rgba(255, 248, 231, 0.55);
+  --label-c: #C7FF3A;
+  --blk-bad-bg: rgba(255, 92, 60, 0.10);
+  --blk-good-bg: rgba(199, 255, 58, 0.08);
+  --bad-lbl-c: #FF5C3C;
+  --good-lbl-c: #C7FF3A;
+  --blk-bad-txt: rgba(255, 248, 231, 0.72);
+  --blk-good-txt: #FFF8E7;
+  --grain-op: 0.05;
+  --chrome: rgba(255, 248, 231, 0.28);
+  --chrome-faint: rgba(255, 248, 231, 0.10);
+  --brand-w-c: rgba(199, 255, 58, 0.045);
+  --pd-on: #C7FF3A;
+}
+
+/* ===== CREAM SLIDE THEME ===== */
+.slide.cream {
+  background: linear-gradient(148deg, #FFF8E7 0%, #F5EDD9 100%);
+  --text-p: #0F0F12;
+  --text-s: rgba(15, 15, 18, 0.58);
+  --label-c: rgba(15, 15, 18, 0.48);
+  --blk-bad-bg: #FFEEE8;
+  --blk-good-bg: #F0F8DC;
+  --bad-lbl-c: #C03A1A;
+  --good-lbl-c: #3A6600;
+  --blk-bad-txt: rgba(15, 15, 18, 0.72);
+  --blk-good-txt: rgba(15, 15, 18, 0.85);
+  --grain-op: 0.03;
+  --chrome: rgba(15, 15, 18, 0.32);
+  --chrome-faint: rgba(15, 15, 18, 0.10);
+  --brand-w-c: rgba(15, 15, 18, 0.05);
+  --pd-on: #3A6600;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.display {
+  font-size: clamp(40px, 7.2vw, 64px);
+  font-weight: 900;
+  color: var(--text-p);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  position: relative;
+  z-index: 2;
+}
+
+.headline {
+  font-size: clamp(26px, 4.8vw, 40px);
+  font-weight: 800;
+  color: var(--text-p);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  position: relative;
+  z-index: 2;
+}
+
+.body-text {
+  font-size: clamp(13px, 2.3vw, 16px);
+  font-weight: 400;
+  color: var(--text-s);
+  line-height: 1.65;
+  position: relative;
+  z-index: 2;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--label-c);
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-num {
+  font-size: clamp(92px, 18vw, 140px);
+  font-weight: 900;
+  color: var(--text-p);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== BLOCKS — NO LEFT BORDER, border-radius only ===== */
+.blk {
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.blk.bad  { background: var(--blk-bad-bg); }
+.blk.good { background: var(--blk-good-bg); }
+
+.blk-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.blk.bad  .blk-lbl { color: var(--bad-lbl-c); }
+.blk.good .blk-lbl { color: var(--good-lbl-c); }
+
+.blk-txt {
+  font-size: clamp(11px, 2.1vw, 14px);
+  line-height: 1.55;
+  color: var(--blk-bad-txt);
+}
+
+.blk.good .blk-txt {
+  color: var(--blk-good-txt);
+  font-weight: 500;
+}
+
+/* ===== ERROR PROGRESS DOTS ===== */
+.prog {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.pd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--chrome-faint);
+}
+
+.pd.on { color: var(--pd-on); }
+
+/* ===== SWIPE PILL ===== */
+.swipe-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border: 1px solid #C7FF3A;
+  color: #C7FF3A;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  align-self: flex-end;
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+}
+
+/* ===== BRAND ANCHOR (locked position — every slide) ===== */
+.brand-anchor {
+  position: absolute;
+  bottom: 22px;
+  left: 52px;
+  z-index: 3;
+  line-height: 1;
+}
+
+.brand-wq {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  text-transform: lowercase;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.brand-wq .worq  { color: var(--chrome); }
+.brand-wq .ai-mk { color: #C7FF3A; }
+
+.counter {
+  position: absolute;
+  bottom: 24px;
+  right: 52px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--chrome);
+  z-index: 3;
+}
+
+/* ===== BRAND W WATERMARK ===== */
+.brand-w {
+  position: absolute;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(360px, 62vw, 580px);
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  color: var(--brand-w-c);
+}
+
+/* ===== LIME GLOW ===== */
+.lime-glow {
+  position: absolute;
+  width: 55%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(199, 255, 58, 0.18) 0%, transparent 65%);
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cream slides: reduce glow to 0.10 opacity (lime on cream washes out) */
+.slide.cream .lime-glow {
+  background: radial-gradient(circle, rgba(199, 255, 58, 0.10) 0%, transparent 65%);
+}
+
+/* ===== CORAL ACCENT SPOT (punctuation only — ~3 slides) ===== */
+.coral-spot {
+  position: absolute;
+  width: 12%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background: #FF5C3C;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== DIAGONAL BAND (secondary layer alternative) ===== */
+.diag-band {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 130%;
+  height: 30%;
+  background: linear-gradient(
+    115deg,
+    transparent 45%,
+    rgba(199, 255, 58, 0.06) 45%,
+    rgba(199, 255, 58, 0.06) 47%,
+    transparent 47%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== SLIDE 2 — DATA SPECIFIC ===== */
+.stat-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.stat-unit {
+  font-size: clamp(32px, 5.5vw, 50px);
+  font-weight: 900;
+  color: var(--text-p);
+  letter-spacing: -0.02em;
+  padding-bottom: 12px;
+  margin-left: 4px;
+}
+
+.source-tag {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--chrome-faint);
+  margin-top: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== SLIDE 6 — BENTO COMPARISON (layout break) ===== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.bento-card {
+  border-radius: 18px;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+}
+
+.bento-card.b-dark { background: #0F0F12; }
+.bento-card.b-lime { background: #C7FF3A; }
+
+.bento-tag {
+  font-family: 'Nunito', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bento-card.b-dark .bento-tag { color: rgba(255, 92, 60, 0.80); }
+.bento-card.b-lime .bento-tag { color: rgba(15, 15, 18, 0.60); }
+
+.bento-num {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(52px, 9.5vw, 80px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  margin: 8px 0 6px;
+}
+
+.bento-card.b-dark .bento-num { color: #FFF8E7; }
+.bento-card.b-lime .bento-num { color: #0F0F12; }
+
+.bento-sub {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(11px, 2vw, 13px);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.bento-card.b-dark .bento-sub { color: rgba(255, 248, 231, 0.55); }
+.bento-card.b-lime .bento-sub { color: rgba(15, 15, 18, 0.68); }
+
+/* ===== SLIDE 7 — PROOF ===== */
+.result-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(199, 255, 58, 0.08);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.result-big {
+  font-size: clamp(32px, 5.8vw, 46px);
+  font-weight: 900;
+  color: #C7FF3A;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.result-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.result-meta strong {
+  font-size: clamp(12px, 2.2vw, 15px);
+  font-weight: 700;
+  color: #FFF8E7;
+  line-height: 1.2;
+}
+
+.result-meta span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 248, 231, 0.45);
+}
+
+.quote-frame {
+  flex: 1;
+  min-height: 0;
+  background: rgba(199, 255, 58, 0.05);
+  border-radius: 16px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-mark {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 44px;
+  font-weight: 400;
+  color: rgba(199, 255, 58, 0.28);
+  line-height: 1;
+  margin-bottom: -8px;
+}
+
+.quote-text {
+  font-size: clamp(13px, 2.2vw, 15px);
+  font-weight: 400;
+  color: rgba(255, 248, 231, 0.78);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.quote-attr {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #C7FF3A;
+  margin-top: 12px;
+}
+
+/* ===== SLIDE 8 — CTA ===== */
+.cta-card {
+  background: #0F0F12;
+  border-radius: 24px;
+  padding: 32px 28px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-headline {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  color: #FFF8E7;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin-bottom: 18px;
+}
+
+.keyword-box {
+  border: 2px dashed #C7FF3A;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.keyword-text {
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 900;
+  color: #C7FF3A;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.keyword-hint {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(199, 255, 58, 0.50);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.cta-sub {
+  font-size: clamp(12px, 2.1vw, 14px);
+  color: rgba(255, 248, 231, 0.52);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.cta-btn {
+  display: block;
+  background: #C7FF3A;
+  color: #0F0F12;
+  text-align: center;
+  border-radius: 999px;
+  padding: 15px 28px;
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(14px, 2.4vw, 17px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ===== NAVIGATION ===== */
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:disabled { opacity: 0.2; cursor: default; }
+
+.dots { display: flex; gap: 6px; }
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dot.on { background: #C7FF3A; width: 14px; border-radius: 3px; }
+
+.hint {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="label-top">Sistema 17 · WorqAI Verde · 8 slides · ATS LATAM</div>
+
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ================================================================
+           SLIDE 1 · HOOK (dark) · Negative hook · Loss aversion
+           Layout: centered display + intensifier + swipe pill
+           Background layers: gradient + lime glow (top-right) + W mark (top-left)
+           ================================================================ -->
+      <div class="slide dark">
+        <!-- Lime glow: S1 position — top -15% right -10% scale 1.0 -->
+        <div class="lime-glow" style="top:-15%;right:-10%;transform:scale(1.0);"></div>
+        <!-- W mark: S1 position — top -8% left -6% -->
+        <div class="brand-w" style="top:-8%;left:-6%;">W</div>
+        <!-- No secondary layer on S1 — let the glow and W breathe -->
+
+        <div class="label">ATS · LATAM · 2026</div>
+
+        <!-- Hook copy: negative, loss aversion, 5 words, forces the swipe -->
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;position:relative;z-index:2;">
+          <div class="display">Tu CV<br>nunca fue<br>leído.</div>
+          <p class="body-text" style="max-width:380px;">
+            Lo eliminó un algoritmo antes de que un humano lo abriera.
+          </p>
+        </div>
+
+        <div class="swipe-pill">Desliza →</div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">01 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 2 · DATA (cream) · Counterintuitive stat · Tier 1 DATA hierarchy
+           S1→S3 retention: references hook gap by name in bridge line
+           Layout: stat-hero left-aligned + source + bridge
+           Background: gradient + lime glow (bottom-left) + W mark (bottom-right)
+           ================================================================ -->
+      <div class="slide cream">
+        <!-- Lime glow: S2 position — top 60% right -20% scale 1.1, 0.10 opacity -->
+        <div class="lime-glow" style="top:60%;right:-20%;transform:scale(1.1);"></div>
+        <!-- W mark: S2 position — bottom -20% right -10% -->
+        <div class="brand-w" style="bottom:-20%;right:-10%;">W</div>
+
+        <div class="label">El problema · escala</div>
+
+        <div class="stat-row">
+          <div class="stat-num">75</div>
+          <div class="stat-unit">%</div>
+        </div>
+
+        <p class="body-text" style="margin-top:10px;">
+          de CVs en LATAM son eliminados por filtros automáticos antes de que un reclutador los abra.
+        </p>
+        <div class="source-tag">Dato interno WorqAI · base de datos 2025</div>
+
+        <!-- S1→S3 bridge: names the hook gap explicitly -->
+        <p class="body-text" style="margin-top:auto;padding-top:18px;font-weight:600;color:rgba(15,15,18,0.72);font-size:clamp(13px,2.3vw,15px);">
+          Ese algoritmo se llama ATS.<br>Tiene 4 errores favoritos. Los vas a reconocer.
+        </p>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">02 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 3 · ERROR 1 (dark) · Opens directly — no setup language (S3 retention rule)
+           Layout: label + headline + bad block + good block + progress dots
+           Background: gradient + lime glow (top-left) + W mark (right-center)
+           ================================================================ -->
+      <div class="slide dark">
+        <!-- Lime glow: S3 position — top -10% right 55% scale 1.0 -->
+        <div class="lime-glow" style="top:-10%;right:55%;transform:scale(1.0);"></div>
+        <!-- W mark: S3 position — top 10% right -25% -->
+        <div class="brand-w" style="top:10%;right:-25%;">W</div>
+
+        <div class="label">Error 01 · de 04</div>
+
+        <!-- Opens with the error directly — no "vamos a ver" setup -->
+        <div class="headline" style="margin-bottom:20px;">
+          Mandás el mismo CV<br>a todas las vacantes.
+        </div>
+
+        <div class="blk bad">
+          <div class="blk-lbl">El error</div>
+          <div class="blk-txt">CV genérico sin keywords del puesto. El ATS no encuentra coincidencias y te descarta antes del primer filtro humano.</div>
+        </div>
+        <div class="blk good">
+          <div class="blk-lbl">La solución</div>
+          <div class="blk-txt">Copiá 3 palabras exactas del job description en tu resumen y habilidades. El ATS busca coincidencias exactas — dáselas.</div>
+        </div>
+
+        <div class="prog">
+          <span class="pd on">01</span>
+          <span class="pd">02</span>
+          <span class="pd">03</span>
+          <span class="pd">04</span>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">03 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 4 · ERROR 2 (cream) · LinkedIn headline error
+           Layout: label + headline + bad block + good block + coral spot + progress
+           Background: gradient + lime glow (center-left) + W mark (bottom-left) + coral spot
+           ================================================================ -->
+      <div class="slide cream">
+        <!-- Lime glow: S4 position — top 50% right 60% scale 1.2, 0.10 opacity -->
+        <div class="lime-glow" style="top:50%;right:60%;transform:scale(1.2);"></div>
+        <!-- W mark: S4 position — bottom -25% left -15% -->
+        <div class="brand-w" style="bottom:-25%;left:-15%;">W</div>
+        <!-- Coral accent spot: punctuation near headline -->
+        <div class="coral-spot" style="top:18%;right:14%;"></div>
+
+        <div class="label">Error 02 · de 04</div>
+
+        <div class="headline" style="margin-bottom:20px;">
+          Tu headline de LinkedIn<br>no dice lo que hacés.
+        </div>
+
+        <div class="blk bad">
+          <div class="blk-lbl">El error</div>
+          <div class="blk-txt">"Profesional en búsqueda de oportunidades." Los reclutadores no te encuentran cuando buscan tu perfil.</div>
+        </div>
+        <div class="blk good">
+          <div class="blk-lbl">La solución</div>
+          <div class="blk-txt">"Contadora | Finanzas corporativas | LATAM" — Aparecés en 3× más búsquedas de reclutadores activos.</div>
+        </div>
+
+        <div class="prog">
+          <span class="pd">01</span>
+          <span class="pd on">02</span>
+          <span class="pd">03</span>
+          <span class="pd">04</span>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">04 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 5 · ERROR 3 (dark) · Format/template error
+           Layout: label + headline + bad block + good block + diagonal band + progress
+           Background: gradient + lime glow (top-left) + W mark (top-center) + diag band
+           ================================================================ -->
+      <div class="slide dark">
+        <!-- Lime glow: S5 position — top -20% right -15% scale 1.1 -->
+        <div class="lime-glow" style="top:-20%;right:-15%;transform:scale(1.1);"></div>
+        <!-- W mark: S5 position — top -20% right 10% -->
+        <div class="brand-w" style="top:-20%;right:10%;">W</div>
+        <!-- Diagonal band as secondary layer (replaces coral on this slide) -->
+        <div class="diag-band"></div>
+
+        <div class="label">Error 03 · de 04</div>
+
+        <div class="headline" style="margin-bottom:20px;">
+          Usás un CV con tablas,<br>columnas e íconos.
+        </div>
+
+        <div class="blk bad">
+          <div class="blk-lbl">El error</div>
+          <div class="blk-txt">CV diseñado en Canva o Word con columnas laterales. El ATS importa el texto en blanco o lo omite por completo.</div>
+        </div>
+        <div class="blk good">
+          <div class="blk-lbl">La solución</div>
+          <div class="blk-txt">Una sola columna, sin tablas, sin íconos. Texto plano estructurado. El ATS lee cada línea que escribiste.</div>
+        </div>
+
+        <div class="prog">
+          <span class="pd">01</span>
+          <span class="pd">02</span>
+          <span class="pd on">03</span>
+          <span class="pd">04</span>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">05 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 6 · ERROR 4 / LAYOUT BREAK (cream) · Bento comparison grid
+           NON-STANDARD LAYOUT — breaks the error-block rhythm intentionally
+           Layout: label + bento 2-col grid + body line + progress dots
+           Background: gradient + lime glow (bottom-right) + W mark (left-center)
+           ================================================================ -->
+      <div class="slide cream">
+        <!-- Lime glow: S6 position — top 55% right -25% scale 1.3, 0.10 opacity -->
+        <div class="lime-glow" style="top:55%;right:-25%;transform:scale(1.3);"></div>
+        <!-- W mark: S6 position — top 15% left -30% -->
+        <div class="brand-w" style="top:15%;left:-30%;">W</div>
+
+        <div class="label" style="margin-bottom:14px;">Error 04 · de 04</div>
+
+        <!-- BENTO COMPARISON — intentional layout break from error-block rhythm -->
+        <div class="bento-grid">
+          <div class="bento-card b-dark">
+            <span class="bento-tag">Sin score ATS</span>
+            <div class="bento-num">0</div>
+            <span class="bento-sub">entrevistas<br>en 3 meses</span>
+          </div>
+          <div class="bento-card b-lime">
+            <span class="bento-tag">Score ATS optimizado</span>
+            <div class="bento-num">3</div>
+            <span class="bento-sub">entrevistas<br>en 10 días</span>
+          </div>
+        </div>
+
+        <p class="body-text" style="margin-top:14px;font-weight:500;color:rgba(15,15,18,0.72);">
+          No verificás tu CV antes de aplicar.<br>La mayoría aplica sin saber si el ATS va a leerlo.
+        </p>
+
+        <div class="prog" style="margin-top:10px;">
+          <span class="pd">01</span>
+          <span class="pd">02</span>
+          <span class="pd">03</span>
+          <span class="pd on">04</span>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">06 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 7 · PROOF (dark) · Tier 2 specificity (city + number + timeframe + quote)
+           Real anonymized Profile Pro LATAM client — verify before publishing
+           Layout: label + result bar + quote frame + context line
+           Background: gradient + lime glow (top-right) + W mark (bottom-right) + coral spot
+           ================================================================ -->
+      <div class="slide dark">
+        <!-- Lime glow: S7 position — top -10% right 40% scale 1.4 -->
+        <div class="lime-glow" style="top:-10%;right:40%;transform:scale(1.4);"></div>
+        <!-- W mark: S7 position — bottom -30% right -15% -->
+        <div class="brand-w" style="bottom:-30%;right:-15%;">W</div>
+        <!-- Coral accent spot near headline — punctuation use only -->
+        <div class="coral-spot" style="top:14%;left:74%;"></div>
+
+        <div class="label">Caso real · San José, CR</div>
+
+        <!-- Result bar: specific numbers (Tier 2 proof) -->
+        <div class="result-bar">
+          <div class="result-big">3</div>
+          <div class="result-meta">
+            <strong>entrevistas en 11 días</strong>
+            <span>vs. 4 meses sin respuesta</span>
+          </div>
+        </div>
+
+        <!-- Quote frame -->
+        <div class="quote-frame">
+          <div class="quote-mark">"</div>
+          <p class="quote-text">
+            Llevaba 4 meses mandando CVs sin que nadie me llamara. Era el formato el que me paraba, no mi experiencia ni mis años de trabajo.
+          </p>
+          <div class="quote-attr">— Caso anónimo · Contadora · San José · Profile Pro LATAM</div>
+        </div>
+
+        <p class="body-text" style="margin-top:12px;font-size:clamp(11px,2vw,13px);">
+          Optimizamos keywords del CV y el headline de LinkedIn. Tres callbacks en once días.
+        </p>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">07 / 08</div>
+      </div>
+
+      <!-- ================================================================
+           SLIDE 8 · CTA (cream) · Single action — product website
+           CTA formula: verb (Probalo) + keyword (worqai.com) + reward (gratis, 30 segundos)
+           Layout: label + CTA card (headline + keyword box + sub + button)
+           Background: gradient + lime glow (center-right) + W mark (bottom-left)
+           ================================================================ -->
+      <div class="slide cream">
+        <!-- Lime glow: custom position for CTA slide -->
+        <div class="lime-glow" style="top:30%;right:-15%;transform:scale(1.2);"></div>
+        <!-- W mark: CTA position — bottom -20% left -10% -->
+        <div class="brand-w" style="bottom:-20%;left:-10%;">W</div>
+
+        <div class="label" style="margin-bottom:12px;">¿Qué hacés ahora?</div>
+
+        <div class="cta-card">
+          <div class="cta-headline">¿Tu CV<br>pasa el ATS?</div>
+
+          <!-- Keyword box: dashed border, product URL as the keyword -->
+          <div class="keyword-box">
+            <div class="keyword-text">worqai.com</div>
+            <div class="keyword-hint">Score ATS · gratis · sin registro</div>
+          </div>
+
+          <p class="cta-sub">
+            Analizá tu CV en 30 segundos. Ves exactamente qué está fallando y cómo arreglarlo antes de tu próxima aplicación.
+          </p>
+
+          <!-- Single CTA — one keyword, one destination, one action -->
+          <a class="cta-btn" href="https://worqai.com">Probarlo gratis →</a>
+        </div>
+
+        <div class="brand-anchor">
+          <span class="brand-wq"><span class="worq">worq</span><span class="ai-mk">ai</span></span>
+        </div>
+        <div class="counter">08 / 08</div>
+      </div>
+
+    </div><!-- /track -->
+  </div><!-- /wrap -->
+</div><!-- /viewer -->
+
+<div class="controls">
+  <button class="btn" id="prev">&#8249;</button>
+  <div class="dots">
+    <div class="dot on"  onclick="go(0)"></div>
+    <div class="dot"     onclick="go(1)"></div>
+    <div class="dot"     onclick="go(2)"></div>
+    <div class="dot"     onclick="go(3)"></div>
+    <div class="dot"     onclick="go(4)"></div>
+    <div class="dot"     onclick="go(5)"></div>
+    <div class="dot"     onclick="go(6)"></div>
+    <div class="dot"     onclick="go(7)"></div>
+  </div>
+  <button class="btn" id="next">&#8250;</button>
+</div>
+
+<div class="hint">← → · deslizá · toque</div>
+
+<script>
+let cur = 0;
+const slides  = document.querySelectorAll('.slide');
+const track   = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots    = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+  const num   = String(cur + 1).padStart(2, '0');
+  const total = String(slides.length).padStart(2, '0');
+  document.querySelectorAll('.counter').forEach(c => c.textContent = `${num} / ${total}`);
+}
+
+function move(dir) { go(cur + dir); }
+
+let sx = 0;
+document.getElementById('wrap').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+document.getElementById('wrap').addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft')  move(-1);
+});
+
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+
+go(0);
+</script>
+</body>
+</html>

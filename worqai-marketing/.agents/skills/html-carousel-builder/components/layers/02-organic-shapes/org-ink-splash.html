@@ -1,0 +1,53 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "org-ink-splash",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "high",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s03",
+      "s06",
+      "s10",
+      "s11",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s46"
+    ],
+    "pairs_well_with": [
+      "light-glow-radial-center",
+      "deco-ornament",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "geo-circuit-board",
+      "geo-hex-grid",
+      "geo-wireframe-perspective"
+    ]
+  }
+-->
+
+<!--
+LAYER: INK SPLASH
+Irregular blob shapes with rough edges.
+Best for: artistic, risograph, print systems.
+-->
+
+<svg class="ink-splash" viewBox="0 0 400 400">
+  <path d="M180,40 Q280,20 340,100 Q380,180 320,280 Q260,380 160,360 Q60,340 40,240 Q20,140 100,80 Q140,50 180,40 Z" fill="var(--accent-soft)" opacity="0.15"/>
+</svg>
+
+<style>
+.ink-splash { position: absolute; width: 500px; height: 500px; top: -50px; right: -50px; pointer-events: none; z-index: 1; }
+</style>

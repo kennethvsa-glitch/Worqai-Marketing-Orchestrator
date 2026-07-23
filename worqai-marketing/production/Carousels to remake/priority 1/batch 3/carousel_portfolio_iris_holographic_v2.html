@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRIS · Chromatic Studio · Holographic Manifesto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0a0a0a; min-height: 100vh; font-family: 'Space Grotesk', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #ff6b6b; margin-bottom: 18px; text-align: center; }
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background:
+           radial-gradient(circle at 10% 0%, rgba(255,255,255,0.7), transparent 60%),
+           conic-gradient(from 180deg at 50% 50%, #ff9ff3, #feca57, #ff6b6b, #48dbfb, #1dd1a1, #5f27cd, #ff9ff3);
+         color: #ffffff; }
+
+/* Scan lines */
+.scan-lines { position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.25;
+              background-image: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,0.04) 3px, rgba(255,255,255,0.04) 4px); }
+
+/* Grain */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.18;
+                 pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+
+/* Glow orbs */
+.glow-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1; }
+.orb-pink { width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,0,184,0.10) 0%, transparent 60%); }
+.orb-cyan { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,255,255,0.10) 0%, transparent 60%); }
+
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* Masthead */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase;
+              color: #ffffff; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+.mast-issue { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase;
+              color: rgba(255,255,255,0.60); text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* Brand anchor */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 18px;
+              letter-spacing: -0.5px; text-transform: lowercase;
+              color: #ffffff; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.handle { position: absolute; bottom: 38px; left: 200px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase;
+          color: rgba(255,255,255,0.45); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: #ffffff;
+           text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* Progress dots */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(255,255,255,0.25); }
+.pd.on { background: #ff00b8 !important; box-shadow: 0 0 8px rgba(255,0,184,0.5); }
+
+/* Swipe pill */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #ff00b8; color: #ffffff;
+              font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(255,0,184,0.35); }
+
+.kicker { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #ff00b8; text-shadow: 0 0 10px rgba(255,0,184,0.3); }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #ff00b8;
+                  box-shadow: 0 0 8px rgba(255,0,184,0.4); }
+
+.headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+            font-size: 78px; line-height: 0.96; letter-spacing: -0.03em;
+            color: #ffffff; text-shadow: 0 2px 20px rgba(0,0,0,0.35); }
+
+/* Neon text shadows */
+.neon-pink { text-shadow: 0 0 10px rgba(255,0,184,0.4), 0 0 30px rgba(255,0,184,0.15), 0 2px 10px rgba(0,0,0,0.3); }
+.neon-cyan { text-shadow: 0 0 10px rgba(0,255,255,0.4), 0 0 30px rgba(0,255,255,0.15), 0 2px 10px rgba(0,0,0,0.3); }
+
+/* ═══════ SLIDE 1 · MANIFESTO STACK + TA-03 OFFSET ECHO ═══════ */
+.s1-eyebrow { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.34em; text-transform: uppercase; color: #ff00b8;
+              margin-bottom: 36px; padding-bottom: 18px; border-bottom: 2px solid #ff00b8;
+              max-width: 380px;
+              text-shadow: 0 0 8px rgba(255,0,184,0.3); }
+.s1-stack { display: flex; flex-direction: column; gap: 14px; }
+.s1-line { font-family: 'Space Grotesk', sans-serif; font-size: 72px; line-height: 0.94;
+           letter-spacing: -0.035em; }
+.s1-line.heavy { font-weight: 900; text-transform: uppercase; color: #ffffff;
+                 text-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+.s1-line.light { font-weight: 400; color: #a8f0e8; font-style: italic;
+                 text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+
+/* TA-03 Stacked Offset Echo */
+.s1-echo-wrap { position: relative; display: inline-block; z-index: 3; }
+.s1-echo-ghost { position: absolute; top: 6px; left: 6px; font-size: 72px; font-weight: 900;
+                 line-height: 0.94; letter-spacing: -0.035em; color: #ff00b8; opacity: 0.25;
+                 white-space: nowrap; pointer-events: none;
+                 text-shadow: 0 0 20px rgba(255,0,184,0.3); }
+.s1-echo-real { position: relative; font-size: 72px; font-weight: 900;
+                line-height: 0.94; letter-spacing: -0.035em; color: #ffffff;
+                background: #ff00b8; padding: 2px 14px; align-self: flex-start;
+                box-shadow: 0 0 30px rgba(255,0,184,0.35); white-space: nowrap; }
+
+.s1-line.outline { font-weight: 900; text-transform: uppercase; color: transparent;
+                   -webkit-text-stroke: 1.5px #ffffff;
+                   text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+.s1-byline { margin-top: 36px; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+             font-weight: 500; color: rgba(255,255,255,0.70); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.25); max-width: 520px;
+             line-height: 1.6; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+/* Zoom burst rings */
+.zoom-rings { position: absolute; top: 45%; left: 55%; transform: translate(-50%,-50%);
+              pointer-events: none; z-index: 1; }
+.zoom-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #ff00b8;
+                    top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.zoom-rings .r1 { width: 80px; height: 80px; opacity: 0.45; }
+.zoom-rings .r2 { width: 170px; height: 170px; opacity: 0.25; }
+.zoom-rings .r3 { width: 280px; height: 280px; opacity: 0.12; border-width: 1px; }
+.zoom-rings .r4 { width: 400px; height: 400px; opacity: 0.06; border-width: 1px; }
+
+/* ═══════ SLIDE 2 · BIG NUMBER ═══════ */
+.s2-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+           gap: 44px; flex: 1; }
+.s2-stat { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 420px;
+           line-height: 0.80; letter-spacing: -0.07em; color: #ffffff;
+           position: relative;
+           text-shadow: 0 0 40px rgba(255,0,184,0.25), 0 2px 20px rgba(0,0,0,0.3); }
+.s2-stat .pct { font-size: 200px; vertical-align: top; line-height: 1;
+                color: #48dbfb;
+                text-shadow: 0 0 30px rgba(72,219,251,0.4); }
+.s2-stat::after { content: ''; position: absolute; left: -10px; bottom: -16px; width: 280px;
+                  height: 8px; background: #ff00b8;
+                  box-shadow: 0 0 15px rgba(255,0,184,0.5); }
+
+.s2-side { display: flex; flex-direction: column; gap: 22px; padding-left: 8px; }
+.s2-side-tag { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px;
+               letter-spacing: 0.32em; text-transform: uppercase; color: #48dbfb; }
+.s2-side-headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 32px;
+                    line-height: 1.15; color: #ffffff;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+.s2-side-body { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 18px;
+                line-height: 1.5; color: rgba(255,255,255,0.75);
+                text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.s2-side-body strong { color: #ff00b8; font-weight: 700; }
+.s2-source { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+             color: rgba(255,255,255,0.50); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 2px solid #ff00b8; margin-top: 8px; }
+.s2-source strong { color: #ffffff; font-weight: 700; }
+
+/* ═══════ SLIDE 3 · TERMINAL BLOCK ═══════ */
+.s3-terminal { background: rgba(10,10,18,0.85); border: 2px solid rgba(255,0,184,0.3); margin-top: 28px;
+               box-shadow: 0 0 30px rgba(255,0,184,0.08), inset 0 0 60px rgba(255,0,184,0.03); }
+.s3-term-bar { padding: 10px 18px; background: rgba(255,0,184,0.08);
+               font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #ff00b8;
+               letter-spacing: 0.10em; text-transform: uppercase; display: flex;
+               justify-content: space-between; align-items: center;
+               border-bottom: 1px solid rgba(255,0,184,0.2); }
+.s3-term-bar .pink-pip { display: inline-block; width: 10px; height: 10px; background: #ff00b8;
+                         border-radius: 50%; box-shadow: 0 0 8px rgba(255,0,184,0.6); }
+.s3-term-body { padding: 28px 30px; font-family: 'JetBrains Mono', monospace;
+                font-size: 17px; line-height: 1.85; color: #ffffff; }
+.s3-term-prompt { color: #ff00b8; font-weight: 700; }
+.s3-term-comment { color: rgba(255,255,255,0.35); }
+.s3-term-highlight { background: rgba(255,0,184,0.18); padding: 0 4px; font-weight: 700; color: #ff00b8; }
+.s3-term-bad { color: #ff6b6b; font-weight: 700; }
+.s3-term-good { color: #48dbfb; font-weight: 700; }
+.s3-term-cursor { display: inline-block; width: 10px; height: 22px; background: #ff00b8;
+                  vertical-align: text-bottom; margin-left: 4px; animation: blink 1s infinite;
+                  box-shadow: 0 0 8px rgba(255,0,184,0.6); }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ═══════ SLIDE 4 · CTA ═══════ */
+.s4-grid { display: grid; grid-template-rows: auto auto; gap: 24px; flex: 1; margin-top: 24px; }
+.s4-proof { display: grid; grid-template-columns: 280px 1fr; gap: 28px;
+            padding: 28px; background: rgba(255,0,184,0.08); border: 2px solid rgba(255,0,184,0.25);
+            box-shadow: 0 0 30px rgba(255,0,184,0.10), 12px 12px 0 rgba(255,0,184,0.15); }
+.s4-proof-stat { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 100px;
+                 line-height: 0.9; letter-spacing: -0.05em; color: #ffffff;
+                 text-shadow: 0 0 20px rgba(255,0,184,0.3); }
+.s4-proof-stat-sub { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px;
+                      letter-spacing: 0.16em; text-transform: uppercase; color: #a8f0e8;
+                      margin-top: 4px; }
+.s4-proof-text { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.s4-proof-tag { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 11px;
+                letter-spacing: 0.30em; text-transform: uppercase; color: #ff00b8; }
+.s4-proof-headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 26px;
+                     line-height: 1.15; color: #ffffff;
+                     text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.s4-proof-body { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 16px;
+                 line-height: 1.5; color: rgba(255,255,255,0.75); }
+
+.s4-cta { background: linear-gradient(135deg, #ff00b8, #d400a0); padding: 28px 32px; display: grid;
+          grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+          border: 2px solid rgba(255,0,184,0.4);
+          box-shadow: 0 0 40px rgba(255,0,184,0.15); }
+.s4-cta-text { display: flex; flex-direction: column; gap: 8px; }
+.s4-cta-q { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px;
+            color: #ffffff; letter-spacing: 0.04em; }
+.s4-cta-keyword-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.s4-cta-keyword-row span:first-child { font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+                                        font-size: 17px; color: #ffffff; }
+.s4-keyword-box { display: inline-block; background: #ffffff; color: #ff00b8;
+                  padding: 8px 18px; font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+                  font-size: 26px; letter-spacing: 0.08em; border: 3px solid #0f0f18; }
+.s4-cta-btn { background: #0f0f18; color: #48dbfb; border: 2px solid #48dbfb;
+              font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 16px;
+              letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 26px;
+              white-space: nowrap; cursor: pointer;
+              box-shadow: 0 0 20px rgba(72,219,251,0.2); }
+
+/* Controls */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #ff00b8; border: none; color: #ffffff;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900;
+       box-shadow: 0 0 12px rgba(255,0,184,0.3); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(255,255,255,0.20); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #ff00b8; width: 24px; box-shadow: 0 0 8px rgba(255,0,184,0.4); }
+.hint { font-size: 11px; color: rgba(255,255,255,0.30); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: linear-gradient(135deg, #ff9ff3, #48dbfb); color: #0f0f18;
+           border: 3px solid #0f0f18; cursor: pointer;
+           font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 14px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(255,255,255,0.50); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<p class="label-top">IRIS · Chromatic Studio · Holographic Manifesto · 4 slides</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · MANIFESTO STACK ═══════ -->
+      <section class="slide" id="slide-1">
+        <div class="scan-lines"></div>
+        <div class="glow-orb orb-pink" style="top:-10%;right:-10%;"></div>
+        <div class="glow-orb orb-cyan" style="bottom:-5%;left:-10%;"></div>
+        <div class="zoom-rings">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="ring r3"></div><div class="ring r4"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title">Chromatic Studio · 01</div>
+          <div class="mast-issue">Issue 001 · San José</div>
+        </div>
+        <div class="content">
+          <div class="s1-eyebrow">Read · 8 seconds</div>
+          <div class="s1-stack">
+            <div class="s1-line heavy">Your brand</div>
+            <div class="s1-line light">shifts with</div>
+            <div class="s1-echo-wrap">
+              <span class="s1-echo-ghost">THE LIGHT.</span>
+              <span class="s1-echo-real">THE LIGHT.</span>
+            </div>
+            <div class="s1-line outline">Or it fades.</div>
+          </div>
+          <p class="s1-byline">— Static identity is invisible identity. Chromatic brands respond, shimmer, and live in every surface they touch.</p>
+          <div class="swipe-pill">Swipe →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · BIG NUMBER ═══════ -->
+      <section class="slide" id="slide-2">
+        <div class="scan-lines"></div>
+        <div class="glow-orb orb-cyan" style="bottom:-20%;left:-15%;"></div>
+        <div class="glow-orb orb-pink" style="top:20%;right:-10%;opacity:0.6;"></div>
+        <div class="zoom-rings">
+          <div class="ring r1" style="border-color:#48dbfb;"></div>
+          <div class="ring r2" style="border-color:#48dbfb;"></div>
+          <div class="ring r3" style="border-color:#48dbfb;"></div>
+          <div class="ring r4" style="border-color:#48dbfb;"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#48dbfb;">Chromatic Studio · 01</div>
+          <div class="mast-issue">The Data</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#48dbfb;">The Shift</div>
+          <div class="s2-grid">
+            <div class="s2-stat">73<span class="pct">%</span></div>
+            <div class="s2-side">
+              <div class="s2-side-tag">Brand Recall</div>
+              <div class="s2-side-headline">higher for motion identity systems versus static assets.</div>
+              <div class="s2-side-body">Only the <strong>12%</strong> of brands invest in kinetic identity. The rest compete for the remaining attention with the same static toolkit.</div>
+              <div class="s2-source"><strong>Source:</strong> IRIS · Motion Identity Report 2026</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · TERMINAL ═══════ -->
+      <section class="slide" id="slide-3">
+        <div class="scan-lines"></div>
+        <div class="glow-orb orb-pink" style="top:-15%;left:30%;opacity:0.5;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#ff00b8;">Chromatic Studio · 01</div>
+          <div class="mast-issue">System Analysis</div>
+        </div>
+        <div class="content">
+          <div class="kicker">What the scanner sees</div>
+          <h2 class="headline" style="font-size:52px; max-width: 840px;">Static brands don't fail. They just become invisible.</h2>
+          <div class="s3-terminal">
+            <div class="s3-term-bar">
+              <span><span class="pink-pip"></span> chromatic-scan · brand_identity_analysis</span>
+              <span>v2.1 · 2026.05</span>
+            </div>
+            <div class="s3-term-body">
+<span class="s3-term-comment"># initializing brand identity surface scan</span><br>
+<span class="s3-term-prompt">$</span> scan --target brand_assets --depth full<br>
+<span class="s3-term-bad">→</span> motion_system:      <span class="s3-term-bad">MISSING</span> · critical for recall<br>
+<span class="s3-term-bad">→</span> color_adaptation:   <span class="s3-term-bad">MISSING</span> · context-aware palette<br>
+<span class="s3-term-bad">→</span> responsive_logo:    <span class="s3-term-bad">STATIC</span> · one size, all surfaces<br>
+<span class="s3-term-bad">→</span> brand_behavior:     <span class="s3-term-bad">UNDEFINED</span> · no motion language<br>
+<span class="s3-term-bad">→</span> surface_coverage:   <span class="s3-term-bad">12%</span> · digital only, no motion<br>
+<span class="s3-term-comment"># your brand is competing with 88% identical static assets</span><br>
+<span class="s3-term-comment"># the fix: <span class="s3-term-highlight">kinetic_identity_system · responsive_motion · chromatic_palette</span></span><br>
+<span class="s3-term-comment">─────────────────────────────────────────────</span><br>
+<span class="s3-term-prompt">$</span> brand_score: <span class="s3-term-bad">23 / 100</span> · status: <span class="s3-term-bad">INVISIBLE</span><span class="s3-term-cursor"></span>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · CTA ═══════ -->
+      <section class="slide" id="slide-4">
+        <div class="scan-lines"></div>
+        <div class="glow-orb orb-pink" style="top:20%;left:-15%;opacity:0.6;"></div>
+        <div class="glow-orb orb-cyan" style="bottom:-20%;right:10%;opacity:0.4;"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#48dbfb;">Chromatic Studio · 01</div>
+          <div class="mast-issue">Start Building</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#48dbfb;">Ready?</div>
+          <h2 class="headline" style="font-size:50px;">Make your brand <span style="color:#ff00b8;">unignorable.</span></h2>
+
+          <div class="s4-grid">
+            <div class="s4-proof">
+              <div>
+                <div class="s4-proof-stat">3<span style="font-size:46px;color:#ff00b8;">×</span></div>
+                <div class="s4-proof-stat-sub">Engagement increase</div>
+              </div>
+              <div class="s4-proof-text">
+                <div class="s4-proof-tag">Case Study · San José</div>
+                <div class="s4-proof-headline">From static logo to full chromatic identity in 60 days.</div>
+                <div class="s4-proof-body">A fintech brand replaced their static identity with a kinetic chromatic system. <strong style="color:#ff00b8;">3× engagement across all digital surfaces.</strong> Same product. Different presence.</div>
+              </div>
+            </div>
+
+            <div class="s4-cta">
+              <div class="s4-cta-text">
+                <div class="s4-cta-q">Want to see what your brand looks like in motion?</div>
+                <div class="s4-cta-keyword-row">
+                  <span>Email</span>
+                  <span class="s4-keyword-box">IRIS</span>
+                  <span>· hello@iris.studio</span>
+                </div>
+              </div>
+              <button class="s4-cta-btn">Start Project</button>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark">iris.</div>
+        <div class="handle">@irisstudio · chromatic</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Arrows · Swipe · Click dots</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · holographic sheen</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Internet connection required to load export libraries.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturing ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} of ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 300));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Compressing...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel_iris_holographic_v2.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = 'ZIP downloaded';
+  progress.textContent = `${slides.length} files · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Export ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · holographic sheen';
+  }, 3000);
+}
+</script>
+
+</body>
+</html>

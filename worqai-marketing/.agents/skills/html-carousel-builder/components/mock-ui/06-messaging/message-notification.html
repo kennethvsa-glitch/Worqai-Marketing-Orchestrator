@@ -1,0 +1,55 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "message-notification",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s16",
+      "s26",
+      "s33",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s22",
+      "s30",
+      "s35"
+    ],
+    "pairs_well_with": [
+      "org-blob-scattered",
+      "light-glow-accent",
+      "deco-swipe-pill"
+    ],
+    "conflicts_with": [
+      "mock-metric-card",
+      "mock-display-table-mini"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: MESSAGE NOTIFICATION
+Purpose: M6 — Notification/toast popup.
+-->
+
+<div class="mock-toast">
+  <div class="mt-icon"></div>
+  <div class="mt-body">
+    <p class="mt-title">CV optimizado</p>
+    <p class="mt-desc">Tu CV ya esta listo para descargar.</p>
+  </div>
+</div>
+
+<style>
+.mock-toast { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 14px 18px; max-width: 300px; }
+.mt-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-soft); border: 1px solid var(--accent-line); flex-shrink: 0; }
+.mt-body { display: flex; flex-direction: column; gap: 2px; }
+.mt-title { font-family: var(--font-display), system-ui, sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary); }
+.mt-desc { font-family: var(--font-body), system-ui, sans-serif; font-size: 12px; color: var(--text-secondary); }
+</style>

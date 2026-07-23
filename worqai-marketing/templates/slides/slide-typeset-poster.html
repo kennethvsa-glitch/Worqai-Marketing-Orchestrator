@@ -1,0 +1,33 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="poster-wrap">
+    {% if copy.eyebrow %}<div class="poster-eyebrow">{{ copy.eyebrow }}</div>{% endif %}
+    {# v2: text_treatment applies as class on the poster display.
+       For gradient, we render via SVG wrapper since CSS background-clip:text breaks in html2canvas. #}
+    {% if text_treatment_class == 'txt-gradient' %}
+    <svg class="poster-display txt-gradient" viewBox="0 0 900 400" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="{{ gradient_id }}" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="var(--accent)"/>
+          <stop offset="100%" stop-color="#fff"/>
+        </linearGradient>
+      </defs>
+      <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+            fill="url(#{{ gradient_id }})" font-size="140">{{ copy.headline }}</text>
+    </svg>
+    {% else %}
+    <div class="poster-display {{ text_treatment_class }}">{{ copy.headline | safe }}</div>
+    {% endif %}
+    <div class="poster-footer">
+      <div>{{ copy.footer_left | default(brand) }}</div>
+      <div>{{ copy.footer_right | default('Issue ' + ("%02d" % slide_num)) }}</div>
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"><script src="../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ── s01 NOIR GOLD — design tokens ──────────────────────────────── */
+    :root {
+      --bg-base:        #080a10;
+      --bg-mid:         #0f1420;
+      --accent:         #d4af37;
+      --text-primary:   #ffffff;
+      --text-secondary: rgba(255,255,255,0.72);
+      --font-display:   'Archivo Black', sans-serif;
+      --font-body:      'Inter', sans-serif;
+      --grain-opacity:  0.11;
+      --safe-top:    120px;
+      --safe-bottom: 200px;
+      --safe-x:       56px;
+    }
+
+    html, body {
+      width: 1080px; height: 1920px;
+      overflow: hidden;
+      background: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    /* ── Geo layer base styles (used by all scene templates) ─────────── */
+    .geo-blob-bg {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.18) 0%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .geo-star-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .geo-star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    /* Scene content sits above geo layers */
+    .scene-content { position: relative; z-index: 1; }
+
+    /* ── Demo layout ─────────────────────────────────────────────────── */
+    .demo-grid {
+      position: absolute;
+      top: var(--safe-top); left: var(--safe-x);
+      right: var(--safe-x); bottom: var(--safe-bottom);
+      display: flex; flex-direction: column;
+      justify-content: space-around;
+      padding: 40px 0;
+      z-index: 1;
+    }
+
+    .demo-block { display: flex; flex-direction: column; gap: 10px; }
+
+    .demo-label {
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); opacity: 0.5;
+    }
+
+    .demo-fade-el        { font-family: var(--font-display); font-size: 64px; }
+    .demo-slide-el       { font-size: 26px; font-weight: 300; color: var(--text-secondary); }
+    .demo-text-reveal-el { font-family: var(--font-display); font-size: 52px; }
+    .demo-counter-el     { font-family: var(--font-display); font-size: 120px; color: var(--accent); line-height: 1; }
+    .demo-scale-el       { width: 72px; height: 72px; background: var(--accent); border-radius: 4px; }
+    .demo-reveal-el      { height: 2px; background: var(--accent); width: 200px; opacity: 0.6; }
+    .demo-blur-el        { font-size: 14px; letter-spacing: 0.04em; color: var(--text-secondary); opacity: 0.7; }
+    .demo-draw-el        { fill: none; stroke: var(--accent); stroke-width: 2; }
+
+    /* ── highlight helper — used by highlight() effect ──────────────────── */
+    .hl-word {
+      position: relative;
+      display: inline-block;
+    }
+    .hl-fill {
+      position: absolute;
+      inset: -2px -4px;
+      background: var(--accent);
+      opacity: 0.35;
+      border-radius: 3px;
+      z-index: -1;
+      clip-path: inset(0% 100% 0% 0%);
+    }
+    .demo-highlight-el   { font-family: var(--font-display); font-size: 52px; }
+
+    .safe-zone-guide {
+      position: absolute;
+      top: var(--safe-top); left: var(--safe-x);
+      right: var(--safe-x); bottom: var(--safe-bottom);
+      border: 1px dashed rgba(212,175,55,0.12);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Geo background layers (demo) -->
+  <div class="geo-blob-bg" id="demo-blob-1" style="width:600px;height:600px;top:-80px;right:-100px;"></div>
+  <div class="geo-blob-bg" id="demo-blob-2" style="width:480px;height:480px;bottom:200px;left:-120px;"></div>
+  <div class="geo-star-container" id="demo-stars"></div>
+
+  <div class="safe-zone-guide"></div>
+
+  <div class="demo-grid">
+    <div class="demo-block">
+      <div class="demo-label">fade</div>
+      <div class="demo-fade-el" id="demo-fade">Motion Studio</div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">slide</div>
+      <div class="demo-slide-el" id="demo-slide">Frame-stepped. Deterministic.</div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">text-reveal</div>
+      <div class="demo-text-reveal-el" id="demo-text-reveal">Word by word the mask lifts</div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">counter</div>
+      <div class="demo-counter-el" id="demo-counter">0</div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">scale</div>
+      <div class="demo-scale-el" id="demo-scale"></div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">reveal (x-axis)</div>
+      <div class="demo-reveal-el" id="demo-reveal"></div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">blur</div>
+      <div class="demo-blur-el" id="demo-blur">Dato interno WorqAI · 2025</div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">highlight</div>
+      <div class="demo-highlight-el" id="demo-highlight">+38% de alcance</div>
+    </div>
+    <div class="demo-block">
+      <div class="demo-label">draw (svg stroke)</div>
+      <svg width="200" height="6" viewBox="0 0 200 6" style="overflow:visible">
+        <line id="demo-draw" x1="0" y1="3" x2="200" y2="3" class="demo-draw-el" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    // ── LOCK 1 ───────────────────────────────────────────────────────────────
+    gsap.ticker.lagSmoothing(0);
+
+    // ── SEEDED PRNG (mulberry32) ─────────────────────────────────────────────
+    window.MOTION_SEED = "default";
+
+    function seededRandom(seed) {
+      let h = 0x12345678;
+      for (let i = 0; i < seed.length; i++) {
+        h = Math.imul(h ^ seed.charCodeAt(i), 0x9e3779b9);
+        h ^= h >>> 16;
+      }
+      return function() {
+        h |= 0; h = h + 0x6D2B79F5 | 0;
+        let t = Math.imul(h ^ h >>> 15, 1 | h);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+
+    // ── MOTION TOKENS (s01) ──────────────────────────────────────────────────
+    const T = {
+      duration_unit:    0.55,
+      ease_default:     "power3.out",
+      ease_snap:        "power4.out",
+      blur_start:       "14px",
+      stagger_chars:    0.03,
+      stagger_lines:    0.12,
+      stagger_elements: 0.15,
+    };
+
+    // ── HELPERS ──────────────────────────────────────────────────────────────
+    function resolve(target) {
+      return typeof target === "string" ? document.querySelector(target) : target;
+    }
+
+    function splitWords(target) {
+      const el = resolve(target);
+      if (el.dataset.splitDone) return;
+      const words = el.textContent.trim().split(/\s+/);
+      el.innerHTML = words.map(w =>
+        `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:top;">` +
+        `<span class="word-inner" style="display:inline-block;">${w}</span></span>`
+      ).join(" ");
+      el.dataset.splitDone = "1";
+    }
+
+    // ── EFFECT LIBRARY — 8 effects ───────────────────────────────────────────
+    // Each returns a GSAP timeline: tl.add(fade(el, "in"), 0.3)
+    // LOCK 3: all effects animate via GSAP — no CSS class + transition.
+
+    function fade(target, direction = "in", opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit, ease = opts.ease ?? T.ease_default;
+      const tl = gsap.timeline();
+      if (direction === "in") tl.from(el, { opacity: 0, duration: dur, ease });
+      else                    tl.to(el,   { opacity: 0, duration: dur, ease });
+      return tl;
+    }
+
+    function slide(target, direction = "in", opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit, ease = opts.ease ?? T.ease_default;
+      const dist = opts.distance ?? 32;
+      const tl = gsap.timeline();
+      if (direction === "in") tl.from(el, { y: dist, opacity: 0, duration: dur, ease });
+      else                    tl.to(el,   { y: -dist, opacity: 0, duration: dur, ease });
+      return tl;
+    }
+
+    function textReveal(target, direction = "in", opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit * 1.2, ease = opts.ease ?? T.ease_default;
+      const stagger = opts.stagger ?? T.stagger_chars;
+      const inners = el.querySelectorAll(".word-inner");
+      const tl = gsap.timeline();
+      if (direction === "in") tl.from(inners, { y: "100%", duration: dur, ease, stagger });
+      else                    tl.to(inners,   { y: "-100%", duration: dur, ease, stagger });
+      return tl;
+    }
+
+    // LOCK 4: proxy tween + onUpdate — never setInterval or rAF.
+    function counter(target, endValue, opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit * 3, ease = opts.ease ?? T.ease_snap;
+      const suffix = opts.suffix ?? "", proxy = { val: opts.startValue ?? 0 };
+      const tl = gsap.timeline();
+      tl.to(proxy, { val: endValue, duration: dur, ease, onUpdate: () => { el.innerText = Math.round(proxy.val) + suffix; } });
+      return tl;
+    }
+
+    function scale(target, direction = "in", opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit, ease = opts.ease ?? T.ease_snap;
+      const tl = gsap.timeline();
+      if (direction === "in") tl.from(el, { scale: 0.85, opacity: 0, duration: dur, ease });
+      else                    tl.to(el,   { scale: 1.1,  opacity: 0, duration: dur, ease });
+      return tl;
+    }
+
+    function reveal(target, direction = "in", opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit * 1.5, ease = opts.ease ?? T.ease_default;
+      const axis = opts.axis ?? "y";
+      const tl = gsap.timeline();
+      if (axis === "x") {
+        if (direction === "in") tl.fromTo(el, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: dur, ease });
+        else                    tl.to(el, { clipPath: "inset(0% 0% 0% 100%)", duration: dur, ease });
+      } else {
+        if (direction === "in") tl.fromTo(el, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: dur, ease });
+        else                    tl.to(el, { clipPath: "inset(0% 0% 100% 0%)", duration: dur, ease });
+      }
+      return tl;
+    }
+
+    function blur(target, direction = "in", opts = {}) {
+      const el = resolve(target), dur = opts.duration ?? T.duration_unit * 1.5, ease = opts.ease ?? T.ease_default;
+      const blurVal = opts.blurStart ?? T.blur_start;
+      const tl = gsap.timeline();
+      if (direction === "in") tl.from(el, { filter: `blur(${blurVal})`, opacity: 0, duration: dur, ease });
+      else                    tl.to(el,   { filter: `blur(${blurVal})`, opacity: 0, duration: dur, ease });
+      return tl;
+    }
+
+    // Draw an SVG stroke from 0 to full length (or reverse).
+    // Target must be an SVG path/line/circle/polyline.
+    function draw(target, direction = "in", opts = {}) {
+      const el = resolve(target);
+      const dur = opts.duration ?? T.duration_unit * 2;
+      const ease = opts.ease ?? T.ease_default;
+      const length = opts.length ?? (el.getTotalLength ? el.getTotalLength() : 200);
+      const tl = gsap.timeline();
+      if (direction === "in") {
+        gsap.set(el, { strokeDasharray: length, strokeDashoffset: length });
+        tl.to(el, { strokeDashoffset: 0, duration: dur, ease });
+      } else {
+        gsap.set(el, { strokeDasharray: length, strokeDashoffset: 0 });
+        tl.to(el, { strokeDashoffset: length, duration: dur, ease });
+      }
+      return tl;
+    }
+
+    // Sweep a marker fill behind a word/phrase (or .hl-word span) left→right.
+    // Target should be a .hl-word element containing a .hl-fill child.
+    // Use splitHighlight() to wrap text automatically.
+    function highlight(target, direction = "in", opts = {}) {
+      const el = resolve(target);
+      const fill = el.querySelector(".hl-fill");
+      if (!fill) { console.warn("highlight(): no .hl-fill child found in", el); return gsap.timeline(); }
+      const dur = opts.duration ?? T.duration_unit;
+      const ease = opts.ease ?? T.ease_default;
+      const tl = gsap.timeline();
+      if (direction === "in")
+        tl.fromTo(fill,
+          { clipPath: "inset(0% 100% 0% 0%)" },
+          { clipPath: "inset(0% 0% 0% 0%)", duration: dur, ease });
+      else
+        tl.to(fill, { clipPath: "inset(0% 0% 0% 100%)", duration: dur, ease });
+      return tl;
+    }
+
+    // Wrap one or more words inside el in .hl-word/.hl-fill markup.
+    // words: array of exact strings to wrap (case-sensitive).
+    function splitHighlight(target, words) {
+      const el = resolve(target);
+      let html = el.innerHTML;
+      words.forEach(w => {
+        const escaped = w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        html = html.replace(
+          new RegExp(`(${escaped})`, "g"),
+          `<span class="hl-word">$1<span class="hl-fill"></span></span>`
+        );
+      });
+      el.innerHTML = html;
+    }
+
+    // ── GEO LAYER HELPERS ────────────────────────────────────────────────────
+    // Call BEFORE gsap.globalTimeline.pause() so tweens register correctly.
+
+    // Slow-drifting blurred blobs. sel = CSS selector for .geo-blob-bg elements.
+    function initGeoBlobDrift(sel, seed) {
+      const rng = seededRandom(seed + ':blob');
+      document.querySelectorAll(sel).forEach((blob, i) => {
+        const dx = (rng() - 0.5) * 180;
+        const dy = (rng() - 0.5) * 180;
+        const dur = 20 + rng() * 14;   // 20-34s — barely moves in a 6-8s clip
+        gsap.to(blob, { x: dx, y: dy, duration: dur, ease: "sine.inOut", repeat: -1, yoyo: true });
+      });
+    }
+
+    // Seeded starfield — creates star divs inside containerEl.
+    function initGeoStarfield(containerEl, seed, count = 36) {
+      const rng = seededRandom(seed + ':stars');
+      const container = resolve(containerEl);
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'geo-star';
+        const x = rng() * 1080, y = rng() * 1920;
+        const size = 1 + rng() * 1.5;
+        const opacity = 0.05 + rng() * 0.22;
+        // Static seeded opacity — no GSAP tween (negative delays inflate globalTimeline startTimes)
+        star.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;opacity:${opacity};`;
+        container.appendChild(star);
+      }
+    }
+
+    // ── motionReady signal ───────────────────────────────────────────────────
+    window._signalMotionReady = function() {
+      document.fonts.ready.then(() => { window.motionReady = true; });
+    };
+
+    // ── DEMO TIMELINE (preview mode only — scene templates replace this) ─────
+    document.fonts.ready.then(() => {
+      initGeoBlobDrift('.geo-blob-bg', window.MOTION_SEED);
+      initGeoStarfield('#demo-stars', window.MOTION_SEED);
+      splitWords("#demo-text-reveal");
+      splitHighlight("#demo-highlight", ["+38% de alcance"]);
+
+      const demo = gsap.timeline({ repeat: -1, repeatDelay: 1.5 });
+      demo
+        .add(fade("#demo-fade",              "in"),                 0.2)
+        .add(slide("#demo-slide",            "in"),                 0.7)
+        .add(textReveal("#demo-text-reveal", "in"),                 1.3)
+        .add(counter("#demo-counter",         73, { suffix: "%" }), 2.2)
+        .add(scale("#demo-scale",            "in"),                 3.4)
+        .add(reveal("#demo-reveal",          "in", { axis: "x" }), 3.9)
+        .add(blur("#demo-blur",              "in"),                 4.4)
+        .add(draw("#demo-draw",              "in"),                 5.0)
+        .add(highlight("#demo-highlight",   "in"),                 5.7);
+
+      window.motionReady = true;
+    });
+  </script>
+</body>
+</html>

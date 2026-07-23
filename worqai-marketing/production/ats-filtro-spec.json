@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "system": "s35",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "ats-filtro",
+    "density": "standard"
+  },
+  "pacing": ["hook", "data", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["glow-orb", {"id": "svg-blob-tr", "animate": true}],
+      "decoratives": [{"id": "svg-starburst-burst", "position": "bl"}],
+      "effects": { "grain_opacity": 0.10 },
+      "copy": {
+        "kicker": "EL PROCESO QUE NADIE EXPLICA",
+        "headline": "El ATS filtra tu CV. Un humano nunca lo ve.",
+        "body": "No es que no estés calificado. Es que el sistema nunca te vio.",
+        "text_treatment": "gradient",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-display { font-size: clamp(34px, 6.5cqw, 52px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s1-kicker { letter-spacing: 0.22em; font-size: 10px; opacity: 0.90; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["glow-orb", "zoom-rings"],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}, "corner-frame"],
+      "effects": { "grain_opacity": 0.12 },
+      "copy": {
+        "kicker": "DATO COMPROBADO",
+        "stat_number": "75%",
+        "stat_context": "de CVs nunca llegan a un reclutador humano.",
+        "text_treatment": "gradient",
+        "source": "Jobscan, 2024"
+      },
+      "custom_css": ".s2-stat { font-size: clamp(110px, 21cqw, 175px); font-weight: 900; letter-spacing: -0.05em; } .s2-context { font-size: clamp(16px, 3cqw, 22px); opacity: 0.85; max-width: 520px; line-height: 1.4; } .s2-source { font-size: 11px; opacity: 0.60; letter-spacing: 0.12em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-terminal",
+      "layers": ["zoom-rings", "glow-orb"],
+      "decoratives": ["corner-frame"],
+      "effects": { "grain_opacity": 0.08 },
+      "copy": {
+        "kicker": "DIAGNÓSTICO EN VIVO",
+        "headline": "Lo que el ATS ve cuando lee tu CV",
+        "tab_title": "worqai-scan.sh",
+        "command": "worqai scan --cv candidato.pdf --empresa tech-corp",
+        "output_lines": [
+          {"type": "warn", "text": "AVISO: Formato en columnas detectado — ATS no puede leer columna derecha"},
+          {"type": "err",  "text": "ERROR: 0 palabras clave del puesto encontradas en experiencia laboral"},
+          {"type": "warn", "text": "AVISO: Foto incrustada — 47KB ignorados por el parser de texto"},
+          {"type": "info", "text": "Compatibilidad estimada con el puesto: 14%"},
+          {"type": "ok",   "text": "Generando correcciones automáticas con WorqAI..."}
+        ]
+      },
+      "custom_css": ".s3-headline { font-size: clamp(20px, 4cqw, 30px); font-weight: 800; letter-spacing: -0.02em; } .terminal-window { border: 1px solid rgba(250, 204, 107, 0.25); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-step-flow",
+      "layers": ["glow-orb", {"id": "svg-blob-bl"}],
+      "decoratives": [{"id": "svg-starburst-mark", "position": "tr"}],
+      "effects": { "grain_opacity": 0.09 },
+      "copy": {
+        "kicker": "EL MÉTODO DE 3 PASOS",
+        "headline": "3 correcciones que hacen visible tu CV al ATS.",
+        "text_treatment": "stroke",
+        "steps": [
+          {"title": "Formato limpio", "desc": "Una sola columna. Sin tablas, sin gráficos."},
+          {"title": "Palabras clave exactas", "desc": "Copia el texto del aviso de trabajo."},
+          {"title": "Impacto con números", "desc": "Porcentajes, cantidades, fechas reales."}
+        ]
+      },
+      "custom_css": ".s4-headline { font-size: clamp(22px, 4.5cqw, 34px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; } .step-number { color: var(--accent); font-size: 30px; font-weight: 900; } .step-title { font-weight: 800; font-size: clamp(16px, 3cqw, 21px); }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["glow-orb"],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}, {"id": "svg-starburst-spark", "position": "tl"}],
+      "effects": { "grain_opacity": 0.10 },
+      "copy": {
+        "question": "¿Quieres saber si tu CV pasa el filtro ATS?",
+        "cta_keyword": "ESCANEO",
+        "reward": "Te mando el diagnóstico completo. Sin costo.",
+        "url": "worqai.com"
+      },
+      "custom_css": ".s5-question { font-size: clamp(26px, 5.5cqw, 42px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; } .s5-keyword { font-size: clamp(18px, 3.5cqw, 26px); letter-spacing: 0.15em; } .s5-reward { font-size: clamp(14px, 2.8cqw, 18px); opacity: 0.80; }"
+    }
+  ]
+}

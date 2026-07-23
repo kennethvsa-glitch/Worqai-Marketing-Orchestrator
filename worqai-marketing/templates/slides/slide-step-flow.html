@@ -1,0 +1,26 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="step-wrap">
+    {% if copy.kicker %}<div class="kicker">{{ copy.kicker }}</div>{% endif %}
+    {% if copy.headline %}<div class="step-headline">{{ copy.headline }}</div>{% endif %}
+
+    {% set steps = copy.get('steps', []) %}
+    <div class="step-row{% if steps|length >= 4 %} four{% endif %}">
+      {% for step in steps %}
+      <div class="step-box">
+        <div class="step-num">{{ "%02d" % loop.index }}</div>
+        <div class="step-title">{{ step.title }}</div>
+        {% if step.desc %}<div class="step-desc">{{ step.desc }}</div>{% endif %}
+      </div>
+      {% if not loop.last %}<div class="sub-arrow-flow"></div>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

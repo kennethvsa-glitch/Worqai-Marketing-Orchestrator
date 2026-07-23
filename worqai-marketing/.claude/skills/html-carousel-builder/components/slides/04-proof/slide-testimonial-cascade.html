@@ -1,0 +1,42 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-testimonial-cascade",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: TESTIMONIAL CASCADE
+Found in: carousel_portfolio_04.html
+Purpose: S7 — Stacked testimonial cards.
+-->
+
+<div class="content">
+  <p class="tip-label">Testimonios</p>
+  <h2 class="tip-headline">Lo que dicen nuestros clientes</h2>
+  <div class="testi-cascade">
+    <div class="tc-card">
+      <p class="tc-quote">&ldquo;De 0 a 4 entrevistas en una semana.&rdquo;</p>
+      <p class="tc-name">Maria G. &mdash; PM</p>
+    </div>
+    <div class="tc-card">
+      <p class="tc-quote">&ldquo;Finalmente entendi por que no me llamaban.&rdquo;</p>
+      <p class="tc-name">Luis C. &mdash; Developer</p>
+    </div>
+    <div class="tc-card">
+      <p class="tc-quote">&ldquo;La inversion se pago sola con la primera oferta.&rdquo;</p>
+      <p class="tc-name">Ana K. &mdash; Designer</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.testi-cascade { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+.tc-card { padding: 22px 26px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.tc-quote { font-family: var(--font-body), system-ui, sans-serif; font-size: 18px; font-weight: 400; line-height: 1.5; color: var(--text-primary); margin-bottom: 8px; }
+.tc-name { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+</style>

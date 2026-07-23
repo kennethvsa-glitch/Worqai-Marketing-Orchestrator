@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html data-duration="8" data-fps="60" data-name="stat-reveal">
+<head>
+  <meta charset="UTF-8"><script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <script src="../motion-lib.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:       #ECEAE1;
+      --ink:      #16181C;
+      --ink-dim:  rgba(22, 24, 28, 0.50);
+      --accent:   #C9F24D;
+      --font-display: 'Newsreader', Georgia, serif;
+      --font-body:    'Inter', sans-serif;
+      --safe-top: 120px; --safe-bottom: 200px; --safe-x: 56px;
+    }
+    html, body {
+      width: 1080px; height: 1920px; overflow: hidden;
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    /* Static grain — fractalNoise SVG tiled, multiply blend, invisible as feature */
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 100;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 512px 512px;
+      opacity: 0.038; mix-blend-mode: multiply;
+    }
+
+    /* Top rule */
+    .rule {
+      position: absolute;
+      top: var(--safe-top); left: var(--safe-x); right: var(--safe-x);
+      height: 1px; background: var(--ink);
+      clip-path: inset(0% 100% 0% 0%); opacity: 0.18;
+    }
+
+    /* Kicker — small caps above rule */
+    .kicker {
+      position: absolute;
+      top: calc(var(--safe-top) + 20px); left: var(--safe-x);
+      font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--ink-dim);
+    }
+
+    /* Stat block — large Newsreader number, bleeds toward right edge */
+    .stat-block {
+      position: absolute;
+      top: 380px; left: var(--safe-x);
+      display: flex; align-items: flex-start;
+      overflow: visible; will-change: transform;
+    }
+    .stat-number {
+      font-family: var(--font-display); font-weight: 600; font-size: 500px;
+      line-height: 0.82; color: var(--ink); display: inline-block;
+    }
+    .stat-suffix {
+      font-family: var(--font-display); font-weight: 600; font-size: 148px;
+      line-height: 1; color: var(--accent);
+      margin-top: 52px; margin-left: 14px;
+    }
+
+    /* Lime accent bar */
+    .accent-bar {
+      position: absolute;
+      top: 806px; left: var(--safe-x);
+      width: 72px; height: 4px; background: var(--accent);
+      clip-path: inset(0% 100% 0% 0%);
+    }
+
+    /* Copy block */
+    .copy-block {
+      position: absolute;
+      top: 858px; left: var(--safe-x); right: var(--safe-x);
+    }
+    .context {
+      font-size: 24px; font-weight: 300; line-height: 1.55; color: var(--ink);
+      max-width: 580px; margin-bottom: 32px;
+    }
+    .source {
+      font-size: 11px; font-weight: 400; letter-spacing: 0.06em;
+      color: var(--ink-dim);
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="rule"    id="top-rule"></div>
+  <div class="kicker"  data-copy="kicker">{{ copy.kicker }}</div>
+
+  <div class="stat-block" id="stat-block">
+    <div class="stat-number" id="stat-number">0</div>
+    <div class="stat-suffix" id="stat-suffix">{{ copy.stat_suffix }}</div>
+  </div>
+
+  <div class="accent-bar" id="accent-bar"></div>
+
+  <div class="copy-block">
+    <div class="context" data-copy="context">{{ copy.context }}</div>
+    <div class="source"  data-copy="source">{{ copy.source }}</div>
+  </div>
+
+  <script>
+    window.MOTION_SEED = "stat-reveal";
+
+    const statEl   = document.getElementById("stat-number");
+    const proxy    = { val: 0 };
+    const tl       = gsap.timeline();
+
+    // Top rule wipes in from left
+    tl.to("#top-rule",
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "luxe" }, 0.1);
+
+    // Kicker fades in after rule
+    tl.from(".kicker",  { opacity: 0, duration: 0.5, ease: "luxe" }, 0.5);
+    tl.addLabel("kicker_in", 0.5);
+
+    // Stat number — fade in block, then counter ticks up (Lock 4: proxy)
+    tl.from("#stat-block", { opacity: 0, duration: 0.35, ease: "luxe" }, 0.85);
+    tl.to(proxy, {
+      val: {{ copy.stat }},
+      duration: 1.5,
+      ease: "power2.out",
+      onUpdate: () => { statEl.innerText = Math.round(proxy.val); },
+    }, 0.95);
+    tl.addLabel("stat_peak", 2.4);
+
+    // Suffix springs in at stat peak
+    tl.from("#stat-suffix", { opacity: 0, scale: 0.88, duration: 0.55, ease: "settle" }, "stat_peak");
+
+    // Accent bar reveals (x-axis wipe)
+    tl.to("#accent-bar",
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "luxe" }, "stat_peak+=0.2");
+
+    // Context slides up
+    tl.from(".context", { y: 18, opacity: 0, duration: T.duration_unit, ease: "luxe" }, "stat_peak+=0.5");
+
+    // Source fades
+    tl.from(".source",  { opacity: 0, duration: T.duration_unit, ease: "luxe" }, "stat_peak+=0.9");
+    tl.addLabel("copy_in", "stat_peak+=0.9");
+
+    // Slow camera push on stat block — 3% over full clip, imperceptible as motion, felt as weight
+    tl.to("#stat-block", { scale: 1.03, duration: 7.5, ease: "none" }, 0.5);
+
+    // Lock 2: pause once at load, per-frame seek in exporter
+    gsap.globalTimeline.pause();
+    document.fonts.ready.then(() => {
+      window.motionReady = true;
+      window.MOTION_LABELS = Object.fromEntries(
+        Object.entries(tl.labels).map(([k, v]) => [k, Math.round(v * 1000)])
+      );
+    });
+  </script>
+</body>
+</html>

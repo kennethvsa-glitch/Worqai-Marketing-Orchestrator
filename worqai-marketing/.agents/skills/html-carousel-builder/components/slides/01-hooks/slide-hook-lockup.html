@@ -1,0 +1,76 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-hook-lockup",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: HOOK LOCKUP
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_aura-cr-demo_services.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S1 — Stop the scroll with giant typography stack.
+-->
+
+<div class="content">
+  <div class="lockup">
+    <p class="kicker">kicker label</p>
+    <h1 class="display">Headline that<br><em>stops scrolling</em></h1>
+    <p class="lede">One-line intensifier that expands on the promise.</p>
+  </div>
+  <div class="swipe-pill">desliza →</div>
+</div>
+
+<style>
+.lockup {
+  display: flex; flex-direction: column;
+  gap: 28px; margin-top: auto; margin-bottom: auto;
+}
+.kicker {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.30em; text-transform: uppercase;
+  color: var(--accent);
+}
+.kicker::before {
+  content: ''; display: inline-block;
+  width: 24px; height: 2px; background: var(--accent);
+  vertical-align: middle; margin-right: 12px;
+}
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 88px; font-weight: 900;
+  line-height: 1.02; letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+.display em {
+  font-family: var(--font-script), serif;
+  font-style: italic; font-weight: 600;
+  color: var(--accent);
+}
+.lede {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 22px; font-weight: 300;
+  line-height: 1.5; color: var(--text-secondary);
+  max-width: 640px;
+}
+.swipe-pill {
+  align-self: flex-start;
+  display: inline-block; padding: 8px 18px;
+  border: 1px solid var(--accent); color: var(--accent);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  border-radius: 20px; margin-top: auto;
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- .display font-size: 72px (long headline) to 110px (short)
+- Add outline-text, stacked-text, or echo-ghost effects for variation
+- Position: usually centered vertically, left-aligned
+-->

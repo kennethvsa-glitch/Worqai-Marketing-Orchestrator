@@ -1,0 +1,87 @@
+# Carousel Creative Brief Template
+# Purpose: Constrain the AI's creative decisions BEFORE generating the spec.
+# Rule: If a field is missing or vague, stop and ask the user. Do not guess.
+
+brief:
+  # ── Topic & Positioning ──
+  topic: ""
+  # One-line topic. Examples: "ATS rejection", "LinkedIn ghosting", "salary negotiation"
+
+  angle: ""
+  # Contrarian or fresh take. Example: "The format, not the experience, is the problem"
+
+  one_truth: ""
+  # The single insight the viewer must believe by slide 3.
+  # Example: "El ATS no lee fotos ni tablas. Leé texto plano."
+
+  transformation_promise: ""
+  # What changes for the viewer if they act. Be specific.
+  # Example: "De 0 a 4 entrevistas en 7 días sin cambiar tu experiencia"
+
+  # ── Audience ──
+  audience:
+    who: ""
+    # Job title, seniority, location. Example: "Contadores mid-senior en Costa Rica"
+
+    pain: ""
+    # What they're feeling RIGHT NOW. Be visceral.
+    # Example: "Mandó 87 CVs y nadie le respondió. Cree que su experiencia no sirve."
+
+    desired_state: ""
+    # What they want to feel after the carousel.
+    # Example: "Con ganas de reescribir su CV esta noche"
+
+  # ── Emotional Arc ──
+  emotional_arc: []
+  # Array of 3–7 beats, one per slide. Pick from:
+  # hook, shock, proof, data, diagnostic, solution, hope, relief, action, cta, silence, break, myth, reality, testimonial, urgency
+  # Example: [shock, proof, diagnostic, solution, cta]
+
+  # ── Tone & Voice ──
+  tone_register: "peer"
+  # Options: peer (WorqAI), coach (Profile Pro), expert, challenger, aspirational
+
+  forbidden:
+    phrases: []
+    # Banned phrases for THIS carousel. Example: ["la mayoría", "según expertos", "estudios muestran"]
+
+    framings: []
+    # Banned narrative framings. Example: ["victim framing", "fear-mongering", "humble-brag"]
+
+    visuals: []
+    # Banned visual patterns. Example: ["colored left-border cards", "pill badges", "deco-num at opacity < 0.10"]
+
+  # ── Stats & Proof ──
+  verified_stats: []
+  # ONLY pre-approved stats with real sources. If empty, use Myth vs Reality instead of data slides.
+  # - stat: "75% of CVs are rejected by ATS before human review"
+  #   source: "Jobscan internal analysis 2025"
+  #   verified: true
+  #   slide: 2  # optional: which slide this stat appears on
+
+  proof_case:
+    name: ""
+    # Optional: real client first name + initial. Example: "Carlos M."
+    location: ""
+    # City, country. Example: "Heredia, Costa Rica"
+    result: ""
+    # Specific outcome with timeframe. Example: "4 entrevistas en 8 días"
+    mechanism: ""
+    # What actually changed. Example: "Reescribió headline + 3 secciones con keywords"
+
+  # ── Technical ──
+  system_hint: ""
+  # Optional: preferred design system. Example: "s29 cyberpunk". If blank, AI picks.
+
+  aspect_ratio: "1:1"
+  # Options: 1:1, 4:5, 9:16
+
+  slides_count: 5
+  # 3–10. Default 5 for Instagram, 8 for full tips carousel.
+
+  brand: "@worqai"
+  # Brand handle for footer anchor
+
+  # ── Output ──
+  # After filling this brief, the AI outputs carousel-spec.json (see carousel-spec.schema.json)
+  # The AI does NOT write HTML, CSS, or pixel values.

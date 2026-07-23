@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TasteFinding",
+  "type": "object",
+  "required": ["id", "artifact", "dimension", "severity", "evidence", "direction", "confidence", "judgment"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "artifact": {"type": "string", "minLength": 1},
+    "dimension": {"enum": ["composition", "hierarchy", "typography", "restraint", "originality", "brand_fit", "storytelling"]},
+    "severity": {"enum": ["minor", "major", "blocking"]},
+    "evidence": {"type": "string", "minLength": 1},
+    "direction": {"type": "string", "minLength": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "judgment": {"enum": ["objective", "subjective"]},
+    "requires_human": {"type": "boolean", "default": false}
+  },
+  "additionalProperties": false
+}

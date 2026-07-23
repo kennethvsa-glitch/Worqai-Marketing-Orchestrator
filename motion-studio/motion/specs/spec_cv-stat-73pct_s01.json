@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 8,
+    "fps": 30,
+    "seed": "worqai-cv-stat-73pct",
+    "video_mode": true
+  },
+  "scene": "stat-reveal",
+  "copy": {
+    "kicker": "CV rechazado por ATS",
+    "stat": 73,
+    "stat_suffix": "%",
+    "context": "de CVs latinos no pasan el filtro",
+    "source": "Dato interno WorqAI · 2025"
+  }
+}

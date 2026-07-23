@@ -1,0 +1,63 @@
+diff --git a/src/lib/seo/site.ts b/src/lib/seo/site.ts
+index 4e90395ed96fd8853fba71027664c206c258b823..1d8c6402dd7193e9727f0f5492b0eb0b34b72ed2 100644
+--- a/src/lib/seo/site.ts
++++ b/src/lib/seo/site.ts
+@@ -17,13 +17,21 @@ export function serializeJsonLd(value: unknown): string {
+  * API and auth callback traffic deliberately remains on the requested host:
+  * webhook providers commonly reject redirects, even when they are permanent.
+  */
+-export function canonicalHostRedirectUrl(url: URL): URL | null {
++export function canonicalHostRedirectUrl(
++  url: URL,
++  requestHost?: string | null
++): URL | null {
+   const pathname = url.pathname;
++  const hostname = (requestHost ?? url.hostname)
++    .split(",")[0]
++    .trim()
++    .split(":")[0]
++    .toLowerCase();
+   const isApi = pathname === "/api" || pathname.startsWith("/api/");
+   const isAuthCallback =
+     pathname === "/auth/callback" || pathname.startsWith("/auth/callback/");
+ 
+-  if (url.hostname !== APEX_HOSTNAME || isApi || isAuthCallback) {
++  if (hostname !== APEX_HOSTNAME || isApi || isAuthCallback) {
+     return null;
+   }
+ 
+diff --git a/src/proxy.ts b/src/proxy.ts
+index 9c081d3515c0017565bc361dde4856d2a88fad13..8f9bac034a45f967d88e41607d3e44e7246b8121 100644
+--- a/src/proxy.ts
++++ b/src/proxy.ts
+@@ -33,7 +33,9 @@ function stripLocale(pathname: string): string {
+ }
+ 
+ export async function proxy(request: NextRequest) {
+-  const canonicalUrl = canonicalHostRedirectUrl(request.nextUrl);
++  const requestHost =
++    request.headers.get("x-forwarded-host") ?? request.headers.get("host");
++  const canonicalUrl = canonicalHostRedirectUrl(request.nextUrl, requestHost);
+   if (canonicalUrl) {
+     return NextResponse.redirect(canonicalUrl, 308);
+   }
+diff --git a/tests/seo/seo-contract.test.ts b/tests/seo/seo-contract.test.ts
+index b31252172cf2de61376417167146c917b93c6862..4b196ad6d22b0c0eb47919e8cc77a577d8752095 100644
+--- a/tests/seo/seo-contract.test.ts
++++ b/tests/seo/seo-contract.test.ts
+@@ -119,4 +119,15 @@ describe("canonical host routing", () => {
+       canonicalHostRedirectUrl(new URL("https://www.worqai.io/es"))
+     ).toBeNull();
+   });
++
++  it("uses the forwarded host when the runtime URL contains an internal host", () => {
++    const destination = canonicalHostRedirectUrl(
++      new URL("http://127.0.0.1:3100/es?source=test"),
++      "worqai.io"
++    );
++
++    expect(destination?.toString()).toBe(
++      "https://www.worqai.io/es?source=test"
++    );
++  });
+ });

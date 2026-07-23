@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "system": "s20",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "cv-2026-vs-2020",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["fluidos-metalicos", "pw-grid", "geo-chromatic-edge"],
+      "copy": {
+        "kicker": "ACTUALIZACIÓN OBLIGATORIA",
+        "headline": "El CV de 2020 era para humanos. El de 2026 es para bots primero.",
+        "body": "Lo que funcionaba antes ahora te elimina en la primera ronda.",
+        "text_treatment": "gradient"
+      },
+      "decoratives": [
+        { "id": "watermark", "text": "26" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(24px,5cqw,36px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; } .hook-body { opacity: 0.88; } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-receipt",
+      "density": "demo",
+      "layers": ["fluidos-metalicos", "glow-orb"],
+      "copy": {
+        "headline": "AUDITORÍA CV 2020",
+        "items": [
+          { "label": "Objetivo profesional", "value": "❌ OBSOLETO" },
+          { "label": "Foto incluida", "value": "⚠ RIESGO" },
+          { "label": "Diseño con columnas", "value": "❌ ATS ERROR" },
+          { "label": "PDF con fuente embed.", "value": "❌ NO LEGIBLE" },
+          { "label": "Sección Habilidades vacía", "value": "❌ 0 KEYWORDS" }
+        ],
+        "total": "SCORE: 12/100"
+      },
+      "decoratives": [],
+      "custom_css": ".rcpt-wrap { background: rgba(3,6,15,0.95) !important; border: 1px solid rgba(68,245,255,0.2) !important; border-radius: 4px !important; } .rcpt-total { color: var(--accent); font-weight: 700; font-size: clamp(18px,3.5cqw,26px); letter-spacing: 0.08em; } .rcpt-line span:last-child { color: var(--accent); font-weight: 600; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["fluidos-metalicos", "scan-lines"],
+      "copy": {
+        "kicker": "EL CAMBIO CONCRETO",
+        "headline": "Habilidades: antes vs ahora",
+        "before_label": "2020",
+        "after_label": "2026",
+        "before_score": "12",
+        "after_score": "91",
+        "before_items": [
+          "Microsoft Office",
+          "Trabajo en equipo",
+          "Proactivo"
+        ],
+        "after_items": [
+          "Google Workspace · Excel avanzado",
+          "Gestión de proyectos · Asana · Jira",
+          "Python básico · Data análisis"
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.08) !important; border-color: rgba(255,80,80,0.25) !important; } .ba-col.good { background: rgba(68,245,255,0.08) !important; border-color: rgba(68,245,255,0.3) !important; } .ba-score { color: var(--accent); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-big-number",
+      "density": "heavy",
+      "layers": ["fluidos-metalicos", "pw-grid", "geo-chromatic-edge"],
+      "copy": {
+        "stat_number": "3×",
+        "stat_context": "más entrevistas con CV actualizado para ATS",
+        "source": "Análisis interno WorqAI · base de datos 2025",
+        "text_treatment": "gradient"
+      },
+      "decoratives": [
+        { "id": "svg-starburst-spark", "position": "tr" }
+      ],
+      "custom_css": ".stat-num { font-size: clamp(100px,20cqw,180px); font-weight: 700; } .stat-context { font-size: clamp(16px,3cqw,22px); opacity: 0.88; margin-top: 12px; } .source { font-size: 11px; opacity: 0.6; margin-top: 24px; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["fluidos-metalicos", "pw-grid", "glow-orb"],
+      "copy": {
+        "question": "¿Tu CV está listo para 2026?",
+        "cta_keyword": "ACTUALIZAR",
+        "reward": "WorqAI te da el diagnóstico en 60 segundos.",
+        "cta_variant": "diagnostic"
+      },
+      "decoratives": [],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

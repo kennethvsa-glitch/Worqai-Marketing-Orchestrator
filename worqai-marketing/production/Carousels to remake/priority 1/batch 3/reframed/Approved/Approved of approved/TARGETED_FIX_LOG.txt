@@ -1,0 +1,91 @@
+reframed_carousel_7-segundos_worqai-lime.html:
+  - .hook-sub color #0A0A0A -> #FAFAFA
+  - .proof-ctx color #0A0A0A -> #FAFAFA
+  - .stat-context color #0A0A0A -> #FAFAFA
+  - .cta-offer color #0A0A0A -> #FAFAFA
+  - .cta-fine color #0A0A0A -> #FAFAFA
+  - .cta-closing color #0A0A0A -> #FAFAFA
+  - .cta-micro color #0A0A0A -> #FAFAFA
+  - .site-url color #0A0A0A -> #FAFAFA
+  - .url-text color #0A0A0A -> #FAFAFA
+  - queres -> querés
+reframed_carousel_contraataque-en-3-movidas_worqai-lime.html:
+  - diseno -> diseño
+  - queres -> querés
+reframed_carousel_el-agujero-negro-de-las-aplicaciones_worqai-lime.html:
+  - queres -> querés
+reframed_carousel_hackea-tu-cv-para-mas-entrevistas_worqai-lime.html:
+  - diseno -> diseño
+  - queres -> querés
+  - html,body bg #1a1a2e -> #0A0A0A
+reframed_carousel_lo-que-el-ats-ve_worqai-lime.html:
+  - .hook-sub color #0A0A0A -> #FAFAFA
+  - .proof-ctx color #0A0A0A -> #FAFAFA
+  - .stat-context color #0A0A0A -> #FAFAFA
+  - .cta-offer color #0A0A0A -> #FAFAFA
+  - .cta-fine color #0A0A0A -> #FAFAFA
+  - .cta-closing color #0A0A0A -> #FAFAFA
+  - .cta-micro color #0A0A0A -> #FAFAFA
+  - .site-url color #0A0A0A -> #FAFAFA
+  - .url-text color #0A0A0A -> #FAFAFA
+  - diseno -> diseño
+  - queres -> querés
+reframed_carousel_no-es-chatgpt_worqai-lime.html:
+  - diseno -> diseño
+  - queres -> querés
+reframed_carousel_no-sos-vos-es-tu-formato_worqai-lime.html:
+  - diseno -> diseño
+  - queres -> querés
+  - html,body bg #1a1a2e -> #0A0A0A
+reframed_carousel_personaliza-o-el-bot-te-baja_worqai-lime.html:
+  - .hook-sub color #0A0A0A -> #FAFAFA
+  - .proof-ctx color #0A0A0A -> #FAFAFA
+  - .stat-context color #0A0A0A -> #FAFAFA
+  - .cta-offer color #0A0A0A -> #FAFAFA
+  - .cta-fine color #0A0A0A -> #FAFAFA
+  - .cta-closing color #0A0A0A -> #FAFAFA
+  - .cta-micro color #0A0A0A -> #FAFAFA
+  - .site-url color #0A0A0A -> #FAFAFA
+  - .url-text color #0A0A0A -> #FAFAFA
+  - queres -> querés
+reframed_carousel_resultado-real_worqai-lime.html:
+  - queres -> querés
+reframed_carousel_sistema-automatizado-contra-vos_worqai-lime.html:
+  - queres -> querés
+reframed_carousel_tu-cv-nunca-fue-leido_worqai-lime.html:
+  - queres -> querés
+  - html,body bg #1a1a2e -> #0A0A0A
+reframed_carousel_tu-pdf-llega-roto-al-ats_worqai-lime.html:
+  - diseno -> diseño
+  - queres -> querés
+reframed_carousel_una-maquina-te-filtro-otra-te-pasa_worqai-lime.html:
+  - queres -> querés
+TEST_bg3_flowing_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg3_watercolor_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_blueprint_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_concrete_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_grid_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_paper_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_ribbon_light-carousel_worqai-lime.html:
+  - .counter rgba(17,17,17,0.35) -> solid
+TEST_bg4_sculpture_dark-carousel_worqai-lime.html:
+  - diseno -> diseño
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_sculpture_light-carousel_worqai-lime.html:
+  - .counter rgba(17,17,17,0.35) -> solid
+TEST_bg4_stream_dark-carousel_worqai-lime.html:
+  - .pd rgba(255,92,60,0.2) -> solid #FAFAFA
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_tape_dark-carousel_worqai-lime.html:
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_bg4_watercolor_dark-carousel_worqai-lime.html:
+  - .pd rgba(255,92,60,0.2) -> solid #FAFAFA
+  - html,body bg #1a1a2e -> #0A0A0A
+TEST_scene1-background_worqai-lime.html:
+  - bg #010509 -> #0A0A0A

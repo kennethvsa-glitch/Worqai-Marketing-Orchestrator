@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "system": "s25",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "resultados",
+    "density": "standard",
+    "continuity": ""
+  },
+  "pacing": ["hook", "diagnostic", "shock", "proof", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["diag-band", "geo-contour-flow"],
+      "decoratives": ["chrome-header-bar"],
+      "copy": {
+        "kicker": "CV DE RESULTADOS",
+        "headline": "Tu CV dice lo que hacías.",
+        "body": "El que consigue entrevistas dice lo que lograste.",
+        "text_treatment": "stroke",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".hook-display { font-size: clamp(28px,5.5cqw,44px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.06; } .hook-body { font-size: 18px; font-weight: 500; opacity: 0.85; line-height: 1.5; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["diag-band", "geo-neon-ring"],
+      "copy": {
+        "kicker": "TU VENTANA CON EL RECLUTADOR",
+        "stat_number": "8",
+        "stat_context": "Segundos. Eso es todo lo que tienes para convencer."
+      },
+      "custom_css": ".stat-num { font-size: clamp(120px,22cqw,180px); font-weight: 900; letter-spacing: -0.05em; line-height: 1; } .stat-context { font-size: clamp(18px,3.5cqw,26px); font-weight: 500; line-height: 1.4; max-width: 520px; margin: 16px auto 0; opacity: 0.88; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after-stacked",
+      "layers": ["diag-band", "geo-chromatic-edge"],
+      "copy": {
+        "kicker": "EL PROBLEMA",
+        "headline": "Así suena tu CV ahora",
+        "before_label": "TUS BULLETS ACTUALES",
+        "before_text": ">$ ats-score: 19 / 100<br>Encargado de atención al cliente<br>Responsable del equipo<br>Gestioné proyectos",
+        "before_pct": 19,
+        "after_label": "LO QUE VE EL RECLUTADOR",
+        "after_text": "Responsabilidades sin datos. Sin contexto. Sin impacto.",
+        "after_pct": 5
+      },
+      "custom_css": ".bas-headline { font-size: clamp(20px,4cqw,30px); font-weight: 900; letter-spacing: -0.02em; } .bas-before .bas-text { font-family: var(--font-mono); font-size: 12px; line-height: 1.6; } .bas-after .bas-text { font-size: 14px; opacity: 0.80; font-style: italic; } .bas-pct { font-size: 20px; font-weight: 900; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-before-after-stacked",
+      "layers": ["diag-band", "geo-data-streaks"],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}],
+      "copy": {
+        "kicker": "LA CORRECCIÓN",
+        "headline": "Reescríbelos con resultados",
+        "before_label": "ANTES",
+        "before_text": "Responsabilidades vagas sin números",
+        "before_pct": 19,
+        "after_label": "DESPUÉS",
+        "after_text": "Reduje tiempo de respuesta de 48h a 4h<br>Lideré equipo de 6 que cerró $120k<br>Entregué 3 proyectos antes de fecha",
+        "after_pct": 91
+      },
+      "custom_css": ".bas-headline { font-size: clamp(20px,4cqw,30px); font-weight: 900; letter-spacing: -0.02em; } .bas-after .bas-text { font-size: 13px; font-weight: 600; line-height: 1.55; } .bas-before .bas-text { font-size: 14px; opacity: 0.75; } .bas-pct { font-size: 20px; font-weight: 900; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["diag-band", "geo-scan-lines"],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}],
+      "effects": { "requires_playwright_export": true },
+      "copy": {
+        "question": "¿Tu experiencia suena a logros?",
+        "cta_keyword": "GUÍA",
+        "reward": "Te mando la guía para reescribir tus bullets. Sin costo.",
+        "url": "worqai.com"
+      },
+      "custom_css": ".cta-question { font-size: clamp(26px,5cqw,38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-keyword { font-size: clamp(40px,8cqw,60px); font-weight: 900; letter-spacing: -0.04em; }"
+    }
+  ]
+}

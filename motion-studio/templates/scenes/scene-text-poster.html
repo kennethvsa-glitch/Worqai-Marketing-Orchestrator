@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html data-duration="6" data-fps="60" data-name="text-poster">
+<head>
+  <meta charset="UTF-8"><script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <script src="../motion-lib.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:       #ECEAE1;
+      --ink:      #16181C;
+      --ink-dim:  rgba(22, 24, 28, 0.50);
+      --accent:   #C9F24D;
+      --font-display: 'Newsreader', Georgia, serif;
+      --font-body:    'Inter', sans-serif;
+      --safe-top: 120px; --safe-bottom: 200px; --safe-x: 56px;
+    }
+    html, body {
+      width: 1080px; height: 1920px; overflow: hidden;
+      background: var(--bg); color: var(--ink);
+      font-family: var(--font-body);
+    }
+
+    .grain {
+      position: fixed; inset: 0; pointer-events: none; z-index: 100;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 512px 512px;
+      opacity: 0.038; mix-blend-mode: multiply;
+    }
+
+    .scene-content {
+      position: absolute;
+      top: var(--safe-top); left: var(--safe-x); right: var(--safe-x); bottom: var(--safe-bottom);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    /* Top rule — accent lime, grows in from left */
+    .rule-top {
+      position: absolute;
+      top: var(--safe-top); left: var(--safe-x);
+      width: 0px; height: 2px; background: var(--accent);
+    }
+
+    .eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--ink-dim); margin-bottom: 28px;
+    }
+
+    .headline {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 96px; line-height: 1.04; color: var(--ink);
+      margin-bottom: 48px;
+    }
+    /* Each line wrapped for per-word mask reveal */
+    .headline-line {
+      display: block; overflow: hidden;
+    }
+
+    /* Accent divider — ink, revealed x-axis */
+    .divider {
+      width: 0px; height: 1px; background: var(--ink);
+      opacity: 0.2; margin-bottom: 40px;
+    }
+
+    .subhead {
+      font-size: 24px; font-weight: 300; line-height: 1.55; color: var(--ink);
+      max-width: 700px; margin-bottom: 32px;
+    }
+    .handle {
+      font-size: 13px; font-weight: 400; letter-spacing: 0.06em; color: var(--ink-dim);
+    }
+  </style>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="rule-top" id="rule-top"></div>
+
+  <div class="scene-content">
+    <div class="eyebrow" data-copy="eyebrow">{{ copy.eyebrow }}</div>
+    <div class="headline">
+      <span class="headline-line" id="headline-1" data-copy="headline_1">{{ copy.headline_1 }}</span>
+      <span class="headline-line" id="headline-2" data-copy="headline_2">{{ copy.headline_2 }}</span>
+    </div>
+    <div class="divider"  id="divider"></div>
+    <div class="subhead"  data-copy="subhead">{{ copy.subhead }}</div>
+    <div class="handle"   data-copy="handle">{{ copy.handle }}</div>
+  </div>
+
+  <script>
+    window.MOTION_SEED = "text-poster";
+
+    // Per-word splits before timeline builds (must run before globalTimeline.pause)
+    splitWords("#headline-1");
+    splitWords("#headline-2");
+
+    const tl = gsap.timeline();
+
+    // Rule grows in from left (accent)
+    tl.to("#rule-top",  { width: "968px", duration: 0.55, ease: "luxe" }, 0.1);
+    tl.addLabel("rule_in", 0.1);
+
+    // Eyebrow
+    tl.from(".eyebrow", { opacity: 0, duration: 0.4, ease: "luxe" }, 0.45);
+
+    // Per-word headline reveals — words rise from mask (luxe ease)
+    tl.add(textReveal("#headline-1", "in", { ease: "luxe", stagger: T.stagger_lines }), 0.75);
+    tl.addLabel("h1_in", 0.75);
+    tl.add(textReveal("#headline-2", "in", { ease: "luxe", stagger: T.stagger_lines }), 1.1);
+    tl.addLabel("h2_in", 1.1);
+
+    // Divider wipes in (ink)
+    tl.to("#divider", { width: "100%", opacity: 0.2, duration: 0.5, ease: "luxe" }, 1.85);
+
+    // Subhead slides up
+    tl.from(".subhead", { y: 16, opacity: 0, duration: T.duration_unit, ease: "luxe" }, 2.15);
+    tl.addLabel("subhead_in", 2.15);
+
+    // Handle fades
+    tl.from(".handle",  { opacity: 0, duration: T.duration_unit, ease: "luxe" }, 2.75);
+
+    // Lock 2
+    gsap.globalTimeline.pause();
+    document.fonts.ready.then(() => {
+      window.motionReady = true;
+      window.MOTION_LABELS = Object.fromEntries(
+        Object.entries(tl.labels).map(([k, v]) => [k, Math.round(v * 1000)])
+      );
+    });
+  </script>
+</body>
+</html>

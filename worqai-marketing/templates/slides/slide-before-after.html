@@ -1,0 +1,78 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="ba-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+    {% if copy.headline %}
+    <div class="ba-headline">{{ copy.headline }}</div>
+    {% endif %}
+    {% if copy.body %}
+    <div class="ba-sub">{{ copy.body }}</div>
+    {% endif %}
+
+    {#
+      Before/After rules (v2):
+      - copy.before_score / copy.after_score: the BIG number hero — score, %, rating, or short result
+        Example: "28/100", "12%", "RECHAZADO", "89/100", "4 entrevistas"
+        Renders as .ba-score.bad-score / .ba-score.good-score (clamp 48–72px, bold)
+        Score sits ABOVE the list — it's the visual anchor, not the headline
+      - copy.before_items / copy.after_items: bullet list of what changed
+      - copy.bad_label / copy.good_label: column headers (default: Antes / Después)
+      - When no score is provided, the mock skeleton lines fill the visual space
+    #}
+    <div class="ba-cols">
+
+      {# ── BEFORE column — red tint #}
+      <div class="ba-col bad">
+        <div class="ba-col-tag">{{ copy.bad_label | default('Antes') }}</div>
+        {% if copy.before_score %}
+        <div class="ba-score bad-score">{{ copy.before_score }}</div>
+        {% else %}
+        <div class="ba-mock">
+          <div class="ba-mock-line full"></div>
+          <div class="ba-mock-line med"></div>
+          <div class="ba-mock-line short"></div>
+        </div>
+        {% endif %}
+        {% if copy.before_items %}
+        <ul class="ba-col-list">
+          {% for item in copy.before_items %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+      {# ── AFTER column — teal/green tint #}
+      <div class="ba-col good">
+        <div class="ba-col-tag">{{ copy.good_label | default('Después') }}</div>
+        {% if copy.after_score %}
+        <div class="ba-score good-score">{{ copy.after_score }}</div>
+        {% else %}
+        <div class="ba-mock">
+          <div class="ba-mock-line full"></div>
+          <div class="ba-mock-line med"></div>
+          <div class="ba-mock-line short"></div>
+        </div>
+        {% endif %}
+        {% if copy.after_items %}
+        <ul class="ba-col-list">
+          {% for item in copy.after_items %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

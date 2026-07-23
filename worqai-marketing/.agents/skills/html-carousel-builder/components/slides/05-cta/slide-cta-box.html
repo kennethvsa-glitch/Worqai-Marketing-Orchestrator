@@ -1,0 +1,81 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-cta-box",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: CTA BOX
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_0-a-4-entrevistas_crimson.html, carousel_pdf-ats-error_worqai-verde.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S8 — The ask. Keyword box + CTA button.
+-->
+
+<div class="content">
+  <div class="cta-wrap">
+    <p class="cta-question">Listo para que tu CV trabaje por ti?</p>
+    <div class="keyword-box">
+      <span class="kw-label">Escribe en los comentarios:</span>
+      <span class="keyword">CV</span>
+    </div>
+    <p class="cta-reward">Te envio el checklist gratuito para optimizarlo hoy.</p>
+    <button class="cta-btn">Quiero mi revision</button>
+  </div>
+</div>
+
+<style>
+.cta-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  gap: 32px; margin-top: auto; margin-bottom: auto;
+}
+.cta-question {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 52px; font-weight: 700;
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--text-primary); max-width: 800px;
+}
+.keyword-box {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 16px 32px;
+  border: 2px dashed var(--accent-line);
+  border-radius: 12px;
+}
+.kw-label {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 16px; font-weight: 400;
+  color: var(--text-muted);
+}
+.keyword {
+  font-family: var(--font-mono), monospace;
+  font-size: 28px; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.08em;
+}
+.cta-reward {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 20px; font-weight: 300;
+  line-height: 1.5; color: var(--text-secondary);
+  max-width: 560px;
+}
+.cta-btn {
+  background: var(--accent); color: var(--bg-base);
+  border: none; padding: 18px 44px; border-radius: 10px;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 0.02em; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cta-btn:hover { transform: translateY(-2px); }
+</style>
+
+<!--
+CUSTOMIZATION:
+- .cta-question font-size: 42px (long) to 64px (short)
+- keyword-box: dashed (default), solid, or filled background
+- cta-btn: can be replaced with handle / DM instruction instead of button
+- Layout: centered (default) or left-aligned
+-->

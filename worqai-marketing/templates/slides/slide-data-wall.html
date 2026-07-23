@@ -1,0 +1,24 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="dwall-wrap">
+    {% for stat in copy.get('stats', []) %}
+    <div class="dwall-card">
+      <div class="dwall-num">{{ stat.number }}<span class="unit">{{ stat.get('unit', '') }}</span></div>
+      <div class="dwall-label">{{ stat.label }}</div>
+    </div>
+    {% else %}
+    {# Fallback: render headline as a single full-width card #}
+    <div class="dwall-card" style="grid-column:1/-1">
+      <div class="dwall-num">{{ copy.stat_number | default('—') }}</div>
+      <div class="dwall-label">{{ copy.headline | default('') }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

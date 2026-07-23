@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Northwind Capital — Carousel 04</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --navy:#0a1f44;
+    --navy-2:#13294b;
+    --navy-3:#1f3a6e;
+    --gold:#c2a55a;
+    --gold-soft:#e3d3a3;
+    --paper:#f3f1ec;
+    --paper-2:#e6e2d6;
+    --line:rgba(255,255,255,0.12);
+    --ink:#0a1f44;
+    --muted:#6b7589;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#03081a;font-family:'Inter',sans-serif;color:#eee;min-height:100vh;padding:40px 20px}
+  .controls{max-width:1080px;margin:0 auto 24px;display:flex;gap:12px;align-items:center}
+  .controls button{background:var(--gold);color:var(--navy);border:0;padding:12px 22px;font-family:'Inter';font-weight:600;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;font-size:12px}
+  .controls button:hover{background:#fff}
+  .dots{display:flex;gap:8px;margin-left:auto}
+  .dots span{width:8px;height:8px;background:#333}
+  .dots span.active{background:var(--gold)}
+  .stage{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .slide{
+    width:1080px;height:1080px;
+    position:relative;overflow:hidden;
+    background:var(--navy);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+  }
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:60px 60px;z-index:1}
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:0.18;mix-blend-mode:overlay;z-index:6}
+  .grain svg{width:100%;height:100%}
+
+  .topbar{position:absolute;top:48px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-soft);z-index:7}
+  .topbar .brand{display:flex;align-items:center;gap:10px;color:var(--paper);font-weight:600}
+  .topbar .brand::before{content:"";width:14px;height:14px;background:var(--gold);transform:rotate(45deg)}
+  .footer-bar{position:absolute;bottom:48px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-soft);z-index:7;border-top:1px solid var(--line);padding-top:16px}
+
+  /* SLIDE 1 — cover */
+  .s1{background:
+    radial-gradient(circle at 80% 0%, rgba(194,165,90,0.25), transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(31,58,110,0.7), transparent 60%),
+    linear-gradient(180deg, #0a1f44 0%, #061634 100%);
+  }
+  .s1 .label{position:absolute;top:140px;left:64px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);z-index:7}
+  .s1 .label::before{content:"— ";color:var(--gold)}
+  .s1 h1{position:absolute;top:200px;left:64px;right:64px;font-family:'Playfair Display';font-weight:400;font-size:108px;line-height:1.0;letter-spacing:-0.02em;color:var(--paper);z-index:7}
+  .s1 h1 em{font-style:italic;color:var(--gold)}
+  .s1 .glass{position:absolute;bottom:180px;left:64px;right:64px;padding:32px;background:rgba(255,255,255,0.04);border:1px solid rgba(194,165,90,0.3);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);z-index:7;display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:24px;align-items:center}
+  .s1 .glass .col .lbl{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px}
+  .s1 .glass .col .v{font-family:'Playfair Display';font-weight:500;font-size:54px;color:var(--paper);line-height:1}
+  .s1 .glass .col .v sup{font-size:22px;color:var(--gold);vertical-align:top;margin-left:4px}
+  .s1 .glass .col p{font-family:'Inter';font-size:12px;color:var(--gold-soft);margin-top:8px;line-height:1.4}
+  .s1 .glass .div{height:80%;background:rgba(194,165,90,0.3);align-self:center}
+
+  /* SLIDE 2 — proof points */
+  .s2{background:linear-gradient(180deg, #0a1f44 0%, #13294b 100%)}
+  .s2 .label{position:absolute;top:120px;left:64px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);z-index:7}
+  .s2 h2{position:absolute;top:180px;left:64px;right:64px;font-family:'Playfair Display';font-weight:400;font-size:80px;line-height:1.0;letter-spacing:-0.02em;color:var(--paper);z-index:7}
+  .s2 h2 em{font-style:italic;color:var(--gold)}
+  .s2 .row{position:absolute;top:440px;left:64px;right:64px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;z-index:7}
+  .s2 .card{padding:28px;background:rgba(255,255,255,0.04);border:1px solid var(--line);backdrop-filter:blur(12px)}
+  .s2 .card .n{font-family:'Playfair Display';font-weight:500;font-size:80px;color:var(--gold);line-height:0.9}
+  .s2 .card .n sup{font-size:28px;color:var(--paper);font-weight:400}
+  .s2 .card .lbl{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-soft);margin-top:14px}
+  .s2 .card p{font-family:'Inter';font-size:13px;color:var(--paper);margin-top:8px;line-height:1.5}
+  .s2 .quote-strip{position:absolute;bottom:160px;left:64px;right:64px;padding:24px 28px;background:rgba(194,165,90,0.08);border-left:3px solid var(--gold);font-family:'Playfair Display';font-style:italic;font-weight:400;font-size:24px;line-height:1.4;color:var(--paper);z-index:7}
+  .s2 .quote-strip .src{display:block;font-style:normal;font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.2em;color:var(--gold-soft);text-transform:uppercase;margin-top:10px}
+
+  /* SLIDE 3 — testimonial cascade */
+  .s3{background:linear-gradient(180deg, #13294b 0%, #0a1f44 100%)}
+  .s3 .label{position:absolute;top:120px;left:64px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);z-index:7}
+  .s3 h2{position:absolute;top:180px;left:64px;right:64px;font-family:'Playfair Display';font-weight:400;font-size:72px;line-height:1.05;color:var(--paper);z-index:7}
+  .s3 h2 em{font-style:italic;color:var(--gold)}
+  .s3 .stack{position:absolute;top:400px;left:64px;right:64px;display:flex;flex-direction:column;gap:18px;z-index:7}
+  .s3 .test{padding:24px 28px;background:rgba(255,255,255,0.04);border:1px solid var(--line);backdrop-filter:blur(10px);display:grid;grid-template-columns:80px 1fr 200px;gap:24px;align-items:center}
+  .s3 .test .av{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#c2a55a,#5a4220);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display';font-style:italic;font-weight:500;font-size:24px;color:var(--paper)}
+  .s3 .test .body{font-family:'Playfair Display';font-style:italic;font-weight:400;font-size:20px;line-height:1.4;color:var(--paper)}
+  .s3 .test .body em{font-style:normal;color:var(--gold);font-weight:500}
+  .s3 .test .meta{text-align:right}
+  .s3 .test .meta .nm{font-family:'Inter';font-weight:600;font-size:14px;color:var(--paper)}
+  .s3 .test .meta .role{font-family:'IBM Plex Mono';font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-soft);margin-top:4px}
+
+  /* SLIDE 4 — what we manage */
+  .s4{background:
+    radial-gradient(circle at 90% 90%, rgba(194,165,90,0.18), transparent 50%),
+    linear-gradient(180deg, #0a1f44 0%, #061634 100%);
+  }
+  .s4 .label{position:absolute;top:120px;left:64px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);z-index:7}
+  .s4 h2{position:absolute;top:180px;left:64px;right:64px;font-family:'Playfair Display';font-weight:400;font-size:88px;line-height:1.0;color:var(--paper);z-index:7}
+  .s4 h2 em{font-style:italic;color:var(--gold)}
+  .s4 .pillars{position:absolute;top:480px;left:64px;right:64px;display:grid;grid-template-columns:1fr 1fr;gap:18px;z-index:7}
+  .s4 .pil{padding:26px;background:rgba(255,255,255,0.05);border:1px solid var(--line);backdrop-filter:blur(14px);position:relative}
+  .s4 .pil::before{content:"";position:absolute;top:0;left:0;width:40px;height:2px;background:var(--gold)}
+  .s4 .pil .num{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase}
+  .s4 .pil h3{font-family:'Playfair Display';font-weight:400;font-style:italic;font-size:32px;color:var(--paper);margin-top:14px;line-height:1.1}
+  .s4 .pil p{font-family:'Inter';font-size:13px;color:var(--gold-soft);margin-top:12px;line-height:1.5}
+  .s4 .pil .ar{position:absolute;top:24px;right:24px;font-family:'Playfair Display';font-style:italic;font-weight:500;font-size:36px;color:var(--gold);line-height:1}
+
+  /* SLIDE 5 — featured-in */
+  .s5{background:linear-gradient(180deg, #061634 0%, #0a1f44 100%)}
+  .s5 .label{position:absolute;top:120px;left:64px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);z-index:7}
+  .s5 h2{position:absolute;top:180px;left:64px;right:64px;font-family:'Playfair Display';font-weight:400;font-size:84px;line-height:1.0;color:var(--paper);z-index:7}
+  .s5 h2 em{font-style:italic;color:var(--gold)}
+  .s5 .quote{position:absolute;top:440px;left:64px;right:64px;padding:36px;background:rgba(255,255,255,0.05);border:1px solid rgba(194,165,90,0.3);backdrop-filter:blur(14px);z-index:7}
+  .s5 .quote .mark{font-family:'Playfair Display';font-style:italic;font-size:96px;color:var(--gold);line-height:0.4;margin-bottom:8px}
+  .s5 .quote p{font-family:'Playfair Display';font-style:italic;font-weight:400;font-size:34px;line-height:1.25;color:var(--paper)}
+  .s5 .quote p em{font-style:normal;color:var(--gold);font-weight:500}
+  .s5 .quote .src{margin-top:22px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-soft)}
+  .s5 .press{position:absolute;bottom:160px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);z-index:7}
+  .s5 .press span{font-family:'Playfair Display';font-weight:500;font-size:18px;color:var(--gold-soft);letter-spacing:0.04em;opacity:0.85}
+
+  /* SLIDE 6 — CTA */
+  .s6{background:
+    radial-gradient(circle at 30% 80%, rgba(194,165,90,0.2), transparent 50%),
+    linear-gradient(180deg, #13294b 0%, #0a1f44 100%);
+  }
+  .s6 .label{position:absolute;top:140px;left:64px;font-family:'IBM Plex Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);z-index:7}
+  .s6 h2{position:absolute;top:230px;left:64px;right:64px;font-family:'Playfair Display';font-weight:400;font-size:124px;line-height:0.95;letter-spacing:-0.02em;color:var(--paper);z-index:7}
+  .s6 h2 em{font-style:italic;color:var(--gold);display:block}
+  .s6 .panel{position:absolute;bottom:200px;left:64px;right:64px;padding:32px;background:rgba(255,255,255,0.05);border:1px solid rgba(194,165,90,0.3);backdrop-filter:blur(14px);display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;z-index:7}
+  .s6 .panel .desc{font-family:'Inter';font-size:14px;color:var(--paper);line-height:1.7}
+  .s6 .panel .desc strong{font-family:'Playfair Display';font-style:italic;font-weight:500;color:var(--gold);font-size:18px;display:block;margin-bottom:6px}
+  .s6 .cta{display:inline-flex;align-items:center;gap:14px;padding:22px 32px;background:var(--gold);color:var(--navy);font-family:'Inter';font-weight:600;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;white-space:nowrap}
+
+</style>
+</head>
+<body>
+  <div class="controls">
+    <button id="exportBtn">Export ZIP</button>
+    <span style="color:#aaa;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Northwind Capital — 6 slides</span>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 1 -->
+    <div class="slide s1" id="slide-1">
+      <div class="grid-bg"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="nn1"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#nn1)" opacity="0.4"/></svg></div>
+      <div class="topbar">
+        <span class="brand">NORTHWIND CAPITAL</span>
+        <span>RIA · EST. 2009 · 01 / 06</span>
+      </div>
+      <div class="label">Annual Letter to Clients</div>
+      <h1>Why <em>$2.4B</em> sits with<br>Northwind for the<br>second decade.</h1>
+      <div class="glass">
+        <div class="col"><div class="lbl">AUM</div><div class="v">$2.4<sup>B</sup></div><p>Managed across 1,184 households.</p></div>
+        <div class="div"></div>
+        <div class="col"><div class="lbl">Net retention</div><div class="v">96<sup>%</sup></div><p>Five-year client retention rate.</p></div>
+        <div class="div"></div>
+        <div class="col"><div class="lbl">Founders</div><div class="v">3</div><p>Two CFAs. One CFP. Same team since 2009.</p></div>
+      </div>
+      <div class="footer-bar"><span>northwindcap.com</span><span>SEC-registered RIA</span></div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide s2" id="slide-2">
+      <div class="grid-bg"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="nn2"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#nn2)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span class="brand">NORTHWIND CAPITAL</span><span>02 / 06 · TRACK RECORD</span></div>
+      <div class="label">— What 15 years of compounding looks like</div>
+      <h2>Three numbers we'd<br>still publish in <em>a downturn.</em></h2>
+      <div class="row">
+        <div class="card"><div class="n">8.4<sup>%</sup></div><div class="lbl">15-year net annualized return</div><p>Balanced 60/40 model, after fees, vs 7.1% benchmark.</p></div>
+        <div class="card"><div class="n">0.71<sup>%</sup></div><div class="lbl">All-in advisory + fund cost</div><p>Half the industry median for households $1M–$5M.</p></div>
+        <div class="card"><div class="n">22</div><div class="lbl">Years avg client tenure</div><p>Top quartile of clients still on the original 2009 plan.</p></div>
+      </div>
+      <div class="quote-strip">"Northwind's after-fee return beat the typical RIA peer by 130 bps over the last decade."<span class="src">— Barron's Top 100, 2024</span></div>
+      <div class="footer-bar"><span>Past performance not indicative of future results.</span><span>northwindcap.com</span></div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide s3" id="slide-3">
+      <div class="grid-bg"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="nn3"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#nn3)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span class="brand">NORTHWIND CAPITAL</span><span>03 / 06 · CLIENT VOICES</span></div>
+      <div class="label">— Verified, with permission</div>
+      <h2>Three things <em>clients</em> say<br>after their first year.</h2>
+      <div class="stack">
+        <div class="test">
+          <div class="av">EM</div>
+          <div class="body">"My old advisor never showed me the all-in cost. Northwind's first quarterly review had it on page 1. <em>That's a $14k/year correction.</em>"</div>
+          <div class="meta"><div class="nm">Elena M.</div><div class="role">Surgeon · Houston · $3.2M</div></div>
+        </div>
+        <div class="test">
+          <div class="av">RT</div>
+          <div class="body">"They turned down my request to chase a hot fund in March 2023. <em>The fund is down 41% year-to-date.</em>"</div>
+          <div class="meta"><div class="nm">Robert T.</div><div class="role">Founder, exited 2018 · $7.8M</div></div>
+        </div>
+        <div class="test">
+          <div class="av">SK</div>
+          <div class="body">"The estate plan caught two trust mistakes my attorney missed. <em>That alone paid for ten years of fees.</em>"</div>
+          <div class="meta"><div class="nm">Sarah K.</div><div class="role">Retired CFO · Boston · $5.1M</div></div>
+        </div>
+      </div>
+      <div class="footer-bar"><span>Names abbreviated; full attribution on file.</span><span>northwindcap.com</span></div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide s4" id="slide-4">
+      <div class="grid-bg"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="nn4"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#nn4)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span class="brand">NORTHWIND CAPITAL</span><span>04 / 06 · WHAT WE MANAGE</span></div>
+      <div class="label">— A single household, four fronts</div>
+      <h2>One advisor. <em>Four desks</em><br>working in your name.</h2>
+      <div class="pillars">
+        <div class="pil"><div class="num">— 01 PORTFOLIO</div><h3>Tax-aware allocation, rebalanced quarterly</h3><p>Direct indexing for accounts above $1M, harvesting up to 1.4% per year.</p><div class="ar">→</div></div>
+        <div class="pil"><div class="num">— 02 ESTATE</div><h3>Trust review, paid for inside the AUM fee</h3><p>Annual review with our in-house J.D. — no $600/hr surprises.</p><div class="ar">→</div></div>
+        <div class="pil"><div class="num">— 03 TAX</div><h3>Coordinated with your CPA, not parallel to them</h3><p>Three calls per year: pre-Q4, pre-filing, mid-year withholding.</p><div class="ar">→</div></div>
+        <div class="pil"><div class="num">— 04 RISK</div><h3>P&amp;C and umbrella audited every two years</h3><p>2024 average client recovered $3,800 in over-insurance.</p><div class="ar">→</div></div>
+      </div>
+      <div class="footer-bar"><span>SEC-registered. Form ADV available on request.</span><span>northwindcap.com</span></div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide s5" id="slide-5">
+      <div class="grid-bg"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="nn5"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#nn5)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span class="brand">NORTHWIND CAPITAL</span><span>05 / 06 · IN THE PRESS</span></div>
+      <div class="label">— External validation</div>
+      <h2>Where the press <em>placed</em> us<br>this year.</h2>
+      <div class="quote">
+        <div class="mark">"</div>
+        <p>Northwind's fee transparency and after-fee returns have made it <em>one of the most-cited firms in the $1M–$10M household segment.</em></p>
+        <div class="src">— InvestmentNews, March 2025</div>
+      </div>
+      <div class="press">
+        <span>BARRON'S</span><span>FORBES RIA</span><span>WSJ</span><span>FT ADVISER</span><span>CITYWIRE</span>
+      </div>
+      <div class="footer-bar"><span>Selected mentions Q1 2024 – Q1 2025.</span><span>northwindcap.com/press</span></div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide s6" id="slide-6">
+      <div class="grid-bg"></div>
+      <div class="grain"><svg xmlns="http://www.w3.org/2000/svg"><filter id="nn6"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#nn6)" opacity="0.4"/></svg></div>
+      <div class="topbar"><span class="brand">NORTHWIND CAPITAL</span><span>06 / 06 · NEXT STEP</span></div>
+      <div class="label">— A 45-minute portfolio audit, no fee</div>
+      <h2>See what your<br><em>old fee structure</em><br>actually costs.</h2>
+      <div class="panel">
+        <div class="desc">
+          <strong>Portfolio Second Look · 45 min · No fee</strong>
+          We pull your statements, run an all-in cost analysis, and email you a written 4-page memo within 5 business days. You keep the memo.
+        </div>
+        <a class="cta">Book the review →</a>
+      </div>
+      <div class="footer-bar"><span>northwindcap.com/review</span><span>SEC-registered RIA · 2009</span></div>
+    </div>
+  </div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.getElementById('dots');
+  slides.forEach((_,i)=>{const s=document.createElement('span');if(i===0)s.classList.add('active');dots.appendChild(s);});
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){const idx=[...slides].indexOf(e.target);[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}});
+  },{threshold:0.5});
+  slides.forEach(s=>obs.observe(s));
+
+  document.getElementById('exportBtn').addEventListener('click', async ()=>{
+    const btn = document.getElementById('exportBtn');
+    btn.disabled=true; btn.textContent='Rendering...';
+    const zip = new JSZip();
+    for(let i=0;i<slides.length;i++){
+      btn.textContent=`Rendering ${i+1}/${slides.length}`;
+      const canvas = await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,backgroundColor:null});
+      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+      zip.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const out = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(out);
+    const a = document.createElement('a'); a.href=url; a.download='northwind_capital_carousel.zip'; a.click();
+    btn.disabled=false; btn.textContent='Export ZIP';
+  });
+</script>
+</body>
+</html>

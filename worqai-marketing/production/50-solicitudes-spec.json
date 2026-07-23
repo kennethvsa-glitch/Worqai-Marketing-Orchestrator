@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "system": "s26",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "50-solicitudes",
+    "density": "standard",
+    "continuity": ""
+  },
+  "pacing": ["hook", "diagnostic", "shock", "proof", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["diag-band", "geo-hex-mesh"],
+      "decoratives": ["chrome-header-bar"],
+      "copy": {
+        "kicker": "ERRORES DE FORMATO",
+        "headline": "50 solicitudes enviadas. 0 respuestas.",
+        "body": "El problema no es tu experiencia — es el formato del CV.",
+        "text_treatment": "stroke",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".hook-display { font-size: clamp(26px,5.2cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.08; } .hook-body { font-size: 17px; font-weight: 400; opacity: 0.85; line-height: 1.5; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-waterfall-list",
+      "layers": ["diag-band", "geo-constellation"],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}],
+      "copy": {
+        "headline": "Errores de formato que eliminan tu CV",
+        "items": [
+          { "title": "Foto en el CV", "desc": "Las ATS ignoran imágenes. La foto ocupa espacio sin valor." },
+          { "title": "Dirección completa", "desc": "Solo ciudad y país. Nunca calle ni número de casa." },
+          { "title": "Tablas en PDF", "desc": "El texto dentro de tablas se fragmenta en el filtro ATS." },
+          { "title": "Objetivo genérico", "desc": "'Busco crecer' no le dice nada al filtro ni al reclutador." }
+        ]
+      },
+      "custom_css": ".wfl-num { color: #d94f4f; font-weight: 900; } .wfl-text { font-size: clamp(17px,3.2cqw,24px); font-weight: 700; } .wfl-desc { font-size: 14px; font-weight: 400; opacity: 0.80; line-height: 1.45; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-input-output",
+      "layers": ["diag-band", "geo-bokeh"],
+      "decoratives": ["chrome-header-bar"],
+      "copy": {
+        "kicker": "ASÍ LO VE EL ATS",
+        "input_label": "TÚ ESCRIBISTE",
+        "input_text": "Analista de Datos | Excel avanzado | Tableau | Python | BI Reports | Banco Santander 2021-2023",
+        "output_label": "EL ATS RECIBIÓ",
+        "output_text": ">$ ats-parse cv.pdf\nWARN: tabla_detectada → skip\nERR:  foto_encontrada → ignorada\n2021-2023 → \"20212023\"\nScore: 23 / 100"
+      },
+      "custom_css": ".io-ats .io-panel-content { font-family: var(--font-mono); font-size: 12px; white-space: pre-wrap; line-height: 1.65; } .io-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.75; margin-bottom: 8px; } .io-panel-label { font-size: 10px; font-weight: 700; letter-spacing: 0.20em; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-before-after-stacked",
+      "layers": ["diag-band", "geo-liquid-morph"],
+      "copy": {
+        "kicker": "EL IMPACTO DEL FORMATO",
+        "headline": "Un formato correcto cambia el resultado",
+        "before_label": "ANTES",
+        "before_text": "Foto, tabla, dirección completa, objetivo genérico",
+        "before_pct": 23,
+        "after_label": "DESPUÉS",
+        "after_text": "CV limpio, texto plano, secciones estándar ATS",
+        "after_pct": 91
+      },
+      "custom_css": ".bas-headline { font-size: clamp(20px,4.2cqw,32px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; } .bas-pct { font-size: 22px; font-weight: 900; } .bas-text { font-size: 15px; font-weight: 400; opacity: 0.85; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["diag-band", "geo-perspective-grid"],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}],
+      "effects": { "requires_playwright_export": true },
+      "copy": {
+        "question": "¿Tu CV pasa el filtro ATS?",
+        "cta_keyword": "PLANTILLA",
+        "reward": "Te mando la plantilla ATS lista para usar. Sin costo.",
+        "url": "worqai.com"
+      },
+      "custom_css": ".cta-question { font-size: clamp(26px,5cqw,38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-keyword { font-size: clamp(40px,8cqw,60px); font-weight: 900; letter-spacing: -0.04em; }"
+    }
+  ]
+}

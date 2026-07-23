@@ -1,0 +1,52 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "acc-border-thick",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s01",
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s35",
+      "s37",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s23",
+      "s32",
+      "s36"
+    ],
+    "pairs_well_with": [
+      "deco-corner-frame",
+      "deco-border-double",
+      "slide-editorial-index"
+    ],
+    "conflicts_with": [
+      "org-ink-splash",
+      "org-smoke-trail"
+    ]
+  }
+-->
+
+<!--
+LAYER: BORDER THICK
+Bold frame around slide.
+Best for: brutalist, poster, statement systems.
+-->
+
+<div class="border-thick"></div>
+
+<style>
+.border-thick {
+  position: absolute; inset: 12px;
+  pointer-events: none; z-index: 6;
+  border: 4px solid var(--accent);
+  opacity: 0.25;
+}
+</style>

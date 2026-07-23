@@ -1,0 +1,32 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-press-row",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+DECORATIVE: PRESS ROW
+Found in: carousel_portfolio_04.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: Trust signal with publication/brand names.
+-->
+
+<div class="press-row">
+  <span class="pr-item">Forbes</span>
+  <span class="pr-div"></span>
+  <span class="pr-item">LinkedIn</span>
+  <span class="pr-div"></span>
+  <span class="pr-item">Business Insider</span>
+  <span class="pr-div"></span>
+  <span class="pr-item">Harvard Business Review</span>
+</div>
+
+<style>
+.press-row { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
+.pr-item { font-family: var(--font-display), system-ui, sans-serif; font-size: 14px; font-weight: 600; color: var(--text-muted); opacity: 0.5; letter-spacing: 0.04em; }
+.pr-div { width: 1px; height: 16px; background: var(--accent-line); }
+</style>

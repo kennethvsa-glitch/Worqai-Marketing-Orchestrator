@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chrome Helix — Test Slide v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #030306;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'Space Grotesk', sans-serif;
+  padding: 24px;
+}
+
+.label-top {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #E040FB;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.viewer {
+  width: 100%;
+  max-width: 540px;
+}
+
+.slide {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%, transparent 32%, rgba(0,0,0,0.7) 100%),
+    linear-gradient(152deg, #09090f 0%, #0c1330 52%, #07091a 100%);
+}
+
+/* Film grain */
+.slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ribbon-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Headline lives cleanly ABOVE the ribbon (ribbon top = y575 = ~53% down) */
+.top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: 46px 46px 0;
+  z-index: 3;
+}
+
+.lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #E040FB;
+  margin-bottom: 16px;
+}
+
+.headline {
+  font-size: clamp(33px, 6.6vw, 54px);
+  font-weight: 900;
+  color: #eef2ff;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  max-width: 72%;
+}
+
+.headline .ch {
+  background: linear-gradient(90deg, #bdd0e4 0%, #ffffff 40%, #8faac0 70%, #c4d8ec 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headline .mg { color: #E040FB; }
+
+/* Body text lives BELOW the ribbon (ribbon bottom = y736 = ~68% down) */
+.bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0 46px 44px;
+  z-index: 3;
+}
+
+.sub {
+  font-size: clamp(11px, 2.1vw, 14px);
+  font-weight: 300;
+  color: rgba(172, 196, 220, 0.44);
+  line-height: 1.72;
+  max-width: 62%;
+  margin-bottom: 14px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 5px 14px;
+  border: 1px solid rgba(224,64,251,0.38);
+  color: #E040FB;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 20px;
+  float: right;
+}
+
+.brand-bar {
+  position: absolute;
+  bottom: 15px; left: 46px; right: 46px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+}
+
+.brand, .counter {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.13);
+}
+
+.hint {
+  font-size: 9px;
+  color: rgba(255,255,255,0.1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.deco-num { display: none; }
+</style>
+</head>
+<body>
+
+<div class="label-top">CHROME HELIX · v2 · CUSTOM SYSTEM</div>
+
+<div class="viewer">
+  <div class="slide">
+
+    <!--
+      =======================================================
+      CHROME HELIX RIBBON — v2
+
+      GEOMETRY (1080×1080 coordinate space):
+        Ribbon center axis : y = 656
+        Full ribbon height : 162px
+        Top edge (full)    : y = 575
+        Bottom edge (full) : y = 737
+        Single twist at    : x = 445
+        Narrowest at twist : 26px (edge-on view, y=643–669)
+
+        Face A (chrome silver)    : x = −20  →  x = 445
+        Face B (cobalt + magenta) : x = 445  →  x = 1100
+
+      IMPROVEMENTS OVER v1:
+        · Ribbon moved to ~53–68% of slide — headline breathes clean above it
+        · Height doubled (162px vs 90px) — chrome bands have room to read
+        · One dramatic single twist instead of two small pinches
+        · feSpecularLighting for real metallic sheen on Face A
+        · High-contrast chrome banding (near-white ↔ near-black)
+        · Ribbon edge strip visible at twist (physical depth = 26px)
+        · Shine animations clipped to each face shape separately
+        · Ghost helix strand offset 38px above — suggests 3D helix depth
+      =======================================================
+    -->
+
+    <svg class="ribbon-svg" viewBox="0 0 1080 1080" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+
+        <!-- CHROME FACE A — high-contrast, 11-stop metallic banding -->
+        <!-- Classic chrome: white → light silver → dark steel → near-black → bounce -->
+        <linearGradient id="cA" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#f6faff"/>
+          <stop offset="7%"   stop-color="#d4e8f8"/>
+          <stop offset="17%"  stop-color="#96b4cc"/>
+          <stop offset="29%"  stop-color="#4e6478"/>
+          <stop offset="40%"  stop-color="#1c2b3c"/>
+          <stop offset="48%"  stop-color="#0b1520"/>
+          <stop offset="56%"  stop-color="#1c2b3c"/>
+          <stop offset="67%"  stop-color="#4e6478"/>
+          <stop offset="79%"  stop-color="#96b4cc"/>
+          <stop offset="91%"  stop-color="#d4e8f8"/>
+          <stop offset="100%" stop-color="#eef6ff" stop-opacity="0.55"/>
+        </linearGradient>
+
+        <!-- COBALT FACE B — deep navy, magnetic -->
+        <linearGradient id="cB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#020712"/>
+          <stop offset="14%"  stop-color="#060d26"/>
+          <stop offset="30%"  stop-color="#0a1844"/>
+          <stop offset="50%"  stop-color="#152e88"/>
+          <stop offset="68%"  stop-color="#0a1844"/>
+          <stop offset="84%"  stop-color="#060d26"/>
+          <stop offset="100%" stop-color="#01040e"/>
+        </linearGradient>
+
+        <!-- MAGENTA WASH — horizontal across Face B -->
+        <linearGradient id="mH" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#c026d3" stop-opacity="0.08"/>
+          <stop offset="12%"  stop-color="#E040FB" stop-opacity="0.58"/>
+          <stop offset="46%"  stop-color="#9333EA" stop-opacity="0.72"/>
+          <stop offset="80%"  stop-color="#E040FB" stop-opacity="0.38"/>
+          <stop offset="100%" stop-color="#c026d3" stop-opacity="0.04"/>
+        </linearGradient>
+
+        <!-- GHOST STRAND tint -->
+        <linearGradient id="gho" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#5878a0" stop-opacity="0.22"/>
+          <stop offset="50%"  stop-color="#5878a0" stop-opacity="0.08"/>
+          <stop offset="100%" stop-color="#5878a0" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- TOP EDGE HIGHLIGHT -->
+        <linearGradient id="hiW" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.90"/>
+          <stop offset="48%"  stop-color="#ffffff" stop-opacity="0.06"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- SHINE — white traverse (Face A) -->
+        <linearGradient id="shA" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="44%"  stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="50%"  stop-color="#ffffff" stop-opacity="0.34"/>
+          <stop offset="56%"  stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- SHINE — magenta traverse (Face B) -->
+        <linearGradient id="shB" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#E040FB" stop-opacity="0"/>
+          <stop offset="44%"  stop-color="#E040FB" stop-opacity="0"/>
+          <stop offset="50%"  stop-color="#E040FB" stop-opacity="0.36"/>
+          <stop offset="56%"  stop-color="#E040FB" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#E040FB" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- MAGENTA BLOOM (twist) -->
+        <radialGradient id="mgB" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stop-color="#E040FB" stop-opacity="1"/>
+          <stop offset="38%"  stop-color="#E040FB" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="#E040FB" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- AMBIENT COBALT -->
+        <radialGradient id="coGl" cx="62%" cy="64%" r="46%">
+          <stop offset="0%"   stop-color="#1a3580" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="#1a3580" stop-opacity="0"/>
+        </radialGradient>
+
+        <!-- ================================================
+             feSpecularLighting — point light above-left
+             Simulates metallic specular highlight on Face A.
+             Point light at (180, 440, 580) = upper-left, in front.
+             surfaceScale 7 = moderate bump depth
+             specularExponent 44 = sharp, tight highlight
+             ================================================ -->
+        <filter id="specA" x="-5%" y="-15%" width="110%" height="130%"
+          color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="blur"/>
+          <feSpecularLighting in="blur" surfaceScale="7" specularConstant="2.1"
+            specularExponent="44" lighting-color="#cce0f8" result="spec">
+            <fePointLight x="180" y="440" z="580"/>
+          </feSpecularLighting>
+          <feComposite in="spec" in2="SourceGraphic" operator="in" result="lit"/>
+          <feBlend in="SourceGraphic" in2="lit" mode="screen"/>
+        </filter>
+
+        <!-- DROP SHADOW -->
+        <filter id="ds" x="-5%" y="-30%" width="110%" height="160%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="18" result="b"/>
+          <feOffset in="b" dx="0" dy="12" result="off"/>
+          <feColorMatrix in="off" type="matrix"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.74 0" result="s"/>
+          <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
+        <!-- MAGENTA GLOW -->
+        <filter id="mg" x="-50%" y="-150%" width="200%" height="400%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="13" result="b"/>
+          <feColorMatrix in="b" type="matrix"
+            values="1.4 0 0 0 0.08  0 0 0 0 0  0 0 0 0 0.82  0 0 0 1.3 0"/>
+        </filter>
+
+        <!-- SOFT BLUR (shadow / reflection) -->
+        <filter id="soft">
+          <feGaussianBlur stdDeviation="7"/>
+        </filter>
+
+        <!--
+          CLIP PATHS — shine animations are clipped to exact ribbon face shapes
+          Face A: x=−20→445, converging from 162px height to 26px at x=445
+          Face B: x=445→1100, expanding from 26px at x=445 to 162px at right
+        -->
+        <clipPath id="clipA">
+          <path d="M -20 575 C 155 568, 362 572, 426 634 L 445 643 L 445 669 L 426 678 C 362 738, 155 742, -20 736 Z"/>
+        </clipPath>
+        <clipPath id="clipB">
+          <path d="M 445 643 C 474 620, 618 566, 828 568 L 1100 568 L 1100 742 C 828 742, 618 746, 445 669 Z"/>
+        </clipPath>
+
+      </defs>
+
+      <!-- ======== AMBIENT ATMOSPHERE ======== -->
+
+      <rect x="0" y="0" width="1080" height="1080" fill="url(#coGl)"/>
+      <!-- Ribbon zone horizon fog -->
+      <rect x="0" y="548" width="1080" height="220" fill="rgba(8,18,54,0.055)"/>
+
+      <!-- ======== GHOST HELIX STRAND (38px above main ribbon) ======== -->
+      <!-- Suggests the ribbon continues behind itself in 3D space -->
+      <path d="
+        M -20 537 C 155 530, 362 534, 426 596 L 445 605
+        L 445 631 L 426 640
+        C 362 700, 155 704, -20 698 Z
+      " fill="url(#gho)" opacity="0.5"/>
+      <path d="
+        M 445 605 C 474 582, 618 528, 828 530 L 1100 530
+        L 1100 640 C 828 640, 618 644, 445 631 Z
+      " fill="url(#gho)" opacity="0.18"/>
+
+      <!-- ======== RIBBON SHADOW ======== -->
+      <ellipse cx="540" cy="752" rx="566" ry="17" fill="#000000" opacity="0.62" filter="url(#soft)"/>
+      <ellipse cx="540" cy="748" rx="445" ry="10" fill="#000000" opacity="0.38"/>
+
+      <!-- ======== FACE A · LEFT (x: −20 → 445) ======== -->
+      <!--
+        Shape: trapezoid wide on left (162px), converging to 26px at right edge.
+        Top edge curves slightly DOWN approaching twist (ribbon tilts into fold).
+        Bottom edge curves slightly UP approaching twist.
+        Both converge at x=445: top=y643, bottom=y669 (26px gap = edge-on depth).
+      -->
+
+      <g filter="url(#ds)">
+        <path d="
+          M -20 575
+          C 155 568, 362 572, 426 634
+          L 445 643
+          L 445 669
+          L 426 678
+          C 362 738, 155 742, -20 736
+          Z
+        " fill="url(#cA)" filter="url(#specA)"/>
+      </g>
+
+      <!-- Chrome band 1 — bright sky reflection (upper zone) -->
+      <path d="
+        M -20 575 C 155 568, 362 572, 426 634 L 426 612
+        C 362 550, 155 544, -20 551 Z
+      " fill="rgba(245,252,255,0.24)"/>
+
+      <!-- Chrome band 2 — deep shadow valley (mid zone) -->
+      <path d="
+        M -20 618 C 155 611, 362 615, 426 636 L 426 646
+        C 362 634, 155 630, -20 637 Z
+      " fill="rgba(0,4,16,0.38)"/>
+
+      <!-- Chrome band 3 — bounce light (lower zone) -->
+      <path d="
+        M -20 696 C 155 690, 362 694, 426 672 L 426 682
+        C 362 704, 155 708, -20 714 Z
+      " fill="rgba(176,210,244,0.15)"/>
+
+      <!-- Top edge sharp line -->
+      <path d="M -20 575 C 155 568, 362 572, 426 634 L 445 643"
+        stroke="rgba(255,255,255,0.88)" stroke-width="1.8" fill="none"/>
+      <!-- Bottom edge line -->
+      <path d="M -20 736 C 155 742, 362 738, 426 678 L 445 669"
+        stroke="rgba(255,255,255,0.20)" stroke-width="1.1" fill="none"/>
+
+      <!-- Specular hot-spot (upper-left, strongest) -->
+      <ellipse cx="120" cy="588" rx="115" ry="9" fill="#ffffff" opacity="0.20"/>
+      <ellipse cx="220" cy="584" rx="62" ry="5" fill="#ffffff" opacity="0.30"/>
+
+      <!-- Secondary specular (mid-face) -->
+      <ellipse cx="300" cy="618" rx="70" ry="6" fill="#ffffff" opacity="0.10"/>
+
+      <!-- ======== TWIST JOINT (x = 445) ======== -->
+      <!--
+        The ribbon is edge-on here.
+        26px bright strip = physical ribbon thickness (the "side" of the ribbon).
+        Two fold triangles show where chrome face converges / cobalt face opens.
+        Magenta bloom = light refracting at the fold crease.
+      -->
+
+      <!-- Ribbon thickness strip (bright = shows depth) -->
+      <rect x="437" y="643" width="16" height="26"
+        fill="rgba(240,250,255,0.88)" rx="2"/>
+      <!-- Subtle edge shadow on strip -->
+      <rect x="437" y="643" width="4" height="26"
+        fill="rgba(0,0,0,0.3)" rx="1"/>
+
+      <!-- Upper fold triangle (chrome face converging) -->
+      <polygon points="428,632 462,632 445,643"
+        fill="rgba(190,220,248,0.65)"/>
+      <!-- Lower fold triangle (cobalt face opening) -->
+      <polygon points="428,680 462,680 445,669"
+        fill="rgba(20,48,130,0.62)"/>
+
+      <!-- Magenta bloom -->
+      <ellipse cx="445" cy="656" rx="30" ry="50"
+        fill="url(#mgB)" opacity="0.88" filter="url(#mg)"/>
+
+      <!-- Crease line (fold axis) -->
+      <line x1="435" y1="630" x2="455" y2="682"
+        stroke="rgba(255,255,255,0.65)" stroke-width="1.5" fill="none"/>
+
+      <!-- ======== FACE B · RIGHT (x: 445 → 1100) ======== -->
+      <!--
+        Mirror of Face A: starts at 26px (point of twist), expands to 162px.
+        Fill: cobalt dark + magenta horizontal wash.
+        Top edge trends UPWARD as it expands (ribbon untilts after flip).
+      -->
+
+      <g filter="url(#ds)">
+        <path d="
+          M 445 643
+          C 474 620, 618 566, 828 568
+          L 1100 568
+          L 1100 742
+          C 828 742, 618 746, 445 669
+          Z
+        " fill="url(#cB)"/>
+      </g>
+
+      <!-- Magenta horizontal wash -->
+      <path d="
+        M 445 643 C 474 620, 618 566, 828 568 L 1100 568
+        L 1100 742 C 828 742, 618 746, 445 669 Z
+      " fill="url(#mH)" opacity="0.82"/>
+
+      <!-- Internal cobalt shimmer streak -->
+      <path d="
+        M 445 643 C 474 620, 618 566, 760 566 L 760 582
+        C 618 582, 474 636, 445 655 Z
+      " fill="rgba(26,52,138,0.48)"/>
+
+      <!-- Depth shadow at base of Face B -->
+      <path d="
+        M 445 665 C 474 688, 618 740, 828 736 L 1100 736
+        L 1100 742 C 828 742, 618 746, 445 669 Z
+      " fill="rgba(0,0,0,0.32)"/>
+
+      <!-- Top edge Face B (magenta) -->
+      <path d="M 445 643 C 474 620, 618 566, 828 568 L 1100 568"
+        stroke="rgba(224,64,251,0.84)" stroke-width="1.8" fill="none"/>
+      <!-- Bottom edge Face B -->
+      <path d="M 445 669 C 474 696, 618 746, 828 742 L 1100 742"
+        stroke="rgba(255,255,255,0.11)" stroke-width="1.1" fill="none"/>
+
+      <!-- Magenta specular center -->
+      <ellipse cx="730" cy="643" rx="82" ry="7"
+        fill="#E040FB" opacity="0.55" filter="url(#mg)"/>
+      <!-- Cobalt secondary specular -->
+      <ellipse cx="920" cy="636" rx="64" ry="5"
+        fill="#1e40af" opacity="0.58"/>
+
+      <!-- ======== SHINE ANIMATIONS (clipped to each face) ======== -->
+
+      <!-- White shine — Face A -->
+      <rect x="-310" y="570" width="290" height="172"
+        fill="url(#shA)" clip-path="url(#clipA)" opacity="0.88">
+        <animateTransform attributeName="transform" type="translate"
+          from="-310 0" to="510 0"
+          dur="3.8s" repeatCount="indefinite"
+          calcMode="spline" keySplines="0.42 0 0.58 1"/>
+      </rect>
+
+      <!-- Magenta shine — Face B (offset timing) -->
+      <rect x="-310" y="562" width="290" height="186"
+        fill="url(#shB)" clip-path="url(#clipB)" opacity="0.82">
+        <animateTransform attributeName="transform" type="translate"
+          from="445 0" to="1450 0"
+          dur="3.8s" begin="0.95s" repeatCount="indefinite"
+          calcMode="spline" keySplines="0.42 0 0.58 1"/>
+      </rect>
+
+      <!-- ======== ATMOSPHERE ======== -->
+
+      <!-- Full ribbon top-edge magenta atmosphere line -->
+      <path d="M -20 575 C 155 568, 362 572, 426 634 L 445 643 C 474 620, 618 566, 828 568 L 1100 568"
+        stroke="#E040FB" stroke-width="2.5" fill="none"
+        opacity="0.13" filter="url(#mg)"/>
+
+      <!-- Glass floor reflection (faint echo 18–40px below ribbon) -->
+      <path d="
+        M -20 756 C 155 762, 362 758, 426 722 L 445 714
+        C 474 734, 618 762, 828 758 L 1100 758
+        L 1100 776 C 828 776, 618 778, 445 730
+        L 426 738 C 362 776, 155 780, -20 774 Z
+      " fill="url(#cA)" opacity="0.048"/>
+
+      <!-- Ambient magenta haze (ribbon aura) -->
+      <ellipse cx="720" cy="660" rx="310" ry="44" fill="#8b2fc9" opacity="0.052"/>
+
+    </svg>
+
+    <!-- HEADLINE (above ribbon — clear zone) -->
+    <div class="top">
+      <div class="lbl">Chrome Helix · System 00</div>
+      <div class="headline">
+        The ribbon<br>
+        carries <span class="ch">liquid chrome</span><br>
+        and <span class="mg">refracted</span> light.
+      </div>
+    </div>
+
+    <!-- BODY (below ribbon — clear zone) -->
+    <div class="bottom">
+      <p class="sub">
+        A visual spine that cuts every slide at the same angle.<br>
+        Same structure. Different face.
+      </p>
+      <span class="pill">Swipe →</span>
+    </div>
+
+    <div class="brand-bar">
+      <span class="brand">@worqai</span>
+      <span class="counter">1 / 8</span>
+    </div>
+
+  </div>
+</div>
+
+<p class="hint">test slide · v2</p>
+
+</body>
+</html>

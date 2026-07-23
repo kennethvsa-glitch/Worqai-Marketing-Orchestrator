@@ -1,0 +1,21 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 40,
+    "fps": 60,
+    "seed": "worqai-launch-2026",
+    "video_mode": true
+  },
+  "scene": "launch",
+  "note": "40s v2. Clean CV reveal, dedicated insight scene, all 3 exp rewritten, per-role kw highlights in moat. Score 0->23->91. Moat Puntuacion 92/94/93. Stat 10.6x Jobscan verified.",
+  "copy": {
+    "weak_line": "Cuidaba la seguridad de las instalaciones del cliente y llevaba el control de quién entraba y salía.",
+    "strong_line": "Monitoreé activos, personal y accesos vehiculares en instalaciones de clientes, aplicando protocolos de seguridad e identificación de formación profesional.",
+    "keywords": ["Monitoreé activos", "accesos vehiculares", "protocolos de seguridad"],
+    "score_before": 23,
+    "score_after": 91,
+    "stat_source": "Jobscan, Job Search Statistics: Lessons From 1 Million Job Applications",
+    "stat_figure": "10.6x interview rate for title-matched resumes"
+  }
+}

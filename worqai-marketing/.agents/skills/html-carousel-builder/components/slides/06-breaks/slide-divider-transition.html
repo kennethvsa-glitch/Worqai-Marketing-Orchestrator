@@ -1,0 +1,29 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-divider-transition",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: DIVIDER TRANSITION
+Purpose: S3-S6 — Minimal transition slide.
+-->
+
+<div class="content">
+  <div class="divider-trans">
+    <div class="dt-line"></div>
+    <span class="dt-num">02</span>
+    <div class="dt-line"></div>
+  </div>
+</div>
+
+<style>
+.divider-trans { display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: auto; margin-bottom: auto; }
+.dt-line { flex: 1; height: 1px; background: var(--accent-line); max-width: 200px; }
+.dt-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 18px; font-weight: 700; color: var(--accent); letter-spacing: 0.10em; }
+</style>

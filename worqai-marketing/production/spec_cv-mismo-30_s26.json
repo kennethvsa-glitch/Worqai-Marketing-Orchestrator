@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "system": "s26",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "cv-mismo-30",
+    "density": "standard",
+    "continuity": {
+      "shape": "hex-continuity",
+      "path": "M300,180 L420,240 L420,360 L300,420 L180,360 L180,240 Z",
+      "positions": [
+        {"slide": 1, "transform": "translate(40px,40px) scale(0.7)", "opacity": 0.06},
+        {"slide": 2, "transform": "translate(120px,80px) scale(0.9)", "opacity": 0.10},
+        {"slide": 3, "transform": "translate(200px,120px) scale(1.1)", "opacity": 0.14},
+        {"slide": 4, "transform": "translate(280px,80px) scale(0.9)", "opacity": 0.10},
+        {"slide": 5, "transform": "translate(360px,40px) scale(0.7)", "opacity": 0.06}
+      ]
+    }
+  },
+  "pacing": ["hook", "data", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": [
+        {"id": "geo-hex-mesh", "purpose": "molecular grid for systemic precision theme"},
+        {"id": "geo-bokeh", "purpose": "soft depth behind light pastel background"}
+      ],
+      "decoratives": ["chrome-header-bar", {"id": "svg-starburst-spark", "position": "tr"}],
+      "copy": {
+        "kicker": "ERROR COMÚN",
+        "headline": "El mismo CV a 30 empresas no funciona",
+        "body": "Cada empresa usa diferentes keywords. Un CV genérico nunca pega.",
+        "text_treatment": "stroke",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".hook-display { font-size: clamp(28px,5.5cqw,44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; color: var(--text-primary); } .hook-kicker { letter-spacing: 0.22em; font-size: 10px; opacity: 0.85; color: var(--text-primary); } .hook-body { font-size: clamp(14px,2.8cqw,18px); opacity: 0.80; max-width: 520px; margin-top: 14px; color: var(--text-primary); }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-waffle-chart",
+      "layers": [
+        {"id": "geo-chromatic-edge", "purpose": "RGB edge aberration for dissonance effect"}
+      ],
+      "decoratives": ["corner-frame"],
+      "extras": "<div class=\"glass-panel\" style=\"position:absolute;top:56px;right:56px;width:200px;height:120px;z-index:2;\"></div>",
+      "effects": {"requires_playwright_export": true},
+      "copy": {
+        "kicker": "PROPORCIÓN REAL",
+        "stat_number": "1/30",
+        "filled": 3,
+        "headline": "Solo una empresa responde de cada 30",
+        "context": "El resto ni siquiera abre tu correo.",
+        "label": "ÉXITO"
+      },
+      "custom_css": ".waffle-number { font-size: clamp(72px,14cqw,110px); font-weight: 900; letter-spacing: -0.04em; color: var(--text-primary); } .waffle-headline { font-size: clamp(18px,3.5cqw,26px); font-weight: 700; margin-top: 12px; color: var(--text-primary); } .waffle-context { font-size: clamp(13px,2.5cqw,16px); opacity: 0.80; margin-top: 8px; color: var(--text-primary); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after-stacked",
+      "layers": [
+        {"id": "geo-bokeh", "purpose": "atmospheric depth behind stacked panels"},
+        {"id": "geo-chromatic-edge", "purpose": "lens distortion framing the comparison"}
+      ],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "VS"}],
+      "extras": "<div class=\"glass-panel\" style=\"position:absolute;bottom:160px;left:56px;width:200px;height:120px;z-index:2;\"></div>",
+      "effects": {"requires_playwright_export": true},
+      "copy": {
+        "kicker": "ANTES VS DESPUÉS",
+        "headline": "CV genérico vs CV optimizado",
+        "before_label": "CV GENÉRICO",
+        "before_text": "Mismo archivo a todas las empresas.",
+        "before_pct": 12,
+        "after_label": "CV ATS OPTIMIZADO",
+        "after_text": "Adaptado con keywords de cada puesto.",
+        "after_pct": 94
+      },
+      "custom_css": ".bas-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; color: var(--text-primary); } .bas-text { font-size: clamp(13px,2.5cqw,16px); color: var(--text-primary); } .bas-label { font-size: 11px; letter-spacing: 0.16em; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-terminal",
+      "layers": [
+        {"id": "geo-hex-mesh", "purpose": "hex structure for systematic adaptation"}
+      ],
+      "decoratives": [{"id": "svg-starburst-burst", "position": "bl"}],
+      "copy": {
+        "kicker": "RESULTADO",
+        "headline": "El CV adaptado supera el filtro",
+        "tab_title": "worqai-adapt",
+        "command": "worqai adapt --cv personalizado.pdf",
+        "output_lines": [
+          {"type": "ok", "text": "Versión A: keywords Tech ✓"},
+          {"type": "ok", "text": "Versión B: keywords Finance ✓"},
+          {"type": "ok", "text": "Versión C: keywords Health ✓"},
+          {"type": "info", "text": "3 versiones listas."}
+        ]
+      },
+      "custom_css": ".term-headline { font-size: clamp(20px,4cqw,28px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 14px; color: var(--text-primary); } .term-body { font-size: 13px; } .term-bar { border-color: rgba(92,101,255,0.25); }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": [
+        {"id": "geo-bokeh", "purpose": "soft atmospheric closure on light system"}
+      ],
+      "decoratives": [{"id": "chrome-badge-stamp", "text": "WORQAI", "value": "GRATIS"}],
+      "copy": {
+        "question": "¿Querés un CV que abra puertas?",
+        "cta_keyword": "ADAPTAR",
+        "reward": "Te armo 3 versiones de tu CV. Sin costo.",
+        "url": "worqai.com"
+      },
+      "custom_css": ".cta-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; color: var(--text-primary); } .cta-keyword { font-size: clamp(18px,3.5cqw,26px); letter-spacing: 0.15em; color: var(--accent); } .cta-reward { font-size: clamp(14px,2.8cqw,18px); opacity: 0.80; margin-top: 12px; color: var(--text-primary); }"
+    }
+  ]
+}

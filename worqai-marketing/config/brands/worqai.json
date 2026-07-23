@@ -1,0 +1,7 @@
+{
+  "brand": "WorqAI",
+  "audience": ["LATAM job seekers", "US Hispanic job seekers"],
+  "required": ["editable text", "clear Spanish hierarchy", "one primary idea per slide", "visible brand anchor"],
+  "avoid": ["generic AI SaaS styling", "decoration without purpose", "fabricated statistics", "identical composition on consecutive slides"],
+  "memory": ".creative-production/taste-memory.jsonl"
+}

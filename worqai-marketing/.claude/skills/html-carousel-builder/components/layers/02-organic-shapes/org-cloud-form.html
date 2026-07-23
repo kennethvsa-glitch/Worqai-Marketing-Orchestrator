@@ -1,0 +1,59 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "org-cloud-form",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "high",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s03",
+      "s06",
+      "s10",
+      "s11",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s43"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s46"
+    ],
+    "pairs_well_with": [
+      "light-glow-radial-center",
+      "deco-ornament",
+      "deco-watermark"
+    ],
+    "conflicts_with": [
+      "geo-circuit-board",
+      "geo-hex-grid",
+      "geo-wireframe-perspective"
+    ]
+  }
+-->
+
+<!--
+LAYER: CLOUD FORM
+Soft billowing shapes.
+Best for: dreamy, soft, pastel systems.
+-->
+
+<div class="cloud-form"></div>
+
+<style>
+.cloud-form {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background:
+    radial-gradient(ellipse 50% 40% at 30% 40%, var(--accent-soft), transparent 60%),
+    radial-gradient(ellipse 40% 50% at 70% 60%, var(--accent-line), transparent 55%);
+  filter: blur(50px);
+  opacity: 0.40;
+}
+</style>

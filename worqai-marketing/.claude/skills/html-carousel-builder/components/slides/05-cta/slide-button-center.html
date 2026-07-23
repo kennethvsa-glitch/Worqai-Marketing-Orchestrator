@@ -1,0 +1,33 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-button-center",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: BUTTON CENTER
+Purpose: S8 — Simple centered CTA with button.
+-->
+
+<div class="content">
+  <div class="cta-center">
+    <p class="cc-question">Listo para transformar tu CV?</p>
+    <p class="cc-sub">Obtienes auditoria gratuita + propuesta personalizada.</p>
+    <button class="cc-btn">Empezar ahora</button>
+    <p class="cc-note">Sin compromiso. Respuesta en 24h.</p>
+  </div>
+</div>
+
+<style>
+.cta-center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; margin-top: auto; margin-bottom: auto; }
+.cc-question { font-family: var(--font-display), system-ui, sans-serif; font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); max-width: 800px; }
+.cc-sub { font-family: var(--font-body), system-ui, sans-serif; font-size: 22px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); max-width: 560px; }
+.cc-btn { background: var(--accent); color: var(--bg-base); border: none; padding: 20px 52px; border-radius: 12px; font-family: var(--font-display), system-ui, sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: transform 0.2s; }
+.cc-btn:hover { transform: translateY(-2px); }
+.cc-note { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+</style>

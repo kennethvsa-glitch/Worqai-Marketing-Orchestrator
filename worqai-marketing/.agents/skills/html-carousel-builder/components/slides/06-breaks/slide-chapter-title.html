@@ -1,0 +1,32 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-chapter-title",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: CHAPTER TITLE
+Purpose: Rhythm break — section divider with chapter number.
+-->
+
+<div class="content">
+  <div class="chapter">
+    <span class="ch-num">02</span>
+    <div class="ch-line"></div>
+    <h2 class="ch-title">La Solucion</h2>
+    <p class="ch-sub">Como fixear tu CV paso a paso</p>
+  </div>
+</div>
+
+<style>
+.chapter { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; margin-top: auto; margin-bottom: auto; }
+.ch-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 120px; font-weight: 900; line-height: 1; color: var(--accent); opacity: 0.15; }
+.ch-line { width: 60px; height: 2px; background: var(--accent); opacity: 0.40; }
+.ch-title { font-family: var(--font-display), system-ui, sans-serif; font-size: 56px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); }
+.ch-sub { font-family: var(--font-body), system-ui, sans-serif; font-size: 20px; font-weight: 300; color: var(--text-secondary); }
+</style>

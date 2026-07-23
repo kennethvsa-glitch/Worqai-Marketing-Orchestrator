@@ -1,0 +1,12 @@
+[
+  { "label": "s1-hero",         "file": "A_synthesizer_swell__#1",    "volume": 0.38 },
+  { "label": "s1-question",     "file": "A_tiny,_precise_meta_#1",    "volume": 0.28 },
+  { "label": "filter_scan",     "file": "Scan_sweep_Sounds_lik_#2",   "volume": 0.42 },
+  { "label": "filter_reject",   "file": "low_negative_error_t_#2",    "volume": 0.58 },
+  { "label": "turn",            "file": "Transition_whoosh_So_#3",    "volume": 0.38 },
+  { "label": "tailor1_scan",    "file": "clean_morphing_whoos_#3",   "volume": 0.34 },
+  { "label": "tailor1_score",   "file": "clean_bright_confirm_#1",   "volume": 0.62 },
+  { "label": "success_banner",  "file": "short_bright_celebra_#3",   "volume": 0.56 },
+  { "label": "human_checklist", "file": "satisfying_resolved__#4",    "volume": 0.38 },
+  { "label": "cta",             "file": "Wordmark_sting_Sound_#1",   "volume": 0.68 }
+]

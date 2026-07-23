@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "9:16",
+    "duration": 7,
+    "fps": 30,
+    "seed": "worqai-cv-quote",
+    "video_mode": true
+  },
+  "scene": "quote-card",
+  "copy": {
+    "quote": "En 40 segundos el reclutador decide si sigue leyendo tu CV",
+    "attribution": "Claudia Ríos",
+    "attribution_role": "Reclutadora senior · CDMX",
+    "handle": "@worqai"
+  }
+}

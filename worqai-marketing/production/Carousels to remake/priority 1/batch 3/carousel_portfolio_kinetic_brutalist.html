@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KINETIC · Motion Manifesto · Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0a0a0a; min-height: 100vh; font-family: 'Space Grotesk', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #FF3300; margin-bottom: 18px; text-align: center; }
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         border-top: 6px solid #FF3300; }
+
+.slide.white { background: #FFFFFF; color: #0a0a0a; }
+.slide.black { background: #0a0a0a; color: #FFFFFF; }
+
+/* Deco-num — visible (System 07 BRUTALIST exception) */
+.deco-num { position: absolute; right: 60px; top: 38px;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 220px;
+            line-height: 0.85; letter-spacing: -0.06em;
+            color: #FF3300; opacity: 0.10;
+            pointer-events: none; user-select: none; z-index: 1; }
+.slide.black .deco-num { color: #FF3300; opacity: 0.18; }
+
+/* Persistent parametric grid — STATIC across all slides */
+.grid-bg { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.04;
+           background-image:
+             repeating-linear-gradient(0deg, transparent 0, transparent 79px, currentColor 79px, currentColor 80px),
+             repeating-linear-gradient(90deg, transparent 0, transparent 79px, currentColor 79px, currentColor 80px); }
+.slide.white .grid-bg { color: #0a0a0a; opacity: 0.05; }
+.slide.black .grid-bg { color: #FFFFFF; opacity: 0.06; }
+
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* Masthead */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; }
+.slide.white .mast-title { color: #0a0a0a; }
+.slide.black .mast-title { color: #FFFFFF; }
+.mast-issue { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase; }
+.slide.white .mast-issue { color: rgba(10,10,10,0.55); }
+.slide.black .mast-issue { color: rgba(255,255,255,0.55); }
+
+/* Brand anchor */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 18px;
+              letter-spacing: -0.5px; text-transform: lowercase; }
+.slide.white .brand-mark .core { color: #0a0a0a; }
+.slide.black .brand-mark .core { color: #FFFFFF; }
+.brand-mark .accent { color: #FF3300; }
+.handle { position: absolute; bottom: 38px; left: 200px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; }
+.slide.white .handle { color: rgba(10,10,10,0.45); }
+.slide.black .handle { color: rgba(255,255,255,0.45); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; }
+.slide.white .counter { color: #0a0a0a; }
+.slide.black .counter { color: #FFFFFF; }
+
+/* Progress dots */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; }
+.slide.white .pd { background: rgba(10,10,10,0.18); }
+.slide.black .pd { background: rgba(255,255,255,0.20); }
+.pd.on { background: #FF3300 !important; }
+
+/* Swipe pill */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #FF3300; color: #FFFFFF;
+              font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4; }
+
+.kicker { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px; }
+.slide.white .kicker { color: #FF3300; }
+.slide.black .kicker { color: #FF3300; }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #FF3300; }
+
+.headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+            font-size: 78px; line-height: 0.96; letter-spacing: -0.03em; }
+
+/* ===== SLIDE 1: MANIFESTO STACK ===== */
+.s1-eyebrow { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px;
+              letter-spacing: 0.34em; text-transform: uppercase; color: #FF3300;
+              margin-bottom: 36px; padding-bottom: 18px; border-bottom: 3px solid #FF3300;
+              max-width: 320px; }
+.s1-stack { display: flex; flex-direction: column; gap: 14px; }
+.s1-line { font-family: 'Space Grotesk', sans-serif; font-size: 78px; line-height: 0.94;
+           letter-spacing: -0.035em; }
+.s1-line.heavy { font-weight: 900; text-transform: uppercase; color: #0a0a0a; }
+.s1-line.light { font-weight: 400; color: #FF3300; font-style: italic; }
+.s1-line.red-fill { font-weight: 900; text-transform: uppercase; color: #FFFFFF;
+                    background: #FF3300; padding: 4px 16px; align-self: flex-start; }
+.s1-line.outline { font-weight: 900; text-transform: uppercase; color: transparent;
+                   -webkit-text-stroke: 2px #0a0a0a; }
+.s1-byline { margin-top: 36px; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+             font-weight: 500; color: rgba(10,10,10,0.55); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 1px solid rgba(10,10,10,0.18); max-width: 520px;
+             line-height: 1.6; }
+
+/* ===== SLIDE 2: BIG STATEMENT ===== */
+.s2-wrap { display: flex; flex-direction: column; justify-content: center; flex: 1; gap: 32px; }
+.s2-stat { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 420px;
+           line-height: 0.78; letter-spacing: -0.07em; color: #FFFFFF;
+           position: relative; }
+.s2-stat::after { content: ''; position: absolute; left: -10px; bottom: -12px; width: 240px;
+                  height: 8px; background: #FF3300; }
+.s2-tag { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px;
+          letter-spacing: 0.32em; text-transform: uppercase; color: #FF3300; }
+.s2-headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 36px;
+               line-height: 1.15; color: #FFFFFF; max-width: 700px; }
+.s2-body { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 18px;
+           line-height: 1.5; color: rgba(255,255,255,0.78); max-width: 640px; }
+.s2-body strong { color: #FF3300; font-weight: 700; }
+
+/* ===== SLIDE 3: COMPARISON ===== */
+.s3-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; flex: 1; }
+.s3-col { padding: 32px 30px; display: flex; flex-direction: column; gap: 18px; }
+.s3-col.bad { background: #fff0ee; border-left: 6px solid #FF3300; }
+.s3-col.good { background: #fffde0; border-left: 6px solid #FFE500; }
+.s3-col-tag { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.34em; text-transform: uppercase; }
+.s3-col.bad .s3-col-tag { color: #FF3300; }
+.s3-col.good .s3-col-tag { color: #B8A300; }
+.s3-col-headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 28px;
+                   line-height: 1.15; color: #0a0a0a; }
+.s3-col-list { list-style: none; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.s3-col-list li { font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 16px;
+                  line-height: 1.45; color: rgba(10,10,10,0.78);
+                  padding-left: 22px; position: relative; }
+.s3-col.bad .s3-col-list li::before { content: '×'; position: absolute; left: 0; top: -2px;
+                                       color: #FF3300; font-weight: 900; font-size: 22px; line-height: 1; }
+.s3-col.good .s3-col-list li::before { content: '+'; position: absolute; left: 0; top: -1px;
+                                        color: #B8A300; font-weight: 900; font-size: 18px; line-height: 1; }
+.s3-col-stat { padding: 14px 16px; background: #0a0a0a; color: #FFFFFF;
+               font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px;
+               margin-top: auto; }
+.s3-col-stat strong { color: #FF3300; font-weight: 900; font-size: 24px; display: inline-block; margin-right: 8px; }
+.s3-col.good .s3-col-stat strong { color: #FFE500; }
+
+/* ===== SLIDE 4: CTA ===== */
+.s4-wrap { display: flex; flex-direction: column; justify-content: center; flex: 1; gap: 40px; }
+.s4-headline { font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 92px;
+               line-height: 0.92; letter-spacing: -0.04em; color: #FFFFFF; }
+.s4-headline span { color: #FF3300; }
+.s4-body { font-family: 'Space Grotesk', sans-serif; font-weight: 400; font-size: 22px;
+           line-height: 1.5; color: rgba(255,255,255,0.75); max-width: 600px; }
+
+.s4-cta-row { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;
+              background: #FF3300; padding: 28px 32px; border: 4px solid #FFFFFF;
+              box-shadow: 14px 14px 0 #FFE500; max-width: 900px; }
+.s4-cta-text { display: flex; flex-direction: column; gap: 8px; }
+.s4-cta-q { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px;
+            color: #FFFFFF; letter-spacing: 0.04em; }
+.s4-cta-keyword-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.s4-cta-keyword-row span:first-child { font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+                                        font-size: 16px; color: #FFFFFF; }
+.s4-keyword-box { display: inline-block; background: #FFFFFF; color: #FF3300;
+                  padding: 8px 18px; font-family: 'Space Grotesk', sans-serif; font-weight: 900;
+                  font-size: 26px; letter-spacing: 0.08em; border: 3px solid #0a0a0a; }
+.s4-cta-btn { background: #0a0a0a; color: #FFFFFF; border: 4px solid #FFFFFF;
+              font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 16px;
+              letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 26px;
+              white-space: nowrap; cursor: pointer; }
+
+/* Controls */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #FF3300; border: none; color: #FFFFFF;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900; }
+.btn:disabled { opacity: 0.30; cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(255,255,255,0.20); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #FF3300; width: 24px; }
+.hint { font-size: 11px; color: rgba(255,255,255,0.30); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #FF3300; color: #FFFFFF; border: 3px solid #FFFFFF; cursor: pointer;
+           font-family: 'Space Grotesk', sans-serif; font-weight: 900; font-size: 14px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(255,255,255,0.50); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<p class="label-top">Portfolio · KINETIC · Motion Manifesto · 4 slides</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ===== SLIDE 1 · MANIFESTO STACK (White) ===== -->
+      <section class="slide white" id="slide-1">
+        <div class="grid-bg"></div>
+        <div class="deco-num">01</div>
+        <div class="masthead">
+          <div class="mast-title">Motion Manifesto · 01</div>
+          <div class="mast-issue">Issue 001 · San José</div>
+        </div>
+        <div class="content">
+          <div class="s1-eyebrow">Read · 8 seconds</div>
+          <div class="s1-stack">
+            <div class="s1-line heavy">Your brand</div>
+            <div class="s1-line light">is too</div>
+            <div class="s1-line red-fill">STILL</div>
+            <div class="s1-line outline">for 2026.</div>
+          </div>
+          <p class="s1-byline">— Static logos don't convert. Motion identity isn't decoration — it's the language attention speaks now.</p>
+          <div class="swipe-pill">Swipe →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">kinetic</span><span class="accent">.</span></div>
+        <div class="handle">@kineticstudio · manifesto</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ===== SLIDE 2 · BIG STATEMENT (Black) ===== -->
+      <section class="slide black" id="slide-2">
+        <div class="grid-bg"></div>
+        <div class="deco-num">02</div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#FF3300;">Motion Manifesto · 01</div>
+          <div class="mast-issue">The attention economy</div>
+        </div>
+        <div class="content">
+          <div class="kicker">The shift</div>
+          <div class="s2-wrap">
+            <div class="s2-stat">03<span style="font-size:160px; color:#FF3300; vertical-align:top; line-height:1;">s</span></div>
+            <div class="s2-tag">Average attention span</div>
+            <div class="s2-headline">That's how long you have before the scroll.</div>
+            <div class="s2-body">Static assets lose to motion every time. Brands that move <strong>stop the thumb</strong>. Brands that don't get buried in the feed. Motion isn't a trend — it's the baseline for being seen.</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">kinetic</span><span class="accent">.</span></div>
+        <div class="handle">@kineticstudio · manifesto</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ===== SLIDE 3 · COMPARISON (White) ===== -->
+      <section class="slide white" id="slide-3">
+        <div class="grid-bg"></div>
+        <div class="deco-num">03</div>
+        <div class="masthead">
+          <div class="mast-title">Motion Manifesto · 01</div>
+          <div class="mast-issue">Static vs Kinetic</div>
+        </div>
+        <div class="content">
+          <div class="kicker">What changes</div>
+          <h2 class="headline" style="font-size:52px; max-width: 800px;">Same brand.<br>Two approaches.</h2>
+          <div class="s3-cols">
+            <div class="s3-col bad">
+              <div class="s3-col-tag">Static Identity</div>
+              <div class="s3-col-headline">Logo. Colors. Done.</div>
+              <ul class="s3-col-list">
+                <li>One logo file for every platform</li>
+                <li>Guidelines nobody reads</li>
+                <li>Same asset, same placement</li>
+                <li>No motion language defined</li>
+                <li>Looks identical to competitors</li>
+              </ul>
+              <div class="s3-col-stat"><strong>0.3s</strong> average hold time</div>
+            </div>
+            <div class="s3-col good">
+              <div class="s3-col-tag">Kinetic Identity</div>
+              <div class="s3-col-headline">Motion system. Behavior. Presence.</div>
+              <ul class="s3-col-list">
+                <li>Adaptive motion for every surface</li>
+                <li>Living guidelines that breathe</li>
+                <li>Context-aware animation rules</li>
+                <li>Motion as brand voice</li>
+                <li>Instantly recognizable in motion</li>
+              </ul>
+              <div class="s3-col-stat"><strong>3.2×</strong> longer engagement</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">kinetic</span><span class="accent">.</span></div>
+        <div class="handle">@kineticstudio · manifesto</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ===== SLIDE 4 · CTA (Black) ===== -->
+      <section class="slide black" id="slide-4">
+        <div class="grid-bg"></div>
+        <div class="deco-num">04</div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#FFE500;">Motion Manifesto · 01</div>
+          <div class="mast-issue">Start moving</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#FFE500;">Ready?</div>
+          <div class="s4-wrap">
+            <div class="s4-headline">Make your<br>brand <span>MOVE.</span></div>
+            <div class="s4-body">We build motion identity systems for brands that refuse to be scrolled past. From kinetic logos to full motion guidelines.</div>
+            <div class="s4-cta-row">
+              <div class="s4-cta-text">
+                <div class="s4-cta-q">Want to see what your brand looks like in motion?</div>
+                <div class="s4-cta-keyword-row">
+                  <span>Email</span>
+                  <span class="s4-keyword-box">HELLO</span>
+                  <span>· hello@kinetic.studio</span>
+                </div>
+              </div>
+              <button class="s4-cta-btn">Start Project</button>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark"><span class="core">kinetic</span><span class="accent">.</span></div>
+        <div class="handle">@kineticstudio · manifesto</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Arrows · Swipe · Click dots</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Export ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · brutalist editorial</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Internet connection required to load export libraries.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturing ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} of ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 300));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Compressing...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel_kinetic_manifesto.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = 'ZIP downloaded';
+  progress.textContent = `${slides.length} files · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Export ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · brutalist editorial';
+  }, 3000);
+}
+</script>
+
+</body>
+</html>

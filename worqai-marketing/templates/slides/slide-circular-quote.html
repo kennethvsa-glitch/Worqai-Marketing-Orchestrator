@@ -1,0 +1,21 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="cq-wrap">
+    <div class="cq-circle">
+      {% if copy.kicker %}
+      <div class="cq-kicker">{{ copy.kicker }}</div>
+      {% endif %}
+      <div class="cq-quote">{{ copy.quote | default(copy.headline) }}</div>
+    </div>
+    {% if copy.attribution %}
+    <div class="cq-attr">— {{ copy.attribution }}</div>
+    {% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

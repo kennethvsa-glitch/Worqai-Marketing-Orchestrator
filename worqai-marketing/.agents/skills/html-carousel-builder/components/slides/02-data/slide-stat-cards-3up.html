@@ -1,0 +1,42 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-stat-cards-3up",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: STAT CARDS 3-UP
+Found in: carousel_portfolio_04.html
+Purpose: S2 — Three stat cards in a row.
+-->
+
+<div class="content">
+  <p class="tip-label">Resultados</p>
+  <h2 class="tip-headline">Lo que logramos</h2>
+  <div class="stat-grid-3">
+    <div class="stat-card">
+      <span class="sc-num">87%</span>
+      <span class="sc-lbl">Tasa de rechazo</span>
+    </div>
+    <div class="stat-card">
+      <span class="sc-num">3x</span>
+      <span class="sc-lbl">Mas entrevistas</span>
+    </div>
+    <div class="stat-card">
+      <span class="sc-num">8 dias</span>
+      <span class="sc-lbl">Tiempo promedio</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.stat-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+.stat-card { padding: 32px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; display: flex; flex-direction: column; gap: 10px; }
+.sc-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 56px; font-weight: 900; line-height: 1; color: var(--accent); }
+.sc-lbl { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); }
+</style>

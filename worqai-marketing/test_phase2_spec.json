@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "title": "Phase 2 Visual Upgrade Test",
+    "brand": "WorqAI",
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 5,
+    "language": "es-LATAM",
+    "continuity": {
+      "shape": "flow-wave",
+      "path": "M200,100 Q400,0 500,200 Q600,400 400,500 Q200,600 100,400 Q0,200 200,100",
+      "positions": [
+        { "slide": 1, "transform": "translate(100px, 300px) rotate(-20deg) scale(1.2)", "opacity": 0.08 },
+        { "slide": 2, "transform": "translate(400px, 100px) rotate(15deg) scale(1.5)", "opacity": 0.10 },
+        { "slide": 3, "transform": "translate(-50px, 450px) rotate(45deg) scale(0.9)", "opacity": 0.06 },
+        { "slide": 4, "transform": "translate(300px, 200px) rotate(-10deg) scale(1.3)", "opacity": 0.09 },
+        { "slide": 5, "transform": "translate(50px, 50px) rotate(60deg) scale(1.1)", "opacity": 0.07 }
+      ]
+    }
+  },
+  "pacing": ["hook", "data", "proof", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["geo-hex-mesh"],
+      "copy": {
+        "kicker": "@worqai · Phase 2",
+        "headline": "Nuevas capas visuales.",
+        "body": "Hex mesh, constellation, neon ring, bokeh, scan lines y perspective grid."
+      }
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["geo-constellation"],
+      "copy": {
+        "stat_number": "6×",
+        "stat_context": "nuevas capas geo añadidas al motor.",
+        "source": "WorqAI Visual Engine v2"
+      }
+    },
+    {
+      "id": "s3",
+      "layout": "slide-waffle-chart",
+      "layers": ["geo-neon-ring"],
+      "copy": {
+        "stat_number": "94%",
+        "label": "COMPATIBLE",
+        "filled": 94,
+        "headline": "de efectos renderizan perfecto en Playwright",
+        "context": "Solo perspective-grid requiere fallback"
+      }
+    },
+    {
+      "id": "s4",
+      "layout": "slide-input-output",
+      "layers": ["geo-bokeh", "geo-scan-lines"],
+      "copy": {
+        "kicker": "DEMO",
+        "headline": "Multi-layer stacking funciona",
+        "input_label": "ANTES",
+        "input_text": "Una sola capa de fondo por slide.",
+        "output_label": "AHORA",
+        "output_text": "bokeh + scan-lines + continuity shape simultáneas."
+      }
+    },
+    {
+      "id": "s5",
+      "layout": "slide-before-after-stacked",
+      "layers": ["geo-perspective-grid"],
+      "copy": {
+        "kicker": "RESULTADO",
+        "headline": "De template engine a visual system engine",
+        "before_label": "ANTES",
+        "before_text": "Blobs repetidos en 80% de los slides. Sin data viz. Sin continuidad.",
+        "before_pct": 12,
+        "after_label": "DESPUÉS",
+        "after_text": "Texturas procedurales, demostraciones visuales, flujo entre slides.",
+        "after_pct": 97
+      }
+    }
+  ]
+}

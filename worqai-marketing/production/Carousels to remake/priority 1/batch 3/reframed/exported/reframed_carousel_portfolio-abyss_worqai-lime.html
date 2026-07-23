@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>worqai · Lo profundo que el ATS ve en tu CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #020d18; min-height: 100vh; font-family: 'Outfit', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #C7FF3A; margin-bottom: 18px; text-align: center; }
+
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; }
+.track { display: flex; width: auto; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+.slide { position: relative; flex: 0 0 1080px; width: 1080px; height: 1080px; overflow: hidden;
+         padding: 68px 64px 148px; display: flex; flex-direction: column;
+         background:
+           radial-gradient(ellipse 70% 60% at 40% 30%, rgba(199,255,58,0.08) 0%, transparent 60%),
+           linear-gradient(145deg, #020d18, #041828);
+         color: #e0f0ff; }
+
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.04;
+                 pointer-events: none; z-index: 1; }
+
+.wave-bg { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.35; }
+.wave-bg svg { width: 100%; height: 100%; }
+
+.particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.particle { position: absolute; border-radius: 50%; background: #C7FF3A; }
+
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+.masthead { position: absolute; top: 32px; left: 64px; right: 64px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #C7FF3A; }
+.mast-issue { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(224,240,255,0.40); }
+
+.brand-mark { position: absolute; bottom: 46px; left: 64px; z-index: 5;
+              font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 18px;
+              letter-spacing: -0.5px; text-transform: lowercase; color: #e0f0ff; }
+.brand-mark .accent { color: #C7FF3A; }
+.site-url { position: absolute; bottom: 46px; left: 50%; transform: translateX(-50%); z-index: 5;
+            font-weight: 700; font-size: 16px; letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.45); text-transform: lowercase; }
+.counter { position: absolute; bottom: 50px; right: 64px; z-index: 5;
+           font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: rgba(224,240,255,0.45); }
+
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 64px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(224,240,255,0.14); }
+.pd.on { background: #C7FF3A !important; box-shadow: 0 0 8px rgba(199,255,58,0.5); }
+
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #C7FF3A; color: #020d18;
+              font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 800;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(199,255,58,0.3); }
+
+.kicker { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #C7FF3A; }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #C7FF3A;
+                  box-shadow: 0 0 8px rgba(199,255,58,0.4); }
+
+.headline { font-family: 'Outfit', sans-serif; font-weight: 800;
+            font-size: 78px; line-height: 0.96; letter-spacing: -0.03em; color: #e0f0ff; }
+
+.lime-glow { text-shadow: 0 0 10px rgba(199,255,58,0.4), 0 0 30px rgba(199,255,58,0.15); }
+
+.s1-wrap { display: flex; flex-direction: column; justify-content: center; flex: 1; gap: 24px; }
+.s1-eyebrow { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.34em; text-transform: uppercase; color: #C7FF3A;
+              margin-bottom: 36px; padding-bottom: 18px; border-bottom: 2px solid #C7FF3A;
+              max-width: 380px; }
+.s1-stack { display: flex; flex-direction: column; gap: 14px; }
+.s1-line { font-family: 'Outfit', sans-serif; font-size: 72px; line-height: 0.94;
+           letter-spacing: -0.035em; }
+.s1-line.heavy { font-weight: 800; text-transform: uppercase; color: #e0f0ff; }
+.s1-line.light { font-weight: 300; color: #c7ff9a; font-style: italic; }
+.s1-line.accent { font-weight: 800; text-transform: uppercase; color: #020d18;
+                  background: #C7FF3A; padding: 4px 16px; align-self: flex-start;
+                  box-shadow: 0 0 20px rgba(199,255,58,0.3); }
+.s1-line.outline { font-weight: 800; text-transform: uppercase; color: transparent;
+                   -webkit-text-stroke: 1.5px #e0f0ff; }
+.s1-byline { margin-top: 36px; font-family: 'Outfit', sans-serif; font-size: 16px;
+             font-weight: 300; color: rgba(224,240,255,0.60); letter-spacing: 0.02em;
+             padding-top: 18px; border-top: 1px solid rgba(199,255,58,0.20); max-width: 520px;
+             line-height: 1.6; }
+
+.zoom-rings { position: absolute; top: 45%; left: 55%; transform: translate(-50%,-50%);
+              pointer-events: none; z-index: 1; }
+.zoom-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #C7FF3A;
+                    top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.zoom-rings .r1 { width: 80px; height: 80px; opacity: 0.45; }
+.zoom-rings .r2 { width: 170px; height: 170px; opacity: 0.25; }
+.zoom-rings .r3 { width: 280px; height: 280px; opacity: 0.12; border-width: 1px; }
+.zoom-rings .r4 { width: 400px; height: 400px; opacity: 0.06; border-width: 1px; }
+
+.s2-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+           gap: 44px; flex: 1; }
+.s2-stat { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 420px;
+           line-height: 0.80; letter-spacing: -0.07em; color: #e0f0ff;
+           position: relative; text-shadow: 0 0 40px rgba(199,255,58,0.25); }
+.s2-stat .pct { font-size: 200px; vertical-align: top; line-height: 1; color: #C7FF3A;
+                text-shadow: 0 0 30px rgba(199,255,58,0.4); }
+.s2-stat::after { content: ''; position: absolute; left: -10px; bottom: -16px; width: 280px;
+                  height: 8px; background: #C7FF3A;
+                  box-shadow: 0 0 15px rgba(199,255,58,0.5); }
+.s2-side { display: flex; flex-direction: column; gap: 22px; padding-left: 8px; }
+.s2-side-tag { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 12px;
+               letter-spacing: 0.32em; text-transform: uppercase; color: #C7FF3A; }
+.s2-side-headline { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 32px;
+                    line-height: 1.15; color: #e0f0ff; }
+.s2-side-body { font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 18px;
+                line-height: 1.5; color: rgba(224,240,255,0.70); }
+.s2-side-body strong { color: #C7FF3A; font-weight: 700; }
+.s2-source { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500;
+             color: rgba(224,240,255,0.45); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 2px solid #C7FF3A; margin-top: 8px; }
+.s2-source strong { color: #e0f0ff; font-weight: 700; }
+
+.s3-terminal { background: rgba(2,13,24,0.85); border: 2px solid rgba(199,255,58,0.25); margin-top: 28px;
+               box-shadow: 0 0 30px rgba(199,255,58,0.06), inset 0 0 60px rgba(199,255,58,0.02); }
+.s3-term-bar { padding: 10px 18px; background: rgba(199,255,58,0.06);
+               font-family: 'Outfit', monospace; font-size: 11px; color: #C7FF3A;
+               letter-spacing: 0.10em; text-transform: uppercase; display: flex;
+               justify-content: space-between; align-items: center;
+               border-bottom: 1px solid rgba(199,255,58,0.15); }
+.s3-term-bar .lime-pip { display: inline-block; width: 10px; height: 10px; background: #C7FF3A;
+                           border-radius: 50%; box-shadow: 0 0 8px rgba(199,255,58,0.6); }
+.s3-term-body { padding: 28px 30px; font-family: 'Outfit', monospace;
+                font-size: 17px; line-height: 1.85; color: #e0f0ff; }
+.s3-term-prompt { color: #C7FF3A; font-weight: 700; }
+.s3-term-comment { color: rgba(199,255,58,0.35); }
+.s3-term-highlight { background: rgba(199,255,58,0.15); padding: 0 4px; font-weight: 700; color: #C7FF3A; }
+.s3-term-bad { color: #FF5C3C; font-weight: 700; }
+.s3-term-good { color: #C7FF3A; font-weight: 700; }
+.s3-term-cursor { display: inline-block; width: 10px; height: 22px; background: #C7FF3A;
+                  vertical-align: text-bottom; margin-left: 4px; animation: blink 1s infinite;
+                  box-shadow: 0 0 8px rgba(199,255,58,0.6); }
+@keyframes blink { 50% { opacity: 0; } }
+
+.s4-grid { display: grid; grid-template-rows: auto auto; gap: 24px; flex: 1; margin-top: 24px; }
+.s4-proof { display: grid; grid-template-columns: 280px 1fr; gap: 28px;
+            padding: 28px; background: rgba(199,255,58,0.05); border: 2px solid rgba(199,255,58,0.15);
+            box-shadow: 0 0 30px rgba(199,255,58,0.08), 12px 12px 0 rgba(199,255,58,0.10); }
+.s4-proof-stat { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 100px;
+                 line-height: 0.9; letter-spacing: -0.05em; color: #e0f0ff;
+                 text-shadow: 0 0 20px rgba(199,255,58,0.3); }
+.s4-proof-stat-sub { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14px;
+                      letter-spacing: 0.16em; text-transform: uppercase; color: #c7ff9a;
+                      margin-top: 4px; }
+.s4-proof-text { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.s4-proof-tag { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 11px;
+                letter-spacing: 0.30em; text-transform: uppercase; color: #C7FF3A; }
+.s4-proof-headline { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 26px;
+                     line-height: 1.15; color: #e0f0ff; }
+.s4-proof-body { font-family: 'Outfit', sans-serif; font-weight: 300; font-size: 16px;
+                 line-height: 1.5; color: rgba(224,240,255,0.72); }
+
+.cta-card { background: #111111; border: 2px solid rgba(199,255,58,0.25);
+            border-radius: 32px; padding: 60px 56px; margin-top: auto; margin-bottom: 60px;
+            position: relative; overflow: hidden; }
+.cta-card::after { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px;
+                   border-radius: 50%; background: radial-gradient(circle, rgba(199,255,58,0.15), transparent 65%);
+                   filter: blur(40px); }
+.cta-headline { font-weight: 900; font-size: 48px; line-height: 1.05; letter-spacing: -0.03em;
+                color: #FFFFFF; margin-bottom: 28px; position: relative; z-index: 2; }
+.unified-cta-line { font-weight: 800; font-size: 30px; color: #C7FF3A; line-height: 1.3; position: relative; z-index: 2; }
+.unified-cta-fine { font-size: 18px; color: #A0A0A0; margin-top: 12px; position: relative; z-index: 2; }
+.unified-url-box { display: inline-flex; align-items: center; justify-content: center; padding: 18px 48px;
+                   border: 3px dashed #C7FF3A; border-radius: 16px; margin-top: 28px;
+                   background: rgba(199,255,58,0.04); position: relative; z-index: 2; }
+.unified-url-text { font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 900; color: #C7FF3A;
+                    letter-spacing: .04em; text-transform: uppercase; }
+.unified-closing { font-size: 22px; color: #E5E5E5; margin-top: 28px; font-weight: 600; max-width: 800px;
+                   line-height: 1.4; position: relative; z-index: 2; }
+.unified-closing strong { color: #FFFFFF; }
+
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #C7FF3A; border: none; color: #020d18;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 800;
+       box-shadow: 0 0 12px rgba(199,255,58,0.3); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(224,240,255,0.15); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #C7FF3A; width: 24px; box-shadow: 0 0 8px rgba(199,255,58,0.4); }
+.hint { font-size: 11px; color: rgba(224,240,255,0.20); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+</style>
+</head>
+<body>
+
+<p class="label-top">worqai · Deep Scan · Lo profundo que el ATS ve en tu CV</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <section class="slide" data-slide="1">
+        <div class="wave-bg">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,540 Q270,480 540,540 T1080,540" fill="none" stroke="#083060" stroke-width="2" opacity="0.4"/>
+            <path d="M0,600 Q270,540 540,600 T1080,600" fill="none" stroke="#083060" stroke-width="1.5" opacity="0.3"/>
+            <path d="M0,660 Q270,600 540,660 T1080,660" fill="none" stroke="#083060" stroke-width="1" opacity="0.2"/>
+            <path d="M0,480 Q270,420 540,480 T1080,480" fill="none" stroke="#C7FF3A" stroke-width="1" opacity="0.15"/>
+          </svg>
+        </div>
+        <div class="zoom-rings">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="ring r3"></div><div class="ring r4"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title">Deep Scan · 01</div>
+          <div class="mast-issue">Expedición 001 · Ciudad de México</div>
+        </div>
+        <div class="content">
+          <div class="s1-eyebrow">Scan de superficie completo</div>
+          <div class="s1-stack">
+            <div class="s1-line heavy">Lo profundo</div>
+            <div class="s1-line light">que el ATS ve</div>
+            <div class="s1-line accent">EN TU CV</div>
+            <div class="s1-line outline">y vos ni lo imaginás.</div>
+          </div>
+          <p class="s1-byline">— El análisis superficial no sirve. Nosotros nos sumergimos en lo que el ATS realmente lee y te mostramos qué arreglar.</p>
+          <div class="swipe-pill">Deslizá →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">01 / 06</div>
+      </section>
+
+      <section class="slide" data-slide="2">
+        <div class="wave-bg">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,400 Q270,340 540,400 T1080,400" fill="none" stroke="#C7FF3A" stroke-width="1.5" opacity="0.2"/>
+            <path d="M0,700 Q270,640 540,700 T1080,700" fill="none" stroke="#083060" stroke-width="2" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="zoom-rings">
+          <div class="ring r1" style="border-color:#C7FF3A;"></div>
+          <div class="ring r2" style="border-color:#C7FF3A;"></div>
+          <div class="ring r3" style="border-color:#C7FF3A;"></div>
+          <div class="ring r4" style="border-color:#C7FF3A;"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#C7FF3A;">Deep Scan · 01</div>
+          <div class="mast-issue">La métrica de profundidad</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#C7FF3A;">El dato</div>
+          <div class="s2-grid">
+            <div class="s2-stat">75<span class="pct">%</span></div>
+            <div class="s2-side">
+              <div class="s2-side-tag">De los CVs se hunden</div>
+              <div class="s2-side-headline">antes de llegar a recursos humanos. El ATS los filtra.</div>
+              <div class="s2-side-body">La mayoría de los dashboards de aplicación muestran <strong>envíos exitosos</strong> que no significan nada. El ATS ya decidió. Y decidió mal.</div>
+              <div class="s2-source"><strong>Fuente:</strong> WorqAI · Análisis de parsing ATS 2025</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">02 / 06</div>
+      </section>
+
+      <section class="slide" data-slide="3">
+        <div class="wave-bg">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,500 Q270,440 540,500 T1080,500" fill="none" stroke="#083060" stroke-width="1" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#C7FF3A;">Deep Scan · 01</div>
+          <div class="mast-issue">Extracción de señales</div>
+        </div>
+        <div class="content">
+          <div class="kicker">Esto es lo que ve el ATS cuando escanea tu CV</div>
+          <h2 class="headline" style="font-size:52px; max-width: 840px;">Tu dashboard dice "enviado". El ATS dice "rechazado".</h2>
+          <div class="s3-terminal">
+            <div class="s3-term-bar">
+              <span><span class="lime-pip"></span> worqai-scan · deep_cv_analysis</span>
+              <span>v3.1 · 2026.05</span>
+            </div>
+            <div class="s3-term-body">
+<span class="s3-term-comment"># initializing deep CV signal extraction</span><br>
+<span class="s3-term-prompt">$</span> scan --target cv.pdf --depth full<br>
+<span class="s3-term-bad">→</span> headline:             <span class="s3-term-bad">GENÉRICO</span> · sin cargo específico<br>
+<span class="s3-term-bad">→</span> keywords detectadas:  <span class="s3-term-bad">1/5</span> · 4 palabras clave ausentes<br>
+<span class="s3-term-bad">→</span> estructura:           <span class="s3-term-bad">TABLAS</span> · 2 columnas detectadas<br>
+<span class="s3-term-bad">→</span> bullets con datos:  <span class="s3-term-bad">0%</span> · solo responsabilidades<br>
+<span class="s3-term-good">→</span> formato de archivo:   <span class="s3-term-good">COMPATIBLE</span> · PDF puro<br>
+<span class="s3-term-comment"># 4 de 5 señales críticas están rotas. el ATS no puede leer tu valor.</span><br>
+<span class="s3-term-comment"># focus: <span class="s3-term-highlight">headline · keywords · estructura · bullets</span></span><br>
+<span class="s3-term-comment">─────────────────────────────────────────────</span><br>
+<span class="s3-term-prompt">$</span> ats_score: <span class="s3-term-bad">23 / 100</span> · estado: <span class="s3-term-bad">RECHAZADO</span><span class="s3-term-cursor"></span>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">03 / 06</div>
+      </section>
+
+      <section class="slide" data-slide="4">
+        <div class="wave-bg">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,450 Q270,390 540,450 T1080,450" fill="none" stroke="#C7FF3A" stroke-width="1" opacity="0.15"/>
+            <path d="M0,750 Q270,690 540,750 T1080,750" fill="none" stroke="#083060" stroke-width="2" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#C7FF3A;">Deep Scan · 01</div>
+          <div class="mast-issue">Lo que el ATS realmente lee</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#C7FF3A;">Comparación · Superficie vs Profundidad</div>
+          <h2 class="headline" style="font-size:50px;">Mismo CV. Dos lecturas.<br><span style="color:#C7FF3A;">Una te elimina.</span></h2>
+          <div class="s4-grid">
+            <div class="s4-proof">
+              <div>
+                <div class="s4-proof-stat">0<span style="font-size:46px;color:#FF5C3C;">%</span></div>
+                <div class="s4-proof-stat-sub">Chance de pasar</div>
+              </div>
+              <div class="s4-proof-text">
+                <div class="s4-proof-tag">Lectura superficial</div>
+                <div class="s4-proof-headline">El recruiter ve un CV bonito. El ATS ve basura.</div>
+                <div class="s4-proof-body">Tu CV tiene columnas, tablas y un headline genérico. <strong style="color:#FF5C3C;">El ATS no puede parsear tu experiencia.</strong> Para el algoritmo, no existís.</div>
+              </div>
+            </div>
+            <div class="s4-proof" style="background:rgba(199,255,58,0.08);border-color:rgba(199,255,58,0.25);">
+              <div>
+                <div class="s4-proof-stat">85<span style="font-size:46px;color:#C7FF3A;">%</span></div>
+                <div class="s4-proof-stat-sub">Chance de pasar</div>
+              </div>
+              <div class="s4-proof-text">
+                <div class="s4-proof-tag">Lectura profunda</div>
+                <div class="s4-proof-headline">El recruiter ve tu valor. El ATS lo encontró primero.</div>
+                <div class="s4-proof-body">Misma experiencia, texto plano, headline exacto, keywords del puesto. <strong style="color:#C7FF3A;">El ATS lee todo y te empareja.</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">04 / 06</div>
+      </section>
+
+      <section class="slide" data-slide="5">
+        <div class="wave-bg">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,300 Q270,240 540,300 T1080,300" fill="none" stroke="#C7FF3A" stroke-width="1" opacity="0.2"/>
+            <path d="M0,800 Q270,740 540,800 T1080,800" fill="none" stroke="#083060" stroke-width="2" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="zoom-rings">
+          <div class="ring r1" style="border-color:#C7FF3A;"></div>
+          <div class="ring r2" style="border-color:#C7FF3A;"></div>
+          <div class="ring r3" style="border-color:#C7FF3A;"></div>
+          <div class="ring r4" style="border-color:#C7FF3A;"></div>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#C7FF3A;">Deep Scan · 01</div>
+          <div class="mast-issue">Caso real · São Paulo</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#C7FF3A;">El resultado</div>
+          <h2 class="headline" style="font-size:50px;">De 0 entrevistas<br>a <span style="color:#C7FF3A;">3 en 8 días.</span></h2>
+          <div class="s4-grid" style="margin-top:24px;">
+            <div class="s4-proof" style="grid-template-columns:1fr;">
+              <div class="s4-proof-text">
+                <div class="s4-proof-tag">Caso real · São Paulo</div>
+                <div class="s4-proof-headline">Llevaba 6 meses aplicando sin respuesta. Mismo perfil.</div>
+                <div class="s4-proof-body">Cambiamos el headline al cargo exacto, reemplazamos tablas por texto plano, y agregamos 3 keywords del job description. <strong style="color:#C7FF3A;">El ATS pasó el CV al recruiter. 3 entrevistas en 8 días.</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">05 / 06</div>
+      </section>
+
+      <section class="slide" data-slide="6">
+        <div class="wave-bg">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,450 Q270,390 540,450 T1080,450" fill="none" stroke="#C7FF3A" stroke-width="1" opacity="0.15"/>
+            <path d="M0,750 Q270,690 540,750 T1080,750" fill="none" stroke="#083060" stroke-width="2" opacity="0.25"/>
+          </svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#C7FF3A;">Deep Scan · 01</div>
+          <div class="mast-issue">Tu siguiente paso</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#C7FF3A;">¿Querés ver qué ve el ATS?</div>
+          <h2 class="headline" style="font-size:50px;">¿Querés ver qué ve el ATS<br><span style="color:#C7FF3A;">cuando abre tu CV?</span></h2>
+          <div class="cta-card">
+            <div class="cta-headline">CV mejorado gratis — listo para descargar</div>
+            <div class="unified-cta-line">Puntuación ATS para tu CV gratis</div>
+            <div class="unified-cta-fine">Sin tarjeta. Sin costo.</div>
+            <div class="unified-url-box">
+              <div class="unified-url-text">WORQAI.IO</div>
+            </div>
+            <div class="unified-closing">Subí tu CV a <strong>worqai.io</strong> y en segundos te decimos qué arreglar para que pase el filtro automático.</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">06 / 06</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+    <span class="dot" data-i="4"></span>
+    <span class="dot" data-i="5"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 1080}px)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+</script>
+</body>
+</html>

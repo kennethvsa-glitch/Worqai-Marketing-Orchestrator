@@ -1,0 +1,53 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="stat-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+
+    {# v2: text_treatment="gradient" wraps stat_number in inline SVG with linearGradient fill
+        (CSS background-clip:text is broken in html2canvas). Other treatments apply as a class. #}
+    {% macro stat_num(text, treatment, gid) -%}
+      {%- if treatment == 'txt-gradient' -%}
+      <svg class="stat-num txt-gradient" viewBox="0 0 800 200" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="{{ gid }}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--accent)"/>
+            <stop offset="100%" stop-color="#fff"/>
+          </linearGradient>
+        </defs>
+        <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle"
+              fill="url(#{{ gid }})" font-size="160">{{ text }}</text>
+      </svg>
+      {%- else -%}
+      <div class="stat-num {{ treatment }}">{{ text }}</div>
+      {%- endif -%}
+    {%- endmacro %}
+
+    {% if copy.headline %}
+    <div class="stat-grid">
+      <div>
+        {{ stat_num(copy.stat_number, text_treatment_class, gradient_id) }}
+        {% if copy.source %}<div class="stat-source">{{ copy.source }}</div>{% endif %}
+      </div>
+      <div class="stat-side">
+        {% if copy.stat_context %}<div class="stat-side-tag">{{ copy.stat_context }}</div>{% endif %}
+        <div class="stat-side-headline">{{ copy.headline }}</div>
+        {% if copy.body %}<div class="stat-side-body">{{ copy.body }}</div>{% endif %}
+      </div>
+    </div>
+    {% else %}
+    {{ stat_num(copy.stat_number, text_treatment_class, gradient_id) }}
+    {% if copy.stat_context %}<div class="stat-context">{{ copy.stat_context }}</div>{% endif %}
+    {% if copy.source %}<div class="stat-source">{{ copy.source }}</div>{% endif %}
+    {% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

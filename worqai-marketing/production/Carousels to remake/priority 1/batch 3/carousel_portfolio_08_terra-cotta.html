@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Arcilla · Hay cosas que no podés apresurar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #f0e6d8; min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #b85c38; margin-bottom: 18px; text-align: center; }
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         color: #2a1810; }
+
+/* ── WARM GRADIENT BACKGROUNDS (varied per slide) ── */
+.slide.warm { background: linear-gradient(165deg, #faf3ea 0%, #f0dcca 50%, #e3c4a4 100%); }
+.slide.earth { background: linear-gradient(175deg, #f5e6d3 0%, #e8c9a8 60%, #d9b08a 100%); }
+.slide.clay { background: linear-gradient(160deg, #faf0e3 0%, #ebd5b8 50%, #dbbfa0 100%); }
+.slide.sand { background: linear-gradient(170deg, #f7ede0 0%, #edddc8 50%, #dfc4a6 100%); }
+
+/* ── GRAIN ── */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 200px 200px; opacity: 0.18;
+                 pointer-events: none; z-index: 1; mix-blend-mode: multiply; }
+
+/* ── GEO-04 TOPOGRAPHIC CONTOURS (organic wavy lines) ── */
+.topo { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.75; }
+.topo svg { width: 100%; height: 100%; }
+
+/* ── CLAY BLOB ACCENTS ── */
+.clay-blob { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1; }
+.clay-blob.c1 { width: 480px; height: 480px; top: -140px; right: -100px;
+                background: radial-gradient(circle, rgba(184,92,56,0.16) 0%, transparent 70%); }
+.clay-blob.c2 { width: 380px; height: 380px; bottom: -80px; left: -60px;
+                background: radial-gradient(circle, rgba(201,168,124,0.24) 0%, transparent 70%); }
+.clay-blob.c3 { width: 340px; height: 340px; top: 35%; right: 8%;
+                background: radial-gradient(circle, rgba(219,191,160,0.28) 0%, transparent 65%); }
+
+/* ── CONTENT LAYER ── */
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+              letter-spacing: 0.28em; text-transform: uppercase; color: #b85c38; }
+.mast-issue { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-style: italic;
+              font-size: 12px; letter-spacing: 0.06em; color: rgba(42,24,16,0.45); }
+
+/* ── BRAND ANCHOR ── Dark text on light bg ── */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 18px;
+              letter-spacing: 0.5px; }
+.brand-mark .core { color: #2a1810; }
+.brand-mark .accent { color: #b85c38; font-weight: 700; }
+.handle { position: absolute; bottom: 38px; left: 230px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 10px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(42,24,16,0.35); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+           letter-spacing: 0.16em; color: #2a1810; }
+
+/* ── PROGRESS DOTS ── Light system: dark dots ── */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 24px; height: 3px; background: rgba(42,24,16,0.12); }
+.pd.on { background: #b85c38 !important; }
+
+/* ── SWIPE PILL ── */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #b85c38; color: #faf3ea;
+              font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+              letter-spacing: 0.18em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 1 · PROVOCATION · TA-09 STAIRCASE INDENT + EDITORIAL CHOREOGRAPHY
+   ═══════════════════════════════════════════════════════════════ */
+.s1-choreo { display: flex; flex-direction: column; gap: 0; margin-top: 12vh; }
+.s1-choreo p { font-family: 'Cormorant Garamond', serif; line-height: 1.0; margin: 0; }
+.s1-choreo p + p { margin-top: 6px; }
+.s1-line1 { font-size: 52px; font-weight: 400; font-style: italic; color: #6b5344; padding-left: 0; }
+.s1-line2 { font-size: 32px; font-weight: 600; text-transform: uppercase; color: #2a1810;
+            letter-spacing: 0.06em; padding-left: 2.8rem; }
+.s1-line3 { font-size: 48px; font-weight: 500; font-style: italic; color: #6b5344; padding-left: 5.6rem; }
+.s1-rule { width: 240px; height: 2px; background: #b85c38; margin: 32px 0 32px 5.6rem; }
+.s1-line4 { font-size: 42px; font-weight: 500; font-style: italic; color: #b85c38; padding-left: 5.6rem; }
+.s1-line5 { font-size: 72px; font-weight: 700; font-style: normal; color: #2a1810;
+            padding-left: 5.6rem; letter-spacing: -0.02em; }
+
+.s1-byline { margin-top: 48px; font-family: 'Inter', sans-serif; font-size: 16px;
+             font-weight: 300; color: rgba(42,24,16,0.60); letter-spacing: 0.02em;
+             padding-top: 24px; border-top: 1px solid rgba(42,24,16,0.15); max-width: 520px;
+             line-height: 1.7; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 2 · DIAGNOSIS · BIG NUMBER + ANNOTATION
+   ═══════════════════════════════════════════════════════════════ */
+.s2-center { display: flex; flex-direction: column; align-items: center; justify-content: center;
+              flex: 1; text-align: center; }
+.s2-stat { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 280px;
+           line-height: 0.85; letter-spacing: -0.04em; color: #b85c38; position: relative; }
+.s2-stat::after { content: ''; position: absolute; left: 50%; bottom: -24px; transform: translateX(-50%);
+                  width: 120px; height: 2px; background: #2a1810; }
+.s2-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+            letter-spacing: 0.30em; text-transform: uppercase; color: #b85c38;
+            margin-top: 40px; }
+.s2-quote { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-style: italic;
+             font-size: 32px; line-height: 1.25; color: #2a1810; max-width: 640px; margin-top: 36px; }
+.s2-source { margin-top: 32px; font-family: 'Inter', sans-serif; font-size: 14px;
+             font-weight: 300; color: rgba(42,24,16,0.50); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 3 · REVELATION · BEFORE / AFTER SPLIT
+   ═══════════════════════════════════════════════════════════════ */
+.s3-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; flex: 1;
+           border: 1px solid rgba(42,24,16,0.18); }
+.s3-col { padding: 40px; display: flex; flex-direction: column; gap: 18px; background: rgba(250,243,234,0.6); }
+.s3-col.before { border-right: 1px solid rgba(42,24,16,0.18); }
+.s3-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+             letter-spacing: 0.28em; text-transform: uppercase;
+             padding: 6px 12px; background: #2a1810; color: #faf3ea; display: inline-block;
+             align-self: flex-start; }
+.s3-badge.accent { background: #b85c38; color: #faf3ea; }
+.s3-headline { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-style: italic;
+               font-size: 28px; line-height: 1.2; color: #2a1810; }
+.s3-body { font-family: 'Inter', sans-serif; font-weight: 300; font-size: 15px;
+           line-height: 1.65; color: rgba(42,24,16,0.65); flex: 1; }
+.s3-body strong { color: #b85c38; font-weight: 500; }
+.s3-foot { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em;
+           text-transform: uppercase; color: rgba(42,24,16,0.40); padding-top: 16px;
+           border-top: 1px solid rgba(42,24,16,0.12); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 4 · RESOLUTION · MINIMAL CTA
+   ═══════════════════════════════════════════════════════════════ */
+.s4-center { display: flex; flex-direction: column; align-items: center; justify-content: center;
+              flex: 1; text-align: center; }
+.s4-rule-top { width: 80px; height: 2px; background: #b85c38; margin-bottom: 48px; }
+.s4-headline { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 64px;
+               line-height: 0.98; color: #2a1810; letter-spacing: -0.02em; max-width: 700px; }
+.s4-sub { margin-top: 32px; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 18px;
+          color: rgba(42,24,16,0.55); max-width: 480px; line-height: 1.6; }
+.s4-cta-row { margin-top: 56px; display: flex; align-items: center; gap: 20px; }
+.s4-cta-pill { padding: 14px 28px; background: #2a1810; color: #faf3ea;
+               font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+               letter-spacing: 0.14em; text-transform: uppercase; }
+.s4-cta-handle { font-family: 'JetBrains Mono', monospace; font-size: 12px;
+                 letter-spacing: 0.14em; color: rgba(42,24,16,0.45); }
+.s4-rule-bot { width: 80px; height: 2px; background: #b85c38; margin-top: 48px; }
+
+/* ── CONTROLS ── */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #b85c38; border: none; color: #faf3ea;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900; }
+.btn:disabled { opacity: 0.30; cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(42,24,16,0.15); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #b85c38; width: 24px; border-radius: 2px; }
+.hint { font-size: 11px; color: rgba(42,24,16,0.25); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #b85c38; color: #faf3ea; border: none; cursor: pointer;
+           font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+           letter-spacing: 0.18em; text-transform: uppercase; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(42,24,16,0.35); text-align: center;
+                letter-spacing: 0.18em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+<p class="label-top">Casa Arcilla · Manifiesto · 4 slides · System 10 Terra Cotta</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · PROVOCATION ═══════ -->
+      <section class="slide warm" id="slide-1">
+        <div class="topo">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,180 Q270,120 540,180 T1080,180" fill="none" stroke="rgba(184,92,56,0.12)" stroke-width="1.5"/>
+            <path d="M0,280 Q270,220 540,280 T1080,280" fill="none" stroke="rgba(184,92,56,0.10)" stroke-width="1"/>
+            <path d="M0,420 Q270,360 540,420 T1080,420" fill="none" stroke="rgba(184,92,56,0.08)" stroke-width="1.5"/>
+            <path d="M0,580 Q270,520 540,580 T1080,580" fill="none" stroke="rgba(201,168,124,0.12)" stroke-width="1"/>
+            <path d="M0,740 Q270,680 540,740 T1080,740" fill="none" stroke="rgba(201,168,124,0.08)" stroke-width="1.5"/>
+            <path d="M0,880 Q270,820 540,880 T1080,880" fill="none" stroke="rgba(184,92,56,0.06)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="clay-blob c1"></div>
+        <div class="clay-blob c2"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifiesto · 02</div>
+          <div class="mast-issue">Nov 2026 · Oaxaca</div>
+        </div>
+        <div class="content">
+          <div class="s1-choreo" style="margin-top: 100px;">
+            <p class="s1-line1">Hay cosas</p>
+            <p class="s1-line2">que no podés</p>
+            <p class="s1-line3">apresurar...</p>
+            <div class="s1-rule"></div>
+            <p class="s1-line4">y el tiempo</p>
+            <p class="s1-line5">lo sabe.</p>
+          </div>
+          <p class="s1-byline">— Lo que tenés en las manos tiene más historia que lo que compraste ayer. La pieza que se hace despacio, se siente diferente. No es metafísica: es tacto, peso y temperatura.</p>
+          <div class="swipe-pill">Desliza →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">casa</span> <span class="accent">arcilla</span></div>
+        <div class="handle">@casaarcilla · cerámica de Oaxaca</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · DIAGNOSIS ═══════ -->
+      <section class="slide earth" id="slide-2">
+        <div class="topo">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,240 Q270,180 540,260 T1080,220" fill="none" stroke="rgba(184,92,56,0.10)" stroke-width="1.5"/>
+            <path d="M0,360 Q270,300 540,380 T1080,340" fill="none" stroke="rgba(201,168,124,0.08)" stroke-width="1"/>
+            <path d="M0,520 Q270,460 540,540 T1080,500" fill="none" stroke="rgba(184,92,56,0.08)" stroke-width="1.5"/>
+            <path d="M0,680 Q270,620 540,700 T1080,660" fill="none" stroke="rgba(201,168,124,0.06)" stroke-width="1"/>
+            <path d="M0,840 Q270,780 540,860 T1080,820" fill="none" stroke="rgba(184,92,56,0.05)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="clay-blob c3" style="top:10%; left:-5%;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifiesto · 02</div>
+          <div class="mast-issue">El problema que no se nombra</div>
+        </div>
+        <div class="content">
+          <div class="s2-center">
+            <div class="s2-stat">3×</div>
+            <div class="s2-label">Más durable lo hecho a mano</div>
+            <div class="s2-quote">"Tocás la vajilla tres veces al día. Y nunca te detuviste a sentir qué tenés entre los dedos."</div>
+            <div class="s2-source">— El grosor, el peso, la temperatura: son datos que tu cuerpo registra aunque tu mente ignore.</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">casa</span> <span class="accent">arcilla</span></div>
+        <div class="handle">@casaarcilla · cerámica de Oaxaca</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · REVELATION ═══════ -->
+      <section class="slide clay" id="slide-3">
+        <div class="topo">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,320 Q270,260 540,340 T1080,300" fill="none" stroke="rgba(184,92,56,0.10)" stroke-width="1.5"/>
+            <path d="M0,480 Q270,420 540,500 T1080,460" fill="none" stroke="rgba(201,168,124,0.08)" stroke-width="1"/>
+            <path d="M0,640 Q270,580 540,660 T1080,620" fill="none" stroke="rgba(184,92,56,0.08)" stroke-width="1.5"/>
+            <path d="M0,800 Q270,740 540,820 T1080,780" fill="none" stroke="rgba(201,168,124,0.06)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="clay-blob c1" style="top:auto; bottom:-100px; right:-60px;"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifiesto · 02</div>
+          <div class="mast-issue">Revelación · Lo que cambia todo</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.30em;text-transform:uppercase;color:#b85c38;margin-bottom:24px;">Lo que no se trata de volver al pasado</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;font-size:42px;line-height:1.1;color:#2a1810;max-width:700px;margin-bottom:36px;">Se trata de elegir qué merece durar.</h2>
+          <div class="s3-cols">
+            <div class="s3-col before">
+              <div class="s3-badge">Hecho en serie</div>
+              <div class="s3-headline">Mismo molde, mismo grosor, mismo peso frío.</div>
+              <div class="s3-body">
+                <p>Fabricado a 3.000 kilómetros de la persona que lo va a usar. <strong>Sin tacto de manos humanas</strong> en todo el proceso. Diseñado para durar dos temporadas de moda y ser reemplazado.</p>
+              </div>
+              <div class="s3-foot">Vida útil estimada: 18 meses</div>
+            </div>
+            <div class="s3-col">
+              <div class="s3-badge accent">Hecho en Oaxaca</div>
+              <div class="s3-headline">Torneado a mano, cocido en horno de leña, único.</div>
+              <div class="s3-body">
+                <p>Llevamos 48 horas entre torno, secado y primera cocción. <strong>Cada pieza tiene el peso de las manos que la moldearon.</strong> Las variaciones no son defectos: son huellas.</p>
+              </div>
+              <div class="s3-foot">Vida útil: generaciones</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">casa</span> <span class="accent">arcilla</span></div>
+        <div class="handle">@casaarcilla · cerámica de Oaxaca</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · RESOLUTION ═══════ -->
+      <section class="slide sand" id="slide-4">
+        <div class="topo">
+          <svg viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M0,200 Q270,160 540,210 T1080,190" fill="none" stroke="rgba(184,92,56,0.08)" stroke-width="1"/>
+            <path d="M0,400 Q270,340 540,410 T1080,380" fill="none" stroke="rgba(201,168,124,0.06)" stroke-width="1.5"/>
+            <path d="M0,600 Q270,540 540,610 T1080,580" fill="none" stroke="rgba(184,92,56,0.06)" stroke-width="1"/>
+            <path d="M0,800 Q270,740 540,810 T1080,780" fill="none" stroke="rgba(201,168,124,0.05)" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="clay-blob c2" style="bottom:auto; top:-80px; left:50%; transform:translateX(-50%);"></div>
+        <div class="masthead">
+          <div class="mast-title">Manifiesto · 02</div>
+          <div class="mast-issue">Resolución · Oaxaca</div>
+        </div>
+        <div class="content">
+          <div class="s4-center">
+            <div class="s4-rule-top"></div>
+            <h2 class="s4-headline">Lo que hacés con las manos,<br>habla por vos.</h2>
+            <p class="s4-sub">Pedí tu pieza. Te la enviamos con la historia de quién la moldeó, en qué horno se cocinó, y por qué no hay otra igual.</p>
+            <div class="s4-cta-row">
+              <div class="s4-cta-pill">Comentá ARCILLA</div>
+              <span class="s4-cta-handle">· te escribimos hoy</span>
+            </div>
+            <div class="s4-rule-bot"></div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark"><span class="core">casa</span> <span class="accent">arcilla</span></div>
+        <div class="handle">@casaarcilla · cerámica de Oaxaca</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · terra cotta · editorial serif</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel-casa-arcilla-terra-cotta.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–04.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · terra cotta · editorial serif';
+  }, 3000);
+}
+</script>
+</body>
+</html>

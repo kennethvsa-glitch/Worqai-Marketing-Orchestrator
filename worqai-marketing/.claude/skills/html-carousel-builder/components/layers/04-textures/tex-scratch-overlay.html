@@ -1,0 +1,55 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "tex-scratch-overlay",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s07",
+      "s18",
+      "s22",
+      "s30",
+      "s32",
+      "s35",
+      "s40",
+      "s42",
+      "s44",
+      "s45"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s26",
+      "s39"
+    ],
+    "pairs_well_with": [
+      "deco-stamp",
+      "deco-corner-frame",
+      "slide-pull-quote"
+    ],
+    "conflicts_with": [
+      "light-lens-flare",
+      "light-ambient-orb"
+    ]
+  }
+-->
+
+<!--
+LAYER: SCRATCH OVERLAY
+Film scratch lines.
+Best for: vintage, retro, analog systems.
+-->
+
+<div class="scratches"></div>
+
+<style>
+.scratches {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background:
+    repeating-linear-gradient(90deg, transparent 0, transparent 48px, rgba(255,255,255,0.03) 48px, rgba(255,255,255,0.03) 49px),
+    repeating-linear-gradient(0deg, transparent 0, transparent 200px, rgba(255,255,255,0.02) 200px, rgba(255,255,255,0.02) 201px);
+  opacity: 0.6;
+}
+</style>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mixed Light Reconstructed</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#F5F5F5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+</style>
+</head>
+<body>
+<div class="canvas">
+<!-- Mixed Light Reconstructed Background -->
+<svg style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="ht-mxl" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2" fill="#FFFFFF" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="#F5F5F5"/>
+  <circle cx="-60" cy="180" r="400" fill="#C7FF3A" opacity="0.82"/>
+  <circle cx="-60" cy="180" r="340" fill="url(#ht-mxl)" opacity="0.4"/>
+  <circle cx="1080" cy="420" r="280" fill="#C7FF3A" opacity="0.72"/>
+  <path d="M-50 280 Q200 380 400 200 T920 80" stroke="#111111" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M-30 300 Q220 400 420 220 T940 100" stroke="#111111" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M-50 520 Q100 470 200 570 T350 670" stroke="#AAAAAA" stroke-width="55" fill="none" stroke-linecap="round" opacity="0.3"/>
+  <path d="M850 650 Q950 700 1080 580" stroke="#CCCCCC" stroke-width="40" fill="none" stroke-linecap="round" opacity="0.4"/>
+  <circle cx="100" cy="980" r="290" fill="#111111"/>
+  <path d="M30 960 Q70 910 110 960 T170 930" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M780 1080 A300 300 0 0 1 1080 780" stroke="#111111" stroke-width="2" fill="none"/>
+  <path d="M800 1080 A280 280 0 0 1 1080 800" stroke="#111111" stroke-width="2" fill="none"/>
+  <path d="M820 1080 A260 260 0 0 1 1080 820" stroke="#111111" stroke-width="2" fill="none"/>
+  <path d="M840 1080 A240 240 0 0 1 1080 840" stroke="#111111" stroke-width="2" fill="none"/>
+  <path d="M860 1080 A220 220 0 0 1 1080 860" stroke="#111111" stroke-width="2" fill="none"/>
+  <path d="M880 1080 A200 200 0 0 1 1080 880" stroke="#111111" stroke-width="2" fill="none"/>
+  <circle cx="650" cy="950" r="4" fill="#111111"/>
+  <circle cx="670" cy="930" r="4" fill="#111111"/>
+  <circle cx="690" cy="950" r="4" fill="#111111"/>
+  <circle cx="710" cy="930" r="4" fill="#111111"/>
+  <circle cx="730" cy="950" r="4" fill="#111111"/>
+  <circle cx="750" cy="930" r="4" fill="#111111"/>
+  <path d="M280 930 Q320 890 360 930 T420 960" stroke="#C7FF3A" stroke-width="28" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="920" cy="180" r="3" fill="#111111"/>
+  <circle cx="940" cy="200" r="3" fill="#111111"/>
+  <circle cx="960" cy="170" r="3" fill="#111111"/>
+  <circle cx="980" cy="190" r="4" fill="#111111"/>
+  <circle cx="950" cy="220" r="3" fill="#111111"/>
+</svg>
+</div>
+</body>
+</html>

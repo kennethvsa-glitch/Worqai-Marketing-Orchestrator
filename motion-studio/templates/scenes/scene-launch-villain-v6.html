@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html data-duration="46" data-fps="60" data-name="villain-v6-pilot-b">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomBounce-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomWiggle-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/MotionPathPlugin-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/SplitText-3.15.0.min.js"></script>
+  <script src="../motion-lib.js"></script>
+  <link rel="stylesheet" href="scene-launch-villain-v6.css">
+</head>
+<body>
+
+<!-- Shared SVG defs -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <filter id="limeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(200,255,42,0)"/>
+      <stop offset="30%" stop-color="rgba(200,255,42,0.55)"/>
+      <stop offset="55%" stop-color="rgba(200,255,42,0.95)"/>
+      <stop offset="100%" stop-color="rgba(200,255,42,0)"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- Background -->
+<div id="bg-grad"></div>
+<div id="bg-grid"></div>
+<div id="bg-spot"></div>
+<div id="bg-arc" class="lime-glow">
+  <svg width="1080" height="1920" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice">
+    <path d="M-220,900 A800,800 0 0,1 1300,900" fill="none" stroke="rgba(200,255,42,0.11)" stroke-width="1.5"/>
+    <path d="M-140,900 A720,720 0 0,1 1220,900" fill="none" stroke="rgba(200,255,42,0.07)" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- Green-world decoration -->
+<div id="green-deco">
+  <div id="anchor-dot"></div>
+  <div id="anchor-line">
+    <svg viewBox="0 0 4 1420" preserveAspectRatio="none">
+      <line id="anchor-path" x1="2" y1="0" x2="2" y2="1420" stroke="#C8FF2A" stroke-width="2" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <div class="dot-cluster" id="dc-tl">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+  <div class="dot-cluster" id="dc-tr">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+  <div class="dot-cluster" id="dc-br">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+  <div class="dot-cluster" id="dc-bl">
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+    <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+  </div>
+
+  <div class="hollow-square" id="hs-1"></div>
+  <div class="hollow-square" id="hs-2"></div>
+  <div class="hollow-square" id="hs-3"></div>
+  <div class="hollow-square" id="hs-4"></div>
+  <div class="hollow-square" id="hs-5"></div>
+  <div class="hollow-square" id="hs-6"></div>
+
+  <div id="x-icon">
+    <svg viewBox="0 0 38 38" fill="none">
+      <path d="M7 7L31 31M31 7L7 31" stroke="#C8FF2A" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div id="wave-cluster" class="lime-glow">
+    <svg viewBox="0 0 1400 640" preserveAspectRatio="none">
+      <!-- Flowing wave field, reference style -->
+      <path class="wave-path" id="w1"  d="M-60,580 C120,540 260,620 420,590 S720,540 940,580 S1240,620 1400,590" stroke="url(#waveGrad)" stroke-width="1.5" opacity="0.35"/>
+      <path class="wave-path" id="w2"  d="M-80,610 C140,560 300,660 480,610 S820,560 1060,610 S1280,660 1400,620" stroke="url(#waveGrad)" stroke-width="2.0" opacity="0.45"/>
+      <path class="wave-path" id="w3"  d="M-100,640 C160,580 340,700 540,630 S920,580 1180,630 S1320,700 1400,650" stroke="url(#waveGrad)" stroke-width="2.5" opacity="0.55"/>
+      <path class="wave-path" id="w4"  d="M-120,670 C180,600 380,740 600,650 S1020,600 1300,650 S1360,740 1400,680" stroke="url(#waveGrad)" stroke-width="3.0" opacity="0.70"/>
+      <path class="wave-path" id="w5"  d="M-140,700 C200,620 420,780 660,670 S1120,620 1400,670" stroke="url(#waveGrad)" stroke-width="3.5" opacity="0.88"/>
+      <path class="wave-path" id="w6"  d="M-160,730 C220,640 460,820 720,690 S1220,640 1460,690" stroke="url(#waveGrad)" stroke-width="4.0" opacity="1.00"/>
+      <path class="wave-path" id="w7"  d="M-180,760 C240,660 500,860 780,710 S1320,660 1480,710" stroke="url(#waveGrad)" stroke-width="3.5" opacity="0.88"/>
+      <path class="wave-path" id="w8"  d="M-200,790 C260,680 540,900 840,730 S1420,680 1500,730" stroke="url(#waveGrad)" stroke-width="3.0" opacity="0.70"/>
+      <path class="wave-path" id="w9"  d="M-220,820 C280,700 580,940 900,750 S1500,700 1520,750" stroke="url(#waveGrad)" stroke-width="2.5" opacity="0.55"/>
+
+      <!-- Bright particles along the central waves -->
+      <g class="wave-particles" fill="#C8FF2A">
+        <circle cx="240" cy="590" r="2.5" opacity="0.7"/>
+        <circle cx="460" cy="600" r="3.0" opacity="0.85"/>
+        <circle cx="720" cy="575" r="2.5" opacity="0.75"/>
+        <circle cx="980" cy="595" r="3.0" opacity="0.9"/>
+        <circle cx="1240" cy="615" r="2.5" opacity="0.7"/>
+        <circle cx="300" cy="665" r="3.0" opacity="0.8"/>
+        <circle cx="560" cy="650" r="3.5" opacity="0.95"/>
+        <circle cx="860" cy="660" r="3.0" opacity="0.85"/>
+        <circle cx="1160" cy="680" r="2.5" opacity="0.7"/>
+        <circle cx="400" cy="735" r="3.0" opacity="0.8"/>
+        <circle cx="700" cy="705" r="3.5" opacity="1.0"/>
+        <circle cx="1020" cy="700" r="3.0" opacity="0.85"/>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- Cursor -->
+<div id="cursor">
+  <svg viewBox="0 0 28 28" fill="none">
+    <path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#F0EDE4" stroke="#0C0E16" stroke-width="1.5" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<!-- Scene 1: Wound -->
+<div id="scene-1">
+  <div id="s1-text">
+    <div class="s1-hero" id="s1-l1" data-copy="40 postulaciones.">
+      <span class="s1-num">40</span><span class="s1-white"> postulaciones</span><span class="s1-period">.</span>
+    </div>
+    <div class="s1-hero" id="s1-l2" data-copy="0 respuestas.">
+      <span class="s1-num">0</span><span class="s1-white"> respuestas</span><span class="s1-period">.</span>
+    </div>
+    <div id="s1-question" data-copy='Y la pregunta que te persigue: "¿qué estoy haciendo mal?"'>
+      <div id="s1-q-badge">?</div>
+      <span>Y la pregunta que te persigue: "¿qué estoy haciendo mal?"</span>
+    </div>
+
+    <!-- 1b state (initially hidden) -->
+    <div id="s1-state-b">
+      <div class="s1-hero s1-muted" id="s1-b-header" data-copy="40 postulaciones. 0 respuestas.">40 postulaciones. 0 respuestas.</div>
+      <div id="s1-nada" data-copy="Nada.">Nada.</div>
+      <div class="s1-sub" id="s1-l5" data-copy="Nadie te rechazó.">Nadie te rechazó.</div>
+      <div class="s1-sub s1-lime" id="s1-l6" data-copy="Nadie te leyó.">Nadie te leyó.</div>
+      <div class="s1-kicker" id="s1-l7" data-copy="El filtro te descartó sin llegar a un humano.">El filtro te descartó sin llegar a un humano.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 2: Red HUD -->
+<div id="scene-2">
+  <div id="s2-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div id="s2-header">
+    <div id="s2-alert-icon">!</div>
+    <div>
+      <div id="s2-title" data-copy="ASÍ TE LEE EL FILTRO.">ASÍ TE LEE EL FILTRO.</div>
+      <div id="s2-sub" data-copy="Antes de que un humano vea tu CV.">Antes de que un humano vea tu CV.</div>
+    </div>
+  </div>
+  <div id="s2-card">
+    <div id="s2-scan"></div>
+    <div id="s2-stamp" data-copy="DESCARTADO">DESCARTADO</div>
+    <div class="s2-name" data-copy="Andrés Quesada R.">Andrés Quesada R.</div>
+    <div class="s2-role" data-copy="Especialista en Servicio al Cliente · Bilingüe EN/ES">Especialista en Servicio al Cliente · Bilingüe EN/ES</div>
+    <div id="s2-contact" data-copy="andres.quesada@email.com · Parrita, Costa Rica · linkedin.com/in/andresq">andres.quesada@email.com · Parrita, Costa Rica · linkedin.com/in/andresq</div>
+    <div id="s2-meta-row">
+      <span data-copy="ATS SCAN">ATS SCAN</span>
+      <span data-copy="ID 04-712">ID 04-712</span>
+      <span data-copy="SIN REVISIÓN HUMANA">SIN REVISIÓN HUMANA</span>
+    </div>
+    <div class="s2-rule"></div>
+    <div class="s2-section" data-copy="Resumen">Resumen</div>
+    <p class="s2-body" data-copy="Experiencia en servicio al cliente, seguridad y análisis de datos.">
+      Experiencia en <span class="s2-red">servicio al cliente</span>, <span class="s2-red">seguridad</span> y análisis de datos.
+    </p>
+    <div class="s2-warn" id="s2-w1" data-copy="✕ palabras clave: 4 de 12">✕ palabras clave: 4 de 12</div>
+    <div class="s2-rule s2-tight"></div>
+    <div class="s2-section" data-copy="Habilidades">Habilidades</div>
+    <div id="s2-skills">
+      <span data-copy="Excel">Excel</span>
+      <span data-copy="SQL">SQL</span>
+      <span data-copy="Tableau">Tableau</span>
+      <span data-copy="Power BI">Power BI</span>
+      <span data-copy="Inglés B2+">Inglés B2+</span>
+    </div>
+    <div class="s2-warn" id="s2-w3" data-copy="✕ coincidencia con la vacante: baja">✕ coincidencia con la vacante: baja</div>
+    <div class="s2-rule s2-tight"></div>
+    <div class="s2-section" data-copy="Experiencia">Experiencia</div>
+    <div class="s2-exp">
+      <div class="s2-exp-title" data-copy="Monitor de Seguridad de Activos">Monitor de Seguridad de Activos</div>
+      <div class="s2-exp-meta" data-copy="Control y Monitoreo CYMSA · Dic 2023 - Abr 2024">Control y Monitoreo CYMSA · Dic 2023 - Abr 2024</div>
+      <p class="s2-bullet" data-copy="• Cuidaba la seguridad de las instalaciones y registraba entradas y salidas.">• Cuidaba la <span class="s2-red">seguridad</span> de las instalaciones y registraba <span class="s2-red">entradas</span> y salidas.</p>
+      <p class="s2-bullet" data-copy="• Reportaba incidentes y turnos, pero sin métricas ni resultados claros.">• Reportaba incidentes y turnos, pero sin <span class="s2-red">métricas</span> ni resultados claros.</p>
+    </div>
+    <div class="s2-exp">
+      <div class="s2-exp-title" data-copy="Recepcionista Bilingüe">Recepcionista Bilingüe</div>
+      <div class="s2-exp-meta" data-copy="Hotel Monte Campana · Dic 2016 - May 2018">Hotel Monte Campana · Dic 2016 - May 2018</div>
+      <p class="s2-bullet" data-copy="• Atendí huéspedes nacionales e internacionales en recepción.">• Atendí huéspedes nacionales e internacionales en <span class="s2-red">recepción</span>.</p>
+      <p class="s2-bullet" data-copy="• Resolví solicitudes en español e inglés durante turnos de alta demanda.">• Resolví solicitudes en español e inglés durante turnos de alta demanda.</p>
+    </div>
+    <div class="s2-exp">
+      <div class="s2-exp-title" data-copy="Asistente Administrativo">Asistente Administrativo</div>
+      <div class="s2-exp-meta" data-copy="TechValle Soluciones · Feb 2018 - Nov 2019">TechValle Soluciones · Feb 2018 - Nov 2019</div>
+      <p class="s2-bullet" data-copy="• Apoyaba con tareas de oficina y archivado de documentos.">• Apoyaba con <span class="s2-red">tareas de oficina</span> y archivado de documentos.</p>
+    </div>
+    <div class="s2-warn" id="s2-w2" data-copy="✕ evidencia no detectada">✕ evidencia no detectada</div>
+    <div id="s2-analysis">
+      <div class="s2-analysis-row">
+        <span data-copy="Match ATS">Match ATS</span>
+        <strong data-copy="23%">23%</strong>
+      </div>
+      <div class="s2-meter"><i style="width: 23%"></i></div>
+      <div class="s2-analysis-row">
+        <span data-copy="Keywords críticas">Keywords críticas</span>
+        <strong data-copy="4/12">4/12</strong>
+      </div>
+      <div class="s2-meter"><i style="width: 34%"></i></div>
+    </div>
+  </div>
+  <div id="s2-score">
+    <div id="s2-score-copy">
+      <div id="s2-score-title" data-copy="Puntuación ATS">Puntuación ATS</div>
+      <div id="s2-score-label" data-copy="Baja coincidencia con el puesto">Baja coincidencia con el puesto</div>
+      <div id="s2-score-reason" data-copy="El filtro no encontró logros medibles ni keywords críticas.">El filtro no encontró logros medibles ni keywords críticas.</div>
+    </div>
+    <svg id="s2-ring" viewBox="0 0 190 190">
+      <circle id="s2-ring-track" cx="95" cy="95" r="72"/>
+      <circle id="s2-ring-fill" cx="95" cy="95" r="72"/>
+    </svg>
+    <div id="s2-score-val">23</div>
+    <div id="s2-score-unit" data-copy="/100">/100</div>
+  </div>
+  <div id="s2-radar">
+    <svg viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="60" r="52"/>
+      <circle cx="60" cy="60" r="34"/>
+      <circle cx="60" cy="60" r="16"/>
+      <line id="s2-radar-arm" x1="60" y1="60" x2="60" y2="8"/>
+    </svg>
+  </div>
+</div>
+
+<!-- Scene 3: The Turn -->
+<div id="scene-3">
+  <div id="s3-frame">
+    <svg id="s3-corners" viewBox="0 0 920 920" fill="none">
+      <path class="s3-corner" id="s3-c-tl" d="M0 92V0H92"/>
+      <path class="s3-corner" id="s3-c-tr" d="M828 0H920V92"/>
+      <path class="s3-corner" id="s3-c-br" d="M920 828V920H828"/>
+      <path class="s3-corner" id="s3-c-bl" d="M92 920H0V828"/>
+    </svg>
+    <svg id="s3-target" class="lime-glow" viewBox="0 0 180 180" fill="none">
+      <circle id="s3-t-outer" cx="90" cy="90" r="72"/>
+      <circle id="s3-t-inner" cx="90" cy="90" r="42"/>
+      <line id="s3-t-v" x1="90" y1="18" x2="90" y2="162"/>
+      <line id="s3-t-h" x1="18" y1="90" x2="162" y2="90"/>
+      <circle id="s3-t-person-head" cx="90" cy="78" r="13"/>
+      <path id="s3-t-person-body" d="M62 128C67 108 78 100 90 100C102 100 113 108 118 128"/>
+    </svg>
+    <div id="s3-copy">
+      <div class="s3-white" id="s3-h1-l1" data-copy="No era falta de experiencia.">No era falta de experiencia.</div>
+      <div class="s3-white" id="s3-h1-l2" data-copy="Era un CV escrito">Era un CV escrito</div>
+      <div class="s3-lime" id="s3-h2-l1" data-copy="para humanos.">para humanos.</div>
+      <div class="s3-lime" id="s3-h2-l2" data-copy="No para filtros.">No para filtros.</div>
+      <div id="s3-check-row" data-copy="WorqAI traduce tu experiencia al idioma del filtro.">
+        <span id="s3-check">✓</span>
+        <span>WorqAI traduce tu experiencia al idioma del filtro.</span>
+      </div>
+      <svg id="s3-underline" viewBox="0 0 650 48" fill="none">
+        <path id="s3-ul-path" d="M8 31 C140 42 290 7 642 25" stroke="#C8FF2A" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 4: Reduced Tailor Pass -->
+<div id="scene-4">
+  <div id="s4-kicker" data-copy="WORQAI REESCRIBE EL CV PARA EL FILTRO">WORQAI REESCRIBE EL CV PARA EL FILTRO</div>
+  <div id="s4-title">
+    <span data-copy="La experiencia no cambia.">La experiencia no cambia.</span>
+    <span class="s4-lime" data-copy="La estructura sí.">La estructura sí.</span>
+  </div>
+  <div id="s4-stage">
+    <div class="s4-doc s4-before">
+      <div class="s4-doc-label" data-copy="CV ORIGINAL">CV ORIGINAL</div>
+      <div class="s4-doc-name" data-copy="Andrés Quesada R.">Andrés Quesada R.</div>
+      <div class="s4-doc-role" data-copy="Servicio al Cliente · Seguridad">Servicio al Cliente · Seguridad</div>
+      <div class="s4-doc-row s4-bad" data-copy="• Cuidaba instalaciones y registraba entradas.">• Cuidaba instalaciones y registraba entradas.</div>
+      <div class="s4-doc-row s4-bad" data-copy="• Atendí recepción del hotel.">• Atendí recepción del hotel.</div>
+      <div class="s4-doc-row s4-muted" data-copy="Sin métricas · Sin keywords · Sin enfoque">Sin métricas · Sin keywords · Sin enfoque</div>
+    </div>
+    <div id="s4-arrow" aria-hidden="true">→</div>
+    <div class="s4-doc s4-after">
+      <div class="s4-doc-label s4-good-label" data-copy="CV ADAPTADO">CV ADAPTADO</div>
+      <div class="s4-doc-name" data-copy="Analista Operativo Bilingüe">Analista Operativo Bilingüe</div>
+      <div class="s4-chip-row">
+        <span data-copy="Excel">Excel</span>
+        <span data-copy="Reportes">Reportes</span>
+        <span data-copy="Atención al cliente">Atención al cliente</span>
+      </div>
+      <div class="s4-doc-row s4-good" data-copy="• Registró entradas, salidas e incidentes con control diario.">• Registró entradas, salidas e incidentes con control diario.</div>
+      <div class="s4-doc-row s4-good" data-copy="• Resolvió solicitudes bilingües en turnos de alta demanda.">• Resolvió solicitudes bilingües en turnos de alta demanda.</div>
+      <div class="s4-doc-row s4-good" data-copy="• Convirtió tareas operativas en evidencia medible.">• Convirtió tareas operativas en evidencia medible.</div>
+    </div>
+  </div>
+  <div id="s4-score">
+    <svg id="s4-ring" viewBox="0 0 190 190">
+      <circle id="s4-ring-track" cx="95" cy="95" r="70"/>
+      <circle id="s4-ring-fill" cx="95" cy="95" r="70"/>
+    </svg>
+    <div id="s4-score-val" data-copy="92">92</div>
+    <div id="s4-score-unit" data-copy="/100">/100</div>
+    <div id="s4-score-label" data-copy="Puntuación ATS">Puntuación ATS</div>
+  </div>
+</div>
+
+<!-- Scene 7: Success Pill -->
+<div id="scene-7">
+  <div id="s7-pill">
+    <svg id="s7-check-svg" viewBox="0 0 54 54" fill="none">
+      <circle id="s7-circle" cx="27" cy="27" r="21"/>
+      <path id="s7-tick" d="M15 27 L23 35 L39 18"/>
+    </svg>
+    <div>
+      <div id="s7-title" data-copy="Esto sí llega al filtro.">Esto sí llega al filtro.</div>
+      <div id="s7-sub" data-copy="Keywords, logros y formato en el mismo CV.">Keywords, logros y formato en el mismo CV.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 8: Human Close -->
+<div id="scene-8">
+  <div id="s8-left">
+    <div class="s8-line" id="s8-l1" data-copy="El filtro no ve esfuerzo.">El filtro no ve esfuerzo.</div>
+    <div class="s8-line s8-lime" id="s8-l2" data-copy="Ve estructura.">Ve estructura.</div>
+    <div class="s8-line" id="s8-l3" data-copy="WorqAI acomoda tu historia">WorqAI acomoda tu historia</div>
+    <div class="s8-line s8-lime" id="s8-l4" data-copy="para que llegue a la entrevista.">para que llegue a la entrevista.</div>
+  </div>
+  <div id="s8-flow">
+    <svg id="s8-flow-svg" viewBox="0 0 360 820" fill="none">
+      <path id="s8-flow-path" d="M180 20 C100 120 260 220 180 330 C100 445 260 545 180 680" stroke="#C8FF2A" stroke-width="4" stroke-linecap="round"/>
+      <g class="s8-node" id="s8-node-building" transform="translate(180 30)">
+        <circle r="36"/><path d="M-14 18V-18H14V18M-6 -8H-2M6 -8H10M-6 4H-2M6 4H10"/>
+      </g>
+      <g class="s8-node" id="s8-node-bot" transform="translate(180 255)">
+        <circle r="36"/><path d="M-16 -8H16V16H-16ZM-8 -18H8M-9 3H-5M5 3H9"/>
+      </g>
+      <g class="s8-node s8-bad" id="s8-node-x" transform="translate(180 455)">
+        <circle r="36"/><path d="M-13 -13L13 13M13 -13L-13 13"/>
+      </g>
+      <g class="s8-node" id="s8-node-profile" transform="translate(180 680)">
+        <circle r="36"/><path d="M0 -12A12 12 0 1 0 0 12A12 12 0 0 0 0 -12ZM-23 25C-16 9 16 9 23 25"/>
+      </g>
+    </svg>
+    <div id="s8-panel">
+      <div id="s8-panel-title" data-copy="Checklist WorqAI">Checklist WorqAI</div>
+      <div class="s8-item" data-copy="Keywords reales">✓ Keywords reales</div>
+      <div class="s8-item" data-copy="Logros medibles">✓ Logros medibles</div>
+      <div class="s8-item" data-copy="Formato ATS">✓ Formato ATS</div>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 9: CTA -->
+<div id="scene-9">
+  <div id="cta-particles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div id="cta-brand" data-copy="WorqAI">WorqAI</div>
+  <div id="cta-badge" data-copy="El filtro ya existe.">El filtro ya existe.</div>
+  <div id="cta-headline">
+    <div data-copy="Ahora ponelo">Ahora ponelo</div>
+    <div class="cta-lime" data-copy="de tu lado.">de tu lado.</div>
+  </div>
+  <svg id="cta-underline" viewBox="0 0 520 42" fill="none">
+    <path id="cta-ul-path" d="M8 27 C118 40 278 5 512 24" stroke="#C8FF2A" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+  <div id="cta-desc" data-copy="WorqAI convierte tu experiencia en un CV que el filtro entiende.">WorqAI convierte tu experiencia en un CV que el filtro entiende.</div>
+  <div id="cta-button" data-copy="Analiza mi CV gratis">Analiza mi CV gratis</div>
+  <div id="cta-domain" data-copy="worqai.io · español e inglés">worqai.io · español e inglés</div>
+</div>
+
+<script>
+  gsap.ticker.lagSmoothing(0);
+  gsap.globalTimeline.pause();
+
+  document.fonts.ready.then(() => {
+    // ── Measure paths for draw animations ─────────────────────────
+    const anchorPath = document.querySelector("#anchor-line line");
+    const anchorLen  = anchorPath.getTotalLength();
+    gsap.set(anchorPath, { strokeDasharray: anchorLen, strokeDashoffset: anchorLen });
+
+    const wavePaths = gsap.utils.toArray(".wave-path");
+    wavePaths.forEach(p => {
+      const len = p.getTotalLength();
+      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    });
+
+    const arcPaths = gsap.utils.toArray("#bg-arc path");
+    arcPaths.forEach(p => {
+      const len = p.getTotalLength();
+      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    });
+
+    const cornerPaths = gsap.utils.toArray(".s3-corner");
+    cornerPaths.forEach(p => {
+      const len = p.getTotalLength();
+      gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    });
+    const underlinePath = document.querySelector("#s3-ul-path");
+    const underlineLen = underlinePath.getTotalLength();
+    gsap.set(underlinePath, { strokeDasharray: underlineLen, strokeDashoffset: underlineLen });
+    const flowPath = document.querySelector("#s8-flow-path");
+    const flowLen = flowPath.getTotalLength();
+    gsap.set(flowPath, { strokeDasharray: flowLen, strokeDashoffset: flowLen });
+    const s2RingFill = document.querySelector("#s2-ring-fill");
+    const s2RingLen = 2 * Math.PI * 72;
+    gsap.set(s2RingFill, { strokeDasharray: s2RingLen, strokeDashoffset: s2RingLen });
+    const s4RingFill = document.querySelector("#s4-ring-fill");
+    const s4RingLen = 2 * Math.PI * 70;
+    gsap.set(s4RingFill, { strokeDasharray: s4RingLen, strokeDashoffset: s4RingLen });
+    const s7Circle = document.querySelector("#s7-circle");
+    const s7CircleLen = s7Circle.getTotalLength();
+    const s7Tick = document.querySelector("#s7-tick");
+    const s7TickLen = s7Tick.getTotalLength();
+    gsap.set(s7Circle, { strokeDasharray: s7CircleLen, strokeDashoffset: s7CircleLen });
+    gsap.set(s7Tick, { strokeDasharray: s7TickLen, strokeDashoffset: s7TickLen });
+    const ctaUnderline = document.querySelector("#cta-ul-path");
+    const ctaUnderlineLen = ctaUnderline.getTotalLength();
+    gsap.set(ctaUnderline, { strokeDasharray: ctaUnderlineLen, strokeDashoffset: ctaUnderlineLen });
+
+    // ── Initial states ────────────────────────────────────────────
+    gsap.set("#scene-1", { opacity: 1 });
+    gsap.set("#cursor", { opacity: 0 });
+    gsap.set("#bg-grid", { opacity: 0 });
+    gsap.set("#bg-spot", { opacity: 0, scale: 0.96 });
+    gsap.set("#bg-arc", { opacity: 0 });
+    gsap.set("#anchor-dot", { scale: 0, opacity: 0, transformOrigin: "center" });
+    gsap.set(".dot-cluster .d", { scale: 0, opacity: 0, transformOrigin: "center" });
+    gsap.set(".hollow-square", { scale: 0, opacity: 0, transformOrigin: "center" });
+    gsap.set("#x-icon", { scale: 0, opacity: 0, transformOrigin: "center", rotation: -90 });
+    gsap.set(".wave-particles circle", { scale: 0, opacity: 0, transformOrigin: "center" });
+    gsap.set("#s1-l1", { x: -60, opacity: 0 });
+    gsap.set("#s1-l2", { x: -60, opacity: 0 });
+    gsap.set("#s1-question", { opacity: 0, y: 24 });
+    gsap.set("#s1-q-badge", { scale: 0.6, opacity: 0 });
+    gsap.set("#s1-state-b", { opacity: 0 });
+    gsap.set("#s1-b-header", { opacity: 0, y: -10 });
+    gsap.set("#s1-nada", { y: 50, scale: 0.9, opacity: 0 });
+    gsap.set("#s1-l5", { x: -40, opacity: 0 });
+    gsap.set("#s1-l6", { x: -40, opacity: 0 });
+    gsap.set("#s1-l7", { y: 24, opacity: 0 });
+    gsap.set("#scene-2", { opacity: 0 });
+    gsap.set("#s2-header", { opacity: 0, y: -22 });
+    gsap.set("#s2-card", { opacity: 0, y: 42, scale: 0.97, transformOrigin: "center" });
+    gsap.set("#s2-score", { opacity: 0, scale: 0.88, transformOrigin: "95px 95px" });
+    gsap.set("#s2-radar", { opacity: 0, scale: 0.9, transformOrigin: "center" });
+    gsap.set("#s2-stamp", { opacity: 0, scale: 0.82, rotation: -10, transformOrigin: "center" });
+    gsap.set(".s2-warn", { opacity: 0, x: -12 });
+    gsap.set("#s2-particles span", { opacity: 0, scale: 0.6, y: 0, transformOrigin: "center" });
+    gsap.set("#scene-3", { opacity: 0 });
+    gsap.set("#s3-frame", { opacity: 0, scale: 0.97, transformOrigin: "center" });
+    gsap.set("#s3-target", { opacity: 0, scale: 0.88, transformOrigin: "50% 50%" });
+    gsap.set(["#s3-t-outer", "#s3-t-inner", "#s3-t-v", "#s3-t-h", "#s3-t-person-head", "#s3-t-person-body"], { opacity: 0 });
+    gsap.set(["#s3-h1-l1", "#s3-h1-l2", "#s3-h2-l1", "#s3-h2-l2"], { opacity: 0, y: 28, filter: "blur(8px)" });
+    gsap.set("#s3-check-row", { opacity: 0, y: 18, filter: "blur(6px)" });
+    gsap.set("#scene-4", { opacity: 0 });
+    gsap.set(["#s4-kicker", "#s4-title"], { opacity: 0, y: 24, filter: "blur(7px)" });
+    gsap.set(".s4-before", { opacity: 0, x: -34, rotation: -1.5, transformOrigin: "center" });
+    gsap.set(".s4-after", { opacity: 0, x: 34, rotation: 1.5, transformOrigin: "center" });
+    gsap.set("#s4-arrow", { opacity: 0, scale: 0.72, transformOrigin: "center" });
+    gsap.set("#s4-score", { opacity: 0, y: 28, filter: "blur(7px)" });
+    gsap.set("#s4-score-val", { scale: 0.86, transformOrigin: "center" });
+    gsap.set("#scene-7", { opacity: 0 });
+    gsap.set("#s7-pill", { opacity: 0, y: 28, scale: 0.96, transformOrigin: "center" });
+    gsap.set("#scene-8", { opacity: 0 });
+    gsap.set(".s8-line", { opacity: 0, y: 34, filter: "blur(8px)" });
+    gsap.set("#s8-flow", { opacity: 0 });
+    gsap.set(".s8-node", { opacity: 0, scale: 0.72, transformOrigin: "center" });
+    gsap.set("#s8-panel", { opacity: 0, y: 28, filter: "blur(7px)" });
+    gsap.set(".s8-item", { opacity: 0, x: -18 });
+    gsap.set("#scene-9", { opacity: 0 });
+    gsap.set(["#cta-brand", "#cta-badge", "#cta-desc", "#cta-button", "#cta-domain"], { opacity: 0, y: 22 });
+    gsap.set("#cta-headline", { opacity: 0, y: 34, filter: "blur(8px)" });
+    gsap.set("#cta-particles span", { opacity: 0, scale: 0.6, y: 0, transformOrigin: "center" });
+
+    const tl = gsap.timeline();
+
+    // ── Background ambient ────────────────────────────────────────
+    tl.to("#bg-grid", { opacity: 1, duration: 0.8, ease: "none" }, 0);
+    tl.to("#bg-spot", { opacity: 1, scale: 1, duration: 1.0, ease: "power2.out" }, 0);
+    tl.to("#bg-arc", { opacity: 1, duration: 1.2, ease: "none" }, 0.2);
+    arcPaths.forEach((p, i) => {
+      tl.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, 0.2 + i * 0.15);
+    });
+    // breathing glow
+    tl.to("#bg-spot", { scale: 1.04, opacity: 0.8, duration: 4.0, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.0);
+
+    // ── Anchor line draw + dot pop ────────────────────────────────
+    tl.to(anchorPath, { strokeDashoffset: 0, duration: 1.0, ease: "power2.inOut" }, 0.1);
+    tl.to("#anchor-dot", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.5)" }, 0.2);
+
+    // ── Wave cluster draw (signature) ─────────────────────────────
+    wavePaths.forEach((p, i) => {
+      tl.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.inOut" }, 0.25 + i * 0.07);
+    });
+    tl.to(".wave-particles circle", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.03 }, 1.0);
+    // subtle wave drift
+    tl.to("#wave-cluster svg", { x: -34, duration: 8.8, ease: "sine.inOut" }, 1.0);
+
+    // ── Dot clusters + squares + X pop in ─────────────────────────
+    tl.to(".dot-cluster .d", { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)", stagger: 0.012 }, 0.4);
+    tl.to(".hollow-square", { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.07 }, 0.6);
+    tl.to("#x-icon", { scale: 1, opacity: 0.85, rotation: 0, duration: 0.45, ease: "back.out(2)" }, 0.8);
+
+    tl.addLabel("s1-start", 0);
+
+    // ── Scene 1a text ─────────────────────────────────────────────
+    tl.addLabel("s1-hero", 0.5);
+    tl.to("#s1-l1", { x: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 0.5);
+    tl.to("#s1-l2", { x: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, 0.95);
+    tl.to("#s1-question", { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 1.6);
+    tl.to("#s1-q-badge", { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)" }, 1.9);
+    tl.addLabel("s1-question", 2.0);
+
+    // ── Transition to 1b ──────────────────────────────────────────
+    tl.to(["#s1-l1", "#s1-l2"], { y: -28, opacity: 0, filter: "blur(7px)", duration: 0.4, ease: "power2.in" }, 4.0);
+    tl.to("#s1-question", { opacity: 0, filter: "blur(7px)", duration: 0.35, ease: "power2.in" }, 4.2);
+
+    tl.set("#s1-state-b", { opacity: 1 }, 4.5);
+    tl.addLabel("s1-nada", 4.7);
+    tl.to("#s1-b-header", { opacity: 0.55, y: 0, duration: 0.4, ease: "power2.out" }, 4.5);
+    tl.to("#s1-nada", { y: 0, scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }, 4.7);
+    tl.to("#s1-l5", { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 5.15);
+    tl.to("#s1-l6", { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 5.55);
+    tl.to("#s1-l7", { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 5.95);
+
+    // ── Scene exit ────────────────────────────────────────────────
+    tl.to(["#s1-nada", "#s1-l5", "#s1-l6"], { y: -24, opacity: 0, filter: "blur(7px)", duration: 0.35, ease: "power2.in" }, 9.7);
+    tl.to("#s1-l7", { opacity: 0, y: -14, duration: 0.3, ease: "power2.in" }, 9.9);
+    tl.to("#s1-b-header", { opacity: 0, duration: 0.3, ease: "none" }, 9.8);
+    tl.to("#scene-1", { opacity: 0, duration: 0.35, ease: "none" }, 10.1);
+    tl.to("#wave-cluster", { opacity: 0, duration: 0.45, ease: "none" }, 10.1);
+
+    // Scene 2 - red HUD
+    tl.addLabel("filter_scan", 10.6);
+    tl.set("#scene-2", { opacity: 1 }, 10.6);
+    tl.to("#bg-spot", { opacity: 0.12, scale: 1, duration: 0.45, ease: "none", immediateRender: false }, 10.6);
+    tl.to("#bg-arc", { opacity: 0.12, duration: 0.45, ease: "none", immediateRender: false }, 10.6);
+    tl.to("#s2-header", { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, 10.75);
+    tl.to("#s2-card", { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out" }, 11.0);
+    tl.to("#s2-score", { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 11.35);
+    tl.to("#s2-radar", { opacity: 1, scale: 1, duration: 0.42, ease: "power2.out" }, 11.45);
+    tl.to("#s2-radar-arm", { rotation: 360, transformOrigin: "60px 60px", duration: 4.2, ease: "linear", repeat: -1 }, 11.45);
+    tl.to("#s2-particles span", { opacity: 0.72, scale: 1, y: -16, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: -1, stagger: 0.08 }, 11.55);
+    tl.to("#s2-scan", { clipPath: "inset(0% 0% 0% 0%)", duration: 1.05, ease: "power2.in" }, 11.85);
+    tl.to("#s2-scan", { clipPath: "inset(100% 0% 0% 0%)", duration: 0.45, ease: "power2.out" }, 12.9);
+    tl.to("#s2-ring-fill", { strokeDashoffset: s2RingLen * (1 - 23 / 100), duration: 0.7, ease: "power2.out" }, 12.2);
+    tl.to("#s2-score-val", { scale: 1.08, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "center" }, 12.7);
+    tl.to(".s2-warn", { opacity: 1, x: 0, duration: 0.24, ease: "power2.out", stagger: 0.18 }, 13.0);
+    tl.addLabel("filter_reject", 13.45);
+    tl.to("#s2-stamp", { opacity: 1, scale: 1, duration: 0.16, ease: "power4.in" }, 13.45);
+    tl.to("#s2-card", { x: 4, duration: 0.033, ease: "none" }, 13.61);
+    tl.to("#s2-card", { x: 0, duration: 0.033, ease: "none" }, 13.643);
+    tl.to("#scene-2", { opacity: 0, duration: 0.42, ease: "power2.in" }, 16.25);
+    tl.add(() => {
+      gsap.killTweensOf("#s2-radar-arm");
+      gsap.killTweensOf("#s2-particles span");
+    }, 16.3);
+
+    // Scene 3 - turn
+    tl.addLabel("turn", 16.8);
+    tl.set("#scene-3", { opacity: 1 }, 16.8);
+    tl.to("#bg-spot", { opacity: 0.62, duration: 0.5, ease: "power2.out", immediateRender: false }, 16.8);
+    tl.to("#bg-arc", { opacity: 0.42, duration: 0.6, ease: "none", immediateRender: false }, 16.8);
+    tl.to("#s3-frame", { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, 17.0);
+    cornerPaths.forEach((p, i) => {
+      tl.to(p, { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" }, 17.1 + i * 0.07);
+    });
+    tl.to("#s3-target", { opacity: 1, scale: 1, duration: 0.55, ease: "back.out(1.8)" }, 17.3);
+    tl.to("#s3-t-outer", { opacity: 0.7, duration: 0.22, ease: "none" }, 17.35);
+    tl.to("#s3-t-inner", { opacity: 0.55, duration: 0.22, ease: "none" }, 17.55);
+    tl.to(["#s3-t-v", "#s3-t-h"], { opacity: 0.55, duration: 0.22, ease: "none" }, 17.7);
+    tl.to(["#s3-t-person-head", "#s3-t-person-body"], { opacity: 1, duration: 0.28, ease: "none" }, 17.92);
+    tl.to("#s3-target", { scale: 1.035, duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: -1 }, 18.2);
+    tl.to("#s3-h1-l1", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.48, ease: "power3.out" }, 17.75);
+    tl.to("#s3-h1-l2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.48, ease: "power3.out" }, 18.1);
+    tl.addLabel("turn-human", 18.55);
+    tl.to("#s3-h2-l1", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.52, ease: "power3.out" }, 18.55);
+    tl.to("#s3-h2-l2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.52, ease: "power3.out" }, 18.95);
+    tl.to("#s3-check-row", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power2.out" }, 19.65);
+    tl.to(underlinePath, { strokeDashoffset: 0, duration: 0.55, ease: "power1.out" }, 20.05);
+    tl.addLabel("turn-underline", 20.05);
+    tl.to("#scene-3", { opacity: 0, duration: 0.45, ease: "power2.in" }, 22.2);
+    tl.add(() => { gsap.killTweensOf("#s3-target"); }, 22.25);
+
+    // Scene 4 - reduced tailor pass
+    tl.addLabel("tailor1_start", 23.5);
+    tl.set("#scene-4", { opacity: 1 }, 22.55);
+    tl.to("#bg-spot", { opacity: 0.74, duration: 0.55, ease: "power2.out", immediateRender: false }, 22.55);
+    tl.to("#bg-arc", { opacity: 0.38, duration: 0.55, ease: "none", immediateRender: false }, 22.55);
+    tl.to(["#s4-kicker", "#s4-title"], { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out", stagger: 0.12 }, 22.75);
+    tl.to(".s4-before", { opacity: 1, x: 0, rotation: 0, duration: 0.55, ease: "power3.out" }, 23.25);
+    tl.to("#s4-arrow", { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 23.7);
+    tl.addLabel("tailor1_scan", 24.72);
+    tl.to(".s4-after", { opacity: 1, x: 0, rotation: 0, duration: 0.65, ease: "power3.out" }, 24.0);
+    tl.to("#s4-score", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power2.out" }, 24.55);
+    tl.addLabel("tailor1_score", 25.05);
+    tl.to("#s4-ring-fill", { strokeDashoffset: s4RingLen * (1 - 92 / 100), duration: 0.8, ease: "power2.out" }, 25.05);
+    tl.to("#s4-score-val", { scale: 1.08, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "center" }, 25.62);
+    tl.addLabel("tailor1_done", 26.35);
+
+    // Scene 7 - success pill
+    tl.addLabel("success_banner", 27.0);
+    tl.set("#scene-7", { opacity: 1 }, 27.0);
+    tl.to("#s7-pill", { opacity: 1, y: 0, scale: 1, duration: 0.58, ease: "power3.out" }, 27.05);
+    tl.to("#s7-circle", { strokeDashoffset: 0, duration: 0.42, ease: "power2.out" }, 27.18);
+    tl.to("#s7-tick", { strokeDashoffset: 0, duration: 0.32, ease: "power2.out" }, 27.52);
+    tl.to(["#scene-4", "#scene-7"], { opacity: 0, duration: 0.5, ease: "power2.in" }, 29.4);
+
+    // Scene 8 - human close
+    tl.addLabel("human_close", 30.0);
+    tl.set("#scene-8", { opacity: 1 }, 30.0);
+    tl.to("#wave-cluster", { opacity: 1, duration: 0.55, ease: "none" }, 30.0);
+    tl.to("#bg-spot", { opacity: 0.82, duration: 0.6, ease: "power2.out", immediateRender: false }, 30.0);
+    tl.to("#s8-l1", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, 30.2);
+    tl.to("#s8-l2", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, 30.9);
+    tl.to("#s8-l3", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, 31.65);
+    tl.to("#s8-l4", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power3.out" }, 32.3);
+    tl.to("#s8-flow", { opacity: 1, duration: 0.45, ease: "none" }, 30.3);
+    tl.to(flowPath, { strokeDashoffset: 0, duration: 1.55, ease: "power2.inOut" }, 30.65);
+    tl.to("#s8-node-building", { opacity: 1, scale: 1, duration: 0.36, ease: "back.out(1.7)" }, 30.9);
+    tl.to("#s8-node-bot", { opacity: 1, scale: 1, duration: 0.36, ease: "back.out(1.7)" }, 31.55);
+    tl.to("#s8-node-x", { opacity: 1, scale: 1, duration: 0.36, ease: "back.out(1.7)" }, 32.2);
+    tl.to("#s8-node-profile", { opacity: 1, scale: 1, duration: 0.36, ease: "back.out(1.7)" }, 32.8);
+    tl.to("#s8-panel", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55, ease: "power2.out" }, 33.1);
+    tl.to(".s8-item", { opacity: 1, x: 0, duration: 0.28, ease: "power2.out", stagger: 0.16 }, 33.45);
+    tl.addLabel("human_checklist", 34.32);
+    tl.to("#scene-8", { opacity: 0, duration: 0.5, ease: "power2.in" }, 37.05);
+
+    // Scene 9 - CTA
+    tl.addLabel("cta", 37.55);
+    tl.set("#scene-9", { opacity: 1 }, 37.55);
+    tl.to(["#green-deco", "#bg-arc"], { opacity: 0.20, duration: 0.45, ease: "none" }, 37.55);
+    tl.to("#bg-spot", { opacity: 0.58, duration: 0.55, ease: "power2.out", immediateRender: false }, 37.55);
+    tl.to("#cta-particles span", { opacity: 0.72, scale: 1, y: -18, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: -1, stagger: 0.07 }, 37.7);
+    tl.to("#cta-brand", { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 37.75);
+    tl.to("#cta-badge", { opacity: 1, y: 0, duration: 0.42, ease: "power2.out" }, 38.15);
+    tl.to("#cta-headline", { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.58, ease: "power3.out" }, 38.65);
+    tl.to(ctaUnderline, { strokeDashoffset: 0, duration: 0.55, ease: "power2.out" }, 39.18);
+    tl.to("#cta-desc", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 39.65);
+    tl.to("#cta-button", { opacity: 1, y: 0, duration: 0.55, ease: "back.out(1.7)" }, 40.25);
+    tl.to("#cta-domain", { opacity: 1, y: 0, duration: 0.42, ease: "none" }, 40.85);
+    tl.add(() => {
+      gsap.killTweensOf("#bg-spot");
+      gsap.killTweensOf("#wave-cluster svg");
+      gsap.killTweensOf("#cta-particles span");
+    }, 45.2);
+
+    signalReady(tl);
+  });
+</script>
+</body>
+</html>

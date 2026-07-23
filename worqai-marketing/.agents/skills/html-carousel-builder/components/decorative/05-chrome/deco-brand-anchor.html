@@ -1,0 +1,66 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "deco-brand-anchor",
+    "category": "decorative",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s08",
+      "s16",
+      "s20",
+      "s29",
+      "s33",
+      "s40"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s22",
+      "s23",
+      "s30",
+      "s32",
+      "s36"
+    ]
+  }
+-->
+
+<!--
+DECORATIVE: BRAND ANCHOR
+Found in: 6/7 best carousels
+Purpose: Persistent bottom-left brand mark + handle.
+-->
+
+<div class="brand-mark">
+  <span class="core">worqai</span><span class="accent">.</span>
+</div>
+<div class="handle">@worqai</div>
+
+<style>
+.brand-mark {
+  position: absolute;
+  bottom: 38px; left: var(--pad-x, 80px);
+  z-index: 4;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 900; font-size: 18px;
+  letter-spacing: -0.5px; text-transform: lowercase;
+  color: var(--text-primary);
+}
+.brand-mark .accent { color: var(--accent); }
+.handle {
+  position: absolute;
+  bottom: 38px; left: calc(var(--pad-x, 80px) + 120px);
+  z-index: 4;
+  font-family: var(--font-mono), monospace;
+  font-weight: 500; font-size: 11px;
+  letter-spacing: 0.20em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- brand-mark + handle can merge into single element if space is tight
+- Position: bottom-left (default) or bottom-center
+- Add accent underline or small icon before brand name
+-->

@@ -1,0 +1,652 @@
+diff --git a/src/app/[locale]/auditoria/layout.tsx b/src/app/[locale]/auditoria/layout.tsx
+new file mode 100644
+index 0000000..5dfc29a
+--- /dev/null
++++ b/src/app/[locale]/auditoria/layout.tsx
+@@ -0,0 +1,17 @@
++import type { Metadata } from "next";
++import { createPageMetadata } from "@/lib/seo/metadata";
++
++export async function generateMetadata({
++  params,
++}: {
++  params: Promise<{ locale: string }>;
++}): Promise<Metadata> {
++  const { locale } = await params;
++  return createPageMetadata(locale, "auditoria");
++}
++
++export default function AuditoriaLayout({
++  children,
++}: Readonly<{ children: React.ReactNode }>) {
++  return children;
++}
+diff --git a/src/app/[locale]/layout.tsx b/src/app/[locale]/layout.tsx
+index 3db8809..47abe96 100644
+--- a/src/app/[locale]/layout.tsx
++++ b/src/app/[locale]/layout.tsx
+@@ -13,6 +13,7 @@ import { routing } from "@/i18n/routing";
+ import { GrainCanvas } from "@/components/marketing/ambient/grain-canvas";
+ import { BgGrid } from "@/components/marketing/ambient/bg-grid";
+ import { Analytics } from "@vercel/analytics/next";
++import { buildSiteStructuredData, SITE_ORIGIN } from "@/lib/seo/site";
+ import "../globals.css";
+ 
+ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+@@ -54,7 +55,6 @@ export async function generateMetadata({
+     ? (rawLocale as (typeof routing.locales)[number])
+     : routing.defaultLocale;
+   const t = await getTranslations({ locale, namespace: "metadata" });
+-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.worqai.io";
+   const ogImage = {
+     url: `/cover_${locale}.png`,
+     width: 1731,
+@@ -62,7 +62,7 @@ export async function generateMetadata({
+     alt: t("title"),
+   };
+   return {
+-    metadataBase: new URL(appUrl),
++    metadataBase: new URL(SITE_ORIGIN),
+     title: t("title"),
+     description: t("description"),
+     icons: {
+@@ -73,7 +73,6 @@ export async function generateMetadata({
+       siteName: "Worqai",
+       title: t("title"),
+       description: t("description"),
+-      url: `/${locale}`,
+       locale,
+       images: [ogImage],
+     },
+@@ -107,30 +106,7 @@ export default async function LocaleLayout({
+   setRequestLocale(locale);
+ 
+   const messages = await getMessages();
+-  const t = await getTranslations({ locale, namespace: "metadata" });
+-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.worqai.io";
+-
+-  const jsonLd = {
+-    "@context": "https://schema.org",
+-    "@graph": [
+-      {
+-        "@type": "Organization",
+-        "@id": `${appUrl}/#organization`,
+-        name: "Worqai",
+-        url: appUrl,
+-        logo: `${appUrl}/logo2_no_bg.png`,
+-      },
+-      {
+-        "@type": "WebSite",
+-        "@id": `${appUrl}/#website`,
+-        url: appUrl,
+-        name: "Worqai",
+-        description: t("description"),
+-        inLanguage: locale,
+-        publisher: { "@id": `${appUrl}/#organization` },
+-      },
+-    ],
+-  };
++  const jsonLd = buildSiteStructuredData();
+ 
+   return (
+     <html
+@@ -140,7 +116,9 @@ export default async function LocaleLayout({
+       <body className="min-h-full flex flex-col">
+         <script
+           type="application/ld+json"
+-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
++          dangerouslySetInnerHTML={{
++            __html: JSON.stringify(jsonLd).replace(/</g, "\u003c"),
++          }}
+         />
+         <GrainCanvas />
+         <BgGrid />
+diff --git a/src/app/[locale]/page.tsx b/src/app/[locale]/page.tsx
+index 695476f..f63a936 100644
+--- a/src/app/[locale]/page.tsx
++++ b/src/app/[locale]/page.tsx
+@@ -1,4 +1,15 @@
++import type { Metadata } from "next";
+ import { MarketingLanding } from "@/components/marketing-landing";
++import { createPageMetadata } from "@/lib/seo/metadata";
++
++export async function generateMetadata({
++  params,
++}: {
++  params: Promise<{ locale: string }>;
++}): Promise<Metadata> {
++  const { locale } = await params;
++  return createPageMetadata(locale, "");
++}
+ 
+ export default function Home() {
+   return <MarketingLanding />;
+diff --git a/src/app/[locale]/precios/layout.tsx b/src/app/[locale]/precios/layout.tsx
+new file mode 100644
+index 0000000..16ca5bb
+--- /dev/null
++++ b/src/app/[locale]/precios/layout.tsx
+@@ -0,0 +1,17 @@
++import type { Metadata } from "next";
++import { createPageMetadata } from "@/lib/seo/metadata";
++
++export async function generateMetadata({
++  params,
++}: {
++  params: Promise<{ locale: string }>;
++}): Promise<Metadata> {
++  const { locale } = await params;
++  return createPageMetadata(locale, "precios");
++}
++
++export default function PreciosLayout({
++  children,
++}: Readonly<{ children: React.ReactNode }>) {
++  return children;
++}
+diff --git a/src/app/[locale]/privacy/layout.tsx b/src/app/[locale]/privacy/layout.tsx
+new file mode 100644
+index 0000000..f3b8214
+--- /dev/null
++++ b/src/app/[locale]/privacy/layout.tsx
+@@ -0,0 +1,17 @@
++import type { Metadata } from "next";
++import { createPageMetadata } from "@/lib/seo/metadata";
++
++export async function generateMetadata({
++  params,
++}: {
++  params: Promise<{ locale: string }>;
++}): Promise<Metadata> {
++  const { locale } = await params;
++  return createPageMetadata(locale, "privacy");
++}
++
++export default function PrivacyLayout({
++  children,
++}: Readonly<{ children: React.ReactNode }>) {
++  return children;
++}
+diff --git a/src/app/[locale]/refund/layout.tsx b/src/app/[locale]/refund/layout.tsx
+new file mode 100644
+index 0000000..d6ebd7f
+--- /dev/null
++++ b/src/app/[locale]/refund/layout.tsx
+@@ -0,0 +1,17 @@
++import type { Metadata } from "next";
++import { createPageMetadata } from "@/lib/seo/metadata";
++
++export async function generateMetadata({
++  params,
++}: {
++  params: Promise<{ locale: string }>;
++}): Promise<Metadata> {
++  const { locale } = await params;
++  return createPageMetadata(locale, "refund");
++}
++
++export default function RefundLayout({
++  children,
++}: Readonly<{ children: React.ReactNode }>) {
++  return children;
++}
+diff --git a/src/app/[locale]/terms/layout.tsx b/src/app/[locale]/terms/layout.tsx
+new file mode 100644
+index 0000000..0eba1be
+--- /dev/null
++++ b/src/app/[locale]/terms/layout.tsx
+@@ -0,0 +1,17 @@
++import type { Metadata } from "next";
++import { createPageMetadata } from "@/lib/seo/metadata";
++
++export async function generateMetadata({
++  params,
++}: {
++  params: Promise<{ locale: string }>;
++}): Promise<Metadata> {
++  const { locale } = await params;
++  return createPageMetadata(locale, "terms");
++}
++
++export default function TermsLayout({
++  children,
++}: Readonly<{ children: React.ReactNode }>) {
++  return children;
++}
+diff --git a/src/app/robots.ts b/src/app/robots.ts
+index fbba0b8..55da470 100644
+--- a/src/app/robots.ts
++++ b/src/app/robots.ts
+@@ -1,6 +1,5 @@
+ import type { MetadataRoute } from "next";
+-
+-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.worqai.io";
++import { SITE_ORIGIN } from "@/lib/seo/site";
+ 
+ export default function robots(): MetadataRoute.Robots {
+   return {
+@@ -25,7 +24,7 @@ export default function robots(): MetadataRoute.Robots {
+         "/*/verify-email",
+       ],
+     },
+-    sitemap: `${BASE_URL}/sitemap.xml`,
+-    host: BASE_URL,
++    sitemap: `${SITE_ORIGIN}/sitemap.xml`,
++    host: SITE_ORIGIN,
+   };
+ }
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+index 009df1f..7325204 100644
+--- a/src/app/sitemap.ts
++++ b/src/app/sitemap.ts
+@@ -1,32 +1,20 @@
+ import type { MetadataRoute } from "next";
+ import { routing } from "@/i18n/routing";
+-
+-const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://www.worqai.io";
+-
+-// Public, indexable routes only (bare paths, no locale prefix).
+-// Auth-gated and app routes are intentionally excluded — see PROTECTED_PATHS /
+-// ANON_ONLY_PATHS in src/proxy.ts. Keep this list in sync when adding public pages.
+-const PUBLIC_PATHS = ["", "auditoria", "precios", "privacy", "terms", "refund"];
++import {
++  INDEXABLE_PATHS,
++  languageAlternates,
++  localizedPageUrl,
++} from "@/lib/seo/metadata";
+ 
+ export default function sitemap(): MetadataRoute.Sitemap {
+-  const lastModified = new Date();
+-
+-  return PUBLIC_PATHS.map((path) => {
+-    const suffix = path ? `/${path}` : "";
+-
+-    // hreflang alternates: one entry per locale + x-default → default locale.
+-    const languages: Record<string, string> = {};
+-    for (const locale of routing.locales) {
+-      languages[locale] = `${BASE_URL}/${locale}${suffix}`;
+-    }
+-    languages["x-default"] = `${BASE_URL}/${routing.defaultLocale}${suffix}`;
+-
+-    return {
+-      url: `${BASE_URL}/${routing.defaultLocale}${suffix}`,
+-      lastModified,
+-      changeFrequency: path === "" ? "weekly" : "monthly",
++  // Every translation gets its own <url> entry. Each entry points back to the
++  // complete language set, making the hreflang cluster reciprocal.
++  return INDEXABLE_PATHS.flatMap((path) =>
++    routing.locales.map((locale) => ({
++      url: localizedPageUrl(locale, path),
++      changeFrequency: path === "" ? ("weekly" as const) : ("monthly" as const),
+       priority: path === "" ? 1 : 0.7,
+-      alternates: { languages },
+-    };
+-  });
++      alternates: { languages: languageAlternates(path) },
++    }))
++  );
+ }
+diff --git a/src/lib/seo/metadata.ts b/src/lib/seo/metadata.ts
+new file mode 100644
+index 0000000..91af138
+--- /dev/null
++++ b/src/lib/seo/metadata.ts
+@@ -0,0 +1,153 @@
++import type { Metadata } from "next";
++import { routing } from "@/i18n/routing";
++import { absoluteSiteUrl, SITE_NAME } from "@/lib/seo/site";
++
++export const INDEXABLE_PATHS = [
++  "",
++  "auditoria",
++  "precios",
++  "privacy",
++  "terms",
++  "refund",
++] as const;
++
++export type IndexablePath = (typeof INDEXABLE_PATHS)[number];
++export type SeoLocale = (typeof routing.locales)[number];
++
++interface PageSeoCopy {
++  title: string;
++  description: string;
++}
++
++const PAGE_SEO_COPY: Record<
++  SeoLocale,
++  Record<IndexablePath, PageSeoCopy>
++> = {
++  es: {
++    "": {
++      title: "Worqai | Adapta tu CV a cada vacante con IA",
++      description:
++        "Sube tu CV y pega la vacante. Worqai adapta tu experiencia real al puesto y te entrega un CV listo para revisar y postular.",
++    },
++    auditoria: {
++      title: "Analizador de CV ATS gratis | Worqai",
++      description:
++        "Sube tu CV en PDF y recibe un análisis ATS gratis con hallazgos concretos y cambios que puedes aplicar antes de postular.",
++    },
++    precios: {
++      title: "Precios de Worqai | Mejora y adapta tu CV con IA",
++      description:
++        "Compara los planes de Worqai para analizar, mejorar y adaptar tu CV a vacantes específicas.",
++    },
++    privacy: {
++      title: "Política de privacidad | Worqai",
++      description:
++        "Conoce qué datos procesa Worqai, cómo protegemos tu CV y qué opciones tienes para gestionar tu información.",
++    },
++    terms: {
++      title: "Términos del servicio | Worqai",
++      description:
++        "Consulta las condiciones que regulan el uso de Worqai y sus herramientas para analizar, mejorar y adaptar CVs.",
++    },
++    refund: {
++      title: "Política de reembolsos | Worqai",
++      description:
++        "Consulta las condiciones de reembolso aplicables a las compras y suscripciones de Worqai.",
++    },
++  },
++  en: {
++    "": {
++      title: "Worqai | Tailor your resume to every job with AI",
++      description:
++        "Upload your resume and paste the job listing. Worqai adapts your real experience to the role and gives you a resume ready to review and apply with.",
++    },
++    auditoria: {
++      title: "Free ATS resume checker | Worqai",
++      description:
++        "Upload your resume as a PDF for a free ATS analysis with clear findings and practical fixes to make before you apply.",
++    },
++    precios: {
++      title: "Worqai pricing | Analyze and tailor your resume",
++      description:
++        "Compare Worqai plans for checking, improving, and tailoring your resume to specific job listings.",
++    },
++    privacy: {
++      title: "Privacy policy | Worqai",
++      description:
++        "Learn what data Worqai processes, how we protect your resume, and the options you have to manage your information.",
++    },
++    terms: {
++      title: "Terms of service | Worqai",
++      description:
++        "Read the terms that govern your use of Worqai and its resume analysis, improvement, and tailoring tools.",
++    },
++    refund: {
++      title: "Refund policy | Worqai",
++      description:
++        "Read the refund conditions that apply to Worqai purchases and subscriptions.",
++    },
++  },
++};
++
++function normalizeLocale(locale: string): SeoLocale {
++  return routing.locales.includes(locale as SeoLocale)
++    ? (locale as SeoLocale)
++    : routing.defaultLocale;
++}
++
++function localizedPath(locale: SeoLocale, path: IndexablePath): string {
++  return `/${locale}${path ? `/${path}` : ""}`;
++}
++
++export function localizedPageUrl(
++  locale: SeoLocale,
++  path: IndexablePath
++): string {
++  return absoluteSiteUrl(localizedPath(locale, path));
++}
++
++export function languageAlternates(
++  path: IndexablePath
++): Record<string, string> {
++  return {
++    es: localizedPageUrl("es", path),
++    en: localizedPageUrl("en", path),
++    "x-default": localizedPageUrl(routing.defaultLocale, path),
++  };
++}
++
++export function createPageMetadata(
++  rawLocale: string,
++  path: IndexablePath
++): Metadata {
++  const locale = normalizeLocale(rawLocale);
++  const copy = PAGE_SEO_COPY[locale][path];
++  const canonical = localizedPageUrl(locale, path);
++  const image = absoluteSiteUrl(`/cover_${locale}.png`);
++
++  return {
++    title: copy.title,
++    description: copy.description,
++    alternates: {
++      canonical,
++      languages: languageAlternates(path),
++    },
++    robots: { index: true, follow: true },
++    openGraph: {
++      type: "website",
++      siteName: SITE_NAME,
++      title: copy.title,
++      description: copy.description,
++      url: canonical,
++      locale: locale === "es" ? "es_419" : "en_US",
++      alternateLocale: locale === "es" ? "en_US" : "es_419",
++      images: [{ url: image, width: 1731, height: 909, alt: copy.title }],
++    },
++    twitter: {
++      card: "summary_large_image",
++      title: copy.title,
++      description: copy.description,
++      images: [image],
++    },
++  };
++}
+diff --git a/src/lib/seo/site.ts b/src/lib/seo/site.ts
+new file mode 100644
+index 0000000..93c700f
+--- /dev/null
++++ b/src/lib/seo/site.ts
+@@ -0,0 +1,56 @@
++export const SITE_NAME = "Worqai";
++export const SITE_ORIGIN = "https://www.worqai.io";
++export const APEX_HOSTNAME = "worqai.io";
++export const CANONICAL_HOSTNAME = "www.worqai.io";
++
++export function absoluteSiteUrl(pathname = "/"): string {
++  return new URL(pathname, `${SITE_ORIGIN}/`).toString();
++}
++
++/**
++ * Redirect browser-facing apex requests to the one canonical HTTPS origin.
++ * API and auth callback traffic deliberately remains on the requested host:
++ * webhook providers commonly reject redirects, even when they are permanent.
++ */
++export function canonicalHostRedirectUrl(url: URL): URL | null {
++  const pathname = url.pathname;
++  const isApi = pathname === "/api" || pathname.startsWith("/api/");
++  const isAuthCallback =
++    pathname === "/auth/callback" || pathname.startsWith("/auth/callback/");
++
++  if (url.hostname !== APEX_HOSTNAME || isApi || isAuthCallback) {
++    return null;
++  }
++
++  const destination = new URL(url);
++  destination.protocol = "https:";
++  destination.hostname = CANONICAL_HOSTNAME;
++  destination.port = "";
++  return destination;
++}
++
++export function buildSiteStructuredData() {
++  const organizationId = `${SITE_ORIGIN}/#organization`;
++  const websiteId = `${SITE_ORIGIN}/#website`;
++
++  return {
++    "@context": "https://schema.org",
++    "@graph": [
++      {
++        "@type": "Organization",
++        "@id": organizationId,
++        name: SITE_NAME,
++        url: SITE_ORIGIN,
++        logo: absoluteSiteUrl("/logo2_no_bg.png"),
++      },
++      {
++        "@type": "WebSite",
++        "@id": websiteId,
++        url: SITE_ORIGIN,
++        name: SITE_NAME,
++        inLanguage: ["es", "en"],
++        publisher: { "@id": organizationId },
++      },
++    ],
++  };
++}
+diff --git a/src/proxy.ts b/src/proxy.ts
+index c55b93e..9c081d3 100644
+--- a/src/proxy.ts
++++ b/src/proxy.ts
+@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
+ import createMiddleware from "next-intl/middleware";
+ import { routing } from "@/i18n/routing";
+ import { updateSession } from "@/utils/supabase/proxy";
++import { canonicalHostRedirectUrl } from "@/lib/seo/site";
+ 
+ const handleI18nRouting = createMiddleware(routing);
+ 
+@@ -32,6 +33,11 @@ function stripLocale(pathname: string): string {
+ }
+ 
+ export async function proxy(request: NextRequest) {
++  const canonicalUrl = canonicalHostRedirectUrl(request.nextUrl);
++  if (canonicalUrl) {
++    return NextResponse.redirect(canonicalUrl, 308);
++  }
++
+   let response = handleI18nRouting(request);
+   const { response: updatedResponse, isAuthenticated } = await updateSession(request, response);
+   response = updatedResponse;
+@@ -79,6 +85,13 @@ function redirectPreservingCookies(url: URL, source: NextResponse): NextResponse
+ 
+ export const config = {
+   matcher: [
++    // Run Proxy for any browser-facing request on the apex host so it can be
++    // consolidated with a 308. API/webhook and auth callback requests are
++    // excluded and therefore preserve their existing request semantics.
++    {
++      source: "/((?!api|auth/callback).*)",
++      has: [{ type: "header", key: "host", value: "worqai.io" }],
++    },
+     "/",
+     "/((?!api|auth/callback|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+   ],
+diff --git a/tests/seo/seo-contract.test.ts b/tests/seo/seo-contract.test.ts
+new file mode 100644
+index 0000000..bf413fd
+--- /dev/null
++++ b/tests/seo/seo-contract.test.ts
+@@ -0,0 +1,99 @@
++import { describe, expect, it } from "vitest";
++import { routing } from "@/i18n/routing";
++import robots from "@/app/robots";
++import sitemap from "@/app/sitemap";
++import {
++  createPageMetadata,
++  INDEXABLE_PATHS,
++  languageAlternates,
++  localizedPageUrl,
++} from "@/lib/seo/metadata";
++import {
++  buildSiteStructuredData,
++  canonicalHostRedirectUrl,
++  SITE_ORIGIN,
++} from "@/lib/seo/site";
++
++describe("SEO contract", () => {
++  it("emits one sitemap URL per locale and reciprocal alternates", () => {
++    const entries = sitemap();
++
++    expect(entries).toHaveLength(
++      INDEXABLE_PATHS.length * routing.locales.length
++    );
++
++    for (const path of INDEXABLE_PATHS) {
++      const expectedAlternates = languageAlternates(path);
++      for (const locale of routing.locales) {
++        const url = localizedPageUrl(locale, path);
++        const entry = entries.find((candidate) => candidate.url === url);
++        expect(entry).toBeDefined();
++        expect(entry?.alternates?.languages).toEqual(expectedAlternates);
++      }
++    }
++  });
++
++  it("publishes robots and sitemap references on the canonical host", () => {
++    const value = robots();
++    expect(value.host).toBe(SITE_ORIGIN);
++    expect(value.sitemap).toBe(`${SITE_ORIGIN}/sitemap.xml`);
++  });
++
++  it("creates a self-canonical and a complete language cluster", () => {
++    const metadata = createPageMetadata("en", "auditoria");
++
++    expect(metadata.alternates?.canonical).toBe(
++      `${SITE_ORIGIN}/en/auditoria`
++    );
++    expect(metadata.alternates?.languages).toEqual({
++      es: `${SITE_ORIGIN}/es/auditoria`,
++      en: `${SITE_ORIGIN}/en/auditoria`,
++      "x-default": `${SITE_ORIGIN}/es/auditoria`,
++    });
++    expect(metadata.title).toBe("Free ATS resume checker | Worqai");
++  });
++
++  it("keeps structured data limited to claims the site can verify", () => {
++    const value = buildSiteStructuredData();
++    const serialized = JSON.stringify(value);
++
++    expect(value["@graph"].map((node) => node["@type"])).toEqual([
++      "Organization",
++      "WebSite",
++    ]);
++    expect(serialized).not.toContain("SearchAction");
++    expect(serialized).not.toContain("sameAs");
++    expect(serialized).toContain('"inLanguage":["es","en"]');
++  });
++});
++
++describe("canonical host routing", () => {
++  it("builds a canonical HTTPS destination without dropping path or query", () => {
++    const destination = canonicalHostRedirectUrl(
++      new URL("http://worqai.io/en/precios?campaign=launch")
++    );
++
++    expect(destination?.toString()).toBe(
++      "https://www.worqai.io/en/precios?campaign=launch"
++    );
++  });
++
++  it("does not redirect API/webhook or auth callback URLs", () => {
++    expect(
++      canonicalHostRedirectUrl(
++        new URL("https://worqai.io/api/polar/webhook")
++      )
++    ).toBeNull();
++    expect(
++      canonicalHostRedirectUrl(
++        new URL("https://worqai.io/auth/callback?code=abc")
++      )
++    ).toBeNull();
++  });
++
++  it("does not redirect a request that already uses the canonical host", () => {
++    expect(
++      canonicalHostRedirectUrl(new URL("https://www.worqai.io/es"))
++    ).toBeNull();
++  });
++});

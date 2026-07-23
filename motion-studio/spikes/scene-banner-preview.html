@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banner Preview — sí consiguen entrevista</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* Canvas wrapper — 1080×1920 scaled to 40% for preview */
+  #canvas {
+    width: 1080px;
+    height: 1920px;
+    transform: scale(0.4);
+    transform-origin: top left;
+    position: relative;
+    overflow: hidden;
+    background: #050a0f;
+    flex-shrink: 0;
+  }
+
+  /* Subtle vignette on the background */
+  #canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 60%, transparent 40%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Banner wrapper — handles centering; GSAP animates #banner itself ── */
+  #banner-wrap {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+  }
+
+  /* ── Banner ─────────────────────────────────────────── */
+  #banner {
+    position: relative;
+    width: 100%;
+
+    /* Glass dark navy background */
+    background: linear-gradient(180deg, rgba(9,17,28,0.96) 0%, rgba(4,9,16,0.98) 100%);
+
+    /* Border */
+    border: 1px solid rgba(193,255,60,0.18);
+    border-radius: 20px;
+
+    /* Shadows & glow */
+    box-shadow:
+      0 0 25px rgba(193,255,60,0.12),
+      0 12px 35px rgba(0,0,0,0.5);
+
+    /* Interior layout */
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 24px;
+
+    /* Will be animated — start invisible */
+    opacity: 0;
+
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  /* Top energy line — real element so GSAP can animate it */
+  #banner-energy-line {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: rgba(199,255,42,0.18);
+    filter: blur(6px);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  /* ── Check icon ─────────────────────────────────────── */
+  #check-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 12px rgba(199,255,42,0.35));
+  }
+
+  #check-circle {
+    fill: none;
+    stroke: #C7FF2A;
+    stroke-width: 2;
+    stroke-dasharray: 88;   /* circumference of r=14: 2π×14 ≈ 87.96 */
+    stroke-dashoffset: 88;
+  }
+
+  #check-mark {
+    fill: none;
+    stroke: #C7FF2A;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+  }
+
+  /* ── Text ───────────────────────────────────────────── */
+  #banner-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #F4F5F7;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    line-height: 1.2;
+    opacity: 0;
+  }
+
+  .highlight {
+    color: #C7FF2A;
+    font-weight: 800;
+    text-shadow: 0 0 8px rgba(199,255,42,0.2);
+    display: inline-block;
+    opacity: 0;
+    filter: blur(6px);
+    transform-origin: center;
+  }
+</style>
+</head>
+<body>
+<div id="canvas">
+
+  <div id="banner-wrap">
+  <div id="banner">
+    <!-- Top energy glow line -->
+    <div id="banner-energy-line"></div>
+
+    <!-- Check icon SVG -->
+    <svg id="check-icon" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+      <circle id="check-circle" cx="14" cy="14" r="13"/>
+      <path id="check-mark" d="M8.5 14.2 l3.8 3.8 l7.2-8"/>
+    </svg>
+
+    <!-- Inline text -->
+    <span id="banner-text">Esto es lo que hacen los que <span class="highlight" id="si-word">sí</span> consiguen entrevista.</span>
+  </div>
+  </div><!-- /#banner-wrap -->
+
+</div><!-- /#canvas -->
+
+<script src="../vendor/gsap/gsap-3.15.0.min.js"></script>
+<script>
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Set all initial states BEFORE building the timeline ──
+  gsap.set('#banner',               { y: 20, opacity: 0 });
+  gsap.set('#banner-energy-line',   { opacity: 0 });
+  gsap.set('#banner-text', { y: 10, opacity: 0 });
+  gsap.set('#si-word',     { opacity: 0, filter: 'blur(6px)', scale: 0.95 });
+
+  // Start box-shadow at zero glow
+  const bannerEl = document.getElementById('banner');
+  bannerEl.style.boxShadow = '0 0 25px rgba(193,255,60,0), 0 12px 35px rgba(0,0,0,0)';
+
+  // ── Build timeline ────────────────────────────────────────
+  const tl = gsap.timeline();
+
+  // Energy line fade in
+  tl.to('#banner-energy-line', {
+    opacity: 1,
+    duration: 0.8,
+    ease: 'power2.out',
+  }, 0.35);
+
+  // Border glow fade in
+  const glowProxy = { a: 0, b: 0 };
+  tl.to(glowProxy, {
+    a: 0.12,
+    b: 0.5,
+    duration: 1,
+    ease: 'power2.out',
+    onUpdate() {
+      bannerEl.style.boxShadow = `
+        0 0 25px rgba(193,255,60,${glowProxy.a.toFixed(3)}),
+        0 12px 35px rgba(0,0,0,${glowProxy.b.toFixed(3)})
+      `;
+    },
+  }, 0.3);
+
+  // Banner container: slide up + fade in
+  tl.to('#banner', {
+    y: 0,
+    opacity: 1,
+    duration: 0.7,
+    ease: 'power3.out',
+  }, 0.3);
+
+  // Check circle draw
+  tl.to('#check-circle', {
+    strokeDashoffset: 0,
+    duration: 0.4,
+    ease: 'power2.out',
+  }, 0.5);
+
+  // Check mark draw
+  tl.to('#check-mark', {
+    strokeDashoffset: 0,
+    duration: 0.25,
+    ease: 'power2.out',
+  }, 0.7);
+
+  // Text block: slide up + fade
+  tl.to('#banner-text', {
+    y: 0,
+    opacity: 1,
+    duration: 0.6,
+    ease: 'expo.out',
+  }, 0.55);
+
+  // "sí" word: blur + scale + opacity
+  tl.to('#si-word', {
+    opacity: 1,
+    filter: 'blur(0px)',
+    scale: 1,
+    duration: 0.4,
+    ease: 'power4.out',
+  }, 0.85);
+
+  // Check icon soft pulse — starts after draw sequence completes
+  tl.call(() => {
+    gsap.to('#check-icon', {
+      scale: 1.05,
+      duration: 1.5,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      repeatDelay: 1.5,
+    });
+  }, [], 1.1);
+
+</script>
+</body>
+</html>

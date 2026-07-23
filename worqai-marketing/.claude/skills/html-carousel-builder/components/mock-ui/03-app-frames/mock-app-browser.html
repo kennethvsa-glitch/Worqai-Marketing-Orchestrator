@@ -1,0 +1,58 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-app-browser",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s16",
+      "s26",
+      "s33",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s22",
+      "s30",
+      "s35"
+    ],
+    "pairs_well_with": [
+      "geo-wireframe-flat",
+      "light-glow-radial-corner",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "mock-terminal-minimal",
+      "mock-cv-two-column"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: BROWSER WINDOW
+Purpose: Browser chrome frame.
+-->
+
+<div class="browser-frame">
+  <div class="browser-bar">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-url">worqai.com/optimizar-cv</div>
+  </div>
+  <div class="browser-body">
+    <p>Contenido de la pagina...</p>
+  </div>
+</div>
+
+<style>
+.browser-frame { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden; }
+.browser-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.browser-dots { display: flex; gap: 6px; }
+.browser-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+.browser-url { font-family: var(--font-mono), monospace; font-size: 11px; color: var(--text-muted); background: rgba(255,255,255,0.04); padding: 4px 12px; border-radius: 4px; flex: 1; text-align: center; }
+.browser-body { padding: 20px; font-family: var(--font-body), system-ui, sans-serif; font-size: 15px; color: var(--text-secondary); }
+</style>

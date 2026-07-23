@@ -1,0 +1,39 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-form-fields",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: FORM FIELDS
+Purpose: S8 — CTA with simulated form inputs.
+-->
+
+<div class="content">
+  <div class="cta-form">
+    <p class="cf-headline">Empeza hoy</p>
+    <p class="cf-sub">Dejanos tu correo y te enviamos el checklist gratuito.</p>
+    <div class="cf-fields">
+      <div class="cf-input">tu@email.com</div>
+      <div class="cf-input">Tu nombre</div>
+      <button class="cf-btn">Recibir checklist</button>
+    </div>
+    <p class="cf-note">Sin spam. Solo valor.</p>
+  </div>
+</div>
+
+<style>
+.cta-form { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; margin-top: auto; margin-bottom: auto; }
+.cf-headline { font-family: var(--font-display), system-ui, sans-serif; font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); }
+.cf-sub { font-family: var(--font-body), system-ui, sans-serif; font-size: 20px; font-weight: 300; color: var(--text-secondary); max-width: 520px; }
+.cf-fields { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; margin-top: 8px; }
+.cf-input { padding: 14px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; color: var(--text-secondary); text-align: left; }
+.cf-btn { background: var(--accent); color: var(--bg-base); border: none; padding: 16px; border-radius: 10px; font-family: var(--font-display), system-ui, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform 0.2s; }
+.cf-btn:hover { transform: translateY(-2px); }
+.cf-note { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+</style>

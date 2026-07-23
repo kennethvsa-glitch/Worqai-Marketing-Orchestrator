@@ -1,0 +1,73 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-tip-blocks",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: TIP BLOCKS
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_pdf-ats-error_worqai-verde.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S3-S6 — Education with problem/fix block pair.
+-->
+
+<div class="content">
+  <p class="tip-label">Error 1 / 4</p>
+  <h2 class="tip-headline">Your PDF breaks the ATS</h2>
+  <div class="blocks">
+    <div class="blk bad">
+      <span class="blk-lbl bad">El problema</span>
+      <p class="blk-txt">El ATS no puede leer tablas, columnas ni imagenes embebidas en tu PDF.</p>
+    </div>
+    <div class="blk good">
+      <span class="blk-lbl good">La solucion</span>
+      <p class="blk-txt">Usa un formato de una sola columna con texto plano y fuentes estandar.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.tip-label {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px;
+}
+.tip-headline {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 48px; font-weight: 700;
+  line-height: 1.08; letter-spacing: -0.02em;
+  color: var(--text-primary); margin-bottom: 36px;
+}
+.blocks { display: flex; flex-direction: column; gap: 16px; }
+.blk {
+  padding: 18px 22px; border-radius: 10px;
+  position: relative; z-index: 2;
+}
+.blk.bad { background: rgba(255,50,50,0.08); border: 1px solid rgba(255,50,50,0.15); }
+.blk.good { background: rgba(50,255,150,0.06); border: 1px solid rgba(50,255,150,0.12); }
+.blk-lbl {
+  font-family: var(--font-mono), monospace;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.blk-lbl.bad { color: rgba(255,80,80,0.7); }
+.blk-lbl.good { color: rgba(80,255,150,0.7); }
+.blk-txt {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 18px; font-weight: 400;
+  line-height: 1.55; color: var(--text-secondary);
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- Block colors: match system accent instead of red/green if brand requires
+- Add icon (X / checkmark) to left of each block for visual scanability
+- Layout: stacked (default) or side-by-side on wider slides
+-->

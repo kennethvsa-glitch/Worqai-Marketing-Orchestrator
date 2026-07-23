@@ -1,0 +1,73 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@velar",
+    "language": "es-LATAM",
+    "topic": "velar-sleep",
+    "density": "standard"
+  },
+  "pacing": ["hook", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["glow-orb", "geo-topo-lines", "vol-light"],
+      "decoratives": ["chrome-badge-stamp"],
+      "copy": {
+        "kicker": "VELAR SLEEP TECH",
+        "headline": "Tu cuerpo aprendió a no dormir.",
+        "body": "Años de pantallas, cafeína y cortisol le enseñaron a resistir el descanso. No es ansiedad — es condicionamiento.",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-display { font-size: clamp(38px, 7cqw, 58px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.95; } .s1-body { font-size: clamp(14px, 2.5cqw, 18px); font-weight: 300; line-height: 1.55; opacity: 0.85; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "layers": ["glow-orb", "geo-topo-lines", "vol-light"],
+      "copy": {
+        "kicker": "DIAGNÓSTICO",
+        "headline": "Lo que pasa a tu sistema nervioso a las 2AM",
+        "tab_title": "velar-diagnose.sh",
+        "command": "diagnose --usuario dev --hora 02:00 --modo vigilancia",
+        "output_lines": [
+          { "type": "warn", "text": "ALERTA: Cortisol nocturno — 3.4x sobre baseline" },
+          { "type": "err",  "text": "ERROR: Inicio de sueño profundo — BLOQUEADO" },
+          { "type": "info", "text": "Modo defensivo activo. No distingue amenaza real de pantalla." },
+          { "type": "ok",   "text": "Solución detectada: presión física externa calibrada" }
+        ]
+      },
+      "custom_css": ".s2-headline { font-size: clamp(20px, 4cqw, 30px); font-weight: 800; letter-spacing: -0.02em; } .s2-terminal-block { font-family: 'JetBrains Mono', monospace; font-size: clamp(11px, 1.8cqw, 14px); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-step-flow",
+      "layers": ["glow-orb", "geo-topo-lines", "vol-light"],
+      "decoratives": ["ornament-tr"],
+      "copy": {
+        "kicker": "ADAPTIVE PRESSURE MAPPING",
+        "headline": "Cómo forzar el sistema nervioso al descanso",
+        "steps": [
+          { "title": "Presión distribuida", "desc": "8 kg activan presión profunda. Señal de seguridad." },
+          { "title": "Respuesta parasimpática", "desc": "Frecuencia cardíaca baja en 20 minutos. Fisiología, no relajación." },
+          { "title": "Arquitectura restaurada", "desc": "REM completo. Sin micro-despertares. Sin pastillas." }
+        ]
+      },
+      "custom_css": ".s3-headline { font-size: clamp(24px, 5cqw, 36px); font-weight: 900; letter-spacing: -0.03em; } .s3-step-title { font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; font-size: clamp(10px, 1.8cqw, 13px); } .s3-step-desc { font-size: clamp(11px, 1.8cqw, 13px); line-height: 1.45; opacity: 0.82; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["glow-orb", "geo-topo-lines", "vol-light"],
+      "decoratives": [{ "id": "sub-stamp-circle", "text": "GRATIS" }],
+      "copy": {
+        "question": "¿Tu cuerpo resiste el sueño profundo?",
+        "cta_keyword": "DORMIR",
+        "reward": "Te enviamos el protocolo completo. Sin costo."
+      },
+      "custom_css": ".s4-question { font-size: clamp(28px, 5.5cqw, 42px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; } .s4-cta-keyword { font-size: clamp(18px, 3cqw, 24px); font-weight: 700; letter-spacing: 0.1em; }"
+    }
+  ]
+}

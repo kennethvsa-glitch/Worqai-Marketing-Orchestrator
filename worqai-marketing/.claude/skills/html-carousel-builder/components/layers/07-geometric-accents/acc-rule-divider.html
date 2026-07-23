@@ -1,0 +1,52 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "acc-rule-divider",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "low",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s01",
+      "s07",
+      "s19",
+      "s25",
+      "s29",
+      "s35",
+      "s37",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s18",
+      "s23",
+      "s32",
+      "s36"
+    ],
+    "pairs_well_with": [
+      "deco-corner-frame",
+      "deco-border-double",
+      "slide-editorial-index"
+    ],
+    "conflicts_with": [
+      "org-ink-splash",
+      "org-smoke-trail"
+    ]
+  }
+-->
+
+<!--
+LAYER: RULE DIVIDER
+Horizontal accent line.
+Best for: editorial, magazine, structured systems.
+-->
+
+<div class="rule-divider"></div>
+
+<style>
+.rule-divider {
+  position: absolute;
+  top: 50%; left: var(--pad-x, 80px); right: var(--pad-x, 80px);
+  height: 1px; background: var(--accent-line);
+  pointer-events: none; z-index: 6;
+}
+</style>

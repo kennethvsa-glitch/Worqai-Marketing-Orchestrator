@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene 4–6 Preview — ATS Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  /* ── Canvas wrapper ── */
+  #canvas {
+    width: 1080px;
+    height: 1920px;
+    transform: scale(0.4);
+    transform-origin: top left;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(170deg, #020812 0%, #06101B 45%, #030B15 100%);
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Grid lines ── */
+  #canvas::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(150,180,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(150,180,255,.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Noise overlay ── */
+  #noise {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* ── Scanlines ── */
+  #scanlines {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,.018) 3px,
+      rgba(0,0,0,.018) 4px
+    );
+  }
+
+  /* ── Ambient green glows ── */
+  .amb-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #glow-tl {
+    width: 600px; height: 600px;
+    top: -200px; left: -200px;
+    background: radial-gradient(circle, rgba(180,255,50,.06) 0%, transparent 70%);
+  }
+  #glow-br {
+    width: 800px; height: 500px;
+    bottom: 100px; right: -300px;
+    background: radial-gradient(circle, rgba(150,255,30,.05) 0%, transparent 70%);
+  }
+
+  /* ── Floating particles ── */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: #C8F22A;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ── Content layer ── */
+  #content {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 56px 54px 54px;
+    gap: 32px;
+  }
+
+  /* ════════════════════════════════
+     TOP HEADER GLASS PANEL
+  ════════════════════════════════ */
+  #header-panel {
+    width: 94%;
+    min-height: 120px;
+    border-radius: 24px;
+    background: rgba(5,10,15,.85);
+    border: 1px solid rgba(180,255,50,.18);
+    box-shadow:
+      0 0 40px rgba(180,255,50,.08),
+      0 4px 24px rgba(0,0,0,.4),
+      inset 0 1px 0 rgba(255,255,255,.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  /* Radar icon */
+  #radar-icon {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    position: relative;
+  }
+
+  .header-text {
+    flex: 1;
+  }
+  .header-main {
+    font-size: 60px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  .header-sub {
+    font-size: 30px;
+    color: rgba(255,255,255,.75);
+    margin-top: 6px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .header-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .status-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #C8F22A;
+    box-shadow: 0 0 10px rgba(200,242,42,.8), 0 0 20px rgba(200,242,42,.4);
+    flex-shrink: 0;
+  }
+  .status-text {
+    font-size: 24px;
+    color: rgba(255,255,255,.7);
+    font-weight: 500;
+  }
+  .scan-label {
+    margin-left: auto;
+    font-size: 22px;
+    font-weight: 700;
+    color: #C8F22A;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ════════════════════════════════
+     MAIN RESUME CARD
+  ════════════════════════════════ */
+  #resume-card {
+    width: 90%;
+    flex: 1;
+    border-radius: 32px;
+    background: #F8F8F4;
+    box-shadow:
+      0 20px 80px rgba(0,0,0,.5),
+      0 0 70px rgba(200,255,30,.25),
+      inset 0 0 15px rgba(200,255,30,.08);
+    border: 1.5px solid rgba(200,255,30,.35);
+    position: relative;
+    overflow: hidden;
+    padding: 48px 52px 52px;
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  /* Scan line */
+  #scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, transparent 0%, #E7FF70 30%, #FFFFFF 50%, #E7FF70 70%, transparent 100%);
+    filter: blur(4px);
+    box-shadow: 0 0 40px rgba(231,255,112,.9), 0 0 80px rgba(200,255,50,.6);
+    top: -8px;
+    z-index: 20;
+  }
+  #scan-glow {
+    position: absolute;
+    left: 0; right: 0;
+    height: 150px;
+    background: linear-gradient(180deg, rgba(200,255,50,.15) 0%, transparent 100%);
+    top: 0px;
+    z-index: 19;
+    pointer-events: none;
+  }
+
+  /* Resume header */
+  .resume-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 36px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 5;
+  }
+  .avatar {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: #D8EF83;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    color: #233100;
+    flex-shrink: 0;
+    border: 3px solid rgba(180,220,50,.4);
+  }
+  .resume-name-block {
+    flex: 1;
+  }
+  .resume-name {
+    font-size: 80px;
+    font-weight: 900;
+    color: #111111;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+  .resume-title {
+    font-size: 28px;
+    color: #444;
+    font-weight: 500;
+    margin-top: 8px;
+  }
+  .resume-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: 14px;
+  }
+  .contact-item {
+    font-size: 22px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .score-badge {
+    background: #D6EF80;
+    color: #243000;
+    font-size: 24px;
+    font-weight: 800;
+    padding: 8px 24px;
+    border-radius: 999px;
+    white-space: nowrap;
+    align-self: flex-start;
+    border: 1.5px solid rgba(180,220,50,.5);
+  }
+
+  /* Section */
+  .resume-section {
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 5;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #8BBF00;
+    flex-shrink: 0;
+  }
+  .section-label {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* Summary text */
+  .resume-summary {
+    font-size: 24px;
+    color: #444;
+    line-height: 1.55;
+  }
+  .kw {
+    display: inline;
+    background: rgba(217,242,105,.7);
+    color: #334000;
+    padding: 1px 5px;
+    border-radius: 4px;
+    opacity: 0;
+    font-weight: 600;
+  }
+
+  /* Skills */
+  .skills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .skill-pill {
+    background: #F0F5DE;
+    border: 1.5px solid #D4E399;
+    color: #3A4800;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 8px 22px;
+    border-radius: 999px;
+  }
+
+  /* Experience item */
+  .exp-item {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .exp-icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: #DCEF8B;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid rgba(180,220,50,.3);
+  }
+  .exp-body {
+    flex: 1;
+  }
+  .exp-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+  }
+  .exp-company {
+    font-size: 22px;
+    color: #666;
+    margin-top: 4px;
+  }
+  .exp-desc {
+    font-size: 21px;
+    color: #555;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* ════════════════════════════════
+     BOTTOM ANALYSIS PANEL
+  ════════════════════════════════ */
+  #analysis-panel {
+    width: 94%;
+    min-height: 180px;
+    border-radius: 24px;
+    background: rgba(5,10,15,.85);
+    border: 1px solid rgba(200,255,30,.15);
+    box-shadow:
+      0 0 30px rgba(180,255,50,.06),
+      inset 0 1px 0 rgba(255,255,255,.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+  }
+
+  .analysis-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #C8F22A;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .check-circle {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid #C8F22A;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .check-circle svg { display: block; }
+  .check-text {
+    font-size: 22px;
+    color: rgba(255,255,255,.85);
+    font-weight: 500;
+  }
+
+  /* ════════════════════════════════
+     BOTTOM SCORE / CTA PANEL
+  ════════════════════════════════ */
+  #score-panel {
+    width: 94%;
+    height: 110px;
+    border-radius: 26px;
+    background: rgba(5,10,15,.9);
+    border: 1px solid rgba(200,255,30,.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+  }
+
+  .score-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .gauge-wrap {
+    position: relative;
+    width: 90px; height: 90px;
+  }
+  .gauge-wrap svg {
+    transform: rotate(-90deg);
+  }
+  .gauge-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .gauge-num {
+    font-size: 30px;
+    font-weight: 900;
+    color: #DFFF55;
+    line-height: 1;
+  }
+  .gauge-denom {
+    font-size: 16px;
+    color: #888;
+    line-height: 1;
+  }
+  .gauge-label {
+    font-size: 22px;
+    font-weight: 700;
+    color: #C8F22A;
+  }
+
+  .cta-btn {
+    width: 320px; height: 80px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #C8F22A 0%, #E2FF5A 100%);
+    color: #111111;
+    font-size: 28px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 10px 40px rgba(200,255,30,.35);
+    letter-spacing: -0.3px;
+  }
+
+  /* ── Radar CSS rotation ── */
+  @keyframes radarSweep {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  .radar-sweep {
+    transform-origin: center;
+    animation: radarSweep 3s linear infinite;
+  }
+
+  /* ── Status dot pulse ── */
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .4; }
+  }
+  .status-dot { animation: statusPulse 1.4s ease-in-out infinite; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <!-- Ambient layers -->
+  <div class="amb-glow" id="glow-tl"></div>
+  <div class="amb-glow" id="glow-br"></div>
+  <div id="noise"></div>
+  <div id="scanlines"></div>
+
+  <!-- Particles -->
+  <div class="particle" style="width:4px;height:4px;top:320px;left:120px;opacity:.6;"></div>
+  <div class="particle" style="width:3px;height:3px;top:580px;left:980px;opacity:.5;"></div>
+  <div class="particle" style="width:5px;height:5px;top:900px;left:60px;opacity:.4;"></div>
+  <div class="particle" style="width:3px;height:3px;top:1200px;left:1020px;opacity:.6;"></div>
+  <div class="particle" style="width:4px;height:4px;top:1500px;left:150px;opacity:.5;"></div>
+  <div class="particle" style="width:3px;height:3px;top:1700px;left:900px;opacity:.4;"></div>
+
+  <div id="content">
+
+    <!-- ══ TOP HEADER GLASS PANEL ══ -->
+    <div id="header-panel">
+      <!-- Radar SVG icon -->
+      <div id="radar-icon">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <!-- Corner L-marks -->
+          <path d="M8,18 L8,8 L18,8" stroke="#C9FF27" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M102,8 L112,8 L112,18" stroke="#C9FF27" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M8,102 L8,112 L18,112" stroke="#C9FF27" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M112,102 L112,112 L102,112" stroke="#C9FF27" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Concentric circles -->
+          <circle cx="60" cy="60" r="44" stroke="#C9FF27" stroke-width="2" fill="none" opacity=".7"/>
+          <circle cx="60" cy="60" r="29" stroke="#C9FF27" stroke-width="2" fill="none" opacity=".7"/>
+          <circle cx="60" cy="60" r="14" stroke="#C9FF27" stroke-width="2" fill="none" opacity=".7"/>
+          <!-- Crosshairs -->
+          <line x1="60" y1="16" x2="60" y2="104" stroke="#C9FF27" stroke-width="1.5" opacity=".5"/>
+          <line x1="16" y1="60" x2="104" y2="60" stroke="#C9FF27" stroke-width="1.5" opacity=".5"/>
+          <!-- Sweep sector -->
+          <path class="radar-sweep" d="M60,60 L60,16 A44,44 0 0,1 98,72 Z" fill="rgba(200,255,40,.2)" stroke="#C9FF27" stroke-width="1" opacity=".8"/>
+          <!-- Center dot -->
+          <circle cx="60" cy="60" r="5" fill="#DFFF3A">
+            <animate attributeName="r" values="5;7;5" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="60" cy="60" r="5" fill="none" stroke="#C9FF27" stroke-width="1" opacity=".8">
+            <animate attributeName="r" values="5;14;5" dur="1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values=".8;0;.8" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+
+      <div class="header-text">
+        <div class="header-main">10.6x más entrevistas.</div>
+        <div class="header-sub">Solo por adaptar el CV a cada vacante.</div>
+        <div class="header-status">
+          <div class="status-dot"></div>
+          <span class="status-text">Análisis de Seguridad</span>
+          <span class="scan-label">Escaneando CV…</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MAIN RESUME CARD ══ -->
+    <div id="resume-card">
+      <!-- Scan line + glow -->
+      <div id="scan-glow"></div>
+      <div id="scan-line"></div>
+
+      <!-- Resume header -->
+      <div class="resume-header">
+        <div class="avatar">AQ</div>
+        <div class="resume-name-block">
+          <div class="resume-name">Andres Quesada R.</div>
+          <div class="resume-title">Analista de seguridad bilingüe (EN/ES, B2)</div>
+          <div class="resume-contact">
+            <span class="contact-item">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="3" width="16" height="12" rx="2" stroke="#888" stroke-width="1.5"/><path d="M1 5l8 5 8-5" stroke="#888" stroke-width="1.5"/></svg>
+              andres.quesada@email.com
+            </span>
+            <span class="contact-item">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1C6.24 1 4 3.24 4 6c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5z" stroke="#888" stroke-width="1.5"/><circle cx="9" cy="6" r="2" stroke="#888" stroke-width="1.5"/></svg>
+              Parrón, Costa Rica
+            </span>
+            <span class="contact-item">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 2h14a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="#888" stroke-width="1.5"/><path d="M4 5h6M4 8h4" stroke="#888" stroke-width="1.5" stroke-linecap="round"/></svg>
+              linkedin.com/in/aqresaq
+            </span>
+          </div>
+        </div>
+        <div class="score-badge">Puntuación: 92</div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="resume-section">
+        <div class="section-title">
+          <div class="section-dot"></div>
+          <span class="section-label">Resumen</span>
+        </div>
+        <div class="resume-summary">
+          Analista de seguridad bilingüe (EN/ES, B2) con 5 meses en monitoreo de activos.
+          Registros de acceso documentados. Certificado en <span class="kw" id="kw1">Excel</span> y <span class="kw" id="kw2">SQL</span>.
+        </div>
+      </div>
+
+      <!-- Habilidades -->
+      <div class="resume-section">
+        <div class="section-title">
+          <div class="section-dot"></div>
+          <span class="section-label">Habilidades</span>
+        </div>
+        <div class="skills-row">
+          <span class="skill-pill">Excel</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">Seguridad operativa</span>
+          <span class="skill-pill">Control de accesos</span>
+          <span class="skill-pill">Incidencias ATS</span>
+          <span class="skill-pill">Inglés B2</span>
+        </div>
+      </div>
+
+      <!-- Experiencia -->
+      <div class="resume-section">
+        <div class="section-title">
+          <div class="section-dot"></div>
+          <span class="section-label">Experiencia</span>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-icon">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <path d="M5 8h20v14H5z" stroke="#506000" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M10 8V6a2 2 0 012-2h6a2 2 0 012 2v2" stroke="#506000" stroke-width="2"/>
+              <path d="M10 16l3 3 7-7" stroke="#506000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="exp-body">
+            <div class="exp-title">Monitor de Seguridad de Activos</div>
+            <div class="exp-company">G4S / Securitas Chile · Jun 2023 – Jun 2024</div>
+            <div class="exp-desc">
+              Registros diarios de <span class="kw" id="kw3">8 empleados</span> en 3 instalaciones de clientes. Reportes para <span class="kw" id="kw4">supervisores</span>. Análisis de <span class="kw" id="kw5">incidentes</span> y gestión de informes operativos.
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-icon">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <circle cx="15" cy="10" r="5" stroke="#506000" stroke-width="2"/>
+              <path d="M5 25c0-5.523 4.477-10 10-10s10 4.477 10 10" stroke="#506000" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="exp-body">
+            <div class="exp-title">Recepcionista Bilingüe</div>
+            <div class="exp-company">Hotel Monte Campana · Oct 2021 – May 2022</div>
+            <div class="exp-desc">
+              Gestión de recepción bilingüe con atención a <span class="kw" id="kw6">50+ huéspedes</span> diarios. Coordinó <span class="kw" id="kw7">acceso</span> e <span class="kw" id="kw8">identificación</span> de personal externo. Administró solicitudes de más de 80 personas de 3 nacionalidades.
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-icon">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <path d="M6 8h18M6 12h18M6 16h12" stroke="#506000" stroke-width="2" stroke-linecap="round"/>
+              <rect x="3" y="4" width="24" height="22" rx="3" stroke="#506000" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="exp-body">
+            <div class="exp-title">Asistente Administrativo</div>
+            <div class="exp-company">TechSolutions · Tech · Feb 2020 – Jan 2021</div>
+            <div class="exp-desc">
+              Reportes <span class="kw" id="kw9">Excel</span> con análisis de inventario a mensual. Diseño de <span class="kw" id="kw10">plantillas</span> adoptado por el equipo. Redujo el tiempo de reportes en <span class="kw" id="kw11">40%</span>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BOTTOM ANALYSIS PANEL ══ -->
+    <div id="analysis-panel">
+      <!-- Radar SVG 90px -->
+      <div style="flex-shrink:0; width:90px; height:90px;">
+        <svg width="90" height="90" viewBox="0 0 90 90">
+          <circle cx="45" cy="45" r="38" stroke="#C8F22A" stroke-width="1.5" fill="none" opacity=".3"/>
+          <circle cx="45" cy="45" r="24" stroke="#C8F22A" stroke-width="1.5" fill="none" opacity=".4"/>
+          <circle cx="45" cy="45" r="10" stroke="#C8F22A" stroke-width="1.5" fill="none" opacity=".5"/>
+          <line x1="45" y1="7" x2="45" y2="83" stroke="#C8F22A" stroke-width="1" opacity=".3"/>
+          <line x1="7" y1="45" x2="83" y2="45" stroke="#C8F22A" stroke-width="1" opacity=".3"/>
+          <path class="radar-sweep" d="M45,45 L45,7 A38,38 0 0,1 76,60 Z" fill="rgba(200,255,40,.25)" stroke="#C8F22A" stroke-width="1" opacity=".9" style="transform-origin:45px 45px"/>
+          <circle cx="45" cy="45" r="3.5" fill="#C8F22A"/>
+        </svg>
+      </div>
+
+      <div style="flex:1">
+        <div class="analysis-title">Análisis del Filtro</div>
+        <div class="checklist">
+          <div class="check-row">
+            <div class="check-circle">
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#C8F22A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </div>
+            <span class="check-text">Experiencia relevante detectada y analizada.</span>
+          </div>
+          <div class="check-row">
+            <div class="check-circle">
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#C8F22A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </div>
+            <span class="check-text">Palabras clave detectadas y bien posicionadas.</span>
+          </div>
+          <div class="check-row">
+            <div class="check-circle">
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="#C8F22A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            </div>
+            <span class="check-text">CV adaptado para el puesto.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SCORE / CTA PANEL ══ -->
+    <div id="score-panel">
+      <div class="score-left">
+        <div class="gauge-wrap">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <!-- Track -->
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#3C414A" stroke-width="8"/>
+            <!-- Arc — 92% of 226.2 circumference = ~208.1 -->
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#C8F22A" stroke-width="8"
+              stroke-linecap="round"
+              stroke-dasharray="226.2"
+              stroke-dashoffset="226.2"
+              id="gauge-arc"/>
+          </svg>
+          <div class="gauge-center">
+            <div class="gauge-num">92</div>
+            <div class="gauge-denom">/100</div>
+          </div>
+        </div>
+        <div class="gauge-label">Excelente</div>
+      </div>
+
+      <button class="cta-btn">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3l2 4 4.5.6-3.25 3.17.77 4.48L14 13.2l-4.02 2.05.77-4.48L7.5 7.6 12 7z" fill="#111" stroke="#111" stroke-width="1" stroke-linejoin="round"/>
+          <path d="M14 18v7M10 22h8" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Optimizar con WorqAI
+      </button>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /canvas -->
+
+<script src="../vendor/gsap/gsap-3.15.0.min.js"></script>
+<script>
+// ── Determinism locks ──
+gsap.ticker.lagSmoothing(0);
+gsap.globalTimeline.pause();
+
+const tl = gsap.timeline({ delay: 0 });
+
+// 1. Header panel fade + slide up
+tl.to('#header-panel', {
+  opacity: 1,
+  y: 0,
+  duration: 0.8,
+  ease: 'power3.out'
+}, 0.2);
+
+// 2. Resume card scale + fade
+tl.to('#resume-card', {
+  opacity: 1,
+  scale: 1,
+  duration: 1.1,
+  ease: 'expo.out'
+}, 0.4);
+
+// 3. Analysis panel fade
+tl.to('#analysis-panel', {
+  opacity: 1,
+  duration: 0.6,
+  ease: 'power2.out'
+}, 1.5);
+
+// 4. Score panel fade
+tl.to('#score-panel', {
+  opacity: 1,
+  duration: 0.5,
+  ease: 'power2.out'
+}, 1.7);
+
+// 5. Score gauge arc draw — 92% = offset from 226.2 → 18.1
+tl.to('#gauge-arc', {
+  strokeDashoffset: 226.2 * 0.08,
+  duration: 1.0,
+  ease: 'power2.out'
+}, 1.8);
+
+// ── Keyword reveal schedule (keyed to scan line progress) ──
+const keywords = ['kw1','kw2','kw3','kw4','kw5','kw6','kw7','kw8','kw9','kw10','kw11'];
+keywords.forEach((id, i) => {
+  tl.to(`#${id}`, {
+    opacity: 1,
+    duration: 0.2,
+    ease: 'power1.out'
+  }, 0.9 + i * 0.22);
+});
+
+// ── Play timeline (browser preview mode — not headless) ──
+gsap.globalTimeline.play();
+
+// ── SCAN LINE: independent infinite loop ──
+// Get card bounds after initial render
+window.addEventListener('load', () => {
+  const card = document.getElementById('resume-card');
+  const scanLine = document.getElementById('scan-line');
+  const scanGlow = document.getElementById('scan-glow');
+
+  const cardHeight = card.offsetHeight; // ~1160px depending on content
+
+  function animateScan() {
+    gsap.set(scanLine, { top: -8 });
+    gsap.set(scanGlow, { top: 0 });
+    gsap.to([scanLine, scanGlow], {
+      top: cardHeight,
+      duration: 2.5,
+      ease: 'none',
+      onComplete: animateScan
+    });
+  }
+
+  // Start scan after card is visible
+  setTimeout(animateScan, 600);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI · Tu CV nunca fue leído · Holographic Sheen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Nunito:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #0a0a0a; min-height: 100vh; font-family: 'Nunito', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+/* ── TOP LABEL ── */
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #ff6b6b; margin-bottom: 18px; text-align: center; }
+
+/* ── PREVIEW CAGE ── */
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background:
+           radial-gradient(circle at 80% 20%, rgba(255,255,255,0.45), transparent 55%),
+           linear-gradient(135deg, #ff9ff3 0%, #feca57 25%, #ff6b6b 50%, #48dbfb 75%, #1dd1a1 100%);
+         color: #0f172a; }
+
+/* ── METABALL GEO (organic blobs) ── */
+.metaball-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.mb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.35; }
+.mb-1 { width: 400px; height: 400px; background: #ff9ff3; top: -10%; left: -5%; }
+.mb-2 { width: 350px; height: 350px; background: #48dbfb; bottom: -8%; right: -8%; opacity: 0.30; }
+.mb-3 { width: 280px; height: 280px; background: #feca57; top: 40%; left: 55%; opacity: 0.25; }
+
+/* ── GRAIN ── */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.18;
+                 pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+
+/* ── CONTENT LAYER ── */
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #111827; }
+.mast-issue { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(15,23,42,0.50); }
+
+/* ── BRAND ANCHOR ── */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 18px;
+              letter-spacing: -1.5px; text-transform: lowercase; }
+.brand-mark .core { color: #111827; }
+.brand-mark .accent { color: #5f27cd; }
+.handle { position: absolute; bottom: 38px; left: 210px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(15,23,42,0.40); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px;
+           letter-spacing: 0.16em; color: #111827; }
+
+/* ── PROGRESS DOTS ── */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(15,23,42,0.18); }
+.pd.on { background: #111827 !important; box-shadow: 0 0 8px rgba(15,23,42,0.3); }
+
+/* ── SWIPE PILL ── */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #111827; color: #ffffff;
+              font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(0,0,0,0.25); }
+
+/* ── GLASS DARK PANEL (legibility over holographic) ── */
+.glass-dark {
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 20px;
+  padding: 32px 36px;
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+}
+
+/* ── KICKER ── */
+.kicker { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #111827; }
+.kicker::before { content: ''; width: 28px; height: 3px; background: #111827; }
+
+/* ── HEADLINE ── */
+.headline { font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: 72px; line-height: 0.96; letter-spacing: -0.03em; color: #0f172a; }
+
+/* ── CHROMATIC ABERRATION UTIL ── */
+.chromatic { position: relative; display: inline-block; }
+.chromatic::before, .chromatic::after {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: inherit; line-height: inherit; letter-spacing: inherit;
+}
+.chromatic::before { left: 3px; color: #ff00ff; clip-path: inset(0 0 55% 0); opacity: 0.45; }
+.chromatic::after { left: -3px; color: #00ffff; clip-path: inset(45% 0 0 0); opacity: 0.45; }
+
+/* ── WATERMARK ── */
+.watermark {
+  position: absolute; pointer-events: none; z-index: 0;
+  font-family: 'Syne', sans-serif; font-size: 340px; font-weight: 800; line-height: 1;
+  color: #111827; opacity: 0.04; user-select: none;
+}
+
+/* ── CORNER FRAME ── */
+.corner-frame { position: absolute; width: 40px; height: 40px;
+                border-color: #111827; opacity: 0.20; z-index: 4; }
+.corner-frame.top-left    { top: 28px; left: 28px; border-top: 2px solid; border-left: 2px solid; }
+.corner-frame.top-right   { top: 28px; right: 28px; border-top: 2px solid; border-right: 2px solid; }
+.corner-frame.bottom-left { bottom: 28px; left: 28px; border-bottom: 2px solid; border-left: 2px solid; }
+.corner-frame.bottom-right{ bottom: 28px; right: 28px; border-bottom: 2px solid; border-right: 2px solid; }
+
+/* ── STAMP ── */
+.stamp {
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 2px solid #111827; opacity: 0.35;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  text-align: center; line-height: 1.3; color: #111827;
+  transform: rotate(-12deg); z-index: 4;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 1 · BLEED HEADLINE + CHROMATIC + GLASS PANEL + WATERMARK
+   ═══════════════════════════════════════════════════════════════ */
+.s1-wrap { display: flex; flex-direction: column; justify-content: center; flex: 1; gap: 28px; }
+.s1-bleed {
+  font-family: 'Syne', sans-serif; font-size: 120px;
+  font-weight: 800; line-height: 0.92; letter-spacing: -0.03em;
+  color: #0f172a; white-space: nowrap;
+  position: relative; z-index: 2;
+}
+.s1-bleed-sm { font-size: 78px; }
+.s1-glass { max-width: 680px; margin-top: 16px; }
+.s1-glass .body-text { font-family: 'Nunito', sans-serif; font-weight: 400; font-size: 20px;
+                       line-height: 1.5; color: rgba(255,255,255,0.80); }
+.s1-wm { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.s1-glow {
+  position: absolute; top: -15%; right: -10%; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,159,243,0.25) 0%, transparent 65%);
+  filter: blur(40px); pointer-events: none; z-index: 1;
+}
+.s1-ornament { font-size: 24px; color: #111827; opacity: 0.25; line-height: 1; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 2 · BIG NUMBER + METABALL + ZOOM RINGS + GLASS STAT
+   ═══════════════════════════════════════════════════════════════ */
+.s2-glow {
+  position: absolute; top: 50%; left: 20%; transform: translate(-50%,-50%);
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(72,219,251,0.22) 0%, transparent 65%);
+  filter: blur(50px); pointer-events: none; z-index: 1;
+}
+.s2-rings { position: absolute; top: 45%; left: 28%; transform: translate(-50%,-50%);
+            pointer-events: none; z-index: 1; }
+.s2-rings .ring { position: absolute; border-radius: 50%; border: 1.5px solid #111827;
+                  top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.s2-rings .r1 { width: 80px; height: 80px; opacity: 0.35; }
+.s2-rings .r2 { width: 170px; height: 170px; opacity: 0.20; }
+.s2-rings .r3 { width: 280px; height: 280px; opacity: 0.10; border-width: 1px; }
+.s2-rings .r4 { width: 400px; height: 400px; opacity: 0.06; border-width: 1px; }
+
+.s2-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+           gap: 44px; flex: 1; }
+.s2-stat { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 260px;
+           line-height: 0.85; letter-spacing: -0.05em; color: #0f172a;
+           position: relative; }
+.s2-stat .pct { font-size: 120px; vertical-align: top; line-height: 1; color: #5f27cd; }
+.s2-stat::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 180px;
+                  height: 4px; background: #111827; opacity: 0.4; }
+
+.s2-side { display: flex; flex-direction: column; gap: 22px; padding-left: 8px; }
+.s2-side-tag { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px;
+               letter-spacing: 0.32em; text-transform: uppercase; color: #5f27cd; }
+.s2-side-headline { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 32px;
+                    line-height: 1.1; color: #0f172a; }
+.s2-side-body { font-family: 'Nunito', sans-serif; font-weight: 400; font-size: 18px;
+                line-height: 1.5; color: rgba(15,23,42,0.75); }
+.s2-side-body strong { color: #5f27cd; font-weight: 700; }
+.s2-source { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+             color: rgba(15,23,42,0.50); letter-spacing: 0.04em;
+             padding-top: 18px; border-top: 2px solid #111827; margin-top: 8px; opacity: 0.4; }
+.s2-wm { top: -40px; right: -30px; font-size: 280px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 3 · TERMINAL BLOCK + TUNNEL + SCAN LINES + GLASS
+   ═══════════════════════════════════════════════════════════════ */
+.s3-tunnel {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  z-index: 1; pointer-events: none;
+}
+.s3-tunnel-ring {
+  position: absolute; border: 1.5px solid rgba(15,23,42,0.12); border-radius: 24px;
+}
+.s3-tr-1 { width: 95%; height: 95%; opacity: 0.08; }
+.s3-tr-2 { width: 78%; height: 78%; opacity: 0.12; }
+.s3-tr-3 { width: 62%; height: 62%; opacity: 0.16; }
+.s3-tr-4 { width: 48%; height: 48%; opacity: 0.22; }
+.s3-tr-5 { width: 35%; height: 35%; opacity: 0.30; }
+.s3-tr-6 { width: 23%; height: 23%; opacity: 0.45; }
+
+.s3-scan {
+  position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.15;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 3px, rgba(15,23,42,0.08) 3px, rgba(15,23,42,0.08) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+.s3-terminal {
+  background: rgba(15,23,42,0.90);
+  border: 2px solid rgba(72,219,251,0.35);
+  border-radius: 16px;
+  margin-top: 28px;
+  box-shadow: 0 0 40px rgba(72,219,251,0.12), inset 0 0 80px rgba(72,219,251,0.04);
+  overflow: hidden;
+}
+.s3-term-bar {
+  padding: 12px 20px;
+  background: rgba(72,219,251,0.10);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #48dbfb;
+  letter-spacing: 0.10em; text-transform: uppercase; display: flex;
+  justify-content: space-between; align-items: center;
+  border-bottom: 1px solid rgba(72,219,251,0.25);
+}
+.s3-term-bar .pip { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+.s3-term-bar .pip.r { background: #ff6b6b; }
+.s3-term-bar .pip.y { background: #feca57; }
+.s3-term-bar .pip.g { background: #1dd1a1; }
+
+.s3-term-body {
+  padding: 32px 34px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px; line-height: 1.85; color: #f0f0f5;
+}
+.s3-term-prompt { color: #48dbfb; font-weight: 700; }
+.s3-term-comment { color: rgba(240,240,245,0.35); }
+.s3-term-highlight { background: rgba(72,219,251,0.20); padding: 0 5px; font-weight: 700; color: #48dbfb; }
+.s3-term-bad { color: #ff6b6b; font-weight: 700; }
+.s3-term-good { color: #1dd1a1; font-weight: 700; }
+.s3-term-cursor {
+  display: inline-block; width: 10px; height: 20px; background: #48dbfb;
+  vertical-align: text-bottom; margin-left: 4px; animation: blink 1s infinite;
+  box-shadow: 0 0 8px rgba(72,219,251,0.5);
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.s3-wm { bottom: -50px; left: -40px; font-size: 300px; opacity: 0.035; }
+.s3-stamp { position: absolute; top: 140px; right: 80px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 4 · PORTAL CTA + SUNBURST + GLASS + CORNER FRAMES
+   ═══════════════════════════════════════════════════════════════ */
+.s4-sunburst { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+               width: 800px; height: 800px; pointer-events: none; z-index: 1; opacity: 0.06; }
+
+.s4-portal-wrap {
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center; flex: 1;
+}
+.s4-portal {
+  width: 640px; border-radius: 24px; overflow: visible;
+  border: 2px solid rgba(255,255,255,0.35);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25), 0 0 40px rgba(255,159,243,0.12);
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(15,23,42,0.80); backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.s4-portal-inner { text-align: center; padding: 48px; }
+.s4-portal .headline { font-size: 48px; color: #ffffff; line-height: 1.05; }
+.s4-portal .body-text { color: rgba(255,255,255,0.75); margin-top: 16px; font-size: 18px;
+                        font-family: 'Nunito', sans-serif; font-weight: 400; line-height: 1.5; }
+.s4-keyword {
+  display: inline-block; background: #ffffff; color: #111827;
+  padding: 12px 28px; font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 24px; letter-spacing: 0.06em; margin-top: 28px;
+  border: 3px solid #111827;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.15);
+}
+.s4-reward { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+             color: rgba(255,255,255,0.60); margin-top: 14px; letter-spacing: 0.04em; }
+.s4-wm { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 380px; opacity: 0.03; }
+
+/* ── FLOATING PARTICLES (extra geo layer) ── */
+.particles { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+.particle {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(255,255,255,0.35); opacity: 0;
+  animation: floatUp 8s linear infinite;
+}
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 7s; }
+.particle:nth-child(2) { left: 25%; animation-delay: 1s; animation-duration: 9s; width: 6px; height: 6px; }
+.particle:nth-child(3) { left: 40%; animation-delay: 2s; animation-duration: 6s; }
+.particle:nth-child(4) { left: 55%; animation-delay: 0.5s; animation-duration: 8s; width: 3px; height: 3px; }
+.particle:nth-child(5) { left: 70%; animation-delay: 3s; animation-duration: 10s; width: 5px; height: 5px; }
+.particle:nth-child(6) { left: 85%; animation-delay: 1.5s; animation-duration: 7s; }
+.particle:nth-child(7) { left: 15%; animation-delay: 4s; animation-duration: 9s; width: 7px; height: 7px; }
+.particle:nth-child(8) { left: 60%; animation-delay: 2.5s; animation-duration: 8s; }
+@keyframes floatUp {
+  0% { transform: translateY(1100px) scale(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-100px) scale(1); opacity: 0; }
+}
+
+/* ── CHROMATIC RING ORNAMENT ── */
+.chromatic-ring {
+  position: absolute; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.15);
+  pointer-events: none; z-index: 2;
+}
+.chromatic-ring::before {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid rgba(255,159,243,0.25);
+}
+.chromatic-ring::after {
+  content: ''; position: absolute; inset: 4px; border-radius: 50%;
+  border: 1px solid rgba(72,219,251,0.25);
+}
+
+/* ── GLASS VARIANTS ── */
+.glass-tint {
+  background: rgba(95, 39, 205, 0.18);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+}
+.glass-cyan {
+  background: rgba(72, 219, 251, 0.12);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  border: 1px solid rgba(72,219,251,0.25);
+  border-radius: 16px;
+}
+
+/* ── NEON BORDER UTIL ── */
+.neon-border-cyan {
+  border: 1px solid rgba(72,219,251,0.4);
+  box-shadow: 0 0 15px rgba(72,219,251,0.15), inset 0 0 15px rgba(72,219,251,0.05);
+}
+.neon-border-magenta {
+  border: 1px solid rgba(255,107,107,0.4);
+  box-shadow: 0 0 15px rgba(255,107,107,0.15), inset 0 0 15px rgba(255,107,107,0.05);
+}
+
+/* ── ADDITIONAL S1 LAYERS ── */
+.s1-particle-zone { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.s1-ring-deco { position: absolute; top: 60px; right: 120px; width: 80px; height: 80px; z-index: 2; }
+.s1-line-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.20em; text-transform: uppercase; color: rgba(15,23,42,0.45);
+  padding: 6px 12px; border: 1px solid rgba(15,23,42,0.20); display: inline-block; margin-top: 8px;
+}
+
+/* ── ADDITIONAL S2 LAYERS ── */
+.s2-particle-zone { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.s2-ring-deco { position: absolute; bottom: 120px; left: 100px; width: 60px; height: 60px; z-index: 2; }
+.s2-mini-stat {
+  display: flex; align-items: baseline; gap: 8px; margin-top: 14px;
+  padding: 10px 14px; background: rgba(15,23,42,0.06); border-radius: 8px;
+}
+.s2-mini-stat .num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; color: #5f27cd; }
+.s2-mini-stat .lbl { font-family: 'Nunito', sans-serif; font-size: 13px; color: rgba(15,23,42,0.60); }
+
+/* ── ADDITIONAL S3 LAYERS ── */
+.s3-particle-zone { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.s3-ring-deco { position: absolute; top: 100px; left: 80px; width: 50px; height: 50px; z-index: 2; }
+.s3-term-warn {
+  margin-top: 12px; padding: 14px 18px; background: rgba(255,107,107,0.10);
+  border: 1px solid rgba(255,107,107,0.25); border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; color: rgba(255,255,255,0.80);
+}
+.s3-term-warn strong { color: #ff6b6b; }
+
+/* ── ADDITIONAL S4 LAYERS ── */
+.s4-particle-zone { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.s4-ring-deco { position: absolute; bottom: 160px; left: 140px; width: 70px; height: 70px; z-index: 2; }
+.s4-cta-sub {
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.55); margin-top: 8px; letter-spacing: 0.04em;
+}
+.s4-check-row {
+  display: flex; gap: 18px; margin-top: 16px; justify-content: center;
+}
+.s4-check-item {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Nunito', sans-serif; font-size: 13px; color: rgba(255,255,255,0.70);
+}
+.s4-check-dot { width: 8px; height: 8px; border-radius: 50%; background: #1dd1a1; }
+
+/* ── EXTENDED DECORATIVE SYSTEM ── */
+.deco-grid {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.04;
+  background-image:
+    linear-gradient(to right, #111827 1px, transparent 1px),
+    linear-gradient(to bottom, #111827 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.deco-cross {
+  position: absolute; width: 24px; height: 24px; pointer-events: none; z-index: 2;
+}
+.deco-cross::before, .deco-cross::after {
+  content: ''; position: absolute; background: rgba(15,23,42,0.25);
+}
+.deco-cross::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+.deco-cross::after { width: 100%; height: 1px; top: 50%; transform: translateY(-50%); }
+
+/* ── ANIMATED GRADIENT BORDER ── */
+.animated-border {
+  position: relative;
+  background: rgba(15,23,42,0.85);
+  border-radius: 16px;
+  padding: 2px;
+  overflow: hidden;
+}
+.animated-border::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, #ff9ff3, #feca57, #ff6b6b, #48dbfb, #1dd1a1, #5f27cd, #ff9ff3);
+  animation: rotateBorder 4s linear infinite;
+  filter: blur(8px); opacity: 0.6;
+}
+.animated-border-inner {
+  position: relative; background: rgba(15,23,42,0.95); border-radius: 14px;
+  padding: 24px; z-index: 2;
+}
+@keyframes rotateBorder { 100% { transform: rotate(360deg); } }
+
+/* ── HOLOGRAPHIC SHIMMER TEXT ── */
+.holo-text {
+  background: linear-gradient(90deg, #ff9ff3, #feca57, #ff6b6b, #48dbfb, #1dd1a1, #5f27cd, #ff9ff3);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: holoShimmer 3s linear infinite;
+}
+@keyframes holoShimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+
+/* ── STAT CARD WITH NEON GLOW ── */
+.neon-stat-card {
+  padding: 28px 32px; background: rgba(15,23,42,0.80);
+  border: 1px solid rgba(72,219,251,0.30); border-radius: 16px;
+  box-shadow: 0 0 30px rgba(72,219,251,0.10), inset 0 0 30px rgba(72,219,251,0.03);
+}
+.neon-stat-card .stat-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.20em; text-transform: uppercase; color: #48dbfb; margin-bottom: 10px;
+}
+.neon-stat-card .stat-value {
+  font-family: 'Syne', sans-serif; font-weight: 800; font-size: 48px;
+  line-height: 1; color: #ffffff; letter-spacing: -0.02em;
+}
+.neon-stat-card .stat-desc {
+  font-family: 'Nunito', sans-serif; font-size: 14px; color: rgba(255,255,255,0.65);
+  margin-top: 8px; line-height: 1.45;
+}
+
+/* ── DOTTED ORNAMENT FRAME ── */
+.dot-frame {
+  position: absolute; pointer-events: none; z-index: 2;
+  width: 60px; height: 60px;
+  background-image: radial-gradient(circle, rgba(15,23,42,0.30) 1.5px, transparent 1.5px);
+  background-size: 8px 8px;
+}
+
+/* ── TERMINAL ENHANCEMENTS ── */
+.term-output-line {
+  display: flex; align-items: baseline; gap: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 15px; line-height: 1.8;
+}
+.term-prompt-symbol { color: #48dbfb; font-weight: 700; min-width: 18px; }
+.term-file-path { color: rgba(255,255,255,0.50); font-size: 13px; }
+.term-progress-bar {
+  width: 200px; height: 6px; background: rgba(255,255,255,0.10);
+  border-radius: 3px; overflow: hidden; margin-top: 6px;
+}
+.term-progress-fill {
+  height: 100%; background: linear-gradient(90deg, #48dbfb, #1dd1a1);
+  border-radius: 3px; animation: progressFill 2s ease-out forwards;
+}
+@keyframes progressFill { 0% { width: 0%; } 100% { width: 100%; } }
+
+/* ── FLOATING LABEL BADGE ── */
+.float-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; background: rgba(15,23,42,0.90);
+  border: 1px solid rgba(255,255,255,0.15); border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.20);
+}
+.float-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #1dd1a1; }
+
+/* ── ADVANCED VISUAL LAYER SYSTEM ── */
+.layer-glow-soft { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+                   background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
+                   filter: blur(60px); }
+.layer-glow-cyan { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+                   background: radial-gradient(circle, rgba(72,219,251,0.15) 0%, transparent 65%);
+                   filter: blur(50px); }
+.layer-glow-magenta { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+                      background: radial-gradient(circle, rgba(255,107,107,0.12) 0%, transparent 65%);
+                      filter: blur(50px); }
+
+/* ── NOISE TEXTURE VARIANTS ── */
+.noise-heavy::before { opacity: 0.28 !important; }
+.noise-light::before { opacity: 0.10 !important; }
+
+/* ── EDITORIAL TYPE STACK ── */
+.type-stack { display: flex; flex-direction: column; gap: 6px; }
+.type-stack .ts-line { font-family: 'Syne', sans-serif; line-height: 1.1; letter-spacing: -0.03em; }
+.type-stack .ts-xl { font-weight: 800; font-size: 64px; color: #0f172a; }
+.type-stack .ts-lg { font-weight: 700; font-size: 42px; color: #5f27cd; }
+.type-stack .ts-md { font-weight: 400; font-size: 28px; color: rgba(15,23,42,0.70); font-style: italic; }
+.type-stack .ts-sm { font-weight: 600; font-size: 18px; color: rgba(15,23,42,0.55); letter-spacing: 0.04em; }
+
+/* ── METRIC BADGE ROW ── */
+.metric-row { display: flex; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+.metric-badge {
+  padding: 10px 16px; background: rgba(15,23,42,0.08);
+  border: 1px solid rgba(15,23,42,0.15); border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 13px; color: rgba(15,23,42,0.75);
+}
+.metric-badge strong { color: #5f27cd; font-weight: 700; }
+
+/* ── TERMINAL SIDEBAR ── */
+.term-sidebar {
+  position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 12px; z-index: 4;
+}
+.term-metric {
+  padding: 14px 18px; background: rgba(15,23,42,0.85);
+  border: 1px solid rgba(72,219,251,0.25); border-radius: 12px;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  min-width: 160px;
+}
+.term-metric .tm-label { font-family: 'JetBrains Mono', monospace; font-size: 10px;
+                         letter-spacing: 0.15em; text-transform: uppercase; color: #48dbfb; }
+.term-metric .tm-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 28px;
+                         color: #ffffff; margin-top: 4px; line-height: 1; }
+.term-metric .tm-delta { font-family: 'Nunito', sans-serif; font-size: 12px;
+                         color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+/* ── DECO SVG ORNAMENTS ── */
+.svg-ornament { position: absolute; pointer-events: none; z-index: 2; opacity: 0.15; }
+
+/* ── KINETIC TYPE EFFECT ── */
+.kinetic-text {
+  position: relative; display: inline-block;
+}
+.kinetic-text::before {
+  content: attr(data-text); position: absolute; top: 3px; left: 3px;
+  color: rgba(255,159,243,0.25); z-index: -1;
+}
+
+/* ── GLASS CARD GRID ── */
+.glass-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.glass-card {
+  padding: 20px 22px; background: rgba(15,23,42,0.70);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 14px;
+}
+.glass-card .gc-icon { width: 32px; height: 32px; border-radius: 8px;
+                       display: flex; align-items: center; justify-content: center;
+                       font-size: 14px; margin-bottom: 10px; }
+.glass-card .gc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+                        color: #ffffff; margin-bottom: 6px; }
+.glass-card .gc-body { font-family: 'Nunito', sans-serif; font-size: 13px;
+                       color: rgba(255,255,255,0.65); line-height: 1.45; }
+
+/* ── RADIAL PROGRESS ── */
+.radial-progress { position: relative; width: 100px; height: 100px; }
+.radial-progress svg { transform: rotate(-90deg); }
+.radial-progress .rp-bg { fill: none; stroke: rgba(255,255,255,0.10); stroke-width: 6; }
+.radial-progress .rp-fill { fill: none; stroke: #48dbfb; stroke-width: 6; stroke-linecap: round;
+                            stroke-dasharray: 251; stroke-dashoffset: 251;
+                            animation: radialFill 1.5s ease-out forwards; }
+@keyframes radialFill { to { stroke-dashoffset: 20; } }
+
+/* ── PULSE ANIMATION ── */
+.pulse-ring {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+  border: 1px solid rgba(72,219,251,0.30);
+  animation: pulseRing 2s ease-out infinite;
+}
+@keyframes pulseRing {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── TEXT GLOW UTILITIES ── */
+.text-glow-cyan { text-shadow: 0 0 20px rgba(72,219,251,0.30); }
+.text-glow-white { text-shadow: 0 0 20px rgba(255,255,255,0.20); }
+
+/* ── MEGA DECORATIVE SYSTEM v2 ── */
+.deco-diamond-field {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.04;
+  background-image: radial-gradient(circle, #111827 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.angled-stripe {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+  background: repeating-linear-gradient(
+    -55deg, transparent, transparent 40px, rgba(15,23,42,0.5) 40px, rgba(15,23,42,0.5) 41px
+  );
+}
+.text-outline {
+  color: transparent; -webkit-text-stroke: 1.5px rgba(15,23,42,0.35);
+}
+.glass-stack {
+  display: flex; flex-direction: column; gap: 12px; margin-top: 20px;
+}
+.glass-stack .gs-item {
+  padding: 14px 18px; background: rgba(15,23,42,0.75);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.10); border-radius: 12px;
+  display: flex; align-items: center; gap: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; color: rgba(255,255,255,0.85);
+}
+.glass-stack .gs-item .gs-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.glass-stack .gs-item .gs-dot.ok { background: #1dd1a1; box-shadow: 0 0 8px rgba(29,209,161,0.4); }
+.glass-stack .gs-item .gs-dot.bad { background: #ff6b6b; box-shadow: 0 0 8px rgba(255,107,107,0.4); }
+.glass-stack .gs-item .gs-dot.warn { background: #feca57; box-shadow: 0 0 8px rgba(254,202,87,0.4); }
+
+.mono-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; background: rgba(15,23,42,0.90);
+  border: 1px solid rgba(72,219,251,0.30); border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.10em; text-transform: uppercase; color: #48dbfb;
+}
+
+/* ── CONTROLS ── */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #111827; border: none; color: #ffffff;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900;
+       box-shadow: 0 0 12px rgba(0,0,0,0.2); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(255,255,255,0.20); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #ff6b6b; width: 24px; }
+.hint { font-size: 11px; color: rgba(255,255,255,0.30); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: linear-gradient(135deg, #ff9ff3, #48dbfb); color: #0f172a;
+           border: 3px solid #0f172a; cursor: pointer;
+           font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(255,255,255,0.50); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+<p class="label-top">WorqAI · ATS Manifesto · 4 slides · System 41 Holographic Sheen</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · BLEED HEADLINE + CHROMATIC ═══════ -->
+      <section class="slide" id="slide-1">
+        <div class="metaball-wrap">
+          <div class="mb mb-1"></div>
+          <div class="mb mb-2"></div>
+          <div class="mb mb-3"></div>
+        </div>
+        <div class="s1-glow"></div>
+        <div class="layer-glow-soft" style="top:30%;left:20%;width:400px;height:400px;"></div>
+        <div class="layer-glow-cyan" style="bottom:10%;right:15%;width:350px;height:350px;"></div>
+        <div class="particles s1-particle-zone">
+          <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+          <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+          <div class="particle"></div><div class="particle"></div>
+        </div>
+        <div class="chromatic-ring s1-ring-deco"></div>
+        <div class="watermark s1-wm">W</div>
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame top-right"></div>
+        <div class="corner-frame bottom-left"></div>
+        <div class="corner-frame bottom-right"></div>
+        <div class="masthead">
+          <div class="mast-title">WorqAI · Manifesto</div>
+          <div class="mast-issue">Lectura · 30 segundos</div>
+        </div>
+        <div class="content">
+          <div class="s1-wrap">
+            <div class="kicker">El filtro que no ves</div>
+            <div class="s1-bleed">
+              <span style="color:#0f172a;">TU CV</span><br>
+              <span class="s1-bleed-sm">NUNCA FUE</span><br>
+              <span style="color:#5f27cd;">LEÍDO.</span>
+            </div>
+            <div class="s1-glass glass-dark">
+              <p class="body-text">El ATS lo rechazó antes de que un humano lo viera. No es tu experiencia. Es el formato.</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;margin-top:12px;">
+              <span class="s1-ornament">◆</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(15,23,42,0.50);">System: ATS · Status: REJECTED</span>
+              <span class="s1-ornament">◆</span>
+            </div>
+            <div class="s1-line-tag" style="margin-top:16px;">Formato incorrecto · Texto ilegible · Sin keywords</div>
+            <div class="swipe-pill">Desliza →</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">worq</span><span class="accent">ai</span></div>
+        <div class="handle">@worqai · cv optimizado</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · BIG NUMBER + ZOOM RINGS ═══════ -->
+      <section class="slide" id="slide-2">
+        <div class="metaball-wrap">
+          <div class="mb mb-1" style="top:60%;left:50%;"></div>
+          <div class="mb mb-3" style="top:10%;left:-5%;"></div>
+        </div>
+        <div class="s2-glow"></div>
+        <div class="particles s2-particle-zone">
+          <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+          <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        </div>
+        <div class="chromatic-ring s2-ring-deco"></div>
+        <div class="corner-frame top-left"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#5f27cd;">WorqAI · El Dato</div>
+          <div class="mast-issue">La cifra que duele</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#5f27cd;">La realidad</div>
+          <div class="s2-grid">
+            <div class="s2-stat">75<span class="pct">%</span></div>
+            <div class="s2-side">
+              <div class="s2-side-tag">CVs Rechazados</div>
+              <div class="s2-side-headline">de los CVs en LATAM mueren en el filtro ATS antes de llegar a un reclutador.</div>
+              <div class="s2-side-body">No es falta de experiencia. Es que el <strong>sistema no puede leer</strong> tablas, columnas, gráficos ni fotos. Solo texto plano y estructura limpia.</div>
+              <div class="s2-mini-stat">
+                <span class="num">10K+</span>
+                <span class="lbl">CVs auditados en LATAM</span>
+              </div>
+              <div class="s2-source"><strong>Fuente:</strong> Análisis interno WorqAI · 10,000+ CVs auditados</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">worq</span><span class="accent">ai</span></div>
+        <div class="handle">@worqai · cv optimizado</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · TERMINAL + TUNNEL ═══════ -->
+      <section class="slide" id="slide-3">
+        <div class="metaball-wrap">
+          <div class="mb mb-2" style="bottom:10%;right:10%;opacity:0.25;"></div>
+        </div>
+        <div class="particles s3-particle-zone">
+          <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+          <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        </div>
+        <div class="s3-tunnel">
+          <div class="s3-tunnel-ring s3-tr-1"></div>
+          <div class="s3-tunnel-ring s3-tr-2"></div>
+          <div class="s3-tunnel-ring s3-tr-3"></div>
+          <div class="s3-tunnel-ring s3-tr-4"></div>
+          <div class="s3-tunnel-ring s3-tr-5"></div>
+          <div class="s3-tunnel-ring s3-tr-6"></div>
+        </div>
+        <div class="s3-scan"></div>
+        <div class="watermark s3-wm">$</div>
+
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame top-right"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#48dbfb;">WorqAI · Diagnóstico</div>
+          <div class="mast-issue">Lo que el ATS ve</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#48dbfb;">El sistema habla</div>
+          <h2 class="headline" style="font-size:44px; max-width: 840px; margin-top:8px;">Así murió tu CV en el ATS.</h2>
+          <div class="s3-terminal">
+            <div class="s3-term-bar">
+              <span><span class="pip r"></span><span class="pip y"></span><span class="pip g"></span> worqai-ats-scan · cv_juan_perez.pdf</span>
+              <span>v3.2 · 2026.05</span>
+            </div>
+            <div class="s3-term-body">
+<span class="s3-term-comment"># initializing ATS parse analysis</span><br>
+<span class="s3-term-prompt">$</span> scan --target cv_juan_perez.pdf --engine workday<br>
+<span class="s3-term-bad">→</span> formato detectado:        <span class="s3-term-bad">PDF CON TABLAS</span><br>
+<span class="s3-term-bad">→</span> extracción de texto:      <span class="s3-term-bad">74% PERDIDO</span><br>
+<span class="s3-term-bad">→</span> campos obligatorios:      <span class="s3-term-bad">5/12 VACÍOS</span><br>
+<span class="s3-term-bad">→</span> palabras clave:           <span class="s3-term-bad">0 COINCIDENCIAS</span><br>
+<span class="s3-term-bad">→</span> foto detectada:           <span class="s3-term-bad">ERROR DE PARSEO</span><br>
+<span class="s3-term-comment"># el reclutador nunca verá este CV</span><br>
+<span class="s3-term-comment"># recomendación: <span class="s3-term-highlight">usar formato .docx con estructura limpia</span></span><br>
+<span class="s3-term-comment">─────────────────────────────────────────────</span><br>
+<span class="s3-term-prompt">$</span> scan --fix --sugerencias<br>
+<span class="s3-term-good">→</span> eliminar tablas y columnas:      <span class="s3-term-good">HECHO</span><br>
+<span class="s3-term-good">→</span> agregar keywords del puesto:     <span class="s3-term-good">HECHO</span><br>
+<span class="s3-term-good">→</span> exportar a .docx limpio:         <span class="s3-term-good">HECHO</span><br>
+<span class="s3-term-comment">─────────────────────────────────────────────</span><br>
+<span class="s3-term-prompt">$</span> score: <span class="s3-term-bad">23 / 100</span> → <span class="s3-term-good">91 / 100</span> · estado: <span class="s3-term-good">APROBADO</span><span class="s3-term-cursor"></span>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark"><span class="core">worq</span><span class="accent">ai</span></div>
+        <div class="handle">@worqai · cv optimizado</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · PORTAL CTA ═══════ -->
+      <section class="slide" id="slide-4">
+        <div class="metaball-wrap">
+          <div class="mb mb-1" style="top:30%;left:60%;opacity:0.30;"></div>
+          <div class="mb mb-3" style="top:60%;left:20%;opacity:0.20;"></div>
+        </div>
+        <svg class="s4-sunburst" viewBox="0 0 800 800" style="opacity:0.04;"><g stroke="#111827" stroke-width="1" opacity="0.5">
+          <line x1="400" y1="400" x2="400" y2="0"/><line x1="400" y1="400" x2="600" y2="20"/>
+          <line x1="400" y1="400" x2="780" y2="200"/><line x1="400" y1="400" x2="800" y2="400"/>
+          <line x1="400" y1="400" x2="780" y2="600"/><line x1="400" y1="400" x2="600" y2="780"/>
+          <line x1="400" y1="400" x2="400" y2="800"/><line x1="400" y1="400" x2="200" y2="780"/>
+          <line x1="400" y1="400" x2="20" y2="600"/><line x1="400" y1="400" x2="0" y2="400"/>
+          <line x1="400" y1="400" x2="20" y2="200"/><line x1="400" y1="400" x2="200" y2="20"/>
+        </g></svg>
+        <div class="watermark s4-wm">W</div>
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame bottom-right"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#ff6b6b;">WorqAI · Acción</div>
+          <div class="mast-issue">El fix es gratis</div>
+        </div>
+        <div class="content">
+          <div class="s4-portal-wrap">
+            <div class="s4-portal">
+              <div class="s4-portal-inner">
+                <p class="headline">¿Querés que un<br><span style="color:#ff9ff3;">humano</span> sí te lea?</p>
+                <p class="body-text">Creá tu CV optimizado para ATS en 5 minutos. Gratis. Sin tarjeta.</p>
+                <div class="s4-keyword">WORQAI</div>
+                <p class="s4-reward">worqai.app · CV ATS-friendly · Exportá en PDF y DOCX</p>
+                <div class="s4-check-row">
+                  <div class="s4-check-item"><div class="s4-check-dot"></div>Gratis</div>
+                  <div class="s4-check-item"><div class="s4-check-dot"></div>5 minutos</div>
+                  <div class="s4-check-item"><div class="s4-check-dot"></div>Sin tarjeta</div>
+                </div>
+                <div class="s4-cta-sub">Más de 12,000 profesionales en LATAM ya usan WorqAI</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark"><span class="core">worq</span><span class="accent">ai</span></div>
+        <div class="handle">@worqai · cv optimizado</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · holographic sheen · metaball · tunnel</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 300));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel_cv-nunca-leido_holographic.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · holographic sheen · metaball · tunnel';
+  }, 3000);
+}
+</script>
+</body>
+</html>

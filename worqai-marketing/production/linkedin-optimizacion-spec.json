@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "system": "s26",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "linkedin-optimizacion",
+    "density": "standard"
+  },
+  "pacing": ["hook", "data", "diagnostic", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["diag-band", {"id": "svg-blob-tr", "animate": true}],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}],
+      "effects": { "grain_opacity": 0.06 },
+      "copy": {
+        "kicker": "ANTES DEL PRIMER CONTACTO",
+        "headline": "Los reclutadores ven tu LinkedIn antes de leer tu CV.",
+        "body": "Y 9 de cada 10 candidatos no saben qué están viendo.",
+        "text_treatment": "gradient",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-display { font-size: clamp(30px, 5.8cqw, 46px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; } .s1-kicker { letter-spacing: 0.20em; font-size: 10px; opacity: 0.90; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["diag-band", "svg-blob-center"],
+      "decoratives": ["corner-frame", {"id": "svg-starburst-burst", "position": "br"}],
+      "effects": { "grain_opacity": 0.05 },
+      "copy": {
+        "kicker": "DATO REAL",
+        "stat_number": "87%",
+        "stat_context": "de los reclutadores buscan el LinkedIn del candidato antes de cualquier entrevista.",
+        "text_treatment": "glow-medium",
+        "source": "Jobvite Recruiter Nation Survey"
+      },
+      "custom_css": ".s2-stat { font-size: clamp(100px, 20cqw, 165px); font-weight: 900; letter-spacing: -0.05em; color: var(--accent); } .s2-context { font-size: clamp(15px, 2.8cqw, 20px); opacity: 0.78; max-width: 500px; line-height: 1.45; } .s2-source { font-size: 11px; opacity: 0.55; letter-spacing: 0.12em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-terminal",
+      "layers": ["diag-band", "zoom-rings"],
+      "decoratives": ["corner-frame"],
+      "effects": { "grain_opacity": 0.05 },
+      "copy": {
+        "kicker": "ANÁLISIS DE PERFIL",
+        "headline": "Lo que el algoritmo le muestra al reclutador sobre ti",
+        "tab_title": "linkedin-audit.sh",
+        "command": "worqai audit --linkedin @tuusuario --rol 'Marketing Manager'",
+        "output_lines": [
+          {"type": "warn", "text": "AVISO: Foto sin fondo neutro — credibilidad reducida en filtros de RRHH"},
+          {"type": "err",  "text": "ERROR: Sección 'Acerca de' vacía — LinkedIn penaliza visibilidad en búsquedas"},
+          {"type": "warn", "text": "AVISO: Sin habilidades validadas — no apareces en búsquedas de reclutadores"},
+          {"type": "info", "text": "SSI (Social Selling Index): 31/100 — promedio del sector: 67/100"},
+          {"type": "ok",   "text": "Generando plan de optimización personalizado con WorqAI..."}
+        ]
+      },
+      "custom_css": ".s3-headline { font-size: clamp(18px, 3.5cqw, 26px); font-weight: 800; letter-spacing: -0.02em; } .terminal-window { border: 1px solid rgba(92, 101, 255, 0.30); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-checklist",
+      "layers": ["diag-band", {"id": "svg-blob-bl"}],
+      "decoratives": [{"id": "svg-starburst-mark", "position": "tl"}],
+      "effects": { "grain_opacity": 0.05 },
+      "copy": {
+        "kicker": "LOS 4 CAMBIOS",
+        "headline": "4 cambios de 15 minutos en tu perfil de LinkedIn.",
+        "text_treatment": "stroke",
+        "items": [
+          {"title": "Foto profesional", "desc": "Fondo neutro, buena luz, sin filtros."},
+          {"title": "Título específico", "desc": "Ejemplo: 'Analista de Datos | SQL · Python'."},
+          {"title": "Sección 'Acerca de'", "desc": "Quién eres, qué haces, qué buscas."},
+          {"title": "5 habilidades validadas", "desc": "Las del puesto que estás buscando."}
+        ]
+      },
+      "custom_css": ".s4-headline { font-size: clamp(20px, 4cqw, 30px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; } .chk-title { font-weight: 700; font-size: clamp(15px, 2.8cqw, 19px); } .chk-desc { opacity: 0.78; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["diag-band"],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}, {"id": "svg-starburst-spark", "position": "tl"}],
+      "effects": { "grain_opacity": 0.05 },
+      "copy": {
+        "question": "¿Quieres saber qué está fallando en tu LinkedIn?",
+        "cta_keyword": "LINKEDIN",
+        "reward": "Te mando el diagnóstico y el plan de corrección. Sin costo.",
+        "url": "worqai.com"
+      },
+      "custom_css": ".s5-question { font-size: clamp(24px, 5cqw, 38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; } .s5-keyword { font-size: clamp(16px, 3.2cqw, 24px); letter-spacing: 0.15em; } .s5-reward { font-size: clamp(14px, 2.6cqw, 18px); opacity: 0.78; }"
+    }
+  ]
+}

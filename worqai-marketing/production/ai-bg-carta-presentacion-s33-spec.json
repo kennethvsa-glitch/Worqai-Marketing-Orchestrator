@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "system": "s33",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "carta-presentacion",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "data", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["geometric-harmony", "diag-band", "geo-hex-mesh"],
+      "copy": {
+        "kicker": "CARTA DE PRESENTACIÓN",
+        "headline": "¿La escribís? Depende de una sola cosa.",
+        "body": "No es un mito que están muertas. Es un mito que todas son iguales."
+      },
+      "decoratives": [
+        { "id": "corner-frame" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(24px,5cqw,36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; } .hook-body { opacity: 0.88; font-size: clamp(13px,2.4cqw,17px); } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-bento-grid",
+      "density": "heavy",
+      "layers": ["geometric-harmony", "geo-constellation"],
+      "copy": {
+        "kicker": "CUÁNDO SÍ, CUÁNDO NO",
+        "headline": "El mapa de decisión",
+        "grid": "g-2x2",
+        "tiles": [
+          {
+            "label": "✓ ESCRIBILA SI...",
+            "title": "El aviso la pide explícitamente",
+            "body": "Ignorarlo filtra candidatos desde el primer paso",
+            "accent": true
+          },
+          {
+            "label": "✓ ESCRIBILA SI...",
+            "title": "Es empresa pequeña o startup",
+            "body": "Cultura importa más que en corporativos. Tu voz entra."
+          },
+          {
+            "label": "✗ NO LA ESCRIBAS SI...",
+            "title": "Es aplicación masiva por ATS",
+            "body": "Nadie la leerá antes de que el bot decida"
+          },
+          {
+            "label": "✗ NO LA ESCRIBAS SI...",
+            "title": "No tenés nada específico que decir",
+            "body": "Carta genérica resta más de lo que suma",
+            "span_2": false
+          }
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".sub-bento-card { background: transparent !important; border: 1.5px solid rgba(59,130,246,0.25) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border-radius: 6px !important; padding: 20px !important; } .sub-bento-card.accent { background: rgba(59,130,246,0.1) !important; border-color: var(--accent) !important; } .bento-label { font-size: 11px; letter-spacing: 0.12em; font-weight: 700; color: var(--accent); margin-bottom: 8px; } .bento-title { font-size: clamp(13px,2.4cqw,16px); font-weight: 700; margin-bottom: 6px; } .bento-body { font-size: clamp(11px,2cqw,13px); opacity: 0.82; line-height: 1.4; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": ["geometric-harmony", "diag-band", "glow-orb"],
+      "copy": {
+        "kicker": "EL PÁRRAFO QUE DEFINE TODO",
+        "headline": "Primera línea: mala vs buena",
+        "bad_label": "GENÉRICA",
+        "good_label": "ESPECÍFICA",
+        "before_items": ["Me postulo para el puesto de Marketing Manager...", "Tengo experiencia en marketing digital...", "Soy apasionada por las marcas..."],
+        "after_items": ["Vi que lanzan en LATAM en Q3 — exactamente donde tengo 4 años de track record.", "Ejecuté el lanzamiento de X en 3 mercados, +40% conversión.", "Una pregunta: ¿el equipo ya tiene definido el CAC objetivo?"]
+      },
+      "decoratives": [],
+      "custom_css": ".ba-col.bad { background: rgba(255,80,80,0.07) !important; border-color: rgba(255,80,80,0.22) !important; } .ba-col.good { background: rgba(59,130,246,0.07) !important; border-color: rgba(59,130,246,0.28) !important; } .kicker { color: var(--accent); } .ba-headline { font-size: clamp(18px,3.5cqw,26px); font-weight: 700; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["geometric-harmony", "geo-neon-ring"],
+      "copy": {
+        "question": "¿Tu CV ya convence antes de la carta?",
+        "cta_keyword": "REVISAR",
+        "reward": "WorqAI analiza tu CV primero. Sin costo."
+      },
+      "decoratives": [
+        { "id": "svg-starburst-spark", "position": "br" }
+      ],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

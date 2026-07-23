@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "system": "s21",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "ats-rechazo",
+    "density": "standard",
+    "continuity": ""
+  },
+  "pacing": ["hook", "shock", "diagnostic", "proof", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["pw-grid", "geo-contour-flow"],
+      "decoratives": [{ "id": "svg-starburst-spark", "position": "tr" }],
+      "copy": {
+        "kicker": "SILENCIO ABSOLUTO",
+        "headline": "Enviaste 40 solicitudes. Nadie te respondió.",
+        "body": "Tu CV nunca llegó a manos de nadie.",
+        "text_treatment": "glow",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".hook-display { font-size: clamp(26px,5.2cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.08; } .hook-body { font-size: 17px; font-weight: 400; opacity: 0.85; line-height: 1.5; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-big-number",
+      "layers": ["pw-grid", "geo-neon-ring"],
+      "decoratives": ["corner-frame"],
+      "copy": {
+        "kicker": "DATO",
+        "stat_number": "73%",
+        "stat_context": "de CVs eliminados antes de revisión humana",
+        "text_treatment": "glow-bold"
+      },
+      "custom_css": ".bn-num { font-size: clamp(80px,18cqw,140px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.9; } .bn-context { font-size: clamp(16px,3cqw,22px); font-weight: 400; opacity: 0.82; line-height: 1.4; max-width: 80%; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-terminal",
+      "layers": ["pw-grid", "geo-scan-lines"],
+      "decoratives": [{ "id": "chrome-vertical-counter" }],
+      "copy": {
+        "kicker": "WORQAI SCAN",
+        "headline": "Esto es lo que el ATS leyó de tu CV",
+        "command": "worqai scan --file cv.pdf",
+        "output_lines": [
+          { "type": "warn", "text": "WARN: tabla_detectada → contenido ignorado" },
+          { "type": "err", "text": "ERR:  columna_encontrada → texto_perdido" },
+          { "type": "err", "text": "ERR:  foto_encontrada → campo omitido" },
+          { "type": "info", "text": "INFO: Legibilidad ATS: 12%" },
+          { "type": "info", "text": "INFO: Estado: Descartado. Sin revisión humana." }
+        ]
+      },
+      "custom_css": ".term-title { font-size: clamp(18px,3.5cqw,26px); font-weight: 800; letter-spacing: -0.02em; } .term-kicker { font-size: 10px; letter-spacing: 0.25em; opacity: 0.85; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-before-after-stacked",
+      "layers": ["pw-grid", "geo-data-streaks"],
+      "decoratives": [{ "id": "svg-starburst-burst", "position": "bl" }],
+      "copy": {
+        "kicker": "FORMATO",
+        "headline": "El diseño determina si pasas",
+        "before_label": "ANTES",
+        "before_text": "Columnas, tablas y gráficos",
+        "before_pct": 12,
+        "after_label": "DESPUÉS",
+        "after_text": "Texto plano, secciones claras",
+        "after_pct": 94
+      },
+      "custom_css": ".bas-headline { font-size: clamp(20px,4.2cqw,32px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; } .bas-pct { font-size: 22px; font-weight: 900; } .bas-text { font-size: 15px; font-weight: 400; opacity: 0.85; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["pw-grid", "geo-chromatic-edge"],
+      "decoratives": [{ "id": "sub-stamp-circle", "text": "GRATIS" }],
+      "copy": {
+        "question": "¿Tu CV listo para ATS en 10 minutos?",
+        "cta_keyword": "DIAGNÓSTICO",
+        "reward": "Análisis completo de tu CV en 10 minutos. Sin costo.",
+        "url": "worqai.com"
+      },
+      "custom_css": ".cta-question { font-size: clamp(26px,5cqw,38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-keyword { font-size: clamp(40px,8cqw,60px); font-weight: 900; letter-spacing: -0.04em; } .cta-reward { font-size: clamp(13px,2.5cqw,15px); opacity: 0.82; margin-top: 28px; font-weight: 400; }"
+    }
+  ]
+}

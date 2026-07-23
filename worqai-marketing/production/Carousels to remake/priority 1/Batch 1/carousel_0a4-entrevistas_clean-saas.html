@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI — 0 a 4 entrevistas en 7 días</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  /* === WORQAI CLEAN SAAS 2026 — DIRECTED RHYTHM BUILD === */
+  /* System: s33 CLEAN SAAS 2026 | Fonts: Inter / JetBrains Mono */
+  /* Build mode: Bespoke | Technique budget: max 3 layers per slide */
+  /* Tension: S1 (grid + glow orb + corner accents) */
+  /* Silence: S2 (0 decorative, pure gradient + quote) */
+  /* Impact: S3 (grid + comparison + checklist + stat bars) */
+  /* Release: S4 (grid + CTA + keyword box) */
+  /* Average layers: 2.5 | Max layers: 3 | html2canvas-safe: yes */
+
+  /* === RESET & BASE === */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body {
+    background: #060a14;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: #e2e8f0;
+  }
+  .viewer { width: 1080px; max-width: 100%; }
+  .wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #060a14;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 28px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.03);
+  }
+  .slides { display: flex; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+  .slide {
+    position: relative;
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 84px 76px 124px;
+    overflow: hidden;
+  }
+
+  /* === BACKGROUND BASE === */
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(165deg, #070d18 0%, #0f172a 45%, #0c1424 100%);
+    z-index: 0;
+  }
+
+  /* === DOT MATRIX PATTERN (subtle, all slides) === */
+  .dot-matrix {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='1' fill='%233b82f6'/%3E%3Ccircle cx='0' cy='0' r='0.5' fill='%233b82f6'/%3E%3Ccircle cx='40' cy='0' r='0.5' fill='%233b82f6'/%3E%3Ccircle cx='0' cy='40' r='0.5' fill='%233b82f6'/%3E%3Ccircle cx='40' cy='40' r='0.5' fill='%233b82f6'/%3E%3C/svg%3E");
+    background-size: 40px 40px;
+  }
+
+  /* === PARAMETRIC GRID (TENSION + IMPACT slides) === */
+  .grid-lines {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.055;
+    background-image:
+      linear-gradient(to right, rgba(59,130,246,0.45) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(59,130,246,0.45) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  /* === S2 SILENCE — NO GRID === */
+  .s2-grid { display: none; }
+
+  /* === GLOW ORB (S1 only) === */
+  .glow-orb {
+    position: absolute;
+    width: 50%; aspect-ratio: 1/1; border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.13) 0%, transparent 65%);
+    filter: blur(70px); pointer-events: none; z-index: 1;
+    top: -12%; right: -8%;
+    animation: orb-float 8s ease-in-out infinite alternate;
+  }
+  @keyframes orb-float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-20px, 15px) scale(1.08); }
+  }
+
+  /* === TYPOGRAPHY SYSTEM === */
+  .display {
+    font-family: 'Inter', sans-serif;
+    font-size: 82px;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: #f8fafc;
+    position: relative;
+    z-index: 5;
+  }
+  .headline {
+    font-family: 'Inter', sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.12;
+    color: #f8fafc;
+    position: relative;
+    z-index: 5;
+  }
+  .body-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 21px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: rgba(226,232,240,0.68);
+    position: relative;
+    z-index: 5;
+  }
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #3b82f6;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* === S1 HOOK — TENSION === */
+  .s1-display { max-width: 720px; }
+  .s1-body { margin-top: 22px; max-width: 500px; }
+  .s1-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, transparent);
+    z-index: 5;
+    opacity: 0.5;
+  }
+  .swipe-pill {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(59,130,246,0.7);
+    border: 1px solid rgba(59,130,246,0.22);
+    padding: 8px 16px;
+    border-radius: 6px;
+    z-index: 10;
+    letter-spacing: 0.06em;
+  }
+
+  /* === S2 PULL QUOTE — SILENCE (0 decorative, 2 layers) === */
+  .s2-slide { justify-content: center; align-items: center; text-align: center; }
+  .s2-slide::before {
+    background: linear-gradient(165deg, #070d18 0%, #0f172a 45%, #0c1424 100%);
+  }
+  .quote-mark {
+    font-size: 100px;
+    color: #3b82f6;
+    opacity: 0.1;
+    line-height: 1;
+    position: relative; z-index: 5;
+    margin-bottom: -24px;
+    font-family: 'Inter', serif;
+  }
+  .s2-headline {
+    font-size: 40px;
+    font-style: italic;
+    font-weight: 400;
+    max-width: 740px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .s2-attrib {
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(226,232,240,0.38);
+    letter-spacing: 0.08em;
+    position: relative; z-index: 5;
+  }
+  .s2-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === S3 COMPARISON — IMPACT === */
+  .s3-label { color: #3b82f6; }
+  .comparison-row {
+    display: flex;
+    gap: 0;
+    margin-top: 28px;
+    position: relative; z-index: 5;
+  }
+  .comparison-col-left {
+    flex: 1;
+    opacity: 0.5;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    padding-right: 28px;
+  }
+  .comparison-col-right {
+    flex: 1;
+    padding-left: 28px;
+  }
+  .comparison-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 12px;
+  }
+  .comparison-left-lbl { color: rgba(226,232,240,0.45); text-decoration: line-through; }
+  .comparison-right-lbl { color: #3b82f6; }
+  .comparison-txt {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: rgba(226,232,240,0.78);
+  }
+  .comparison-right-txt { color: rgba(248,250,252,0.92); font-weight: 400; }
+  .mock-checklist {
+    margin-top: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+    position: relative; z-index: 5;
+  }
+  .mock-check-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(226,232,240,0.6);
+  }
+  .mock-check-box {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(226,232,240,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+  .mock-check-item.ok .mock-check-box { border-color: #3b82f6; color: #3b82f6; }
+  .mock-check-item.bad .mock-check-box { border-color: #ef4444; color: #ef4444; }
+  .s3-stat-bar {
+    margin-top: 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    position: relative; z-index: 5;
+  }
+  .stat-row {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px;
+    color: rgba(226,232,240,0.5);
+  }
+  .stat-bar-track {
+    flex: 1; height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+  .stat-bar-fill.low { width: 12%; background: #ef4444; }
+  .stat-bar-fill.high { width: 94%; background: #3b82f6; }
+  .s3-accent-line {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    width: 40px;
+    height: 2px;
+    background: #3b82f6;
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === SUBTLE CORNER ACCENTS (TENSION + IMPACT slides) === */
+  .corner-accent {
+    position: absolute;
+    width: 32px; height: 32px;
+    border-color: rgba(59,130,246,0.12);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .corner-accent.tl { top: 32px; left: 32px; border-top: 2px solid; border-left: 2px solid; }
+  .corner-accent.tr { top: 32px; right: 32px; border-top: 2px solid; border-right: 2px solid; }
+  .corner-accent.bl { bottom: 32px; left: 32px; border-bottom: 2px solid; border-left: 2px solid; }
+  .corner-accent.br { bottom: 32px; right: 32px; border-bottom: 2px solid; border-right: 2px solid; }
+
+  /* === S4 CTA — RELEASE === */
+  .s4-slide { justify-content: center; align-items: center; text-align: center; }
+  .s4-headline { text-align: center; }
+  .keyword-box {
+    display: inline-block;
+    border: 2px dashed #3b82f6;
+    padding: 16px 36px;
+    border-radius: 12px;
+    margin-top: 36px;
+    position: relative; z-index: 5;
+    transition: all 0.2s;
+  }
+  .keyword-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 34px;
+    font-weight: 700;
+    color: #3b82f6;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .s4-reward {
+    margin-top: 28px;
+    text-align: center;
+    position: relative; z-index: 5;
+    max-width: 460px;
+  }
+  .s4-cta-line {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+    z-index: 5;
+    opacity: 0.4;
+  }
+
+  /* === BRAND ANCHOR === */
+  .brand {
+    position: absolute;
+    bottom: 52px;
+    right: 60px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(226,232,240,0.28);
+    letter-spacing: 0.1em;
+    z-index: 10;
+  }
+  .counter {
+    position: absolute;
+    bottom: 52px;
+    right: 170px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(226,232,240,0.28);
+    z-index: 10;
+  }
+
+  /* === CONTROLS === */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .ctrl-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #e2e8f0;
+    padding: 10px 26px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.15); }
+  .dots { display: flex; gap: 8px; align-items: center; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .dot:hover { background: rgba(255,255,255,0.3); }
+  .dot.on { background: #3b82f6; transform: scale(1.4); box-shadow: 0 0 8px rgba(59,130,246,0.25); }
+  .hint {
+    text-align: center;
+    margin-top: 12px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.22);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+  .zip-btn {
+    display: block;
+    margin: 18px auto 0;
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.28);
+    color: #3b82f6;
+    padding: 12px 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .zip-btn:hover { background: rgba(59,130,246,0.18); box-shadow: 0 0 20px rgba(59,130,246,0.1); }
+
+  /* === SCROLL INDICATOR (S1 only) === */
+  .scroll-hint {
+    position: absolute;
+    bottom: 120px;
+    left: 76px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 5;
+    opacity: 0.3;
+  }
+  .scroll-hint .line {
+    width: 24px;
+    height: 1px;
+    background: #3b82f6;
+  }
+  .scroll-hint span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #3b82f6;
+    letter-spacing: 0.1em;
+  }
+
+  /* === ADDITIONAL TRANSITIONS & STATES === */
+  .slide { transition: opacity 0.3s ease; }
+  .keyword-box:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 0 24px rgba(59,130,246,0.12);
+  }
+  .comparison-col-left, .comparison-col-right {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .mock-check-item {
+    transition: color 0.2s ease;
+  }
+  .mock-check-item:hover {
+    color: rgba(226,232,240,0.85);
+  }
+  .stat-bar-fill {
+    animation: bar-grow 1.2s ease-out forwards;
+    transform-origin: left;
+  }
+  @keyframes bar-grow {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="slides" id="slides">
+
+      <!-- === S1: HOOK — TENSION === -->
+      <div class="slide">
+        <div class="grid-lines"></div>
+        <div class="dot-matrix"></div>
+        <div class="glow-orb"></div>
+        <div class="corner-accent tl"></div><div class="corner-accent tr"></div>
+        <div class="corner-accent bl"></div><div class="corner-accent br"></div>
+        <div class="label">WORQAI / RESULTADO REAL</div>
+        <div class="display s1-display">0 A 4<br>ENTREVISTAS<br>EN 7 DÍAS</div>
+        <div class="body-text s1-body">No cambié mi experiencia. Cambié cómo la cuenta mi CV. El mismo perfil, contado diferente.</div>
+        <div class="s1-accent-line"></div>
+        <div class="scroll-hint"><div class="line"></div><span>01 / 04</span></div>
+        <div class="swipe-pill">Desliza →</div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">01 / 04</div>
+      </div>
+
+      <!-- === S2: PULL QUOTE — SILENCE (0 decorative, 2 layers) === -->
+      <div class="slide s2-slide">
+        <div class="quote-mark">"</div>
+        <div class="headline s2-headline">El CV no es tu historia.<br>Es tu argumento de venta.</div>
+        <div class="s2-attrib">— WORQAI · 847 CVs OPTIMIZADOS · 12 PAÍSES LATAM · DATOS 2025</div>
+        <div class="s2-accent-line"></div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">02 / 04</div>
+      </div>
+
+      <!-- === S3: COMPARISON — IMPACT === -->
+      <div class="slide">
+        <div class="grid-lines"></div>
+        <div class="dot-matrix"></div>
+        <div class="corner-accent tl"></div><div class="corner-accent tr"></div>
+        <div class="corner-accent bl"></div><div class="corner-accent br"></div>
+        <div class="label s3-label">ANTES / DESPUÉS</div>
+        <div class="headline">Mismo perfil, diferente resultado</div>
+        <div class="body-text" style="margin-top:8px;opacity:0.55;font-size:16px;">El antes y después de un CV optimizado con WorqAI. Mismo profesional, diferente estrategia.</div>
+        <div class="comparison-row">
+          <div class="comparison-col-left">
+            <div class="comparison-lbl comparison-left-lbl">ANTES</div>
+            <div class="comparison-txt">CV genérico con foto. 0 callbacks en 3 meses de búsqueda.</div>
+            <div class="mock-checklist">
+              <div class="mock-check-item bad"><div class="mock-check-box">✗</div> Formato no parseable por ATS</div>
+              <div class="mock-check-item bad"><div class="mock-check-box">✗</div> Sin keywords de job description</div>
+              <div class="mock-check-item bad"><div class="mock-check-box">✗</div> Fechas en formato no estándar</div>
+              <div class="mock-check-item bad"><div class="mock-check-box">✗</div> Tablas que rompen el parser</div>
+            </div>
+            <div class="s3-stat-bar">
+              <div class="stat-row"><span>Score ATS</span><div class="stat-bar-track"><div class="stat-bar-fill low"></div></div><span>12%</span></div>
+            </div>
+          </div>
+          <div class="comparison-col-right">
+            <div class="comparison-lbl comparison-right-lbl">DESPUÉS</div>
+            <div class="comparison-txt comparison-right-txt">CV ATS-optimizado con WorqAI. 4 entrevistas en 7 días. Mismo profesional, mejor estrategia.</div>
+            <div class="mock-checklist">
+              <div class="mock-check-item ok"><div class="mock-check-box">✓</div> Formato ATS 100% compatible</div>
+              <div class="mock-check-item ok"><div class="mock-check-box">✓</div> Keywords alineadas al puesto</div>
+              <div class="mock-check-item ok"><div class="mock-check-box">✓</div> Fechas estandarizadas MM/YYYY</div>
+              <div class="mock-check-item ok"><div class="mock-check-box">✓</div> Estructura de texto plano</div>
+            </div>
+            <div class="s3-stat-bar">
+              <div class="stat-row"><span>Score ATS</span><div class="stat-bar-track"><div class="stat-bar-fill high"></div></div><span>94%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="s3-accent-line"></div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">03 / 04</div>
+      </div>
+
+      <!-- === S4: CTA — RELEASE === -->
+      <div class="slide s4-slide">
+        <div class="grid-lines"></div>
+        <div class="dot-matrix"></div>
+        <div class="headline s4-headline">¿Cuántas entrevistas<br>perdés por tu CV?</div>
+        <div class="keyword-box">
+          <span class="keyword-text">WORQAI</span>
+        </div>
+        <div class="body-text s4-reward">Primer CV gratis. Optimizado para ATS en 5 minutos. Sin tarjeta de crédito. Sin compromiso. Usalo cuando quieras. Cancelá cuando quieras.</div>
+        <div class="s4-cta-line"></div>
+        <div class="brand">@worqai.io</div>
+        <div class="counter">04 / 04</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" onclick="prev()">←</button>
+    <div class="dots" id="dots"></div>
+    <button class="ctrl-btn" onclick="next()">→</button>
+  </div>
+  <div class="hint">Usá las flechas o los dots para navegar</div>
+  <button class="zip-btn" onclick="exportZip()">📦 Exportar ZIP</button>
+</div>
+
+<script>
+  const slides = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const total = 4;
+  let current = 0;
+
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.onclick = () => go(i);
+    dotsContainer.appendChild(d);
+  }
+
+  function go(n) {
+    current = n;
+    slides.style.transform = `translateX(-${n * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('on', i === n));
+  }
+  function next() { go((current + 1) % total); }
+  function prev() { go((current - 1 + total) % total); }
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') next(); if (e.key === 'ArrowLeft') prev(); });
+
+  async function exportZip() {
+    const btn = document.querySelector('.zip-btn');
+    btn.textContent = 'Generando...';
+    const zip = new JSZip();
+    const folder = zip.folder('slides');
+    const wrap = document.getElementById('wrap');
+    for (let i = 0; i < total; i++) {
+      go(i);
+      await new Promise(r => setTimeout(r, 600));
+      const canvas = await html2canvas(wrap, { scale: 2, backgroundColor: '#060a14' });
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      folder.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const content = await zip.generateAsync({ type: 'blob' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(content);
+    a.download = 'carousel_0a4-entrevistas_clean-saas.zip';
+    a.click();
+    btn.textContent = '✅ Listo';
+    setTimeout(() => btn.textContent = '📦 Exportar ZIP', 2000);
+  }
+</script>
+
+</body>
+</html>

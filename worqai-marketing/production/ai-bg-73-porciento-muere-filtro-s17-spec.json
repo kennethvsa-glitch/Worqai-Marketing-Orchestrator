@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "system": "s17",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "73-porciento-muere-filtro",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "data",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-big-number",
+      "density": "demo",
+      "layers": [
+        "oceanic-wave",
+        "pw-grid",
+        "geo-topo-lines"
+      ],
+      "copy": {
+        "kicker": "DATO DURO",
+        "stat_number": "73%",
+        "stat_context": "Nunca los ve un humano. El bot decide.",
+        "headline": "La puerta está cerrada para la mayoría"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-stat { font-size: clamp(88px,17cqw,130px); font-weight: 900; letter-spacing: -0.04em; color: var(--accent); } .s1-context { opacity: 0.92; max-width: 36ch; font-size: 16px; } .s1-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 700; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-input-output",
+      "density": "demo",
+      "layers": [
+        "oceanic-wave",
+        "pw-grid",
+        "geo-pixel-grid"
+      ],
+      "copy": {
+        "kicker": "EL PROBLEMA",
+        "headline": "Lo que enviás vs. lo que lee el ATS",
+        "input_label": "Tu CV (se ve así)",
+        "input_text": "Diseño visual con iconos, tablas de habilidades y gráficos de progreso.",
+        "output_label": "El ATS lo lee así",
+        "output_text": "[NOMBRE] [TEXTO SIN FORMATO] [DATOS PERDIDOS]",
+        "output_score": "SCORE: 28/100"
+      },
+      "custom_css": ".s2-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 800; letter-spacing: -0.02em; } .s2-panel-label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.90; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-checklist",
+      "density": "heavy",
+      "layers": [
+        "oceanic-wave",
+        "pw-grid",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "SOLUCIÓN",
+        "headline": "3 reglas para entrar al 27%",
+        "items": [
+          "Texto plano, sin columnas ni tablas",
+          "Palabras clave del puesto copiadas tal cual",
+          "Formato .docx simple, no PDF con diseño"
+        ]
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .s3-chk-title { font-size: 16px; font-weight: 600; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "oceanic-wave",
+        "pw-grid",
+        "geo-pixel-grid"
+      ],
+      "copy": {
+        "question": "¿En qué 27% querés estar?",
+        "cta_keyword": "REVISAR",
+        "reward": "Subí tu CV. Te decimos si el bot lo lee o lo ignora. Sin costo."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

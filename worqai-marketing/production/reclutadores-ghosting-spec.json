@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "system": "s04",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "title": "Por qué los reclutadores te dejan en silencio",
+    "topic": "reclutadores-ghosting",
+    "density": "standard"
+  },
+  "pacing": ["hook", "silence", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["glow-orb", "geo-ribbon-flow"],
+      "decoratives": ["corner-frame", "ornament-tr"],
+      "copy": {
+        "kicker": "ENTREVISTA FINAL",
+        "headline": "No desaparecieron. El proceso lo decidió antes.",
+        "body": "Hay una razón específica por la que el silencio llega después. No tiene que ver con tu desempeño.",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".hook-display { font-size: clamp(36px, 7cqw, 54px); line-height: 1.05; letter-spacing: -0.03em; } .hook-body { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(17px, 3.4cqw, 22px); line-height: 1.62; margin-top: 28px; opacity: 0.76; } .hook-kicker { letter-spacing: 0.26em; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "layers": ["zoom-rings", "glow-orb"],
+      "copy": {
+        "kicker": "LO QUE PASA DETRÁS",
+        "headline": "El protocolo que nadie te explica",
+        "command": "close_candidate --round final --action silence",
+        "output_lines": [
+          { "type": "warn", "text": "HR policy: no written feedback to external candidates" },
+          { "type": "warn", "text": "Legal review required for all rejection communications" },
+          { "type": "err",  "text": "STATUS: unresolved · no communication scheduled" },
+          { "type": "info", "text": "Standard process. No malice. Nobody told them either." }
+        ]
+      },
+      "custom_css": ".term-headline { font-size: clamp(24px, 5cqw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; } .term-body { border-color: rgba(224,90,122,0.28); background: rgba(0,0,0,0.65); } .zoom-rings .ring { border-color: rgba(224,90,122,0.18); }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-tip-blocks",
+      "layers": ["glow-orb", "vol-light"],
+      "decoratives": ["ornament-bl"],
+      "copy": {
+        "kicker": "QUÉ HACER",
+        "headline": "Un mensaje antes de que el silencio se instale.",
+        "tips": [
+          {
+            "problem": "Esperar sin actuar",
+            "fix": "Escribe en 24 horas. Una pregunta concreta sobre el proceso. Sin desesperación visible."
+          },
+          {
+            "problem": "Aceptar el silencio",
+            "fix": "Sigue aplicando en paralelo. Este silencio no es el techo de tu búsqueda."
+          }
+        ]
+      },
+      "custom_css": ".tip-headline { font-size: clamp(26px, 5.5cqw, 40px); font-weight: 800; letter-spacing: -0.025em; line-height: 1.07; } .tip-blk.bad { background: rgba(224,90,122,0.09); border-color: rgba(224,90,122,0.24); } .tip-blk.mid { background: rgba(224,90,122,0.04); border-color: rgba(224,90,122,0.14); } .tip-blk-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(14px, 2.8cqw, 18px); line-height: 1.62; opacity: 0.84; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "layers": ["glow-orb"],
+      "decoratives": [{ "id": "sub-stamp-circle", "text": "GRATIS" }],
+      "copy": {
+        "question": "¿Pasaste la entrevista final y no escuchaste nada?",
+        "cta_keyword": "CIERRE",
+        "reward": "Te mando la plantilla de follow-up exacta. Gratis."
+      },
+      "custom_css": ".cta-question { font-size: clamp(26px, 5.5cqw, 38px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.04; max-width: 820px; } .cta-keyword-box { border-style: dashed; background: rgba(224,90,122,0.06); margin-top: 36px; } .cta-reward { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(15px, 2.9cqw, 18px); opacity: 0.70; margin-top: 26px; }"
+    }
+  ]
+}

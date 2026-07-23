@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>worqai · Tu workflow de aplicar está roto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0A0A0A;font-family:'Nunito',system-ui,sans-serif;color:#FFFFFF;min-height:100vh}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.label-top{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#C7FF3A;margin-bottom:14px;text-align:center}
+.preview-cage{transform:scale(0.5);transform-origin:top center;width:1080px;margin:0 auto;height:540px}
+.viewer{width:1080px;max-width:1080px}
+.wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
+.track{display:flex;width:auto;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+.slide{position:relative;flex:0 0 1080px;width:1080px;min-width:1080px;height:1080px;overflow:hidden;background:linear-gradient(148deg,#111111 0%,#0A0A0A 100%);color:#E5E5E5}
+
+.slide::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px 300px;pointer-events:none;z-index:1;opacity:.06}
+
+.glow{position:absolute;width:780px;height:780px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.15) 0%,transparent 65%);filter:blur(80px);pointer-events:none;z-index:1}
+.band{position:absolute;top:-15%;left:-10%;width:130%;height:35%;background:linear-gradient(115deg,transparent 45%,rgba(199,255,58,0.06) 45%,rgba(199,255,58,0.06) 47%,transparent 47%);pointer-events:none;z-index:1}
+.brand-w{position:absolute;font-family:'Nunito',sans-serif;font-weight:900;font-size:880px;line-height:.78;letter-spacing:-0.07em;pointer-events:none;user-select:none;z-index:1;color:rgba(199,255,58,0.05)}
+
+.content{position:relative;z-index:3;height:100%;padding:68px 64px 148px;display:flex;flex-direction:column}
+
+.deco-num{position:absolute;top:-26px;right:46px;font-weight:900;font-size:280px;line-height:1;letter-spacing:-.05em;pointer-events:none;user-select:none;z-index:2;color:rgba(255,255,255,0.06)}
+
+.label{font-size:18px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#C7FF3A;margin-bottom:28px;display:inline-block}
+.headline{font-weight:900;font-size:78px;line-height:1.04;letter-spacing:-0.035em;color:#FFFFFF}
+.body-text{font-weight:400;font-size:30px;line-height:1.5;color:#E5E5E5}
+.lime{color:#C7FF3A}
+.coral-text{color:#FF8B70}
+
+.stat-num{font-weight:900;font-size:380px;line-height:0.85;letter-spacing:-0.06em;color:#C7FF3A}
+.stat-pct{font-size:200px;color:#FFFFFF;font-weight:900;line-height:0.85}
+.source-tag{font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:.40;margin-top:24px;color:#A0A0A0}
+
+.why-row{margin-top:24px;font-size:24px;font-weight:600;line-height:1.4;padding-left:20px;border-left:3px solid #C7FF3A;color:#E5E5E5}
+
+.pill-tag{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;background:rgba(255,92,60,0.10);border:1px solid #FF8B70;border-radius:999px;font-weight:800;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;color:#FF8B70;margin-bottom:24px}
+
+.step-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:28px 32px;margin-top:28px}
+.step-card-tag{font-size:14px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#C7FF3A;margin-bottom:14px}
+.step-card-text{font-size:24px;font-weight:600;line-height:1.5;color:#E5E5E5}
+.step-card-text strong{color:#FFFFFF}
+
+.quote-mark{font-family:'Nunito',sans-serif;font-weight:900;font-size:340px;line-height:.7;color:#C7FF3A;opacity:.25;position:absolute;top:80px;left:80px;z-index:2}
+.quote-body{font-weight:800;font-size:54px;line-height:1.2;letter-spacing:-0.025em;margin-top:120px;color:#FFFFFF}
+.quote-attr{margin-top:48px;display:flex;align-items:center;gap:20px}
+.avatar-circle{width:72px;height:72px;border-radius:50%;background:#C7FF3A;display:flex;align-items:center;justify-content:center;color:#0A0A0A;font-weight:900;font-size:30px;letter-spacing:-1px}
+.attr-text{font-size:24px;font-weight:700;color:#FFFFFF}
+.attr-sub{font-size:18px;font-weight:500;opacity:.55;margin-top:4px;letter-spacing:0.05em;color:#A0A0A0}
+
+.hook-stack{margin-top:auto;margin-bottom:60px}
+.hook-display{font-weight:900;font-size:120px;line-height:0.95;letter-spacing:-0.05em;color:#FFFFFF}
+.hook-display .lime{color:#C7FF3A}
+.hook-sub{font-weight:600;font-size:32px;line-height:1.4;margin-top:32px;opacity:.75;max-width:780px;color:#E5E5E5}
+.swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;padding:14px 26px;border:2px solid #C7FF3A;color:#C7FF3A;border-radius:999px;font-size:18px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;margin-top:36px}
+
+.stat-context{font-weight:800;font-size:42px;line-height:1.1;letter-spacing:-0.02em;margin-top:40px;max-width:840px;color:#E5E5E5}
+
+.brand-anchor{position:absolute;bottom:46px;left:64px;z-index:5;font-weight:900;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;color:#A0A0A0}
+.brand-anchor .ai{color:#C7FF3A}
+.brand-anchor .worq{color:#FFFFFF}
+
+.site-url{position:absolute;bottom:46px;left:50%;transform:translateX(-50%);z-index:5;font-weight:700;font-size:20px;letter-spacing:0.1em;color:rgba(255,255,255,0.45);text-transform:lowercase}
+
+.counter{position:absolute;bottom:50px;right:64px;z-index:5;font-weight:700;font-size:18px;letter-spacing:0.2em;color:rgba(255,255,255,0.45)}
+
+.left-spine{position:absolute;top:0;left:0;width:6px;height:100%;background:linear-gradient(180deg,#C7FF3A 0%,transparent 70%);z-index:2}
+
+/* CTA card */
+.cta-card{background:#111111;border:2px solid rgba(199,255,58,0.25);border-radius:32px;padding:40px 44px;margin-top:auto;margin-bottom:60px;position:relative;overflow:hidden}
+.cta-card::after{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.15),transparent 65%);filter:blur(40px)}
+
+.unified-cta-headline{font-weight:900;font-size:48px;line-height:1.05;letter-spacing:-0.03em;color:#FFFFFF;margin-bottom:24px;position:relative;z-index:2}
+.unified-cta-line{font-weight:800;font-size:30px;color:#C7FF3A;line-height:1.3;position:relative;z-index:2}
+.unified-cta-fine{font-size:18px;color:#A0A0A0;margin-top:12px;position:relative;z-index:2}
+.unified-url-box{display:inline-flex;align-items:center;gap:14px;padding:18px 28px;border:2px dashed #C7FF3A;border-radius:14px;margin-top:20px;margin-bottom:20px;position:relative;z-index:2}
+.unified-url-tag{font-size:13px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#C7FF3A;opacity:0.7}
+.unified-url-text{font-weight:900;font-size:42px;color:#C7FF3A;letter-spacing:0.06em}
+.unified-closing{font-size:22px;color:#E5E5E5;margin-top:20px;font-weight:600;max-width:800px;line-height:1.4;position:relative;z-index:2}
+.unified-closing strong{color:#FFFFFF}
+
+.controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px}
+.btn{background:rgba(255,255,255,.08);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.btn:disabled{opacity:.2;cursor:default}
+.dots{display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s}
+.dot.on{background:#C7FF3A;width:18px;border-radius:3px}
+.hint{font-size:10px;color:rgba(255,255,255,.3);letter-spacing:0.18em;text-transform:uppercase;margin-top:10px;text-align:center}
+</style>
+</head>
+<body>
+<div class="label-top">worqai · workflow roto · error + fix</div>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ============ SLIDE 1 · HOOK ============ -->
+      <div class="slide" data-slide="1">
+        <div class="brand-w" style="top:-12%;left:-8%">W</div>
+        <div class="glow" style="top:-25%;right:-10%"></div>
+        <div class="band"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai · workflow</div>
+          <div class="hook-stack">
+            <div class="hook-display">Tu workflow<br>de aplicar<br>está <span class="lime">roto.</span><br>Y lo sentís.</div>
+            <div class="hook-sub">Mandás 50 CVs. Cero respuestas. No es tu perfil. Es el sistema.</div>
+            <div class="swipe-pill">Deslizá →</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">01 / 06</div>
+      </div>
+
+      <!-- ============ SLIDE 2 · DATA ============ -->
+      <div class="slide" data-slide="2">
+        <div class="brand-w" style="bottom:-22%;right:-12%">W</div>
+        <div class="glow" style="top:55%;right:-22%"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">02</div>
+        <div class="content">
+          <div class="label">el dato</div>
+          <div class="headline" style="max-width:900px">73% de candidatos<br>abandonan antes de<br>la <span class="lime">entrevista.</span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:48px">
+            <div class="stat-num">73</div>
+            <div class="stat-pct">%</div>
+          </div>
+          <div class="stat-context">No es falta de motivación. Es fricción: mismo CV, sin personalización, sin feedback.</div>
+          <div class="source-tag">Fuente · Dato interno WorqAI 2025</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">02 / 06</div>
+      </div>
+
+      <!-- ============ SLIDE 3 · ERROR ============ -->
+      <div class="slide" data-slide="3">
+        <div class="brand-w" style="top:8%;right:-26%">W</div>
+        <div class="glow" style="top:-12%;right:50%"></div>
+        <div class="band"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">03</div>
+        <div class="content">
+          <div class="pill-tag">Error 01 · Workflow</div>
+          <div class="headline" style="max-width:900px">Mandás el mismo<br>CV a <span class="coral-text">todas</span> las vacantes.</div>
+          <div class="step-card" style="border-color:rgba(255,92,60,0.22);background:rgba(255,92,60,0.04)">
+            <div class="step-card-tag" style="color:#FF8B70">Consecuencia</div>
+            <div class="step-card-text">Cada puesto busca <strong>keywords distintas</strong>. El ATS filtra por coincidencia exacta. Sin match, sin entrevista.</div>
+          </div>
+          <div class="why-row">El recruiter busca "Python + AWS + liderazgo de equipo". Tu CV dice "dominio de tecnologías". No hay match.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">03 / 06</div>
+      </div>
+
+      <!-- ============ SLIDE 4 · FIX ============ -->
+      <div class="slide" data-slide="4">
+        <div class="brand-w" style="bottom:-26%;left:-18%">W</div>
+        <div class="glow" style="top:50%;right:60%"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">04</div>
+        <div class="content">
+          <div class="pill-tag" style="background:rgba(199,255,58,0.10);border-color:#C7FF3A;color:#C7FF3A">Fix 01 · Workflow</div>
+          <div class="headline" style="max-width:900px">WorqAI personaliza<br>tu CV en <span class="lime">30 segundos.</span></div>
+          <div class="step-card">
+            <div class="step-card-tag">Cómo funciona</div>
+            <div class="step-card-text">Subís tu CV. Elegís la vacante. Recibís una versión adaptada con <strong>keywords, bullets y formato ATS-safe</strong>. Listo para enviar.</div>
+          </div>
+          <div class="why-row">No reescribís. Nosotros hacemos el match exacto entre tu experiencia y el job post.</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">04 / 06</div>
+      </div>
+
+      <!-- ============ SLIDE 5 · PROOF ============ -->
+      <div class="slide" data-slide="5">
+        <div class="brand-w" style="top:18%;left:-32%">W</div>
+        <div class="glow" style="top:55%;right:-24%"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">05</div>
+        <div class="quote-mark">"</div>
+        <div class="content">
+          <div class="label">resultado real</div>
+          <div class="quote-body">Llevaba 3 meses aplicando sin respuesta. Usé WorqAI para personalizar 5 CVs. <span style="background:#C7FF3A;color:#0A0A0A;padding:0 8px">4 entrevistas en 2 semanas.</span></div>
+          <div class="quote-attr">
+            <div class="avatar-circle">M</div>
+            <div>
+              <div class="attr-text">María G. — UX Designer</div>
+              <div class="attr-sub">Buenos Aires, Argentina</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">05 / 06</div>
+      </div>
+
+      <!-- ============ SLIDE 6 · UNIFIED CTA ============ -->
+      <div class="slide" data-slide="6">
+        <div class="brand-w" style="bottom:-30%;right:-15%">W</div>
+        <div class="glow" style="top:-10%;right:40%"></div>
+        <div class="left-spine"></div>
+        <div class="deco-num">06</div>
+        <div class="content">
+          <div class="label">tu siguiente paso</div>
+          <div class="unified-cta-headline" style="margin-top:20px">¿Querés ver<br><span class="lime">qué ve el ATS</span><br>cuando abre tu CV?</div>
+          <div class="cta-card">
+            <div class="unified-cta-line" style="font-size:36px">CV mejorado gratis — listo para descargar</div>
+            <div class="unified-cta-line" style="font-size:28px;margin-top:10px">Puntuación ATS para tu CV gratis</div>
+            <div class="unified-cta-fine">Sin tarjeta. Sin costo.</div>
+            <div class="unified-url-box">
+              <span class="unified-url-tag">URL</span>
+              <span class="unified-url-text">WORQAI.IO</span>
+            </div>
+            <div class="unified-closing">Subí tu CV a <strong>worqai.io</strong>. Te pasamos el diagnóstico completo: qué falla, por qué, y cómo arreglarlo. En español o en inglés.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">06 / 06</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="prev">‹</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+      <span class="dot" onclick="go(5)"></span>
+    </div>
+    <button class="btn" id="next">›</button>
+  </div>
+  <div class="hint">flechas ← → · swipe · click los puntos</div>
+</div>
+</div>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+function go(n){
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  track.style.transform=`translateX(-${cur*1080}px)`;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  prevBtn.disabled=cur===0;
+  nextBtn.disabled=cur===slides.length-1;
+}
+function move(d){go(cur+d);}
+prevBtn.addEventListener('click',()=>move(-1));
+nextBtn.addEventListener('click',()=>move(1));
+let sx=0;
+const wrap=document.getElementById('wrap');
+wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+go(0);
+</script>
+</body>
+</html>

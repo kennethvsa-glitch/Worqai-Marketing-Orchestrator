@@ -1,0 +1,54 @@
+{
+  "agents": [
+    {
+      "id": "brand-strategist",
+      "responsibility": "Define the category, promise, positioning, voice, and strategic frame.",
+      "activates_for": ["brand", "positioning", "landing_page", "campaign", "launch"]
+    },
+    {
+      "id": "market-research-scout",
+      "responsibility": "Study successful examples and extract reusable patterns without copying.",
+      "activates_for": ["benchmark", "campaign", "campaign_package", "deep_research", "seo_page", "carousel", "ig_reel", "landing_page", "motion_video", "partnership_pitch"]
+    },
+    {
+      "id": "copy-chief",
+      "responsibility": "Write hooks, headlines, body copy, CTA systems, ad angles, and rewrites.",
+      "activates_for": ["copy", "landing_page", "campaign", "campaign_package", "seo_page", "message_reply", "ig_reel", "ad", "email", "linkedin_post", "partnership_pitch"]
+    },
+    {
+      "id": "carousel-architect",
+      "responsibility": "Create carousel hooks, slide arcs, visual rhythm, captions, and CTAs.",
+      "activates_for": ["carousel", "linkedin_post"]
+    },
+    {
+      "id": "motion-creative-director",
+      "responsibility": "Turn strategy into scene-based motion briefs and video ideas.",
+      "activates_for": ["motion_video", "motion_handoff", "video", "storyboard", "animation"]
+    },
+    {
+      "id": "growth-strategist",
+      "responsibility": "Choose launch angles, distribution paths, channel fit, and conversion logic.",
+      "activates_for": ["campaign", "campaign_package", "seo_page", "feedback_loop", "launch", "growth", "content_system", "ig_reel", "partnership_pitch"]
+    },
+    {
+      "id": "partnership-pitch-strategist",
+      "responsibility": "Package WorqAI for companies, institutions, universities, and pilot conversations.",
+      "activates_for": ["partnership_pitch"]
+    },
+    {
+      "id": "product-marketing-translator",
+      "responsibility": "Convert product truth into buyer pain, proof, use cases, and before-after language.",
+      "activates_for": ["resume_tailoring", "product_context", "landing_page", "case_study"]
+    },
+    {
+      "id": "taste-director",
+      "responsibility": "Judge whether the output feels premium, specific, and professionally usable.",
+      "activates_for": ["all"]
+    },
+    {
+      "id": "contrarian-market-critic",
+      "responsibility": "Attack generic claims, weak differentiation, fake proof, and derivative ideas.",
+      "activates_for": ["all"]
+    }
+  ]
+}

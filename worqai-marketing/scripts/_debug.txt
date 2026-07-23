@@ -1,0 +1,15 @@
+howcase":{"layout":"slide-big-number",
+        "copy":{"kicker":"Dato clave","stat_number":"6x","stat_context":"más entrevistas con CV optimizado","headline":"El formato importa","body":"CVs ATS-optimizados obtienen 6 veces más respuestas."}}},
+]
+
+
+# ─── Total validation ──────────────────────────────────────────────────────────
+assert len(DEMOS) == 101, f"Expected 101 demos, got {len(DEMOS)}"
+
+
+def make_spec(demo: dict) -> dict:
+    """Build a 1-slide spec — directly shows the component. No hook/CTA wrapping."""
+    showcase = demo["showcase"]
+    slide = {
+        "id": "s1",
+        "layout": showcase["layout"

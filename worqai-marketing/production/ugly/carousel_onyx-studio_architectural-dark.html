@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onyx Studio · Architectural Dark · 8 Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#000;display:flex;flex-direction:column;align-items:center;padding:32px 0;font-family:'Inter',sans-serif;min-height:100vh}
+.label-top{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#e5e7eb;margin-bottom:16px;text-align:center;opacity:.5}
+
+.preview-cage{width:1080px;margin:0 auto}
+@media(min-width:1200px){.preview-cage{transform:scale(.5);transform-origin:top center;height:540px}}
+.capture-mode .preview-cage{transform:none!important}
+
+.viewer{width:100%;overflow:hidden}
+.wrap{position:relative;width:100%;aspect-ratio:1/1}
+.track{display:flex;width:100%;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+
+/* ─── SLIDE BASE — System 42 Architectural Dark ─── */
+.slide{
+  position:relative;min-width:100%;height:100%;overflow:hidden;
+  padding:72px 100px 72px 120px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(135deg,#050608,#111827 40%,#020617);
+}
+
+/* Grain — carousel ID: ons (Onyx Studio) */
+.slide::before{
+  content:'';position:absolute;inset:0;
+  opacity:.28;pointer-events:none;z-index:1;mix-blend-mode:overlay;background-size:180px 180px;
+}
+.s1::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons1'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='4' seed='101' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons1)'/%3E%3C/svg%3E")}
+.s2::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.91' numOctaves='4' seed='102' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons2)'/%3E%3C/svg%3E")}
+.s3::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons3'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='4' seed='103' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons3)'/%3E%3C/svg%3E")}
+.s4::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons4'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.93' numOctaves='4' seed='104' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons4)'/%3E%3C/svg%3E")}
+.s5::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons5'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.89' numOctaves='4' seed='105' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons5)'/%3E%3C/svg%3E")}
+.s6::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons6'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' seed='106' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons6)'/%3E%3C/svg%3E")}
+.s7::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons7'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='4' seed='107' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons7)'/%3E%3C/svg%3E")}
+.s8::before{background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gons8'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.87' numOctaves='4' seed='108' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gons8)'/%3E%3C/svg%3E")}
+
+/* CW-01 progress bar — accent #e5e7eb at 70% */
+.prog-bar{position:absolute;top:0;left:0;height:2px;background:rgba(229,231,235,.7);z-index:10;pointer-events:none}
+
+/* TA-02 vertical spine text — left edge, every slide */
+.spine{
+  position:absolute;left:20px;top:50%;transform:translateY(-50%) rotate(-90deg);
+  transform-origin:center center;
+  font-family:'Inter',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(229,231,235,.12);pointer-events:none;z-index:3;
+  white-space:nowrap;
+}
+
+/* ME-01 speed lines — subtle 0.02 opacity, diagonal */
+.speed-lines{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.02}
+.speed-lines svg{width:100%;height:100%}
+
+/* Radial atmosphere */
+.atm{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
+
+/* Effect 02 — outline ghost text (large background numbers) */
+.ghost-num{
+  position:absolute;pointer-events:none;z-index:0;
+  font-family:'Cormorant Garamond',serif;font-weight:900;
+  color:transparent;
+  -webkit-text-stroke:2px rgba(229,231,235,.07);
+  line-height:1;user-select:none;
+}
+
+/* ─── TYPOGRAPHY ─── */
+.display{font-family:'Cormorant Garamond',serif;font-size:88px;font-weight:900;color:#f9fafb;line-height:1.02;letter-spacing:-.03em;position:relative;z-index:2}
+.headline{font-family:'Cormorant Garamond',serif;font-size:62px;font-weight:700;color:#f9fafb;line-height:1.06;letter-spacing:-.02em;position:relative;z-index:2}
+.subhead{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:#f9fafb;line-height:1.1;letter-spacing:-.01em;position:relative;z-index:2}
+.body-text{font-size:21px;font-weight:300;color:#9ca3af;line-height:1.65;position:relative;z-index:2;font-family:'Inter',sans-serif}
+.label{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#e5e7eb;margin-bottom:22px;position:relative;z-index:2;font-family:'Inter',sans-serif;opacity:.5}
+.deco-num{display:none}
+
+/* SD-06 scale impossibility — $4.2M at 280px */
+.impossibly-large{
+  font-family:'Cormorant Garamond',serif;font-size:280px;font-weight:900;
+  color:#f9fafb;letter-spacing:-.05em;line-height:.9;
+  position:relative;z-index:2;
+}
+
+/* Nav chrome */
+.nav-row{position:absolute;top:36px;left:120px;right:80px;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.nav-brand{font-size:11px;font-weight:700;letter-spacing:.2em;color:rgba(229,231,235,.35);text-transform:uppercase;font-family:'Inter',sans-serif}
+.nav-dots{display:flex;gap:5px}
+.nd{width:4px;height:4px;border-radius:50%;background:rgba(229,231,235,.15)}
+.nd.on{background:#e5e7eb}
+.foot-row{position:absolute;bottom:36px;left:120px;right:80px;display:flex;justify-content:space-between;align-items:center;z-index:5;border-top:1px solid rgba(229,231,235,.06);padding-top:16px}
+.brand-handle{font-size:10px;font-weight:700;letter-spacing:.16em;color:rgba(229,231,235,.28);text-transform:uppercase;font-family:'Inter',sans-serif}
+.slide-counter{font-size:10px;font-weight:700;letter-spacing:.12em;color:rgba(229,231,235,.28);font-family:'Inter',sans-serif}
+.swipe-pill{display:inline-block;padding:7px 18px;border:1px solid rgba(229,231,235,.35);color:rgba(229,231,235,.6);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:2px;position:relative;z-index:2;font-family:'Inter',sans-serif}
+
+.content{flex:1;display:flex;flex-direction:column;justify-content:center;padding:16px 0 80px;position:relative;z-index:2}
+
+/* Bento cells — FC-02 for failure modes */
+.bento-grid{display:grid;grid-template-columns:1fr;gap:10px;position:relative;z-index:2}
+.bento-cell{padding:22px 24px;background:rgba(229,231,235,.03);border:1px solid rgba(229,231,235,.1);border-radius:0}
+.bento-num{font-size:10px;font-weight:700;letter-spacing:.22em;color:rgba(229,231,235,.35);text-transform:uppercase;font-family:'Inter',sans-serif;margin-bottom:6px}
+.bento-title{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:28px;color:#f9fafb;margin-bottom:5px;line-height:1.1}
+.bento-body{font-size:17px;color:#9ca3af;line-height:1.4;font-family:'Inter',sans-serif;font-weight:300}
+
+/* RL-07 Layer stack — translucent overlapping panels for S4 */
+.layer-stack{position:relative;z-index:2}
+.layer-panel{
+  padding:18px 24px;margin-bottom:6px;
+  background:rgba(229,231,235,.03);
+  border-left:1px solid rgba(229,231,235,.2);
+  display:flex;align-items:flex-start;gap:20px;
+}
+.layer-phase{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(229,231,235,.35);font-family:'Inter',sans-serif;white-space:nowrap;padding-top:3px;min-width:72px}
+.layer-content{}
+.layer-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:#f9fafb;line-height:1.1;margin-bottom:3px}
+.layer-desc{font-size:15px;color:#9ca3af;font-family:'Inter',sans-serif;font-weight:300;line-height:1.4}
+
+/* ET-14 Isometric 3D block (CSS perspective — S4 accent) */
+.iso-card{
+  position:absolute;right:80px;top:160px;
+  width:240px;height:180px;
+  transform-style:preserve-3d;
+  transform:perspective(600px) rotateX(22deg) rotateY(-28deg) rotateZ(2deg);
+  z-index:3;pointer-events:none;
+}
+.iso-face{position:absolute;backface-visibility:hidden}
+.iso-top{width:240px;height:180px;background:rgba(229,231,235,.04);border:1px solid rgba(229,231,235,.15);top:0;left:0}
+.iso-top-grid{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(229,231,235,.08) 0,rgba(229,231,235,.08) 1px,transparent 1px,transparent 24px),
+    repeating-linear-gradient(90deg,rgba(229,231,235,.08) 0,rgba(229,231,235,.08) 1px,transparent 1px,transparent 24px);
+}
+.iso-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Inter',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(229,231,235,.4);white-space:nowrap}
+
+/* FC-06 keyline containment — S6 comparison rows */
+.keyline-row{
+  position:relative;padding:16px 20px;margin-bottom:12px;
+  border:none;background:transparent;
+}
+.keyline-row::before{content:'';position:absolute;top:0;left:0;width:12px;height:12px;border-top:1px solid rgba(229,231,235,.3);border-left:1px solid rgba(229,231,235,.3)}
+.keyline-row::after{content:'';position:absolute;bottom:0;right:0;width:12px;height:12px;border-bottom:1px solid rgba(229,231,235,.3);border-right:1px solid rgba(229,231,235,.3)}
+.kl-label{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(229,231,235,.35);font-family:'Inter',sans-serif;margin-bottom:8px}
+.kl-bars{display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.kl-bar-wrap{flex:1}
+.kl-track{height:4px;background:rgba(229,231,235,.08);margin-bottom:2px}
+.kl-fill{height:100%}
+.kl-fill.bad{background:rgba(247,115,115,.5)}
+.kl-fill.good{background:#e5e7eb}
+.kl-vals{display:flex;justify-content:space-between;font-size:11px;font-family:'Inter',sans-serif;font-weight:300}
+.kl-vals .vb{color:rgba(229,231,235,.3)}
+.kl-vals .vg{color:#e5e7eb}
+
+/* Offer slide */
+.consult-box{padding:36px 40px;border:1px solid rgba(229,231,235,.2);position:relative;z-index:2}
+.consult-box::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid rgba(229,231,235,.08)}
+.consult-price{font-family:'Cormorant Garamond',serif;font-size:96px;font-weight:900;color:#f9fafb;line-height:.95;letter-spacing:-.03em;margin-bottom:8px}
+.consult-price-label{font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(229,231,235,.35);font-family:'Inter',sans-serif;margin-bottom:16px}
+.consult-features{list-style:none}
+.consult-features li{font-size:17px;color:#9ca3af;font-family:'Inter',sans-serif;font-weight:300;padding:6px 0;border-bottom:1px solid rgba(229,231,235,.06);display:flex;align-items:center;gap:10px}
+.consult-features li::before{content:'—';color:rgba(229,231,235,.25);font-size:12px}
+
+/* CTA */
+.cta-btn{display:inline-block;padding:18px 36px;background:#f9fafb;color:#050608;font-size:14px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-family:'Inter',sans-serif;position:relative;z-index:2}
+
+/* Controls */
+.controls{display:flex;gap:16px;align-items:center;justify-content:center;margin-top:20px}
+.btn{background:rgba(255,255,255,.06);border:none;color:rgba(255,255,255,.4);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.btn:disabled{opacity:.2;cursor:default}
+.dots{display:flex;gap:6px}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.15);cursor:pointer;transition:all .2s}
+.dot.on{background:#e5e7eb;width:14px;border-radius:2px}
+.hint{font-size:10px;color:rgba(255,255,255,.15);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;text-align:center}
+.zip-btn{display:block;margin:14px auto 0;padding:12px 28px;background:rgba(229,231,235,.06);border:1px solid rgba(229,231,235,.18);color:#e5e7eb;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;opacity:.7;transition:opacity .2s}
+.zip-btn:hover:not(:disabled){opacity:1}
+.zip-btn:disabled{opacity:.35;cursor:default}
+.zip-progress{font-size:10px;color:rgba(255,255,255,.18);text-align:center;margin-top:6px;letter-spacing:.1em}
+.editor-toggle{display:block;margin:8px auto 0;padding:7px 18px;background:transparent;border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.2);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif}
+.editor-panel{display:none;max-width:480px;margin:8px auto 0;padding:12px 18px;background:rgba(229,231,235,.04);border:1px solid rgba(229,231,235,.1);color:rgba(229,231,235,.45);font-size:11px;line-height:1.7;text-align:center;font-family:'Inter',sans-serif}
+.editor-panel.active{display:block}
+.edit-mode .editable{cursor:text}
+.edit-mode .editable:focus{outline:1px dashed rgba(229,231,235,.25)!important}
+</style>
+</head>
+<body>
+
+<p class="label-top">ONYX STUDIO · CDMX · 8 SLIDES · ARCHITECTURAL DARK</p>
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- ── SLIDE 1 · HOOK ── -->
+        <div class="slide s1">
+          <div class="prog-bar" style="width:12.5%"></div>
+          <!-- TA-02 vertical spine -->
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <!-- ME-01 speed lines (opacity .02, 45°) -->
+          <div class="speed-lines" style="opacity:.02">
+            <svg viewBox="0 0 1080 1080"><g stroke="#e5e7eb" stroke-width="1">
+              <line x1="0" y1="0" x2="1080" y2="1080"/><line x1="0" y1="120" x2="960" y2="1080"/>
+              <line x1="120" y1="0" x2="1080" y2="960"/><line x1="0" y1="240" x2="840" y2="1080"/>
+              <line x1="240" y1="0" x2="1080" y2="840"/><line x1="0" y1="360" x2="720" y2="1080"/>
+              <line x1="360" y1="0" x2="1080" y2="720"/><line x1="0" y1="480" x2="600" y2="1080"/>
+              <line x1="480" y1="0" x2="1080" y2="600"/>
+            </g></svg>
+          </div>
+          <!-- Radial atmosphere -->
+          <div class="atm" style="width:500px;height:500px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(75,85,99,.35),transparent 70%);filter:blur(80px)"></div>
+          <!-- Effect 02: ghost "34%" at 8% opacity -->
+          <div class="ghost-num" style="font-size:520px;top:-60px;right:-40px;opacity:.08">34</div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd1"></div>
+          </div>
+
+          <div class="content" style="justify-content:flex-end;padding-bottom:120px">
+            <p class="label" style="margin-bottom:16px">Diseño residencial de lujo · CDMX</p>
+            <div class="display editable" style="max-width:780px;margin-bottom:20px">
+              Una casa mal diseñada pierde 34% de su valor en 10 años.
+            </div>
+            <p class="body-text" style="max-width:580px">El diseño no es decoración. Es la diferencia entre un patrimonio que crece y uno que se desgasta.</p>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;padding-bottom:72px;position:relative;z-index:2">
+            <span class="swipe-pill">Desliza →</span>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">1 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 2 · DATA STAT — SD-06 scale impossibility ── -->
+        <div class="slide s2">
+          <div class="prog-bar" style="width:25%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <div class="atm" style="width:600px;height:400px;top:200px;left:-100px;background:radial-gradient(ellipse,rgba(75,85,99,.3),transparent 70%);filter:blur(90px)"></div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd2"></div>
+          </div>
+
+          <div class="content">
+            <p class="label">El costo de los errores de diseño</p>
+            <!-- SD-06: $4.2M at 280px — deliberately out of proportion -->
+            <div class="impossibly-large editable" style="margin-bottom:4px">$4.2M</div>
+            <p style="font-size:22px;color:#9ca3af;font-family:'Inter',sans-serif;font-weight:300;margin-bottom:4px">MXN — costo promedio de remodelaciones por errores de diseño en vivienda residencial premium.</p>
+            <p style="font-size:13px;color:rgba(229,231,235,.25);margin-top:20px;letter-spacing:.06em;font-family:'Inter',sans-serif">Fuente: CMIC, Reporte de Obra Residencial 2024</p>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">2 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 3 · BENTO — 3 failure modes ── -->
+        <div class="slide s3">
+          <div class="prog-bar" style="width:37.5%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <div class="atm" style="width:400px;height:400px;top:60px;right:-80px;background:radial-gradient(circle,rgba(75,85,99,.25),transparent 70%);filter:blur(70px)"></div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd3"></div>
+          </div>
+
+          <div class="content">
+            <p class="label">Por qué los proyectos fallan</p>
+            <div class="headline editable" style="margin-bottom:28px">Tres errores. Un presupuesto destruido.</div>
+            <div class="bento-grid">
+              <div class="bento-cell">
+                <div class="bento-num">01 · Concepto</div>
+                <div class="bento-title editable">Arquitectura sin estructura narrativa</div>
+                <div class="bento-body editable">Un plano sin concepto rector genera decisiones contradictorias durante obra que se vuelven costosas.</div>
+              </div>
+              <div class="bento-cell">
+                <div class="bento-num">02 · Materiales</div>
+                <div class="bento-title editable">Especificaciones sin trayectoria</div>
+                <div class="bento-body editable">Materiales seleccionados por precio, no por comportamiento a largo plazo. Cuestan el doble en cinco años.</div>
+              </div>
+              <div class="bento-cell">
+                <div class="bento-num">03 · Proceso</div>
+                <div class="bento-title editable">Obra sin dirección profesional</div>
+                <div class="bento-body editable">Sin un director de obra dedicado, cada subcontratista toma decisiones que no le corresponden.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">3 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 4 · LAYER STACK + ET-14 isometric card ── -->
+        <div class="slide s4" style="padding-right:80px">
+          <div class="prog-bar" style="width:50%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <div class="atm" style="width:450px;height:450px;top:-60px;right:80px;background:radial-gradient(circle,rgba(75,85,99,.2),transparent 70%);filter:blur(80px)"></div>
+
+          <!-- ET-14 Isometric 3D block — floor plan card -->
+          <div class="iso-card">
+            <div class="iso-face iso-top">
+              <div class="iso-top-grid"></div>
+              <div class="iso-label">PLANTA ARQUITECTÓNICA</div>
+            </div>
+          </div>
+
+          <div class="nav-row" style="right:320px">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd4"></div>
+          </div>
+
+          <div class="content" style="max-width:640px">
+            <p class="label">Proceso Onyx en 4 fases</p>
+            <div class="headline editable" style="margin-bottom:26px">Desde el concepto hasta las llaves.</div>
+            <div class="layer-stack">
+              <div class="layer-panel">
+                <div class="layer-phase">Fase 01</div>
+                <div class="layer-content">
+                  <div class="layer-title editable">Diagnóstico y concepto</div>
+                  <div class="layer-desc editable">Análisis de terreno, programa arquitectónico y concepto rector aprobado por el cliente</div>
+                </div>
+              </div>
+              <div class="layer-panel">
+                <div class="layer-phase">Fase 02</div>
+                <div class="layer-content">
+                  <div class="layer-title editable">Proyecto ejecutivo</div>
+                  <div class="layer-desc editable">Planos constructivos, especificaciones y catálogo de materiales con proveedores certificados</div>
+                </div>
+              </div>
+              <div class="layer-panel">
+                <div class="layer-phase">Fase 03</div>
+                <div class="layer-content">
+                  <div class="layer-title editable">Dirección de obra</div>
+                  <div class="layer-desc editable">Supervisión diaria, control de calidad y gestión de subcontratistas bajo un solo interlocutor</div>
+                </div>
+              </div>
+              <div class="layer-panel" style="margin-bottom:0">
+                <div class="layer-phase">Fase 04</div>
+                <div class="layer-content">
+                  <div class="layer-title editable">Entrega y garantía</div>
+                  <div class="layer-desc editable">Entrega documental completa, garantía estructural 10 años y acompañamiento post-entrega</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="foot-row" style="right:80px">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">4 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 5 · PULL QUOTE — Casa Pedregal proof ── -->
+        <div class="slide s5">
+          <div class="prog-bar" style="width:62.5%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <!-- Effect 02: ghost "680" at 8% opacity -->
+          <div class="ghost-num" style="font-size:380px;bottom:-40px;right:-20px;opacity:.07">680</div>
+          <div class="atm" style="width:500px;height:500px;top:100px;left:-80px;background:radial-gradient(circle,rgba(75,85,99,.22),transparent 70%);filter:blur(80px)"></div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd5"></div>
+          </div>
+
+          <div class="content">
+            <p class="label">Proyecto ejecutado · Casa Pedregal</p>
+            <div style="border:1px solid rgba(229,231,235,.18);padding:40px;position:relative;z-index:2">
+              <div style="border:1px solid rgba(229,231,235,.08);position:absolute;inset:8px;pointer-events:none"></div>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;font-style:italic;color:#f9fafb;line-height:1.35;margin-bottom:24px" class="editable">
+                "680 m² entregados tres semanas antes del plazo. Sin modificaciones al presupuesto original."
+              </p>
+              <div>
+                <p style="font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(229,231,235,.45);font-family:'Inter',sans-serif">Casa Pedregal · CDMX · 2024</p>
+                <p style="font-size:14px;color:#9ca3af;font-family:'Inter',sans-serif;font-weight:300;margin-top:4px">Diseño residencial de lujo · Proyecto completo + dirección de obra</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">5 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 6 · COMPARISON — FC-06 keyline containment ── -->
+        <div class="slide s6">
+          <div class="prog-bar" style="width:75%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <div class="atm" style="width:420px;height:420px;top:-40px;right:60px;background:radial-gradient(circle,rgba(75,85,99,.2),transparent 70%);filter:blur(70px)"></div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd6"></div>
+          </div>
+
+          <div class="content">
+            <p class="label">Arquitecto genérico vs. Onyx Studio</p>
+            <div class="subhead editable" style="margin-bottom:30px">El costo real de la diferencia.</div>
+
+            <!-- FC-06 keyline containment: corner accent boxes -->
+            <div class="keyline-row">
+              <div class="kl-label">Cumplimiento de plazo</div>
+              <div class="kl-bars">
+                <div class="kl-bar-wrap">
+                  <div class="kl-track"><div class="kl-fill bad" style="width:52%"></div></div>
+                  <div class="kl-vals"><span class="vb">Genérico: 52% a tiempo</span></div>
+                </div>
+                <div class="kl-bar-wrap">
+                  <div class="kl-track"><div class="kl-fill good" style="width:94%"></div></div>
+                  <div class="kl-vals" style="justify-content:flex-end"><span class="vg">Onyx: 94% o antes</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="keyline-row">
+              <div class="kl-label">Costo final vs. presupuesto inicial</div>
+              <div class="kl-bars">
+                <div class="kl-bar-wrap">
+                  <div class="kl-track"><div class="kl-fill bad" style="width:78%"></div></div>
+                  <div class="kl-vals"><span class="vb">Genérico: +38% promedio</span></div>
+                </div>
+                <div class="kl-bar-wrap">
+                  <div class="kl-track"><div class="kl-fill good" style="width:98%"></div></div>
+                  <div class="kl-vals" style="justify-content:flex-end"><span class="vg">Onyx: ±2% desviación</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="keyline-row" style="margin-bottom:0">
+              <div class="kl-label">Revalorización a 5 años</div>
+              <div class="kl-bars">
+                <div class="kl-bar-wrap">
+                  <div class="kl-track"><div class="kl-fill bad" style="width:44%"></div></div>
+                  <div class="kl-vals"><span class="vb">Genérico: +12%</span></div>
+                </div>
+                <div class="kl-bar-wrap">
+                  <div class="kl-track"><div class="kl-fill good" style="width:96%"></div></div>
+                  <div class="kl-vals" style="justify-content:flex-end"><span class="vg">Onyx: +31%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">6 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 7 · OFFER — consulta diagnóstico ── -->
+        <div class="slide s7">
+          <div class="prog-bar" style="width:87.5%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <div class="atm" style="width:520px;height:520px;top:-100px;left:-60px;background:radial-gradient(circle,rgba(75,85,99,.28),transparent 70%);filter:blur(90px)"></div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd7"></div>
+          </div>
+
+          <div class="content">
+            <p class="label">Primer paso</p>
+            <div class="headline editable" style="margin-bottom:24px">Consulta de diagnóstico arquitectónico.</div>
+            <div class="consult-box">
+              <div class="consult-price-label">Inversión por sesión</div>
+              <div class="consult-price editable">$8,500</div>
+              <p style="font-size:14px;color:rgba(229,231,235,.3);font-family:'Inter',sans-serif;font-weight:300;letter-spacing:.06em;margin-bottom:20px">MXN · 90 minutos con el director de diseño</p>
+              <ul class="consult-features">
+                <li class="editable">Revisión técnica de su terreno o proyecto actual</li>
+                <li class="editable">Diagnóstico de viabilidad y estimado de inversión</li>
+                <li class="editable">Concepto preliminar y recomendaciones de proceso</li>
+                <li class="editable">Cupo limitado: 3 proyectos nuevos por trimestre</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">7 / 8</span>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 8 · CTA ── -->
+        <div class="slide s8">
+          <div class="prog-bar" style="width:100%"></div>
+          <div class="spine">ONYX STUDIO · CDMX</div>
+          <div class="atm" style="width:600px;height:600px;top:-160px;right:-100px;background:radial-gradient(circle,rgba(75,85,99,.25),transparent 70%);filter:blur(100px)"></div>
+          <!-- Effect 02: ghost number accent S8 -->
+          <div class="ghost-num" style="font-size:400px;bottom:-80px;left:-40px;opacity:.05">3</div>
+
+          <div class="nav-row">
+            <span class="nav-brand">Onyx Studio</span>
+            <div class="nav-dots" id="nd8"></div>
+          </div>
+
+          <div class="content" style="justify-content:center">
+            <p class="label" style="margin-bottom:16px">Disponibilidad limitada</p>
+            <div class="display editable" style="margin-bottom:20px;max-width:720px">
+              Agende su consulta.<br>Cupo: 3 proyectos<br>por trimestre.
+            </div>
+            <p class="body-text" style="max-width:560px;margin-bottom:36px">Respondemos en 24 horas hábiles. El 90% de nuestros clientes llegaron por referencia de un proyecto anterior.</p>
+            <div>
+              <div class="cta-btn">hola@onyxstudio.mx</div>
+            </div>
+          </div>
+
+          <div class="foot-row">
+            <span class="brand-handle">@onyxstudio</span>
+            <span class="slide-counter">8 / 8</span>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+    </div><!-- /wrap -->
+  </div><!-- /viewer -->
+</div><!-- /preview-cage -->
+
+<div class="controls">
+  <button class="btn" id="prev" onclick="move(-1)">‹</button>
+  <div class="dots">
+    <div class="dot on" onclick="go(0)"></div>
+    <div class="dot" onclick="go(1)"></div>
+    <div class="dot" onclick="go(2)"></div>
+    <div class="dot" onclick="go(3)"></div>
+    <div class="dot" onclick="go(4)"></div>
+    <div class="dot" onclick="go(5)"></div>
+    <div class="dot" onclick="go(6)"></div>
+    <div class="dot" onclick="go(7)"></div>
+  </div>
+  <button class="btn" id="next" onclick="move(1)">›</button>
+</div>
+<p class="hint">← → teclas · desliza en móvil</p>
+<button class="zip-btn" id="zipBtn" onclick="exportZip()"><span class="zip-label">Exportar ZIP · PNGs</span></button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · full quality</p>
+<button class="editor-toggle" onclick="toggleEditor()" id="editorToggle">Editor Visual</button>
+<div class="editor-panel" id="editorPanel">Modo edición — clic en cualquier texto para modificarlo. Exporta ZIP cuando termines.</div>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+const TOTAL=slides.length;
+
+function buildNavDots(){
+  document.querySelectorAll('.nav-dots').forEach(c=>{
+    c.innerHTML='';
+    for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='nd'+(i===0?' on':'');c.appendChild(d);}
+  });
+}
+buildNavDots();
+
+function go(n){
+  cur=Math.max(0,Math.min(n,TOTAL-1));
+  track.style.transform=`translateX(-${cur*100}%)`;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  prevBtn.disabled=cur===0;nextBtn.disabled=cur===TOTAL-1;
+  document.querySelectorAll('.nav-dots').forEach(c=>{
+    c.querySelectorAll('.nd').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  });
+}
+function move(dir){go(cur+dir);}
+let sx=0;
+document.getElementById('wrap').addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+document.getElementById('wrap').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+go(0);
+
+async function exportZip(){
+  if(typeof html2canvas==='undefined'||typeof JSZip==='undefined'){alert('Necesita conexión a internet.');return;}
+  const zipBtn=document.getElementById('zipBtn');
+  const progress=document.getElementById('zipProgress');
+  const zipLabel=zipBtn.querySelector('.zip-label');
+  zipBtn.disabled=true;zipBtn.style.opacity='.5';
+  const zip=new JSZip();
+  const wrap=document.getElementById('wrap');
+  const scale=Math.round((1080/wrap.getBoundingClientRect().width)*10)/10;
+  track.style.transition='none';
+  document.body.classList.add('capture-mode');
+  for(let i=0;i<TOTAL;i++){
+    zipLabel.textContent=`Capturando ${i+1} / ${TOTAL}...`;
+    progress.textContent=`Slide ${i+1} de ${TOTAL}`;
+    track.style.transform=`translateX(-${i*100}%)`;
+    await new Promise(r=>setTimeout(r,220));
+    try{
+      const canvas=await html2canvas(wrap,{scale,useCORS:true,allowTaint:true,backgroundColor:null,logging:false,imageTimeout:0});
+      const blob=await new Promise(r=>canvas.toBlob(r,'image/png',1.0));
+      zip.file(`slide_0${i+1}.png`,blob);
+    }catch(err){console.error(err);}
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition='';go(cur);
+  zipLabel.textContent='Comprimiendo...';
+  const zipBlob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});
+  const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(zipBlob),download:'onyx-studio-carousel.zip'});
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  zipLabel.textContent='✓ ZIP descargado';
+  progress.textContent=`${TOTAL} archivos · slide_01–0${TOTAL}.png`;
+  zipBtn.style.opacity='0.7';zipBtn.disabled=false;
+  setTimeout(()=>{zipLabel.textContent='Exportar ZIP · PNGs';progress.textContent='1080 × 1080 px · full quality';},3000);
+}
+
+function toggleEditor(){
+  const isEdit=document.body.classList.toggle('edit-mode');
+  document.getElementById('editorPanel').classList.toggle('active',isEdit);
+  document.getElementById('editorToggle').textContent=isEdit?'Cerrar Editor':'Editor Visual';
+  document.querySelectorAll('.editable').forEach(el=>{el.contentEditable=isEdit?'true':'false';});
+}
+</script>
+</body>
+</html>

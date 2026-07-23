@@ -1,0 +1,53 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-form-input",
+    "category": "mock-ui",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s17",
+      "s26",
+      "s31",
+      "s33",
+      "s39",
+      "s48"
+    ],
+    "avoid_systems": [
+      "s06",
+      "s21",
+      "s27",
+      "s29",
+      "s40"
+    ],
+    "pairs_well_with": [
+      "pat-stripe-diagonal",
+      "deco-badge-ribbon",
+      "deco-counter-circle"
+    ],
+    "conflicts_with": [
+      "mock-terminal-windows",
+      "mock-code-diff"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: INPUT FIELD
+Purpose: Form input simulation.
+-->
+
+<div class="form-input">
+  <label>Correo electronico</label>
+  <div class="input-box">tu@email.com</div>
+</div>
+
+<style>
+.form-input { display: flex; flex-direction: column; gap: 8px; }
+.form-input label { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+.input-box { padding: 14px 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; color: var(--text-secondary); }
+</style>

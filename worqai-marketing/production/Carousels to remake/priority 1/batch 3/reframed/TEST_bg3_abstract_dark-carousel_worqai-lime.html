@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>worqai · El filtro te ganó</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:#0A0A0A;font-family:'Inter',system-ui,sans-serif;color:#E5E5E5;min-height:100vh;}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+
+.label-top{font-size:11px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#C7FF3A;margin-bottom:14px;text-align:center;}
+
+.preview-cage{width:1080px;margin:0 auto;}
+@media(min-width:1200px){.preview-cage{transform:scale(0.5);transform-origin:top center;height:540px;}}
+
+.viewer{width:1080px;max-width:1080px;}
+.wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:0 30px 80px rgba(0,0,0,0.5);}
+.track{display:flex;width:auto;height:100%;transition:transform 0.42s cubic-bezier(0.4,0,0.2,1);}
+
+.slide{position:relative;width:1080px;min-width:1080px;height:1080px;overflow:hidden;background:#0A0A0A;color:#E5E5E5;}
+
+.slide::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px 300px;opacity:0.06;pointer-events:none;z-index:1;}
+
+/* Abstract background decorations */
+.deco{position:absolute;pointer-events:none;z-index:1;}
+.glow-center{width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(30,30,30,0.6) 0%,transparent 70%);filter:blur(60px);top:50%;left:50%;transform:translate(-50%,-50%);}
+.lime-glow-tl{width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.12) 0%,transparent 65%);filter:blur(50px);top:-15%;left:-10%;}
+.lime-glow-br{width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.12) 0%,transparent 65%);filter:blur(50px);bottom:-15%;right:-10%;}
+
+.content{position:relative;z-index:3;height:100%;padding:68px 64px 148px;display:flex;flex-direction:column;}
+
+.deco-num{position:absolute;top:-26px;right:46px;font-weight:900;font-size:280px;line-height:1;letter-spacing:-0.05em;pointer-events:none;user-select:none;z-index:2;color:rgba(255,255,255,0.06);}
+
+.label{font-size:18px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;color:#C7FF3A;margin-bottom:28px;display:inline-block;}
+
+.headline{font-weight:900;font-size:78px;line-height:1.04;letter-spacing:-0.035em;color:#FFFFFF;}
+.body-text{font-weight:400;font-size:30px;line-height:1.5;color:#E5E5E5;}
+.lime{color:#C7FF3A;}
+.coral-text{color:#FF8B70;}
+
+/* Text backdrop for dark carousel */
+.text-backdrop{display:inline-block;padding:20px 28px;background:rgba(10,10,10,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:16px;}
+
+.stat-num{font-weight:900;font-size:380px;line-height:0.85;letter-spacing:-0.06em;color:#C7FF3A;}
+.stat-pct{font-size:200px;color:#FFFFFF;font-weight:900;line-height:0.85;}
+.stat-context{font-weight:800;font-size:42px;line-height:1.1;letter-spacing:-0.02em;margin-top:40px;max-width:840px;color:#E5E5E5;}
+.source-tag{font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;opacity:0.40;margin-top:24px;color:#A0A0A0;}
+
+.glass-block{padding:24px 28px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);margin-bottom:14px;}
+.glass-block.bad{background:rgba(255,92,60,0.06);border-color:rgba(255,92,60,0.2);}
+.glass-block.good{background:rgba(199,255,58,0.07);border-color:rgba(199,255,58,0.18);}
+.glass-tag{font-size:13px;font-weight:800;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;}
+.glass-block.bad .glass-tag{color:#FF8B70;}
+.glass-block.good .glass-tag{color:#C7FF3A;}
+.glass-text{font-size:22px;font-weight:600;line-height:1.42;color:#FFFFFF;}
+
+.hook-stack{margin-top:auto;margin-bottom:60px;}
+.hook-display{font-weight:900;font-size:124px;line-height:0.95;letter-spacing:-0.05em;color:#FFFFFF;}
+.hook-display .lime{color:#C7FF3A;}
+.hook-sub{font-weight:600;font-size:32px;line-height:1.4;margin-top:32px;opacity:0.75;max-width:780px;color:#E5E5E5;}
+.swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;padding:14px 26px;border:2px solid #C7FF3A;color:#C7FF3A;border-radius:999px;font-size:18px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;margin-top:36px;}
+
+.pill-tag{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;background:rgba(255,92,60,0.10);border:1px solid #FF8B70;border-radius:999px;font-weight:800;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;color:#FF8B70;margin-bottom:24px;}
+
+.proof-metric{font-weight:900;font-size:280px;line-height:0.85;letter-spacing:-0.05em;color:#C7FF3A;}
+.proof-city{font-size:18px;font-weight:500;letter-spacing:0.24em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:22px;}
+.proof-stmt{font-size:46px;font-weight:800;line-height:1.18;letter-spacing:-0.02em;color:#FFFFFF;max-width:820px;margin-bottom:18px;}
+.proof-ctx{font-size:26px;font-weight:400;color:#A0A0A0;line-height:1.55;}
+
+.cta-card{background:#111111;border:2px solid rgba(199,255,58,0.25);border-radius:32px;padding:36px 40px;margin-top:auto;margin-bottom:60px;position:relative;overflow:hidden;}
+.cta-card::after{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.18),transparent 65%);filter:blur(40px);pointer-events:none;z-index:0;}
+
+.cta-headline-out{font-weight:900;font-size:52px;line-height:1.05;letter-spacing:-0.03em;color:#FFFFFF;margin-bottom:24px;position:relative;z-index:2;}
+.lime-badge{display:inline-flex;align-items:center;padding:8px 16px;background:#C7FF3A;color:#0A0A0A;border-radius:8px;font-size:14px;font-weight:900;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:20px;position:relative;z-index:2;}
+.cta-offer{font-weight:800;font-size:30px;line-height:1.25;color:#C7FF3A;margin-bottom:6px;position:relative;z-index:2;}
+.cta-fine{font-size:18px;font-weight:600;color:rgba(255,255,255,0.55);margin-top:10px;position:relative;z-index:2;}
+.url-box{display:inline-flex;align-items:center;justify-content:center;padding:18px 48px;border:3px dashed #C7FF3A;border-radius:16px;margin-top:22px;margin-bottom:22px;background:rgba(199,255,58,0.04);position:relative;z-index:2;}
+.url-text{font-family:'Inter',sans-serif;font-size:42px;font-weight:900;color:#C7FF3A;letter-spacing:0.04em;text-transform:uppercase;}
+.cta-closing{font-size:22px;color:rgba(255,255,255,0.78);margin-top:6px;font-weight:600;max-width:840px;line-height:1.4;position:relative;z-index:2;}
+.cta-micro{font-size:16px;color:rgba(255,255,255,0.45);margin-top:14px;position:relative;z-index:2;}
+
+.brand-anchor{position:absolute;bottom:46px;left:64px;z-index:5;font-weight:900;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;color:#A0A0A0;}
+.brand-anchor .worq{color:#FFFFFF;}
+.brand-anchor .ai{color:#C7FF3A;}
+.site-url{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:5;font-weight:700;font-size:16px;letter-spacing:0.1em;color:rgba(255,255,255,0.45);text-transform:lowercase;}
+.counter{position:absolute;bottom:50px;right:64px;z-index:5;font-weight:700;font-size:18px;letter-spacing:0.2em;color:rgba(255,255,255,0.45);}
+
+.controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px;}
+.btn{background:rgba(255,255,255,0.08);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.btn:disabled{opacity:0.2;cursor:default;}
+.dots{display:flex;gap:6px;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.2s;}
+.dot.on{background:#C7FF3A;width:18px;border-radius:3px;}
+.hint{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.18em;text-transform:uppercase;margin-top:10px;text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="label-top">worqai · el filtro te ganó</div>
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ============ SLIDE 1 · HOOK ============ -->
+      <div class="slide" data-slide="1">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">01</div>
+        <div class="content">
+          <div class="label">worqai · contra el filtro</div>
+          <div class="hook-stack">
+            <div class="hook-display">El filtro<br><span class="lime">te ganó.</span></div>
+            <div class="hook-sub">Pero el sistema tiene una debilidad: no entiende de contexto, solo de palabras.</div>
+            <div class="swipe-pill">Deslizá →</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">01 / 07</div>
+      </div>
+
+      <!-- ============ SLIDE 2 · DATA ============ -->
+      <div class="slide" data-slide="2">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">02</div>
+        <div class="content">
+          <div class="label">el dato</div>
+          <div style="display:flex;align-items:flex-end;gap:8px;margin-top:24px;">
+            <div class="stat-num">75</div>
+            <div class="stat-pct">%</div>
+          </div>
+          <div class="stat-context">de los CVs nunca llegan a un recruiter. El ATS los descarta antes de que un humano los abra.</div>
+          <div class="source-tag">Dato interno WorqAI · base de datos 2025</div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">02 / 07</div>
+      </div>
+
+      <!-- ============ SLIDE 3 · ERROR 01 ============ -->
+      <div class="slide" data-slide="3">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">03</div>
+        <div class="content">
+          <div class="pill-tag">Falla 01 · Contexto</div>
+          <div class="headline" style="max-width:900px;">El sistema no entiende<br>de <span class="coral-text">contexto</span>.<br>Solo de palabras.</div>
+          <div style="margin-top:38px;">
+            <div class="glass-block bad">
+              <div class="glass-tag">lo que usás</div>
+              <div class="glass-text">Sinónimos, títulos similares y resúmenes que describen lo mismo con otras palabras.</div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">lo que pasa</div>
+              <div class="glass-text">El ATS busca coincidencias exactas. Si no decís la palabra del aviso, no te encuentra.</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">03 / 07</div>
+      </div>
+
+      <!-- ============ SLIDE 4 · ERROR 02 ============ -->
+      <div class="slide" data-slide="4">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">04</div>
+        <div class="content">
+          <div class="pill-tag">Falla 02 · Keywords</div>
+          <div class="headline" style="max-width:900px;">Si no decís la<br>palabra <span class="lime">exacta</span>,<br>no existís.</div>
+          <div style="margin-top:38px;">
+            <div class="glass-block bad">
+              <div class="glass-tag">lo que hacés</div>
+              <div class="glass-text">Usás términos genéricos en tu CV que no coinciden con el job description.</div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">lo que pasa</div>
+              <div class="glass-text">El match score baja porque el filtro no entiende sinónimos. Busca términos exactos.</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">04 / 07</div>
+      </div>
+
+      <!-- ============ SLIDE 5 · FIX ============ -->
+      <div class="slide" data-slide="5">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">05</div>
+        <div class="content">
+          <div class="label">cómo arreglarlo</div>
+          <div class="headline" style="max-width:900px;margin-top:8px;">Hacé que el filtro<br>te <span class="lime">lea</span> primero.</div>
+          <div style="margin-top:38px;">
+            <div class="glass-block good">
+              <div class="glass-tag">paso 1</div>
+              <div class="glass-text">Subí tu CV a worqai.io. El algoritmo lo lee como un ATS real.</div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">paso 2</div>
+              <div class="glass-text">Te mostramos qué palabras faltan y qué el bot no entiende.</div>
+            </div>
+            <div class="glass-block good">
+              <div class="glass-tag">paso 3</div>
+              <div class="glass-text">Te devolvemos el CV reconstruido, con las keywords exactas del puesto.</div>
+            </div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">05 / 07</div>
+      </div>
+
+      <!-- ============ SLIDE 6 · PROOF ============ -->
+      <div class="slide" data-slide="6">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">06</div>
+        <div class="content">
+          <div class="label">resultado real</div>
+          <div style="display:flex;flex-direction:column;flex:1;justify-content:center;gap:10px;">
+            <div class="proof-metric"><span style="display:inline-block;padding:6px 16px;background:rgba(10,10,10,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:14px;">3</span></div>
+            <div class="proof-city">entrevistas · ciudad de méxico</div>
+            <div class="proof-stmt">8 días después de reconstruir el CV con WorqAI.</div>
+            <div class="proof-ctx">Llevaba 4 meses aplicando sin respuesta.<br>Mismo perfil. Otras palabras.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">06 / 07</div>
+      </div>
+
+      <!-- ============ SLIDE 7 · CTA ============ -->
+      <div class="slide" data-slide="7">
+        <div class="deco glow-center"></div>
+        <div class="deco lime-glow-tl"></div>
+        <div class="deco lime-glow-br"></div>
+        <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M-80 380C-80 180 40 20 220 20C400 20 480 160 440 340C400 520 200 480 60 420C-20 380 -80 380 -80 380Z" fill="#C7FF3A"/>
+          <path d="M1160 700C1160 900 1040 1060 860 1060C680 1060 600 920 640 740C680 560 880 600 1020 660C1100 700 1160 700 1160 700Z" fill="#C7FF3A"/>
+          <path d="M-40 820C-40 980 120 1080 280 1080C440 1080 500 940 420 800C340 660 140 720 -20 760C-60 760 -40 820 -40 820Z" fill="#111111"/>
+          <path d="M-20 540C120 480 280 620 420 560C560 500 680 400 820 480C960 560 1100 500 1100 500L1100 700C960 640 820 760 680 700C540 640 420 540 280 600C140 660 -20 620 -20 620L-20 540Z" fill="#1A1A1A" stroke="#2A2A2A" stroke-width="1"/>
+          <path d="M-20 640C160 580 340 720 520 660C700 600 860 500 1020 580C1180 660 1100 780 1100 780L1100 920C960 860 820 980 680 920C540 860 420 760 280 820C140 880 -20 840 -20 840L-20 640Z" fill="#222222" stroke="#333333" stroke-width="1"/>
+          <path d="M-20 420C100 360 240 480 380 420C520 360 640 280 780 340C920 400 1060 350 1100 350L1100 480C960 440 820 540 680 480C540 420 420 340 280 400C140 460 -20 420 -20 420Z" fill="#1E1E1E" stroke="#2E2E2E" stroke-width="1"/>
+          <path d="M860 120 Q1080 300 1060 560" stroke="#C7FF3A" stroke-width="2" opacity="0.2" fill="none"/>
+          <path d="M900 160 Q1100 340 1080 580" stroke="#C7FF3A" stroke-width="2" opacity="0.18" fill="none"/>
+          <path d="M940 200 Q1120 380 1100 600" stroke="#C7FF3A" stroke-width="1.5" opacity="0.15" fill="none"/>
+          <path d="M980 240 Q1140 420 1120 620" stroke="#C7FF3A" stroke-width="1.5" opacity="0.12" fill="none"/>
+          <circle cx="180" cy="600" r="5" fill="#C7FF3A" opacity="0.25"/><circle cx="260" cy="720" r="4" fill="#C7FF3A" opacity="0.2"/><circle cx="340" cy="580" r="6" fill="#C7FF3A" opacity="0.3"/>
+          <circle cx="820" cy="380" r="5" fill="#C7FF3A" opacity="0.22"/><circle cx="900" cy="480" r="4" fill="#C7FF3A" opacity="0.18"/><circle cx="760" cy="280" r="6" fill="#C7FF3A" opacity="0.25"/>
+          <circle cx="980" cy="340" r="3" fill="#C7FF3A" opacity="0.2"/><circle cx="620" cy="900" r="5" fill="#C7FF3A" opacity="0.15"/><circle cx="700" cy="820" r="4" fill="#C7FF3A" opacity="0.2"/>
+          <circle cx="480" cy="960" r="5" fill="#C7FF3A" opacity="0.18"/>
+          <path d="M200 500 Q400 450 580 520" stroke="#C7FF3A" stroke-width="1" opacity="0.15" fill="none"/>
+          <path d="M620 540 Q800 480 920 560" stroke="#C7FF3A" stroke-width="1" opacity="0.12" fill="none"/>
+          <path d="M320 680 Q500 620 680 700" stroke="#C7FF3A" stroke-width="1.5" opacity="0.18" fill="none"/>
+        </svg>
+        <div class="deco-num">07</div>
+        <div class="content">
+          <div class="label">próximo paso</div>
+          <div class="cta-headline-out">Contraatacá el filtro.</div>
+          <div class="cta-card">
+            <div class="lime-badge">POR TIEMPO LIMITADO</div>
+            <div class="cta-offer">Puntuación ATS de tu CV — gratis</div>
+            <div class="cta-offer">CV reconstruido, listo para descargar — gratis</div>
+            <div class="cta-fine">Las dos cosas gratis, por tiempo limitado. Sin tarjeta.</div>
+            <div class="url-box">
+              <span class="url-text">WORQAI.IO</span>
+            </div>
+            <div class="cta-closing">Subí tu CV a worqai.io. Te decimos qué ve el ATS, qué falla, y te devolvemos el CV listo para pasar el filtro. En español o en inglés.</div>
+            <div class="cta-micro">Tu puntuación es un diagnóstico, no un veredicto.</div>
+          </div>
+        </div>
+        <div class="brand-anchor"><span class="worq">worq</span><span class="ai">ai</span></div>
+        <div class="site-url">worqai.io</div>
+        <div class="counter">07 / 07</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn" id="prev">‹</button>
+    <div class="dots">
+      <span class="dot on" onclick="go(0)"></span>
+      <span class="dot" onclick="go(1)"></span>
+      <span class="dot" onclick="go(2)"></span>
+      <span class="dot" onclick="go(3)"></span>
+      <span class="dot" onclick="go(4)"></span>
+      <span class="dot" onclick="go(5)"></span>
+      <span class="dot" onclick="go(6)"></span>
+    </div>
+    <button class="btn" id="next">›</button>
+  </div>
+  <div class="hint">flechas ← → · swipe · click los puntos</div>
+</div>
+</div>
+
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+
+function go(n){
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  track.style.transform=`translateX(-${cur*1080}px)`;
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  prevBtn.disabled=cur===0;
+  nextBtn.disabled=cur===slides.length-1;
+}
+function move(d){go(cur+d);}
+prevBtn.addEventListener('click',()=>move(-1));
+nextBtn.addEventListener('click',()=>move(1));
+
+let sx=0;
+const wrap=document.getElementById('wrap');
+wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+
+go(0);
+</script>
+</body>
+</html>

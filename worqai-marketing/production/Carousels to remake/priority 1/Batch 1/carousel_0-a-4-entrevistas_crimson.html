@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorqAI · 0 a 4 entrevistas en 8 días</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #060305; min-height: 100vh; font-family: 'Poppins', system-ui, sans-serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #e05a7a; margin-bottom: 18px; text-align: center; }
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 96px 80px 140px 80px; display: flex; flex-direction: column;
+         background: linear-gradient(145deg, #0a0608, #18080e); color: #FFFFFF; }
+
+/* Radial overlay */
+.slide::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: radial-gradient(ellipse 80% 70% at 80% 20%, rgba(180,20,60,0.16), transparent 65%);
+}
+/* Grain */
+.slide::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 220px 220px; opacity: 0.06; mix-blend-mode: overlay;
+}
+
+/* Same blob path on every slide — Blob D Corner Slash, locked, only rotate/translate */
+.blob { position: absolute; pointer-events: none; z-index: 1; opacity: 0.85; }
+.blob svg { width: 100%; height: 100%; }
+.blob path { fill: #4a0a1a; opacity: 0.22; }
+
+/* Ribbon flow — diagonal */
+.ribbon { position: absolute; pointer-events: none; z-index: 1; opacity: 0.55; }
+.ribbon svg { width: 100%; height: 100%; }
+
+/* Volumetric light */
+.vol-light { position: absolute; pointer-events: none; z-index: 1;
+  width: 700px; height: 1500px;
+  background: linear-gradient(160deg, rgba(224,90,122,0.14) 0%, rgba(224,90,122,0.05) 35%, transparent 70%);
+  filter: blur(50px); transform: rotate(25deg); top: -300px; right: -100px;
+  mix-blend-mode: screen; }
+
+/* Fracture shards accent */
+.shards { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.45; }
+
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* Brand anchor */
+.masthead { position: absolute; top: 56px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-tag { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px;
+            letter-spacing: 0.32em; text-transform: uppercase; color: #e05a7a;
+            display: inline-flex; align-items: center; gap: 12px; }
+.mast-tag::before { content: ''; width: 24px; height: 2px; background: #e05a7a; }
+.mast-issue { font-family: 'JetBrains Mono', monospace; font-size: 11px;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.40); }
+
+.brand-mark { position: absolute; bottom: 46px; left: 80px; z-index: 4;
+              font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 16px;
+              letter-spacing: 0.04em; text-transform: lowercase; color: rgba(255,255,255,0.78); }
+.brand-mark .accent { color: #e05a7a; }
+.handle { position: absolute; bottom: 46px; left: 200px; z-index: 4;
+          font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 11px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(255,255,255,0.42); }
+.counter { position: absolute; bottom: 48px; right: 80px; z-index: 4;
+           font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 12px;
+           letter-spacing: 0.14em; color: rgba(255,255,255,0.42); }
+
+/* Progress dots */
+.prog { display: flex; gap: 8px; position: absolute; bottom: 86px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(255,255,255,0.14); }
+.pd.on { background: #e05a7a; box-shadow: 0 0 10px rgba(224,90,122,0.6); }
+
+.kicker { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px;
+          letter-spacing: 0.30em; text-transform: uppercase; color: #e05a7a;
+          margin-bottom: 24px; display: inline-flex; align-items: center; gap: 14px; }
+.kicker .pip { width: 10px; height: 10px; border-radius: 50%; background: #e05a7a;
+               box-shadow: 0 0 10px rgba(224,90,122,0.8); }
+
+.headline { font-family: 'Poppins', sans-serif; font-weight: 800;
+            font-size: 56px; line-height: 1.04; letter-spacing: -0.025em; color: #FFFFFF; }
+
+/* === SLIDE 1: BIG NUMBER + ANNOTATION (RESULT HOOK) === */
+.s1-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+           gap: 40px; flex: 1; }
+.s1-stat { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 460px;
+           line-height: 0.78; letter-spacing: -0.07em;
+           background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 50%, #e05a7a 100%);
+           -webkit-background-clip: text; background-clip: text;
+           -webkit-text-fill-color: transparent; color: transparent;
+           position: relative; }
+.s1-stat-unit { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 18px;
+                letter-spacing: 0.32em; text-transform: uppercase; color: #e05a7a;
+                margin-top: -10px; }
+.s1-side { display: flex; flex-direction: column; gap: 22px; }
+.s1-tag { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px;
+          letter-spacing: 0.34em; text-transform: uppercase; color: #e05a7a;
+          padding: 6px 14px; background: rgba(224,90,122,0.14); border: 1px solid rgba(224,90,122,0.35);
+          align-self: flex-start; }
+.s1-headline { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 48px;
+               line-height: 1.05; color: #FFFFFF; letter-spacing: -0.02em; }
+.s1-headline .accent { color: #e05a7a; }
+.s1-from-to { display: flex; gap: 14px; align-items: baseline; padding: 18px 0;
+              border-top: 1px solid rgba(255,255,255,0.18);
+              border-bottom: 1px solid rgba(255,255,255,0.18); margin-top: 10px; }
+.s1-from { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 16px;
+           color: rgba(255,255,255,0.55); letter-spacing: 0.08em; }
+.s1-from-num { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 64px;
+               color: rgba(255,255,255,0.40); line-height: 1; letter-spacing: -0.04em; }
+.s1-arrow { font-size: 24px; color: #e05a7a; font-weight: 700; padding: 0 6px; }
+.s1-to { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 16px;
+         color: #e05a7a; letter-spacing: 0.08em; }
+.s1-to-num { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 64px;
+             color: #FFFFFF; line-height: 1; letter-spacing: -0.04em; }
+.s1-source { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+             color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #e05a7a; color: #0a0608;
+              font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 800;
+              letter-spacing: 0.20em; text-transform: uppercase; border-radius: 999px;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 24px rgba(224,90,122,0.45); }
+
+/* === SLIDE 2: PULL QUOTE === */
+.s2-quote-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding-top: 20px; }
+.s2-quote { max-width: 880px; padding: 40px 0; text-align: left; }
+.s2-quote-mark { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 200px;
+                 line-height: 0.6; color: #e05a7a; opacity: 0.7; margin-bottom: -20px; }
+.s2-quote-text { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 64px;
+                 line-height: 1.1; color: #FFFFFF; letter-spacing: -0.025em; }
+.s2-quote-text .accent { color: #e05a7a; font-weight: 700; }
+.s2-quote-attr { display: flex; align-items: center; gap: 22px; margin-top: 50px;
+                 padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.18); }
+.s2-quote-avatar { width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+                   background: linear-gradient(135deg, #e05a7a, #4a0a1a);
+                   border: 2px solid rgba(224,90,122,0.55);
+                   display: flex; align-items: center; justify-content: center;
+                   font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 22px;
+                   color: #FFFFFF; }
+.s2-quote-meta-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 18px;
+                      color: #FFFFFF; }
+.s2-quote-meta-role { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 13px;
+                      color: rgba(255,255,255,0.55); letter-spacing: 0.10em; text-transform: uppercase; margin-top: 4px; }
+
+/* === SLIDE 3: STANDARD ERROR CARD === */
+.s3-stack { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; flex: 1; }
+.s3-blk { padding: 26px 30px; border-radius: 14px;
+          background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); }
+.s3-blk.bad { background: rgba(160,20,40,0.14); border: 1px solid rgba(220,60,80,0.40); }
+.s3-blk.mid { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.14); }
+.s3-blk.good { background: rgba(20,140,70,0.10); border: 1px solid rgba(40,180,90,0.40); }
+.s3-blk-label { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px;
+                letter-spacing: 0.30em; text-transform: uppercase; margin-bottom: 10px;
+                display: inline-flex; align-items: center; gap: 10px; }
+.s3-blk-label .pip { width: 8px; height: 8px; border-radius: 50%; }
+.s3-blk.bad .s3-blk-label { color: #f08e9d; }
+.s3-blk.bad .s3-blk-label .pip { background: #f08e9d; }
+.s3-blk.mid .s3-blk-label { color: rgba(255,255,255,0.70); }
+.s3-blk.mid .s3-blk-label .pip { background: rgba(255,255,255,0.70); }
+.s3-blk.good .s3-blk-label { color: #6bd99a; }
+.s3-blk.good .s3-blk-label .pip { background: #6bd99a; }
+.s3-blk-text { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 21px;
+               line-height: 1.45; color: #FFFFFF; }
+.s3-blk-text code { font-family: 'JetBrains Mono', monospace; font-size: 18px;
+                    background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px;
+                    color: #e05a7a; }
+
+/* === SLIDE 4: WARNING / ALERT BOX === */
+.s4-warning { display: flex; gap: 26px; padding: 36px 32px; margin-top: 28px;
+              background: rgba(224,90,122,0.10); border: 2px solid rgba(224,90,122,0.45);
+              border-radius: 16px; }
+.s4-warn-icon { width: 76px; height: 76px; border-radius: 16px; flex-shrink: 0;
+                background: #e05a7a; color: #0a0608;
+                font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 50px;
+                display: flex; align-items: center; justify-content: center; line-height: 1;
+                box-shadow: 0 0 0 6px rgba(224,90,122,0.25); }
+.s4-warn-body { flex: 1; }
+.s4-warn-tag { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px;
+               letter-spacing: 0.32em; text-transform: uppercase; color: #e05a7a;
+               margin-bottom: 12px; }
+.s4-warn-headline { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 30px;
+                    line-height: 1.15; color: #FFFFFF; margin-bottom: 14px; letter-spacing: -0.01em; }
+.s4-warn-text { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 18px;
+                line-height: 1.55; color: rgba(255,255,255,0.78); }
+.s4-warn-text strong { color: #e05a7a; font-weight: 700; }
+
+.s4-quote-rows { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+.s4-q-card { padding: 22px 22px; border-radius: 12px;
+             background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); }
+.s4-q-card.bad { border-color: rgba(220,60,80,0.40); background: rgba(160,20,40,0.10); }
+.s4-q-card.good { border-color: rgba(40,180,90,0.40); background: rgba(20,140,70,0.08); }
+.s4-q-tag { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 10px;
+            letter-spacing: 0.32em; text-transform: uppercase; margin-bottom: 8px; }
+.s4-q-card.bad .s4-q-tag { color: #f08e9d; }
+.s4-q-card.good .s4-q-tag { color: #6bd99a; }
+.s4-q-text { font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.5;
+             color: rgba(255,255,255,0.80); font-style: italic; }
+.s4-q-card.good .s4-q-text { color: #FFFFFF; font-weight: 500; }
+
+/* === SLIDE 5: SIDE-BY-SIDE === */
+.s5-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 26px; flex: 1; }
+.s5-col { padding: 28px 26px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; }
+.s5-col.before { background: rgba(160,20,40,0.10); border: 1px solid rgba(220,60,80,0.30); }
+.s5-col.after { background: rgba(20,140,70,0.08); border: 2px solid rgba(40,180,90,0.45); }
+.s5-col-tag { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px;
+              letter-spacing: 0.32em; text-transform: uppercase;
+              display: inline-flex; align-items: center; gap: 10px; }
+.s5-col.before .s5-col-tag { color: #f08e9d; }
+.s5-col.after .s5-col-tag { color: #6bd99a; }
+.s5-col-tag .pip { width: 10px; height: 10px; border-radius: 50%; }
+.s5-col.before .s5-col-tag .pip { background: #f08e9d; }
+.s5-col.after .s5-col-tag .pip { background: #6bd99a; }
+.s5-col-headline { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 22px;
+                   color: #FFFFFF; line-height: 1.2; }
+.s5-section { padding: 14px 14px; background: rgba(0,0,0,0.30); border-radius: 8px; }
+.s5-section-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+                    color: rgba(255,255,255,0.55); letter-spacing: 0.16em; text-transform: uppercase;
+                    margin-bottom: 6px; }
+.s5-section-text { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px;
+                   line-height: 1.45; color: rgba(255,255,255,0.85); }
+.s5-col.after .s5-section-text .kw { background: rgba(40,180,90,0.20); color: #6bd99a;
+                                      font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+.s5-col-foot { padding-top: 14px; border-top: 1px dashed rgba(255,255,255,0.18); margin-top: auto;
+               font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px;
+               color: rgba(255,255,255,0.62); display: flex; justify-content: space-between; align-items: baseline; }
+.s5-col-foot strong { font-weight: 800; font-size: 22px; }
+.s5-col.before .s5-col-foot strong { color: #f08e9d; }
+.s5-col.after .s5-col-foot strong { color: #6bd99a; }
+
+/* === SLIDE 6: COUNTER STACK === */
+.s6-stack { display: flex; flex-direction: column; gap: 22px; margin-top: 28px; flex: 1;
+            justify-content: center; }
+.s6-row { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 14px; padding: 22px 26px; }
+.s6-row-top { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px;
+              align-items: baseline; margin-bottom: 12px; }
+.s6-row-label { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px;
+                letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.62); }
+.s6-row-arrow { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 18px;
+                color: #e05a7a; }
+.s6-row-vals { display: flex; align-items: baseline; gap: 18px; }
+.s6-val-before { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 44px;
+                 color: rgba(255,255,255,0.40); line-height: 1; letter-spacing: -0.03em;
+                 text-decoration: line-through; text-decoration-color: rgba(240,142,157,0.65);
+                 text-decoration-thickness: 3px; }
+.s6-val-after { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 64px;
+                color: #FFFFFF; line-height: 1; letter-spacing: -0.04em; }
+.s6-val-after .unit { font-size: 28px; color: #e05a7a; font-weight: 700; margin-left: 4px; }
+.s6-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden;
+          position: relative; }
+.s6-bar-fill { position: absolute; inset: 0; background: linear-gradient(90deg, #e05a7a, #6bd99a);
+               border-radius: inherit; }
+
+/* === SLIDE 7: CASE STUDY CARD === */
+.s7-card { margin-top: 24px; padding: 36px; border-radius: 22px;
+           background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
+           flex: 1; display: flex; flex-direction: column; gap: 24px;
+           position: relative; overflow: hidden; }
+.s7-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+                   background: linear-gradient(90deg, #e05a7a, #6bd99a); }
+
+.s7-header { display: grid; grid-template-columns: 96px 1fr auto; gap: 22px; align-items: center; }
+.s7-avatar { width: 96px; height: 96px; border-radius: 50%;
+             background: linear-gradient(135deg, #e05a7a 0%, #4a0a1a 100%);
+             border: 3px solid #e05a7a; display: flex; align-items: center; justify-content: center;
+             font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 38px;
+             color: #FFFFFF; box-shadow: 0 0 30px rgba(224,90,122,0.35); }
+.s7-meta-name { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 28px;
+                color: #FFFFFF; line-height: 1.1; }
+.s7-meta-role { font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 15px;
+                color: rgba(255,255,255,0.62); letter-spacing: 0.06em; margin-top: 6px; }
+.s7-meta-loc { font-family: 'JetBrains Mono', monospace; font-size: 12px;
+               color: rgba(255,255,255,0.45); letter-spacing: 0.10em; text-transform: uppercase; margin-top: 4px; }
+.s7-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px;
+            background: rgba(40,180,90,0.14); border: 1px solid rgba(40,180,90,0.45);
+            border-radius: 999px; color: #6bd99a;
+            font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px;
+            letter-spacing: 0.20em; text-transform: uppercase; }
+
+.s7-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.s7-result { padding: 22px 18px; background: rgba(0,0,0,0.30); border-radius: 12px;
+             border: 1px solid rgba(255,255,255,0.10); text-align: center; }
+.s7-result-num { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 56px;
+                 line-height: 0.95; color: #FFFFFF; letter-spacing: -0.04em; }
+.s7-result-num .unit { font-size: 26px; color: #e05a7a; font-weight: 700; margin-left: 2px; }
+.s7-result-label { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px;
+                   letter-spacing: 0.26em; text-transform: uppercase; color: rgba(255,255,255,0.62);
+                   margin-top: 8px; }
+
+.s7-mechanism { padding: 22px 24px; border-radius: 12px;
+                background: rgba(224,90,122,0.08); border: 1px solid rgba(224,90,122,0.30); }
+.s7-mech-tag { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 11px;
+               letter-spacing: 0.30em; text-transform: uppercase; color: #e05a7a;
+               margin-bottom: 10px; }
+.s7-mech-text { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 16px;
+                line-height: 1.55; color: rgba(255,255,255,0.85); }
+.s7-mech-text strong { color: #FFFFFF; font-weight: 700; }
+
+/* === SLIDE 8: CTA === */
+.s8-content { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 36px;
+              align-items: flex-start; }
+.s8-headline { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 76px;
+               line-height: 1.0; color: #FFFFFF; letter-spacing: -0.035em; max-width: 880px; }
+.s8-headline .accent { color: #e05a7a; }
+.s8-sub { font-family: 'Poppins', sans-serif; font-weight: 400; font-size: 22px;
+          line-height: 1.5; color: rgba(255,255,255,0.68); max-width: 720px; }
+
+.s8-cta-card { padding: 32px 32px; border-radius: 22px; background: rgba(255,255,255,0.05);
+               border: 2px solid rgba(224,90,122,0.40);
+               display: grid; grid-template-columns: 1fr auto; gap: 26px; align-items: center;
+               max-width: 880px; width: 100%; }
+.s8-cta-text { display: flex; flex-direction: column; gap: 12px; }
+.s8-cta-q { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px;
+            color: rgba(255,255,255,0.72); }
+.s8-cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.s8-cta-row span:first-child { font-family: 'Poppins', sans-serif; font-weight: 600;
+                                font-size: 19px; color: #FFFFFF; }
+.s8-keyword-box { display: inline-block; border: 2px dashed #e05a7a;
+                  padding: 10px 22px; border-radius: 10px;
+                  font-family: 'Poppins', sans-serif; font-weight: 900; font-size: 28px;
+                  color: #e05a7a; letter-spacing: 0.10em;
+                  background: rgba(224,90,122,0.06); }
+.s8-cta-btn { background: #FFFFFF; color: #0a0608; border: none;
+              font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 17px;
+              letter-spacing: 0.04em; padding: 18px 30px; border-radius: 999px;
+              white-space: nowrap; cursor: pointer;
+              box-shadow: 0 0 40px rgba(255,255,255,0.18); }
+
+/* Controls */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: rgba(255,255,255,0.10); border: none; color: rgba(255,255,255,0.55);
+       width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 18px; }
+.btn:disabled { opacity: 0.18; cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.20); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #e05a7a; width: 20px; border-radius: 3px; }
+.hint { font-size: 11px; color: rgba(255,255,255,0.30); letter-spacing: 0.16em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #e05a7a; color: #0a0608; border: none; border-radius: 999px;
+           font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 14px;
+           letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(255,255,255,0.45); text-align: center;
+                letter-spacing: 0.16em; text-transform: uppercase; margin-top: 4px; }
+</style>
+</head>
+<body>
+<p class="label-top">WorqAI · 0 a 4 entrevistas en 8 días · 8 slides · Crimson</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- Reusable blob D path — corner slash, locked path, only rotation/translation per slide -->
+      <svg width="0" height="0" style="position:absolute;">
+        <defs>
+          <symbol id="blobD" viewBox="0 0 600 600">
+            <path d="M0 0 L600 0 L600 220 C520 280 460 220 380 280 C300 340 240 280 160 360 C80 440 40 380 0 480 Z"/>
+          </symbol>
+          <symbol id="ribbonPath" viewBox="0 0 1080 1080" preserveAspectRatio="none">
+            <path d="M-100 800 C 200 600, 500 900, 800 600 S 1100 400, 1300 500"
+                  stroke="#e05a7a" stroke-width="3" fill="none" opacity="0.55"/>
+            <path d="M-100 850 C 250 650, 550 950, 850 650 S 1150 450, 1350 550"
+                  stroke="#e05a7a" stroke-width="1.5" fill="none" opacity="0.30"/>
+            <path d="M-100 900 C 300 700, 600 1000, 900 700 S 1200 500, 1400 600"
+                  stroke="rgba(255,255,255,0.18)" stroke-width="1" fill="none"/>
+          </symbol>
+        </defs>
+      </svg>
+
+      <!-- ============ SLIDE 1 — BIG NUMBER (RESULT HOOK) ============ -->
+      <section class="slide" id="slide-1">
+        <div class="vol-light"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(0deg);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="top:0; right:0; width: 720px; height: 720px; transform: rotate(0deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Caso real · Heredia</div>
+          <div class="mast-issue">Mayo 2026 · WorqAI</div>
+        </div>
+        <div class="content" style="margin-top: 40px;">
+          <div class="s1-grid">
+            <div>
+              <div class="s1-stat">8</div>
+              <div class="s1-stat-unit">Días · Eight days</div>
+            </div>
+            <div class="s1-side">
+              <div class="s1-tag">Resultado · Verificado</div>
+              <h1 class="s1-headline">De cero callbacks a <span class="accent">4 entrevistas.</span></h1>
+              <div class="s1-from-to">
+                <div>
+                  <div class="s1-from">Antes · 6 sem</div>
+                  <div class="s1-from-num">0</div>
+                </div>
+                <div class="s1-arrow">→</div>
+                <div>
+                  <div class="s1-to">Después · 8 días</div>
+                  <div class="s1-to-num">4</div>
+                </div>
+              </div>
+              <div class="s1-source">Caso · Carlos M., contador, Heredia CR · 8 años exp</div>
+            </div>
+          </div>
+          <div class="swipe-pill">Cómo lo hizo →</div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">01 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 2 — PULL QUOTE ============ -->
+      <section class="slide" id="slide-2">
+        <div class="vol-light" style="transform: rotate(-30deg); top: -200px; left: -200px; right: auto;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-8deg);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="bottom: 0; left: 0; width: 700px; height: 700px; transform: rotate(180deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Caso real · Heredia</div>
+          <div class="mast-issue">02 · El testimonio</div>
+        </div>
+        <div class="content" style="margin-top: 24px;">
+          <div class="kicker"><span class="pip"></span>El testimonio</div>
+          <div class="s2-quote-wrap">
+            <blockquote class="s2-quote">
+              <div class="s2-quote-mark">"</div>
+              <p class="s2-quote-text">No esperaba el cambio <span class="accent">tan rápido.</span></p>
+              <div class="s2-quote-attr">
+                <div class="s2-quote-avatar">CM</div>
+                <div>
+                  <div class="s2-quote-meta-name">Carlos M.</div>
+                  <div class="s2-quote-meta-role">Contador · Heredia CR · 8 años</div>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">02 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 3 — STANDARD ERROR CARD (error 1) ============ -->
+      <section class="slide" id="slide-3">
+        <div class="vol-light" style="transform: rotate(15deg); top: -250px; right: -150px;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-16deg) translateY(40px);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="top: 0; right: 0; width: 680px; height: 680px; transform: rotate(20deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Error 1 · Headline</div>
+          <div class="mast-issue">03 · El primer cambio</div>
+        </div>
+        <div class="content" style="margin-top: 24px;">
+          <div class="kicker"><span class="pip"></span>Error 1 · El headline de LinkedIn</div>
+          <h2 class="headline">El headline genérico te hace invisible.</h2>
+          <div class="s3-stack">
+            <div class="s3-blk bad">
+              <div class="s3-blk-label"><span class="pip"></span>Antes</div>
+              <div class="s3-blk-text">Headline: <code>"Contador · apasionado por los números"</code> — sin keywords. Cero apariciones en búsquedas de reclutadores.</div>
+            </div>
+            <div class="s3-blk mid">
+              <div class="s3-blk-label"><span class="pip"></span>Por qué falla</div>
+              <div class="s3-blk-text">Los reclutadores en LATAM buscan por título exacto + industria. "Apasionado" no es un término de búsqueda. "NIIF" sí.</div>
+            </div>
+            <div class="s3-blk good">
+              <div class="s3-blk-label"><span class="pip"></span>Después · cambio</div>
+              <div class="s3-blk-text">Headline: <code>"Contador Senior · NIIF + SAP · 8 años · Heredia"</code> — 3 keywords industria. <strong>9 búsquedas en 5 días.</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">03 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 4 — WARNING / ALERT (error 2) ============ -->
+      <section class="slide" id="slide-4">
+        <div class="vol-light" style="transform: rotate(40deg); top: -300px; right: -100px;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-24deg) translateY(80px);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="bottom: 0; right: 0; width: 700px; height: 700px; transform: rotate(40deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Error 2 · Resumen</div>
+          <div class="mast-issue">04 · El segundo cambio</div>
+        </div>
+        <div class="content" style="margin-top: 24px;">
+          <div class="kicker"><span class="pip"></span>Error 2 · El resumen genérico</div>
+          <h2 class="headline">El resumen copiado de plantillas no convence a nadie.</h2>
+
+          <div class="s4-warning">
+            <div class="s4-warn-icon">!</div>
+            <div class="s4-warn-body">
+              <div class="s4-warn-tag">Lo que estaba mal</div>
+              <div class="s4-warn-headline">"Profesional dedicado con experiencia comprobada en su área."</div>
+              <div class="s4-warn-text">Frase reciclada de un template. <strong>Cero contexto, cero industria, cero números.</strong> El reclutador la lee, no aprende nada de Carlos, y pasa al siguiente.</div>
+            </div>
+          </div>
+
+          <div class="s4-quote-rows">
+            <div class="s4-q-card bad">
+              <div class="s4-q-tag">Antes</div>
+              <div class="s4-q-text">"Profesional dedicado con experiencia comprobada en contabilidad y orientación a resultados."</div>
+            </div>
+            <div class="s4-q-card good">
+              <div class="s4-q-tag">Después</div>
+              <div class="s4-q-text">"Contador con 8 años cerrando estados financieros bajo NIIF en SAP. Reduje 40% el tiempo de cierre mensual en mi último rol."</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">04 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 5 — SIDE-BY-SIDE (CV antes vs después) ============ -->
+      <section class="slide" id="slide-5">
+        <div class="vol-light" style="transform: rotate(-20deg); top: -180px; left: -200px; right: auto;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-32deg) translateY(120px);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="top: 100px; left: 0; width: 720px; height: 720px; transform: rotate(220deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">CV · Antes vs Después</div>
+          <div class="mast-issue">05 · El tercer cambio</div>
+        </div>
+        <div class="content" style="margin-top: 24px;">
+          <div class="kicker"><span class="pip"></span>Las 3 secciones que reescribimos</div>
+          <h2 class="headline" style="font-size: 50px;">Mismo CV. Tres secciones reescritas con keywords del aviso.</h2>
+          <div class="s5-cols">
+            <div class="s5-col before">
+              <div class="s5-col-tag"><span class="pip"></span>Antes · genérico</div>
+              <div class="s5-col-headline">CV cookie-cutter</div>
+              <div class="s5-section">
+                <div class="s5-section-label">Headline</div>
+                <div class="s5-section-text">Contador apasionado por los números</div>
+              </div>
+              <div class="s5-section">
+                <div class="s5-section-label">Resumen</div>
+                <div class="s5-section-text">Profesional dedicado con experiencia comprobada en su área.</div>
+              </div>
+              <div class="s5-section">
+                <div class="s5-section-label">Skills</div>
+                <div class="s5-section-text">Excel · Trabajo en equipo · Liderazgo · Comunicación</div>
+              </div>
+              <div class="s5-col-foot"><span>Match score ATS</span><strong>22 / 100</strong></div>
+            </div>
+            <div class="s5-col after">
+              <div class="s5-col-tag"><span class="pip"></span>Después · keywords</div>
+              <div class="s5-col-headline">CV con palabras del aviso</div>
+              <div class="s5-section">
+                <div class="s5-section-label">Headline</div>
+                <div class="s5-section-text"><span class="kw">Contador Senior</span> · <span class="kw">NIIF</span> + <span class="kw">SAP</span> · 8 años · Heredia</div>
+              </div>
+              <div class="s5-section">
+                <div class="s5-section-label">Resumen</div>
+                <div class="s5-section-text">8 años cerrando estados bajo <span class="kw">NIIF</span> en <span class="kw">SAP</span>. Reduje <span class="kw">40%</span> el tiempo de cierre mensual.</div>
+              </div>
+              <div class="s5-section">
+                <div class="s5-section-label">Skills</div>
+                <div class="s5-section-text"><span class="kw">SAP FI/CO</span> · <span class="kw">NIIF</span> · <span class="kw">cierre mensual</span> · <span class="kw">conciliaciones</span> · Excel avanzado</div>
+              </div>
+              <div class="s5-col-foot"><span>Match score ATS</span><strong>87 / 100</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">05 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 6 — COUNTER STACK ============ -->
+      <section class="slide" id="slide-6">
+        <div class="vol-light" style="transform: rotate(20deg); top: -220px; right: -100px;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-40deg) translateY(160px);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="top: 0; right: 0; width: 660px; height: 660px; transform: rotate(60deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Métricas · 6 sem vs 8 días</div>
+          <div class="mast-issue">06 · Las cifras</div>
+        </div>
+        <div class="content" style="margin-top: 24px;">
+          <div class="kicker"><span class="pip"></span>Lo que cambió en números</div>
+          <h2 class="headline" style="font-size: 50px;">3 métricas. Mismo perfil. Otro sistema.</h2>
+          <div class="s6-stack">
+
+            <div class="s6-row">
+              <div class="s6-row-top">
+                <div class="s6-row-label">Días hasta primera entrevista</div>
+                <div class="s6-row-arrow">→</div>
+                <div class="s6-row-vals" style="justify-content: flex-end;">
+                  <div class="s6-val-before">42</div>
+                  <div class="s6-val-after">3<span class="unit">días</span></div>
+                </div>
+              </div>
+              <div class="s6-bar"><div class="s6-bar-fill" style="width: 95%;"></div></div>
+            </div>
+
+            <div class="s6-row">
+              <div class="s6-row-top">
+                <div class="s6-row-label">Total de entrevistas conseguidas</div>
+                <div class="s6-row-arrow">→</div>
+                <div class="s6-row-vals" style="justify-content: flex-end;">
+                  <div class="s6-val-before">0</div>
+                  <div class="s6-val-after">4<span class="unit">en 8 días</span></div>
+                </div>
+              </div>
+              <div class="s6-bar"><div class="s6-bar-fill" style="width: 100%;"></div></div>
+            </div>
+
+            <div class="s6-row">
+              <div class="s6-row-top">
+                <div class="s6-row-label">Tasa de respuesta por aplicación</div>
+                <div class="s6-row-arrow">→</div>
+                <div class="s6-row-vals" style="justify-content: flex-end;">
+                  <div class="s6-val-before">2%</div>
+                  <div class="s6-val-after">18<span class="unit">%</span></div>
+                </div>
+              </div>
+              <div class="s6-bar"><div class="s6-bar-fill" style="width: 75%;"></div></div>
+            </div>
+
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">06 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 7 — CASE STUDY CARD ============ -->
+      <section class="slide" id="slide-7">
+        <div class="vol-light" style="transform: rotate(35deg); top: -260px; right: -50px;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-48deg) translateY(200px);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="bottom: 0; right: 0; width: 700px; height: 700px; transform: rotate(80deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Caso · Carlos M.</div>
+          <div class="mast-issue">07 · El resultado completo</div>
+        </div>
+        <div class="content" style="margin-top: 24px;">
+          <div class="kicker"><span class="pip"></span>Caso real · resultado verificado</div>
+          <h2 class="headline" style="font-size: 46px;">Mismo perfil. Mismo CV base. <span style="color:#e05a7a;">Sistema diferente.</span></h2>
+
+          <article class="s7-card">
+            <div class="s7-header">
+              <div class="s7-avatar">CM</div>
+              <div>
+                <div class="s7-meta-name">Carlos Mejías</div>
+                <div class="s7-meta-role">Contador Senior · 8 años · NIIF + SAP</div>
+                <div class="s7-meta-loc">Heredia · Costa Rica</div>
+              </div>
+              <div class="s7-badge">✓ Verificado</div>
+            </div>
+
+            <div class="s7-results">
+              <div class="s7-result">
+                <div class="s7-result-num">8<span class="unit">d</span></div>
+                <div class="s7-result-label">Hasta 4 entrevistas</div>
+              </div>
+              <div class="s7-result">
+                <div class="s7-result-num">3.4<span class="unit">×</span></div>
+                <div class="s7-result-label">Tasa de respuesta</div>
+              </div>
+              <div class="s7-result">
+                <div class="s7-result-num">87<span class="unit">/100</span></div>
+                <div class="s7-result-label">Match ATS</div>
+              </div>
+            </div>
+
+            <div class="s7-mechanism">
+              <div class="s7-mech-tag">Mecanismo · qué cambió</div>
+              <div class="s7-mech-text">Reescribimos <strong>headline LinkedIn + 3 secciones del CV</strong> con keywords específicas de su industria. Los CVs con keywords del job description reciben <strong>3.4× más entrevistas</strong> (Dato interno WorqAI · base de datos 2025). Carlos pasó de 0 callbacks en 6 semanas a 4 entrevistas en 8 días. Sin cambiar su experiencia. Sin postear más en LinkedIn.</div>
+            </div>
+          </article>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">07 / 08</div>
+      </section>
+
+      <!-- ============ SLIDE 8 — CTA ============ -->
+      <section class="slide" id="slide-8">
+        <div class="vol-light" style="transform: rotate(40deg); width: 800px; top: -300px; right: -150px;"></div>
+        <div class="ribbon" style="inset:0; transform: rotate(-56deg) translateY(240px);"><svg viewBox="0 0 1080 1080"><use href="#ribbonPath"/></svg></div>
+        <div class="blob" style="top: -50px; right: -50px; width: 720px; height: 720px; transform: rotate(100deg);">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="blob" style="bottom: -100px; left: -100px; width: 600px; height: 600px; transform: rotate(280deg); opacity: 0.55;">
+          <svg viewBox="0 0 600 600"><use href="#blobD"/></svg>
+        </div>
+        <div class="masthead">
+          <div class="mast-tag">Tu turno · próximo paso</div>
+          <div class="mast-issue">08 · CTA</div>
+        </div>
+        <div class="content">
+          <div class="s8-content">
+            <h2 class="s8-headline">¿Querés <span class="accent">el mismo sistema</span> que usó Carlos?</h2>
+            <p class="s8-sub">Te mando el playbook PDF: cómo reescribir tu LinkedIn headline, las 5 keywords que más mueven la aguja en LATAM, y el template ATS-safe que usamos con Carlos.</p>
+
+            <div class="s8-cta-card">
+              <div class="s8-cta-text">
+                <div class="s8-cta-q">Comentá una palabra. Te mando el link.</div>
+                <div class="s8-cta-row">
+                  <span>Escribí</span>
+                  <span class="s8-keyword-box">CARLOS</span>
+                </div>
+              </div>
+              <button class="s8-cta-btn">Probar WorqAI</button>
+            </div>
+          </div>
+        </div>
+        <div class="brand-mark">worq<span class="accent">ai</span></div>
+        <div class="handle">@worqai</div>
+        <div class="counter">08 / 08</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+    <span class="dot" data-i="4"></span>
+    <span class="dot" data-i="5"></span>
+    <span class="dot" data-i="6"></span>
+    <span class="dot" data-i="7"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · 8 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · crimson night</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel-0-a-4-entrevistas.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–08.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · 8 PNGs';
+    progress.textContent = '1080 × 1080 px · crimson night';
+  }, 3000);
+}
+</script>
+</body>
+</html>

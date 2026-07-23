@@ -1,0 +1,23 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="mcs-wrap">
+    {% if copy.headline %}
+    <div class="mcs-headline {{ text_treatment_class }}">{{ copy.headline }}</div>
+    {% endif %}
+    {% for card in copy.get('cards', []) %}
+    <div class="mcs-card">
+      {% if card.title %}<div class="mcs-title">{{ card.title }}</div>{% endif %}
+      {% if card.desc or card.description %}
+      <div class="mcs-desc">{{ card.desc | default(card.description) }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

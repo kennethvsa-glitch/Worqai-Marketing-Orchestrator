@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html data-duration="40" data-fps="60">
+<head>
+  <meta charset="UTF-8"><script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <link rel="stylesheet" href="scene-launch.css">
+</head>
+<body class="cv-clean-mode">
+
+<div id="bg-grid"></div>
+<div id="bg-glow"></div>
+
+<div id="cursor">
+  <svg viewBox="0 0 28 28" fill="none"><path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#16160F" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/></svg>
+</div>
+
+<!-- ── Scene 0: Intro (kicker only, 0–3.5s) ──────────────────── -->
+<div id="intro-group">
+  <div id="intro-kicker">Por qué nadie te responde</div>
+</div>
+
+<!-- ── Demo (3.5s–) ────────────────────────────────────────── -->
+<div id="demo-group">
+  <div id="cv-panel">
+    <div class="ghost-card" id="ghost-card-1"></div>
+    <div class="ghost-card" id="ghost-card-2"></div>
+    <div class="ghost-card" id="ghost-card-3"></div>
+    <!-- Cap A: overlaid at top of CV card -->
+    <div id="cap-a-overlay">Un filtro de IA lee tu CV antes que una persona.</div>
+    <div id="job-chip">Analista de Seguridad</div>
+    <div id="tailor-score">Puntuación 92</div>
+    <div class="cv-card" id="cv-card">
+      <div class="scan-bar" id="scan-bar"></div>
+
+      <div class="cv-name">Andrés Quesada R.</div>
+      <div id="role-sub-wrap">
+        <span id="role-weak">Especialista en Servicio al Cliente · Bilingüe EN/ES</span>
+        <span id="role-strong">Monitor de Seguridad & Analista de Datos · Bilingüe EN/ES</span>
+      </div>
+      <div class="cv-contact">andres.quesada@email.com · Parrita, Costa Rica<br>linkedin.com/in/andresq</div>
+      <div class="cv-divider"></div>
+
+      <!-- Resumen -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="resumen-flag"></div>
+        <div class="cv-section-label">Resumen</div>
+        <div class="resumen-swap">
+          <div class="cv-body-text" id="resumen-weak">Estudiante de TI bilingüe (EN/ES, B2+) con experiencia en <span class="kw-bad">servicio al cliente</span>, <span class="kw-bad">seguridad</span> y análisis de datos. Certificado en Data Analytics (Excel, SQL, Tableau).</div>
+          <div class="cv-body-text" id="resumen-strong">Analista de datos bilingüe (EN/ES, B2+) con 2+ años en seguridad operativa. Certificado en Excel, SQL y Tableau. Resultados documentados en análisis de acceso e inventario.</div>
+        </div>
+        <div class="section-warn" id="resumen-warn">⚠ resumen genérico · sin métricas ni palabras clave</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <!-- Habilidades -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="habilidades-flag"></div>
+        <div class="cv-section-label">Habilidades</div>
+        <div class="cv-skills-row">
+          <span class="cv-skill-tag">Excel</span>
+          <span class="cv-skill-tag">SQL</span>
+          <span class="cv-skill-tag">Tableau</span>
+          <span class="cv-skill-tag">Power BI</span>
+          <span class="cv-skill-tag">Java</span>
+          <span class="cv-skill-tag">C++</span>
+          <span class="cv-skill-tag">Español nativo</span>
+          <span class="cv-skill-tag">Inglés B2+</span>
+          <span class="cv-skill-tag skill-new" id="kw-n1">Análisis de datos</span>
+          <span class="cv-skill-tag skill-new" id="kw-n2">Seguridad operativa</span>
+          <span class="cv-skill-tag skill-new" id="kw-n3">Reporting</span>
+        </div>
+        <div class="section-warn" id="habilidades-warn">⚠ faltan palabras clave del puesto</div>
+      </div>
+      <div class="cv-divider"></div>
+
+      <!-- Experiencia -->
+      <div class="cv-section-block">
+        <div class="section-flag" id="experiencia-flag"></div>
+        <div class="cv-section-label">Experiencia</div>
+
+        <div class="exp-block" id="exp1">
+          <div class="exp-title">Monitor de Seguridad de Activos</div>
+          <div class="exp-meta">Control y Monitoreo CYMSA · Puntarenas, CR · Dic 2023 – Abr 2024</div>
+          <div class="bullet-swap">
+            <div class="bullet-text" id="line-weak">Cuidaba la <span class="kw-bad">seguridad</span> de las instalaciones del cliente y llevaba el <span class="kw-bad">control</span> de quién entraba y salía.</div>
+            <div class="bullet-text" id="line-strong"><span class="kw" id="kw1">Monitoreé activos</span>, personal y <span class="kw" id="kw2">accesos vehiculares</span> en instalaciones de clientes, aplicando <span class="kw" id="kw3">protocolos de seguridad</span> e identificación de formación profesional.</div>
+          </div>
+          <div class="exp-flag" id="weak-flag">⚠ línea débil · sin palabras clave ATS</div>
+        </div>
+
+        <div class="exp-block" id="exp2">
+          <div class="exp-title">Recepcionista Bilingüe</div>
+          <div class="exp-meta">Hotel Monte Campana · Dic 2016 – May 2018</div>
+          <div class="bullet-swap">
+            <div class="bullet-text" id="line-weak-2">Atendí la <span class="kw-bad">recepción</span> del hotel y ayudé a huéspedes nacionales e internacionales con sus necesidades.</div>
+            <div class="bullet-text" id="line-strong-2">Gestioné recepción <span class="kw" id="kw2-1">bilingüe (EN/ES)</span>: <span class="kw" id="kw2-2">check-in, check-out</span> y <span class="kw" id="kw2-3">coordinación de habitaciones</span> para 40+ huéspedes diarios.</div>
+          </div>
+          <div class="exp-flag" id="weak-flag-2">⚠ línea débil · sin palabras clave ATS</div>
+        </div>
+
+        <div class="exp-block" id="exp3">
+          <div class="exp-title">Asistente Administrativo</div>
+          <div class="exp-meta">TechValle Soluciones · Feb 2018 – Nov 2019</div>
+          <div class="bullet-swap">
+            <div class="bullet-text" id="line-weak-3">Apoyaba con <span class="kw-bad">tareas de oficina</span> y archivado de documentos para el equipo administrativo.</div>
+            <div class="bullet-text" id="line-strong-3">Coordiné <span class="kw" id="kw3-1">archivo digital</span> y <span class="kw" id="kw3-2">gestión de documentos</span> para equipo de 8 personas. <span class="kw" id="kw3-3">Reportes Excel</span> semanales con análisis de datos operativos.</div>
+          </div>
+          <div class="exp-flag" id="weak-flag-3">⚠ línea débil · sin palabras clave ATS</div>
+        </div>
+      </div>
+
+      <div id="reasoning">
+        <div class="reason-line" id="r1">&gt; analizando el ATS…</div>
+        <div class="reason-line" id="r2">&gt; reordenando por relevancia…</div>
+        <div class="reason-line" id="r3">&gt; aplicando formato ATS…</div>
+      </div>
+      <div id="jobscan-caption">Igualar el título de tu CV a la vacante multiplica ×10.6 las entrevistas. Fuente: Jobscan.</div>
+      <div class="audit-panel" id="issues-panel">
+        <div class="panel-kicker">Diagnóstico gratis</div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Faltan palabras clave de la vacante.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Logros sin números ni evidencia.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Formato vulnerable al parser ATS.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>CV genérico para un puesto específico.</span></div>
+      </div>
+      <div class="audit-panel" id="wins-panel">
+        <div class="panel-kicker">Listo para postular</div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Palabras clave exactas integradas.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Logros reales convertidos en impacto.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Formato limpio para ATS y reclutador.</span></div>
+        <div class="panel-row"><span class="panel-dot"></span><span>Versión lista para esta vacante.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="s7-texts">
+    <div id="s7-counter">1 CV -> un CV distinto para cada postulación</div>
+  </div>
+
+  <div id="bottom-panel">
+    <div class="ring-center" id="ring-center">
+      <svg id="ring-svg" viewBox="0 0 200 200">
+        <circle id="ring-track" cx="100" cy="100" r="80"/>
+        <circle id="ring-fill" cx="100" cy="100" r="80"/>
+      </svg>
+      <div class="ring-val-group">
+        <div id="score-val">·</div>
+        <div class="score-denom" id="score-denom">/100</div>
+      </div>
+    </div>
+    <div id="score-info">
+      <div id="score-label">Puntuación</div>
+      <div id="score-state"></div>
+    </div>
+    <div id="verify-btn"><span>Verificar puntuación</span></div>
+    <div id="optimize-btn">
+      <span>Optimizar con WorqAI</span>
+      <div id="btn-ripple"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Insight scene overlay (14–17.5s) ──────────────────────── -->
+<div id="insight-scene">
+  <div class="insight-line" id="ins-l1">Nadie reescribe su CV para 50 empleos a mano.</div>
+  <div class="insight-line" id="ins-l2">WorqAI hace uno a medida para cada vacante. En segundos.</div>
+</div>
+
+<!-- ── CTA ─────────────────────────────────────────────────── -->
+<div id="cta-group">
+  <div id="cta-logo">W</div>
+  <div id="cta-wordmark">worqai</div>
+  <div id="cta-headline">Tu CV, hecho para pasar el filtro.</div>
+  <div id="cta-subline">Sube tu CV y descubre tu puntuación. Gratis.</div>
+  <div id="cta-btn">Analiza mi CV gratis →</div>
+  <div id="cta-domain">worqai.io · español e inglés</div>
+</div>
+
+<script>
+  // ── LOCK 1 ────────────────────────────────────────────────────────────────
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Initial states ────────────────────────────────────────────────────────
+  gsap.set(["#bg-grid","#bg-glow"],    { opacity: 0 });
+  gsap.set("#intro-kicker",             { opacity: 0, y: 16 });
+  gsap.set("#demo-group",               { opacity: 0 });
+  gsap.set("#cv-card",                  { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set("#bottom-panel",             { opacity: 0 });
+  gsap.set("#optimize-btn",             { opacity: 0 });
+  gsap.set("#role-strong",              { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#line-strong",              { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#line-strong-2",            { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#line-strong-3",            { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#resumen-strong",           { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set(["#weak-flag","#weak-flag-2","#weak-flag-3"], { opacity: 0 });
+  gsap.set("#cursor",                   { opacity: 0 });
+  gsap.set("#scan-bar",                 { clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set("#reasoning",                { opacity: 0 });
+  gsap.set(".reason-line",              { opacity: 0 });
+  gsap.set("#cta-group",                { opacity: 0 });
+  gsap.set(["#cta-logo","#cta-wordmark","#cta-headline","#cta-subline","#cta-btn","#cta-domain"], { opacity: 0 });
+  gsap.set(["#cta-logo","#cta-headline"], { scale: 0.88 });
+  gsap.set("#cta-headline",             { y: 20 });
+  gsap.set(".section-flag",             { opacity: 0 });
+  gsap.set(".section-warn",             { opacity: 0 });
+  gsap.set(".skill-new",                { opacity: 0 });
+  gsap.set("#score-denom",              { opacity: 0 });
+  gsap.set(["#issues-panel","#wins-panel","#jobscan-caption","#job-chip","#tailor-score","#s7-texts"], { opacity: 0 });
+  gsap.set(".audit-panel",              { y: 18 });
+  gsap.set(".panel-row",                { opacity: 0, x: -8 });
+  gsap.set(".ghost-card",               { opacity: 0, scale: 0.92, x: 0, y: 0, rotate: 0 });
+  gsap.set("#cap-a-overlay",            { opacity: 0, y: 10 });
+  gsap.set("#insight-scene",            { opacity: 0 });
+  gsap.set(["#ins-l1","#ins-l2"],       { opacity: 0, y: 18 });
+  gsap.set("#s7-texts",                 { opacity: 0 });
+
+  // ── LOCK 2 ────────────────────────────────────────────────────────────────
+  gsap.globalTimeline.pause();
+
+  // ── Score ring proxies (Lock 4) ───────────────────────────────────────────
+  const CIRCUM  = 2 * Math.PI * 80;
+  const scoreEl = document.getElementById("score-val");
+  const ringEl  = document.getElementById("ring-fill");
+  const stateEl = document.getElementById("score-state");
+  const denomEl = document.getElementById("score-denom");
+  const pLow  = { val: 0, offset: CIRCUM, r: 160, g: 160, b: 160 };
+  const pHigh = { val: 23, offset: CIRCUM * (1 - 0.23), r: 224, g: 89, b: 59 };
+
+  function applyRing(val, offset, r, g, b) {
+    scoreEl.innerText = Math.round(val);
+    ringEl.setAttribute("stroke-dashoffset", offset.toFixed(2));
+    const hex = `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+    ringEl.setAttribute("stroke", hex);
+    scoreEl.style.color = hex;
+    stateEl.style.color = hex;
+  }
+
+  // ── Moat kw helper ────────────────────────────────────────────────────────
+  const allKwIds = ["kw1","kw2","kw3","kw2-1","kw2-2","kw2-3","kw3-1","kw3-2","kw3-3"];
+  function resetAllKws() {
+    allKwIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.backgroundColor = "transparent"; el.style.color = "#16160F"; }
+    });
+  }
+  function dimKws(ids) {
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.backgroundColor = "rgba(0,0,0,0.05)"; el.style.color = "#6E6E64"; }
+    });
+  }
+
+  document.fonts.ready.then(() => {
+    const vBtn = document.getElementById("verify-btn");
+    const oBtn = document.getElementById("optimize-btn");
+    const vR = vBtn.getBoundingClientRect();
+    const vCX = vR.left + vR.width / 2 - 4;
+    const vCY = vR.top  + vR.height / 2 - 4;
+    const oR = oBtn.getBoundingClientRect();
+    const oCX = oR.left + oR.width / 2 - 4;
+    const oCY = oR.top  + oR.height / 2 - 4;
+
+    const tl = gsap.timeline();
+
+    // ── Intro: kicker only (0.0 – 3.5s) ─────────────────────────────────────
+    tl.to(["#bg-grid","#bg-glow"], { opacity: 1, duration: 0.8, ease: "none" }, 0.0);
+    tl.to("#intro-kicker", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.4);
+    tl.to("#intro-kicker", { opacity: 0, y: -12, duration: 0.4, ease: "power3.out" }, 3.3);
+
+    // ── CV appears clean (3.5 – 8.0s) ───────────────────────────────────────
+    tl.set("#demo-group", { opacity: 1 }, 3.5);
+    tl.fromTo("#cv-card", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9, ease: "power2.out" }, 3.5);
+    tl.to("#bottom-panel", { opacity: 1, duration: 0.5, ease: "power3.out" }, 4.5);
+    // Cap A at top of card
+    tl.to("#cap-a-overlay", { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 4.5);
+    tl.to("#cap-a-overlay", { opacity: 0, y: -8, duration: 0.3, ease: "power3.out" }, 7.0);
+
+    // Cursor → verify (7.0 – 8.0s)
+    tl.to("#cursor", { opacity: 1, duration: 0.3, ease: "none" }, 7.0);
+    tl.to("#cursor", { x: vCX, y: vCY, duration: 0.8, ease: "power3.out" }, 7.1);
+    tl.to("#verify-btn", { scale: 0.96, duration: 0.10, ease: "none" }, 7.9);
+    tl.to("#verify-btn", { scale: 1.00, duration: 0.15, ease: "back.out(2)" }, 8.00);
+    tl.to("#cursor",     { scale: 0.80, duration: 0.08, ease: "none" }, 7.9);
+    tl.to("#cursor",     { scale: 1.00, duration: 0.14, ease: "back.out(2)" }, 7.98);
+
+    // ── Verify #1: score 0→23, long hold (8.0 – 14.0s) ──────────────────────
+    tl.add(() => { denomEl.style.opacity = "1"; scoreEl.innerText = "0"; }, 8.1);
+    tl.to(pLow, { val: 23, offset: CIRCUM * (1 - 0.23), r: 224, g: 89, b: 59, duration: 0.9, ease: "power1.out", onUpdate: () => applyRing(pLow.val, pLow.offset, pLow.r, pLow.g, pLow.b) }, 8.1);
+    tl.add(() => { stateEl.innerText = "Bajo"; stateEl.style.color = "#E0593B"; }, 8.1);
+
+    // Reveal kw-bad colors
+    tl.add(() => document.body.classList.remove("cv-clean-mode"), 8.9);
+
+    // Section flags
+    tl.to("#resumen-flag",     { opacity: 1, duration: 0.3, ease: "power3.out" }, 9.0);
+    tl.to("#resumen-warn",     { opacity: 1, duration: 0.3, ease: "power3.out" }, 9.1);
+    tl.to("#habilidades-flag", { opacity: 1, duration: 0.3, ease: "power3.out" }, 9.3);
+    tl.to("#habilidades-warn", { opacity: 1, duration: 0.3, ease: "power3.out" }, 9.4);
+    tl.to("#experiencia-flag", { opacity: 1, duration: 0.3, ease: "power3.out" }, 9.6);
+    tl.to(["#weak-flag","#weak-flag-2","#weak-flag-3"], { opacity: 1, duration: 0.3, ease: "power3.out" }, 9.6);
+    tl.add(() => {
+      document.getElementById("line-weak").classList.add("flagged");
+      document.getElementById("line-weak-2").classList.add("flagged");
+      document.getElementById("line-weak-3").classList.add("flagged");
+    }, 9.6);
+
+    // Issues panel — long hold for reading
+    tl.to("#issues-panel", { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" }, 9.5);
+    tl.to("#issues-panel .panel-row", { opacity: 1, x: 0, duration: 0.26, stagger: 0.14, ease: "power3.out" }, 9.7);
+    tl.to("#optimize-btn", { opacity: 1, duration: 0.4, ease: "power3.out" }, 13.5);
+
+    // ── Insight scene (14.0 – 17.5s) ─────────────────────────────────────────
+    tl.to(["#issues-panel"], { opacity: 0, y: 16, duration: 0.35, ease: "power2.in" }, 13.8);
+    tl.to("#cursor", { opacity: 0, duration: 0.2, ease: "none" }, 13.9);
+    tl.to("#insight-scene", { opacity: 1, duration: 0.4, ease: "none" }, 14.0);
+    tl.to("#ins-l1", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 14.3);
+    tl.to("#ins-l2", { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 15.2);
+
+    // Cursor appears over insight scene, moves toward optimize
+    tl.to("#cursor", { opacity: 1, duration: 0.3, ease: "none" }, 16.5);
+    tl.to("#cursor", { x: oCX, y: oCY, duration: 0.8, ease: "power3.out" }, 16.6);
+    tl.to("#insight-scene", { opacity: 0, duration: 0.45, ease: "none" }, 17.0);
+
+    // ── Optimize: click, scan, reasoning (17.5 – 19.5s) ─────────────────────
+    tl.to("#optimize-btn", { scale: 0.96, duration: 0.10, ease: "none" }, 17.4);
+    tl.to("#optimize-btn", { scale: 1.00, duration: 0.18, ease: "back.out(2)" }, 17.50);
+    tl.to("#cursor",       { scale: 0.80, duration: 0.08, ease: "none" }, 17.4);
+    tl.to("#cursor",       { scale: 1.00, duration: 0.14, ease: "back.out(2)" }, 17.48);
+    tl.fromTo("#btn-ripple", { scale: 1, opacity: 0.7 }, { scale: 2.6, opacity: 0, duration: 0.7, ease: "power2.out" }, 17.42);
+    tl.to("#cursor", { opacity: 0, duration: 0.2, ease: "none" }, 17.8);
+
+    tl.fromTo("#scan-bar", { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power1.inOut" }, 17.6);
+    tl.to("#scan-bar", { clipPath: "inset(100% 0% 0% 0%)", duration: 0.45, ease: "power1.in" }, 18.15);
+    tl.to("#reasoning", { opacity: 1, duration: 0.3, ease: "none" }, 17.7);
+    tl.to("#r1", { opacity: 1, duration: 0.28, ease: "power3.out" }, 17.7);
+    tl.to("#r2", { opacity: 1, duration: 0.28, ease: "power3.out" }, 18.0);
+    tl.to("#r3", { opacity: 1, duration: 0.28, ease: "power3.out" }, 18.3);
+
+    // ── Full rewrite cascade — ALL 3 experiences (19.5 – 26.5s) ─────────────
+
+    // Role subtitle
+    tl.to("#role-weak", { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 19.5);
+    tl.set("#role-strong", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 20.1);
+    tl.to("#role-strong",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "power3.out" }, 20.1);
+
+    // Resumen
+    tl.to("#resumen-flag", { opacity: 0, duration: 0.3, ease: "none" }, 19.4);
+    tl.to("#resumen-warn", { opacity: 0, duration: 0.3, ease: "none" }, 19.4);
+    tl.to("#resumen-weak", { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 19.5);
+    tl.set("#resumen-strong", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 20.0);
+    tl.to("#resumen-strong",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.65, ease: "power3.out" }, 20.0);
+
+    // Habilidades pills
+    tl.to("#habilidades-flag", { opacity: 0, duration: 0.3, ease: "none" }, 19.4);
+    tl.to("#habilidades-warn", { opacity: 0, duration: 0.3, ease: "none" }, 19.4);
+    [[0, 19.8], [1, 20.0], [2, 20.2]].forEach(([i, t]) => {
+      tl.to(`#kw-n${i + 1}`, { opacity: 1, backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.3, ease: "back.out(2)" }, t);
+    });
+
+    // Exp 1 rewrite
+    tl.to("#experiencia-flag", { opacity: 0, duration: 0.3, ease: "none" }, 20.3);
+    tl.to("#weak-flag",        { opacity: 0, duration: 0.3, ease: "none" }, 20.3);
+    tl.to("#line-weak", { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 20.5);
+    tl.set("#line-strong", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 21.1);
+    tl.to("#line-strong",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.75, ease: "power3.out" }, 21.1);
+    [[0, 21.2], [1, 21.35], [2, 21.5]].forEach(([i, t]) => {
+      tl.to(`#kw${i + 1}`, { backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.28, ease: "power2.out" }, t);
+      tl.from(`#kw${i + 1}`, { scale: 0.88, duration: 0.20, ease: "back.out(2)" }, t);
+    });
+
+    // Exp 2 rewrite
+    tl.to("#weak-flag-2", { opacity: 0, duration: 0.3, ease: "none" }, 21.8);
+    tl.to("#line-weak-2", { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 21.8);
+    tl.set("#line-strong-2", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 22.4);
+    tl.to("#line-strong-2",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.75, ease: "power3.out" }, 22.4);
+    [[0, 22.5], [1, 22.65], [2, 22.8]].forEach(([i, t]) => {
+      tl.to(`#kw2-${i + 1}`, { backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.28, ease: "power2.out" }, t);
+      tl.from(`#kw2-${i + 1}`, { scale: 0.88, duration: 0.20, ease: "back.out(2)" }, t);
+    });
+
+    // Exp 3 rewrite
+    tl.to("#weak-flag-3", { opacity: 0, duration: 0.3, ease: "none" }, 23.1);
+    tl.to("#line-weak-3", { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 23.1);
+    tl.set("#line-strong-3", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 23.7);
+    tl.to("#line-strong-3",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.75, ease: "power3.out" }, 23.7);
+    [[0, 23.8], [1, 23.95], [2, 24.1]].forEach(([i, t]) => {
+      tl.to(`#kw3-${i + 1}`, { backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.28, ease: "power2.out" }, t);
+      tl.from(`#kw3-${i + 1}`, { scale: 0.88, duration: 0.20, ease: "back.out(2)" }, t);
+    });
+
+    // Reasoning fades
+    tl.to("#reasoning", { opacity: 0, duration: 0.4, ease: "none" }, 24.5);
+
+    // ── Verify #2: score 23→91, long hold (26.5 – 32.0s) ────────────────────
+    tl.to("#cursor", { opacity: 1, duration: 0.3, ease: "none" }, 26.5);
+    tl.to("#cursor", { x: vCX, y: vCY, duration: 0.7, ease: "power3.out" }, 26.6);
+    tl.to("#verify-btn", { scale: 0.96, duration: 0.10, ease: "none" }, 27.3);
+    tl.to("#verify-btn", { scale: 1.00, duration: 0.15, ease: "back.out(2)" }, 27.40);
+    tl.to("#cursor",     { scale: 0.80, duration: 0.08, ease: "none" }, 27.3);
+    tl.to("#cursor",     { scale: 1.00, duration: 0.14, ease: "back.out(2)" }, 27.38);
+
+    tl.add(() => { stateEl.innerText = "Excelente"; }, 27.4);
+    tl.to(pHigh, {
+      val: 91, offset: CIRCUM * (1 - 0.91), r: 169, g: 217, b: 46,
+      duration: 1.2, ease: "back.out(1.7)",
+      onUpdate: () => applyRing(pHigh.val, pHigh.offset, pHigh.r, pHigh.g, pHigh.b)
+    }, 27.4);
+
+    tl.to("#cursor",     { opacity: 0, duration: 0.2, ease: "none" }, 28.6);
+    tl.to("#ring-center",{ scale: 1.05, duration: 0.20, ease: "power2.out" }, 28.7);
+    tl.to("#ring-center",{ scale: 1.00, duration: 0.32, ease: "back.out(2)" }, 28.9);
+    tl.to("#wins-panel", { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" }, 28.9);
+    tl.to("#wins-panel .panel-row", { opacity: 1, x: 0, duration: 0.24, stagger: 0.11, ease: "power3.out" }, 29.1);
+    tl.to("#wins-panel", { opacity: 0, y: 18, duration: 0.35, ease: "power2.in" }, 31.7);
+
+    // ── Moat: 3 snaps × 2s, per-role kw highlights (32.0 – 38.5s) ───────────
+    tl.to(["#verify-btn","#optimize-btn","#score-info"], { opacity: 0, duration: 0.28, ease: "none" }, 32.0);
+    tl.to("#s7-texts", { opacity: 1, duration: 0.35, ease: "none" }, 32.0);
+    // Reset all kw highlights before moat
+    tl.add(() => resetAllKws(), 32.0);
+
+    const moatSnaps = [
+      {
+        t: 32.1,
+        job: "Analista de Seguridad",
+        score: "Puntuación 92",
+        skills: ["Monitoreé activos", "protocolos", "accesos"],
+        activeKws: ["kw1","kw2","kw3"],
+        dimKws: ["kw2-1","kw2-2","kw2-3","kw3-1","kw3-2","kw3-3"]
+      },
+      {
+        t: 34.1,
+        job: "Analista de Datos · Reporting",
+        score: "Puntuación 94",
+        skills: ["Análisis de datos", "Reporting", "Métricas"],
+        activeKws: ["kw3-1","kw3-2","kw3-3"],
+        dimKws: ["kw1","kw2","kw3","kw2-1","kw2-2","kw2-3"]
+      },
+      {
+        t: 36.1,
+        job: "Monitor Bilingüe",
+        score: "Puntuación 93",
+        skills: ["Bilingüe EN/ES", "coordinación", "recepción"],
+        activeKws: ["kw2-1","kw2-2","kw2-3"],
+        dimKws: ["kw1","kw2","kw3","kw3-1","kw3-2","kw3-3"]
+      }
+    ];
+
+    moatSnaps.forEach(({ t, job, score, skills, activeKws, dimKws: dKws }) => {
+      tl.set("#job-chip",    { x: 260, opacity: 0 }, t);
+      tl.set("#tailor-score",{ scale: 0.78, opacity: 0 }, t);
+      tl.add(() => {
+        // Reset all, then dim inactive, then active set lit by tweens
+        resetAllKws();
+        dimKws(dKws);
+        document.getElementById("job-chip").lastChild.textContent = job;
+        document.getElementById("tailor-score").textContent = score;
+        skills.forEach((s, i) => { document.getElementById(`kw-n${i + 1}`).textContent = s; });
+      }, t + 0.02);
+      tl.to("#job-chip", { x: 0, opacity: 1, duration: 0.36, ease: "power3.out" }, t + 0.05);
+      // Highlight active kw spans
+      activeKws.forEach((id, i) => {
+        tl.to(`#${id}`, { backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.22, ease: "back.out(2)" }, t + 0.3 + i * 0.07);
+      });
+      // Skill pills pulse
+      tl.to(["#kw-n1","#kw-n2","#kw-n3"], { scale: 1.10, backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.18, stagger: 0.08, ease: "back.out(2)" }, t + 0.35);
+      tl.to(["#kw-n1","#kw-n2","#kw-n3"], { scale: 1, duration: 0.18, stagger: 0.08, ease: "power2.out" }, t + 0.6);
+      tl.to("#tailor-score", { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, t + 0.6);
+      tl.to(["#job-chip","#tailor-score"], { opacity: 0, duration: 0.22, ease: "none" }, t + 1.6);
+    });
+
+    // Fan-out
+    tl.to("#ghost-card-1", { opacity: 0.88, scale: 1, x: -44, y: 20, rotate: -6, duration: 0.38, ease: "power3.out" }, 38.0);
+    tl.to("#ghost-card-2", { opacity: 0.72, scale: 0.97, x: 42, y: 32, rotate: 5, duration: 0.38, ease: "power3.out" }, 38.17);
+    tl.to("#ghost-card-3", { opacity: 0.55, scale: 0.94, x: 0, y: 48, rotate: 0, duration: 0.38, ease: "power3.out" }, 38.33);
+    tl.to("#s7-counter", { scale: 1.04, duration: 0.20, ease: "power2.out" }, 38.4);
+    tl.to("#s7-counter", { scale: 1.00, duration: 0.25, ease: "back.out(2)" }, 38.6);
+    tl.to("#demo-group", { scale: 0.96, opacity: 0.12, duration: 0.5, ease: "power3.out" }, 38.7);
+
+    // ── CTA (38.5 – 40.0s) ───────────────────────────────────────────────────
+    tl.set("#cta-group",   { opacity: 1 }, 38.5);
+    tl.to("#cta-logo",     { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 38.50);
+    tl.to("#cta-wordmark", { opacity: 1, duration: 0.45, ease: "power3.out" }, 38.72);
+    tl.to("#cta-headline", { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "power3.out" }, 38.80);
+    tl.to("#cta-subline",  { opacity: 1, duration: 0.4, ease: "none" }, 39.20);
+    tl.to("#cta-btn",      { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 39.50);
+    tl.to("#cta-domain",   { opacity: 1, duration: 0.4, ease: "none" }, 39.72);
+
+    window.motionReady = true;
+    window.MOTION_LABELS = Object.fromEntries(Object.entries(tl.labels).map(([k, v]) => [k, Math.round(v * 1000)]));
+  });
+</script>
+</body>
+</html>

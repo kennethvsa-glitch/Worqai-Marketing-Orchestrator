@@ -1,0 +1,37 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-chart-line-css",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: CHART LINE (CSS)
+Purpose: S2 — CSS-only line/sparkline chart.
+-->
+
+<div class="content">
+  <p class="tip-label">Tendencia</p>
+  <h2 class="tip-headline">Respuestas despues de optimizar</h2>
+  <div class="line-chart">
+    <svg viewBox="0 0 800 200" preserveAspectRatio="none">
+      <polyline fill="none" stroke="var(--accent)" stroke-width="3" points="0,180 100,160 200,140 300,120 400,90 500,70 600,50 700,30 800,20" opacity="0.8"/>
+      <polyline fill="none" stroke="var(--accent-line)" stroke-width="2" stroke-dasharray="6,4" points="0,180 100,170 200,165 300,160 400,158 500,155 600,152 700,150 800,148" opacity="0.5"/>
+    </svg>
+    <div class="lc-labels">
+      <span>Semana 1</span>
+      <span>Semana 4</span>
+      <span>Semana 8</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.line-chart { margin-top: 36px; }
+.line-chart svg { width: 100%; height: 180px; }
+.lc-labels { display: flex; justify-content: space-between; margin-top: 12px; font-family: var(--font-mono), monospace; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.10em; }
+</style>

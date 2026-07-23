@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene 1B Preview — Nada.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, sans-serif;
+  }
+
+  /* Scale wrapper: 1080×1920 scaled to 40% */
+  .scale-wrap {
+    width: 1080px;
+    height: 1920px;
+    transform: scale(0.4);
+    transform-origin: top left;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* ── Background ── */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, #070a10 0%, #030508 55%, #020305 100%);
+  }
+
+  /* ── Grid overlay ── */
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  /* ── Radial glow — blue-indigo centered ~50% 40% ── */
+  .glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 900px 700px at 50% 40%,
+      rgba(40, 80, 255, 0.09) 0%,
+      rgba(20, 60, 180, 0.05) 40%,
+      transparent 70%
+    );
+  }
+
+  /* ── Green ambient glow (lower left) ── */
+  .glow-green {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 700px 500px at 15% 85%,
+      rgba(100, 200, 40, 0.06) 0%,
+      transparent 65%
+    );
+  }
+
+  /* ── Corner UI marks (top right) ── */
+  .corner-ui {
+    position: absolute;
+    top: 56px;
+    right: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+    opacity: 0.5;
+  }
+  .corner-x {
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(166, 255, 47, 0.7);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .corner-rect {
+    width: 26px;
+    height: 20px;
+    border: 1.5px solid rgba(166, 255, 47, 0.45);
+    border-radius: 3px;
+  }
+
+  /* ── Main text block ── */
+  .text-block {
+    position: absolute;
+    left: 86px;
+    top: 50%;
+    transform: translateY(-52%);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Left accent line */
+  .text-block::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    background: linear-gradient(
+      180deg,
+      rgba(166, 255, 47, 0) 0%,
+      rgba(166, 255, 47, 0.8) 20%,
+      rgba(166, 255, 47, 0.8) 80%,
+      rgba(166, 255, 47, 0) 100%
+    );
+    border-radius: 2px;
+  }
+
+  /* "Nada." — hero word */
+  .hero {
+    font-size: 88px;
+    font-weight: 900;
+    color: #a6ff2f;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 14px;
+    /* glow applied via JS after entrance */
+  }
+
+  /* "Nadie te rechazó." */
+  .line-rechazo {
+    font-size: 44px;
+    font-weight: 700;
+    color: #e6e6e6;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  /* "Nadie te leyó." */
+  .line-leyo {
+    font-size: 44px;
+    font-weight: 700;
+    color: #a6ff2f;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  /* Support text */
+  .support {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.5;
+    max-width: 700px;
+  }
+
+  /* ── Wave / particle lines (bottom) ── */
+  .waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 480px;
+    pointer-events: none;
+  }
+
+  /* ── Scattered dots (full canvas) ── */
+  .dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="scale-wrap" id="canvas">
+
+  <div class="bg"></div>
+  <div class="grid"></div>
+  <div class="glow"></div>
+  <div class="glow-green"></div>
+
+  <!-- Corner UI elements -->
+  <div class="corner-ui" id="corner-ui">
+    <div class="corner-x">×</div>
+    <div class="corner-rect"></div>
+  </div>
+
+  <!-- Wave/particle SVG bottom — same as Scene 1a -->
+  <svg class="waves" viewBox="0 0 1080 480" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="waveGlow" cx="30%" cy="80%" r="60%">
+        <stop offset="0%" stop-color="#4aff00" stop-opacity="0.08"/>
+        <stop offset="100%" stop-color="#4aff00" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="blur1">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+      <filter id="blur2">
+        <feGaussianBlur stdDeviation="1.5"/>
+      </filter>
+    </defs>
+    <rect width="1080" height="480" fill="url(#waveGlow)"/>
+
+    <!-- Main wave lines — bottom left cluster -->
+    <path d="M -40 380 Q 80 340 200 360 Q 340 380 460 320 Q 580 260 700 300 Q 820 340 960 280 Q 1020 260 1080 240"
+          stroke="rgba(100,220,40,0.18)" stroke-width="2.5" fill="none" filter="url(#blur2)"/>
+
+    <path d="M -40 400 Q 100 355 240 375 Q 380 395 500 335 Q 620 275 740 315 Q 860 355 1000 290 Q 1045 268 1080 255"
+          stroke="rgba(100,220,40,0.12)" stroke-width="1.8" fill="none" filter="url(#blur2)"/>
+
+    <path d="M -40 420 Q 60 390 160 400 Q 300 415 420 355 Q 560 288 680 328 Q 800 368 940 308 Q 1010 280 1080 270"
+          stroke="rgba(100,220,40,0.22)" stroke-width="3" fill="none" filter="url(#blur1)"/>
+
+    <path d="M -40 440 Q 120 400 260 415 Q 400 430 520 368 Q 640 305 760 345 Q 880 382 1020 318 Q 1052 302 1080 290"
+          stroke="rgba(100,220,40,0.08)" stroke-width="1.2" fill="none"/>
+
+    <!-- Brighter highlight wave -->
+    <path d="M -20 390 Q 100 348 220 368 Q 360 390 475 328 Q 595 265 715 308 Q 835 348 975 285 Q 1030 262 1080 248"
+          stroke="rgba(140,255,60,0.35)" stroke-width="1.5" fill="none" filter="url(#blur2)"/>
+
+    <!-- Scattered dots bottom-left -->
+    <circle cx="60" cy="435" r="2.5" fill="rgba(100,220,40,0.35)"/>
+    <circle cx="90" cy="448" r="1.8" fill="rgba(100,220,40,0.25)"/>
+    <circle cx="120" cy="428" r="1.5" fill="rgba(100,220,40,0.2)"/>
+    <circle cx="40" cy="455" r="2" fill="rgba(100,220,40,0.3)"/>
+    <circle cx="145" cy="460" r="1.2" fill="rgba(100,220,40,0.18)"/>
+    <circle cx="170" cy="440" r="2.2" fill="rgba(100,220,40,0.28)"/>
+
+    <!-- Dots mid-right -->
+    <circle cx="820" cy="360" r="2" fill="rgba(100,220,40,0.22)"/>
+    <circle cx="855" cy="375" r="1.5" fill="rgba(100,220,40,0.18)"/>
+    <circle cx="880" cy="350" r="1.8" fill="rgba(100,220,40,0.2)"/>
+    <circle cx="920" cy="365" r="2.5" fill="rgba(100,220,40,0.15)"/>
+  </svg>
+
+  <!-- Scattered dot grid — full canvas -->
+  <svg class="dots" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+    <!-- Bottom-left dot cluster -->
+    <g opacity="0.4">
+      <circle cx="48"  cy="1600" r="3"   fill="rgba(80,200,30,0.5)"/>
+      <circle cx="84"  cy="1590" r="2"   fill="rgba(80,200,30,0.4)"/>
+      <circle cx="64"  cy="1625" r="2.5" fill="rgba(80,200,30,0.35)"/>
+      <circle cx="100" cy="1612" r="1.8" fill="rgba(80,200,30,0.3)"/>
+      <circle cx="48"  cy="1645" r="1.5" fill="rgba(80,200,30,0.25)"/>
+      <circle cx="116" cy="1638" r="2"   fill="rgba(80,200,30,0.3)"/>
+      <circle cx="72"  cy="1660" r="3"   fill="rgba(80,200,30,0.4)"/>
+      <circle cx="36"  cy="1672" r="1.5" fill="rgba(80,200,30,0.2)"/>
+      <circle cx="128" cy="1658" r="2.2" fill="rgba(80,200,30,0.28)"/>
+      <circle cx="56"  cy="1688" r="1.8" fill="rgba(80,200,30,0.22)"/>
+      <circle cx="92"  cy="1680" r="2.5" fill="rgba(80,200,30,0.32)"/>
+      <circle cx="140" cy="1675" r="1.5" fill="rgba(80,200,30,0.2)"/>
+    </g>
+    <!-- Top-left faint dots -->
+    <g opacity="0.25">
+      <circle cx="44"  cy="240"  r="2.5" fill="rgba(80,200,30,0.5)"/>
+      <circle cx="72"  cy="228"  r="1.8" fill="rgba(80,200,30,0.4)"/>
+      <circle cx="60"  cy="260"  r="2"   fill="rgba(80,200,30,0.35)"/>
+      <circle cx="88"  cy="252"  r="1.5" fill="rgba(80,200,30,0.28)"/>
+      <circle cx="44"  cy="280"  r="2"   fill="rgba(80,200,30,0.22)"/>
+      <circle cx="100" cy="268"  r="1.5" fill="rgba(80,200,30,0.2)"/>
+    </g>
+    <!-- Top-right faint rect marker -->
+    <rect x="940" y="200" width="28" height="22"
+          rx="3" fill="none" stroke="rgba(166,255,47,0.2)" stroke-width="1.5"/>
+  </svg>
+
+  <!-- Main text block — all lines start invisible, animated in -->
+  <div class="text-block" id="text-block">
+    <div class="hero"     id="hero">Nada.</div>
+    <div class="line-rechazo" id="line-rechazo">Nadie te rechazó.</div>
+    <div class="line-leyo"    id="line-leyo">Nadie te leyó.</div>
+    <div class="support"      id="support">El filtro te descartó sin llegar a un humano.</div>
+  </div>
+
+</div><!-- /scale-wrap -->
+
+<script src="../vendor/gsap/gsap-3.15.0.min.js"></script>
+<script>
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Set all text invisible before animation ──
+  gsap.set(["#hero", "#line-rechazo", "#line-leyo", "#support"], {
+    opacity: 0
+  });
+
+  const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+  // Simulate "previous content fades out" with a short pre-delay (0.4s gap)
+
+  // "Nada." — slides up from y+30, 0.6s, at t=0.4
+  tl.fromTo("#hero",
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6 },
+    0.4
+  );
+
+  // "Nadie te rechazó." — same pattern, t=0.55
+  tl.fromTo("#line-rechazo",
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6 },
+    0.55
+  );
+
+  // "Nadie te leyó." — slightly stronger (y+35), t=0.7
+  tl.fromTo("#line-leyo",
+    { y: 35, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6 },
+    0.7
+  );
+
+  // Support text — blur 6px→0 + opacity 0→1, t=0.9, 0.5s
+  tl.fromTo("#support",
+    { filter: "blur(6px)", opacity: 0 },
+    { filter: "blur(0px)", opacity: 1, duration: 0.5, ease: "power2.out" },
+    0.9
+  );
+
+  // ── Glow pulse on green text after entrance ──
+  // Starts after "Nada." entrance completes (~1.0s mark)
+  // text-shadow oscillates between lower and higher glow opacity
+  tl.call(() => {
+    // "Nada." glow pulse
+    gsap.to("#hero", {
+      textShadow: "0 0 28px rgba(166,255,47,0.25), 0 0 60px rgba(166,255,47,0.12)",
+      duration: 1.8,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+      // start from a lower glow state
+      onStart: function() {
+        gsap.set("#hero", {
+          textShadow: "0 0 20px rgba(166,255,47,0.15), 0 0 40px rgba(166,255,47,0.07)"
+        });
+      }
+    });
+
+    // "Nadie te leyó." glow pulse — slightly offset phase
+    gsap.to("#line-leyo", {
+      textShadow: "0 0 22px rgba(166,255,47,0.22), 0 0 50px rgba(166,255,47,0.10)",
+      duration: 2.0,
+      ease: "sine.inOut",
+      yoyo: true,
+      repeat: -1,
+      delay: 0.4,
+      onStart: function() {
+        gsap.set("#line-leyo", {
+          textShadow: "0 0 16px rgba(166,255,47,0.12), 0 0 36px rgba(166,255,47,0.06)"
+        });
+      }
+    });
+  }, [], 1.05);
+</script>
+</body>
+</html>

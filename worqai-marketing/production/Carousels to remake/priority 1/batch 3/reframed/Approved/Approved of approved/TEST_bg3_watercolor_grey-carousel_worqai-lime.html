@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>worqai · Operaciones</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root{--lime:#C7FF3A;--ink:#FAFAFA;--coral:#FF5C3C;--paper:#4B5563;--grey:#4B5563;--body:#E5E5E5;--muted:#D1D5DB;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background: #555555; font-family:'Space Grotesk',system-ui,sans-serif;color:#FAFAFA;min-height:100vh;}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.label-top{font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color: #C7FF3A;margin-bottom:14px;text-align:center;}
+.preview-cage{width:1080px;margin:0 auto;}
+@media(min-width:1200px){.preview-cage{transform:scale(0.5);transform-origin:top center;height:540px;}}
+.viewer{width:1080px;max-width:1080px;}
+.wrap{position:relative;width:1080px;height:1080px;overflow:hidden;border-radius:24px;box-shadow:0 40px 100px rgba(0,0,0,0.25);cursor:grab;user-select:none;-webkit-user-select:none;}
+.track{display:flex;width:auto;height:100%;transition:transform 0.44s cubic-bezier(0.4,0,0.2,1);}
+.slide{position:relative;flex:0 0 1080px;width:1080px;min-width:1080px;height:1080px;overflow:hidden;background:#555555;color:#FAFAFA;}
+
+/* ===== WATERCOLOR BACKGROUND DECORATIONS (10 elements) ===== */
+.wc-tl,.wc-br,.wc-wavy,.wc-scribble,.wc-dots,.wc-star,.wc-swirl,.wc-grid,.wc-hatch,.wc-sparkle{
+  position:absolute;pointer-events:none;z-index:1;
+}
+.wc-tl{top:-140px;left:-180px;width:600px;height:560px;}
+.wc-br{bottom:-160px;right:-200px;width:640px;height:600px;}
+.wc-wavy{top:40px;left:120px;width:500px;height:80px;}
+.wc-scribble{top:100px;left:80px;width:80px;height:60px;}
+.wc-dots{top:320px;left:60px;width:40px;height:120px;}
+.wc-star{top:80px;right:140px;width:40px;height:40px;}
+.wc-swirl{top:60px;left:420px;width:60px;height:60px;}
+.wc-grid{top:140px;right:80px;width:64px;height:64px;}
+.wc-hatch{bottom:180px;left:80px;width:120px;height:120px;}
+.wc-sparkle{top:480px;right:120px;width:36px;height:36px;}
+
+.content{position:relative;z-index:3;height:100%;padding:68px 64px 148px;display:flex;flex-direction:column;}
+
+.lbl{font-size:16px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#0A0A0A;background:var(--lime);padding:6px 14px;border-radius:6px;margin-bottom:28px;display:inline-block;width:fit-content;}
+.disp{font-weight:700;font-size:108px;line-height:0.98;letter-spacing:-0.04em;color:var(--ink);}
+.hdl{font-weight:700;font-size:64px;line-height:1.06;letter-spacing:-0.025em;color:var(--ink);}
+.body{font-weight:400;font-size:28px;line-height:1.5;color:#E5E5E5;}
+
+.stat-n{font-weight:700;font-size:300px;line-height:0.85;letter-spacing:-0.05em;color:#C7FF3A;text-shadow:0 0 20px rgba(199,255,58,0.3);}
+.stat-pct{font-size:140px;color:#FAFAFA;font-weight:700;line-height:0.85;}
+.stat-ctx{font-weight:500;font-size:34px;line-height:1.22;letter-spacing:-0.015em;margin-top:28px;max-width:840px;color:var(--ink);}
+.src{font-size:16px;font-weight:400;opacity:1.0;margin-top:18px;letter-spacing:0.12em;text-transform:uppercase;color:#D1D5DB;}
+
+.glass-block{padding:26px 30px;border-radius:18px;background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.3);margin-bottom:14px;}
+.glass-block.bad{background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);border-color:rgba(255,92,60,0.3);}
+.glass-block.good{background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);border-color:rgba(199,255,58,0.3);}
+.glass-tag{font-size:13px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:10px;}
+.glass-block.bad .glass-tag{color:#FF5C3C;}
+.glass-block.good .glass-tag{color:#0A0A0A;}
+.glass-text{font-size:24px;font-weight:500;line-height:1.42;color:#0A0A0A;}
+
+.prog{display:flex;gap:12px;margin-top:auto;padding-top:10px;position:relative;z-index:5;}
+.pd{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#FAFAFA;}
+.pd.on{color:#C7FF3A;text-shadow:0 0 20px rgba(199,255,58,0.3);}
+
+.swipe-pill{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;padding:14px 26px;border:2px solid var(--lime);color:#FFFFFF;background:transparent;border-radius:999px;font-size:18px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-top:36px;}
+
+.brand-anchor{position:absolute;bottom:46px;left:64px;z-index:5;font-weight:700;font-size:30px;letter-spacing:-1.2px;text-transform:lowercase;color:#FAFAFA;}
+.brand-anchor .ai{color:#C7FF3A;text-shadow:0 0 12px rgba(199,255,58,0.4);}
+.site-url{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:5;font-weight:700;font-size:16px;letter-spacing:0.1em;color:#D1D5DB;text-transform:lowercase;}
+.counter{position:absolute;bottom:50px;right:64px;z-index:5;font-weight:500;font-size:18px;letter-spacing:0.2em;color:#FAFAFA;}
+
+.proof-metric{font-weight:700;font-size:260px;line-height:0.85;letter-spacing:-0.05em;color:#C7FF3A;text-shadow:0 0 20px rgba(199,255,58,0.3);}
+.proof-city{font-size:18px;font-weight:500;letter-spacing:0.24em;text-transform:uppercase;color:#D1D5DB;margin-bottom:22px;}
+.proof-stmt{font-size:44px;font-weight:700;line-height:1.18;letter-spacing:-0.02em;color:var(--ink);max-width:820px;margin-bottom:18px;}
+.proof-ctx{font-size:26px;font-weight:400;color:#E5E5E5;line-height:1.55;}
+
+.cta-headline-above{font-weight:800;font-size:52px;line-height:1.08;letter-spacing:-0.025em;color:#FAFAFA;margin-bottom:24px;position:relative;z-index:2;}
+.cta-card{background:#4B5563;border:2px solid #C7FF3A;border-radius:28px;padding:36px 40px;margin-top:auto;margin-bottom:60px;position:relative;overflow:hidden;box-shadow:0 4px 24px rgba(136,136,160,0.15);}
+.cta-card::after{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(199,255,58,0.12),transparent 65%);filter:blur(40px);pointer-events:none;z-index:0;}
+.cta-badge{display:inline-block;background:var(--lime);color:#0A0A0A;font-size:13px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;padding:7px 14px;border-radius:6px;margin-bottom:18px;position:relative;z-index:2;}
+.cta-offer{font-weight:800;font-size:28px;line-height:1.2;color:#FAFAFA;margin-bottom:6px;position:relative;z-index:2;}
+.cta-sub{font-size:20px;font-weight:500;color:#E5E5E5;margin-bottom:20px;position:relative;z-index:2;}
+.url-box{display:inline-flex;align-items:center;gap:16px;padding:18px 28px;border:2px dashed #C7FF3A;border-radius:14px;margin-top:8px;margin-bottom:20px;position:relative;z-index:2;background:transparent;}
+.url-text{font-weight:900;font-size:42px;color:#FAFAFA;letter-spacing:0.06em;border:2px dashed #C7FF3A;padding:8px 16px;border-radius:8px;display:inline-block;}
+.cta-closing{font-size:20px;font-weight:400;line-height:1.5;color:#E5E5E5;max-width:860px;margin-bottom:14px;position:relative;z-index:2;}
+.cta-honest{font-size:15px;font-weight:400;color:#D1D5DB;position:relative;z-index:2;}
+
+.controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:18px;}
+.btn{background:rgba(255,255,255,0.15);border:none;color:#FAFAFA;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.btn:disabled{opacity:0.2;cursor:default;}
+.dots{display:flex;gap:6px;}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);cursor:pointer;transition:all 0.2s;}
+.dot.on{background:var(--lime);width:18px;border-radius:3px;}
+.hint{font-size:10px;color:#D1D5DB;letter-spacing:0.18em;text-transform:uppercase;margin-top:10px;text-align:center;}
+
+/* ===== TEXT-BACKDROP (light carousel) ===== */
+.text-backdrop{
+  display:inline-block;
+  padding:20px 28px;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:16px;
+}
+
+
+
+.text-backdrop .disp,.text-backdrop .hdl,.text-backdrop .body,.text-backdrop .stat-ctx,.text-backdrop .src,.text-backdrop .proof-stmt,.text-backdrop .proof-ctx,.text-backdrop .cta-headline-above{color:#0A0A0A;text-shadow:none;}
+.text-backdrop .stat-n,.text-backdrop .proof-metric{color:#C7FF3A;text-shadow:0 0 20px rgba(199,255,58,0.3);}
+.glass-block .glass-text,.glass-block.good .glass-tag{color:#0A0A0A;text-shadow:none;}
+.step-box .step-num,.step-box .step-title,.step-box .step-desc{color:#0A0A0A !important;text-shadow:none !important;}
+
+
+
+/* === EDITOR: draggable elements + editable text === */
+[data-editable="true"],[data-movable="true"]{position:relative;cursor:move;}
+[data-editable="true"]:hover,[data-movable="true"]:hover{outline:1px dashed rgba(199,255,58,0.35);outline-offset:2px;}
+[data-editable="true"]:focus,[data-movable="true"]:focus{outline:2px solid #C7FF3A;outline-offset:2px;}
+[data-dragging="true"]{outline:2px solid #FF8B70!important;outline-offset:3px!important;cursor:grabbing!important;z-index:100!important;}
+[data-dragging="true"] [data-editable="true"]{pointer-events:none;}
+
+.glass-block,.cta-card,.hook-stack,.content,.swipe-pill,.url-box,.pill-tag{position:relative;}
+[data-editable="true"]:hover{outline:1px dashed rgba(199,255,58,0.25);outline-offset:2px;}
+[data-editable="true"]:focus{outline:2px solid #C7FF3A;outline-offset:2px;}
+[data-dragging="true"]{outline:2px solid #FF8B70!important;outline-offset:3px!important;cursor:grabbing!important;z-index:100!important;}
+[data-dragging="true"] [data-editable="true"]{pointer-events:none;}
+
+.glass-block,.cta-card,.hook-stack,.content,.stat-num,.proof-metric,.headline,.body-text,.hook-display,.hook-sub,.proof-stmt,.proof-ctx,.cta-headline-out,.cta-offer,.cta-fine,.cta-closing,.cta-micro,.url-text,.label,.lime-badge,.pill-tag,.source-tag,.site-url,.counter,.brand-anchor,.proof-city,.stat-context,.stat-ctx,.glass-text,.deco-num{position:relative;}
+[data-editable="true"]:hover{outline:1px dashed rgba(199,255,58,0.35);outline-offset:2px;cursor:text;}
+[data-editable="true"]:focus{outline:2px solid #C7FF3A;outline-offset:2px;}
+[data-dragging="true"]{outline:2px solid #FF8B70!important;outline-offset:3px!important;cursor:grabbing!important;z-index:100!important;}
+</style>
+</head>
+<body>
+<div class="label-top">worqai / operaciones</div>
+<div class="preview-cage">
+<div class="viewer">
+<div class="wrap" id="wrap" style="cursor: grab;">
+<div class="track" id="track" style="transform: translateX(-5400px);">
+<!-- S1 · HOOK -->
+<div class="slide" data-slide="1">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w1-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w1-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w1-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w1-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative; cursor: move;">
+<div class="lbl" style="position: relative;">worqai / operaciones</div>
+<div style="margin-top: auto; margin-bottom: 64px; position: relative;">
+<div class="text-backdrop" style="position: relative; transform: translate(-15.2778px, -86.1111px);"><div class="disp" style="position: relative;">Tu CV puede verse lindo<br>y perderse en el ATS</div></div>
+<div class="text-backdrop" style="position: relative;"><div class="body" style="max-width: 720px; margin-top: 32px; position: relative;">El formato también decide si te leen.</div></div>
+<div class="swipe-pill" data-movable="true" style="position: relative; cursor: move;">Deslizá →</div>
+</div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">01 / 07</div>
+</div>
+<!-- S2 · DATA -->
+<div class="slide" data-slide="2">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w2-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w2-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w2-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w2-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative; cursor: move;">
+<div class="lbl" style="position: relative;">el dato</div>
+<div style="display: flex; align-items: flex-end; gap: 10px; margin-top: 16px; position: relative;">
+<div class="text-backdrop" style="position: relative;"><div class="stat-n" style="position: relative;">5</div></div>
+<div class="stat-pct" style="position: relative;"></div>
+</div>
+<div class="text-backdrop" style="position: relative; transform: translate(-6.94444px, 9.72222px);"><div class="stat-ctx" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">WorqAI revisa formato, keywords y rol.</div></div>
+<div class="text-backdrop" style="position: relative; transform: translate(-6.94444px, 25px);"><div class="src" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Fuente · Estudios de parsing de ATS · 2024</div></div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">02 / 07</div>
+</div>
+<!-- S3 · ERROR 01 -->
+<div class="slide" data-slide="3">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w3-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w3-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w3-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w3-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative;">
+<div class="lbl" style="position: relative;">problema 01</div>
+<div class="text-backdrop" style="position: relative;"><div class="hdl" style="max-width: 900px; position: relative;">TU cv puede verse bien y leerse mal.</div></div>
+<div style="margin-top: 38px; position: relative;">
+<div class="glass-block bad" data-movable="true" style="position: relative; cursor: move;">
+<div class="glass-tag" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative;"><br></div>
+<div class="glass-text" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Si tu experiencia en operaciones queda escondida en tablas o listas, el ATS no la encuentra.</div>
+</div>
+<div class="glass-block good" data-movable="true" style="position: relative; cursor: move;">
+<div class="glass-tag" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative;">-</div>
+<div class="glass-text" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Si procesos y KPIs suenan demasiado generales, el bot baja el match aunque tu experiencia sea buena.</div>
+</div>
+</div>
+<div class="prog" style="position: relative;">
+<span class="pd on" style="position: relative;">01</span>
+<span class="pd" style="position: relative;">02</span>
+</div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">03 / 07</div>
+</div>
+<!-- S4 · ERROR 02 -->
+<div class="slide" data-slide="4">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w4-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w4-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w4-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w4-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative; cursor: move;">
+<div class="lbl" style="position: relative;">problema 02</div>
+<div class="text-backdrop" style="position: relative;"><div class="hdl" style="max-width: 900px; position: relative;">El ATS busca<br>señales concretas,<br>no intenciones.</div></div>
+<div style="margin-top: 38px; position: relative;">
+<div class="glass-block bad" data-movable="true" style="position: relative; cursor: move;">
+<div class="glass-tag" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">consecuencia</div>
+<div class="glass-text" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Si tu CV no usa esas palabras, el ATS te descarta antes de que un humano te vea.</div>
+</div>
+<div class="glass-block good" data-movable="true" style="position: relative; cursor: move;">
+<div class="glass-tag" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">fix</div>
+<div class="glass-text" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">WorqAI cruza tu CV con el aviso y marca lo que falta, sobra o se rompe.</div>
+</div>
+</div>
+<div class="prog" style="position: relative;">
+<span class="pd on" style="position: relative;">01</span>
+<span class="pd on" style="position: relative;">02</span>
+</div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">04 / 07</div>
+</div>
+<!-- S5 · FIX -->
+<div class="slide" data-slide="5">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w5-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w5-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w5-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w5-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative; cursor: move;">
+<div class="lbl" style="position: relative;">cómo lo arregla worqai</div>
+<div class="text-backdrop" style="position: relative;"><div class="hdl" style="max-width: 900px; position: relative;">WorqAI convierte<br>ese problema en<br>un CV aplicable.</div></div>
+<div class="step-row" style="display: flex; gap: 18px; margin-top: 32px; position: relative;">
+<div class="step-box" style="flex: 1 1 0%; padding: 24px 22px; border-radius: 16px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); position: relative;">
+<div class="step-num" style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgb(10, 10, 10); margin-bottom: 10px; position: relative;">01</div>
+<div class="step-title" style="font-size: 22px; font-weight: 700; line-height: 1.25; color: rgb(10, 10, 10); margin-bottom: 8px; position: relative;">Diagnostica</div>
+<div class="step-desc" style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(10, 10, 10); position: relative;">Diagnóstico ATS antes de aplicar.</div>
+</div>
+<div class="step-box" style="flex: 1 1 0%; padding: 24px 22px; border-radius: 16px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); position: relative;">
+<div class="step-num" style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgb(10, 10, 10); margin-bottom: 10px; position: relative;">02</div>
+<div class="step-title" style="font-size: 22px; font-weight: 700; line-height: 1.25; color: rgb(10, 10, 10); margin-bottom: 8px; position: relative;">Adapta</div>
+<div class="step-desc" style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(10, 10, 10); position: relative;">Texto reescrito con keywords reales.</div>
+</div>
+<div class="step-box" style="flex: 1 1 0%; padding: 24px 22px; border-radius: 16px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); position: relative;">
+<div class="step-num" style="font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgb(10, 10, 10); margin-bottom: 10px; position: relative;">03</div>
+<div class="step-title" style="font-size: 22px; font-weight: 700; line-height: 1.25; color: rgb(10, 10, 10); margin-bottom: 8px; position: relative;">Descarga</div>
+<div class="step-desc" style="font-size: 17px; font-weight: 400; line-height: 1.45; color: rgb(10, 10, 10); position: relative;">CV listo para descargar desde worqai.io.</div>
+</div>
+</div>
+<div class="prog" style="position: relative;">
+<span class="pd on" style="position: relative;">01</span>
+<span class="pd on" style="position: relative;">02</span>
+<span class="pd on" style="position: relative;">03</span>
+</div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">05 / 07</div>
+</div>
+<!-- S6 · PROOF -->
+<div class="slide" data-slide="6">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w6-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w6-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w6-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w6-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative; cursor: move;">
+<div class="lbl" style="position: relative;">resultado</div>
+<div style="display: flex; flex-direction: column; flex: 1 1 0%; justify-content: center; gap: 10px; position: relative;">
+<div class="text-backdrop" style="position: relative;"><div class="proof-metric" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">5</div></div>
+<div class="text-backdrop" style="position: relative;"><div class="proof-city" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; color: rgb(0, 92, 230);">señales ops</div></div>
+<div class="text-backdrop" style="position: relative;"><div class="proof-stmt" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Después de optimizar el CV de operaciones con WorqAI, el CV quedó más claro para el filtro.</div></div>
+<div class="text-backdrop" style="position: relative;"><div class="proof-ctx" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Mismo perfil. Mejor lectura. Menos aplicaciones a ciegas.</div></div>
+</div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">06 / 07</div>
+</div>
+<!-- S7 · CTA -->
+<div class="slide" data-slide="7">
+<svg class="wc-tl" viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w7-tl" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.55"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.20"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M-20,-20 C120,0 260,80 340,200 C420,320 360,460 240,520 C120,580 0,500 -40,360 C-80,240 -60,120 -20,-20Z" fill="url(#w7-tl)" filter="blur(24px)"></path></svg>
+<svg class="wc-br" viewBox="0 0 640 600" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="w7-br" x1="100%" x2="0%" y1="100%" y2="0%"><stop offset="0%" style="stop-color:#C7FF3A;stop-opacity:0.50"></stop><stop offset="50%" style="stop-color:#C7FF3A;stop-opacity:0.18"></stop><stop offset="100%" style="stop-color:#C7FF3A;stop-opacity:0"></stop></linearGradient></defs><path d="M660,620 C520,600 380,520 300,400 C220,280 280,160 400,100 C520,40 640,120 680,260 C720,380 700,500 660,620Z" fill="url(#w7-br)" filter="blur(26px)"></path></svg>
+<svg class="wc-wavy" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg"><path d="M0,40 C60,10 120,70 180,30 C240,-10 300,60 360,20 C420,-20 480,50 500,30" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-scribble" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg"><path d="M10,15 L30,12" fill="none" stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="2.5"></path><path d="M8,30 L35,28" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path><path d="M12,48 L28,45" fill="none" stroke="rgba(199,255,58,0.32)" stroke-linecap="round" stroke-width="2.5"></path></svg>
+<svg class="wc-dots" viewBox="0 0 40 120" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" fill="rgba(199,255,58,0.30)" r="8"></circle><circle cx="20" cy="55" fill="rgba(199,255,58,0.22)" r="5"></circle><circle cx="20" cy="90" fill="rgba(199,255,58,0.16)" r="3"></circle></svg>
+<svg class="wc-star" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20,0 L23,17 L40,20 L23,23 L20,40 L17,23 L0,20 L17,17Z" fill="rgba(199,255,58,0.38)"></path></svg>
+<svg class="wc-swirl" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M45,20 C50,30 48,45 35,48 C22,52 12,42 14,28 C16,14 30,10 38,18" fill="none" stroke="rgba(199,255,58,0.28)" stroke-linecap="round" stroke-width="2"></path></svg>
+<svg class="wc-grid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="8" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="24" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="40" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="8" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="24" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="40" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle><circle cx="56" cy="56" fill="rgba(199,255,58,0.22)" r="3"></circle></svg>
+<svg class="wc-hatch" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="60" cy="60" fill="none" r="55" stroke="rgba(199,255,58,0.12)" stroke-width="1"></circle><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="20" x2="50" y1="80" y2="50"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="35" x2="65" y1="95" y2="65"></line><line stroke="rgba(199,255,58,0.25)" stroke-linecap="round" stroke-width="1.5" x1="50" x2="80" y1="105" y2="75"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="65" x2="95" y1="110" y2="80"></line><line stroke="rgba(199,255,58,0.20)" stroke-linecap="round" stroke-width="1.5" x1="25" x2="45" y1="65" y2="45"></line><line stroke="rgba(199,255,58,0.18)" stroke-linecap="round" stroke-width="1.5" x1="75" x2="100" y1="100" y2="75"></line></svg>
+<svg class="wc-sparkle" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"><path d="M18,0 L20,16 L36,18 L20,20 L18,36 L16,20 L0,18 L16,16Z" fill="rgba(199,255,58,0.32)"></path></svg>
+<div class="content" data-movable="true" style="position: relative; cursor: move;">
+<div class="text-backdrop" style="position: relative;"><div class="cta-headline-above" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Arregla tu CV antes del próximo envío.</div></div>
+<div class="cta-card" data-movable="true" style="position: relative; cursor: move;">
+<div class="cta-badge" style="position: relative;">POR TIEMPO LIMITADO</div>
+<div class="cta-offer" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Diagnóstico ATS de tu CV</div>
+<div class="cta-offer" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">CV reconstruido para descargar</div>
+<div class="cta-sub" style="position: relative;">Gratis por tiempo limitado. Sin tarjeta.</div>
+<div class="url-box" data-movable="true" style="position: relative; cursor: move;">
+<span class="url-text" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">WORQAI.IO</span>
+</div>
+<div class="cta-closing" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">Subí tu CV a <strong style="position: relative;">worqai.io</strong>. Te mostramos que lee el ATS, que falla y cómo dejarlo listo para aplicar en español o inglés.</div>
+<div class="cta-honest" style="position: relative;">Tu diagnóstico es una guía de cambios, no una promesa vacía.</div>
+</div>
+</div>
+<div class="brand-anchor" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;"><span style="position: relative;">worq</span><span class="ai" style="position: relative;">ai</span></div>
+<div class="site-url" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">worqai.io</div>
+<div class="counter" data-editable="true" data-movable="true" title="Click to edit. Drag to move." style="position: relative; cursor: move;">07 / 07</div>
+</div>
+</div>
+</div>
+<div class="controls">
+<button class="btn" id="prev">‹</button>
+<div class="dots">
+<span class="dot" onclick="go(0)"></span>
+<span class="dot" onclick="go(1)"></span>
+<span class="dot" onclick="go(2)"></span>
+<span class="dot" onclick="go(3)"></span>
+<span class="dot" onclick="go(4)"></span>
+<span class="dot on" onclick="go(5)"></span>
+<span class="dot" onclick="go(6)"></span>
+</div>
+<button class="btn" id="next">›</button>
+</div>
+<div class="hint">← → · deslizá · clic en los puntos</div>
+</div>
+</div>
+<script>
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const track=document.getElementById('track');
+const prevBtn=document.getElementById('prev');
+const nextBtn=document.getElementById('next');
+const dots=document.querySelectorAll('.dot');
+const wrap=document.getElementById('wrap');
+
+function go(n){
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  track.style.transform='translateX(-'+cur*1080+'px)';
+  dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+  if(prevBtn) prevBtn.disabled=cur===0;
+  if(nextBtn) nextBtn.disabled=cur===slides.length-1;
+}
+function move(d){go(cur+d);}
+if(prevBtn) prevBtn.addEventListener('click',()=>move(-1));
+if(nextBtn) nextBtn.addEventListener('click',()=>move(1));
+
+// --- ELEMENT EDITOR: make ALL text elements editable + draggable ---
+const EDITABLE_SELECTORS='.headline,.body-text,.glass-text,.glass-tag,.stat-context,.stat-ctx,.proof-stmt,.proof-ctx,.cta-headline-out,.cta-headline-above,.cta-offer,.cta-fine,.cta-closing,.cta-micro,.url-text,.hook-display,.hook-sub,.label,.lime-badge,.pill-tag,.source-tag,.src,.site-url,.counter,.brand-anchor,.proof-city,.proof-metric,.deco-num,.cta-headline';
+document.querySelectorAll(EDITABLE_SELECTORS).forEach(el=>{
+  el.contentEditable='true';
+  el.dataset.editable='true';
+  el.dataset.movable='true';
+  el.style.position='relative';
+  el.style.cursor='move';
+  el.title='Click to edit. Drag to move.';
+});
+
+// Also make glass-blocks, cta-cards, hook-stacks draggable as units
+const CONTAINER_SELECTORS='.glass-block,.cta-card,.hook-stack,.content,.swipe-pill,.url-box,.pill-tag';
+document.querySelectorAll(CONTAINER_SELECTORS).forEach(el=>{
+  el.dataset.movable='true';
+  el.style.position='relative';
+  el.style.cursor='move';
+});
+
+// --- FIND DRAGGABLE ELEMENT (handle text nodes) ---
+function findDraggable(el){
+  // If text node, get parent element first
+  if(el && el.nodeType!==1) el=el.parentElement;
+  while(el && el!==document.body && !el.classList.contains('wrap')){
+    if(el.dataset && el.dataset.movable==='true') return el;
+    el=el.parentElement;
+  }
+  return null;
+}
+
+// --- RESTORE SAVED POSITIONS ---
+function restoreOffsets(){
+  document.querySelectorAll('[data-dx]').forEach(el=>{
+    const dx=parseFloat(el.dataset.dx||0);
+    const dy=parseFloat(el.dataset.dy||0);
+    if(dx||dy) el.style.transform='translate('+dx+'px,'+dy+'px)';
+  });
+}
+restoreOffsets();
+
+// --- UNIFIED DRAG: element vs slide ---
+let dragEl=null, dragStartX=0, dragStartY=0, elStartX=0, elStartY=0;
+let isDragging=false;
+let slideDrag=false, slideDragStartX=0, slideStartTrans=0, slideScale=1;
+
+wrap.addEventListener('mousedown',function(e){
+  // 1. Try to find a draggable element or container
+  const el=findDraggable(e.target);
+  if(el){
+    dragEl=el;
+    dragStartX=e.clientX;
+    dragStartY=e.clientY;
+    isDragging=false;
+    elStartX=parseFloat(dragEl.dataset.dx||0);
+    elStartY=parseFloat(dragEl.dataset.dy||0);
+    // DO NOT preventDefault — let browser place cursor for editing
+    return;
+  }
+  // 2. Slide drag on empty background
+  slideDrag=true;
+  slideDragStartX=e.clientX;
+  const cage=document.querySelector('.preview-cage');
+  if(cage){
+    const rect=cage.getBoundingClientRect();
+    const w=parseFloat(getComputedStyle(cage).width);
+    if(w>0) slideScale=rect.width/w;
+  }
+  slideStartTrans=-cur*1080;
+  wrap.style.cursor='grabbing';
+  track.style.transition='none';
+  e.preventDefault();
+});
+
+document.addEventListener('mousemove',function(e){
+  if(dragEl){
+    const dx=e.clientX-dragStartX;
+    const dy=e.clientY-dragStartY;
+    if(!isDragging && (Math.abs(dx)>3||Math.abs(dy)>3)){
+      isDragging=true;
+      e.preventDefault(); // prevent text selection during drag
+      dragEl.dataset.dragging='true';
+      wrap.style.cursor='grabbing';
+    }
+    if(isDragging){
+      dragEl.style.transform='translate('+(elStartX+dx)+'px,'+(elStartY+dy)+'px)';
+    }
+    return;
+  }
+  if(slideDrag){
+    const dx=(e.clientX-slideDragStartX)/slideScale;
+    track.style.transform='translateX('+(slideStartTrans+dx)+'px)';
+  }
+});
+
+document.addEventListener('mouseup',function(e){
+  if(dragEl){
+    if(isDragging){
+      const dx=e.clientX-dragStartX;
+      const dy=e.clientY-dragStartY;
+      dragEl.dataset.dx=elStartX+dx;
+      dragEl.dataset.dy=elStartY+dy;
+      delete dragEl.dataset.dragging;
+    }
+    dragEl=null;
+    isDragging=false;
+    wrap.style.cursor='grab';
+    return;
+  }
+  if(slideDrag){
+    const dx=(e.clientX-slideDragStartX)/slideScale;
+    slideDrag=false;
+    wrap.style.cursor='grab';
+    track.style.transition='transform 0.42s cubic-bezier(0.4,0,0.2,1)';
+    if(Math.abs(dx)>120) move(dx<0?1:-1);
+    else go(cur);
+  }
+});
+
+// --- TOUCH SWIPE (mobile) ---
+let sx=0;
+wrap.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+wrap.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+
+// --- KEYBOARD NAV ---
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+
+wrap.style.cursor='grab';
+go(0);
+</script>
+
+
+</body></html>

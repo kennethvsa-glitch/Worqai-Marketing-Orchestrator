@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Pro LATAM · 3 Mentiras del Reclutador · Art Deco Gilt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #050608; min-height: 100vh; font-family: 'Cormorant Garamond', serif; }
+body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 60px; }
+
+/* ── TOP LABEL ── */
+.label-top { font-size: 11px; font-weight: 700; letter-spacing: 0.30em; text-transform: uppercase;
+             color: #facc6b; margin-bottom: 18px; text-align: center; }
+
+/* ── PREVIEW CAGE ── */
+.preview-cage { width: 1080px; margin: 0 auto; }
+@media (max-width: 1200px) { .preview-cage { width: 100%; max-width: 540px; } }
+@media (min-width: 1200px) { .preview-cage { transform: scale(0.5); transform-origin: top center; height: 540px; } }
+.capture-mode .preview-cage { transform: none !important; }
+
+.viewer { width: 1080px; max-width: 1080px; overflow: hidden; }
+.wrap { position: relative; width: 1080px; height: 1080px; aspect-ratio: 1 / 1; }
+.track { display: flex; width: 100%; height: 100%; transition: transform 0.42s cubic-bezier(0.4,0,0.2,1); }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; min-width: 100%; height: 100%; overflow: hidden;
+         padding: 80px 80px 130px 80px; display: flex; flex-direction: column;
+         background:
+           radial-gradient(circle at 50% -10%, rgba(250,204,107,0.12), transparent 55%),
+           linear-gradient(145deg, #050608, #111319 50%, #181b22);
+         color: #f9fafb; }
+
+/* ── RIBBON FLOW GEO (diagonal gold lines) ── */
+.ribbon-wrap { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.ribbon-line {
+  position: absolute; height: 1px; background: linear-gradient(90deg, transparent, rgba(250,204,107,0.18), transparent);
+  width: 140%; left: -20%;
+}
+.ribbon-line.r1 { top: 18%; transform: rotate(-8deg); }
+.ribbon-line.r2 { top: 38%; transform: rotate(-6deg); opacity: 0.7; }
+.ribbon-line.r3 { top: 58%; transform: rotate(-10deg); opacity: 0.5; }
+.ribbon-line.r4 { top: 78%; transform: rotate(-5deg); opacity: 0.4; }
+.ribbon-line.r5 { top: 92%; transform: rotate(-12deg); opacity: 0.3; }
+
+/* ── GRAIN ── */
+.slide::before { content: ''; position: absolute; inset: 0;
+                 background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+                 background-size: 180px 180px; opacity: 0.24;
+                 pointer-events: none; z-index: 1; mix-blend-mode: overlay; }
+
+/* ── CONTENT LAYER ── */
+.content { position: relative; z-index: 3; flex: 1; display: flex; flex-direction: column; }
+
+/* ── MASTHEAD ── */
+.masthead { position: absolute; top: 32px; left: 80px; right: 80px; z-index: 4;
+            display: flex; align-items: center; justify-content: space-between; }
+.mast-title { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 12px;
+              letter-spacing: 0.30em; text-transform: uppercase; color: #facc6b; }
+.mast-issue { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-weight: 600;
+              letter-spacing: 0.18em; text-transform: uppercase; color: rgba(249,250,251,0.45); }
+
+/* ── BRAND ANCHOR ── */
+.brand-mark { position: absolute; bottom: 38px; left: 80px; z-index: 4;
+              font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 15px;
+              letter-spacing: 0.15em; text-transform: uppercase; color: #facc6b; }
+.handle { position: absolute; bottom: 38px; left: 300px; z-index: 4;
+          font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 12px;
+          letter-spacing: 0.20em; text-transform: uppercase; color: rgba(249,250,251,0.35); }
+.counter { position: absolute; bottom: 38px; right: 80px; z-index: 4;
+           font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 13px;
+           letter-spacing: 0.16em; color: #f9fafb; }
+
+/* ── PROGRESS DOTS ── */
+.prog { display: flex; gap: 6px; position: absolute; bottom: 80px; left: 80px; z-index: 4; }
+.pd { width: 26px; height: 3px; background: rgba(249,250,251,0.14); }
+.pd.on { background: #facc6b !important; box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+
+/* ── SWIPE PILL ── */
+.swipe-pill { display: inline-flex; align-items: center; gap: 10px; align-self: flex-end;
+              padding: 12px 22px; background: #facc6b; color: #050608;
+              font-family: 'Cinzel Decorative', serif; font-size: 12px; font-weight: 700;
+              letter-spacing: 0.22em; text-transform: uppercase;
+              margin-top: auto; position: relative; z-index: 4;
+              box-shadow: 0 0 20px rgba(250,204,107,0.25); }
+
+/* ── KICKER ── */
+.kicker { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 12px;
+          letter-spacing: 0.32em; text-transform: uppercase;
+          margin-bottom: 26px; display: inline-flex; align-items: center; gap: 12px;
+          color: #facc6b; }
+.kicker::before { content: ''; width: 28px; height: 2px; background: #facc6b;
+                  box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+
+/* ── HEADLINE ── */
+.headline { font-family: 'Cinzel Decorative', serif; font-weight: 900;
+            font-size: 64px; line-height: 1.05; letter-spacing: 0.04em; color: #f9fafb; }
+
+/* ── GLASSMORPHISM PANEL ── */
+.glass-panel {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgba(250,204,107,0.15);
+  border-radius: 20px;
+  padding: 28px 32px;
+}
+
+/* ── SUNBURST UTIL ── */
+.sunburst { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            width: 700px; height: 700px; pointer-events: none; z-index: 1; opacity: 0.07; }
+
+/* ── WATERMARK ── */
+.watermark {
+  position: absolute; pointer-events: none; z-index: 0;
+  font-family: 'Cinzel Decorative', serif; font-size: 320px; font-weight: 900; line-height: 1;
+  color: #facc6b; opacity: 0.035; user-select: none;
+}
+
+/* ── CORNER FRAME ── */
+.corner-frame { position: absolute; width: 40px; height: 40px;
+                border-color: #facc6b; opacity: 0.25; z-index: 4; }
+.corner-frame.top-left    { top: 28px; left: 28px; border-top: 2px solid; border-left: 2px solid; }
+.corner-frame.top-right   { top: 28px; right: 28px; border-top: 2px solid; border-right: 2px solid; }
+.corner-frame.bottom-left { bottom: 28px; left: 28px; border-bottom: 2px solid; border-left: 2px solid; }
+.corner-frame.bottom-right{ bottom: 28px; right: 28px; border-bottom: 2px solid; border-right: 2px solid; }
+
+/* ── STAMP ── */
+.stamp {
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 2px solid #facc6b; opacity: 0.45;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  text-align: center; line-height: 1.3; color: #facc6b;
+  transform: rotate(-12deg); z-index: 4;
+}
+
+/* ── GLOW ORB ── */
+.glow-orb {
+  position: absolute; width: 450px; height: 450px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(250,204,107,0.10) 0%, transparent 65%);
+  filter: blur(50px); pointer-events: none; z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 1 · CENTERED MANIFESTO + SUNBURST + DIAMOND ORNAMENTS
+   ═══════════════════════════════════════════════════════════════ */
+.s1-wrap { display: flex; flex-direction: column; justify-content: center; align-items: center;
+           flex: 1; text-align: center; gap: 28px; }
+.s1-deco-top { width: 120px; height: 2px; background: #facc6b;
+               box-shadow: 0 0 12px rgba(250,204,107,0.4); }
+.s1-deco-diamond { width: 14px; height: 14px; background: #facc6b; transform: rotate(45deg);
+                   box-shadow: 0 0 12px rgba(250,204,107,0.4); margin: 4px 0; }
+.s1-line { font-family: 'Cinzel Decorative', serif; line-height: 1.08; letter-spacing: 0.06em; }
+.s1-line.heavy { font-weight: 900; font-size: 64px; color: #f9fafb;
+                 text-shadow: 0 2px 20px rgba(0,0,0,0.5); }
+.s1-line.light { font-weight: 400; font-size: 34px; color: #facc6b; font-style: italic;
+                 font-family: 'Cormorant Garamond', serif; letter-spacing: 0.08em; }
+.s1-line.accent { font-weight: 700; font-size: 26px; color: #facc6b;
+                  border-top: 1px solid rgba(250,204,107,0.4);
+                  border-bottom: 1px solid rgba(250,204,107,0.4);
+                  padding: 12px 32px; margin-top: 6px; }
+.s1-byline { font-family: 'Cormorant Garamond', serif; font-size: 19px;
+             font-weight: 400; color: rgba(229,231,235,0.65); font-style: italic;
+             max-width: 460px; line-height: 1.6; letter-spacing: 0.02em; }
+.s1-wm { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 2 · MENTIRA #1 + GLASS PANEL + CORNER FRAMES + GLOW
+   ═══════════════════════════════════════════════════════════════ */
+.s2-glow { top: -10%; right: -10%; }
+.s2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; flex: 1; }
+.s2-lie-card {
+  padding: 28px 24px; background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.35); border-radius: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative; overflow: hidden;
+}
+.s2-lie-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #ef4444, transparent);
+}
+.s2-truth-card {
+  padding: 28px 24px; background: rgba(250,204,107,0.05);
+  border: 1px solid rgba(250,204,107,0.30); border-radius: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative; overflow: hidden;
+}
+.s2-truth-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #facc6b, transparent);
+}
+.s2-card-tag { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 11px;
+               letter-spacing: 0.30em; text-transform: uppercase; }
+.s2-lie-card .s2-card-tag { color: #ef4444; }
+.s2-truth-card .s2-card-tag { color: #facc6b; }
+.s2-card-headline { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 26px;
+                    line-height: 1.2; color: #f9fafb; }
+.s2-card-body { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 18px;
+                line-height: 1.5; color: rgba(229,231,235,0.75); }
+.s2-card-body strong { font-weight: 700; }
+.s2-lie-card .s2-card-body strong { color: #ef4444; }
+.s2-truth-card .s2-card-body strong { color: #facc6b; }
+.s2-num { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 120px;
+          line-height: 0.85; letter-spacing: -0.04em; color: rgba(250,204,107,0.12);
+          position: absolute; bottom: -10px; right: 10px; pointer-events: none; }
+.s2-wm { top: -30px; right: -20px; font-size: 260px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 3 · MENTIRA #2 + COMPARISON + SUNBURST + STAMP
+   ═══════════════════════════════════════════════════════════════ */
+.s3-glow { bottom: -15%; left: -10%; }
+.s3-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 24px; flex: 1; }
+.s3-col { padding: 24px 26px; display: flex; flex-direction: column; gap: 14px; }
+.s3-col.lie { background: rgba(239,68,68,0.05); border-left: 3px solid #ef4444; border-right: 1px solid rgba(250,204,107,0.12); }
+.s3-col.truth { background: rgba(250,204,107,0.05); border-left: 3px solid #facc6b; }
+.s3-col-tag { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 11px;
+              letter-spacing: 0.30em; text-transform: uppercase; }
+.s3-col.lie .s3-col-tag { color: #ef4444; }
+.s3-col.truth .s3-col-tag { color: #facc6b; }
+.s3-col-headline { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 24px;
+                   line-height: 1.2; color: #f9fafb; }
+.s3-col-list { list-style: none; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.s3-col-list li { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 17px;
+                  line-height: 1.45; color: rgba(229,231,235,0.78);
+                  padding-left: 22px; position: relative; }
+.s3-col.lie .s3-col-list li::before { content: '×'; position: absolute; left: 0; top: -2px;
+                                       color: #ef4444; font-weight: 900; font-size: 22px; line-height: 1; }
+.s3-col.truth .s3-col-list li::before { content: '◆'; position: absolute; left: 0; top: -1px;
+                                        color: #facc6b; font-weight: 900; font-size: 14px; line-height: 1; }
+.s3-col-stat { padding: 14px 16px; background: rgba(5,6,8,0.7); color: #f9fafb;
+               font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 14px;
+               margin-top: auto; border: 1px solid rgba(250,204,107,0.15); }
+.s3-col-stat strong { font-weight: 900; font-size: 22px; display: inline-block; margin-right: 8px; }
+.s3-col.lie .s3-col-stat strong { color: #ef4444; }
+.s3-col.truth .s3-col-stat strong { color: #facc6b; }
+.s3-divider { width: 1px; background: rgba(250,204,107,0.15); }
+.s3-wm { bottom: -50px; left: -40px; font-size: 300px; opacity: 0.03; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE 4 · CTA + PROOF + STARBRUST + SEAL STAMP
+   ═══════════════════════════════════════════════════════════════ */
+.s4-glow { top: 30%; right: -15%; }
+.s4-starburst { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+                width: 900px; height: 900px; pointer-events: none; z-index: 1; opacity: 0.05; }
+.s4-grid { display: grid; grid-template-rows: auto auto; gap: 24px; flex: 1; margin-top: 24px; }
+.s4-proof { display: grid; grid-template-columns: 260px 1fr; gap: 28px;
+            padding: 28px; background: rgba(250,204,107,0.05); border: 2px solid rgba(250,204,107,0.18);
+            box-shadow: 12px 12px 0 rgba(250,204,107,0.08); }
+.s4-proof-stat { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 90px;
+                 line-height: 0.9; letter-spacing: -0.02em; color: #facc6b;
+                 text-shadow: 0 0 20px rgba(250,204,107,0.15); }
+.s4-proof-stat-sub { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 13px;
+                      letter-spacing: 0.16em; text-transform: uppercase; color: #e5e7eb;
+                      margin-top: 4px; }
+.s4-proof-text { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.s4-proof-tag { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 11px;
+                letter-spacing: 0.30em; text-transform: uppercase; color: #facc6b; }
+.s4-proof-headline { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 24px;
+                     line-height: 1.2; color: #f9fafb; }
+.s4-proof-body { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 18px;
+                 line-height: 1.5; color: rgba(229,231,235,0.75); }
+
+.s4-cta { background: linear-gradient(135deg, #facc6b, #d4a843); padding: 28px 32px; display: grid;
+          grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+          border: 2px solid rgba(250,204,107,0.4);
+          box-shadow: 0 0 40px rgba(250,204,107,0.10), 8px 8px 0 rgba(250,204,107,0.15); }
+.s4-cta-text { display: flex; flex-direction: column; gap: 8px; }
+.s4-cta-q { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 16px;
+            color: #050608; letter-spacing: 0.04em; }
+.s4-cta-keyword-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.s4-cta-keyword-row span:first-child { font-family: 'Cinzel Decorative', serif; font-weight: 700;
+                                        font-size: 16px; color: #050608; }
+.s4-keyword-box { display: inline-block; background: #050608; color: #facc6b;
+                  padding: 8px 18px; font-family: 'Cinzel Decorative', serif; font-weight: 900;
+                  font-size: 24px; letter-spacing: 0.08em; border: 2px solid #f9fafb;
+                  box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+.s4-cta-btn { background: #050608; color: #facc6b; border: 2px solid #facc6b;
+              font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 14px;
+              letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 26px;
+              white-space: nowrap; cursor: pointer;
+              box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+.s4-seal { position: absolute; top: 130px; right: 90px; width: 100px; height: 100px; }
+.s4-wm { top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 360px; opacity: 0.025; }
+
+/* ── DECO GEOMETRY LINES (extra layer) ── */
+.deco-geo { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.07;
+             background-image:
+               repeating-linear-gradient(45deg, transparent 0, transparent 50px, #facc6b 50px, #facc6b 51px),
+               repeating-linear-gradient(-45deg, transparent 0, transparent 80px, #facc6b 80px, #facc6b 81px); }
+
+/* ── GOLD SHIMMER ANIMATION ── */
+.gold-shimmer {
+  position: relative; overflow: hidden;
+}
+.gold-shimmer::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(250,204,107,0.12), transparent);
+  animation: shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* ── ORNAMENTAL DIVIDER ── */
+.orn-divider {
+  display: flex; align-items: center; gap: 16px; margin: 20px 0;
+}
+.orn-divider::before, .orn-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(250,204,107,0.25);
+}
+.orn-divider .orn { font-size: 14px; color: #facc6b; opacity: 0.6; }
+
+/* ── GLASS VARIANTS ── */
+.glass-gold {
+  background: rgba(250, 204, 107, 0.08);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1px solid rgba(250,204,107,0.18);
+  border-radius: 16px;
+}
+.glass-rose {
+  background: rgba(239, 68, 68, 0.06);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1px solid rgba(239,68,68,0.18);
+  border-radius: 16px;
+}
+
+/* ── ADDITIONAL S1 LAYERS ── */
+.s1-orn-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.s1-orn-row .orn-line { width: 40px; height: 1px; background: rgba(250,204,107,0.35); }
+.s1-orn-row .orn-char { font-size: 16px; color: #facc6b; opacity: 0.5; }
+.s1-quote-mark {
+  font-family: 'Cinzel Decorative', serif; font-size: 120px; color: #facc6b;
+  opacity: 0.08; line-height: 1; position: absolute; top: 180px; left: 60px; pointer-events: none; z-index: 1;
+}
+
+/* ── ADDITIONAL S2 LAYERS ── */
+.s2-orn-divider {
+  display: flex; align-items: center; gap: 12px; margin: 18px 0;
+}
+.s2-orn-divider::before, .s2-orn-divider::after {
+  content: ''; flex: 1; height: 1px;
+}
+.s2-orn-divider::before { background: rgba(239,68,68,0.30); }
+.s2-orn-divider::after { background: rgba(250,204,107,0.30); }
+.s2-orn-divider .orn { font-size: 12px; color: #facc6b; opacity: 0.5; }
+.s2-lie-card .s2-card-icon {
+  width: 36px; height: 36px; border-radius: 50%; background: rgba(239,68,68,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; color: #ef4444;
+  margin-bottom: 8px;
+}
+.s2-truth-card .s2-card-icon {
+  width: 36px; height: 36px; border-radius: 50%; background: rgba(250,204,107,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; color: #facc6b;
+  margin-bottom: 8px;
+}
+
+/* ── ADDITIONAL S3 LAYERS ── */
+.s3-orn-divider {
+  display: flex; align-items: center; gap: 12px; margin: 14px 0;
+}
+.s3-orn-divider::before, .s3-orn-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(250,204,107,0.20);
+}
+.s3-orn-divider .orn { font-size: 12px; color: #facc6b; opacity: 0.5; }
+.s3-col .col-icon {
+  width: 32px; height: 32px; border-radius: 50%; margin-bottom: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.s3-col.lie .col-icon { background: rgba(239,68,68,0.15); color: #ef4444; }
+.s3-col.truth .col-icon { background: rgba(250,204,107,0.15); color: #facc6b; }
+
+/* ── ADDITIONAL S4 LAYERS ── */
+.s4-orn-divider {
+  display: flex; align-items: center; gap: 12px; margin: 14px 0;
+}
+.s4-orn-divider::before, .s4-orn-divider::after {
+  content: ''; flex: 1; height: 1px; background: rgba(250,204,107,0.25);
+}
+.s4-orn-divider .orn { font-size: 12px; color: #facc6b; opacity: 0.6; }
+.s4-proof .proof-icon {
+  width: 48px; height: 48px; border-radius: 50%; background: rgba(250,204,107,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 22px; color: #facc6b;
+  margin-bottom: 10px;
+}
+.s4-cta .cta-check {
+  display: flex; flex-direction: column; gap: 8px; margin-top: 10px;
+}
+.s4-cta .cta-check-item {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'Cormorant Garamond', serif; font-size: 14px; color: rgba(5,6,8,0.70);
+}
+.s4-cta .cta-check-dot { width: 6px; height: 6px; border-radius: 50%; background: #050608; opacity: 0.5; }
+
+/* ── EXTENDED DECORATIVE SYSTEM ── */
+.deco-chevron {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.04;
+  background-image: repeating-linear-gradient(
+    135deg, transparent, transparent 40px, #facc6b 40px, #facc6b 41px
+  );
+}
+.deco-dot-field {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.06;
+  background-image: radial-gradient(circle, #facc6b 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── ART DECO FRAME ── */
+.art-frame {
+  position: absolute; pointer-events: none; z-index: 2;
+}
+.art-frame .af-line {
+  position: absolute; background: rgba(250,204,107,0.30);
+}
+.art-frame .af-line.h { height: 1px; }
+.art-frame .af-line.v { width: 1px; }
+.art-frame .af-corner {
+  position: absolute; width: 20px; height: 20px;
+  border-color: rgba(250,204,107,0.40);
+}
+
+/* ── GOLDEN TYPEWRITER EFFECT ── */
+.typewriter {
+  overflow: hidden; white-space: nowrap;
+  animation: typewriter 2s steps(40) 1s 1 normal both;
+}
+@keyframes typewriter { from { width: 0; } to { width: 100%; } }
+
+/* ── STAT PILL ── */
+.stat-pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 18px; background: rgba(250,204,107,0.10);
+  border: 1px solid rgba(250,204,107,0.25); border-radius: 999px;
+}
+.stat-pill .pill-num {
+  font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 20px; color: #facc6b;
+}
+.stat-pill .pill-lbl {
+  font-family: 'Cormorant Garamond', serif; font-size: 14px; color: rgba(229,231,235,0.75);
+}
+
+/* ── ELEGANT DIVIDER WITH DOTS ── */
+.elegant-divider {
+  display: flex; align-items: center; gap: 12px; margin: 16px 0;
+}
+.elegant-divider .ed-line { flex: 1; height: 1px; background: rgba(250,204,107,0.20); }
+.elegant-divider .ed-dot { width: 5px; height: 5px; border-radius: 50%; background: #facc6b; opacity: 0.5; }
+.elegant-divider .ed-diamond { width: 8px; height: 8px; background: #facc6b; opacity: 0.4; transform: rotate(45deg); }
+
+/* ── COMPARISON ENHANCEMENTS ── */
+.compare-arrow {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(250,204,107,0.15); border: 1px solid rgba(250,204,107,0.30);
+  font-size: 14px; color: #facc6b;
+}
+
+/* ── TESTIMONIAL CARD ── */
+.testimonial-card {
+  padding: 24px 28px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(250,204,107,0.15); border-radius: 16px;
+  position: relative;
+}
+.testimonial-card::before {
+  content: '"'; position: absolute; top: 8px; left: 16px;
+  font-family: 'Cinzel Decorative', serif; font-size: 60px; color: rgba(250,204,107,0.15);
+  line-height: 1;
+}
+.testimonial-card .t-quote {
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic;
+  line-height: 1.5; color: rgba(229,231,235,0.85); padding-left: 20px;
+}
+.testimonial-card .t-meta {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #facc6b;
+  margin-top: 12px; padding-left: 20px; opacity: 0.8;
+}
+
+/* ── CTA ENHANCEMENTS ── */
+.cta-glow-ring {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+  border: 1px solid rgba(250,204,107,0.20);
+}
+.cta-glow-ring.r1 { width: 300px; height: 300px; opacity: 0.3; }
+.cta-glow-ring.r2 { width: 400px; height: 400px; opacity: 0.2; }
+.cta-glow-ring.r3 { width: 500px; height: 500px; opacity: 0.1; }
+
+/* ── SCROLL INDICATOR ── */
+.scroll-hint {
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: rgba(249,250,251,0.35);
+  margin-top: auto; padding-top: 16px;
+}
+.scroll-hint .sh-line { width: 30px; height: 1px; background: rgba(250,204,107,0.30); }
+
+/* ── ADVANCED VISUAL LAYER SYSTEM ── */
+.layer-glow-gold { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+                   background: radial-gradient(circle, rgba(250,204,107,0.12) 0%, transparent 65%);
+                   filter: blur(50px); }
+.layer-glow-warm { position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+                   background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 65%);
+                   filter: blur(50px); }
+
+/* ── FRAME ORNAMENTS ── */
+.frame-ornament { position: absolute; pointer-events: none; z-index: 2; }
+.frame-ornament .fo-line-h { height: 1px; background: rgba(250,204,107,0.30); }
+.frame-ornament .fo-line-v { width: 1px; background: rgba(250,204,107,0.30); }
+.frame-ornament .fo-square { width: 6px; height: 6px; background: #facc6b; opacity: 0.5; transform: rotate(45deg); }
+
+/* ── EDITORIAL TYPE STACK ── */
+.ed-type-stack { display: flex; flex-direction: column; gap: 8px; }
+.ed-type-stack .ets-line { font-family: 'Cinzel Decorative', serif; line-height: 1.15; }
+.ed-type-stack .ets-xl { font-weight: 900; font-size: 56px; color: #f9fafb; letter-spacing: 0.04em; }
+.ed-type-stack .ets-lg { font-weight: 700; font-size: 36px; color: #facc6b; }
+.ed-type-stack .ets-md { font-weight: 400; font-size: 24px; color: rgba(229,231,235,0.70); font-style: italic;
+                         font-family: 'Cormorant Garamond', serif; }
+
+/* ── PROGRESS STEPS ── */
+.progress-steps { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+.progress-steps .ps-dot { width: 10px; height: 10px; border-radius: 50%;
+                          border: 1.5px solid rgba(250,204,107,0.40); }
+.progress-steps .ps-dot.on { background: #facc6b; border-color: #facc6b; }
+.progress-steps .ps-line { flex: 1; height: 1px; background: rgba(250,204,107,0.20); }
+
+/* ── METRIC GRID ── */
+.metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+.metric-item {
+  padding: 16px 18px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(250,204,107,0.12); border-radius: 12px;
+}
+.metric-item .mi-num { font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 28px;
+                       color: #facc6b; line-height: 1; }
+.metric-item .mi-lbl { font-family: 'Cormorant Garamond', serif; font-size: 14px;
+                       color: rgba(229,231,235,0.65); margin-top: 6px; }
+
+/* ── TIMELINE ITEM ── */
+.timeline-item { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0;
+                 border-bottom: 1px solid rgba(250,204,107,0.10); }
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item .ti-marker { width: 12px; height: 12px; border-radius: 50%;
+                            background: #facc6b; margin-top: 4px; flex-shrink: 0;
+                            box-shadow: 0 0 10px rgba(250,204,107,0.30); }
+.timeline-item .ti-content { flex: 1; }
+.timeline-item .ti-title { font-family: 'Cinzel Decorative', serif; font-weight: 700; font-size: 15px;
+                           color: #f9fafb; margin-bottom: 4px; }
+.timeline-item .ti-desc { font-family: 'Cormorant Garamond', serif; font-size: 15px;
+                          color: rgba(229,231,235,0.70); line-height: 1.45; }
+
+/* ── BADGE SYSTEM ── */
+.badge { display: inline-flex; align-items: center; gap: 6px;
+         padding: 6px 12px; border-radius: 6px; font-size: 11px;
+         font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.badge-gold { background: rgba(250,204,107,0.12); color: #facc6b; border: 1px solid rgba(250,204,107,0.25); }
+.badge-rose { background: rgba(239,68,68,0.10); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+
+/* ── PULSE RING ── */
+.pulse-ring-gold {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 1;
+  border: 1px solid rgba(250,204,107,0.30);
+  animation: pulseRingGold 2.5s ease-out infinite;
+}
+@keyframes pulseRingGold {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* ── TEXT SHADOW UTILITIES ── */
+.text-shadow-gold { text-shadow: 0 2px 20px rgba(250,204,107,0.20); }
+
+/* ── MEGA DECORATIVE SYSTEM v2 ── */
+.deco-radial-lines {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 50%, transparent 0deg, transparent 15deg, rgba(250,204,107,0.4) 15deg, rgba(250,204,107,0.4) 16deg
+  );
+}
+.angled-stripe-gold {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0.02;
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 60px, rgba(250,204,107,0.3) 60px, rgba(250,204,107,0.3) 61px
+  );
+}
+.text-outline-gold {
+  color: transparent; -webkit-text-stroke: 1.5px rgba(250,204,107,0.25);
+}
+.editorial-note {
+  font-family: 'Cormorant Garamond', serif; font-size: 16px; font-style: italic;
+  color: rgba(229,231,235,0.55); line-height: 1.5;
+  padding: 12px 16px; border-left: 2px solid rgba(250,204,107,0.25);
+  margin-top: 14px;
+}
+.service-list {
+  display: flex; flex-direction: column; gap: 10px; margin-top: 16px;
+}
+.service-list .sl-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(250,204,107,0.12); border-radius: 10px;
+  font-family: 'Cormorant Garamond', serif; font-size: 15px; color: rgba(229,231,235,0.80);
+}
+.service-list .sl-item .sl-num {
+  font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 16px;
+  color: #facc6b; min-width: 24px;
+}
+.gold-underline {
+  position: relative; display: inline-block;
+}
+.gold-underline::after {
+  content: ''; position: absolute; left: 0; bottom: -4px; width: 100%; height: 2px;
+  background: linear-gradient(90deg, #facc6b, transparent);
+}
+
+/* ── CONTROLS ── */
+.controls { display: flex; gap: 18px; align-items: center; justify-content: center; margin-top: 22px; }
+.btn { background: #facc6b; border: none; color: #050608;
+       width: 44px; height: 44px; cursor: pointer; font-size: 18px; font-weight: 900;
+       box-shadow: 0 0 12px rgba(250,204,107,0.3); }
+.btn:disabled { opacity: 0.30; cursor: default; box-shadow: none; }
+.dots { display: flex; gap: 6px; }
+.dot { width: 6px; height: 6px; background: rgba(249,250,251,0.15); cursor: pointer; transition: all 0.2s; }
+.dot.on { background: #facc6b; width: 24px; box-shadow: 0 0 8px rgba(250,204,107,0.4); }
+.hint { font-size: 11px; color: rgba(249,250,251,0.25); letter-spacing: 0.20em;
+        text-transform: uppercase; margin-top: 12px; text-align: center; }
+
+.zip-btn { display: block; margin: 24px auto 8px; padding: 16px 32px;
+           background: #facc6b; color: #050608; border: 2px solid #facc6b; cursor: pointer;
+           font-family: 'Cinzel Decorative', serif; font-weight: 900; font-size: 13px;
+           letter-spacing: 0.20em; text-transform: uppercase; transition: opacity 0.2s;
+           box-shadow: 0 0 20px rgba(250,204,107,0.2); }
+.zip-btn:hover { opacity: 0.9; }
+.zip-progress { font-size: 11px; color: rgba(249,250,251,0.40); text-align: center;
+                letter-spacing: 0.20em; text-transform: uppercase; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<p class="label-top">Profile Pro LATAM · 3 Mentiras · 4 slides · System 35 Art Deco Gilt</p>
+
+<div class="preview-cage">
+<div class="viewer">
+  <div class="wrap" id="wrap">
+    <div class="track" id="track">
+
+      <!-- ═══════ SLIDE 1 · CENTERED MANIFESTO ═══════ -->
+      <section class="slide" id="slide-1">
+        <div class="ribbon-wrap">
+          <div class="ribbon-line r1"></div>
+          <div class="ribbon-line r2"></div>
+          <div class="ribbon-line r3"></div>
+          <div class="ribbon-line r4"></div>
+          <div class="ribbon-line r5"></div>
+        </div>
+        <svg class="sunburst" viewBox="0 0 700 700"><g stroke="#facc6b" stroke-width="1" opacity="0.5">
+          <line x1="350" y1="350" x2="350" y2="0"/><line x1="350" y1="350" x2="525" y2="35"/>
+          <line x1="350" y1="350" x2="665" y2="175"/><line x1="350" y1="350" x2="700" y2="350"/>
+          <line x1="350" y1="350" x2="665" y2="525"/><line x1="350" y1="350" x2="525" y2="665"/>
+          <line x1="350" y1="350" x2="350" y2="700"/><line x1="350" y1="350" x2="175" y2="665"/>
+          <line x1="350" y1="350" x2="35" y2="525"/><line x1="350" y1="350" x2="0" y2="350"/>
+          <line x1="350" y1="350" x2="35" y2="175"/><line x1="350" y1="350" x2="175" y2="35"/>
+        </g></svg>
+        <div class="deco-geo"></div>
+        <div class="deco-dot-field"></div>
+        <div class="glow-orb" style="top:-10%;right:-10%;"></div>
+        <div class="layer-glow-gold" style="bottom:20%;left:10%;width:400px;height:400px;"></div>
+        <div class="pulse-ring-gold" style="top:30%;right:20%;width:80px;height:80px;"></div>
+        <div class="watermark s1-wm" style="opacity:0.02;">3</div>
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame top-right"></div>
+        <div class="corner-frame bottom-left"></div>
+        <div class="corner-frame bottom-right"></div>
+        <div class="stamp" style="position:absolute;top:130px;right:90px;">EDICIÓN<br>ESPECIAL</div>
+        <div class="masthead">
+          <div class="mast-title">Profile Pro · Edición I</div>
+          <div class="mast-issue">San José · 2026</div>
+        </div>
+        <div class="content">
+          <div class="s1-wrap">
+            <div class="s1-deco-top"></div>
+            <div class="s1-deco-diamond"></div>
+            <div class="s1-line heavy">3 Mentiras</div>
+            <div class="s1-line light">que te cuenta</div>
+            <div class="s1-line heavy">el Reclutador</div>
+            <div class="s1-line accent">Y POR QUÉ SEGUÍS SIN ENTREVISTAS</div>
+            <div class="s1-deco-diamond"></div>
+            <div class="s1-deco-top"></div>
+            <p class="s1-byline">— No es que no tengas talento. Es que te vendieron una versión del proceso que no existe.</p>
+            <div class="swipe-pill">Desliza →</div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd on"></span><span class="pd"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">Profile Pro</div>
+        <div class="handle">@profilepro.latam · cv + linkedin</div>
+        <div class="counter">01 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 2 · MENTIRA #1 ═══════ -->
+      <section class="slide" id="slide-2">
+        <div class="ribbon-wrap">
+          <div class="ribbon-line r1"></div>
+          <div class="ribbon-line r2"></div>
+          <div class="ribbon-line r3"></div>
+          <div class="ribbon-line r4"></div>
+        </div>
+        <div class="deco-geo"></div>
+        <div class="deco-dot-field"></div>
+        <div class="glow-orb s2-glow"></div>
+        <div class="layer-glow-warm" style="top:15%;left:10%;width:350px;height:350px;"></div>
+        <div class="pulse-ring-gold" style="bottom:25%;right:15%;width:100px;height:100px;"></div>
+        <div class="watermark s2-wm" style="opacity:0.025;">01</div>
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame bottom-right"></div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#facc6b;">Profile Pro · Mentira I</div>
+          <div class="mast-issue">La más común</div>
+        </div>
+        <div class="content">
+          <div class="kicker">Mentira #1</div>
+          <h2 class="headline" style="font-size:46px; max-width: 800px;">"Tu CV quedó en revisión."</h2>
+          <div class="s2-grid">
+            <div class="s2-lie-card">
+              <div class="s2-num">01</div>
+              <div class="s2-card-tag">Lo que te dicen</div>
+              <div class="s2-card-headline">"Tu CV quedó en revisión. Te contactamos."</div>
+              <div class="s2-card-body">Es la frase más usada del reclutamiento. Suena profesional. Suena como que pasó algo. <strong>No pasó nada.</strong></div>
+              <div class="s2-orn-divider"><span class="orn">✦</span></div>
+            </div>
+            <div class="s2-truth-card">
+              <div class="s2-card-tag">La verdad</div>
+              <div class="s2-card-headline">Tu CV nunca entró al ATS.</div>
+              <div class="s2-card-body">El sistema no pudo leer el formato. O no tenía las palabras clave. O llegó después de que el algoritmo ya cerró el lote. <strong>Nadie lo vio.</strong></div>
+              <div class="s2-orn-divider"><span class="orn">✦</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd on"></span><span class="pd"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">Profile Pro</div>
+        <div class="handle">@profilepro.latam · cv + linkedin</div>
+        <div class="counter">02 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 3 · MENTIRA #2 ═══════ -->
+      <section class="slide" id="slide-3">
+        <div class="ribbon-wrap">
+          <div class="ribbon-line r1"></div>
+          <div class="ribbon-line r2"></div>
+          <div class="ribbon-line r3"></div>
+          <div class="ribbon-line r4"></div>
+        </div>
+        <svg class="sunburst" viewBox="0 0 700 700" style="opacity:0.05;"><g stroke="#facc6b" stroke-width="1" opacity="0.5">
+          <line x1="350" y1="350" x2="350" y2="0"/><line x1="350" y1="350" x2="700" y2="350"/>
+          <line x1="350" y1="350" x2="350" y2="700"/><line x1="350" y1="350" x2="0" y2="350"/>
+        </g></svg>
+        <div class="deco-geo"></div>
+        <div class="deco-dot-field"></div>
+        <div class="glow-orb s3-glow"></div>
+        <div class="layer-glow-gold" style="top:20%;right:15%;width:380px;height:380px;"></div>
+        <div class="pulse-ring-gold" style="top:50%;left:25%;width:90px;height:90px;"></div>
+        <div class="watermark s3-wm" style="opacity:0.025;">02</div>
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame top-right"></div>
+        <div class="stamp" style="position:absolute;top:130px;right:90px;">MITO<br>DESTRUIDO</div>
+        <div class="masthead">
+          <div class="mast-title">Profile Pro · Mentira II</div>
+          <div class="mast-issue">La que duele más</div>
+        </div>
+        <div class="content">
+          <div class="kicker">Mentira #2</div>
+          <h2 class="headline" style="font-size:46px; max-width: 800px;">"Buscamos más experiencia."</h2>
+          <div class="s3-cols">
+            <div class="s3-col lie">
+              <div class="s3-col-tag">Lo que te dicen</div>
+              <div class="s3-col-headline">"Tenés buen perfil, pero buscamos alguien con más años."</div>
+              <ul class="s3-col-list">
+                <li>Te hace sentir que te falta tiempo</li>
+                <li>Es una excusa legal para descartar</li>
+              </ul>
+              <div class="s3-col-stat" style="border:1px solid rgba(239,68,68,0.40);background:rgba(239,68,68,0.10);"><strong style="color:#ef4444;">0%</strong>de chance de reconsideración</div>
+            </div>
+            <div class="s3-col truth">
+              <div class="s3-col-tag">La verdad</div>
+              <div class="s3-col-headline">Tu CV no mostró impacto medible.</div>
+              <ul class="s3-col-list">
+                <li>Los años no importan sin resultados</li>
+                <li>Faltan números: %, $, tiempo</li>
+              </ul>
+              <div class="s3-col-stat"><strong style="color:#facc6b;">Fix:</strong>reescribir con métricas</div>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd on"></span><span class="pd"></span>
+        </div>
+        <div class="brand-mark">Profile Pro</div>
+        <div class="handle">@profilepro.latam · cv + linkedin</div>
+        <div class="counter">03 / 04</div>
+      </section>
+
+      <!-- ═══════ SLIDE 4 · CTA + PROOF ═══════ -->
+      <section class="slide" id="slide-4">
+        <div class="ribbon-wrap">
+          <div class="ribbon-line r1"></div>
+          <div class="ribbon-line r2"></div>
+          <div class="ribbon-line r3"></div>
+          <div class="ribbon-line r4"></div>
+        </div>
+        <svg class="s4-starburst" viewBox="0 0 900 900"><g stroke="#facc6b" stroke-width="1" opacity="0.5">
+          <line x1="450" y1="450" x2="450" y2="0"/><line x1="450" y1="450" x2="675" y2="40"/>
+          <line x1="450" y1="450" x2="860" y2="225"/><line x1="450" y1="450" x2="900" y2="450"/>
+          <line x1="450" y1="450" x2="860" y2="675"/><line x1="450" y1="450" x2="675" y2="860"/>
+          <line x1="450" y1="450" x2="450" y2="900"/><line x1="450" y1="450" x2="225" y2="860"/>
+          <line x1="450" y1="450" x2="40" y2="675"/><line x1="450" y1="450" x2="0" y2="450"/>
+          <line x1="450" y1="450" x2="40" y2="225"/><line x1="450" y1="450" x2="225" y2="40"/>
+        </g></svg>
+        <div class="deco-geo"></div>
+        <div class="deco-dot-field"></div>
+        <div class="glow-orb s4-glow"></div>
+        <div class="layer-glow-gold" style="top:10%;left:20%;width:450px;height:450px;"></div>
+        <div class="pulse-ring-gold" style="top:40%;left:50%;width:120px;height:120px;"></div>
+        <div class="cta-glow-ring r1" style="top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+        <div class="cta-glow-ring r2" style="top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+        <div class="watermark s4-wm">P</div>
+        <div class="corner-frame top-left"></div>
+        <div class="corner-frame bottom-right"></div>
+        <div class="s4-seal stamp">AUDIT<br>FREE</div>
+        <div class="masthead">
+          <div class="mast-title" style="color:#facc6b;">Profile Pro · Acción</div>
+          <div class="mast-issue">La auditoría gratuita</div>
+        </div>
+        <div class="content">
+          <div class="kicker" style="color:#facc6b;">El siguiente paso</div>
+          <h2 class="headline" style="font-size:44px;">¿Querés la verdad<br>sobre tu <span style="color:#facc6b;">CV?</span></h2>
+
+          <div class="s4-grid">
+            <div class="s4-proof">
+              <div>
+                <div class="s4-proof-stat">47</div>
+                <div class="s4-proof-stat-sub">CVs Auditados Este Mes</div>
+              </div>
+              <div class="s4-proof-text">
+                <div class="s4-proof-tag">Resultados reales</div>
+                <div class="s4-proof-headline">De 0 entrevistas a 4 callbacks en 10 días.</div>
+                <div class="s4-proof-body">Cliente de San José con 3 años de experiencia. El CV no mostraba impacto. Después de la auditoría y reescritura: <strong style="color:#facc6b">4 entrevistas en la primera semana.</strong></div>
+              </div>
+            </div>
+            <div class="testimonial-card" style="margin-top:16px;">
+              <div class="t-quote">No sabía que mi CV estaba tan mal. En 24 horas vi exactamente qué cambiar.</div>
+              <div class="t-meta">— Andrea M. · Contadora · San José</div>
+            </div>
+
+            <div class="s4-cta">
+              <div class="s4-cta-text">
+                <div class="s4-cta-q">¿Querés saber qué falla en tu CV?</div>
+                <div class="s4-cta-keyword-row">
+                  <span>Escribinos</span>
+                  <span class="s4-keyword-box">AUDITORIA</span>
+                  <span>· te pasamos el diagnóstico gratis</span>
+                </div>
+              </div>
+              <button class="s4-cta-btn">Agendar Ahora</button>
+            </div>
+          </div>
+        </div>
+        <div class="prog">
+          <span class="pd"></span><span class="pd"></span><span class="pd"></span><span class="pd on"></span>
+        </div>
+        <div class="brand-mark">Profile Pro</div>
+        <div class="handle">@profilepro.latam · cv + linkedin</div>
+        <div class="counter">04 / 04</div>
+      </section>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="prev">‹</button>
+  <div class="dots">
+    <span class="dot on" data-i="0"></span>
+    <span class="dot" data-i="1"></span>
+    <span class="dot" data-i="2"></span>
+    <span class="dot" data-i="3"></span>
+  </div>
+  <button class="btn" id="next">›</button>
+</div>
+<p class="hint">Flechas · Swipe · Click en los puntos</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · 4 PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · art deco gilt · sunburst · ribbon</p>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+prevBtn.addEventListener('click', () => move(-1));
+nextBtn.addEventListener('click', () => move(1));
+dots.forEach(d => d.addEventListener('click', () => go(parseInt(d.dataset.i))));
+
+let sx = 0;
+const wrap = document.getElementById('wrap');
+wrap.addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+wrap.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+});
+go(0);
+
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+  const zip = new JSZip();
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i+1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i+1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 300));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i+1}.png`, blob);
+    } catch(err) { console.error(err); }
+  }
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'carousel_mentiras-reclutador_artdeco.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · 4 PNGs';
+    progress.textContent = '1080 × 1080 px · art deco gilt · sunburst · ribbon';
+  }, 3000);
+}
+</script>
+
+</body>
+</html>

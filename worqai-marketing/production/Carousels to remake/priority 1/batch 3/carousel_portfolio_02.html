@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vault07 — Carousel 02</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --bg:#070b14;
+    --bg2:#0d1322;
+    --neon:#b8ff3a;
+    --neon-2:#7c5cff;
+    --pink:#ff3a8c;
+    --line:rgba(184,255,58,0.18);
+    --text:#e6edf6;
+    --muted:#8a93a3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;font-family:'Space Grotesk',sans-serif;color:#eee;min-height:100vh;padding:40px 20px}
+  .controls{max-width:1080px;margin:0 auto 24px;display:flex;gap:12px;align-items:center}
+  .controls button{background:var(--neon);color:#070b14;border:0;padding:12px 22px;font-family:'JetBrains Mono';font-weight:700;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;font-size:12px}
+  .controls button:hover{background:#fff}
+  .dots{display:flex;gap:8px;margin-left:auto}
+  .dots span{width:8px;height:8px;background:#333}
+  .dots span.active{background:var(--neon)}
+  .stage{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+  .slide{
+    width:1080px;height:1080px;
+    background:var(--bg);
+    color:var(--text);
+    position:relative;overflow:hidden;
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.02) 0,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 3px);z-index:6}
+  .grain-n{position:absolute;inset:0;pointer-events:none;opacity:0.18;mix-blend-mode:overlay;z-index:5}
+  .grain-n svg{width:100%;height:100%}
+
+  /* shared topbar */
+  .topbar{position:absolute;top:48px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);z-index:7}
+  .topbar .brand{color:var(--neon);font-weight:700}
+  .topbar .brand::before{content:"●";margin-right:8px;color:var(--neon)}
+  .footer-bar{position:absolute;bottom:48px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);z-index:7;border-top:1px solid var(--line);padding-top:16px}
+
+  /* SLIDE 1 — alarm cover */
+  .s1{
+    background:
+      radial-gradient(circle at 80% 20%, rgba(255,58,140,0.45) 0%, transparent 40%),
+      radial-gradient(circle at 20% 80%, rgba(124,92,255,0.35) 0%, transparent 50%),
+      conic-gradient(from 220deg at 50% 50%, #070b14, #0d1322, #1a0f2e, #070b14);
+  }
+  .s1 .badge{position:absolute;top:140px;left:48px;display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--pink);background:rgba(255,58,140,0.1);font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#ffb3d1;z-index:7}
+  .s1 .badge::before{content:"";width:8px;height:8px;background:var(--pink);border-radius:50%;animation:none}
+  .s1 h1{position:absolute;top:230px;left:48px;right:48px;font-family:'Archivo Black';font-size:152px;line-height:0.88;letter-spacing:-0.04em;text-transform:uppercase;color:var(--text);z-index:7}
+  .s1 h1 em{font-style:normal;color:var(--neon);text-shadow:0 0 30px rgba(184,255,58,0.5)}
+  .s1 h1 .strike{position:relative;display:inline-block}
+  .s1 h1 .strike::after{content:"";position:absolute;left:-4%;top:50%;width:108%;height:8px;background:var(--pink);transform:rotate(-2deg)}
+  .s1 .glass{position:absolute;bottom:160px;left:48px;right:48px;padding:32px;background:rgba(13,19,34,0.55);border:1px solid rgba(184,255,58,0.25);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:7;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+  .s1 .glass .col .lbl{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .s1 .glass .col .val{font-family:'Archivo Black';font-size:48px;color:var(--neon);line-height:1}
+  .s1 .glass .col p{font-family:'JetBrains Mono';font-size:11px;color:var(--text);margin-top:8px;line-height:1.4}
+
+  /* SLIDE 2 — fear */
+  .s2{background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,58,140,0.25), transparent 60%),
+    linear-gradient(180deg, #0d0813 0%, #070b14 100%);}
+  .s2 .stamp{position:absolute;top:120px;left:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--pink);z-index:7}
+  .s2 h2{position:absolute;top:200px;left:48px;right:48px;font-family:'Space Grotesk';font-weight:600;font-size:96px;line-height:0.96;letter-spacing:-0.03em;color:var(--text);z-index:7}
+  .s2 h2 em{font-style:normal;color:var(--pink)}
+  .s2 .grid{position:absolute;top:580px;left:48px;right:48px;display:grid;grid-template-columns:1fr 1fr;gap:20px;z-index:7}
+  .s2 .card{padding:24px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,58,140,0.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .s2 .card .n{font-family:'Archivo Black';font-size:64px;color:var(--pink);line-height:1}
+  .s2 .card .lbl{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  .s2 .card p{font-size:14px;color:var(--text);margin-top:12px;line-height:1.5}
+  .s2 .glow{position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,58,140,0.4),transparent 70%);z-index:1;filter:blur(40px)}
+
+  /* SLIDE 3 — anatomy of a breach */
+  .s3{background:linear-gradient(180deg,#070b14 0%, #0d1322 100%)}
+  .s3 .stamp{position:absolute;top:120px;left:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--neon);z-index:7}
+  .s3 h2{position:absolute;top:180px;left:48px;right:48px;font-family:'Space Grotesk';font-weight:600;font-size:80px;line-height:1;letter-spacing:-0.03em;z-index:7}
+  .s3 h2 em{font-style:normal;color:var(--neon)}
+  .s3 .timeline{position:absolute;top:440px;left:48px;right:48px;z-index:7}
+  .s3 .row{display:grid;grid-template-columns:120px 1fr 200px;gap:24px;align-items:center;padding:20px 0;border-top:1px solid var(--line)}
+  .s3 .row:last-child{border-bottom:1px solid var(--line)}
+  .s3 .row .t{font-family:'JetBrains Mono';font-size:13px;color:var(--neon);font-weight:500}
+  .s3 .row .desc{font-family:'Space Grotesk';font-size:22px;font-weight:500;color:var(--text)}
+  .s3 .row .desc small{display:block;font-family:'JetBrains Mono';font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:0.1em;text-transform:uppercase}
+  .s3 .row .sev{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.2em;text-transform:uppercase;text-align:right;padding:6px 12px;border:1px solid currentColor;display:inline-block;justify-self:end}
+  .s3 .sev.high{color:var(--pink)}
+  .s3 .sev.med{color:#ffb84d}
+  .s3 .sev.crit{color:var(--pink);background:rgba(255,58,140,0.15)}
+
+  /* SLIDE 4 — relief / what we do */
+  .s4{
+    background:
+      conic-gradient(from 90deg at 80% 20%, transparent 0deg, rgba(184,255,58,0.18) 60deg, transparent 120deg),
+      radial-gradient(circle at 20% 80%, rgba(124,92,255,0.3), transparent 50%),
+      #070b14;
+  }
+  .s4 .stamp{position:absolute;top:120px;left:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--neon);z-index:7}
+  .s4 h2{position:absolute;top:180px;left:48px;right:48px;font-family:'Space Grotesk';font-weight:600;font-size:96px;line-height:0.95;letter-spacing:-0.03em;z-index:7}
+  .s4 h2 em{font-style:normal;color:var(--neon)}
+  .s4 .glass-stack{position:absolute;top:480px;left:48px;right:48px;display:grid;grid-template-columns:1fr 1fr;gap:20px;z-index:7}
+  .s4 .feat{padding:28px;background:rgba(13,19,34,0.5);border:1px solid rgba(184,255,58,0.25);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative;overflow:hidden}
+  .s4 .feat::before{content:"";position:absolute;top:0;left:0;width:60px;height:2px;background:var(--neon)}
+  .s4 .feat .ico{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.25em;color:var(--neon);text-transform:uppercase}
+  .s4 .feat h3{font-family:'Space Grotesk';font-weight:600;font-size:26px;margin-top:16px;color:var(--text)}
+  .s4 .feat p{font-family:'Space Grotesk';font-size:14px;color:var(--muted);margin-top:10px;line-height:1.5}
+  .s4 .feat .metric{font-family:'Archivo Black';font-size:36px;color:var(--neon);margin-top:16px;line-height:1}
+
+  /* SLIDE 5 — proof / clients */
+  .s5{background:linear-gradient(180deg, #0d1322 0%, #070b14 100%)}
+  .s5 .stamp{position:absolute;top:120px;left:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--neon-2);z-index:7}
+  .s5 h2{position:absolute;top:180px;left:48px;right:48px;font-family:'Space Grotesk';font-weight:600;font-size:88px;line-height:0.96;letter-spacing:-0.03em;z-index:7}
+  .s5 h2 em{font-style:normal;color:var(--neon-2)}
+  .s5 .nums{position:absolute;top:480px;left:48px;right:48px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;z-index:7}
+  .s5 .stat{padding:28px;background:rgba(124,92,255,0.08);border:1px solid rgba(124,92,255,0.3);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .s5 .stat .n{font-family:'Archivo Black';font-size:80px;color:var(--text);line-height:0.9}
+  .s5 .stat .n em{font-style:normal;color:var(--neon-2);font-size:42px}
+  .s5 .stat .lbl{font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-top:14px}
+  .s5 .stat p{font-family:'Space Grotesk';font-size:13px;color:var(--text);margin-top:8px;line-height:1.4}
+  .s5 .logos{position:absolute;bottom:140px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;z-index:7;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .s5 .logos span{font-family:'Archivo Black';font-size:18px;color:var(--muted);letter-spacing:0.05em;opacity:0.7}
+
+  /* SLIDE 6 — quote */
+  .s6{background:radial-gradient(circle at 70% 30%, rgba(184,255,58,0.18), transparent 50%), #070b14}
+  .s6 .stamp{position:absolute;top:120px;left:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--neon);z-index:7}
+  .s6 .mark{position:absolute;top:160px;right:48px;font-family:'Archivo Black';font-size:280px;color:var(--neon);opacity:0.15;line-height:0.8;z-index:2}
+  .s6 blockquote{position:absolute;top:280px;left:48px;right:140px;font-family:'Space Grotesk';font-weight:500;font-size:60px;line-height:1.1;letter-spacing:-0.02em;color:var(--text);z-index:7}
+  .s6 blockquote em{font-style:normal;color:var(--neon)}
+  .s6 .author{position:absolute;bottom:160px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:24px;z-index:7}
+  .s6 .author .name{font-family:'Space Grotesk';font-weight:600;font-size:20px;color:var(--text)}
+  .s6 .author .role{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:0.1em;text-transform:uppercase}
+  .s6 .author .co{font-family:'Archivo Black';font-size:24px;color:var(--neon-2);letter-spacing:0.05em}
+
+  /* SLIDE 7 — CTA */
+  .s7{
+    background:
+      radial-gradient(circle at 30% 70%, rgba(124,92,255,0.45), transparent 50%),
+      conic-gradient(from 180deg at 70% 30%, #070b14, #1a0f2e, #0d1322, #070b14);
+  }
+  .s7 .stamp{position:absolute;top:120px;left:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--neon);z-index:7}
+  .s7 h2{position:absolute;top:200px;left:48px;right:48px;font-family:'Archivo Black';font-size:116px;line-height:0.88;letter-spacing:-0.04em;text-transform:uppercase;z-index:7}
+  .s7 h2 em{font-style:normal;color:var(--neon);display:block}
+  .s7 .cta{position:absolute;bottom:240px;left:48px;display:inline-flex;align-items:center;gap:18px;padding:24px 36px;background:var(--neon);color:#070b14;font-family:'JetBrains Mono';font-weight:700;font-size:14px;letter-spacing:0.15em;text-transform:uppercase;z-index:7;box-shadow:0 0 60px rgba(184,255,58,0.4)}
+  .s7 .meta{position:absolute;bottom:240px;right:48px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text);text-align:right;line-height:1.7;z-index:7}
+  .s7 .meta strong{color:var(--neon)}
+</style>
+</head>
+<body>
+  <div class="controls">
+    <button id="exportBtn">Export ZIP</button>
+    <span style="color:#aaa;font-size:12px;letter-spacing:0.1em;text-transform:uppercase">Vault07 — 7 slides</span>
+    <div class="dots" id="dots"></div>
+  </div>
+  <div class="stage" id="stage">
+
+    <!-- SLIDE 1 -->
+    <div class="slide s1" id="slide-1">
+      <div class="topbar">
+        <span class="brand">VAULT07 / SOC OPS</span>
+        <span>01 / 07 · INCIDENT BRIEF</span>
+      </div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn1"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn1)" opacity="0.5"/></svg></div>
+      <div class="badge">● BREACH ALERT · TIER-2 SAAS</div>
+      <h1>Your <span class="strike">SIEM</span><br><em>missed it</em><br>at 03:14.</h1>
+      <div class="glass">
+        <div class="col"><div class="lbl">Mean detect time</div><div class="val">11.4d</div><p>Industry baseline 2024</p></div>
+        <div class="col"><div class="lbl">With Vault07</div><div class="val">38m</div><p>Median across 184 customers</p></div>
+        <div class="col"><div class="lbl">Per-incident saving</div><div class="val">$1.4M</div><p>Containment + downtime</p></div>
+      </div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>vault07.io</span><span>SOC2 · ISO27001</span></div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide s2" id="slide-2">
+      <div class="topbar"><span class="brand">VAULT07</span><span>02 / 07 · THE GAP</span></div>
+      <div class="glow"></div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn2"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn2)" opacity="0.5"/></svg></div>
+      <div class="stamp">— 2024 BREACH POSTMORTEMS</div>
+      <h2>Most attacks aren't sophisticated. <em>They're invisible for 11 days.</em></h2>
+      <div class="grid">
+        <div class="card"><div class="n">68%</div><div class="lbl">Detected by 3rd parties</div><p>Customer, partner, or law enforcement notified the victim first.</p></div>
+        <div class="card"><div class="n">11.4d</div><div class="lbl">Median dwell time</div><p>Attacker inside before any internal alert fired in 2024.</p></div>
+        <div class="card"><div class="n">$4.88M</div><div class="lbl">Avg breach cost</div><p>IBM Cost of a Data Breach Report, 2024.</p></div>
+        <div class="card"><div class="n">3 of 4</div><div class="lbl">Use existing creds</div><p>Stolen or weak credentials, not zero-days.</p></div>
+      </div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>Sources: IBM, Verizon DBIR 2024</span><span>vault07.io</span></div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide s3" id="slide-3">
+      <div class="topbar"><span class="brand">VAULT07</span><span>03 / 07 · ANATOMY</span></div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn3"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn3)" opacity="0.5"/></svg></div>
+      <div class="stamp">— A real Q1 2025 incident</div>
+      <h2>How a <em>$0.04 token</em> cost a SaaS $2.1M.</h2>
+      <div class="timeline">
+        <div class="row"><div class="t">T+00:00</div><div class="desc">Stolen Slack token sold on a Telegram channel<small>Source: dark-web monitor</small></div><div class="sev med">MED</div></div>
+        <div class="row"><div class="t">T+02:11</div><div class="desc">Attacker enumerates internal repos via API<small>1,200 GraphQL calls in 9 minutes</small></div><div class="sev high">HIGH</div></div>
+        <div class="row"><div class="t">T+09:48</div><div class="desc">Customer DB exfil starts — no SIEM alert<small>Egress masked as backup traffic</small></div><div class="sev crit">CRITICAL</div></div>
+        <div class="row"><div class="t">T+11d</div><div class="desc">Customer reports leaked PII on a forum<small>External notification, not internal detection</small></div><div class="sev crit">CRITICAL</div></div>
+      </div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>Anonymized. Vault07 customer postmortem.</span><span>vault07.io</span></div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide s4" id="slide-4">
+      <div class="topbar"><span class="brand">VAULT07</span><span>04 / 07 · WHAT WE DO</span></div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn4"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn4)" opacity="0.5"/></svg></div>
+      <div class="stamp">— What changes when Vault07 sits in front</div>
+      <h2>Detection in <em>minutes</em>, not weeks.</h2>
+      <div class="glass-stack">
+        <div class="feat"><div class="ico">// 01 IDENTITY</div><h3>Token-graph correlation</h3><p>Every API token mapped to its owner, IPs, and behavior baseline. Anomalies fire on call 3.</p><div class="metric">38m median</div></div>
+        <div class="feat"><div class="ico">// 02 EGRESS</div><h3>DLP without the noise</h3><p>Outbound flows scored against your normal traffic. False-positive rate held under 2.1%.</p><div class="metric">2.1% FP</div></div>
+        <div class="feat"><div class="ico">// 03 RESPONSE</div><h3>One-click containment</h3><p>Revoke the token, kill the session, freeze the user — across Okta, AWS, GitHub in one action.</p><div class="metric">9 sec</div></div>
+        <div class="feat"><div class="ico">// 04 EVIDENCE</div><h3>Postmortem in a click</h3><p>Full timeline, every call, every actor. Ready for SOC2, regulators, board within 24 hours.</p><div class="metric">24h ready</div></div>
+      </div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>vault07.io</span><span>SOC2 / ISO27001 / GDPR</span></div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide s5" id="slide-5">
+      <div class="topbar"><span class="brand">VAULT07</span><span>05 / 07 · CUSTOMERS</span></div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn5"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn5)" opacity="0.5"/></svg></div>
+      <div class="stamp">— Across 184 SOC teams</div>
+      <h2>Numbers from production, <em>not slideware.</em></h2>
+      <div class="nums">
+        <div class="stat"><div class="n">184</div><div class="lbl">Active customers</div><p>SaaS, fintech, healthtech, public sector.</p></div>
+        <div class="stat"><div class="n">38<em>m</em></div><div class="lbl">Median MTTD</div><p>Down from industry 11.4 days.</p></div>
+        <div class="stat"><div class="n">$1.4<em>M</em></div><div class="lbl">Avg saving / incident</div><p>Containment + downtime + brand.</p></div>
+      </div>
+      <div class="logos">
+        <span>FORTRESS</span><span>NIMBUS</span><span>PAYRAIL</span><span>HELIX</span><span>ARGON</span>
+      </div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>Anonymized aggregate · Q1 2025</span><span>vault07.io</span></div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide s6" id="slide-6">
+      <div class="topbar"><span class="brand">VAULT07</span><span>06 / 07 · CISO VOICE</span></div>
+      <div class="mark">"</div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn6"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn6)" opacity="0.5"/></svg></div>
+      <div class="stamp">— Field report</div>
+      <blockquote>We caught a <em>token-replay attack 38 minutes</em> in. Last year, the same pattern would have run for two weeks before we noticed.</blockquote>
+      <div class="author">
+        <div>
+          <div class="name">D. Okonkwo</div>
+          <div class="role">CISO · 1,200-person fintech</div>
+        </div>
+        <div class="co">PAYRAIL</div>
+      </div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>vault07.io</span><span>Permission to publish on file</span></div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide s7" id="slide-7">
+      <div class="topbar"><span class="brand">VAULT07</span><span>07 / 07 · NEXT STEP</span></div>
+      <div class="grain-n"><svg xmlns="http://www.w3.org/2000/svg"><filter id="vn7"><feTurbulence baseFrequency="0.85" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#vn7)" opacity="0.5"/></svg></div>
+      <div class="stamp">— 30-day pilot, no procurement</div>
+      <h2>Run Vault07<br>against<br><em>your last<br>90 days.</em></h2>
+      <a class="cta">→ Book the pilot · vault07.io/pilot</a>
+      <div class="meta">90-day log replay<br>Findings within <strong>7 days</strong><br>No SOC team time required</div>
+      <div class="scan"></div>
+      <div class="footer-bar"><span>vault07.io/pilot</span><span>contact@vault07.io</span></div>
+    </div>
+  </div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.getElementById('dots');
+  slides.forEach((_,i)=>{const s=document.createElement('span');if(i===0)s.classList.add('active');dots.appendChild(s);});
+  const obs = new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){const idx=[...slides].indexOf(e.target);[...dots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));}});
+  },{threshold:0.5});
+  slides.forEach(s=>obs.observe(s));
+
+  document.getElementById('exportBtn').addEventListener('click', async ()=>{
+    const btn = document.getElementById('exportBtn');
+    btn.disabled=true; btn.textContent='Rendering...';
+    const zip = new JSZip();
+    for(let i=0;i<slides.length;i++){
+      btn.textContent=`Rendering ${i+1}/${slides.length}`;
+      const canvas = await html2canvas(slides[i],{width:1080,height:1080,scale:1,useCORS:true,backgroundColor:null});
+      const blob = await new Promise(r=>canvas.toBlob(r,'image/png'));
+      zip.file(`slide_${String(i+1).padStart(2,'0')}.png`, blob);
+    }
+    const out = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(out);
+    const a = document.createElement('a'); a.href=url; a.download='vault07_carousel.zip'; a.click();
+    btn.disabled=false; btn.textContent='Export ZIP';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-app-iphone",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s16",
+      "s26",
+      "s33",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s22",
+      "s30",
+      "s35"
+    ],
+    "pairs_well_with": [
+      "geo-wireframe-flat",
+      "light-glow-radial-corner",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "mock-terminal-minimal",
+      "mock-cv-two-column"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: IPHONE FRAME
+Purpose: iPhone device frame for app demos.
+-->
+
+<div class="iphone-frame">
+  <div class="iphone-notch"></div>
+  <div class="iphone-screen">
+    <p>App content here</p>
+  </div>
+</div>
+
+<style>
+.iphone-frame {
+  width: 280px; height: 560px; border-radius: 36px;
+  background: var(--phone-bg, #111); border: 8px solid var(--phone-border, #222);
+  position: relative; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+}
+.iphone-notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 24px; background: var(--phone-bg, #111);
+  border-radius: 0 0 16px 16px; z-index: 2;
+}
+.iphone-screen {
+  position: absolute; inset: 8px; border-radius: 28px;
+  background: var(--bg-base); display: flex;
+  align-items: center; justify-content: center;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 14px; color: var(--text-muted);
+}
+</style>

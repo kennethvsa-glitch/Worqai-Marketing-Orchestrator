@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playful Dark — worqai</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{display:flex;align-items:center;justify-content:center;background:#0A0A0A;}
+.canvas{position:relative;width:1080px;height:1080px;overflow:hidden;background:#0A0A0A;border-radius:0;}
+
+.deco{position:absolute;pointer-events:none;z-index:1;}
+
+.noise::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:300px 300px;opacity:0.06;pointer-events:none;z-index:1;
+}
+
+.glow-center{
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(30,30,30,0.5) 0%,transparent 70%);
+  filter:blur(50px);top:50%;left:50%;transform:translate(-50%,-50%);
+}
+
+.lime-glow-tl{
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(199,255,58,0.15) 0%,transparent 65%);
+  filter:blur(40px);top:-8%;left:-6%;
+}
+.lime-glow-br{
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(199,255,58,0.15) 0%,transparent 65%);
+  filter:blur(40px);bottom:-8%;right:-6%;
+}
+
+.content{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:80px;text-align:center;}
+.content h1{font-family:'Inter',system-ui,sans-serif;font-weight:900;font-size:80px;line-height:1.05;letter-spacing:-0.04em;color:#FFFFFF;margin-bottom:20px;}
+.content p{font-family:'Inter',system-ui,sans-serif;font-weight:400;font-size:28px;line-height:1.5;color:#E5E5E5;max-width:700px;}
+.site-url{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);z-index:5;font-weight:700;font-size:16px;letter-spacing:0.1em;color:rgba(255,255,255,0.45);text-transform:lowercase;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="canvas noise">
+  <div class="deco glow-center"></div>
+  <div class="deco lime-glow-tl"></div>
+  <div class="deco lime-glow-br"></div>
+  
+  <svg class="deco" width="1080" height="1080" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Large soft organic lime blob at top-left -->
+    <path d="M-60 320C-60 120 80 -40 260 -40C440 -40 540 100 500 280C460 460 240 420 80 360C0 320 -60 320 -60 320Z" fill="#C7FF3A"/>
+    <!-- Bright highlight on top-left blob -->
+    <ellipse cx="160" cy="100" rx="120" ry="80" fill="#DFFF70" opacity="0.5" transform="rotate(-20 160 100)"/>
+    
+    <!-- Large soft organic lime blob at bottom-right -->
+    <path d="M1120 680C1120 880 980 1040 800 1040C620 1040 520 900 560 720C600 540 820 580 980 640C1060 680 1120 680 1120 680Z" fill="#C7FF3A"/>
+    <!-- Bright highlight on bottom-right blob -->
+    <ellipse cx="880" cy="940" rx="100" ry="70" fill="#DFFF70" opacity="0.45" transform="rotate(-15 880 940)"/>
+    
+    <!-- Wavy line on left side (thin, flowing vertically) -->
+    <path d="M40 200 Q70 260 40 320 Q10 380 40 440 Q70 500 40 560 Q10 620 40 680 Q70 740 40 800" stroke="#C7FF3A" stroke-width="2" opacity="0.35" fill="none" stroke-linecap="round"/>
+    
+    <!-- Spiral/loop near top -->
+    <path d="M720 140 C780 100 840 160 800 220 C760 280 680 260 660 200 C640 140 700 80 760 60 C820 40 880 100 860 160" stroke="#C7FF3A" stroke-width="2" opacity="0.3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Small dot grid (4x4) on left side -->
+    <g opacity="0.35">
+      <circle cx="90" cy="340" r="4" fill="#C7FF3A"/>
+      <circle cx="120" cy="340" r="4" fill="#C7FF3A"/>
+      <circle cx="150" cy="340" r="4" fill="#C7FF3A"/>
+      <circle cx="180" cy="340" r="4" fill="#C7FF3A"/>
+      <circle cx="90" cy="370" r="4" fill="#C7FF3A"/>
+      <circle cx="120" cy="370" r="4" fill="#C7FF3A"/>
+      <circle cx="150" cy="370" r="4" fill="#C7FF3A"/>
+      <circle cx="180" cy="370" r="4" fill="#C7FF3A"/>
+      <circle cx="90" cy="400" r="4" fill="#C7FF3A"/>
+      <circle cx="120" cy="400" r="4" fill="#C7FF3A"/>
+      <circle cx="150" cy="400" r="4" fill="#C7FF3A"/>
+      <circle cx="180" cy="400" r="4" fill="#C7FF3A"/>
+      <circle cx="90" cy="430" r="4" fill="#C7FF3A"/>
+      <circle cx="120" cy="430" r="4" fill="#C7FF3A"/>
+      <circle cx="150" cy="430" r="4" fill="#C7FF3A"/>
+      <circle cx="180" cy="430" r="4" fill="#C7FF3A"/>
+    </g>
+    
+    <!-- X mark 1 — left-mid -->
+    <g opacity="0.35" stroke="#C7FF3A" stroke-width="2.5" stroke-linecap="round">
+      <line x1="140" y1="520" x2="175" y2="555"/>
+      <line x1="175" y1="520" x2="140" y2="555"/>
+    </g>
+    
+    <!-- X mark 2 — top-right -->
+    <g opacity="0.3" stroke="#C7FF3A" stroke-width="2" stroke-linecap="round">
+      <line x1="960" y1="100" x2="990" y2="130"/>
+      <line x1="990" y1="100" x2="960" y2="130"/>
+    </g>
+    
+    <!-- Small circle outline near right-mid -->
+    <circle cx="980" cy="480" r="25" stroke="#C7FF3A" stroke-width="2" opacity="0.3" fill="none"/>
+    
+    <!-- Squiggly/wavy line at bottom-center -->
+    <path d="M380 960 Q420 920 460 960 Q500 1000 540 960 Q580 920 620 960 Q660 1000 700 960" stroke="#C7FF3A" stroke-width="2.5" opacity="0.3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Dashed curved line connecting bottom-right to center-right -->
+    <path d="M840 840 Q900 700 980 600" stroke="#C7FF3A" stroke-width="2" opacity="0.25" fill="none" stroke-linecap="round" stroke-dasharray="10 8"/>
+    
+    <!-- Extra small accent dots scattered -->
+    <circle cx="320" cy="180" r="3" fill="#C7FF3A" opacity="0.2"/>
+    <circle cx="580" cy="120" r="4" fill="#C7FF3A" opacity="0.25"/>
+    <circle cx="680" cy="340" r="3" fill="#C7FF3A" opacity="0.18"/>
+    <circle cx="240" cy="780" r="4" fill="#C7FF3A" opacity="0.22"/>
+    <circle cx="420" cy="860" r="3" fill="#C7FF3A" opacity="0.15"/>
+  </svg>
+  
+  <div class="content">
+    <h1>Playful Dark</h1>
+    <p>Background reconstruido con blobs orgánicos, líneas decorativas y elementos divertidos en SVG.</p>
+  </div>
+  <div class="site-url">worqai.io</div>
+</div>
+</body>
+</html>

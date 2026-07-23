@@ -1,0 +1,268 @@
+diff --git a/src/app/[locale]/(acquisition)/[slug]/page.tsx b/src/app/[locale]/(acquisition)/[slug]/page.tsx
+index f2404feaa204c6394e816f89e08c537c8e356fb9..44302d804b227b846323435f4cf52b83cd088dfe 100644
+--- a/src/app/[locale]/(acquisition)/[slug]/page.tsx
++++ b/src/app/[locale]/(acquisition)/[slug]/page.tsx
+@@ -4,8 +4,14 @@ import { setRequestLocale } from "next-intl/server";
+ import { AcquisitionPage } from "@/components/seo/acquisition-page";
+ import {
+   getAcquisitionPage,
++  getAcquisitionLanguageAlternates,
+   getAcquisitionParams,
+ } from "@/lib/seo/acquisition-pages";
++import {
++  absoluteSiteUrl,
++  serializeJsonLd,
++  SITE_ORIGIN,
++} from "@/lib/seo/site";
+ 
+ interface AcquisitionRouteProps {
+   params: Promise<{ locale: string; slug: string }>;
+@@ -27,15 +33,29 @@ export async function generateMetadata({
+     return {};
+   }
+ 
++  const canonical = absoluteSiteUrl(`/${content.locale}/${content.slug}`);
++  const alternatePaths = getAcquisitionLanguageAlternates(locale, slug);
++  const languages = alternatePaths
++    ? Object.fromEntries(
++        Object.entries(alternatePaths).map(([language, path]) => [
++          language,
++          absoluteSiteUrl(path),
++        ])
++      )
++    : undefined;
++
+   return {
+     title: content.title,
+     description: content.description,
++    alternates: { canonical, languages },
++    robots: { index: true, follow: true },
+     openGraph: {
+       type: "website",
+       title: content.title,
+       description: content.description,
+-      url: "/" + locale + "/" + slug,
+-      locale,
++      url: canonical,
++      locale: content.locale === "es" ? "es_419" : "en_US",
++      alternateLocale: content.locale === "es" ? "en_US" : "es_419",
+     },
+     twitter: {
+       card: "summary_large_image",
+@@ -57,5 +77,47 @@ export default async function AcquisitionRoute({
+ 
+   setRequestLocale(content.locale);
+ 
+-  return <AcquisitionPage page={content} />;
++  const canonical = absoluteSiteUrl(`/${content.locale}/${content.slug}`);
++  const jsonLd = {
++    "@context": "https://schema.org",
++    "@graph": [
++      {
++        "@type": "WebPage",
++        "@id": `${canonical}#webpage`,
++        url: canonical,
++        name: content.title,
++        description: content.description,
++        inLanguage: content.locale === "es" ? "es-419" : "en",
++        isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
++      },
++      {
++        "@type": "BreadcrumbList",
++        "@id": `${canonical}#breadcrumb`,
++        itemListElement: [
++          {
++            "@type": "ListItem",
++            position: 1,
++            name: "Worqai",
++            item: absoluteSiteUrl(`/${content.locale}`),
++          },
++          {
++            "@type": "ListItem",
++            position: 2,
++            name: content.headline,
++            item: canonical,
++          },
++        ],
++      },
++    ],
++  };
++
++  return (
++    <>
++      <script
++        type="application/ld+json"
++        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
++      />
++      <AcquisitionPage page={content} />
++    </>
++  );
+ }
+diff --git a/src/app/[locale]/layout.tsx b/src/app/[locale]/layout.tsx
+index 04b148c05833163594a3c5f9c64c9f5073091a9a..94a0cda03f3989c3a61377e75984824e017918e1 100644
+--- a/src/app/[locale]/layout.tsx
++++ b/src/app/[locale]/layout.tsx
+@@ -13,6 +13,7 @@ import { routing } from "@/i18n/routing";
+ import { GrainCanvas } from "@/components/marketing/ambient/grain-canvas";
+ import { BgGrid } from "@/components/marketing/ambient/bg-grid";
+ import { Analytics } from "@vercel/analytics/next";
++import { AnalyticsBootstrap } from "@/components/analytics/analytics-bootstrap";
+ import {
+   buildSiteStructuredData,
+   serializeJsonLd,
+@@ -137,6 +138,7 @@ export default async function LocaleLayout({
+             <Toaster />
+           </AuthProvider>
+         </NextIntlClientProvider>
++        <AnalyticsBootstrap />
+         <Analytics />
+       </body>
+     </html>
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+index 732520465bfc2a2b4486176b82629c908528a14c..7b61970edf779881819baf6dc5cd8e96539cc8b2 100644
+--- a/src/app/sitemap.ts
++++ b/src/app/sitemap.ts
+@@ -5,11 +5,16 @@ import {
+   languageAlternates,
+   localizedPageUrl,
+ } from "@/lib/seo/metadata";
++import {
++  ACQUISITION_PAGE_PATHS,
++  getAcquisitionLanguageAlternates,
++} from "@/lib/seo/acquisition-pages";
++import { absoluteSiteUrl } from "@/lib/seo/site";
+ 
+ export default function sitemap(): MetadataRoute.Sitemap {
+   // Every translation gets its own <url> entry. Each entry points back to the
+   // complete language set, making the hreflang cluster reciprocal.
+-  return INDEXABLE_PATHS.flatMap((path) =>
++  const existingPages = INDEXABLE_PATHS.flatMap((path) =>
+     routing.locales.map((locale) => ({
+       url: localizedPageUrl(locale, path),
+       changeFrequency: path === "" ? ("weekly" as const) : ("monthly" as const),
+@@ -17,4 +22,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
+       alternates: { languages: languageAlternates(path) },
+     }))
+   );
++
++  const acquisitionPages = ACQUISITION_PAGE_PATHS.map(
++    ({ locale, slug, path }) => {
++      const alternatePaths = getAcquisitionLanguageAlternates(locale, slug);
++      const languages = alternatePaths
++        ? Object.fromEntries(
++            Object.entries(alternatePaths).map(([language, alternatePath]) => [
++              language,
++              absoluteSiteUrl(alternatePath),
++            ])
++          )
++        : undefined;
++
++      return {
++        url: absoluteSiteUrl(path),
++        changeFrequency: "monthly" as const,
++        priority: 0.8,
++        alternates: languages ? { languages } : undefined,
++      };
++    }
++  );
++
++  return [...existingPages, ...acquisitionPages];
+ }
+diff --git a/src/lib/seo/acquisition-pages.ts b/src/lib/seo/acquisition-pages.ts
+index eb02852fdabf587835202d6f03a47ee70176b6b1..aa1c3928eb0e7e69796af399837f0022f6d62552 100644
+--- a/src/lib/seo/acquisition-pages.ts
++++ b/src/lib/seo/acquisition-pages.ts
+@@ -1392,6 +1392,44 @@ export const ACQUISITION_PAGE_PATHS = acquisitionPages.map(({ locale, slug }) =>
+   path: "/" + locale + "/" + slug,
+ }));
+ 
++export const ACQUISITION_PAGE_PAIRS = [
++  { es: "analizador-cv-ats", en: "free-ats-resume-checker" },
++  { es: "adaptar-cv-a-vacante", en: "resume-job-description-match" },
++  { es: "mejorar-cv-con-ia", en: "ai-resume-tailor" },
++  { es: "cv-ats", en: "ats-friendly-resume" },
++  { es: "worqai-vs-jobscan", en: "worqai-vs-jobscan" },
++  { es: "alternativas-a-resume-io", en: "jobscan-alternative-for-spanish-resumes" },
++  { es: "cv-analista-datos", en: "data-analyst-resume" },
++  { es: "cv-desarrollador-software", en: "software-engineer-resume" },
++  { es: "cv-product-manager", en: "product-manager-resume" },
++  { es: "cv-marketing-digital", en: "digital-marketing-resume" },
++  { es: "cv-project-manager", en: "project-manager-resume" },
++  { es: "cv-servicio-al-cliente", en: "customer-success-resume" },
++  { es: "cv-contador", en: "accountant-resume" },
++  { es: "cv-ventas", en: "sales-representative-resume" },
++  { es: "cv-recursos-humanos", en: "hr-specialist-resume" },
++  { es: "cv-ciberseguridad", en: "cybersecurity-analyst-resume" },
++] as const;
++
++export function getAcquisitionLanguageAlternates(
++  locale: string,
++  slug: string
++): Record<"es" | "en" | "x-default", string> | undefined {
++  const pair = ACQUISITION_PAGE_PAIRS.find(
++    (candidate) => candidate[locale as AcquisitionLocale] === slug
++  );
++
++  if (!pair) {
++    return undefined;
++  }
++
++  return {
++    es: `/es/${pair.es}`,
++    en: `/en/${pair.en}`,
++    "x-default": `/es/${pair.es}`,
++  };
++}
++
+ export function getAcquisitionPage(locale: string, slug: string) {
+   return acquisitionPages.find((item) => item.locale === locale && item.slug === slug);
+ }
+diff --git a/tests/seo/seo-contract.test.ts b/tests/seo/seo-contract.test.ts
+index bf413fd5cb4564e2a75ebcff76bd67306880e8b4..db637d0b3629c1a9573c1c3260bab2d6b35ec429 100644
+--- a/tests/seo/seo-contract.test.ts
++++ b/tests/seo/seo-contract.test.ts
+@@ -13,13 +13,18 @@ import {
+   canonicalHostRedirectUrl,
+   SITE_ORIGIN,
+ } from "@/lib/seo/site";
++import {
++  ACQUISITION_PAGE_PATHS,
++  getAcquisitionLanguageAlternates,
++} from "@/lib/seo/acquisition-pages";
+ 
+ describe("SEO contract", () => {
+   it("emits one sitemap URL per locale and reciprocal alternates", () => {
+     const entries = sitemap();
+ 
+     expect(entries).toHaveLength(
+-      INDEXABLE_PATHS.length * routing.locales.length
++      INDEXABLE_PATHS.length * routing.locales.length +
++        ACQUISITION_PAGE_PATHS.length
+     );
+ 
+     for (const path of INDEXABLE_PATHS) {
+@@ -31,6 +36,24 @@ describe("SEO contract", () => {
+         expect(entry?.alternates?.languages).toEqual(expectedAlternates);
+       }
+     }
++
++    for (const { locale, slug, path } of ACQUISITION_PAGE_PATHS) {
++      const entry = entries.find(
++        (candidate) => candidate.url === `${SITE_ORIGIN}${path}`
++      );
++      const alternatePaths = getAcquisitionLanguageAlternates(locale, slug);
++
++      expect(entry).toBeDefined();
++      expect(alternatePaths).toBeDefined();
++      expect(entry?.alternates?.languages).toEqual(
++        Object.fromEntries(
++          Object.entries(alternatePaths!).map(([language, alternatePath]) => [
++            language,
++            `${SITE_ORIGIN}${alternatePath}`,
++          ])
++        )
++      );
++    }
+   });
+ 
+   it("publishes robots and sitemap references on the canonical host", () => {

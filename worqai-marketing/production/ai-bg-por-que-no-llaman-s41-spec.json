@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "system": "s41",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "por-que-no-llaman",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": ["hook", "diagnostic", "data", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": ["cosmic-liquid-orbs", "glow-orb", "geo-bokeh"],
+      "copy": {
+        "kicker": "POST-ENTREVISTA",
+        "headline": "La entrevista salió bien. Nunca llamaron. ¿Qué pasó?",
+        "body": "No es que no les gustaste. Hay 4 razones específicas que se repiten.",
+        "text_treatment": "glow"
+      },
+      "decoratives": [
+        { "id": "svg-starburst-mark", "position": "tr" }
+      ],
+      "custom_css": ".hook-display { font-size: clamp(26px,5.2cqw,38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; } .hook-body { opacity: 0.88; } .brand { color: var(--accent); opacity: 1; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-timeline",
+      "density": "heavy",
+      "layers": ["cosmic-liquid-orbs", "geo-neon-ring"],
+      "copy": {
+        "kicker": "LO QUE PASA DESPUÉS DE TU ENTREVISTA",
+        "headline": "El proceso que no ves",
+        "events": [
+          { "date": "Día 1", "title": "Entrevista", "desc": "Vos salís bien. Ellos tienen 3 candidatos más ese día." },
+          { "date": "Días 2-5", "title": "Deliberación interna", "desc": "Comparaciones, referencias, aprobación de presupuesto." },
+          { "date": "Semana 2", "title": "Decisión", "desc": "El 60% de los rechazos ocurre aquí — antes de que te avisen." },
+          { "date": "Semana 3+", "title": "Silencio", "desc": "Sin respuesta = respuesta. Pero no siempre es definitivo." }
+        ]
+      },
+      "decoratives": [],
+      "custom_css": ".timeline-item { background: transparent !important; border-inline-start: 2px solid var(--accent) !important; padding-left: 20px !important; margin-bottom: 20px !important; backdrop-filter: none !important; } .timeline-date { color: var(--accent); font-size: clamp(11px,2cqw,13px); font-weight: 700; letter-spacing: 0.1em; } .timeline-title { font-size: clamp(14px,2.6cqw,18px); font-weight: 700; } .timeline-desc { font-size: clamp(12px,2.2cqw,15px); opacity: 0.85; margin-top: 4px; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-pull-quote",
+      "density": "demo",
+      "layers": ["cosmic-liquid-orbs", "geo-bokeh"],
+      "copy": {
+        "quote": "Cuando no seleccionamos a alguien, muchas veces no avisamos. No por crueldad, sino porque el proceso interno tarda más de lo esperado.",
+        "attribution": "Directora de Talento, empresa tech, anonimizado"
+      },
+      "decoratives": [],
+      "custom_css": ".pq-quote { font-size: clamp(18px,3.5cqw,26px); font-weight: 400; font-style: italic; letter-spacing: -0.01em; line-height: 1.35; opacity: 0.95; } .pq-attr { font-size: 13px; opacity: 0.7; margin-top: 18px; } .brand { color: var(--accent); opacity: 0.9; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-myth-vs-fact",
+      "density": "heavy",
+      "layers": ["cosmic-liquid-orbs", "glow-orb"],
+      "copy": {
+        "kicker": "QUÉ PODÉS HACER",
+        "headline": "Después de la entrevista",
+        "myth_label": "ERROR COMÚN",
+        "fact_label": "LO QUE FUNCIONA",
+        "myth": "Esperar en silencio a que llamen",
+        "fact": "Mensaje de seguimiento a las 48 horas — breve, específico, profesional"
+      },
+      "decoratives": [],
+      "custom_css": ".mv-myth, .mv-fact { background: transparent !important; backdrop-filter: none !important; } .mv-myth { border: 1.5px solid rgba(255,80,80,0.4) !important; border-radius: 8px; } .mv-fact { border: 1.5px solid var(--accent) !important; border-radius: 8px; } .mv-myth-text, .mv-fact-text { font-size: clamp(14px,2.8cqw,18px); font-weight: 600; opacity: 0.95; } .mv-myth-label { color: rgba(255,80,80,0.9); } .mv-fact-label { color: var(--accent); }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": ["cosmic-liquid-orbs", "geo-constellation"],
+      "copy": {
+        "question": "¿Tu CV cierra bien la primera impresión?",
+        "cta_keyword": "VERIFICAR",
+        "reward": "WorqAI analiza CV + ATS match. Sin costo."
+      },
+      "decoratives": [],
+      "custom_css": ".cta-reward { opacity: 0.92; font-size: 14px; } .brand { color: var(--accent); opacity: 1; }"
+    }
+  ]
+}

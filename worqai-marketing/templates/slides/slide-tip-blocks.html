@@ -1,0 +1,42 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="tip-wrap">
+    {% if copy.kicker %}
+    <div class="tip-label">{{ copy.kicker }}</div>
+    {% endif %}
+    {% if copy.headline %}
+    <div class="tip-headline">{{ copy.headline }}</div>
+    {% endif %}
+
+    {% set tip_classes = ['bad', 'mid', 'good'] %}
+    {% for tip in copy.tips | default([]) %}
+    <div class="tip-blk {{ tip_classes[loop.index0] if loop.index0 < 3 else 'good' }}">
+      <div class="tip-blk-label">{{ tip.problem }}</div>
+      <div class="tip-blk-text">{{ tip.fix }}</div>
+    </div>
+    {% else %}
+    {% if copy.get('items') %}
+    {% for item in copy.get('items', []) %}
+    <div class="tip-blk {{ tip_classes[loop.index0] if loop.index0 < 3 else 'good' }}">
+      {% if item is mapping %}
+      {% set _title = item.get('title', item.get('problem', '')) %}
+      {% set _desc  = item.get('desc',  item.get('fix', item.get('description', ''))) %}
+      {% if _title %}<div class="tip-blk-label">{{ _title }}</div>{% endif %}
+      {% if _desc  %}<div class="tip-blk-text">{{ _desc }}</div>{% endif %}
+      {% else %}
+      <div class="tip-blk-text">{{ item }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

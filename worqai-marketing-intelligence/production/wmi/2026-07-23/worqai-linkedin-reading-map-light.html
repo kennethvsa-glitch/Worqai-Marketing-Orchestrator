@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI · El diagnóstico silencioso de su CV</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap');
+
+    :root {
+      --bg: #f8f7f2;
+      --card-bg: #ffffff;
+      --ink: #111510;
+      --muted: #6b7265;
+      --border: rgba(17, 21, 16, 0.12);
+      --red: #d93829;
+      --red-bg: #fdf2f0;
+      --red-border: rgba(217, 56, 41, 0.25);
+      --amber: #b87308;
+      --amber-bg: #fcf8f0;
+      --amber-border: rgba(184, 115, 8, 0.25);
+      --green: #1a7a3e;
+      --green-bg: #f0f9f3;
+      --green-border: rgba(26, 122, 62, 0.3);
+      --lime: #c5ff18;
+      --dark-card: #121710;
+      --grid: rgba(17, 21, 16, 0.04);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 1080px;
+      height: 1350px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .poster {
+      isolation: isolate;
+      position: relative;
+      width: 1080px;
+      height: 1350px;
+      overflow: hidden;
+      padding: 52px 58px 46px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(197, 255, 24, 0.35), transparent 26%),
+        radial-gradient(circle at 10% 90%, rgba(17, 21, 16, 0.03), transparent 30%),
+        var(--bg);
+    }
+
+    .poster::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 40px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: baseline;
+    }
+
+    .brand {
+      font-size: 32px;
+      font-weight: 850;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      color: var(--ink);
+    }
+
+    .brand .ai {
+      color: var(--green);
+    }
+
+    .brand-note, .mono {
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+    }
+
+    .brand-note {
+      margin-left: 14px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+    }
+
+    .folio {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 36px;
+      padding: 0 16px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--card-bg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .folio::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero {
+      margin-top: 40px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "MAPA DE LECTURA 2026";
+      padding: 4px 10px;
+      background: var(--ink);
+      color: var(--lime);
+      border-radius: 4px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    h1 {
+      margin: 16px 0 0;
+      font-size: 74px;
+      font-weight: 900;
+      line-height: 0.90;
+      letter-spacing: -0.06em;
+      color: var(--ink);
+    }
+
+    h1 .line {
+      display: block;
+    }
+
+    h1 .accent {
+      color: var(--green);
+    }
+
+    .dek {
+      max-width: 880px;
+      margin: 20px 0 0;
+      color: #3b4236;
+      font-size: 23px;
+      font-weight: 550;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .dek strong {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    /* Diagnosis Zones Grid */
+    .zones-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .zone-card {
+      display: grid;
+      grid-template-columns: 140px 1fr 180px;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 28px;
+      border-radius: 16px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(17, 21, 16, 0.04);
+    }
+
+    .zone-card.ignored {
+      background: var(--red-bg);
+      border-color: var(--red-border);
+    }
+
+    .zone-card.skipped {
+      background: var(--amber-bg);
+      border-color: var(--amber-border);
+    }
+
+    .zone-card.passed {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      border-width: 2px;
+      box-shadow: 0 12px 30px rgba(26, 122, 62, 0.08);
+    }
+
+    .zone-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .zone-card.ignored .zone-label { color: var(--red); }
+    .zone-card.skipped .zone-label { color: var(--amber); }
+    .zone-card.passed .zone-label { color: var(--green); }
+
+    .zone-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .zone-sample {
+      font-size: 18px;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+
+    .zone-reason {
+      font-size: 14px;
+      font-weight: 550;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .status-badge.ignored {
+      background: #f8dbd7;
+      color: var(--red);
+      border: 1px solid rgba(217, 56, 41, 0.4);
+    }
+
+    .status-badge.skipped {
+      background: #f8eed6;
+      color: var(--amber);
+      border: 1px solid rgba(184, 115, 8, 0.4);
+    }
+
+    .status-badge.passed {
+      background: var(--ink);
+      color: var(--lime);
+      border: 1px solid var(--ink);
+    }
+
+    /* Key takeaway dark card */
+    .takeaway-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 32px;
+      padding: 26px 32px;
+      border-radius: 18px;
+      background: var(--dark-card);
+      color: #ffffff;
+      border: 1px solid var(--ink);
+      box-shadow: 0 16px 40px rgba(17, 21, 16, 0.2);
+    }
+
+    .takeaway-title {
+      font-size: 24px;
+      font-weight: 850;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+    }
+
+    .takeaway-title .lime {
+      color: var(--lime);
+    }
+
+    .takeaway-sub {
+      display: block;
+      margin-top: 6px;
+      color: #a5ac9e;
+      font-size: 14px;
+      font-weight: 550;
+    }
+
+    .takeaway-tag {
+      padding: 10px 18px;
+      background: var(--lime);
+      color: var(--dark-card);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .footer-left strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 830;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .footer-left span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .footer-disclaimer {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      font-size: 9px;
+      font-weight: 750;
+      line-height: 1.45;
+      letter-spacing: 0.1em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .footer-disclaimer strong {
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+  <main class="poster" aria-label="Mapa de lectura silenciosa del reclutador en 2026 para WorqAI">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand">worq<span class="ai">ai</span>.io</div>
+        <div class="brand-note">CV INTELLIGENCE</div>
+      </div>
+      <div class="folio">ESTUDIO DE CV 05</div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">ANÁLISIS DE ATENCIÓN DEL RECLUTADOR</div>
+      <h1>
+        <span class="line">EL DIAGNÓSTICO</span>
+        <span class="line accent">SILENCIOSO</span>
+        <span class="line">DE SU CV.</span>
+      </h1>
+      <p class="dek">
+        En 2026 un reclutador dedica entre <strong>5 y 7 segundos</strong> al primer escaneo visual. Esto es lo que ocurre en cada zona:
+      </p>
+    </section>
+
+    <section class="zones-grid">
+      <!-- Zone 1 -->
+      <article class="zone-card ignored">
+        <div class="zone-label">ZONA 1 RELLENO</div>
+        <div class="zone-content">
+          <div class="zone-sample">"Atención a requerimientos y soporte operativo general"</div>
+          <div class="zone-reason">La mente del lector la salta por ser una frase vaga sin evidencia concreta.</div>
+        </div>
+        <div class="status-badge ignored">IGNORADO</div>
+      </article>
+
+      <!-- Zone 2 -->
+      <article class="zone-card skipped">
+        <div class="zone-label">ZONA 2 LISTAS</div>
+        <div class="zone-content">
+          <div class="zone-sample">"Liderazgo, Proactividad, Resolución de problemas"</div>
+          <div class="zone-reason">Son adjetivos autodeclarados que cualquier candidato puede copiar.</div>
+        </div>
+        <div class="status-badge skipped">SIN PESO</div>
+      </article>
+
+      <!-- Zone 3 -->
+      <article class="zone-card passed">
+        <div class="zone-label">ZONA 3 EVIDENCIA</div>
+        <div class="zone-content">
+          <div class="zone-sample">"Soporte L1 en Zendesk con 40 solicitudes resueltas por día"</div>
+          <div class="zone-reason">Coincidencia exacta con la necesidad de la vacante en el primer tercio.</div>
+        </div>
+        <div class="status-badge passed">DETENCIÓN LECTURA</div>
+      </article>
+    </section>
+
+    <section class="takeaway-card">
+      <div>
+        <div class="takeaway-title">
+          Un CV efectivo no inventa experiencia.  
+          <span class="lime">Coloca la coincidencia donde el ojo se detiene.</span>
+        </div>
+        <span class="takeaway-sub">Compare su CV real con la descripción del puesto antes de aplicar.</span>
+      </div>
+      <div class="takeaway-tag">REGLA WORQAI</div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <strong>Primer análisis ATS y primera adaptación gratis.</strong>
+        <span>Sin tarjeta de crédito en worqai.io</span>
+      </div>
+      <div class="footer-disclaimer">
+        <strong>EJEMPLO ILUSTRATIVO</strong><br>
+        SIN GARANTÍA DE ENTREVISTA O SELECCIÓN
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

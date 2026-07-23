@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://worqai.app/schemas/carousel-spec-v1.json",
+  "title": "Carousel Spec",
+  "description": "Machine-readable carousel composition spec for deterministic render engine.",
+  "type": "object",
+  "required": ["meta", "pacing", "slides"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["system", "aspect", "slides"],
+      "properties": {
+        "system": {
+          "type": "string",
+          "description": "Design system ID from tokens.md (e.g., s29, s17, s04)",
+          "pattern": "^s[0-9]{2}$"
+        },
+        "aspect": {
+          "type": "string",
+          "description": "Canvas aspect ratio",
+          "enum": ["1:1", "4:5", "9:16"],
+          "default": "1:1"
+        },
+        "slides": {
+          "type": "integer",
+          "description": "Total number of slides",
+          "minimum": 3,
+          "maximum": 10,
+          "default": 5
+        },
+        "brand": {
+          "type": "string",
+          "description": "Brand handle or name",
+          "default": "@worqai"
+        },
+        "language": {
+          "type": "string",
+          "description": "Content language",
+          "enum": ["es-CR", "es-LATAM", "en"],
+          "default": "es-CR"
+        },
+        "set": {
+          "type": "string",
+          "description": "Curated visual language set ID from component_sets.json",
+          "examples": ["TECH_SET_A", "EDITORIAL_SET_A", "BRUTALIST_SET_A"]
+        },
+        "density": {
+          "type": "string",
+          "description": "Visual density mode",
+          "enum": ["maximal", "standard", "restrained"],
+          "default": "standard"
+        },
+        "continuity": {
+          "type": "string",
+          "description": "Cross-slide visual continuity mode",
+          "enum": ["wave", "data-pipeline", "corner-frame-evolution", "number-escalator", "color-wash"],
+          "default": ""
+        }
+      }
+    },
+    "pacing": {
+      "type": "array",
+      "description": "Emotional arc per slide. Length must equal meta.slides.",
+      "items": {
+        "type": "string",
+        "enum": ["hook", "shock", "proof", "data", "diagnostic", "solution", "hope", "relief", "action", "cta", "silence", "break", "myth", "reality", "testimonial", "urgency"]
+      },
+      "minItems": 3,
+      "maxItems": 10
+    },
+    "slides": {
+      "type": "array",
+      "description": "Slide definitions in order. Length must equal meta.slides.",
+      "items": {
+        "type": "object",
+        "required": ["id", "layout"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Slide identifier (s1, s2, ...)",
+            "pattern": "^s[0-9]+$"
+          },
+          "layout": {
+            "type": "string",
+            "description": "Slide layout component ID from slides/ category",
+            "examples": [
+              "slide-hook-lockup",
+              "slide-big-number",
+              "slide-terminal",
+              "slide-tip-blocks",
+              "slide-cta-box",
+              "slide-before-after",
+              "slide-pull-quote",
+              "slide-ranked-list",
+              "slide-testimonial"
+            ]
+          },
+          "layers": {
+            "type": "array",
+            "description": "Background atmosphere layer component IDs",
+            "items": { "type": "string" },
+            "maxItems": 3,
+            "default": []
+          },
+          "decoratives": {
+            "type": "array",
+            "description": "Decorative flourish component IDs",
+            "items": { "type": "string" },
+            "maxItems": 2,
+            "default": []
+          },
+          "mock_ui": {
+            "type": "string",
+            "description": "Single mock-UI component ID, if any",
+            "default": null
+          },
+          "copy": {
+            "type": "object",
+            "description": "Copy content slots. Required slots vary by layout.",
+            "properties": {
+              "kicker": { "type": "string", "description": "Top label, uppercase, max 4 words", "maxLength": 32 },
+              "headline": { "type": "string", "description": "Main headline, max 8 words", "maxLength": 70 },
+              "body": { "type": "string", "description": "Supporting body text, max 18 words", "maxLength": 140 },
+              "stat_number": { "type": "string", "description": "Oversized stat digit(s)", "maxLength": 8 },
+              "stat_context": { "type": "string", "description": "2-line context below stat", "maxLength": 90 },
+              "source": { "type": "string", "description": "Source citation — must match allow-list or use fallback", "maxLength": 60 },
+              "command": { "type": "string", "description": "Terminal command line", "maxLength": 60 },
+              "output_lines": {
+                "type": "array",
+                "maxItems": 4,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": { "type": "string", "enum": ["cmd", "ok", "warn", "err", "info"] },
+                    "text": { "type": "string", "maxLength": 50 }
+                  }
+                }
+              },
+              "before_items": { "type": "array", "maxItems": 4, "items": { "type": "string", "maxLength": 60 } },
+              "after_items": { "type": "array", "maxItems": 4, "items": { "type": "string", "maxLength": 60 } },
+              "before_score": { "type": "string", "maxLength": 40 },
+              "after_score": { "type": "string", "maxLength": 40 },
+              "quote": { "type": "string", "description": "Pull quote or testimonial text", "maxLength": 180 },
+              "attribution": { "type": "string", "description": "Quote attribution line", "maxLength": 60 },
+              "question": { "type": "string", "description": "CTA question, max 10 words", "maxLength": 80 },
+              "cta_keyword": { "type": "string", "description": "Single-word keyword to DM", "maxLength": 14 },
+              "reward": { "type": "string", "description": "Specific deliverable promise", "maxLength": 100 },
+              "url": { "type": "string", "description": "Target URL or 'Link en bio'", "maxLength": 40 },
+              "swipe_prompt": { "type": "string", "default": "Desliza →", "maxLength": 20 },
+              "text_treatment": {
+                "type": "string",
+                "description": "Optional visual treatment applied to the primary display element (headline or stat_number). Opt-in only.",
+                "enum": ["gradient", "glow", "glow-subtle", "glow-medium", "glow-bold", "stroke", "stroke-filled"]
+              },
+              "result": { "type": "string", "description": "Terminal dramatic final line — renders as .term-result (bold, accent, separator). e.g. 'SCORE: 28/100 — RECHAZADO AUTOMÁTICO'", "maxLength": 60 },
+              "output_score": { "type": "string", "description": "Input/Output ATS panel big result score — renders as .io-ats-score. e.g. 'SCORE 28/100' or 'RECHAZADO'", "maxLength": 40 },
+              "cta_variant": { "type": "string", "description": "CTA slide layout variant. 'button' = glowing pill (default), 'diagnostic' = terminal frame for ATS carousels, 'editorial' = large type + underline link.", "enum": ["button", "diagnostic", "editorial"] },
+              "items": { "type": "array", "maxItems": 5, "items": { "type": "string", "maxLength": 70 } },
+              "tips": {
+                "type": "array",
+                "maxItems": 3,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "problem": { "type": "string", "maxLength": 60 },
+                    "fix": { "type": "string", "maxLength": 90 }
+                  }
+                }
+              }
+            }
+          },
+          "constraints": {
+            "type": "object",
+            "description": "Per-slide override constraints",
+            "properties": {
+              "max_weight": { "type": "integer", "minimum": 1, "maximum": 10 },
+              "technique_count": { "type": "integer", "minimum": 1, "maximum": 6 },
+              "silence": { "type": "boolean", "description": "Force zero decorative elements on this slide" }
+            }
+          },
+          "density": {
+            "type": "string",
+            "description": "Per-slide AI-background scrim density. REQUIRED when using any AI background (bg_recipe: extracted). Omitting defaults to medium scrim, which is unacceptable for hook/stat/CTA slides.",
+            "enum": ["heavy", "demo", "cta"]
+          },
+          "effects": {
+            "type": "object",
+            "description": "v2 visual primitive opt-ins (SVG-based, html2canvas-safe).",
+            "properties": {
+              "shadow": {
+                "type": "string",
+                "description": "SVG drop-shadow intensity applied to default card/stamp containers.",
+                "enum": ["sm", "md", "lg", "none"]
+              },
+              "grain_opacity": {
+                "type": "number",
+                "description": "Per-slide override of the grain texture opacity (default per-system).",
+                "minimum": 0,
+                "maximum": 0.3
+              },
+              "requires_playwright_export": {
+                "type": "boolean",
+                "description": "Set true when slide uses Tier B+ primitives that html2canvas can't capture (real backdrop-filter, mix-blend-mode). Forces routing through carousel_exporter.py.",
+                "default": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Global carousel constraints",
+      "properties": {
+        "max_weight_per_slide": { "type": "integer", "default": 6 },
+        "min_weight_per_slide": { "type": "integer", "default": 3 },
+        "technique_budget": { "type": "integer", "default": 3 },
+        "decorative_budget": { "type": "integer", "default": 1 },
+        "mock_ui_required": { "type": "boolean", "default": true },
+        "silence_slide_required": { "type": "boolean", "default": true },
+        "subtraction_gate": { "type": "boolean", "default": true },
+        "file_size_target_kb": { "type": "integer", "default": 45 }
+      }
+    }
+  }
+}

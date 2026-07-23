@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "system": "s01",
+    "aspect": "1:1",
+    "slides": 4,
+    "brand": "@worqai",
+    "language": "es-CR",
+    "topic": "errores-6-segundos",
+    "density": "standard",
+    "bg_recipe": "extracted",
+    "continuity": ""
+  },
+  "pacing": [
+    "hook",
+    "diagnostic",
+    "solution",
+    "cta"
+  ],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "density": "heavy",
+      "layers": [
+        "glass-panel-full",
+        "geo-topo-lines",
+        "geo-data-streaks"
+      ],
+      "copy": {
+        "kicker": "6 SEGUNDOS",
+        "headline": "Eso tarda un reclutador en tirar tu CV.",
+        "body": "No es crueldad. Es volumen: 250+ postulaciones por puesto.",
+        "swipe_prompt": "Desliza →"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-spark",
+          "position": "tr"
+        }
+      ],
+      "custom_css": ".s1-display { font-size: clamp(30px,6.5cqw,50px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .s1-kicker { letter-spacing: 0.22em; color: var(--accent); font-size: 13px; } .s1-body { opacity: 0.90; max-width: 38ch; font-size: 16px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-terminal",
+      "density": "demo",
+      "layers": [
+        "glass-panel-full",
+        "geo-topo-lines",
+        "scan-lines"
+      ],
+      "copy": {
+        "kicker": "EL BOT DECIDE",
+        "headline": "El bot decidió en 0.4 segundos",
+        "command": "worqai --scan cv.pdf --verbose",
+        "tab_title": "worqai-scan",
+        "output_lines": [
+          {
+            "type": "ok",
+            "text": "Nombre: OK"
+          },
+          {
+            "type": "err",
+            "text": "Tabla detectada: habilidades_blandas → ignorada"
+          },
+          {
+            "type": "err",
+            "text": "Fecha: 'hace 2 años' → no parseable"
+          },
+          {
+            "type": "err",
+            "text": "Email en imagen: no extraído"
+          },
+          {
+            "type": "info",
+            "text": "RESULT: REJECTED — contacto no recuperable"
+          }
+        ]
+      },
+      "custom_css": ".s2-headline { font-size: clamp(22px,4.5cqw,32px); font-weight: 800; letter-spacing: -0.02em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-before-after",
+      "density": "demo",
+      "layers": [
+        "glass-panel-full",
+        "geo-topo-lines",
+        "glow-orb"
+      ],
+      "copy": {
+        "kicker": "COMPATIBILIDAD ATS",
+        "headline": "Mismo CV, distinto score ATS",
+        "bad_label": "Score ATS antes",
+        "good_label": "Score ATS después",
+        "before_items": [
+          "PDF con columnas",
+          "Títulos creativos",
+          "Sin palabras clave"
+        ],
+        "after_items": [
+          ".docx lineal",
+          "Títulos del puesto",
+          "Verbos del aviso copiados"
+        ],
+        "before_score": "12",
+        "after_score": "89"
+      },
+      "decoratives": [
+        {
+          "id": "svg-starburst-burst",
+          "position": "bl"
+        }
+      ],
+      "custom_css": ".s3-headline { font-size: clamp(24px,5cqw,36px); font-weight: 900; letter-spacing: -0.02em; } .s3-score { font-weight: 900; font-size: clamp(48px,10cqw,80px); letter-spacing: -0.04em; color: var(--accent); }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-cta",
+      "density": "cta",
+      "layers": [
+        "glass-panel-full",
+        "geo-topo-lines",
+        "geo-data-streaks"
+      ],
+      "copy": {
+        "question": "¿Cuántos errores tiene tu CV?",
+        "cta_keyword": "AUDITAR",
+        "reward": "Escaneamos tu hoja de vida en 60 segundos. Sin costo."
+      },
+      "decoratives": [],
+      "custom_css": ".s4-question { font-size: clamp(26px,5.5cqw,40px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; } .cta-reward { opacity: 0.92; font-size: 14px; }"
+    }
+  ]
+}

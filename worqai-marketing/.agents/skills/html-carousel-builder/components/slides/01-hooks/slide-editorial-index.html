@@ -1,0 +1,77 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-editorial-index",
+    "category": "slides",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: EDITORIAL INDEX
+Found in: carousel_amby-cr-demo_agency-pain.html, carousel_aura-cr-demo_services.html, carousel_ats-data-dashboard_beyond-elite.html
+Purpose: S3-S6 — Numbered services/features list with tags.
+-->
+
+<div class="content">
+  <p class="tip-label">Servicios</p>
+  <h2 class="tip-headline">Lo que hacemos</h2>
+  <div class="ed-index">
+    <div class="ed-row">
+      <span class="ed-num">01</span>
+      <span class="ed-name">Optimizacion de CV</span>
+      <span class="ed-tag">ATS-friendly</span>
+    </div>
+    <div class="ed-row">
+      <span class="ed-num">02</span>
+      <span class="ed-name">Revision de LinkedIn</span>
+      <span class="ed-tag">Perfil visible</span>
+    </div>
+    <div class="ed-row">
+      <span class="ed-num">03</span>
+      <span class="ed-name">Mock Interviews</span>
+      <span class="ed-tag">Preparacion</span>
+    </div>
+    <div class="ed-row">
+      <span class="ed-num">04</span>
+      <span class="ed-name">Estrategia de busqueda</span>
+      <span class="ed-tag">Resultados</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.ed-index { display: flex; flex-direction: column; gap: 4px; margin-top: 32px; }
+.ed-row {
+  display: flex; align-items: baseline; gap: 24px;
+  padding: 20px 0; border-bottom: 1px solid var(--accent-line);
+}
+.ed-num {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px; font-weight: 500;
+  letter-spacing: 0.10em; color: var(--accent);
+  min-width: 32px;
+}
+.ed-name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 24px; font-weight: 600;
+  color: var(--text-primary); flex: 1;
+}
+.ed-tag {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 6px 12px; border: 1px solid var(--accent-line);
+  border-radius: 999px;
+}
+</style>
+
+<!--
+CUSTOMIZATION:
+- ed-row: can add description text below name
+- ed-tag: can be filled background instead of border
+- Layout: horizontal (default) or stacked vertical on dense slides
+-->

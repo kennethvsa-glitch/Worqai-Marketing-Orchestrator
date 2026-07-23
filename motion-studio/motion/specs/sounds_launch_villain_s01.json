@@ -1,0 +1,24 @@
+[
+  { "label": "wound",          "file": "A_synthesizer_swell__#1",   "volume": 0.55 },
+  { "label": "cv_appears",     "file": "smooth_lateral_slide_#4",   "volume": 0.80 },
+  { "label": "verify_click",   "file": "Button_click_Sounds__#3",   "volume": 0.90 },
+  { "label": "score_low",      "file": "low_negative_error_t_#2",   "volume": 0.75 },
+  { "label": "flags",          "file": "descending_pitch_ton_#4",   "volume": 0.65 },
+  { "label": "stamp",          "file": "lat_dull_notificatio_#3",   "volume": 0.80 },
+
+  { "label": "tailor1_click",  "file": "Button_click_Sounds__#3",   "volume": 0.90 },
+  { "label": "tailor1_click",  "offset_ms_add": 300, "file": "Scan_sweep_Sounds_lik_#2", "volume": 0.80 },
+  { "label": "tailor1_score",  "file": "clean_bright_confirm_#1",   "volume": 0.85 },
+
+  { "label": "tailor2_click",  "file": "Button_click_Sounds__#3",   "volume": 0.90 },
+  { "label": "tailor2_click",  "offset_ms_add": 300, "file": "clean_morphing_whoos_#3", "volume": 0.70 },
+  { "label": "tailor2_score",  "file": "short_soft_pop,_UI_e_#3",   "volume": 0.80 },
+
+  { "label": "tailor3_click",  "file": "Button_click_Sounds__#3",   "volume": 0.90 },
+  { "label": "tailor3_click",  "offset_ms_add": 300, "file": "clean_morphing_whoos_#3", "volume": 0.70 },
+  { "label": "tailor3_hold",   "file": "Tension_hold_drone_S_#1",   "volume": 0.45 },
+  { "label": "tailor3_score",  "file": "short_soft_pop,_UI_e_#3",   "volume": 0.80 },
+
+  { "label": "fanout",         "file": "satisfying_resolved__#4",   "volume": 0.85 },
+  { "label": "cta",            "file": "Wordmark_sting_Sound_#1",   "volume": 0.90 }
+]

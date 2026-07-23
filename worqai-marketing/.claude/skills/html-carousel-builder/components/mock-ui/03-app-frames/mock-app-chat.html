@@ -1,0 +1,64 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "mock-app-chat",
+    "category": "mock-ui",
+    "technique_count": 2,
+    "visual_weight": "high",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s05",
+      "s08",
+      "s16",
+      "s26",
+      "s33",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s07",
+      "s22",
+      "s30",
+      "s35"
+    ],
+    "pairs_well_with": [
+      "geo-wireframe-flat",
+      "light-glow-radial-corner",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "mock-terminal-minimal",
+      "mock-cv-two-column"
+    ]
+  }
+-->
+
+<!--
+MOCK-UI: CHAT BUBBLES
+Purpose: Messaging conversation simulation.
+-->
+
+<div class="chat-mock">
+  <div class="chat-bubble left">
+    <p>Revisa mi CV por favor</p>
+  </div>
+  <div class="chat-bubble right">
+    <p>Claro! Encontre 3 errores criticos</p>
+  </div>
+  <div class="chat-bubble left">
+    <p>Cuales son?</p>
+  </div>
+  <div class="chat-bubble right accent">
+    <p>1. PDF con imagenes 2. Sin keywords 3. Tablas</p>
+  </div>
+</div>
+
+<style>
+.chat-mock { display: flex; flex-direction: column; gap: 12px; padding: 20px; max-width: 480px; }
+.chat-bubble { padding: 14px 18px; border-radius: 18px; max-width: 80%; }
+.chat-bubble.left { align-self: flex-start; background: rgba(255,255,255,0.06); border-bottom-left-radius: 4px; }
+.chat-bubble.right { align-self: flex-end; background: var(--accent-soft); border-bottom-right-radius: 4px; }
+.chat-bubble.right.accent { background: var(--accent); }
+.chat-bubble p { font-family: var(--font-body), system-ui, sans-serif; font-size: 15px; line-height: 1.4; color: var(--text-primary); margin: 0; }
+.chat-bubble.right.accent p { color: var(--bg-base); }
+</style>

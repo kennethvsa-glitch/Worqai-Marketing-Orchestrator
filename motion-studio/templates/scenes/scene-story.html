@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html data-duration="33" data-fps="30">
+<head>
+  <meta charset="UTF-8"><script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <link rel="stylesheet" href="scene-story.css">
+</head>
+<body>
+
+<div id="bg-grid"></div>
+<div id="bg-glow"></div>
+
+<!-- Cursor -->
+<div id="cursor">
+  <svg viewBox="0 0 28 28" fill="none">
+    <path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#16160F" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<!-- ── Problem ─────────────────────────────────────────────────── -->
+<div id="problem-group">
+  <div id="prob-kicker">De invisible a contratado</div>
+  <div id="prob-stat-row">
+    <span id="prob-stat-val">0</span>
+    <span id="prob-pct">%</span>
+  </div>
+  <div id="prob-l1">de reclutadores filtran con IA.</div>
+  <div id="prob-l2">No te ignoran. <em>Te rankean.</em></div>
+  <div id="prob-note">Fuente: Jobscan · 2024</div>
+</div>
+
+<!-- ── Apply ──────────────────────────────────────────────────── -->
+<div id="apply-group" class="scene-group">
+  <div id="apply-card">
+    <div id="apply-portal-label">Portal de empleo · ATS activado</div>
+    <div id="apply-job-title">Coordinador de Redes Sociales</div>
+    <div id="apply-company">Diver Media · San José, CR · Tiempo completo</div>
+    <div class="apply-divider"></div>
+    <div id="apply-cv-row">
+      <div id="apply-cv-icon">PDF</div>
+      <div id="apply-cv-name">laura_mendez_cv.pdf</div>
+      <div id="apply-cv-check">✓</div>
+    </div>
+    <div id="ats-wrap">
+      <div id="ats-chip">
+        <span id="ats-score">0</span>
+        <span id="ats-denom">/100</span>
+        <span id="ats-sep">·</span>
+        <span id="ats-label">—</span>
+      </div>
+      <span id="ats-meta">Compatibilidad ATS</span>
+    </div>
+    <div id="apply-btn">
+      <span>Aplicar →</span>
+      <div id="apply-btn-ripple"></div>
+    </div>
+  </div>
+  <!-- Rejection notifications -->
+  <div class="notif" id="notif-1">
+    <div class="notif-icon">✕</div>
+    <div class="notif-body">
+      <div class="notif-app">Diver Media</div>
+      <div class="notif-title">Aplicación no seleccionada</div>
+      <div class="notif-sub">Tu perfil no avanzó en esta convocatoria.</div>
+    </div>
+    <div class="notif-time">ahora</div>
+  </div>
+  <div class="notif" id="notif-2">
+    <div class="notif-icon">✕</div>
+    <div class="notif-body">
+      <div class="notif-app">Diver Media</div>
+      <div class="notif-title">Aplicación no seleccionada</div>
+      <div class="notif-sub">Tu perfil no avanzó en esta convocatoria.</div>
+    </div>
+    <div class="notif-time">ahora</div>
+  </div>
+  <div class="notif" id="notif-3">
+    <div class="notif-icon">✕</div>
+    <div class="notif-body">
+      <div class="notif-app">Diver Media</div>
+      <div class="notif-title">Aplicación no seleccionada</div>
+      <div class="notif-sub">Tu perfil no avanzó en esta convocatoria.</div>
+    </div>
+    <div class="notif-time">ahora</div>
+  </div>
+</div>
+
+<!-- ── Data Flow ───────────────────────────────────────────────── -->
+<div id="flow-group" class="scene-group">
+  <svg id="flow-svg" viewBox="0 0 1080 1920">
+    <g stroke="rgba(0,0,0,0.06)" stroke-width="1.5" fill="none">
+      <path d="M200 1920 Q260 1400 540 1000 Q700 700 540 400"/>
+      <path d="M880 1920 Q820 1400 540 1000 Q380 700 540 400"/>
+      <path d="M540 1000 Q420 700 340 500 Q400 350 540 400"/>
+      <path d="M540 1000 Q660 700 740 500 Q680 350 540 400"/>
+    </g>
+    <g fill="rgba(0,0,0,0.06)">
+      <circle cx="200" cy="1500" r="6"/>
+      <circle cx="880" cy="1500" r="6"/>
+      <circle cx="340" cy="500" r="6"/>
+      <circle cx="740" cy="500" r="6"/>
+    </g>
+  </svg>
+  <div id="flow-packet">
+    <svg viewBox="0 0 54 66" fill="none" width="54" height="66">
+      <rect x="2" y="2" width="50" height="62" rx="6" fill="white" stroke="#C9F24D" stroke-width="3"/>
+      <rect x="12" y="18" width="30" height="3" rx="1.5" fill="rgba(0,0,0,0.15)"/>
+      <rect x="12" y="27" width="22" height="3" rx="1.5" fill="rgba(0,0,0,0.10)"/>
+      <rect x="12" y="36" width="26" height="3" rx="1.5" fill="rgba(0,0,0,0.10)"/>
+      <rect x="12" y="45" width="18" height="3" rx="1.5" fill="rgba(0,0,0,0.08)"/>
+    </svg>
+  </div>
+  <div id="flow-node">
+    <div id="flow-node-icon">🔍</div>
+    <div id="flow-node-label">IA</div>
+  </div>
+</div>
+
+<!-- ── HR Dashboard ────────────────────────────────────────────── -->
+<div id="hr-group" class="scene-group">
+  <div id="hr-card">
+    <div id="hr-system-label">Sistema de seguimiento · ATS</div>
+    <div id="hr-job-title">Coordinador de Redes Sociales</div>
+    <div id="hr-job-meta">Diver Media · 74 aplicaciones recibidas</div>
+    <div id="hr-divider"></div>
+    <div id="hr-list">
+      <div class="hr-row" id="hr-row-1">
+        <span class="hr-rank">#1</span>
+        <div class="hr-name-bar"></div>
+        <div class="hr-score-bar-wrap"><div class="hr-score-bar-bg"><div class="hr-score-bar-fill" style="width:92%"></div></div></div>
+        <span class="hr-pts">92 pts</span><span class="hr-status">sin abrir</span>
+      </div>
+      <div class="hr-row" id="hr-row-2">
+        <span class="hr-rank">#2</span>
+        <div class="hr-name-bar"></div>
+        <div class="hr-score-bar-wrap"><div class="hr-score-bar-bg"><div class="hr-score-bar-fill" style="width:88%"></div></div></div>
+        <span class="hr-pts">88 pts</span><span class="hr-status">sin abrir</span>
+      </div>
+      <div class="hr-row" id="hr-row-3">
+        <span class="hr-rank">#3</span>
+        <div class="hr-name-bar"></div>
+        <div class="hr-score-bar-wrap"><div class="hr-score-bar-bg"><div class="hr-score-bar-fill" style="width:83%"></div></div></div>
+        <span class="hr-pts">83 pts</span><span class="hr-status">sin abrir</span>
+      </div>
+      <div class="hr-row" id="hr-row-4">
+        <span class="hr-rank">#4</span>
+        <div class="hr-name-bar"></div>
+        <div class="hr-score-bar-wrap"><div class="hr-score-bar-bg"><div class="hr-score-bar-fill" style="width:78%"></div></div></div>
+        <span class="hr-pts">78 pts</span><span class="hr-status">sin abrir</span>
+      </div>
+      <div class="hr-row" id="hr-row-5">
+        <span class="hr-rank">#5</span>
+        <div class="hr-name-bar"></div>
+        <div class="hr-score-bar-wrap"><div class="hr-score-bar-bg"><div class="hr-score-bar-fill" style="width:74%"></div></div></div>
+        <span class="hr-pts">74 pts</span><span class="hr-status">sin abrir</span>
+      </div>
+      <div id="hr-gap"><span id="hr-gap-dots">· · ·</span></div>
+      <div id="hr-target">
+        <span id="hr-t-rank">#247</span>
+        <span id="hr-t-name">Laura Méndez V.</span>
+        <div id="hr-t-bar-wrap"><div id="hr-t-bar-bg"><div id="hr-t-bar-fill"></div></div></div>
+        <span id="hr-t-pts">23 pts</span>
+        <span id="hr-t-status">sin abrir</span>
+      </div>
+      <div id="hr-target-gaps">
+        <span class="gap-badge" id="gbadge-1">gestión ✗</span>
+        <span class="gap-badge" id="gbadge-2">alcance ✗</span>
+        <span class="gap-badge" id="gbadge-3">métricas ✗</span>
+      </div>
+    </div>
+    <div id="hr-cursor">
+      <svg viewBox="0 0 28 28" fill="none">
+        <path d="M4 4L12.5 24L15.5 16L24 12.5L4 4Z" fill="#16160F" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ── WorqAI Fix ──────────────────────────────────────────────── -->
+<div id="worqai-group" class="scene-group" style="position:absolute">
+  <div id="wq-cv-panel">
+    <div id="wq-cv-card">
+      <div id="wq-scan-bar"></div>
+      <div class="wq-name">Laura Méndez V.</div>
+      <div class="wq-role">Asistente de Marketing</div>
+      <div class="wq-contact">laura.mendez@email.com · San José, Costa Rica<br>linkedin.com/in/lauramv</div>
+      <div class="wq-divider"></div>
+      <div class="wq-section-block">
+        <div class="wq-section-flag" id="wq-res-flag"></div>
+        <div class="wq-section-label">Resumen</div>
+        <div class="wq-swap">
+          <div class="wq-body" id="wq-res-weak">Estudiante de comunicaciones con experiencia en redes sociales y marketing digital. Me gustan los contenidos creativos.</div>
+          <div class="wq-body" id="wq-res-strong">Gestora de redes sociales con 2 años en marketing de contenidos. Estrategia, publicación y análisis de métricas en 4 plataformas.</div>
+        </div>
+      </div>
+      <div class="wq-divider"></div>
+      <div class="wq-section-block">
+        <div class="wq-section-flag" id="wq-hab-flag"></div>
+        <div class="wq-section-label">Habilidades</div>
+        <div class="wq-skills-row">
+          <span class="wq-tag">Instagram</span>
+          <span class="wq-tag">Facebook</span>
+          <span class="wq-tag">Canva</span>
+          <span class="wq-tag">Word</span>
+          <span class="wq-tag">PowerPoint</span>
+          <span class="wq-tag">Español nativo</span>
+          <span class="wq-tag wq-tag-new" id="wq-kn1">Gestión de redes</span>
+          <span class="wq-tag wq-tag-new" id="wq-kn2">Análisis de métricas</span>
+          <span class="wq-tag wq-tag-new" id="wq-kn3">Contenido orgánico</span>
+        </div>
+      </div>
+      <div class="wq-divider"></div>
+      <div class="wq-section-block">
+        <div class="wq-section-flag" id="wq-exp-flag"></div>
+        <div class="wq-section-label">Experiencia</div>
+        <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">Encargada de Redes Sociales</div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-bottom:8px">Boutique Elara · 2022 – 2024</div>
+        <div class="wq-swap">
+          <div class="wq-body" id="wq-exp-weak">Publicaba contenido y respondía mensajes de seguidores en redes sociales.</div>
+          <div class="wq-body" id="wq-exp-strong"><span class="wq-kw" id="wq-kw1">Gestioné 4 redes sociales</span> (IG, FB, TW, LI), <span class="wq-kw" id="wq-kw2">+38% de alcance</span> en 6 meses con estrategia de contenido orgánico. <span class="wq-kw" id="wq-kw3">Métricas</span> analizadas con Meta Analytics.</div>
+        </div>
+        <div id="wq-weak-flag">⚠ línea sin resultados medibles</div>
+      </div>
+      <div id="wq-reasoning">
+        <div class="wq-reason" id="wq-r1">&gt; leyendo la vacante…</div>
+        <div class="wq-reason" id="wq-r2">&gt; cruzando tu experiencia…</div>
+        <div class="wq-reason" id="wq-r3">&gt; optimizando para ATS…</div>
+      </div>
+    </div>
+    <div id="wq-score-wrap">
+      <div id="wq-score-badge">
+        <span id="wq-score-val">23</span>
+        <span id="wq-score-denom">/100</span>
+      </div>
+      <span id="wq-score-label">Compatibilidad ATS</span>
+    </div>
+  </div>
+  <div id="wq-job-panel">
+    <div id="wq-job-card">
+      <div id="wq-job-header">Vacante detectada</div>
+      <div id="wq-job-role">Coordinador de Redes Sociales</div>
+      <div id="wq-job-company">Diver Media · San José</div>
+      <div class="wq-divider" style="margin-top:16px"></div>
+      <div id="wq-job-kw-label">Palabras clave requeridas</div>
+      <div class="jk-row"><div class="jk-check" id="jk-1">✓</div><span class="jk-text">gestión de redes sociales</span></div>
+      <div class="jk-row"><div class="jk-check" id="jk-2">✓</div><span class="jk-text">alcance / métricas</span></div>
+      <div class="jk-row"><div class="jk-check" id="jk-3">✓</div><span class="jk-text">contenido orgánico</span></div>
+      <div class="jk-row"><div class="jk-check" id="jk-4">✓</div><span class="jk-text">análisis de datos</span></div>
+      <div class="jk-row"><div class="jk-check" id="jk-5">✓</div><span class="jk-text">estrategia digital</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Resolution ─────────────────────────────────────────────── -->
+<div id="resolution-group" class="scene-group">
+  <div id="res-notif">
+    <div id="res-notif-icon">📅</div>
+    <div id="res-notif-body">
+      <div id="res-notif-app">Diver Media</div>
+      <div id="res-notif-title">Entrevista confirmada</div>
+      <div id="res-notif-sub">Coordinador de Redes Sociales · Jue 12 jun, 10:00 AM</div>
+    </div>
+  </div>
+  <div id="res-stats-wrap">
+    <div class="res-stat">
+      <div class="res-stat-num">11.7<span style="font-size:28px">%</span></div>
+      <div class="res-stat-label">tasa de respuesta<br>sin optimizar</div>
+    </div>
+    <div id="res-arrow">→</div>
+    <div class="res-stat">
+      <div class="res-stat-num" style="color:var(--lime-deep)">4.2<span style="font-size:28px">×</span></div>
+      <div class="res-stat-label">más respuestas<br>con WorqAI</div>
+    </div>
+  </div>
+  <div id="res-wordmark">worqai</div>
+  <div id="res-tagline">Tu CV, hecho para pasar el filtro.</div>
+</div>
+
+<script>
+  // ── LOCK 1 ──────────────────────────────────────────────────────────────────
+  gsap.ticker.lagSmoothing(0);
+
+  // ── Initial states ───────────────────────────────────────────────────────────
+  gsap.set(["#bg-grid","#bg-glow"], { opacity: 0 });
+  gsap.set("#problem-group",  { opacity: 0 });
+  gsap.set("#prob-kicker",    { opacity: 0, y: 16 });
+  gsap.set("#prob-stat-row",  { opacity: 0, y: 20 });
+  gsap.set("#prob-l1",        { opacity: 0, y: 20 });
+  gsap.set("#prob-l2",        { opacity: 0, y: 20 });
+  gsap.set("#prob-note",      { opacity: 0 });
+  gsap.set("#apply-group",    { opacity: 0 });
+  gsap.set("#apply-card",     { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set("#ats-chip",       { opacity: 0 });
+  gsap.set("#apply-btn",      { opacity: 0 });
+  gsap.set(".notif",          { y: -200, opacity: 0 });
+  gsap.set("#flow-group",     { opacity: 0 });
+  gsap.set("#flow-packet",    { opacity: 0 });
+  gsap.set("#flow-node",      { scale: 0, opacity: 0 });
+  gsap.set("#hr-group",       { opacity: 0 });
+  gsap.set("#hr-cursor",      { opacity: 0, x: 600, y: 500 });
+  gsap.set(".gap-badge",      { opacity: 0 });
+  gsap.set("#hr-target-gaps", { opacity: 0 });
+  gsap.set("#worqai-group",   { opacity: 0 });
+  gsap.set("#wq-cv-card",     { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set("#wq-job-card",    { clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#wq-scan-bar",    { clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set("#wq-reasoning",   { opacity: 0 });
+  gsap.set(".wq-reason",      { opacity: 0 });
+  gsap.set(".wq-section-flag",{ opacity: 0 });
+  gsap.set("#wq-res-strong",  { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#wq-exp-strong",  { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" });
+  gsap.set("#wq-weak-flag",   { opacity: 0 });
+  gsap.set(".wq-tag-new",     { opacity: 0 });
+  gsap.set(".jk-check",       { opacity: 0.3 });
+  gsap.set("#wq-score-wrap",  { opacity: 0 });
+  gsap.set("#resolution-group",{ opacity: 0 });
+  gsap.set(["#res-notif","#res-stats-wrap","#res-wordmark","#res-tagline"], { opacity: 0 });
+  gsap.set("#res-notif",      { y: -60 });
+  gsap.set("#cursor",         { opacity: 0 });
+
+  // ── LOCK 2 ──────────────────────────────────────────────────────────────────
+  gsap.globalTimeline.pause();
+
+  // ── Proxies (Lock 4) ─────────────────────────────────────────────────────────
+  const statEl    = document.getElementById("prob-stat-val");
+  const pStat     = { val: 0 };
+  const atsScoreEl = document.getElementById("ats-score");
+  const atsLabelEl = document.getElementById("ats-label");
+  const pATS      = { val: 0 };
+  const wqScoreEl = document.getElementById("wq-score-val");
+  const pWQ       = { val: 23 };
+
+  document.fonts.ready.then(() => {
+    const applyBtn  = document.getElementById("apply-btn");
+    const aRect     = applyBtn.getBoundingClientRect();
+    const aCX = aRect.left + aRect.width  / 2 - 4;
+    const aCY = aRect.top  + aRect.height / 2 - 4;
+
+    const hrRow1    = document.getElementById("hr-row-1");
+    const r1Rect    = hrRow1.getBoundingClientRect();
+    const r1CX = r1Rect.left + r1Rect.width  / 2 - 4;
+    const r1CY = r1Rect.top  + r1Rect.height / 2 - 4;
+
+    const hrRow2    = document.getElementById("hr-row-2");
+    const r2Rect    = hrRow2.getBoundingClientRect();
+    const r2CY = r2Rect.top + r2Rect.height / 2 - 4;
+
+    const tl = gsap.timeline();
+
+    // ── Problem (0.0 – 3.5s) ────────────────────────────────────────────────
+    tl.to(["#bg-grid","#bg-glow"], { opacity: 1, duration: 0.8, ease: "none" }, 0.0);
+    tl.set("#problem-group", { opacity: 1 }, 0.0);
+    tl.to("#prob-kicker",   { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.3);
+    tl.to("#prob-stat-row", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.7);
+    tl.to(pStat, { val: 99, duration: 1.4, ease: "power2.out", onUpdate: () => { statEl.innerText = Math.round(pStat.val); } }, 0.7);
+    tl.to("#prob-l1", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.2);
+    tl.to("#prob-l2", { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 2.8);
+    tl.to("#prob-note", { opacity: 1, duration: 0.4, ease: "none" }, 3.1);
+    tl.to("#problem-group", { opacity: 0, y: -10, duration: 0.5, ease: "power3.out" }, 3.5);
+
+    // ── Apply bad (3.5 – 7.0s) ──────────────────────────────────────────────
+    tl.set("#apply-group", { opacity: 1 }, 3.8);
+    tl.fromTo("#apply-card", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power2.out" }, 3.8);
+    tl.to("#ats-chip", { opacity: 1, duration: 0.4, ease: "power3.out" }, 4.7);
+    tl.to(pATS, { val: 23, duration: 0.8, ease: "power1.out", onUpdate: () => { atsScoreEl.innerText = Math.round(pATS.val); } }, 4.7);
+    tl.add(() => { atsLabelEl.innerText = "Bajo"; }, 4.7);
+    tl.to("#apply-btn", { opacity: 1, duration: 0.4, ease: "power3.out" }, 5.6);
+    tl.to("#cursor", { opacity: 1, duration: 0.3, ease: "none" }, 5.8);
+    tl.to("#cursor", { x: aCX, y: aCY, duration: 0.9, ease: "power3.out" }, 5.9);
+    tl.to("#apply-btn",          { scale: 0.96, duration: 0.10, ease: "none" }, 6.8);
+    tl.to("#apply-btn",          { scale: 1.00, duration: 0.16, ease: "back.out(2)" }, 6.90);
+    tl.to("#cursor",             { scale: 0.80, duration: 0.08, ease: "none" }, 6.8);
+    tl.to("#cursor",             { scale: 1.00, duration: 0.14, ease: "back.out(2)" }, 6.88);
+    tl.fromTo("#apply-btn-ripple", { scale: 1, opacity: 0.6 }, { scale: 2.4, opacity: 0, duration: 0.6, ease: "power2.out" }, 6.82);
+    tl.to("#cursor",             { opacity: 0, duration: 0.2, ease: "none" }, 7.1);
+    tl.to("#apply-group",        { opacity: 0, duration: 0.4, ease: "none" }, 7.0);
+
+    // ── Data flow (7.0 – 9.0s) ──────────────────────────────────────────────
+    tl.set("#flow-group", { opacity: 1 }, 7.0);
+    tl.to("#flow-packet", { opacity: 1, duration: 0.3, ease: "none" }, 7.0);
+    tl.to("#flow-node",   { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.5)" }, 7.2);
+    tl.to("#flow-packet", { x: -140, y: -270, duration: 0.75, ease: "power1.inOut" }, 7.0);
+    tl.to("#flow-packet", { x: 0,    y: -480, duration: 0.75, ease: "power2.in"    }, 7.75);
+    tl.to("#flow-packet", { x: -18,  y: -565, duration: 0.5,  ease: "power3.in"   }, 8.5);
+    tl.to("#flow-node",   { scale: 1.25, duration: 0.18, ease: "power2.out" }, 8.95);
+    tl.to("#flow-node",   { scale: 1.0,  duration: 0.22, ease: "back.out(2)" }, 9.13);
+    tl.to("#flow-packet", { opacity: 0, duration: 0.2, ease: "none" }, 8.95);
+    tl.to("#flow-node",   { scale: 30, opacity: 0, duration: 0.35, ease: "power2.in" }, 9.3);
+    tl.to("#flow-group",  { opacity: 0, duration: 0.35, ease: "none" }, 9.3);
+
+    // ── HR analysis fail (9.3 – 15.0s) ──────────────────────────────────────
+    tl.set("#hr-group", { opacity: 1 }, 9.3);
+    tl.to("#hr-group",  { opacity: 1, duration: 0.4, ease: "none" }, 9.3);
+    tl.to("#hr-cursor", { opacity: 1, duration: 0.3, ease: "none" }, 9.8);
+    tl.to("#hr-cursor", { x: r1CX - 400, y: r1CY - 500, duration: 0, ease: "none" }, 9.8);
+    tl.to("#hr-cursor", { x: r1CX - 400, y: r1CY - 500, duration: 0.7, ease: "power3.out" }, 9.8);
+    tl.to("#hr-cursor", { x: r1CX - 400, y: r2CY - 500, duration: 0.8, ease: "power2.inOut" }, 10.7);
+    tl.to("#hr-cursor", { x: r1CX - 400, y: r1CY - 500, duration: 0.8, ease: "power2.inOut" }, 11.6);
+    tl.to("#hr-target-gaps", { opacity: 1, duration: 0.4, ease: "power3.out" }, 10.5);
+    tl.fromTo("#hr-t-bar-fill", { width: "0%" }, { width: "23%", duration: 0.8, ease: "power1.out" }, 10.5);
+    tl.to("#hr-cursor", { x: r1CX - 400, y: r2CY - 500, duration: 1.2, ease: "power2.inOut" }, 12.5);
+    tl.to("#hr-cursor", { opacity: 0, duration: 0.4, ease: "none" }, 13.8);
+    tl.to("#hr-group",  { opacity: 0, duration: 0.5, ease: "power3.out" }, 14.5);
+
+    // ── Rejection loop (15.0 – 18.0s) ───────────────────────────────────────
+    tl.set("#apply-group", { opacity: 1 }, 15.0);
+    tl.fromTo("#apply-card", { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.5, ease: "power2.out" }, 15.0);
+    tl.to("#cursor", { opacity: 1, duration: 0.2, ease: "none" }, 15.3);
+    tl.to("#cursor", { x: aCX, y: aCY, duration: 0.6, ease: "power3.out" }, 15.3);
+    tl.to("#apply-btn", { scale: 0.96, duration: 0.08, ease: "none" }, 15.9);
+    tl.to("#apply-btn", { scale: 1.00, duration: 0.12, ease: "back.out(2)" }, 15.98);
+    tl.to("#notif-1", { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 16.1);
+    tl.to("#apply-btn", { scale: 0.96, duration: 0.08, ease: "none" }, 16.4);
+    tl.to("#apply-btn", { scale: 1.00, duration: 0.12, ease: "back.out(2)" }, 16.48);
+    tl.to("#notif-2", { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 16.6);
+    tl.to("#apply-btn", { scale: 0.96, duration: 0.08, ease: "none" }, 16.9);
+    tl.to("#apply-btn", { scale: 1.00, duration: 0.12, ease: "back.out(2)" }, 16.98);
+    tl.to("#notif-3", { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 17.1);
+    tl.to("#cursor",  { opacity: 0, duration: 0.3, ease: "none" }, 17.3);
+    tl.to("#apply-group", { scale: 0.94, opacity: 0, duration: 0.6, ease: "power3.out" }, 17.5);
+
+    // ── WorqAI fix (18.0 – 25.0s) ───────────────────────────────────────────
+    tl.set("#worqai-group", { opacity: 1 }, 18.0);
+    tl.fromTo("#wq-cv-card",  { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power2.out" }, 18.0);
+    tl.fromTo("#wq-job-card", { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power2.out" }, 18.5);
+    tl.to("#wq-res-flag", { opacity: 1, duration: 0.3, ease: "power3.out" }, 18.9);
+    tl.to("#wq-hab-flag", { opacity: 1, duration: 0.3, ease: "power3.out" }, 19.0);
+    tl.to("#wq-exp-flag", { opacity: 1, duration: 0.3, ease: "power3.out" }, 19.1);
+    tl.to("#wq-weak-flag", { opacity: 1, duration: 0.3, ease: "power3.out" }, 19.1);
+    tl.add(() => { document.getElementById("wq-exp-weak").classList.add("flagged"); }, 19.1);
+    tl.fromTo("#wq-scan-bar", { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power1.inOut" }, 19.4);
+    tl.to("#wq-scan-bar", { clipPath: "inset(100% 0% 0% 0%)", duration: 0.45, ease: "power1.in" }, 19.95);
+    tl.to("#wq-reasoning", { opacity: 1, duration: 0.3, ease: "none" }, 19.5);
+    tl.to("#wq-r1", { opacity: 1, duration: 0.28, ease: "power3.out" }, 19.5);
+    tl.to("#wq-r2", { opacity: 1, duration: 0.28, ease: "power3.out" }, 19.8);
+    tl.to("#wq-r3", { opacity: 1, duration: 0.28, ease: "power3.out" }, 20.1);
+    tl.to("#wq-score-wrap", { opacity: 1, duration: 0.4, ease: "power3.out" }, 19.6);
+    tl.to("#wq-res-flag", { opacity: 0, duration: 0.3, ease: "none" }, 20.3);
+    tl.to("#wq-res-weak", { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 20.3);
+    tl.set("#wq-res-strong", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 20.9);
+    tl.to("#wq-res-strong",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.65, ease: "power3.out" }, 20.9);
+    tl.to("#jk-1", { opacity: 1, backgroundColor: "#C9F24D", color: "#1B2400", scale: 1.15, duration: 0.28, ease: "back.out(2)" }, 20.9);
+    tl.to("#jk-1", { scale: 1.0, duration: 0.2, ease: "power2.out" }, 21.18);
+    tl.to("#wq-hab-flag", { opacity: 0, duration: 0.3, ease: "none" }, 21.2);
+    [[0, 21.3], [1, 21.5], [2, 21.7]].forEach(([i, t]) => {
+      tl.to(`#wq-kn${i + 1}`, { opacity: 1, backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.3, ease: "back.out(2)" }, t);
+    });
+    [[1, 21.5], [2, 21.7]].forEach(([i, t]) => {
+      const sel = `#jk-${i + 1}`;
+      tl.to(sel, { opacity: 1, backgroundColor: "#C9F24D", color: "#1B2400", scale: 1.15, duration: 0.28, ease: "back.out(2)" }, t);
+      tl.to(sel, { scale: 1.0, duration: 0.2, ease: "power2.out" }, t + 0.28);
+    });
+    tl.to("#wq-exp-flag",  { opacity: 0, duration: 0.3, ease: "none" }, 22.1);
+    tl.to("#wq-weak-flag", { opacity: 0, duration: 0.3, ease: "none" }, 22.1);
+    tl.to("#wq-exp-weak",  { filter: "blur(5px)", opacity: 0, duration: 0.5, ease: "power3.out" }, 22.1);
+    tl.set("#wq-exp-strong", { opacity: 1, clipPath: "inset(0% 100% 0% 0%)" }, 22.7);
+    tl.to("#wq-exp-strong",  { clipPath: "inset(0% 0% 0% 0%)", duration: 0.75, ease: "power3.out" }, 22.7);
+    [[0, 23.2], [1, 23.4], [2, 23.6]].forEach(([i, t]) => {
+      const sel = `#wq-kw${i + 1}`;
+      tl.to(sel, { backgroundColor: "#C9F24D", color: "#1B2400", duration: 0.28, ease: "power2.out" }, t);
+      tl.from(sel, { scale: 0.88, duration: 0.20, ease: "back.out(2)" }, t);
+    });
+    [[3, 23.3], [4, 23.5]].forEach(([i, t]) => {
+      const sel = `#jk-${i + 1}`;
+      tl.to(sel, { opacity: 1, backgroundColor: "#C9F24D", color: "#1B2400", scale: 1.15, duration: 0.28, ease: "back.out(2)" }, t);
+      tl.to(sel, { scale: 1.0, duration: 0.2, ease: "power2.out" }, t + 0.28);
+    });
+    tl.to(pWQ, {
+      val: 91, duration: 1.1, ease: "back.out(1.4)",
+      onUpdate: () => {
+        wqScoreEl.innerText = Math.round(pWQ.val);
+        const v = pWQ.val / 100;
+        const r = Math.round(224 + (169 - 224) * Math.max(0, (v - 0.23) / 0.68));
+        const g = Math.round(89  + (217 - 89)  * Math.max(0, (v - 0.23) / 0.68));
+        const b = Math.round(59  + (46  - 59)  * Math.max(0, (v - 0.23) / 0.68));
+        document.getElementById("wq-score-badge").style.background = `rgba(${r},${g},${b},0.15)`;
+        document.getElementById("wq-score-val").style.color = `rgb(${r},${g},${b})`;
+        document.getElementById("wq-score-denom").style.color = `rgb(${r},${g},${b})`;
+      }
+    }, 23.8);
+    tl.to("#wq-reasoning", { opacity: 0, duration: 0.4, ease: "none" }, 24.5);
+    tl.to("#worqai-group", { opacity: 0, duration: 0.5, ease: "power3.out" }, 24.6);
+
+    // ── Apply good (25.0 – 27.0s) ───────────────────────────────────────────
+    tl.add(() => {
+      atsScoreEl.innerText = "91";
+      atsLabelEl.innerText = "Alto";
+      gsap.set("#ats-chip", { backgroundColor: "#C9F24D", borderColor: "rgba(169,217,46,0.4)" });
+      gsap.set(["#ats-score","#ats-denom","#ats-sep","#ats-label"], { color: "#1B2400" });
+      gsap.set(".notif", { y: -200, opacity: 0 });
+      gsap.set("#apply-card", { clipPath: "inset(100% 0% 0% 0%)" });
+      gsap.set("#apply-group", { scale: 1 });
+    }, 24.9);
+    tl.set("#apply-group", { opacity: 1 }, 25.0);
+    tl.fromTo("#apply-card", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power2.out" }, 25.0);
+    tl.to("#cursor", { opacity: 1, x: aCX, y: aCY + 200, duration: 0.2, ease: "none" }, 25.4);
+    tl.to("#cursor", { y: aCY, duration: 0.7, ease: "power3.out" }, 25.5);
+    tl.to("#apply-btn",           { scale: 0.96, duration: 0.10, ease: "none" }, 26.2);
+    tl.to("#apply-btn",           { scale: 1.00, duration: 0.16, ease: "back.out(2)" }, 26.30);
+    tl.fromTo("#apply-btn-ripple", { scale: 1, opacity: 0.6 }, { scale: 2.4, opacity: 0, duration: 0.6, ease: "power2.out" }, 26.22);
+    tl.to("#cursor", { opacity: 0, duration: 0.2, ease: "none" }, 26.6);
+    tl.to("#apply-group", { opacity: 0, duration: 0.4, ease: "none" }, 26.7);
+
+    // ── HR analysis pass (27.0 – 30.0s) ─────────────────────────────────────
+    tl.add(() => {
+      gsap.set(".hr-row", { y: 0 });
+      gsap.set("#hr-target", { y: 0 });
+      gsap.set("#hr-gap", { opacity: 1 });
+      gsap.set("#hr-target-gaps", { opacity: 0 });
+      gsap.set("#hr-cursor", { opacity: 0, x: r1CX - 400, y: r1CY - 500 });
+      gsap.set("#hr-t-bar-fill", { width: "23%", background: "var(--low)" });
+      gsap.set("#hr-t-pts", { color: "var(--low)" });
+    }, 26.9);
+    tl.set("#hr-group", { opacity: 1 }, 27.0);
+    tl.to("#hr-target", { y: -480, duration: 1.2, ease: "power3.inOut" }, 27.2);
+    tl.to(".hr-row",    { y: 86,   duration: 1.2, ease: "power3.inOut" }, 27.2);
+    tl.to("#hr-gap",    { opacity: 0, duration: 0.4, ease: "none" }, 27.2);
+    tl.add(() => { document.getElementById("hr-t-rank").innerText = "#1"; }, 27.4);
+    tl.to("#hr-t-bar-fill", { width: "91%", backgroundColor: "var(--lime-deep)", duration: 0.9, ease: "power2.out" }, 27.8);
+    tl.add(() => {
+      document.getElementById("hr-t-pts").innerText = "91 pts";
+      document.getElementById("hr-t-pts").style.color = "var(--lime-deep)";
+      document.getElementById("hr-t-status").innerText = "abierto";
+    }, 28.2);
+    tl.to("#hr-cursor", { opacity: 1, duration: 0.3, ease: "none" }, 28.3);
+    tl.to("#hr-cursor", { x: r1CX - 400, y: r1CY - 500, duration: 0.8, ease: "power3.out" }, 28.4);
+    tl.to("#hr-target", { backgroundColor: "rgba(201,242,77,0.18)", duration: 0.3, ease: "none" }, 29.1);
+    tl.to("#hr-cursor", { scale: 0.80, duration: 0.08, ease: "none" }, 29.2);
+    tl.to("#hr-cursor", { scale: 1.00, duration: 0.14, ease: "back.out(2)" }, 29.28);
+    tl.to("#hr-cursor", { opacity: 0, duration: 0.3, ease: "none" }, 29.5);
+    tl.to("#hr-group",  { opacity: 0, scale: 0.97, duration: 0.5, ease: "power3.out" }, 29.6);
+
+    // ── Resolution + CTA (30.0 – 33.0s) ─────────────────────────────────────
+    tl.set("#resolution-group", { opacity: 1 }, 30.0);
+    tl.to("#res-notif",      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 30.0);
+    tl.to("#res-stats-wrap", { opacity: 1, duration: 0.6, ease: "power3.out" }, 30.9);
+    tl.to("#res-wordmark",   { opacity: 1, duration: 0.5, ease: "none" }, 31.8);
+    tl.to("#res-tagline",    { opacity: 1, duration: 0.6, ease: "power3.out" }, 32.1);
+
+    window.motionReady = true;
+    window.MOTION_LABELS = Object.fromEntries(Object.entries(tl.labels).map(([k, v]) => [k, Math.round(v * 1000)]));
+  });
+</script>
+</body>

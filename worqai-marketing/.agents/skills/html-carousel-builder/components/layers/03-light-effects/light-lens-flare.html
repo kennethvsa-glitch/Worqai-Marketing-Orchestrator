@@ -1,0 +1,60 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "light-lens-flare",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 1.0,
+    "best_for_systems": [
+      "s02",
+      "s06",
+      "s08",
+      "s16",
+      "s20",
+      "s21",
+      "s29",
+      "s33",
+      "s37",
+      "s40",
+      "s41"
+    ],
+    "avoid_systems": [
+      "s05",
+      "s07",
+      "s19",
+      "s23",
+      "s25",
+      "s31",
+      "s39",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "geo-circuit-board",
+      "mock-terminal-mac",
+      "deco-brand-anchor"
+    ],
+    "conflicts_with": [
+      "tex-grain-heavy",
+      "tex-scratch-overlay"
+    ]
+  }
+-->
+
+<!--
+LAYER: LENS FLARE
+Camera lens artifact simulation.
+Best for: cinematic, photo, premium systems.
+-->
+
+<div class="lens-flare"></div>
+
+<style>
+.lens-flare {
+  position: absolute; pointer-events: none; z-index: 1;
+  width: 300px; height: 300px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 50%);
+  filter: blur(20px);
+  top: 10%; right: 15%; opacity: 0.6;
+}
+</style>

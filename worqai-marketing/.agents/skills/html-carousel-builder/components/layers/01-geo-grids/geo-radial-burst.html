@@ -1,0 +1,62 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "geo-radial-burst",
+    "category": "layers",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5,
+    "best_for_systems": [
+      "s02",
+      "s08",
+      "s16",
+      "s19",
+      "s25",
+      "s29",
+      "s33",
+      "s40",
+      "s46"
+    ],
+    "avoid_systems": [
+      "s03",
+      "s10",
+      "s12",
+      "s18",
+      "s23",
+      "s32",
+      "s36",
+      "s48"
+    ],
+    "pairs_well_with": [
+      "light-neon-border",
+      "deco-progress-dots",
+      "mock-terminal-mac",
+      "deco-masthead"
+    ],
+    "conflicts_with": [
+      "org-blob-scattered",
+      "tex-paper-fibers",
+      "pat-waves-subtle"
+    ]
+  }
+-->
+
+<!--
+LAYER: RADIAL BURST
+Lines emanating from center point.
+Best for: energy, explosion, announcement systems.
+-->
+
+<div class="rad-burst"></div>
+
+<style>
+.rad-burst {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  background:
+    repeating-conic-gradient(from 0deg, var(--accent-line) 0deg 1deg, transparent 1deg 15deg);
+  opacity: var(--geo-opacity, 0.08);
+  -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+          mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+}
+</style>

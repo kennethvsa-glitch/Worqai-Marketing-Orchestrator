@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "system": "s04",
+    "aspect": "1:1",
+    "slides": 5,
+    "brand": "@worqai",
+    "language": "es-LATAM",
+    "topic": "transformacion-cv",
+    "density": "standard"
+  },
+  "pacing": ["hook", "proof", "silence", "solution", "cta"],
+  "slides": [
+    {
+      "id": "s1",
+      "layout": "slide-hook-lockup",
+      "layers": ["glow-orb", "vol-light", {"id": "svg-blob-tr"}],
+      "decoratives": [{"id": "svg-starburst-burst", "position": "bl"}, "corner-frame"],
+      "copy": {
+        "kicker": "HISTORIA REAL",
+        "headline": "Mandé 40 solicitudes. 40 silencios.",
+        "body": "Después cambié el CV. Las primeras 3 entrevistas llegaron en 11 días. Esto es lo que cambié.",
+        "text_treatment": "stroke",
+        "swipe_prompt": "Desliza →"
+      },
+      "custom_css": ".s1-headline { font-size: clamp(38px,7.8cqw,58px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.90; } .s1-kicker { letter-spacing: 0.20em; font-size: 11px; opacity: 0.90; } .s1-body { font-size: 14px; line-height: 1.6; opacity: 0.82; max-width: 520px; }"
+    },
+    {
+      "id": "s2",
+      "layout": "slide-pull-quote-author",
+      "layers": ["glow-orb", "geo-ribbon-flow"],
+      "decoratives": [{"id": "svg-starburst-spark", "position": "tr"}],
+      "copy": {
+        "kicker": "LO QUE DIJO DANIELA",
+        "quote": "Usé WorqAI el domingo. El martes me llamaron del puesto que más quería. No lo puedo creer.",
+        "author": "Daniela M.",
+        "role": "Diseñadora gráfica, México"
+      },
+      "custom_css": ".s2-quote { font-size: clamp(20px,4.2cqw,28px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; font-style: italic; } .s2-author { font-weight: 800; font-size: 15px; letter-spacing: 0.05em; } .s2-role { font-size: 12px; opacity: 0.75; letter-spacing: 0.08em; }"
+    },
+    {
+      "id": "s3",
+      "layout": "slide-corner-manifesto",
+      "layers": ["glow-orb", "svg-blob-center"],
+      "decoratives": [],
+      "copy": {
+        "kicker": "LA VERDAD",
+        "headline": "No era la experiencia lo que fallaba.",
+        "body": "Era la forma en que la estabas presentando."
+      },
+      "custom_css": ".s3-headline { font-size: clamp(34px,7cqw,52px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.93; } .s3-body { font-size: 18px; opacity: 0.80; margin-top: 22px; font-weight: 300; line-height: 1.4; } .s3-kicker { letter-spacing: 0.20em; font-size: 11px; opacity: 0.90; }"
+    },
+    {
+      "id": "s4",
+      "layout": "slide-terminal",
+      "layers": ["zoom-rings", "glow-orb"],
+      "decoratives": [{"id": "chrome-badge-stamp", "text": "IA", "value": "WORQAI"}],
+      "copy": {
+        "kicker": "WORQAI EN ACCIÓN",
+        "headline": "Del CV genérico al CV correcto.",
+        "command": "worqai optimize --cv daniela_cv.pdf --job \"Diseñadora Senior, Televisa\"",
+        "tab_title": "worqai-optimize.sh",
+        "output_lines": [
+          {"type": "cmd", "text": "Extrayendo criterios del aviso laboral..."},
+          {"type": "ok", "text": "18 palabras clave insertadas en secciones correctas"},
+          {"type": "ok", "text": "Formato convertido a modo compatible con ATS"},
+          {"type": "ok", "text": "Objetivo profesional reescrito para Televisa"},
+          {"type": "info", "text": "Score ATS nuevo: 91/100 — listo para postular"}
+        ]
+      },
+      "custom_css": ".s4-headline { font-size: clamp(22px,4.5cqw,30px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; } .terminal-output { font-size: 13px; line-height: 1.65; }"
+    },
+    {
+      "id": "s5",
+      "layout": "slide-cta",
+      "layers": ["glow-orb", "vol-light"],
+      "decoratives": [{"id": "sub-stamp-circle", "text": "GRATIS"}, {"id": "svg-starburst-mark", "position": "tl"}],
+      "copy": {
+        "question": "¿Cuándo fue la última vez que tu CV consiguió una entrevista?",
+        "cta_keyword": "PLANTILLA",
+        "reward": "Te mando la plantilla de CV optimizada para tu sector. Gratis."
+      },
+      "custom_css": ".s5-question { font-size: clamp(26px,5.4cqw,38px); font-weight: 900; letter-spacing: -0.04em; line-height: 0.97; } .s5-keyword { letter-spacing: 0.08em; } .s5-reward { font-size: 15px; opacity: 0.85; line-height: 1.5; }"
+    }
+  ]
+}

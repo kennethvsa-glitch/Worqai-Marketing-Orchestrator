@@ -1,0 +1,35 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-video-testimonial",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 2.5
+  }
+-->
+
+<!--
+SLIDE: VIDEO TESTIMONIAL
+Purpose: S7 — Placeholder for video testimonial.
+-->
+
+<div class="content">
+  <p class="tip-label">Testimonio</p>
+  <h2 class="tip-headline">Lo que dicen nuestros clientes</h2>
+  <div class="video-placeholder">
+    <div class="vp-circle">
+      <span class="vp-play">&#9654;</span>
+    </div>
+    <p class="vp-label">Ver testimonio</p>
+    <p class="vp-name">Maria G. &middot; Project Manager</p>
+  </div>
+</div>
+
+<style>
+.video-placeholder { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 32px; }
+.vp-circle { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent-line); display: flex; align-items: center; justify-content: center; }
+.vp-play { font-size: 36px; color: var(--accent); margin-left: 6px; }
+.vp-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+.vp-name { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; font-weight: 400; color: var(--text-secondary); }
+</style>

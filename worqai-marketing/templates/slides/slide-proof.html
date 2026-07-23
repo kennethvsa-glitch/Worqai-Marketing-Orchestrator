@@ -1,0 +1,47 @@
+<div class="slide{% if is_active %} active{% endif %}">
+  {{ geo_html | safe }}
+
+  <div class="proof-wrap">
+    {% if copy.kicker %}
+    <div class="kicker">{{ copy.kicker }}</div>
+    {% endif %}
+    {% if copy.headline %}
+    <div class="proof-headline">{{ copy.headline }}</div>
+    {% endif %}
+
+    {% if copy.quote %}
+    <div class="proof-card">
+      <div class="proof-avatar">{{ (copy.attribution | default('?'))[0] | upper }}</div>
+      <div class="proof-quote">"{{ copy.quote }}"</div>
+      {% if copy.attribution %}
+      <div class="proof-meta">{{ copy.attribution }}</div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if copy.stat_number %}
+    <div class="proof-results">
+      <div>
+        <div class="proof-result-num">{{ copy.stat_number }}</div>
+        {% if copy.stat_context %}
+        <div class="proof-result-label">{{ copy.stat_context }}</div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if copy.body %}
+    <div class="proof-mechanism">
+      <div class="proof-mechanism-tag">Qué cambió</div>
+      <div class="proof-mechanism-text">{{ copy.body }}</div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="brand">{{ brand }}</div>
+  <div class="counter">{{ "%02d" % slide_num }} / {{ "%02d" % total }}</div>
+
+  <div class="prog">
+    {% for i in range(total) %}<div class="pd{% if i == slide_num - 1 %} on{% endif %}"></div>{% endfor %}
+  </div>
+</div>

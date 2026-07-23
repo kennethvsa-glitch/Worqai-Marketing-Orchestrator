@@ -1,0 +1,45 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-process-steps",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: PROCESS STEPS
+Purpose: S3-S6 — Numbered step-by-step process.
+-->
+
+<div class="content">
+  <p class="tip-label">Proceso</p>
+  <h2 class="tip-headline">Asi optimizamos tu CV</h2>
+  <div class="process">
+    <div class="proc-step">
+      <span class="proc-num">1</span>
+      <p class="proc-title">Auditoria ATS</p>
+      <p class="proc-desc">Escaneamos tu CV con el mismo software que usan las empresas.</p>
+    </div>
+    <div class="proc-step">
+      <span class="proc-num">2</span>
+      <p class="proc-title">Keyword Research</p>
+      <p class="proc-desc">Identificamos las palabras clave del puesto que buscas.</p>
+    </div>
+    <div class="proc-step">
+      <span class="proc-num">3</span>
+      <p class="proc-title">Rewrite Estrategico</p>
+      <p class="proc-desc">Reescribimos cada bullet para impacto y claridad.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.process { display: flex; flex-direction: column; gap: 20px; margin-top: 28px; }
+.proc-step { display: flex; align-items: flex-start; gap: 20px; padding: 20px 24px; border-left: 3px solid var(--accent-line); }
+.proc-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 36px; font-weight: 900; color: var(--accent); min-width: 40px; line-height: 1; opacity: 0.7; }
+.proc-title { font-family: var(--font-display), system-ui, sans-serif; font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.proc-desc { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; color: var(--text-secondary); }
+</style>

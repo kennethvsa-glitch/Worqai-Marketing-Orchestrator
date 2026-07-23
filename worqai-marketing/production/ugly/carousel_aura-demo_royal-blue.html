@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aura Agencia Creativa · Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:#111;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  min-height:100vh;
+  font-family:'Montserrat',sans-serif;
+}
+
+.file-input-hidden{display:none}
+
+.label-top{
+  font-size:11px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:#D4E034;
+  margin-bottom:16px;text-align:center;
+}
+
+/* Preview cage — scales in browser, full-res during Playwright export */
+.preview-cage{width:1080px;margin:0 auto;}
+@media(min-width:1200px){
+  .preview-cage{transform:scale(0.5);transform-origin:top center;height:540px;}
+}
+
+.viewer{width:100%;max-width:1080px;overflow:hidden;}
+.wrap{position:relative;width:100%;aspect-ratio:1/1;}
+.track{display:flex;width:100%;height:100%;transition:transform 0.42s cubic-bezier(0.4,0,0.2,1);}
+
+/* BASE SLIDE */
+.slide{
+  position:relative;
+  min-width:100%;height:100%;
+  overflow:hidden;
+  padding:56px 60px 140px;
+  display:flex;flex-direction:column;
+  background:linear-gradient(145deg,#060c22,#0D1B4B);
+}
+
+/* Grain overlay */
+.slide::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+  opacity:0.04;pointer-events:none;z-index:1;mix-blend-mode:overlay;
+}
+
+/* GEO-13 Perspective Wireframe (right-bleed, static across all slides) */
+.pw-wrap{
+  position:absolute;inset:0;
+  perspective:600px;overflow:hidden;
+  pointer-events:none;z-index:1;
+}
+.pw-grid{
+  position:absolute;
+  width:160%;height:160%;
+  top:-10%;left:20%;
+  transform-origin:50% 100%;
+  transform:rotateX(58deg) rotateZ(-12deg);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(74,143,255,0.18) 0,rgba(74,143,255,0.18) 1px,transparent 1px,transparent 80px),
+    repeating-linear-gradient(90deg,rgba(74,143,255,0.18) 0,rgba(74,143,255,0.18) 1px,transparent 1px,transparent 80px);
+  -webkit-mask-image:linear-gradient(120deg,transparent 15%,rgba(0,0,0,0.55) 50%,black 78%);
+  mask-image:linear-gradient(120deg,transparent 15%,rgba(0,0,0,0.55) 50%,black 78%);
+}
+
+/* Atmospheric glow (right side) */
+.glow{
+  position:absolute;
+  width:55%;aspect-ratio:1/1;border-radius:50%;
+  background:rgba(26,74,170,0.30);
+  filter:blur(80px);
+  top:5%;right:-15%;
+  pointer-events:none;z-index:1;
+}
+
+/* Deco-num suppressed */
+.deco-num{display:none;}
+
+/* Footer ticker */
+.ticker-wrap{
+  position:absolute;bottom:44px;left:0;right:0;
+  height:16px;overflow:hidden;z-index:3;
+}
+.ticker-track{
+  display:flex;white-space:nowrap;
+  animation:tick 26s linear infinite;
+}
+.ticker-track span{
+  font-size:8px;font-weight:700;letter-spacing:.20em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.25);
+  flex-shrink:0;
+}
+@keyframes tick{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+
+/* Chartreuse bottom bar */
+.bottom-bar{
+  position:absolute;bottom:0;left:0;right:0;
+  height:3px;background:#D4E034;z-index:3;
+}
+
+/* Brand mark */
+.brand-mark{
+  position:absolute;bottom:14px;left:60px;
+  display:flex;align-items:baseline;gap:8px;z-index:3;
+}
+.brand-name{
+  font-size:10px;font-weight:900;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(255,255,255,0.45);
+}
+.brand-handle{
+  font-size:8px;font-weight:400;letter-spacing:.08em;
+  color:rgba(255,255,255,0.22);text-transform:lowercase;
+}
+
+/* Slide counter */
+.counter{
+  position:absolute;bottom:14px;right:60px;
+  font-size:10px;font-weight:700;letter-spacing:.12em;
+  color:rgba(255,255,255,0.22);z-index:3;
+}
+
+/* Swipe pill (S1 only) */
+.swipe-pill{
+  display:inline-block;padding:7px 16px;
+  border:1px solid #D4E034;color:#D4E034;
+  font-size:9px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;border-radius:20px;
+  align-self:flex-end;
+  position:relative;z-index:2;
+}
+
+/* ===================== */
+/* SLIDE 1 — POSTER LOCKUP */
+/* ===================== */
+.s1-content{
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  flex:1;min-height:0;
+  position:relative;z-index:2;
+}
+.s1-agency-label{
+  font-size:9px;font-weight:700;letter-spacing:.24em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+}
+.s1-headline{
+  font-size:clamp(52px,8.5vw,86px);font-weight:900;
+  color:#FFFFFF;line-height:1.0;letter-spacing:-.04em;
+}
+.s1-headline em{
+  font-style:italic;color:#D4E034;
+  display:block;
+}
+.s1-sub{
+  font-size:clamp(14px,2.5vw,17px);font-weight:300;
+  color:rgba(255,255,255,0.60);line-height:1.55;
+  max-width:72%;margin-top:16px;
+}
+.s1-bottom{
+  display:flex;align-items:flex-end;justify-content:flex-end;
+  padding-bottom:0;
+}
+
+/* ===================== */
+/* SLIDE 2 — TWO-COLUMN  */
+/* ===================== */
+.s2-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:36px;
+  flex:1;min-height:0;
+  position:relative;z-index:2;
+  align-items:center;
+}
+.s2-divider{
+  position:absolute;left:calc(50% - 18px);
+  top:0;bottom:0;
+  width:1px;background:rgba(212,224,52,0.20);
+  z-index:2;
+}
+.s2-text{
+  display:flex;flex-direction:column;gap:14px;
+}
+.s2-overline{
+  font-size:9px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:#D4E034;
+}
+.s2-title-top{
+  font-size:clamp(24px,4vw,38px);font-weight:900;
+  color:#FFFFFF;letter-spacing:-.03em;line-height:1.05;
+  text-transform:uppercase;
+}
+.s2-title-bot{
+  font-size:clamp(36px,6vw,58px);font-weight:900;font-style:italic;
+  color:#D4E034;letter-spacing:-.04em;line-height:1.0;
+  margin-top:-4px;
+}
+.s2-body{
+  font-size:clamp(12px,2.1vw,14px);font-weight:300;
+  color:rgba(255,255,255,0.65);line-height:1.65;
+  margin-top:4px;
+}
+.s2-photo-frame{
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.12);
+  overflow:hidden;
+  aspect-ratio:3/4;
+  background:rgba(255,255,255,0.04);
+  position:relative;
+}
+.img-zone{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center top;
+  display:flex;align-items:center;justify-content:center;
+}
+.img-zone:not(.has-image)::after{
+  content:attr(data-label);
+  font-size:8px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(212,224,52,0.35);
+  text-align:center;padding:8px;
+}
+
+/* ========================= */
+/* SLIDES 3 & 4 — SERVICE   */
+/* ========================= */
+.service-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:28px;
+  flex:1;min-height:0;
+  position:relative;z-index:2;
+  align-items:start;
+}
+
+/* Mega drop-cap letter — brand signature, not a deco-num */
+.drop-letter{
+  position:absolute;
+  font-size:500px;font-weight:900;font-style:italic;
+  color:#D4E034;opacity:0.08;
+  line-height:1;letter-spacing:-.06em;
+  pointer-events:none;z-index:1;
+  user-select:none;
+  top:-80px;
+}
+.drop-s{right:28%;}
+.drop-p{left:26%;}
+
+.svc-text{
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;z-index:2;
+}
+.svc-overline{
+  font-size:8px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+}
+.svc-tag{
+  font-size:8px;font-weight:700;letter-spacing:.20em;
+  text-transform:uppercase;color:#D4E034;
+  margin-top:-6px;
+}
+.svc-title1{
+  font-size:clamp(20px,3.2vw,30px);font-weight:900;
+  color:#FFFFFF;letter-spacing:-.02em;line-height:1.1;
+  text-transform:uppercase;
+}
+.svc-title2{
+  font-size:clamp(34px,5.5vw,54px);font-weight:900;font-style:italic;
+  color:#D4E034;letter-spacing:-.04em;line-height:1.0;
+  margin-top:-4px;
+}
+.svc-sub{
+  font-size:clamp(10px,1.8vw,12px);font-weight:400;
+  color:rgba(255,255,255,0.45);letter-spacing:.02em;
+}
+.svc-list{
+  list-style:none;display:flex;flex-direction:column;gap:10px;
+  margin-top:6px;
+}
+.svc-list li{
+  font-size:clamp(12px,2vw,14px);font-weight:300;
+  color:rgba(255,255,255,0.80);line-height:1.4;
+  padding-left:14px;position:relative;
+}
+.svc-list li::before{
+  content:'';
+  position:absolute;left:0;top:7px;
+  width:4px;height:4px;border-radius:50%;
+  background:#D4E034;opacity:0.70;
+}
+.svc-photo-frame{
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.10);
+  overflow:hidden;
+  aspect-ratio:3/4;
+  background:rgba(255,255,255,0.04);
+  position:relative;z-index:2;
+}
+
+/* ========================= */
+/* SLIDE 5 — PROCESS STEPS  */
+/* ========================= */
+.s5-content{
+  display:flex;flex-direction:column;
+  justify-content:center;gap:36px;
+  flex:1;min-height:0;
+  position:relative;z-index:2;
+}
+.s5-overline{
+  font-size:9px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+  margin-bottom:6px;
+}
+.s5-title1{
+  font-size:clamp(22px,3.5vw,32px);font-weight:900;
+  color:#FFFFFF;letter-spacing:-.02em;text-transform:uppercase;
+}
+.s5-title2{
+  font-size:clamp(46px,7vw,70px);font-weight:900;font-style:italic;
+  color:#D4E034;letter-spacing:-.04em;line-height:1.0;
+}
+.steps-row{
+  display:grid;
+  grid-template-columns:1fr 32px 1fr 32px 1fr;
+  gap:8px;align-items:center;
+}
+.step{display:flex;flex-direction:column;gap:6px;}
+.step-num{
+  font-size:clamp(48px,8vw,76px);font-weight:900;
+  color:#D4E034;letter-spacing:-.04em;line-height:1;
+}
+.step-label{
+  font-size:clamp(13px,2.2vw,16px);font-weight:700;
+  color:#FFFFFF;letter-spacing:-.01em;
+}
+.step-desc{
+  font-size:clamp(11px,1.8vw,13px);font-weight:300;
+  color:rgba(255,255,255,0.50);line-height:1.45;
+}
+.step-arrow{
+  font-size:20px;color:rgba(212,224,52,0.35);
+  text-align:center;padding-bottom:20px;
+  font-weight:300;
+}
+.s5-sub{
+  font-size:clamp(13px,2.2vw,16px);font-weight:300;
+  color:rgba(255,255,255,0.55);line-height:1.6;
+  border-top:1px solid rgba(212,224,52,0.18);
+  padding-top:22px;
+}
+
+/* ========================= */
+/* SLIDE 6 — CTA            */
+/* ========================= */
+.s6-content{
+  display:flex;flex-direction:column;
+  justify-content:center;gap:24px;
+  flex:1;min-height:0;
+  position:relative;z-index:2;
+}
+.s6-wordmark{
+  font-size:clamp(58px,9vw,90px);font-weight:900;
+  color:#FFFFFF;letter-spacing:-.05em;line-height:1;
+}
+.s6-wordmark-sub{
+  font-size:10px;font-weight:400;letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.28);
+  margin-top:-8px;
+  margin-bottom:8px;
+}
+.s6-overline{
+  font-size:9px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.35);
+}
+.s6-h1{
+  font-size:clamp(18px,3vw,26px);font-weight:700;
+  color:#FFFFFF;letter-spacing:-.01em;
+}
+.s6-h2{
+  font-size:clamp(50px,8vw,80px);font-weight:900;font-style:italic;
+  color:#D4E034;letter-spacing:-.05em;line-height:1.0;
+  margin-top:-6px;
+}
+.s6-phone{
+  font-size:clamp(28px,4.5vw,44px);font-weight:900;
+  color:#FFFFFF;letter-spacing:-.01em;margin-top:4px;
+}
+.s6-wa{
+  font-size:clamp(11px,1.8vw,13px);font-weight:300;
+  color:rgba(255,255,255,0.40);letter-spacing:.06em;
+  margin-top:2px;
+}
+.s6-accent-bar{
+  position:absolute;bottom:72px;left:60px;
+  width:72px;height:3px;background:#D4E034;z-index:3;
+}
+
+/* ========================= */
+/* NAVIGATION & CONTROLS    */
+/* ========================= */
+.controls{
+  display:flex;gap:16px;align-items:center;
+  justify-content:center;margin-top:16px;
+}
+.btn{
+  background:rgba(255,255,255,0.08);border:none;
+  color:rgba(255,255,255,0.5);
+  width:36px;height:36px;border-radius:50%;
+  cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+}
+.btn:disabled{opacity:0.2;cursor:default;}
+.dots{display:flex;gap:6px;}
+.dot{
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  cursor:pointer;transition:all 0.2s;
+}
+.dot.on{background:#D4E034;width:14px;border-radius:3px;}
+.hint{
+  font-size:10px;color:rgba(255,255,255,0.2);
+  letter-spacing:.12em;text-transform:uppercase;
+  margin-top:10px;text-align:center;
+}
+
+/* ZIP Export */
+.zip-btn{
+  margin-top:16px;padding:12px 28px;
+  background:#D4E034;border:none;cursor:pointer;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:#060c22;border-radius:4px;
+}
+.zip-btn:disabled{opacity:0.6;cursor:default;}
+.zip-progress{
+  font-size:10px;color:rgba(255,255,255,0.25);
+  letter-spacing:.12em;text-transform:uppercase;
+  margin-top:8px;text-align:center;
+}
+
+/* Upload panel */
+.upload-panel-label{
+  font-size:10px;font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.28);
+  margin-top:22px;text-align:center;
+}
+.upload-panel{
+  display:flex;gap:10px;margin-top:8px;
+  flex-wrap:wrap;justify-content:center;
+}
+.up-btn{
+  padding:8px 14px;
+  border:1px solid rgba(212,224,52,0.28);
+  cursor:pointer;border-radius:4px;
+  font-size:9px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(212,224,52,0.60);
+  display:flex;align-items:center;gap:6px;
+  font-family:'Montserrat',sans-serif;
+  transition:border-color 0.2s,color 0.2s;
+}
+.up-btn.done{border-color:#D4E034;color:#D4E034;}
+.up-check{opacity:0;transition:opacity 0.2s;}
+.up-btn.done .up-check{opacity:1;}
+
+/* Capture mode guard */
+.capture-mode .preview-cage{transform:none !important;}
+</style>
+</head>
+<body>
+
+<p class="label-top">AURA AGENCIA CREATIVA · DEMO CAROUSEL</p>
+
+<!-- Photo file inputs — placed OUTSIDE .wrap (excluded from html2canvas capture) -->
+<input type="file" id="file-s2" class="file-input-hidden" accept="image/*">
+<input type="file" id="file-s3" class="file-input-hidden" accept="image/*">
+<input type="file" id="file-s4" class="file-input-hidden" accept="image/*">
+
+<div class="preview-cage">
+  <div class="viewer">
+    <div class="wrap" id="wrap">
+      <div class="track" id="track">
+
+        <!-- ============================================ -->
+        <!-- S1 · HOOK — POSTER LOCKUP                  -->
+        <!-- ============================================ -->
+        <div class="slide" id="s1">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow"></div>
+          <!-- Blob B · Wave Sweep · rotate 0deg -->
+          <svg class="blob" viewBox="0 0 700 620" fill="none"
+               style="position:absolute;top:0;right:0;height:100%;width:65%;pointer-events:none;z-index:1;transform:rotate(0deg)">
+            <path d="M700,0 C520,90 400,0 340,220 C280,440 400,580 700,620 Z"
+                  fill="#1a4aaa" fill-opacity="0.22"/>
+          </svg>
+
+          <div class="s1-content">
+            <p class="s1-agency-label">Agencia Creativa · Costa Rica</p>
+
+            <div>
+              <p class="s1-headline">
+                ¿Tu marca<br>se ve como<br><em>lo que vale?</em>
+              </p>
+              <p class="s1-sub">El contenido de tu competencia ya te superó. Nosotros lo arreglamos.</p>
+            </div>
+
+            <div class="s1-bottom">
+              <div class="swipe-pill">Desliza →</div>
+            </div>
+          </div>
+
+          <div class="ticker-wrap"><div class="ticker-track"><span>Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;·&nbsp; Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>
+          <div class="bottom-bar"></div>
+          <div class="brand-mark">
+            <span class="brand-name">Aura</span>
+            <span class="brand-handle">@aura.agenciacreativacr</span>
+          </div>
+          <div class="counter">1 / 6</div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- S2 · TRANSFORMATION — TWO COLUMN (REST)   -->
+        <!-- ============================================ -->
+        <div class="slide" id="s2">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow"></div>
+          <!-- Blob B · rotate 5deg -->
+          <svg class="blob" viewBox="0 0 700 620" fill="none"
+               style="position:absolute;top:0;right:0;height:100%;width:65%;pointer-events:none;z-index:1;transform:rotate(5deg)">
+            <path d="M700,0 C520,90 400,0 340,220 C280,440 400,580 700,620 Z"
+                  fill="#1a4aaa" fill-opacity="0.22"/>
+          </svg>
+
+          <div class="s2-layout">
+            <div class="s2-divider"></div>
+            <!-- Left: text -->
+            <div class="s2-text">
+              <p class="s2-overline">El resultado</p>
+              <div>
+                <p class="s2-title-top">Contenido que</p>
+                <p class="s2-title-bot">Hace vender</p>
+              </div>
+              <p class="s2-body">Reels, carruseles, fotos de marca — producidos para que tus clientes confíen antes de llegar al consultorio.</p>
+            </div>
+            <!-- Right: photo zone -->
+            <div class="s2-photo-frame">
+              <div class="img-zone" id="zone-s2"
+                   data-label="FOTO · SLIDE 2"
+                   data-image-prompt="Professional Latina woman in white aesthetic medical uniform, clean white studio background, confident warm smile, waist-up portrait, editorial brand photography, natural soft lighting"
+                   data-image-position="right-split">
+              </div>
+            </div>
+          </div>
+
+          <div class="ticker-wrap"><div class="ticker-track"><span>Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;·&nbsp; Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>
+          <div class="bottom-bar"></div>
+          <div class="brand-mark">
+            <span class="brand-name">Aura</span>
+            <span class="brand-handle">@aura.agenciacreativacr</span>
+          </div>
+          <div class="counter">2 / 6</div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- S3 · SOCIAL MEDIA — SPLIT RIGHT            -->
+        <!-- ============================================ -->
+        <div class="slide" id="s3">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow"></div>
+          <!-- Blob B · rotate 10deg -->
+          <svg class="blob" viewBox="0 0 700 620" fill="none"
+               style="position:absolute;top:0;right:0;height:100%;width:65%;pointer-events:none;z-index:1;transform:rotate(10deg)">
+            <path d="M700,0 C520,90 400,0 340,220 C280,440 400,580 700,620 Z"
+                  fill="#1a4aaa" fill-opacity="0.22"/>
+          </svg>
+
+          <!-- Drop-cap S — brand signature mega letter -->
+          <div class="drop-letter drop-s">S</div>
+
+          <div class="service-grid">
+            <!-- Left: text -->
+            <div class="svc-text">
+              <p class="svc-overline">Paquetes</p>
+              <p class="svc-tag">MENSUAL</p>
+              <div>
+                <p class="svc-title1">Gestión de</p>
+                <p class="svc-title2">Social Media</p>
+              </div>
+              <ul class="svc-list">
+                <li>Reels y contenido semanal</li>
+                <li>Diseño de posts y carruseles</li>
+                <li>Calendario editorial</li>
+                <li>Estrategia y hashtags</li>
+                <li>Fotografía para redes</li>
+              </ul>
+            </div>
+            <!-- Right: photo -->
+            <div class="svc-photo-frame">
+              <div class="img-zone" id="zone-s3"
+                   data-label="FOTO · SLIDE 3"
+                   data-image-prompt="Professional Latina woman in white medical aesthetic uniform, clean white background, warm confident smile, waist-up portrait, brand photography"
+                   data-image-position="right-split">
+              </div>
+            </div>
+          </div>
+
+          <div class="ticker-wrap"><div class="ticker-track"><span>Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;·&nbsp; Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>
+          <div class="bottom-bar"></div>
+          <div class="brand-mark">
+            <span class="brand-name">Aura</span>
+            <span class="brand-handle">@aura.agenciacreativacr</span>
+          </div>
+          <div class="counter">3 / 6</div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- S4 · AUDIOVISUAL — SPLIT LEFT              -->
+        <!-- ============================================ -->
+        <div class="slide" id="s4">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow"></div>
+          <!-- Blob B · rotate 15deg -->
+          <svg class="blob" viewBox="0 0 700 620" fill="none"
+               style="position:absolute;top:0;right:0;height:100%;width:65%;pointer-events:none;z-index:1;transform:rotate(15deg)">
+            <path d="M700,0 C520,90 400,0 340,220 C280,440 400,580 700,620 Z"
+                  fill="#1a4aaa" fill-opacity="0.22"/>
+          </svg>
+
+          <!-- Drop-cap P (Producción) -->
+          <div class="drop-letter drop-p">P</div>
+
+          <div class="service-grid">
+            <!-- Left: photo -->
+            <div class="svc-photo-frame">
+              <div class="img-zone" id="zone-s4"
+                   data-label="FOTO · SLIDE 4"
+                   data-image-prompt="Two young Latina women in pastel lifestyle clothing, soft pastel pink background, cheerful natural smiles, lifestyle brand photography style, clean studio light"
+                   data-image-position="left-split">
+              </div>
+            </div>
+            <!-- Right: text -->
+            <div class="svc-text">
+              <p class="svc-overline">Para empresas y marcas personales</p>
+              <div>
+                <p class="svc-title1">Producción</p>
+                <p class="svc-title2">Audiovisual</p>
+              </div>
+              <ul class="svc-list">
+                <li>Videos corporativos y promocionales</li>
+                <li>Reels individuales o por paquete</li>
+                <li>Testimoniales de clientes</li>
+                <li>Fotos de producto y marca personal</li>
+                <li>Sesiones en estudio o locación</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ticker-wrap"><div class="ticker-track"><span>Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;·&nbsp; Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>
+          <div class="bottom-bar"></div>
+          <div class="brand-mark">
+            <span class="brand-name">Aura</span>
+            <span class="brand-handle">@aura.agenciacreativacr</span>
+          </div>
+          <div class="counter">4 / 6</div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- S5 · PROCESS STEPS — REST SLIDE            -->
+        <!-- ============================================ -->
+        <div class="slide" id="s5">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow"></div>
+          <!-- Blob B · rotate 20deg -->
+          <svg class="blob" viewBox="0 0 700 620" fill="none"
+               style="position:absolute;top:0;right:0;height:100%;width:65%;pointer-events:none;z-index:1;transform:rotate(20deg)">
+            <path d="M700,0 C520,90 400,0 340,220 C280,440 400,580 700,620 Z"
+                  fill="#1a4aaa" fill-opacity="0.22"/>
+          </svg>
+
+          <div class="s5-content">
+            <div>
+              <p class="s5-overline">Nuestro proceso</p>
+              <p class="s5-title1">Así</p>
+              <p class="s5-title2">Trabajamos</p>
+            </div>
+
+            <div class="steps-row">
+              <div class="step">
+                <span class="step-num">01</span>
+                <span class="step-label">Brief</span>
+                <span class="step-desc">Nos contás qué necesitás. Nosotros tomamos de ahí.</span>
+              </div>
+              <div class="step-arrow">→</div>
+              <div class="step">
+                <span class="step-num">02</span>
+                <span class="step-label">Producción</span>
+                <span class="step-desc">Diseño, grabación y edición en nuestros plazos.</span>
+              </div>
+              <div class="step-arrow">→</div>
+              <div class="step">
+                <span class="step-num">03</span>
+                <span class="step-label">Entrega</span>
+                <span class="step-desc">Archivos listos para publicar. Sin trabajo extra.</span>
+              </div>
+            </div>
+
+            <p class="s5-sub">Coordinamos todo. Vos solo aprobás y publicás.</p>
+          </div>
+
+          <div class="ticker-wrap"><div class="ticker-track"><span>Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;·&nbsp; Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>
+          <div class="bottom-bar"></div>
+          <div class="brand-mark">
+            <span class="brand-name">Aura</span>
+            <span class="brand-handle">@aura.agenciacreativacr</span>
+          </div>
+          <div class="counter">5 / 6</div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- S6 · CTA                                   -->
+        <!-- ============================================ -->
+        <div class="slide" id="s6">
+          <div class="pw-wrap"><div class="pw-grid"></div></div>
+          <div class="glow"></div>
+          <!-- Blob B · rotate 25deg -->
+          <svg class="blob" viewBox="0 0 700 620" fill="none"
+               style="position:absolute;top:0;right:0;height:100%;width:65%;pointer-events:none;z-index:1;transform:rotate(25deg)">
+            <path d="M700,0 C520,90 400,0 340,220 C280,440 400,580 700,620 Z"
+                  fill="#1a4aaa" fill-opacity="0.22"/>
+          </svg>
+
+          <div class="s6-content">
+            <div>
+              <p class="s6-wordmark">AURA</p>
+              <p class="s6-wordmark-sub">Agencia Creativa</p>
+            </div>
+            <div>
+              <p class="s6-overline">¿Querés saber más?</p>
+              <p class="s6-h1">Para más información</p>
+              <p class="s6-h2">Escribinos</p>
+            </div>
+            <div>
+              <p class="s6-phone">📞 8883&nbsp;0025</p>
+              <p class="s6-wa">Respondemos por WhatsApp</p>
+            </div>
+          </div>
+
+          <div class="s6-accent-bar"></div>
+          <div class="ticker-wrap"><div class="ticker-track"><span>Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;·&nbsp; Social Media &nbsp;·&nbsp; Contenido Audiovisual &nbsp;·&nbsp; Fotografía &nbsp;·&nbsp; Videos Corporativos &nbsp;·&nbsp; Marca Personal &nbsp;·&nbsp; Eventos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div></div>
+          <div class="bottom-bar"></div>
+          <div class="brand-mark">
+            <span class="brand-name">Aura</span>
+            <span class="brand-handle">@aura.agenciacreativacr</span>
+          </div>
+          <div class="counter">6 / 6</div>
+        </div>
+
+      </div><!-- /track -->
+    </div><!-- /wrap -->
+  </div><!-- /viewer -->
+</div><!-- /preview-cage -->
+
+<!-- Controls OUTSIDE preview-cage (no scale distortion) -->
+<div class="controls">
+  <button class="btn" id="prev" onclick="move(-1)">←</button>
+  <div class="dots">
+    <div class="dot on" onclick="go(0)"></div>
+    <div class="dot" onclick="go(1)"></div>
+    <div class="dot" onclick="go(2)"></div>
+    <div class="dot" onclick="go(3)"></div>
+    <div class="dot" onclick="go(4)"></div>
+    <div class="dot" onclick="go(5)"></div>
+  </div>
+  <button class="btn" id="next" onclick="move(1)">→</button>
+</div>
+<p class="hint">← TECLAS → · DESLIZA EN MÓVIL</p>
+
+<button class="zip-btn" id="zipBtn" onclick="exportZip()">
+  <span class="zip-label">Exportar ZIP · PNGs</span>
+</button>
+<p class="zip-progress" id="zipProgress">1080 × 1080 px · full quality</p>
+
+<p class="upload-panel-label">Fotos del carousel</p>
+<div class="upload-panel">
+  <label class="up-btn" for="file-s2" id="btn-s2">
+    <span class="up-label">Slide 2 · Foto principal</span>
+    <span class="up-check">✓</span>
+  </label>
+  <label class="up-btn" for="file-s3" id="btn-s3">
+    <span class="up-label">Slide 3 · Social Media</span>
+    <span class="up-check">✓</span>
+  </label>
+  <label class="up-btn" for="file-s4" id="btn-s4">
+    <span class="up-label">Slide 4 · Audiovisual</span>
+    <span class="up-check">✓</span>
+  </label>
+</div>
+
+<script>
+let cur = 0;
+const slides = document.querySelectorAll('.slide');
+const track  = document.getElementById('track');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+const dots   = document.querySelectorAll('.dot');
+
+function go(n) {
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  track.style.transform = `translateX(-${cur * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  prevBtn.disabled = cur === 0;
+  nextBtn.disabled = cur === slides.length - 1;
+}
+function move(dir) { go(cur + dir); }
+
+let sx = 0;
+document.getElementById('wrap').addEventListener('touchstart', e => { sx = e.touches[0].clientX; });
+document.getElementById('wrap').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - sx;
+  if (Math.abs(dx) > 40) move(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft')  move(-1);
+});
+go(0);
+
+/* Photo upload */
+const uploadMap = [
+  { inputId: 'file-s2', zoneId: 'zone-s2', btnId: 'btn-s2' },
+  { inputId: 'file-s3', zoneId: 'zone-s3', btnId: 'btn-s3' },
+  { inputId: 'file-s4', zoneId: 'zone-s4', btnId: 'btn-s4' },
+];
+uploadMap.forEach(({ inputId, zoneId, btnId }) => {
+  document.getElementById(inputId).addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const zone = document.getElementById(zoneId);
+      zone.style.backgroundImage = `url(${ev.target.result})`;
+      zone.style.backgroundSize  = 'cover';
+      zone.style.backgroundPosition = 'center top';
+      zone.classList.add('has-image');
+      document.getElementById(btnId).classList.add('done');
+    };
+    reader.readAsDataURL(file);
+    this.value = '';
+  });
+});
+
+/* ZIP Export */
+async function exportZip() {
+  if (typeof html2canvas === 'undefined' || typeof JSZip === 'undefined') {
+    alert('Necesita conexión a internet para cargar las librerías.'); return;
+  }
+  const zipBtn   = document.getElementById('zipBtn');
+  const progress = document.getElementById('zipProgress');
+  const zipLabel = zipBtn.querySelector('.zip-label');
+  zipBtn.disabled = true; zipBtn.style.opacity = '0.6';
+
+  const zip  = new JSZip();
+  const wrap = document.getElementById('wrap');
+  const scale = Math.round((1080 / wrap.getBoundingClientRect().width) * 10) / 10;
+
+  track.style.transition = 'none';
+  document.body.classList.add('capture-mode');
+
+  for (let i = 0; i < slides.length; i++) {
+    zipLabel.textContent = `Capturando ${i + 1} / ${slides.length}...`;
+    progress.textContent = `Slide ${i + 1} de ${slides.length}`;
+    track.style.transform = `translateX(-${i * 100}%)`;
+    await new Promise(r => setTimeout(r, 200));
+    try {
+      const canvas = await html2canvas(wrap, {
+        scale, useCORS: true, allowTaint: true,
+        backgroundColor: null, logging: false, imageTimeout: 0
+      });
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1.0));
+      zip.file(`slide_0${i + 1}.png`, blob);
+    } catch (err) { console.error(err); }
+  }
+
+  document.body.classList.remove('capture-mode');
+  track.style.transition = ''; go(cur);
+
+  zipLabel.textContent = 'Comprimiendo...';
+  const zipBlob = await zip.generateAsync({
+    type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+  });
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(zipBlob),
+    download: 'AuraAgencia_WhiteLabel_Demo.zip'
+  });
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+
+  zipLabel.textContent = '✓ ZIP descargado';
+  progress.textContent = `${slides.length} archivos · slide_01–0${slides.length}.png`;
+  zipBtn.style.opacity = '1'; zipBtn.disabled = false;
+  setTimeout(() => {
+    zipLabel.textContent = 'Exportar ZIP · PNGs';
+    progress.textContent = '1080 × 1080 px · full quality';
+  }, 3000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+- [Kenneth's role and constraints](user_kenneth_context.md) — Solo marketing operator, CR-based, currently in financial crisis (2026-05-08). Wants direct, cash-first strategy.
+- [Carousel monetization lane](project_carousel_monetization.md) — Third revenue lane: white-label carousel production for agencies. Strategy at roadmap/carousel-monetization-strategy.md.

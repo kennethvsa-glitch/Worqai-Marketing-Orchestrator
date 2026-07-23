@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scene 8 Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .scene-wrapper {
+    width: 1080px;
+    height: 1920px;
+    transform: scale(0.4);
+    transform-origin: top left;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #0B0F14 0%, #0D1018 40%, #11141D 100%);
+    flex-shrink: 0;
+  }
+
+  /* --- GRID BACKGROUND --- */
+  .bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(31,36,45,0.25) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(31,36,45,0.25) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  /* --- GLOW BLOBS --- */
+  .bg-glow-top {
+    position: absolute;
+    top: -200px;
+    right: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(57,255,20,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .bg-glow-mid {
+    position: absolute;
+    top: 600px;
+    left: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(57,255,20,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* --- SINE WAVE SVG --- */
+  .bg-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 700px;
+    height: 600px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* --- PARTICLES --- */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    background: #A6FF25;
+    border-radius: 50%;
+  }
+
+  /* --- MAIN LAYOUT --- */
+  .layout {
+    position: absolute;
+    inset: 0;
+    padding: 160px 64px 80px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* --- TOP SECTION: text + flow diagram side by side --- */
+  .top-section {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* --- LEFT: Marketing text --- */
+  .text-col {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 40px;
+    gap: 0;
+    opacity: 0;
+  }
+
+  .headline {
+    font-size: 72px;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.05;
+    letter-spacing: -1px;
+  }
+
+  .headline-lime {
+    font-size: 72px;
+    font-weight: 800;
+    color: #A6FF25;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    text-shadow: 0 0 20px rgba(166,255,37,0.25);
+  }
+
+  .subtext {
+    font-size: 26px;
+    font-weight: 400;
+    color: #CFCFCF;
+    line-height: 1.45;
+    margin-top: 36px;
+    max-width: 440px;
+  }
+
+  .cta-text {
+    margin-top: 52px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .cta-line {
+    font-size: 64px;
+    font-weight: 800;
+    color: #A6FF25;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 16px rgba(166,255,37,0.2);
+  }
+
+  /* --- RIGHT: Flow diagram --- */
+  .flow-col {
+    width: 340px;
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+  }
+
+  /* Flow path SVG */
+  .flow-svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 700px;
+    overflow: visible;
+    opacity: 0;
+  }
+
+  /* Icon cards on flow */
+  .icon-card {
+    width: 130px;
+    height: 130px;
+    border-radius: 24px;
+    background: rgba(20,25,32,0.75);
+    border: 1.5px solid rgba(166,255,37,0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 16px rgba(57,255,20,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.8);
+    left: 50%;
+    transform-origin: center center;
+  }
+
+  .icon-card svg {
+    width: 56px;
+    height: 56px;
+  }
+
+  .icon-card-1 { top: 30px; transform: translateX(-50%) scale(0.8); }
+  .icon-card-2 { top: 260px; transform: translateX(-50%) scale(0.8); }
+  .icon-card-3 { top: 490px; transform: translateX(-50%) scale(0.8); }
+
+  /* X node */
+  .x-node {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid rgba(166,255,37,0.6);
+    background: rgba(20,25,32,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: #A6FF25;
+    top: 185px;
+    left: 60%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 20px rgba(57,255,20,0.3), inset 0 0 10px rgba(57,255,20,0.05);
+    opacity: 0;
+  }
+
+  /* --- BOTTOM GLASS PANEL --- */
+  .bottom-panel {
+    width: 760px;
+    min-height: 230px;
+    margin: 60px auto 0 auto;
+    background: rgba(15,20,28,0.7);
+    border: 1.5px solid rgba(166,255,37,0.2);
+    border-radius: 24px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 40px rgba(57,255,20,0.05);
+    padding: 44px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  .bottom-title {
+    font-size: 30px;
+    font-weight: 800;
+    color: #A6FF25;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    text-shadow: 0 0 14px rgba(166,255,37,0.3);
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .check-row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .check-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid rgba(166,255,37,0.5);
+    background: rgba(57,255,20,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .check-circle svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .check-text {
+    font-size: 24px;
+    font-weight: 500;
+    color: #E6E6E6;
+    line-height: 1.3;
+  }
+
+  /* Text lines for animation */
+  .text-line {
+    opacity: 0;
+    transform: translateY(20px);
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene-wrapper" id="scene">
+
+  <!-- Background grid -->
+  <div class="bg-grid"></div>
+
+  <!-- Background glows -->
+  <div class="bg-glow-top"></div>
+  <div class="bg-glow-mid"></div>
+
+  <!-- Sine wave background lines -->
+  <svg class="bg-waves" id="bgWaves" viewBox="0 0 700 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-50 500 Q100 430 250 480 Q400 530 550 460 Q680 400 780 440" stroke="#39FF14" stroke-width="1.5" fill="none" opacity="0.35"/>
+    <path d="M-50 540 Q120 460 280 510 Q420 560 580 490 Q700 430 800 470" stroke="#39FF14" stroke-width="1" fill="none" opacity="0.2"/>
+    <path d="M-80 460 Q80 390 220 440 Q370 490 520 420 Q660 360 760 400" stroke="#A6FF25" stroke-width="1" fill="none" opacity="0.15"/>
+    <path d="M-100 580 Q60 510 200 560 Q350 610 500 540 Q640 480 750 520" stroke="#39FF14" stroke-width="0.8" fill="none" opacity="0.12"/>
+    <!-- Small x markers -->
+    <text x="80" y="420" fill="#39FF14" font-size="18" opacity="0.3" font-family="Inter">×</text>
+    <text x="200" y="380" fill="#39FF14" font-size="14" opacity="0.2" font-family="Inter">×</text>
+    <text x="320" y="440" fill="#39FF14" font-size="16" opacity="0.25" font-family="Inter">×</text>
+    <text x="60" y="350" fill="#39FF14" font-size="12" opacity="0.2" font-family="Inter">×</text>
+  </svg>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Main layout -->
+  <div class="layout">
+    <div class="top-section">
+
+      <!-- LEFT: Marketing text -->
+      <div class="text-col" id="textCol">
+        <div class="headline">
+          <span class="text-line" id="tl1">Las empresas usan</span>
+          <span class="text-line" id="tl2">bots para descartarte.</span>
+        </div>
+        <div class="headline-lime" style="margin-top: 20px;">
+          <span class="text-line" id="tl3">Nosotros invertimos</span>
+          <span class="text-line" id="tl4">el proceso.</span>
+        </div>
+        <p class="subtext text-line" id="tl5">WorqAI reconstruye tu CV con todo lo que el bot busca.</p>
+        <div class="cta-text">
+          <div class="cta-line text-line" id="tl6">Ellos tienen un algoritmo.</div>
+          <div class="cta-line text-line" id="tl7">Ahora tú también.</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Flow diagram -->
+      <div class="flow-col" id="flowCol">
+
+        <!-- Flow path SVG -->
+        <svg class="flow-svg" id="flowSvg" viewBox="0 0 200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow-path">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            </filter>
+          </defs>
+          <!-- Main curved path from top icon down through x-node to bottom icon -->
+          <path id="flowPath"
+            d="M100 65 C100 130 130 150 130 195 C130 240 100 260 100 330 C100 400 130 420 130 465 C130 510 100 530 100 570"
+            stroke="#A6FF25"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            filter="url(#glow-path)"
+            opacity="0.85"
+          />
+          <!-- Arrow tip -->
+          <polygon points="100,578 93,558 107,558" fill="#A6FF25" opacity="0.85"/>
+        </svg>
+
+        <!-- Icon Card 1: Building -->
+        <div class="icon-card icon-card-1" id="iconCard1">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="16" width="36" height="30" rx="2" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+            <rect x="18" y="6" width="20" height="12" rx="2" stroke="#9CA3AF" stroke-width="2" fill="none"/>
+            <rect x="23" y="34" width="10" height="12" rx="1" stroke="#9CA3AF" stroke-width="1.5" fill="rgba(156,163,175,0.1)"/>
+            <rect x="14" y="22" width="7" height="7" rx="1" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            <rect x="35" y="22" width="7" height="7" rx="1" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            <line x1="10" y1="46" x2="46" y2="46" stroke="#9CA3AF" stroke-width="2"/>
+          </svg>
+        </div>
+
+        <!-- X Node (between card 1 and 2) -->
+        <div class="x-node" id="xNode">✕</div>
+
+        <!-- Icon Card 2: Robot/Bot -->
+        <div class="icon-card icon-card-2" id="iconCard2">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <rect x="12" y="18" width="32" height="24" rx="6" stroke="#9CA3AF" stroke-width="2" fill="rgba(156,163,175,0.05)"/>
+            <!-- Eyes -->
+            <circle cx="21" cy="28" r="4" fill="none" stroke="#A6FF25" stroke-width="1.5"/>
+            <circle cx="35" cy="28" r="4" fill="none" stroke="#A6FF25" stroke-width="1.5"/>
+            <circle cx="21" cy="28" r="1.5" fill="#A6FF25"/>
+            <circle cx="35" cy="28" r="1.5" fill="#A6FF25"/>
+            <!-- Mouth -->
+            <rect x="19" y="35" width="18" height="3" rx="1.5" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            <!-- Antenna -->
+            <line x1="28" y1="18" x2="28" y2="10" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="8" r="3" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            <!-- Ears -->
+            <rect x="6" y="24" width="6" height="10" rx="2" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+            <rect x="44" y="24" width="6" height="10" rx="2" stroke="#9CA3AF" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Icon Card 3: Person/Profile -->
+        <div class="icon-card icon-card-3" id="iconCard3">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head -->
+            <circle cx="28" cy="20" r="10" stroke="#A6FF25" stroke-width="2" fill="rgba(166,255,37,0.05)"/>
+            <!-- Body/shoulders -->
+            <path d="M10 46 C10 36 18 30 28 30 C38 30 46 36 46 46" stroke="#A6FF25" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Check badge -->
+            <circle cx="42" cy="14" r="9" fill="#0B0F14" stroke="#A6FF25" stroke-width="1.5"/>
+            <path d="M37 14 L40 17 L47 10" stroke="#A6FF25" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM GLASS PANEL -->
+    <div class="bottom-panel" id="bottomPanel">
+      <div class="bottom-title">WorqAI</div>
+      <div class="checklist">
+        <div class="check-row">
+          <div class="check-circle">
+            <svg viewBox="0 0 18 18" fill="none">
+              <path d="M3 9 L7 13 L15 5" stroke="#A6FF25" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-text">CV optimizado para ATS automáticamente</span>
+        </div>
+        <div class="check-row">
+          <div class="check-circle">
+            <svg viewBox="0 0 18 18" fill="none">
+              <path d="M3 9 L7 13 L15 5" stroke="#A6FF25" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-text">Palabras clave del puesto integradas</span>
+        </div>
+        <div class="check-row">
+          <div class="check-circle">
+            <svg viewBox="0 0 18 18" fill="none">
+              <path d="M3 9 L7 13 L15 5" stroke="#A6FF25" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="check-text">Formato profesional listo para enviar</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .layout -->
+
+</div><!-- end .scene-wrapper -->
+
+<script src="../vendor/gsap/gsap-3.15.0.min.js"></script>
+<script>
+  // Determinism locks
+  gsap.ticker.lagSmoothing(0);
+
+  // --- Particles ---
+  (function spawnParticles() {
+    const container = document.getElementById('particles');
+    const count = 30;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.classList.add('particle');
+      const size = Math.random() < 0.4 ? Math.random() * 4 + 2 : Math.random() * 3 + 1;
+      const isSquare = Math.random() < 0.3;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.borderRadius = isSquare ? '1px' : '50%';
+      p.style.left = Math.random() * 1080 + 'px';
+      p.style.bottom = Math.random() * 600 + 'px';
+      p.style.opacity = (Math.random() * 0.4 + 0.1).toFixed(2);
+      container.appendChild(p);
+
+      // Drift upward
+      const driftDur = Math.random() * 12 + 8;
+      const startDelay = Math.random() * 5;
+      gsap.to(p, {
+        y: -(Math.random() * 400 + 300),
+        x: (Math.random() - 0.5) * 80,
+        opacity: 0,
+        duration: driftDur,
+        delay: startDelay,
+        ease: 'none',
+        repeat: -1,
+        repeatDelay: Math.random() * 3
+      });
+    }
+  })();
+
+  // --- Flow path dash setup ---
+  const flowPath = document.getElementById('flowPath');
+  const pathLen = flowPath.getTotalLength();
+  flowPath.style.strokeDasharray = pathLen;
+  flowPath.style.strokeDashoffset = pathLen;
+
+  // --- Master timeline ---
+  const tl = gsap.timeline({ delay: 0.2 });
+
+  // 1. Background fade in
+  tl.from('#scene', { opacity: 0, duration: 0.5, ease: 'none' }, 0);
+
+  // 2. Sine waves fade in
+  tl.to('#bgWaves', { opacity: 1, duration: 1.2, ease: 'power2.inOut' }, 0.3);
+
+  // 3. Left text col container
+  tl.to('#textCol', { opacity: 1, duration: 0.1 }, 0.5);
+
+  // 4. Text lines stagger in
+  const textLines = ['#tl1','#tl2','#tl3','#tl4','#tl5','#tl6','#tl7'];
+  textLines.forEach((id, i) => {
+    tl.to(id, {
+      opacity: 1,
+      y: 0,
+      duration: 0.55,
+      ease: 'power3.out'
+    }, 1.0 + i * 0.14);
+  });
+
+  // 5. Flow SVG path draw
+  tl.to('#flowSvg', { opacity: 1, duration: 0.1 }, 1.5);
+  tl.to(flowPath, {
+    strokeDashoffset: 0,
+    duration: 1.2,
+    ease: 'power2.inOut'
+  }, 1.5);
+
+  // 6. Icon cards scale + fade, stagger top to bottom
+  [
+    { id: '#iconCard1', t: 1.8 },
+    { id: '#xNode',     t: 1.9 },
+    { id: '#iconCard2', t: 1.95 },
+    { id: '#iconCard3', t: 2.1 }
+  ].forEach(({ id, t }) => {
+    tl.to(id, {
+      opacity: 1,
+      scale: 1,
+      x: '-50%',
+      duration: 0.5,
+      ease: 'back.out(1.2)'
+    }, t);
+  });
+
+  // 7. Bottom panel blur fade in
+  tl.to('#bottomPanel', {
+    opacity: 1,
+    filter: 'blur(0px)',
+    duration: 0.6,
+    ease: 'power2.out'
+  }, 2.5);
+
+  // X node pulse glow (ambient, after reveal)
+  gsap.to('#xNode', {
+    boxShadow: '0 0 32px rgba(57,255,20,0.55), inset 0 0 14px rgba(57,255,20,0.1)',
+    duration: 1.1,
+    yoyo: true,
+    repeat: -1,
+    ease: 'power1.inOut',
+    delay: 2.7
+  });
+</script>
+</body>
+</html>

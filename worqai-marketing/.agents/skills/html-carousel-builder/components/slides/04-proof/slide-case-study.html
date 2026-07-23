@@ -1,0 +1,76 @@
+<!--
+COMPONENT_CONTRACT:
+  {
+    "id": "slide-case-study",
+    "category": "slides",
+    "technique_count": 1,
+    "visual_weight": "medium",
+    "file_size_impact_kb": 4.0
+  }
+-->
+
+<!--
+SLIDE: CASE STUDY CARD
+Found in: carousel_consejo-cv-esta-mal_brutalist.html, carousel_0-a-4-entrevistas_crimson.html
+Purpose: S7 — Structured social proof with stats + mechanism.
+-->
+
+<div class="content">
+  <p class="tip-label">Caso de exito</p>
+  <h2 class="tip-headline">De 0 a 4 entrevistas</h2>
+  <div class="case-card">
+    <div class="case-header">
+      <div class="case-avatar"></div>
+      <div class="case-meta">
+        <p class="case-name">Carlos M.</p>
+        <p class="case-role">Ingeniero de Software · Costa Rica</p>
+      </div>
+    </div>
+    <div class="case-stats">
+      <div class="case-stat">
+        <span class="case-num">0</span>
+        <span class="case-lbl">Antes</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-num">4</span>
+        <span class="case-lbl">Despues</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-num">8</span>
+        <span class="case-lbl">Dias</span>
+      </div>
+    </div>
+    <div class="case-mechanism">
+      <p><strong>Como:</strong> Optimizamos su CV con keywords del puesto, formato ATS, y estructura de una pagina.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+.case-card {
+  padding: 32px; border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-top: 28px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.case-header { display: flex; align-items: center; gap: 16px; }
+.case-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--accent-soft); }
+.case-meta { display: flex; flex-direction: column; gap: 2px; }
+.case-name { font-family: var(--font-display), system-ui, sans-serif; font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.case-role { font-family: var(--font-body), system-ui, sans-serif; font-size: 14px; font-weight: 400; color: var(--text-muted); }
+.case-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.case-stat { display: flex; flex-direction: column; gap: 6px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 10px; text-align: center; }
+.case-num { font-family: var(--font-display), system-ui, sans-serif; font-size: 48px; font-weight: 900; color: var(--accent); line-height: 1; }
+.case-lbl { font-family: var(--font-mono), monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+.case-mechanism { font-family: var(--font-body), system-ui, sans-serif; font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--text-secondary); padding-top: 8px; border-top: 1px solid var(--accent-line); }
+.case-mechanism strong { color: var(--text-primary); font-weight: 600; }
+</style>
+
+<!--
+CUSTOMIZATION:
+- case-stats: 2-up, 3-up, or 4-up grid
+- case-avatar: replace with <img> or photo placeholder
+- Background: glassmorphism, solid tint, or outline only
+- Add before/after arrow between stats for transformation stories
+-->

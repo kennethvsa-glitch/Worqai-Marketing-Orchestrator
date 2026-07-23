@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>amby · demo carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Raleway:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;700&family=Allura&display=swap" rel="stylesheet">
+<style>
+/* =================================================================
+   amby agencia creativa — demo carousel
+   System 48 BRIGHT BOUTIQUE EDITORIAL · palette adapted to amby brand
+   Palette source: ig @amby.cr feed scrape
+   ================================================================= */
+
+:root {
+  /* amby brand palette */
+  --bg-paper:     #F3F2EF;   /* off-white cream — primary background */
+  --bg-peri:      #C9CEE8;   /* dusty periwinkle */
+  --bg-peri-lt:   #DEE2EE;   /* lighter periwinkle (for layered fade) */
+  --ink-choc:     #3B170E;   /* dark chocolate brown — primary type */
+  --ink-soft:     rgba(59,23,14,0.58);
+  --ink-line:     rgba(59,23,14,0.18);
+  --gold:         #D8A64A;   /* warm gold accent */
+  --sage:         #A8B98E;
+  --grey:         #B9BCC3;
+  --paper-edge:   rgba(59,23,14,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { background: #1d1a17; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--ink-choc);
+  padding: 36px 18px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.toolbar {
+  position: sticky; top: 8px; z-index: 50;
+  display: flex; gap: 8px; align-items: center;
+  background: rgba(243,242,239,0.96);
+  border: 1px solid var(--ink-line);
+  padding: 8px 12px; border-radius: 999px;
+  font-family: 'DM Sans', sans-serif; font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-choc);
+}
+.toolbar button {
+  background: var(--ink-choc); color: var(--bg-paper);
+  border: none; padding: 8px 14px; border-radius: 999px;
+  font: inherit; cursor: pointer; letter-spacing: 0.10em;
+}
+.toolbar button:hover { background: var(--gold); color: var(--ink-choc); }
+.toolbar .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+
+/* =================== SLIDE FRAME =================== */
+.slide {
+  position: relative;
+  width: 1080px;
+  height: 1080px;
+  background: var(--bg-paper);
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+  isolation: isolate;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* full-slide paper grain (every slide) */
+.slide::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 8;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 240px 300px; opacity: 0.055; mix-blend-mode: multiply;
+}
+
+/* deckle paper edge */
+.slide::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 9;
+  box-shadow:
+    inset 0 0 0 1px rgba(59,23,14,0.04),
+    inset 0 0 80px rgba(59,23,14,0.05);
+}
+
+/* counter — top right, identical every slide (brand anchor) */
+.counter {
+  position: absolute; top: 56px; right: 64px; z-index: 10;
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.32em; color: var(--ink-choc); text-transform: uppercase;
+  display: flex; align-items: center; gap: 14px;
+}
+.counter .num { color: var(--gold); font-weight: 700; }
+.counter .bar { width: 28px; height: 1px; background: var(--ink-choc); opacity: 0.7; }
+
+/* masthead — top left, identical every slide */
+.masthead {
+  position: absolute; top: 56px; left: 64px; z-index: 10;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.36em; color: var(--ink-choc); text-transform: uppercase;
+}
+.masthead .dot { color: var(--gold); margin: 0 6px; }
+
+/* footer wordmark — bottom, identical every slide */
+.footer {
+  position: absolute; bottom: 48px; left: 64px; right: 64px; z-index: 10;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.28em; color: var(--ink-choc); text-transform: uppercase;
+}
+.footer .handle { color: var(--ink-choc); }
+.footer .swipe { color: var(--ink-soft); display: flex; align-items: center; gap: 10px; }
+.footer .swipe svg { width: 14px; height: 14px; }
+
+/* progress dots */
+.dots {
+  position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%);
+  z-index: 10; display: flex; gap: 8px;
+}
+.dots span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--ink-choc); opacity: 0.22;
+}
+.dots span.active { background: var(--gold); opacity: 1; }
+
+/* ============== SCRAPBOOK MICRO-ELEMENTS ============== */
+/* small star/cross ornament — hand-drawn feel, used sparingly */
+.ornament {
+  position: absolute; z-index: 4; color: var(--gold);
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 400; line-height: 1; user-select: none;
+}
+
+/* hand-script accent (like the agency uses on their feed) */
+.script {
+  font-family: 'Allura', cursive;
+  color: var(--gold);
+  line-height: 1;
+}
+
+/* vertical stripe element — appears once per slide, different position */
+.stripe {
+  position: absolute; z-index: 2;
+  width: 6px; background: var(--ink-choc);
+}
+
+/* ====================================================================
+   SLIDE 1 — HOOK
+   "Si las redes sociales de tu empresa no se ven profesionales,
+    la gente lo nota... y pasa de largo."
+   Layout: editorial split, hook on the right, periwinkle paper card on left
+   ==================================================================== */
+
+#s1 .canvas-card {
+  position: absolute; left: 64px; top: 184px; bottom: 184px; width: 440px;
+  background: var(--bg-peri);
+  z-index: 2;
+  box-shadow: 14px 18px 0 rgba(59,23,14,0.06);
+}
+#s1 .canvas-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 180px 220px; opacity: 0.10; mix-blend-mode: multiply;
+}
+
+#s1 .card-mark {
+  position: absolute; top: 36px; left: 36px; right: 36px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.30em; color: var(--ink-choc); text-transform: uppercase;
+}
+
+#s1 .card-line-1 {
+  position: absolute; top: 110px; left: 36px; right: 36px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 400;
+  font-size: 36px; line-height: 1.18;
+  color: var(--ink-choc);
+}
+
+#s1 .card-script {
+  position: absolute; top: 250px; left: 36px;
+  font-family: 'Allura', cursive;
+  font-size: 84px; color: var(--gold); line-height: 1;
+  transform: rotate(-4deg);
+}
+
+#s1 .card-rule {
+  position: absolute; top: 360px; left: 36px; right: 80px;
+  height: 1px; background: var(--ink-choc); opacity: 0.4;
+}
+
+#s1 .card-quote {
+  position: absolute; top: 388px; left: 36px; right: 36px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 400; font-size: 22px; line-height: 1.5;
+  color: var(--ink-choc); opacity: 0.78;
+}
+
+#s1 .card-stamp {
+  position: absolute; bottom: 36px; left: 36px;
+  font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.36em; color: var(--ink-choc); text-transform: uppercase;
+  opacity: 0.7;
+}
+#s1 .card-stamp::before { content: '——  '; color: var(--gold); }
+
+#s1 .hook {
+  position: absolute; left: 560px; right: 80px; top: 220px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500; font-style: italic;
+  font-size: 78px; line-height: 1.05;
+  color: var(--ink-choc);
+  letter-spacing: -0.015em;
+}
+#s1 .hook .em {
+  font-weight: 700; font-style: italic;
+  background: linear-gradient(transparent 78%, rgba(216,166,74,0.42) 78%, rgba(216,166,74,0.42) 96%, transparent 96%);
+  padding: 0 4px;
+}
+#s1 .hook .pause { color: var(--gold); font-weight: 700; }
+#s1 .hook .quiet {
+  display: block; font-size: 56px; margin-top: 6px;
+  color: var(--ink-soft); font-style: italic; font-weight: 400;
+}
+
+#s1 .ornament-1 { top: 178px; left: 538px; font-size: 22px; transform: rotate(12deg); }
+#s1 .ornament-2 { bottom: 200px; right: 96px; font-size: 18px; opacity: 0.6; }
+
+/* ====================================================================
+   SLIDE 2 — INSIGHT / CONSEQUENCE
+   "El cliente decide en segundos si tu marca es de fiar.
+    Y lo decide con los ojos."
+   Layout: centered editorial pull-quote on cream, periwinkle frame stripe
+   ==================================================================== */
+
+#s2 { background: var(--bg-paper); }
+
+#s2 .frame {
+  position: absolute; left: 64px; right: 64px; top: 140px; bottom: 140px;
+  border-top: 1px solid var(--ink-line);
+  border-bottom: 1px solid var(--ink-line);
+  z-index: 2;
+}
+
+#s2 .kicker {
+  position: absolute; top: 218px; left: 50%; transform: translateX(-50%);
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--gold); text-transform: uppercase;
+  z-index: 3;
+}
+
+#s2 .quote {
+  position: absolute; left: 130px; right: 130px; top: 320px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 400;
+  font-size: 76px; line-height: 1.08;
+  color: var(--ink-choc);
+  text-align: center;
+  letter-spacing: -0.012em;
+  z-index: 3;
+}
+#s2 .quote .accent {
+  font-weight: 700; color: var(--ink-choc);
+  background: linear-gradient(transparent 78%, var(--bg-peri) 78%, var(--bg-peri) 96%, transparent 96%);
+  padding: 0 6px;
+}
+
+#s2 .sig {
+  position: absolute; left: 50%; bottom: 290px; transform: translateX(-50%);
+  font-family: 'Allura', cursive; font-size: 64px; color: var(--gold);
+  z-index: 3; transform-origin: center; transform: translateX(-50%) rotate(-3deg);
+}
+
+#s2 .sub {
+  position: absolute; left: 200px; right: 200px; bottom: 220px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 400;
+  line-height: 1.55; text-align: center;
+  letter-spacing: 0.02em; color: var(--ink-soft);
+  z-index: 3;
+}
+
+#s2 .stripe-l { left: 36px; top: 140px; bottom: 140px; }
+#s2 .stripe-r { right: 36px; top: 140px; bottom: 140px; background: var(--gold); opacity: 0.7; }
+
+#s2 .ornament-1 { top: 280px; left: 110px; font-size: 22px; transform: rotate(-14deg); opacity: 0.7; }
+#s2 .ornament-2 { bottom: 190px; right: 130px; font-size: 18px; transform: rotate(8deg); opacity: 0.6; }
+
+/* ====================================================================
+   SLIDE 3 — SERVICES (the 5 services as an editorial index)
+   ==================================================================== */
+
+#s3 { background: var(--bg-paper); }
+
+#s3 .index-head {
+  position: absolute; top: 184px; left: 64px; right: 64px;
+  z-index: 3;
+}
+#s3 .index-head .label {
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--gold); text-transform: uppercase;
+}
+#s3 .index-head h2 {
+  margin-top: 14px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 400; font-size: 64px; line-height: 1.05;
+  color: var(--ink-choc);
+}
+#s3 .index-head h2 .em {
+  font-weight: 700;
+  background: linear-gradient(transparent 78%, rgba(201,206,232,0.85) 78%, rgba(201,206,232,0.85) 96%, transparent 96%);
+  padding: 0 6px;
+}
+
+#s3 .rule-top {
+  position: absolute; top: 384px; left: 64px; right: 64px;
+  height: 1px; background: var(--ink-choc); opacity: 0.7; z-index: 3;
+}
+
+#s3 .list {
+  position: absolute; top: 408px; left: 64px; right: 64px;
+  z-index: 3;
+}
+#s3 .row {
+  display: grid; grid-template-columns: 88px 1fr auto;
+  align-items: baseline; gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--ink-line);
+}
+#s3 .row .num {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 400; font-size: 32px; color: var(--gold);
+  letter-spacing: 0.04em;
+}
+#s3 .row .name {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 500; font-size: 38px; color: var(--ink-choc);
+  line-height: 1;
+}
+#s3 .row .desc {
+  font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.22em; color: var(--ink-soft); text-transform: uppercase;
+  text-align: right;
+}
+
+/* ornamental stamp lower-right */
+#s3 .stamp {
+  position: absolute; bottom: 80px; right: 72px; z-index: 4;
+  width: 156px; height: 156px;
+  border: 1px solid var(--ink-choc); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  transform: rotate(-7deg);
+  background: rgba(243,242,239,0.4);
+}
+#s3 .stamp .top {
+  font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; color: var(--ink-choc); text-transform: uppercase;
+}
+#s3 .stamp .mid {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 600; font-size: 26px; color: var(--gold); line-height: 1; margin: 6px 0;
+}
+#s3 .stamp .bot {
+  font-family: 'DM Sans', sans-serif; font-size: 8px; font-weight: 500;
+  letter-spacing: 0.14em; color: var(--ink-choc); text-transform: uppercase; opacity: 0.7;
+}
+
+#s3 .ornament-1 { top: 200px; right: 84px; font-size: 22px; transform: rotate(18deg); }
+
+/* ====================================================================
+   SLIDE 4 — CTA
+   "Empecemos a crear y crecer juntos."
+   Layout: periwinkle background, centered statement, gold script flourish
+   ==================================================================== */
+
+#s4 { background: var(--bg-peri); }
+#s4::before { opacity: 0.075; mix-blend-mode: multiply; }
+
+#s4 .frame {
+  position: absolute; left: 64px; right: 64px; top: 140px; bottom: 140px;
+  border: 1px solid rgba(59,23,14,0.32);
+  z-index: 2;
+}
+
+#s4 .kicker {
+  position: absolute; top: 218px; left: 50%; transform: translateX(-50%);
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--ink-choc); text-transform: uppercase;
+  z-index: 3;
+  display: flex; align-items: center; gap: 14px;
+}
+#s4 .kicker .ln { width: 28px; height: 1px; background: var(--ink-choc); display: inline-block; }
+
+#s4 .title {
+  position: absolute; left: 110px; right: 110px; top: 320px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 400; font-size: 84px; line-height: 1.04;
+  color: var(--ink-choc);
+  text-align: center;
+  letter-spacing: -0.015em;
+  z-index: 3;
+}
+#s4 .title .em {
+  font-weight: 700;
+}
+#s4 .title .gold { color: var(--gold); font-weight: 700; }
+
+#s4 .script-line {
+  position: absolute; left: 50%; top: 510px; transform: translateX(-50%) rotate(-4deg);
+  font-family: 'Allura', cursive; font-size: 96px; color: var(--ink-choc);
+  z-index: 3; line-height: 1;
+}
+
+#s4 .next {
+  position: absolute; left: 50%; bottom: 185px; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+#s4 .next .step {
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.42em; color: var(--ink-choc); text-transform: uppercase;
+  opacity: 0.72;
+}
+#s4 .next .handle {
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-weight: 600; font-size: 36px; color: var(--ink-choc);
+  letter-spacing: 0.02em;
+}
+#s4 .next .pill {
+  margin-top: 4px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.36em; color: var(--ink-choc); text-transform: uppercase;
+  padding: 12px 22px;
+  border: 1px solid var(--ink-choc);
+  background: rgba(243,242,239,0.55);
+}
+
+#s4 .ornament-1 { top: 184px; left: 110px; font-size: 24px; transform: rotate(-10deg); }
+#s4 .ornament-2 { bottom: 196px; right: 116px; font-size: 22px; transform: rotate(14deg); }
+
+/* dot color override on periwinkle slide */
+#s4 .dots span { background: var(--ink-choc); opacity: 0.28; }
+#s4 .dots span.active { background: var(--ink-choc); opacity: 1; }
+#s4 .footer { color: var(--ink-choc); }
+
+/* swipe arrow only on slide 1 */
+.swipe-only-s1 { display: none; }
+#s1 .swipe-only-s1 { display: flex; }
+#s2 .footer .swipe, #s3 .footer .swipe, #s4 .footer .swipe { display: none; }
+
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="dot"></span>
+  <span>amby · demo carousel · 4 slides</span>
+  <button id="dl">Export PNGs + ZIP</button>
+</div>
+
+<!-- ======================= SLIDE 1 — HOOK ======================= -->
+<section class="slide" id="s1">
+  <div class="masthead">amby <span class="dot">·</span> agencia creativa</div>
+  <div class="counter"><span class="num">01</span><span class="bar"></span><span>04</span></div>
+
+  <div class="canvas-card">
+    <div class="card-mark">
+      <span>est. costa rica</span>
+      <span>boutique</span>
+    </div>
+    <div class="card-line-1">una marca<br/>se nota.<br/>o no se nota.</div>
+    <div class="card-script">¿y la tuya?</div>
+    <div class="card-rule"></div>
+    <div class="card-quote">"Una marca que no cuida lo visual<br/>está pidiendo que la ignoren."</div>
+    <div class="card-stamp">capítulo uno</div>
+  </div>
+
+  <div class="ornament ornament-1">✦</div>
+
+  <h1 class="hook">
+    Si tus redes <span class="em">no se ven profesionales</span>,
+    <span class="quiet">la gente lo nota<span class="pause">.</span><span class="pause">.</span><span class="pause">.</span> y pasa de largo.</span>
+  </h1>
+
+  <div class="ornament ornament-2">✦</div>
+
+  <div class="dots">
+    <span class="active"></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="footer">
+    <span class="handle">@amby.cr</span>
+    <span class="swipe swipe-only-s1">
+      desliza
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </span>
+  </div>
+</section>
+
+<!-- ======================= SLIDE 2 — INSIGHT ======================= -->
+<section class="slide" id="s2">
+  <div class="masthead">amby <span class="dot">·</span> agencia creativa</div>
+  <div class="counter"><span class="num">02</span><span class="bar"></span><span>04</span></div>
+
+  <div class="frame"></div>
+  <div class="stripe stripe-l"></div>
+  <div class="stripe stripe-r"></div>
+
+  <div class="kicker">la verdad incómoda</div>
+
+  <div class="ornament ornament-1">✦</div>
+
+  <p class="quote">
+    El cliente decide en segundos<br/>
+    si tu marca es <span class="accent">de fiar</span>.<br/>
+    Y lo decide con los <span class="accent">ojos</span>.
+  </p>
+
+  <div class="sig">así de simple.</div>
+
+  <p class="sub">
+    Antes de leer una palabra de tu copy, ya hizo un juicio.
+    Por eso lo visual no es decoración — es la primera frase de venta.
+  </p>
+
+  <div class="ornament ornament-2">✦</div>
+
+  <div class="dots">
+    <span></span><span class="active"></span><span></span><span></span>
+  </div>
+
+  <div class="footer">
+    <span class="handle">@amby.cr</span>
+    <span class="swipe">02 · 04</span>
+  </div>
+</section>
+
+<!-- ======================= SLIDE 3 — SERVICES ======================= -->
+<section class="slide" id="s3">
+  <div class="masthead">amby <span class="dot">·</span> agencia creativa</div>
+  <div class="counter"><span class="num">03</span><span class="bar"></span><span>04</span></div>
+
+  <div class="index-head">
+    <div class="label">índice de servicios</div>
+    <h2>Lo que <span class="em">construimos</span> contigo.</h2>
+  </div>
+
+  <div class="rule-top"></div>
+
+  <div class="list">
+    <div class="row">
+      <span class="num">01 —</span>
+      <span class="name">Estrategia</span>
+      <span class="desc">dirección · narrativa · ICP</span>
+    </div>
+    <div class="row">
+      <span class="num">02 —</span>
+      <span class="name">Planificación mensual</span>
+      <span class="desc">calendario · pilares · ritmo</span>
+    </div>
+    <div class="row">
+      <span class="num">03 —</span>
+      <span class="name">Creación de contenido</span>
+      <span class="desc">foto · video · diseño</span>
+    </div>
+    <div class="row">
+      <span class="num">04 —</span>
+      <span class="name">Gestión de redes</span>
+      <span class="desc">publicación · comunidad · DM</span>
+    </div>
+    <div class="row">
+      <span class="num">05 —</span>
+      <span class="name">Gestión de pauta</span>
+      <span class="desc">meta ads · segmentación · reporte</span>
+    </div>
+  </div>
+
+  <div class="stamp">
+    <span class="top">amby · cr</span>
+    <span class="mid">5 piezas</span>
+    <span class="bot">una marca</span>
+  </div>
+
+  <div class="ornament ornament-1">✦</div>
+
+  <div class="dots">
+    <span></span><span></span><span class="active"></span><span></span>
+  </div>
+
+  <div class="footer">
+    <span class="handle">@amby.cr</span>
+    <span class="swipe">03 · 04</span>
+  </div>
+</section>
+
+<!-- ======================= SLIDE 4 — CTA ======================= -->
+<section class="slide" id="s4">
+  <div class="masthead">amby <span class="dot">·</span> agencia creativa</div>
+  <div class="counter"><span class="num">04</span><span class="bar"></span><span>04</span></div>
+
+  <div class="frame"></div>
+
+  <div class="kicker"><span class="ln"></span> capítulo final <span class="ln"></span></div>
+
+  <div class="ornament ornament-1">✦</div>
+
+  <h2 class="title">
+    Empecemos a <span class="em">crear</span><br/>
+    y a <span class="gold">crecer</span> juntos.
+  </h2>
+
+  <div class="script-line">hagámoslo.</div>
+
+  <div class="next">
+    <span class="step">— escríbenos por DM —</span>
+    <span class="handle">@amby.cr</span>
+    <span class="pill">amby agencia creativa</span>
+  </div>
+
+  <div class="ornament ornament-2">✦</div>
+
+  <div class="dots">
+    <span></span><span></span><span></span><span class="active"></span>
+  </div>
+
+  <div class="footer">
+    <span class="handle">@amby.cr</span>
+    <span class="swipe">fin</span>
+  </div>
+</section>
+
+<!-- ============== EXPORT (html2canvas + JSZip) ============== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script>
+document.getElementById('dl').addEventListener('click', async () => {
+  const btn = document.getElementById('dl');
+  const orig = btn.textContent;
+  btn.disabled = true;
+  const slides = document.querySelectorAll('.slide');
+  const zip = new JSZip();
+  for (let i = 0; i < slides.length; i++) {
+    btn.textContent = `Rendering ${i+1}/${slides.length}...`;
+    const canvas = await html2canvas(slides[i], {
+      width: 1080, height: 1080, scale: 2,
+      backgroundColor: null, useCORS: true, allowTaint: true, logging: false,
+      onclone: (_, el) => {
+        el.style.position = 'fixed';
+        el.style.top = '0';
+        el.style.left = '0';
+        el.style.margin = '0';
+        el.style.transform = 'none';
+        el.style.boxShadow = 'none';
+      }
+    });
+    const blob = await new Promise(r => canvas.toBlob(r, 'image/png', 1));
+    const num = String(i+1).padStart(2, '0');
+    zip.file(`slide_${num}.png`, blob);
+    saveAs(blob, `slide_${num}.png`);
+  }
+  btn.textContent = 'Building ZIP...';
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+  saveAs(zipBlob, 'amby-cr-demo-carousel.zip');
+  btn.textContent = orig;
+  btn.disabled = false;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+  lottie-spike/spike.html — determinism gate for the Lottie lane (Phase 3).
+
+  BEFORE RUNNING:
+    1. Download a Lottie JSON from lottiefiles.com — choose MIT or CC0 license.
+    2. Record it in motion/lottie/CREDITS.md.
+    3. Place it as: spikes/lottie-spike/test.json
+    4. Then run: py spikes/lottie-spike/spike_render.py
+
+  What this proves:
+    - lottie-web's goToAndStop() is a pure frame-seek (synchronous).
+    - Driving it from a GSAP proxy tween (Lock 4/10 pattern) produces bit-identical frames.
+-->
+<html data-duration="2" data-fps="60" data-name="lottie-spike">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../vendor/gsap/gsap-3.15.0.min.js"></script>
+  <script src="../../vendor/gsap/CustomEase-3.15.0.min.js"></script>
+  <script src="../../vendor/lottie/lottie-5.12.2.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080a10; }
+    #lottie-container {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px; height: 400px;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="lottie-container"></div>
+
+<script>
+  // Lock 1
+  gsap.ticker.lagSmoothing(0);
+
+  // Lock 2
+  gsap.globalTimeline.pause();
+
+  // lottieSeek — Lock 4/10 pattern (copy of motion-lib implementation)
+  function lottieSeek(tl, anim, t, dur, fromFrame, toFrame) {
+    const proxy = { f: fromFrame };
+    tl.to(proxy, {
+      f: toFrame, duration: dur, ease: "none", immediateRender: false,
+      onUpdate: () => anim.goToAndStop(proxy.f, true),
+    }, t);
+  }
+
+  document.fonts.ready.then(() => {
+    // Load test.json — replace with real Lottie JSON path after download.
+    const anim = lottie.loadAnimation({
+      container: document.getElementById("lottie-container"),
+      renderer: "svg",
+      loop: false,
+      autoplay: false,           // MANDATORY — autoplay:true breaks Lock 10
+      path: "test.json",
+    });
+
+    anim.addEventListener("DOMLoaded", () => {
+      const totalFrames = anim.totalFrames;
+      const tl = gsap.timeline();
+
+      // Fade in container
+      tl.to("#lottie-container", { opacity: 1, duration: 0.3, ease: "none" }, 0.2);
+
+      // Drive Lottie over 1.5s using lottieSeek proxy
+      lottieSeek(tl, anim, 0.2, 1.5, 0, totalFrames - 1);
+
+      tl.addLabel("lottie_start", 0.2);
+      tl.addLabel("lottie_end",   1.7);
+
+      window.motionReady = true;
+      window.MOTION_LABELS = {
+        lottie_start: 200,
+        lottie_end:   1700,
+      };
+    });
+  });
+</script>
+</body>
+</html>
