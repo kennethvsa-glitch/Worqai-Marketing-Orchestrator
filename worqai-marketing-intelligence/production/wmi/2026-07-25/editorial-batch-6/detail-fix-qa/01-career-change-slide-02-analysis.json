@@ -1,0 +1,372 @@
+{
+  "file": "01-career-change-slide-02-before.png",
+  "width_px": 1080,
+  "height_px": 1350,
+  "background_color": {
+    "hex": "#0d111a",
+    "note": "top-left 60x60"
+  },
+  "bottom_right_color": {
+    "hex": "#0d111a",
+    "note": "gradient end"
+  },
+  "dominant_colors": [
+    {
+      "hex": "#000000",
+      "count": 25118,
+      "rgb": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "hex": "#e0e0c0",
+      "count": 11659,
+      "rgb": [
+        224,
+        224,
+        192
+      ]
+    },
+    {
+      "hex": "#4060e0",
+      "count": 8983,
+      "rgb": [
+        64,
+        96,
+        224
+      ]
+    },
+    {
+      "hex": "#a0e000",
+      "count": 847,
+      "rgb": [
+        160,
+        224,
+        0
+      ]
+    },
+    {
+      "hex": "#e0e0e0",
+      "count": 834,
+      "rgb": [
+        224,
+        224,
+        224
+      ]
+    },
+    {
+      "hex": "#000020",
+      "count": 510,
+      "rgb": [
+        0,
+        0,
+        32
+      ]
+    },
+    {
+      "hex": "#4080e0",
+      "count": 409,
+      "rgb": [
+        64,
+        128,
+        224
+      ]
+    },
+    {
+      "hex": "#e04020",
+      "count": 289,
+      "rgb": [
+        224,
+        64,
+        32
+      ]
+    }
+  ],
+  "accent_colors": [
+    {
+      "hex": "#001010",
+      "count": 3206,
+      "rgb": [
+        0,
+        16,
+        16
+      ]
+    },
+    {
+      "hex": "#5070f0",
+      "count": 1205,
+      "rgb": [
+        80,
+        112,
+        240
+      ]
+    },
+    {
+      "hex": "#101010",
+      "count": 186,
+      "rgb": [
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "hex": "#b0e000",
+      "count": 109,
+      "rgb": [
+        176,
+        224,
+        0
+      ]
+    },
+    {
+      "hex": "#000010",
+      "count": 81,
+      "rgb": [
+        0,
+        0,
+        16
+      ]
+    },
+    {
+      "hex": "#5080f0",
+      "count": 69,
+      "rgb": [
+        80,
+        128,
+        240
+      ]
+    }
+  ],
+  "grid_colors": [
+    {
+      "row": 0,
+      "col": 0,
+      "region": [
+        0,
+        0,
+        270,
+        337
+      ],
+      "mean_hex": "#5b5d56"
+    },
+    {
+      "row": 0,
+      "col": 1,
+      "region": [
+        270,
+        0,
+        540,
+        337
+      ],
+      "mean_hex": "#2e2b30"
+    },
+    {
+      "row": 0,
+      "col": 2,
+      "region": [
+        540,
+        0,
+        810,
+        337
+      ],
+      "mean_hex": "#2d292e"
+    },
+    {
+      "row": 0,
+      "col": 3,
+      "region": [
+        810,
+        0,
+        1080,
+        337
+      ],
+      "mean_hex": "#15141b"
+    },
+    {
+      "row": 1,
+      "col": 0,
+      "region": [
+        0,
+        337,
+        270,
+        674
+      ],
+      "mean_hex": "#7f7e7a"
+    },
+    {
+      "row": 1,
+      "col": 1,
+      "region": [
+        270,
+        337,
+        540,
+        674
+      ],
+      "mean_hex": "#9c9a95"
+    },
+    {
+      "row": 1,
+      "col": 2,
+      "region": [
+        540,
+        337,
+        810,
+        674
+      ],
+      "mean_hex": "#2c3d6e"
+    },
+    {
+      "row": 1,
+      "col": 3,
+      "region": [
+        810,
+        337,
+        1080,
+        674
+      ],
+      "mean_hex": "#202d54"
+    },
+    {
+      "row": 2,
+      "col": 0,
+      "region": [
+        0,
+        674,
+        270,
+        1011
+      ],
+      "mean_hex": "#e9e3d3"
+    },
+    {
+      "row": 2,
+      "col": 1,
+      "region": [
+        270,
+        674,
+        540,
+        1011
+      ],
+      "mean_hex": "#d9dcbc"
+    },
+    {
+      "row": 2,
+      "col": 2,
+      "region": [
+        540,
+        674,
+        810,
+        1011
+      ],
+      "mean_hex": "#6e95df"
+    },
+    {
+      "row": 2,
+      "col": 3,
+      "region": [
+        810,
+        674,
+        1080,
+        1011
+      ],
+      "mean_hex": "#658cff"
+    },
+    {
+      "row": 3,
+      "col": 0,
+      "region": [
+        0,
+        1011,
+        270,
+        1348
+      ],
+      "mean_hex": "#414245"
+    },
+    {
+      "row": 3,
+      "col": 1,
+      "region": [
+        270,
+        1011,
+        540,
+        1348
+      ],
+      "mean_hex": "#32353c"
+    },
+    {
+      "row": 3,
+      "col": 2,
+      "region": [
+        540,
+        1011,
+        810,
+        1348
+      ],
+      "mean_hex": "#2c3f77"
+    },
+    {
+      "row": 3,
+      "col": 3,
+      "region": [
+        810,
+        1011,
+        1080,
+        1348
+      ],
+      "mean_hex": "#2c417e"
+    }
+  ],
+  "text_regions": [
+    {
+      "y_start": 45,
+      "y_end": 117,
+      "x_start": 62,
+      "x_end": 1012,
+      "height_px": 72
+    },
+    {
+      "y_start": 162,
+      "y_end": 245,
+      "x_start": 69,
+      "x_end": 813,
+      "height_px": 83
+    },
+    {
+      "y_start": 249,
+      "y_end": 314,
+      "x_start": 69,
+      "x_end": 402,
+      "height_px": 65
+    },
+    {
+      "y_start": 331,
+      "y_end": 397,
+      "x_start": 69,
+      "x_end": 298,
+      "height_px": 66
+    },
+    {
+      "y_start": 431,
+      "y_end": 1096,
+      "x_start": 0,
+      "x_end": 1050,
+      "height_px": 665
+    },
+    {
+      "y_start": 1213,
+      "y_end": 1241,
+      "x_start": 66,
+      "x_end": 883,
+      "height_px": 28
+    },
+    {
+      "y_start": 1250,
+      "y_end": 1272,
+      "x_start": 65,
+      "x_end": 223,
+      "height_px": 22
+    }
+  ]
+}

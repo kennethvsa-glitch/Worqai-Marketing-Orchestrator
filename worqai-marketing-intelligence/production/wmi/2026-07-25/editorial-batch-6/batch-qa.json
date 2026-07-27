@@ -1,0 +1,308 @@
+{
+  "root": "C:\\Users\\kenne\\OneDrive\\Documentos\\manifest-claude-system\\projects\\worqai-marketing-intelligence\\production\\wmi\\2026-07-25\\editorial-batch-6",
+  "expected_carousels": 6,
+  "expected_slides": 42,
+  "pass": true,
+  "results": [
+    {
+      "carousel": "01-career-change",
+      "html": "01-career-change\\carousel.html",
+      "caption": "01-career-change\\caption.md",
+      "slides_html": 7,
+      "slides_png": 7,
+      "dimensions": {
+        "slide_01.png": [
+          1080,
+          1350
+        ],
+        "slide_02.png": [
+          1080,
+          1350
+        ],
+        "slide_03.png": [
+          1080,
+          1350
+        ],
+        "slide_04.png": [
+          1080,
+          1350
+        ],
+        "slide_05.png": [
+          1080,
+          1350
+        ],
+        "slide_06.png": [
+          1080,
+          1350
+        ],
+        "slide_07.png": [
+          1080,
+          1350
+        ]
+      },
+      "minimum_font_px": 24,
+      "forbidden_hits": {
+        "rounded_cards": 0,
+        "backdrop_filter": 0,
+        "thin_borders": 0,
+        "radial_gradient": 0,
+        "linear_gradient": 0,
+        "fake_ui": 0
+      },
+      "percentage_claims": [],
+      "contact_sheet": true,
+      "issues": [],
+      "pass": true
+    },
+    {
+      "carousel": "02-editing",
+      "html": "02-editing\\carousel.html",
+      "caption": "02-editing\\caption.md",
+      "slides_html": 7,
+      "slides_png": 7,
+      "dimensions": {
+        "slide_01.png": [
+          1080,
+          1350
+        ],
+        "slide_02.png": [
+          1080,
+          1350
+        ],
+        "slide_03.png": [
+          1080,
+          1350
+        ],
+        "slide_04.png": [
+          1080,
+          1350
+        ],
+        "slide_05.png": [
+          1080,
+          1350
+        ],
+        "slide_06.png": [
+          1080,
+          1350
+        ],
+        "slide_07.png": [
+          1080,
+          1350
+        ]
+      },
+      "minimum_font_px": 25,
+      "forbidden_hits": {
+        "rounded_cards": 0,
+        "backdrop_filter": 0,
+        "thin_borders": 0,
+        "radial_gradient": 0,
+        "linear_gradient": 0,
+        "fake_ui": 0
+      },
+      "percentage_claims": [],
+      "contact_sheet": true,
+      "issues": [],
+      "pass": true
+    },
+    {
+      "carousel": "03-career-gap",
+      "html": "03-career-gap\\carousel.html",
+      "caption": "03-career-gap\\caption.md",
+      "slides_html": 7,
+      "slides_png": 7,
+      "dimensions": {
+        "slide_01.png": [
+          1080,
+          1350
+        ],
+        "slide_02.png": [
+          1080,
+          1350
+        ],
+        "slide_03.png": [
+          1080,
+          1350
+        ],
+        "slide_04.png": [
+          1080,
+          1350
+        ],
+        "slide_05.png": [
+          1080,
+          1350
+        ],
+        "slide_06.png": [
+          1080,
+          1350
+        ],
+        "slide_07.png": [
+          1080,
+          1350
+        ]
+      },
+      "minimum_font_px": 24,
+      "forbidden_hits": {
+        "rounded_cards": 0,
+        "backdrop_filter": 0,
+        "thin_borders": 0,
+        "radial_gradient": 0,
+        "linear_gradient": 0,
+        "fake_ui": 0
+      },
+      "percentage_claims": [],
+      "contact_sheet": true,
+      "issues": [],
+      "pass": true
+    },
+    {
+      "carousel": "04-junior-evidence",
+      "html": "04-junior-evidence\\carousel.html",
+      "caption": "04-junior-evidence\\caption.md",
+      "slides_html": 7,
+      "slides_png": 7,
+      "dimensions": {
+        "slide_01.png": [
+          1080,
+          1350
+        ],
+        "slide_02.png": [
+          1080,
+          1350
+        ],
+        "slide_03.png": [
+          1080,
+          1350
+        ],
+        "slide_04.png": [
+          1080,
+          1350
+        ],
+        "slide_05.png": [
+          1080,
+          1350
+        ],
+        "slide_06.png": [
+          1080,
+          1350
+        ],
+        "slide_07.png": [
+          1080,
+          1350
+        ]
+      },
+      "minimum_font_px": 28,
+      "forbidden_hits": {
+        "rounded_cards": 0,
+        "backdrop_filter": 0,
+        "thin_borders": 0,
+        "radial_gradient": 0,
+        "linear_gradient": 0,
+        "fake_ui": 0
+      },
+      "percentage_claims": [],
+      "contact_sheet": true,
+      "issues": [],
+      "pass": true
+    },
+    {
+      "carousel": "05-senior-criterion",
+      "html": "05-senior-criterion\\carousel.html",
+      "caption": "05-senior-criterion\\caption.md",
+      "slides_html": 7,
+      "slides_png": 7,
+      "dimensions": {
+        "slide_01.png": [
+          1080,
+          1350
+        ],
+        "slide_02.png": [
+          1080,
+          1350
+        ],
+        "slide_03.png": [
+          1080,
+          1350
+        ],
+        "slide_04.png": [
+          1080,
+          1350
+        ],
+        "slide_05.png": [
+          1080,
+          1350
+        ],
+        "slide_06.png": [
+          1080,
+          1350
+        ],
+        "slide_07.png": [
+          1080,
+          1350
+        ]
+      },
+      "minimum_font_px": 28,
+      "forbidden_hits": {
+        "rounded_cards": 0,
+        "backdrop_filter": 0,
+        "thin_borders": 0,
+        "radial_gradient": 0,
+        "linear_gradient": 0,
+        "fake_ui": 0
+      },
+      "percentage_claims": [],
+      "contact_sheet": true,
+      "issues": [],
+      "pass": true
+    },
+    {
+      "carousel": "06-vacancy-strategy",
+      "html": "06-vacancy-strategy\\carousel.html",
+      "caption": "06-vacancy-strategy\\caption.md",
+      "slides_html": 7,
+      "slides_png": 7,
+      "dimensions": {
+        "slide_01.png": [
+          1080,
+          1350
+        ],
+        "slide_02.png": [
+          1080,
+          1350
+        ],
+        "slide_03.png": [
+          1080,
+          1350
+        ],
+        "slide_04.png": [
+          1080,
+          1350
+        ],
+        "slide_05.png": [
+          1080,
+          1350
+        ],
+        "slide_06.png": [
+          1080,
+          1350
+        ],
+        "slide_07.png": [
+          1080,
+          1350
+        ]
+      },
+      "minimum_font_px": 26,
+      "forbidden_hits": {
+        "rounded_cards": 0,
+        "backdrop_filter": 0,
+        "thin_borders": 0,
+        "radial_gradient": 0,
+        "linear_gradient": 0,
+        "fake_ui": 0
+      },
+      "percentage_claims": [],
+      "contact_sheet": true,
+      "issues": [],
+      "pass": true
+    }
+  ]
+}

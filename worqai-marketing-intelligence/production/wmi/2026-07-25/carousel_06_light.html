@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel 06 - Light Theme</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Georgia&display=swap');
+        
+        :root {
+            --bg-cream: #f1ede3;
+            --bg-offwhite: #f5f2ea;
+            --text-ink: #0a0b09;
+            --card-white: #ffffff;
+            --shadow-ink: rgba(10, 11, 9, 0.2);
+            --accent-teal: #0d6b5e;
+            --accent-coral: #e85d4a;
+            --accent-navy: #1a1f3d;
+            --highlight-lime: #d4e842;
+            
+            --font-display: 'Bahnschrift', Arial, sans-serif;
+            --font-serif: 'Georgia', serif;
+            --font-mono: 'Consolas', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #333;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            align-items: center;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1350px;
+            background-color: var(--bg-cream);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-ink);
+            font-family: var(--font-display);
+        }
+
+        /* SVG Noise Grain */
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+            mix-blend-mode: multiply;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .slide-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            z-index: 2;
+        }
+
+        .brand-tag {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            background-color: var(--text-ink);
+            color: var(--bg-cream);
+            padding: 10px 20px;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            clip-path: polygon(0 0, 100% 5%, 95% 100%, 5% 95%);
+            z-index: 10;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 20px;
+            color: var(--accent-navy);
+            z-index: 10;
+            text-transform: lowercase;
+        }
+
+        .footer .disclaimer {
+            font-size: 16px;
+            opacity: 0.6;
+        }
+
+        /* Massive Display Typography */
+        h1 {
+            font-size: 140px;
+            line-height: 0.9;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 40px;
+            text-shadow: 6px 6px 0px rgba(10,11,9,0.1);
+        }
+
+        h2 {
+            font-size: 90px;
+            line-height: 1;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 40px;
+            line-height: 1.4;
+            font-family: var(--font-serif);
+        }
+
+        /* Highlight Marker */
+        .highlight {
+            background-color: var(--highlight-lime);
+            padding: 0 10px;
+            display: inline-block;
+            transform: rotate(-1deg);
+        }
+
+        /* Paper Card Elements */
+        .paper-card {
+            background-color: var(--card-white);
+            padding: 60px;
+            box-shadow: 18px 18px 0 var(--shadow-ink);
+            border: 2px solid var(--text-ink);
+        }
+
+        /* Dark Card with Torn Edge */
+        .dark-card {
+            background-color: var(--text-ink);
+            color: var(--bg-cream);
+            padding: 60px;
+            clip-path: polygon(2% 0, 100% 2%, 98% 100%, 0 98%);
+            transform: rotate(-2deg);
+        }
+
+        .redline {
+            position: relative;
+            display: inline-block;
+        }
+        .redline::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -5%;
+            width: 110%;
+            height: 8px;
+            background-color: var(--accent-coral);
+            transform: rotate(-2deg);
+        }
+
+        .annotation {
+            font-family: var(--font-mono);
+            color: var(--accent-coral);
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transform: rotate(4deg);
+            position: absolute;
+        }
+
+        /* Specific Layouts */
+        .center-content {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-1 .title-wrap {
+            margin-top: 150px;
+        }
+
+        .slide-2 .dark-card {
+            margin-top: 100px;
+            font-family: var(--font-mono);
+            font-size: 36px;
+            line-height: 1.6;
+        }
+        
+        .slide-3 .paper-card {
+            margin-top: 50px;
+        }
+        
+        .slide-3 .formula-step {
+            margin-bottom: 40px;
+        }
+        .slide-3 .formula-step strong {
+            font-family: var(--font-display);
+            font-size: 45px;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .slide-4 .split {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .slide-4 .example-col {
+            flex: 1;
+            padding: 40px;
+            background-color: var(--card-white);
+            border: 2px solid var(--text-ink);
+            position: relative;
+        }
+        .slide-4 .example-col.bad {
+            box-shadow: 10px 10px 0 var(--shadow-ink);
+            transform: rotate(-1deg);
+        }
+        .slide-4 .example-col.good {
+            box-shadow: 18px 18px 0 var(--accent-teal);
+            transform: rotate(1deg);
+            border-color: var(--accent-teal);
+        }
+        .slide-4 .badge {
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            background: var(--text-ink);
+            color: var(--card-white);
+            padding: 5px 15px;
+            font-family: var(--font-mono);
+            font-size: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .slide-4 .example-col.good .badge {
+            background: var(--accent-teal);
+        }
+        .slide-4 .example-text {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            line-height: 1.5;
+            margin-top: 20px;
+        }
+
+        .slide-5 h1 {
+            font-size: 146px;
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        .slide-5 .teal-text {
+            color: var(--accent-teal);
+        }
+        .slide-5 .coral-text {
+            color: var(--accent-coral);
+        }
+
+        .slide-6 .cta-box {
+            margin-top: auto;
+            margin-bottom: auto;
+            text-align: center;
+            background-color: var(--text-ink);
+            color: var(--bg-cream);
+            padding: 100px 60px;
+            clip-path: polygon(0 3%, 100% 0, 97% 100%, 3% 97%);
+        }
+        .slide-6 .cta-text {
+            font-size: 80px;
+            font-family: var(--font-display);
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+        .slide-6 .highlight-alt {
+            color: var(--highlight-lime);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1 -->
+    <div class="slide slide-1" id="slide1">
+        <div class="noise"></div>
+        <div class="brand-tag">WORQAI</div>
+        <div class="slide-content">
+            <div class="title-wrap">
+                <h1>LA CARTA DE<br>PRESENTACION<br>QUE <span class="highlight">NADIE LEE</span></h1>
+                <p style="margin-top: 40px; font-size: 45px; font-weight: bold; font-family: var(--font-display); text-transform: uppercase;">(Y la que si funciona)</p>
+            </div>
+        </div>
+        <div class="footer">
+            <span>worqai.io</span>
+            <span class="disclaimer">resultados no garantizados</span>
+        </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide slide-2" id="slide2">
+        <div class="noise"></div>
+        <div class="brand-tag">WORQAI</div>
+        <div class="slide-content">
+            <h2>LA REALIDAD</h2>
+            
+            <div class="dark-card">
+                <span class="redline">ESTIMADO EQUIPO DE RRHH:</span><br><br>
+                <span class="redline">SOY UN PROFESIONAL</span><br>
+                <span class="redline">COMPROMETIDO CON ALTA</span><br>
+                <span class="redline">MOTIVACION PARA APORTAR</span><br>
+                <span class="redline">A SU PRESTIGIOSA EMPRESA...</span>
+                
+                <div class="annotation" style="bottom: 80px; right: 40px;">nadie sigue leyendo</div>
+            </div>
+            
+            <p style="margin-top: 80px; font-weight: bold; font-family: var(--font-display); font-size: 45px; max-width: 800px;">En LatAm los reclutadores ignoran las plantillas genericas. Se nota a kilometros.</p>
+        </div>
+        <div class="footer">
+            <span>worqai.io</span>
+            <span class="disclaimer">basado en datos de mercado</span>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide slide-3" id="slide3">
+        <div class="noise"></div>
+        <div class="brand-tag">WORQAI</div>
+        <div class="slide-content">
+            <h2>LA FORMULA<br>QUE FUNCIONA</h2>
+            
+            <div class="paper-card">
+                <div class="formula-step">
+                    <strong>1. EL GANCHO (MATCH)</strong>
+                    <p style="font-size: 32px;">Abre mencionando un problema especifico que describe la vacante.</p>
+                </div>
+                
+                <div class="formula-step">
+                    <strong>2. LA EVIDENCIA</strong>
+                    <p style="font-size: 32px;">Tu mejor métrica o logro que demuestra que sabes resolver ese problema exacto.</p>
+                </div>
+                
+                <div class="formula-step" style="margin-bottom: 0;">
+                    <strong>3. LA PETICION</strong>
+                    <p style="font-size: 32px;">Un paso siguiente claro y especifico para una entrevista o prueba.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <span>worqai.io</span>
+            <span class="disclaimer">metodologia worqai</span>
+        </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide slide-4" id="slide4">
+        <div class="noise"></div>
+        <div class="brand-tag">WORQAI</div>
+        <div class="slide-content">
+            <h2 style="font-size: 80px;">EL EJEMPLO</h2>
+            
+            <div class="split">
+                <div class="example-col bad">
+                    <div class="badge">LO QUE MANDAN TODOS</div>
+                    <div class="example-text">
+                        "Les escribo para postular al cargo de Marketing Manager. Soy una persona proactiva, lider y con excelentes habilidades de comunicacion buscando nuevos retos..."
+                    </div>
+                </div>
+                
+                <div class="example-col good">
+                    <div class="badge">LO QUE DESTACA</div>
+                    <div class="example-text" style="color: var(--accent-teal); font-weight: bold;">
+                        "Vi que buscan un Marketing Manager para expandir sus operaciones en Mexico. En mi ultimo rol, lidere el lanzamiento en 3 nuevos paises reduciendo el CAC en un 20%..."
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <span>worqai.io</span>
+            <span class="disclaimer">ejemplo ilustrativo</span>
+        </div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide slide-5" id="slide5">
+        <div class="noise"></div>
+        <div class="brand-tag">WORQAI</div>
+        <div class="slide-content center-content">
+            <h1>
+                <span class="teal-text">ESPECIFICO</span> GANA.<br><br>
+                <span class="coral-text">GENERICO</span> PIERDE.
+            </h1>
+        </div>
+        <div class="footer">
+            <span>worqai.io</span>
+        </div>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide slide-6" id="slide6">
+        <div class="noise"></div>
+        <div class="brand-tag">WORQAI</div>
+        <div class="slide-content">
+            <div class="cta-box">
+                <div class="cta-text">
+                    COMENTA <span class="highlight-alt">CV</span> PARA<br>UN MES GRATIS DE<br>WORQAI PRO
+                </div>
+                <p style="margin-top: 40px; color: var(--bg-cream); font-family: var(--font-mono); font-size: 24px; text-transform: uppercase; letter-spacing: 2px;">
+                    Optimiza tu perfil hoy mismo
+                </p>
+            </div>
+        </div>
+        <div class="footer">
+            <span>worqai.io</span>
+            <span class="disclaimer">aplican terminos y condiciones</span>
+        </div>
+    </div>
+
+</body>
+</html>

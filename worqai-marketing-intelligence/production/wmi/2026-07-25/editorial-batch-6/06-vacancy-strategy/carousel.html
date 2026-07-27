@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorqAI — La descripción del puesto es el plano</title>
+  <style>
+    :root{--black:#080a09;--asphalt:#151815;--blue:#183c4a;--paper:#ebe4d7;--ink:#151715;--lime:#b8ff00;--red:#ff5a53;--amber:#f3bb42;--muted:#acaea6;--display:Bahnschrift,"Arial Narrow",Arial,sans-serif;--body:Arial,"Segoe UI",sans-serif;--serif:Georgia,"Times New Roman",serif;--mono:Consolas,"Courier New",monospace}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#242722;color:var(--paper)}
+    body{display:flex;flex-direction:column;align-items:center;gap:36px;padding:36px 0 100px;font-family:var(--body)}
+    .slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--asphalt);isolation:isolate}
+    .slide:after{content:"";position:absolute;inset:0;z-index:95;pointer-events:none;opacity:.038;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.68' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen}
+    .logo{position:absolute;z-index:20;left:58px;top:43px;width:214px;height:78px;background:var(--paper);padding:12px 18px;border:4px solid #080807;border-radius:18% 12% 18% 12% / 32% 24% 32% 24%;box-shadow:8px 8px 0 #b8ff00;transform:rotate(-1deg)}
+    .logo img{display:block;width:100%;height:100%;object-fit:contain}
+    .folio{position:absolute;z-index:20;right:60px;top:58px;font:800 24px/1 var(--mono)}.folio b{color:var(--lime)}
+    h1,h2,h3,p{margin:0}
+    .display{font-family:var(--display);font-weight:900;letter-spacing:-.052em}
+    .support{font-size:31px;line-height:1.25;color:#d6d2c8}
+    .paper{background:var(--paper);color:var(--ink);box-shadow:22px 22px 0 #050605}
+    .torn{clip-path:polygon(0 2%,7% 0,16% 2%,27% 0,39% 2%,51% 0,64% 2%,76% 0,88% 2%,100% 0,99% 97%,88% 100%,75% 98%,62% 100%,48% 98%,35% 100%,21% 98%,9% 100%,1% 98%)}
+    .label{font:900 24px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+    .rule{position:absolute;height:15px;background:var(--lime);transform-origin:left center}
+    .tape{background:var(--lime);color:var(--ink);padding:17px 24px;font:900 28px/1 var(--mono);text-transform:uppercase}
+    .stamp{background:var(--red);color:#fff;padding:17px 23px;font:900 28px/1 var(--display);letter-spacing:.08em;text-transform:uppercase}
+
+    /* 01 — blueprint cover */
+    .s1{background:#0b1316}
+    .s1 .title{position:absolute;left:58px;top:170px;width:950px;font-size:119px;line-height:.83}
+    .s1 .title span{color:var(--lime)}
+    .s1 .vacancy{position:absolute;left:590px;top:530px;width:540px;height:490px;padding:48px 50px;background:var(--blue);color:#fff;transform:rotate(8deg);box-shadow:-26px 27px 0 #030504}
+    .s1 .vacancy .label{color:var(--amber)}
+    .s1 .vacancy b{display:block;margin-top:28px;font:900 59px/.95 var(--display)}
+    .s1 .vacancy p{margin-top:22px;font-size:28px;line-height:1.2}
+    .s1 .plan{position:absolute;left:60px;top:720px;width:670px;height:330px;padding:45px 48px;transform:rotate(-3deg)}
+    .s1 .plan strong{font:900 63px/.92 var(--display)}
+    .s1 .plan .rule{left:48px;bottom:68px;width:500px;transform:rotate(-7deg)}
+    .s1 .support{position:absolute;left:64px;bottom:80px;width:920px}
+
+    /* 02 — mark the need */
+    .s2 .title{position:absolute;left:58px;top:150px;width:940px;font-size:93px;line-height:.88}
+    .s2 .title span{color:var(--amber)}
+    .s2 .brief{position:absolute;left:75px;top:420px;width:930px;height:675px;padding:50px 58px;transform:rotate(-1deg)}
+    .s2 .brief .head{display:flex;justify-content:space-between;font:900 24px/1 var(--mono);color:#676962}
+    .s2 .line{position:relative;margin-top:41px;font:900 43px/1.08 var(--display)}
+    .s2 .line b{position:relative;z-index:2}
+    .s2 .line b:after{content:"";position:absolute;z-index:-1;left:-4px;right:-4px;bottom:2px;height:20px;background:var(--lime);transform:rotate(-1deg)}
+    .s2 .result{position:absolute;right:-20px;bottom:45px;width:530px;background:var(--red);color:#fff;padding:26px 30px;font:900 32px/1.05 var(--display);transform:rotate(3deg)}
+    .s2 .support{position:absolute;left:64px;bottom:68px;width:920px}
+
+    /* 03 — 3 buckets */
+    .s3{background:#101411}
+    .s3 .title{position:absolute;left:58px;top:150px;width:940px;font-size:95px;line-height:.88}
+    .s3 .title span{color:var(--lime)}
+    .s3 .stack{position:absolute;left:70px;top:425px;width:950px;height:680px}
+    .s3 .band{position:absolute;width:880px;min-height:185px;padding:32px 40px}
+    .s3 .band h3{font:900 47px/.95 var(--display)}
+    .s3 .band p{margin-top:15px;font-size:28px;line-height:1.2;width:660px}
+    .s3 .band .label{position:absolute;right:35px;bottom:30px}
+    .s3 .a{left:0;top:0;background:var(--lime);color:var(--ink);transform:rotate(-2deg)}
+    .s3 .b{right:0;top:215px;background:var(--paper);color:var(--ink);transform:rotate(1.5deg)}
+    .s3 .c{left:30px;top:440px;background:var(--blue);color:#fff;transform:rotate(-1deg)}
+    .s3 .c .label{color:var(--red)}
+    .s3 .support{position:absolute;left:64px;bottom:66px;width:920px}
+
+    /* 04 — evidence column */
+    .s4 .title{position:absolute;left:58px;top:150px;width:940px;font-size:91px;line-height:.89}
+    .s4 .title span{color:var(--amber)}
+    .s4 .sheet{position:absolute;left:75px;top:420px;width:930px;height:680px;padding:50px 52px;transform:rotate(-1deg)}
+    .s4 .columns{display:grid;grid-template-columns:1fr 90px 1fr;align-items:stretch;height:560px}
+    .s4 .col h3{font:900 39px/.95 var(--display);color:var(--red)}
+    .s4 .col p{margin-top:36px;font-size:29px;line-height:1.25}
+    .s4 .col p b{display:block;font:900 33px/1 var(--display);margin-bottom:9px}
+    .s4 .bridge{display:grid;place-items:center;font:900 56px/1 var(--display);color:var(--lime);background:var(--ink)}
+    .s4 .evidence{background:var(--blue);color:#fff;padding:32px 34px}
+    .s4 .evidence h3{color:var(--amber)}
+    .s4 .check{position:absolute;right:-20px;bottom:30px;background:var(--lime);color:var(--ink);padding:19px 25px;font:900 28px/1 var(--display);transform:rotate(4deg)}
+    .s4 .support{position:absolute;left:64px;bottom:64px;width:920px}
+
+    /* 05 — gaps */
+    .s5{background:#0d1210}
+    .s5 .title{position:absolute;left:58px;top:150px;width:940px;font-size:92px;line-height:.88}
+    .s5 .title span{color:var(--red)}
+    .s5 .gap-sheet{position:absolute;left:78px;top:445px;width:920px;height:590px;padding:48px 54px;transform:rotate(1deg)}
+    .s5 .need{font:900 46px/1 var(--display)}
+    .s5 .empty{margin-top:42px;height:145px;background:#292c29;color:#8e918a;padding:33px 38px;font:900 40px/1 var(--display)}
+    .s5 .choices{display:flex;gap:18px;margin-top:40px}
+    .s5 .choice{padding:25px 30px;font:900 31px/1 var(--display)}
+    .s5 .choice:first-child{background:var(--red);color:#fff;text-decoration:line-through;text-decoration-thickness:9px}
+    .s5 .choice:last-child{background:var(--lime);color:var(--ink)}
+    .s5 .stamp{position:absolute;right:20px;bottom:18px;transform:rotate(-5deg)}
+    .s5 .support{position:absolute;left:64px;bottom:70px;width:920px}
+
+    /* 06 — full worked plan */
+    .s6 .title{position:absolute;left:58px;top:150px;width:940px;font-size:86px;line-height:.9}
+    .s6 .title span{color:var(--lime)}
+    .s6 .work{position:absolute;left:65px;top:405px;width:960px;height:750px}
+    .s6 .vac{position:absolute;left:0;top:0;width:900px;padding:34px 40px;background:var(--blue);color:#fff;transform:rotate(-1deg)}
+    .s6 .vac .label{color:var(--amber)}
+    .s6 .vac p{margin-top:16px;font:900 37px/1.07 var(--display)}
+    .s6 .evidence{position:absolute;right:0;top:215px;width:875px;padding:33px 40px;background:#333832;color:#fff;transform:rotate(1.5deg)}
+    .s6 .evidence .label{color:var(--red)}
+    .s6 .evidence p{margin-top:15px;font-size:29px;line-height:1.22}
+    .s6 .bullet{position:absolute;left:20px;top:425px;width:920px;padding:38px 42px 40px;transform:rotate(-1deg)}
+    .s6 .bullet .label{color:var(--red)}
+    .s6 .bullet strong{display:block;margin-top:16px;font:900 38px/1.04 var(--display)}
+    .s6 .order{position:absolute;left:145px;top:705px;width:780px;background:var(--lime);color:var(--ink);padding:17px 23px;font:900 25px/1.05 var(--mono);text-align:center;transform:rotate(2deg)}
+    .s6 .support{position:absolute;left:64px;bottom:58px;width:920px;font-size:28px}
+
+    /* 07 — checklist + soft CTA */
+    .s7{background:#0a1114}
+    .s7 .title{position:absolute;left:58px;top:150px;width:940px;font-size:88px;line-height:.89}
+    .s7 .title span{color:var(--lime)}
+    .s7 .check{position:absolute;left:75px;top:405px;width:930px;height:475px;padding:40px 48px;transform:rotate(-1deg)}
+    .s7 .check .label{color:var(--red);margin-bottom:24px}
+    .s7 .check p{display:grid;grid-template-columns:50px 1fr;gap:16px;margin:18px 0;font-size:29px;line-height:1.2}
+    .s7 .check p b{font:900 38px/1 var(--display);color:var(--lime)}
+    .s7 .cta{position:absolute;left:90px;top:930px;width:900px;padding:36px 44px;background:var(--blue);color:#fff;transform:rotate(2deg);box-shadow:20px 20px 0 var(--lime)}
+    .s7 .cta .soft{font-size:28px;line-height:1.2}
+    .s7 .cta strong{display:block;margin-top:13px;font:900 57px/.95 var(--display);color:var(--lime)}
+    .s7 .cta small{display:block;margin-top:15px;font-size:28px;line-height:1.2}
+    .s7 .fine{position:absolute;left:64px;bottom:61px;width:920px;font:italic 28px/1.2 var(--serif)}
+  </style>
+</head>
+<body>
+  <section class="slide s1">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>01</b> / 07</div>
+    <h1 class="display title">LA DESCRIPCIÓN DEL PUESTO ES EL <span>PLANO DE TU CV</span></h1>
+    <div class="vacancy"><span class="label">DOCUMENTO DE ORIGEN</span><b>VACANTE</b><p>Responsabilidades, resultados, requisitos y contexto.</p></div>
+    <div class="plan paper torn"><strong>ABRE ESTO<br>ANTES QUE TU CV</strong><div class="rule"></div></div>
+    <p class="support">Primero entiende el problema. Después decides qué parte de tu experiencia mostrar.</p>
+  </section>
+
+  <section class="slide s2">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>02</b> / 07</div>
+    <h2 class="display title">SUBRAYA RESPONSABILIDADES Y <span>RESULTADOS</span></h2>
+    <div class="brief paper torn">
+      <div class="head"><span>DESCRIPCIÓN DEL PUESTO</span><span>PLANO / 02</span></div>
+      <div class="line">Buscamos a alguien que pueda <b>coordinar lanzamientos</b>.</div>
+      <div class="line">Dar seguimiento a <b>fechas y entregables</b>.</div>
+      <div class="line">Comunicar <b>riesgos al equipo comercial</b>.</div>
+      <div class="result">LO REPETIDO SUELE REVELAR LA PRIORIDAD</div>
+    </div>
+    <p class="support">Busca acciones y resultados recurrentes; no asumas que cada línea pesa igual.</p>
+  </section>
+
+  <section class="slide s3">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>03</b> / 07</div>
+    <h2 class="display title">ORDENA EL PLANO EN <span>3 NIVELES</span></h2>
+    <div class="stack">
+      <div class="band a torn"><h3>ESENCIAL</h3><p>La responsabilidad o capacidad que debe aparecer primero en tu evidencia.</p><span class="label">PRIORIDAD 01</span></div>
+      <div class="band b torn"><h3>DESEABLE</h3><p>Aporta valor, pero no define por sí sola toda la candidatura.</p><span class="label">PRIORIDAD 02</span></div>
+      <div class="band c torn"><h3>CONTEXTO</h3><p>Información sobre la empresa, el equipo o la forma de trabajar.</p><span class="label">LEER / NO COPIAR</span></div>
+    </div>
+    <p class="support">Esta clasificación es una lectura estratégica, no una regla matemática.</p>
+  </section>
+
+  <section class="slide s4">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>04</b> / 07</div>
+    <h2 class="display title">AGREGA UNA COLUMNA DE <span>EVIDENCIA REAL</span></h2>
+    <div class="sheet paper torn">
+      <div class="columns">
+        <div class="col"><h3>LA VACANTE PIDE</h3><p><b>COORDINAR</b>Lanzamientos y entregables.</p><p><b>COMUNICAR</b>Riesgos al equipo comercial.</p></div>
+        <div class="bridge">→</div>
+        <div class="col evidence"><h3>TÚ PUEDES PROBAR</h3><p><b>PROYECTO</b>Campañas que coordinaste.</p><p><b>ALCANCE</b>Fechas, personas y reportes reales.</p></div>
+      </div>
+      <div class="check">UNA FILA = UNA CONEXIÓN VERIFICABLE</div>
+    </div>
+    <p class="support">Si no puedes explicar la conexión en una entrevista, todavía no es evidencia suficiente.</p>
+  </section>
+
+  <section class="slide s5">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>05</b> / 07</div>
+    <h2 class="display title">MARCA LAS BRECHAS CON <span>HONESTIDAD</span></h2>
+    <div class="gap-sheet paper torn">
+      <div class="label">REQUISITO SIN EVIDENCIA</div>
+      <div class="need">“Dominio avanzado de SQL”</div>
+      <div class="empty">TU EXPERIENCIA ACTUAL: SIN PRUEBA SUFICIENTE</div>
+      <div class="choices"><div class="choice">COPIARLO</div><div class="choice">NO AFIRMARLO</div></div>
+      <div class="stamp">BRECHA NOMBRADA</div>
+    </div>
+    <p class="support">Una brecha clara es mejor que una habilidad que no puedes sostener.</p>
+  </section>
+
+  <section class="slide s6">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>06</b> / 07</div>
+    <h2 class="display title">DEL PLANO A UNA <span>LÍNEA DE CV</span></h2>
+    <div class="work">
+      <div class="vac torn"><span class="label">LA VACANTE</span><p>Coordinar lanzamientos, fechas y comunicación de riesgos.</p></div>
+      <div class="evidence torn"><span class="label">TU EVIDENCIA REAL</span><p>Coordinaste cuatro campañas, sus proveedores, fechas y alertas semanales.</p></div>
+      <div class="bullet paper torn"><span class="label">EL BULLET FINAL / EJEMPLO ILUSTRATIVO</span><strong>“Coordiné el lanzamiento de cuatro campañas, gestioné proveedores y fechas, y comuniqué riesgos semanales al equipo comercial.”</strong></div>
+      <div class="order">SUBE ESTA EVIDENCIA EN PERFIL · BULLETS · HABILIDADES</div>
+    </div>
+    <p class="support">Usa cantidades y detalles únicamente cuando sean verdaderos para tu experiencia.</p>
+  </section>
+
+  <section class="slide s7">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>07</b> / 07</div>
+    <h2 class="display title">CONSTRUYE EL PLANO <span>ANTES DE REESCRIBIR</span></h2>
+    <div class="check paper torn">
+      <div class="label">LISTA PARA GUARDAR</div>
+      <p><b>01</b><span>Subraya responsabilidades y resultados repetidos.</span></p>
+      <p><b>02</b><span>Separa esencial, deseable y contexto.</span></p>
+      <p><b>03</b><span>Conecta cada prioridad con evidencia real.</span></p>
+      <p><b>04</b><span>Reordena perfil, bullets y habilidades según esa prioridad.</span></p>
+    </div>
+    <div class="cta"><div class="soft">Si quieres acelerar este mapeo:</div><strong>COMENTA CV</strong><small>Te enviamos por DM un código para disfrutar <b>1 mes gratis de WorqAI Pro.</b></small></div>
+    <p class="fine">Adaptar el enfoque nunca significa inventar experiencia.</p>
+  </section>
+</body>
+</html>

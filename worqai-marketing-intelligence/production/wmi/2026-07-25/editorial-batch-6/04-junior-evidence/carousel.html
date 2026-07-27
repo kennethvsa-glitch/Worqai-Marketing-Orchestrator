@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorqAI — La fórmula para escribir buenos bullets</title>
+  <style>
+    :root{
+      --black:#070806;--coal:#171915;--graphite:#292b25;--paper:#f0ebdf;
+      --paper2:#d8d1c3;--dim:#aaa79e;--lime:#b8ff00;--red:#ff5b54;
+      --display:"Bahnschrift SemiCondensed",Bahnschrift,"Arial Narrow",Arial,sans-serif;
+      --body:Aptos,Arial,sans-serif;--serif:Georgia,"Times New Roman",serif;
+      --mono:Consolas,"Courier New",monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#232520;color:var(--paper)}
+    body{display:flex;flex-direction:column;align-items:center;gap:36px;padding:36px 0 120px;font-family:var(--body)}
+    .slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--black);isolation:isolate}
+    .slide:after{content:"";position:absolute;inset:0;z-index:40;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen}
+    .logo{position:absolute;z-index:20;left:58px;top:43px;width:214px;height:78px;background:var(--paper);padding:12px 18px;border:4px solid #080807;border-radius:18% 12% 18% 12% / 32% 24% 32% 24%;box-shadow:8px 8px 0 var(--lime);transform:rotate(-1deg);overflow:visible}
+    .logo img{display:block;width:100%;height:100%;object-fit:contain}
+    .folio{position:absolute;z-index:20;right:62px;top:59px;font:800 23px/1 var(--mono);letter-spacing:.04em}
+    .folio b{color:var(--lime)}
+    .display{font-family:var(--display);font-weight:900;letter-spacing:-.055em}
+    .paper{background:var(--paper);color:var(--black);box-shadow:18px 20px 0 #000}
+    .kicker{font:800 22px/1 var(--mono);letter-spacing:.08em;color:var(--lime)}
+    .caption{font:italic 30px/1.2 var(--serif);color:var(--dim)}
+    .example{font:800 20px/1 var(--mono);letter-spacing:.08em;color:var(--red)}
+
+    /* 01 — formula poster */
+    .s1 .kicker{position:absolute;left:62px;top:172px}
+    .s1 h1{position:absolute;left:60px;top:222px;width:940px;margin:0;font-size:112px;line-height:.84}
+    .s1 h1 em{color:var(--lime);font-style:normal}
+    .s1 .cross{position:absolute;left:79px;top:647px;width:820px;height:17px;background:var(--red);transform:rotate(-3deg)}
+    .s1 .formula{position:absolute;left:-28px;top:760px;width:1140px;height:330px;padding:62px 88px;background:var(--paper);color:var(--black);transform:rotate(1.5deg);box-shadow:0 26px 0 #1e201b}
+    .s1 .formula strong{display:block;font:900 57px/.95 var(--display);letter-spacing:-.04em}
+    .s1 .formula .parts{display:flex;align-items:center;justify-content:space-between;margin-top:47px;font:900 43px/1 var(--display)}
+    .s1 .formula .plus{color:var(--red);font-size:72px}
+    .s1 .formula .result{background:var(--lime);padding:14px 17px;transform:rotate(-2deg)}
+    .s1 .save{position:absolute;left:64px;bottom:80px;width:900px;margin:0;font:italic 31px/1.22 var(--serif)}
+
+    /* 02 — duty versus evidence */
+    .s2{background:var(--coal)}
+    .s2 h2{position:absolute;left:60px;top:153px;width:930px;margin:0;font-size:91px;line-height:.86}
+    .s2 .sheet{position:absolute;left:75px;top:430px;width:930px;height:700px;padding:62px 64px;background:var(--paper);color:var(--black);transform:rotate(-1.2deg);box-shadow:20px 24px 0 #050604}
+    .s2 .duty{font:900 51px/1.05 var(--display);color:#66665f;text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:11px}
+    .s2 .turn{margin:45px 0 33px;font:900 29px/1 var(--mono);color:var(--red)}
+    .s2 .evidence{font:900 48px/1.08 var(--display)}
+    .s2 .evidence mark{background:var(--lime);color:var(--black);padding:0 8px}
+    .s2 .why{position:absolute;left:115px;top:1058px;width:820px;margin:0;font-size:29px;line-height:1.25;color:#33342f}
+    .s2 .proofnote{position:absolute;left:66px;bottom:74px;margin:0;font:italic 30px/1.2 var(--serif);color:var(--lime)}
+
+    /* 03 — exploded formula */
+    .s3 .title{position:absolute;left:60px;top:151px;width:920px;margin:0;font-size:99px;line-height:.86}
+    .s3 .verb{position:absolute;left:56px;top:430px;font:900 174px/.8 var(--display);color:var(--paper);transform:rotate(-2deg)}
+    .s3 .verb:after{content:"ACCIÓN";position:absolute;left:12px;top:166px;font:900 26px/1 var(--mono);letter-spacing:.11em;color:var(--lime)}
+    .s3 .scope{position:absolute;right:56px;top:650px;width:690px;padding:31px 42px;background:var(--paper);color:var(--black);font:900 75px/.9 var(--display);transform:rotate(1.5deg);box-shadow:16px 18px 0 #242620}
+    .s3 .scope small{display:block;margin-bottom:13px;font:900 24px/1 var(--mono);letter-spacing:.1em;color:var(--red)}
+    .s3 .delivery{position:absolute;left:53px;top:905px;width:875px;padding:31px 40px;background:var(--lime);color:var(--black);font:900 70px/.9 var(--display);transform:rotate(-1deg)}
+    .s3 .delivery small{display:block;margin-bottom:12px;font:900 24px/1 var(--mono);letter-spacing:.1em}
+    .s3 .equation{position:absolute;left:64px;bottom:74px;margin:0;font:italic 31px/1.22 var(--serif);color:var(--dim)}
+
+    /* 04 — verb wall */
+    .s4{background:#0b0c0a}
+    .s4 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:87px;line-height:.87}
+    .s4 .verbwall{position:absolute;left:-36px;top:397px;width:1160px;font:900 113px/.88 var(--display);letter-spacing:-.07em;color:#30322c;transform:rotate(-2deg)}
+    .s4 .verbwall span{display:block}
+    .s4 .verbwall .live{color:var(--paper)}
+    .s4 .verbwall .lime{display:inline;color:var(--lime)}
+    .s4 .redmark{position:absolute;right:40px;top:663px;width:300px;height:18px;background:var(--red);transform:rotate(9deg)}
+    .s4 .instruction{position:absolute;left:58px;bottom:72px;width:920px;padding:36px 44px;background:var(--paper);color:var(--black);font-size:30px;line-height:1.25;transform:rotate(.7deg)}
+    .s4 .instruction b{font-family:var(--display);font-size:38px}
+
+    /* 05 — scope and proof without metrics */
+    .s5 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:88px;line-height:.87}
+    .s5 .scope-list{position:absolute;left:58px;top:420px;width:430px}
+    .s5 .scope-list span{display:block;margin:0 0 17px;padding:21px 24px;background:var(--graphite);font:900 34px/1 var(--display);transform:skewX(-4deg)}
+    .s5 .scope-list span:nth-child(2),.s5 .scope-list span:nth-child(4){margin-left:45px;background:var(--paper);color:var(--black)}
+    .s5 .no-metric{position:absolute;right:54px;top:385px;width:500px;height:650px;padding:48px 42px;background:var(--paper);color:var(--black);transform:rotate(1.2deg);box-shadow:17px 21px 0 #1f211c}
+    .s5 .no-metric h3{margin:0 0 32px;font:900 49px/.93 var(--display)}
+    .s5 .no-metric p{margin:0 0 25px;font-size:29px;line-height:1.2}
+    .s5 .no-metric b{background:var(--lime)}
+    .s5 .warning{position:absolute;left:57px;bottom:75px;width:950px;margin:0;font:italic 31px/1.23 var(--serif)}
+    .s5 .warning strong{color:var(--red)}
+
+    /* 06 — full proof before and after */
+    .s6{background:var(--coal)}
+    .s6 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:91px;line-height:.86}
+    .s6 .proofsheet{position:absolute;left:64px;top:390px;width:945px;height:770px;padding:53px 58px;background:var(--paper);color:var(--black);transform:rotate(-.6deg);box-shadow:20px 23px 0 #050604}
+    .s6 .before,.s6 .after{position:relative;padding-left:93px}
+    .s6 .before{color:#77776f}
+    .s6 .before:before,.s6 .after:before{position:absolute;left:0;top:0;font:900 31px/1 var(--mono)}
+    .s6 .before:before{content:"ANTES";color:var(--red)}
+    .s6 .after:before{content:"DESPUÉS";color:#487000}
+    .s6 .proofsheet p{margin:0;font:900 40px/1.12 var(--display)}
+    .s6 .strike{position:absolute;left:50px;right:45px;top:169px;height:12px;background:var(--red);transform:rotate(-2deg)}
+    .s6 .divider{height:22px;margin:65px -18px 55px;background:var(--black);transform:rotate(1deg)}
+    .s6 .after mark{background:var(--lime);color:var(--black);padding:0 5px}
+    .s6 .note{position:absolute;left:125px;top:1040px;width:790px;margin:0;font-size:28px;line-height:1.25;color:#383934}
+    .s6 .source{position:absolute;left:63px;bottom:68px;font:italic 29px/1.2 var(--serif);color:var(--lime)}
+
+    /* 07 — typographic CTA */
+    .s7 .offer{position:absolute;left:-30px;top:154px;width:1140px;padding:22px 60px;background:var(--lime);color:var(--black);font:900 31px/1 var(--display);text-align:center;transform:rotate(-1.5deg)}
+    .s7 .comment{position:absolute;left:58px;top:290px;margin:0;font:900 124px/.8 var(--display);letter-spacing:-.06em}
+    .s7 .cv{position:absolute;left:40px;top:455px;font:900 500px/.72 var(--display);letter-spacing:-.13em;color:var(--lime)}
+    .s7 .rip{position:absolute;left:80px;top:905px;width:920px;padding:38px 52px;background:var(--paper);color:var(--black);font:900 53px/.95 var(--display);transform:rotate(1deg);box-shadow:19px 22px 0 #242620}
+    .s7 .rip b{display:block;color:#476400;font-size:35px;margin-top:18px}
+    .s7 .dm{position:absolute;left:64px;bottom:69px;width:900px;margin:0;font-size:29px;line-height:1.25;color:var(--dim)}
+    .s7 .dm strong{color:var(--paper)}
+  </style>
+</head>
+<body>
+  <section class="slide s1">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>01</b> / 07</div>
+    <div class="kicker">GUÍA PARA GUARDAR</div>
+    <h1 class="display">UN BUEN BULLET<br>NO ES UNA <em>TAREA.</em></h1>
+    <div class="cross"></div>
+    <div class="formula"><strong>ES EVIDENCIA ESCRITA.</strong><div class="parts"><span>ACCIÓN</span><span class="plus">+</span><span>ALCANCE</span><span class="plus">+</span><span class="result">RESULTADO</span></div></div>
+    <p class="save">La fórmula para convertir responsabilidades en pruebas concretas.</p>
+  </section>
+
+  <section class="slide s2">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>02</b> / 07</div>
+    <h2 class="display">LA TAREA DICE QUÉ TOCABA.<br>LA EVIDENCIA DICE QUÉ HICISTE.</h2>
+    <div class="sheet">
+      <div class="example">EJEMPLO ILUSTRATIVO</div>
+      <p class="duty">“Responsable de reportes mensuales.”</p>
+      <div class="turn">REESCRIBE LA RESPONSABILIDAD ↓</div>
+      <p class="evidence">“<mark>Consolidé</mark> reportes de ventas de tres equipos y entregué un resumen ejecutivo a dirección.”</p>
+      <p class="why">La segunda frase muestra acción, alcance y una entrega verificable.</p>
+    </div>
+    <p class="proofnote">No adornes la tarea. Haz visible tu contribución.</p>
+  </section>
+
+  <section class="slide s3">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>03</b> / 07</div>
+    <h2 class="display title">USA ESTA FÓRMULA EN CADA BULLET.</h2>
+    <div class="verb">ORGANICÉ</div>
+    <div class="scope"><small>+ ALCANCE</small>EL CALENDARIO DE 4 EQUIPOS</div>
+    <div class="delivery"><small>+ RESULTADO / ENTREGA</small>Y DEJÉ UNA AGENDA ÚNICA APROBADA.</div>
+    <p class="equation">Verbo específico + qué abarcaste + qué cambió o quedó listo.</p>
+  </section>
+
+  <section class="slide s4">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>04</b> / 07</div>
+    <h2 class="display title">EMPIEZA CON UN VERBO QUE SE PUEDA VER.</h2>
+    <div class="verbwall"><span>APOYÉ</span><span class="live">ANALICÉ <span class="lime">DATOS</span></span><span>AYUDÉ</span><span class="live">COORDINÉ <span class="lime">ENTREGAS</span></span><span>PARTICIPÉ</span></div>
+    <div class="redmark"></div>
+    <div class="instruction"><b>PREGUNTA: ¿QUÉ HICISTE TÚ?</b><br>Prueba con: analicé, diseñé, coordiné, documenté, implementé, validé o presenté.</div>
+  </section>
+
+  <section class="slide s5">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>05</b> / 07</div>
+    <h2 class="display title">EL ALCANCE LE DA PESO.<br>NO NECESITAS INVENTAR CIFRAS.</h2>
+    <div class="scope-list"><span>EQUIPO</span><span>HERRAMIENTA</span><span>AUDIENCIA</span><span>CADENCIA</span><span>ENTREGA</span></div>
+    <div class="no-metric">
+      <h3>SI NO TIENES UNA MÉTRICA REAL, USA:</h3>
+      <p>Una <b>entrega verificable.</b></p>
+      <p>Un plazo o una cadencia.</p>
+      <p>La audiencia o el equipo.</p>
+      <p>Un cambio observable.</p>
+      <p>La herramienta utilizada.</p>
+    </div>
+    <p class="warning"><strong>Nunca fabriques porcentajes.</strong> Precisión vale más que una cifra que no puedes sostener.</p>
+  </section>
+
+  <section class="slide s6">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>06</b> / 07</div>
+    <h2 class="display title">ANTES Y DESPUÉS: UN BULLET COMPLETO.</h2>
+    <div class="proofsheet">
+      <div class="example">EJEMPLO ILUSTRATIVO · SIN MÉTRICAS INVENTADAS</div>
+      <div class="before"><p>“Encargado de organizar eventos.”</p></div>
+      <div class="strike"></div>
+      <div class="divider"></div>
+      <div class="after"><p>“<mark>Coordiné</mark> proveedores, agenda y materiales para una feria universitaria, y entregué el evento según el cronograma aprobado.”</p></div>
+      <p class="note">Acción: coordiné · Alcance: proveedores, agenda y materiales · Entrega: evento según cronograma.</p>
+    </div>
+    <div class="source">Adapta la estructura solo con hechos que puedas explicar.</div>
+  </section>
+
+  <section class="slide s7">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>07</b> / 07</div>
+    <div class="offer">CONVIERTE TUS TAREAS EN EVIDENCIA REAL</div>
+    <h2 class="comment">COMENTA</h2><div class="cv">CV</div>
+    <div class="rip">Y RECIBE 1 MES DE WORQAI PRO GRATIS.<b>TE ENVIAMOS EL CÓDIGO POR DM.</b></div>
+    <p class="dm"><strong>Sin inventar experiencia.</strong> Sin promesas de entrevista. Solo una forma más clara de contar lo que ya hiciste.</p>
+  </section>
+</body>
+</html>

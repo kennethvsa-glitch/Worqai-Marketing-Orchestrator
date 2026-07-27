@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel 04 - Light Theme</title>
+    <style>
+        :root {
+            --bg-cream: #f1ede3;
+            --text-ink: #0a0b09;
+            --paper-white: #ffffff;
+            --accent-teal: #0d6b5e;
+            --accent-coral: #e85d4a;
+            --accent-navy: #1a1f3d;
+            --highlight-lime: #d4e842;
+            --shadow: 18px 18px 0 rgba(10, 11, 9, 0.2);
+            --font-main: Bahnschrift, 'Arial Narrow', Arial, sans-serif;
+            --font-serif: Georgia, serif;
+            --font-mono: Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #333;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            font-family: var(--font-main);
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1350px;
+            background-color: var(--bg-cream);
+            position: relative;
+            overflow: hidden;
+            color: var(--text-ink);
+            /* To scale it down in browser for viewing */
+            transform-origin: top left;
+        }
+
+        /* Noise overlay */
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 50;
+            font-family: var(--font-mono);
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-ink);
+        }
+
+        .footer .brand {
+            background-color: var(--text-ink);
+            color: var(--paper-white);
+            padding: 10px 20px;
+            clip-path: polygon(0 0, 100% 5%, 95% 100%, 5% 95%);
+            display: inline-block;
+        }
+
+        .footer .brand span {
+            color: var(--highlight-lime);
+        }
+
+        .footer .page {
+            color: var(--accent-coral);
+            font-size: 32px;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 130px;
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -3px;
+        }
+
+        h2 {
+            font-size: 90px;
+            line-height: 0.95;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .serif {
+            font-family: var(--font-serif);
+            font-style: italic;
+        }
+
+        .highlight {
+            background-color: var(--highlight-lime);
+            padding: 0 10px;
+            display: inline-block;
+            transform: skew(-5deg);
+        }
+
+        .highlight-coral {
+            background-color: var(--accent-coral);
+            color: var(--paper-white);
+            padding: 0 10px;
+            display: inline-block;
+        }
+
+        /* Paper cards */
+        .card {
+            background-color: var(--paper-white);
+            box-shadow: var(--shadow);
+            padding: 50px;
+            border: 2px solid var(--text-ink);
+            position: absolute;
+        }
+
+        .card-dark {
+            background-color: var(--text-ink);
+            color: var(--paper-white);
+            box-shadow: 18px 18px 0 var(--accent-teal);
+            padding: 50px;
+            position: absolute;
+        }
+
+        .clip-torn {
+            clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 100%);
+        }
+
+        .clip-torn-alt {
+            clip-path: polygon(0% 4%, 96% 0%, 100% 96%, 3% 100%);
+        }
+
+        .annotation {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 40px;
+            color: var(--accent-coral);
+            position: absolute;
+            transform: rotate(-10deg);
+        }
+
+        /* Slide specific */
+        .s1-title {
+            position: absolute;
+            top: 250px;
+            left: 80px;
+            width: 900px;
+            z-index: 10;
+        }
+
+        .s1-annotation {
+            top: 150px;
+            right: 100px;
+            font-size: 48px;
+            transform: rotate(5deg);
+            color: var(--accent-teal);
+        }
+
+        .s2-card1 {
+            top: 200px;
+            left: 100px;
+            width: 800px;
+            transform: rotate(-3deg);
+            z-index: 1;
+        }
+
+        .s2-card2 {
+            top: 500px;
+            left: 150px;
+            width: 800px;
+            transform: rotate(2deg);
+            z-index: 2;
+        }
+
+        .s2-card3 {
+            top: 800px;
+            left: 100px;
+            width: 800px;
+            transform: rotate(-2deg);
+            z-index: 3;
+            background-color: var(--text-ink);
+            color: var(--bg-cream);
+        }
+
+        .s2-text {
+            font-size: 55px;
+            font-family: var(--font-mono);
+        }
+
+        .s3-huge {
+            position: absolute;
+            top: 300px;
+            left: 50px;
+            font-size: 280px;
+            line-height: 0.8;
+            letter-spacing: -10px;
+            color: var(--text-ink);
+        }
+
+        .s3-sub {
+            position: absolute;
+            top: 850px;
+            left: 100px;
+            font-size: 80px;
+            width: 800px;
+        }
+
+        .s4-dark1 {
+            top: 150px;
+            left: 80px;
+            width: 850px;
+            transform: rotate(-2deg);
+        }
+
+        .s4-dark2 {
+            top: 650px;
+            right: 80px;
+            width: 850px;
+            transform: rotate(2deg);
+            box-shadow: -18px 18px 0 var(--accent-coral);
+        }
+
+        .s5-band {
+            width: 1120px;
+            left: -20px;
+            padding: 40px 100px;
+            border-top: 4px solid var(--text-ink);
+            border-bottom: 4px solid var(--text-ink);
+            background-color: var(--paper-white);
+            position: absolute;
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .s5-b1 { top: 300px; transform: rotate(-3deg); background-color: var(--accent-teal); color: var(--paper-white); }
+        .s5-b2 { top: 600px; transform: rotate(1deg); }
+        .s5-b3 { top: 900px; transform: rotate(-1deg); background-color: var(--text-ink); color: var(--paper-white); }
+
+        .s6-center {
+            position: absolute;
+            top: 350px;
+            left: 100px;
+            width: 880px;
+            text-align: center;
+        }
+        
+        .s6-cta {
+            font-size: 110px;
+            line-height: 1;
+            margin-bottom: 50px;
+        }
+
+        .disclaimer {
+            font-family: var(--font-mono);
+            font-size: 20px;
+            position: absolute;
+            bottom: 120px;
+            left: 50px;
+            width: 980px;
+            text-align: center;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1 -->
+    <div class="slide" id="slide-1">
+        <div class="annotation s1-annotation">Parálisis por análisis</div>
+        <div class="s1-title">
+            <h1>Tu CV <br><span class="serif highlight">perfecto</span><br>no existe.</h1>
+            <h2 style="margin-top: 60px;">El que te consigue entrevistas, <span class="highlight-coral">sí.</span></h2>
+        </div>
+        
+        <div class="footer">
+            <div class="brand">worqai<span>.io</span></div>
+            <div class="page">01</div>
+        </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide" id="slide-2">
+        <h2 style="position:absolute; top: 80px; left: 80px; color: var(--accent-navy);">La trampa</h2>
+        
+        <div class="card clip-torn s2-card1">
+            <div class="s2-text">Semana 1:<br>Ajusto el diseño y los colores.</div>
+        </div>
+        
+        <div class="card clip-torn-alt s2-card2">
+            <div class="s2-text">Semana 2:<br>Cambio la tipografía y los márgenes.</div>
+        </div>
+
+        <div class="card clip-torn s2-card3">
+            <div class="s2-text" style="color: var(--highlight-lime);">Semana 3:<br>Sigo sin postular a nada.</div>
+        </div>
+        
+        <div class="annotation" style="top: 250px; right: 80px; transform: rotate(15deg);">!error crítico</div>
+
+        <div class="footer">
+            <div class="brand">worqai<span>.io</span></div>
+            <div class="page">02</div>
+        </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="slide" id="slide-3">
+        <div class="annotation" style="top: 150px; left: 100px;">El principio de Pareto</div>
+        <div class="s3-huge">
+            80%<br>
+            <span style="font-size: 140px; letter-spacing: -2px; color: var(--accent-teal);">ENFOCADO</span>
+        </div>
+        
+        <div class="s3-sub">
+            Es infinitamente mejor que un <span class="highlight">100% genérico.</span>
+        </div>
+
+        <div class="footer">
+            <div class="brand">worqai<span>.io</span></div>
+            <div class="page">03</div>
+        </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="slide" id="slide-4">
+        
+        <div class="card-dark clip-torn s4-dark1">
+            <h2 style="color: var(--highlight-lime); margin-bottom: 20px;">PERDEDORES:</h2>
+            <p style="font-size: 50px; font-family: var(--font-mono); line-height: 1.2;">
+                Pasan 14 días puliendo el PDF perfecto que nadie va a leer.
+            </p>
+        </div>
+
+        <div class="card-dark clip-torn-alt s4-dark2">
+            <h2 style="color: var(--accent-coral); margin-bottom: 20px;">GANADORES:</h2>
+            <p style="font-size: 50px; font-family: var(--font-mono); line-height: 1.2;">
+                Tardan 20 minutos adaptando un CV decente para la vacante que acaban de abrir.
+            </p>
+        </div>
+
+        <div class="annotation" style="bottom: 300px; left: 150px; font-size: 60px;">Velocidad > Estética</div>
+
+        <div class="footer">
+            <div class="brand">worqai<span>.io</span></div>
+            <div class="page">04</div>
+        </div>
+    </div>
+
+    <!-- Slide 5 -->
+    <div class="slide" id="slide-5">
+        <h2 style="position:absolute; top: 120px; left: 80px;">La fórmula M.V.C.</h2>
+        <div class="annotation" style="top: 200px; left: 100px;">Minimum Viable CV</div>
+
+        <div class="s5-band s5-b1">
+            1. HEADER CLARO
+            <div style="font-family: var(--font-mono); font-size: 30px; font-weight: normal; margin-top: 10px;">Tu título actual + Contacto directo</div>
+        </div>
+
+        <div class="s5-band s5-b2">
+            2. TRES LOGROS MEDIBLES
+            <div style="font-family: var(--font-mono); font-size: 30px; font-weight: normal; margin-top: 10px;">Contexto + Acción + Resultado (con datos)</div>
+        </div>
+
+        <div class="s5-band s5-b3">
+            3. MATCH EVIDENTE
+            <div style="font-family: var(--font-mono); font-size: 30px; font-weight: normal; margin-top: 10px; color: var(--highlight-lime);">Keywords alineadas a la oferta específica</div>
+        </div>
+
+        <div class="footer">
+            <div class="brand">worqai<span>.io</span></div>
+            <div class="page">05</div>
+        </div>
+    </div>
+
+    <!-- Slide 6 -->
+    <div class="slide" id="slide-6">
+        
+        <div class="s6-center">
+            <div class="s6-cta">
+                Deja de <br><span class="serif highlight">diseñar</span> y<br>empieza a <br><span class="highlight-coral" style="transform: rotate(3deg); margin-top: 20px;">entrevistar</span>.
+            </div>
+            
+            <div class="card clip-torn" style="position: relative; margin-top: 80px; padding: 40px; transform: rotate(-2deg); display: inline-block;">
+                <p style="font-size: 45px; font-family: var(--font-mono); font-weight: bold;">
+                    Comenta CV para un mes gratis de WorqAI Pro
+                </p>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            WORQAI MARKETING INTELLIGENCE · NO GARANTIZAMOS RESULTADOS DE CONTRATACIÓN
+        </div>
+
+        <div class="footer">
+            <div class="brand">worqai<span>.io</span></div>
+            <div class="page">06</div>
+        </div>
+    </div>
+
+</body>
+</html>

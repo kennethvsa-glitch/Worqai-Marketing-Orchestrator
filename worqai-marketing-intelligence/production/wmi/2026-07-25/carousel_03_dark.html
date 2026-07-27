@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>El reclutador no lee tu CV. Lo escanea.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
+        
+        :root {
+            --bg-color: #080807;
+            --lime: #b8ff00;
+            --red: #ff5c57;
+            --paper: #f4f4f0;
+            --ink: #111111;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #222;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .slide {
+            width: 1080px;
+            height: 1350px;
+            background: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            font-family: 'Bahnschrift', 'Roboto Condensed', Impact, sans-serif;
+            font-stretch: condensed;
+            color: #fff;
+        }
+
+        .noise {
+            position: absolute;
+            inset: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23noiseFilter)"/></svg>');
+            opacity: 0.035;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 50px;
+            right: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 100;
+        }
+
+        .brand-tag {
+            background: var(--paper);
+            color: var(--ink);
+            padding: 10px 25px;
+            font-size: 24px;
+            font-weight: 800;
+            clip-path: polygon(0% 5%, 95% 0%, 100% 95%, 5% 100%);
+            transform: rotate(-1.5deg);
+        }
+
+        .page-counter {
+            font-size: 28px;
+            font-weight: 800;
+            color: #666;
+            font-family: Consolas, monospace;
+        }
+
+        .massive-text {
+            font-size: 146px;
+            line-height: 0.85;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .editorial {
+            font-family: Georgia, serif;
+            font-style: italic;
+            font-size: 36px;
+            color: #aaa;
+        }
+
+        .torn-paper {
+            background: var(--paper);
+            color: var(--ink);
+            padding: 40px;
+            clip-path: polygon(2% 1%, 98% 3%, 99% 98%, 1% 99%);
+        }
+        
+        .paper-wrapper {
+            filter: drop-shadow(18px 18px 0px rgba(0,0,0,1));
+        }
+
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 40%, var(--lime) 40%, var(--lime) 90%, transparent 90%);
+            color: var(--bg-color);
+            display: inline;
+        }
+        
+        .highlight-marker-white {
+            background: linear-gradient(180deg, transparent 40%, var(--lime) 40%, var(--lime) 90%, transparent 90%);
+            color: var(--ink);
+            display: inline;
+        }
+
+        .tilt-left { transform: rotate(-2.4deg); }
+        .tilt-right { transform: rotate(1.7deg); }
+        .tilt-slight { transform: rotate(1deg); }
+        
+        .hand-circle {
+            position: absolute;
+            fill: none;
+            stroke: var(--lime);
+            stroke-width: 8;
+            stroke-linecap: round;
+        }
+        
+        .hand-arrow {
+            position: absolute;
+            fill: none;
+            stroke: var(--red);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .s1-paper-wrap {
+            position: absolute;
+            top: 250px;
+            left: 60px;
+            width: 900px;
+        }
+        .s1-paper {
+            clip-path: polygon(0% 2%, 99% 0%, 98% 97%, 2% 100%);
+            padding: 60px;
+        }
+        .s1-loescanea {
+            position: absolute;
+            top: 750px;
+            left: 100px;
+            width: 800px;
+        }
+        
+        .mock-cv-container {
+            position: absolute;
+            top: 150px;
+            left: 140px;
+            width: 800px;
+            height: 900px;
+            background: var(--paper);
+            clip-path: polygon(1% 1%, 99% 2%, 98% 99%, 0% 98%);
+            filter: drop-shadow(18px 18px 0px rgba(0,0,0,1));
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            box-sizing: border-box;
+            transform: rotate(-1deg);
+        }
+        .mock-cv-line {
+            height: 12px;
+            background: #ccc;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        .mock-cv-header {
+            width: 40%;
+            height: 24px;
+            background: #aaa;
+            margin-bottom: 40px;
+        }
+        .heatmap {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(184,255,0,0.7) 0%, rgba(255,92,87,0.4) 30%, transparent 60%);
+            mix-blend-mode: multiply;
+            z-index: 10;
+        }
+        .s2-text {
+            position: absolute;
+            bottom: 200px;
+            left: 80px;
+            font-size: 64px;
+            line-height: 1;
+            z-index: 20;
+        }
+
+        .s3-rule {
+            position: absolute;
+            top: 300px;
+            left: 80px;
+            width: 920px;
+        }
+        .giant-text {
+            font-size: 240px;
+            line-height: 0.8;
+            color: var(--lime);
+            transform: rotate(-2deg);
+        }
+
+        .dual-container {
+            position: absolute;
+            top: 250px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .cv-bad, .cv-good {
+            width: 400px;
+            height: 600px;
+            background: var(--paper);
+            padding: 30px;
+            box-sizing: border-box;
+        }
+        .cv-bad {
+            clip-path: polygon(2% 1%, 97% 3%, 99% 98%, 1% 99%);
+            transform: rotate(-3deg);
+        }
+        .cv-good {
+            clip-path: polygon(1% 2%, 99% 0%, 98% 97%, 2% 100%);
+            transform: rotate(2deg);
+        }
+        .redline {
+            position: absolute;
+            top: 150px;
+            left: 50px;
+            width: 300px;
+            height: 400px;
+            border: 6px solid var(--red);
+            transform: rotate(-2deg);
+            pointer-events: none;
+        }
+
+        .checklist-item {
+            position: absolute;
+            width: 700px;
+            padding: 30px;
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 54px;
+            line-height: 1;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.5);
+        }
+        .c1 { top: 200px; left: 100px; clip-path: polygon(1% 2%, 99% 1%, 98% 99%, 2% 98%); transform: rotate(-2.4deg); }
+        .c2 { top: 500px; left: 150px; clip-path: polygon(0% 1%, 98% 2%, 99% 98%, 1% 99%); transform: rotate(1.7deg); }
+        .c3 { top: 800px; left: 80px; clip-path: polygon(2% 0%, 99% 2%, 98% 99%, 0% 97%); transform: rotate(-1deg); }
+
+        .s6-cta {
+            position: absolute;
+            top: 400px;
+            left: 80px;
+            width: 900px;
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+
+<!-- Slide 1 -->
+<div class="slide" id="slide-1">
+    <div class="noise"></div>
+    <div class="paper-wrapper s1-paper-wrap tilt-left">
+        <div class="torn-paper s1-paper massive-text">
+            EL RECLUTADOR<br>NO LEE TU CV.
+        </div>
+    </div>
+    <div class="s1-loescanea tilt-right massive-text">
+        <span class="highlight-marker">LO ESCANEA.</span>
+    </div>
+    <div class="footer">
+        <div class="brand-tag">worqai.io</div>
+        <div class="page-counter">01/06</div>
+    </div>
+</div>
+
+<!-- Slide 2 -->
+<div class="slide" id="slide-2">
+    <div class="noise"></div>
+    <div class="editorial" style="position: absolute; top: 80px; left: 140px;">Zonas calientes del F pattern</div>
+    <div class="paper-wrapper" style="position: absolute; top: 150px; left: 140px; transform: rotate(-1deg);">
+        <div class="mock-cv-container" style="position: relative; top: 0; left: 0;">
+            <div class="mock-cv-header"></div>
+            <div class="mock-cv-line" style="width: 80%"></div>
+            <div class="mock-cv-line" style="width: 90%"></div>
+            <div class="mock-cv-line" style="width: 70%"></div>
+            <div style="height: 40px"></div>
+            <div class="mock-cv-line" style="width: 60%"></div>
+            <div class="mock-cv-line" style="width: 85%"></div>
+            <div class="mock-cv-line" style="width: 75%"></div>
+            <div style="height: 40px"></div>
+            <div class="mock-cv-line" style="width: 50%"></div>
+            <div class="mock-cv-line" style="width: 40%"></div>
+            <div class="heatmap"></div>
+        </div>
+    </div>
+    <div class="s2-text tilt-left">
+        EL OJO HUMANO BUSCA<br>
+        <span style="color: var(--lime)">ANCLAJES VISUALES.</span>
+    </div>
+    <div class="footer">
+        <div class="brand-tag">worqai.io</div>
+        <div class="page-counter">02/06</div>
+    </div>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide" id="slide-3">
+    <div class="noise"></div>
+    <div class="s3-rule">
+        <div class="editorial tilt-left" style="margin-bottom: 40px;">Tienes exactamente</div>
+        <div class="giant-text">6 SEGUNDOS</div>
+        <div class="paper-wrapper tilt-right" style="margin-top: 80px; margin-left: 100px;">
+            <div class="torn-paper" style="font-size: 54px; line-height: 1;">
+                PARA QUE ENCUENTREN<br>
+                LO QUE <span class="highlight-marker-white">REALMENTE</span> IMPORTA.
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="brand-tag">worqai.io</div>
+        <div class="page-counter">03/06</div>
+    </div>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide" id="slide-4">
+    <div class="noise"></div>
+    <div class="massive-text" style="position: absolute; top: 80px; left: 80px; font-size: 96px;">
+        EL ERROR VS LA SOLUCION
+    </div>
+    <div class="dual-container">
+        <div class="paper-wrapper">
+            <div class="cv-bad">
+                <div class="mock-cv-header" style="width: 100%; height: 16px;"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="mock-cv-line" style="width: 100%"></div>
+                <div class="redline"></div>
+                <svg class="hand-arrow" width="100" height="100" viewBox="0 0 100 100" style="position: absolute; top: 200px; left: -20px; transform: rotate(45deg); overflow: visible;">
+                    <path d="M10,50 L90,50 M60,20 L90,50 L60,80" />
+                </svg>
+            </div>
+        </div>
+        <div class="paper-wrapper">
+            <div class="cv-good">
+                <div class="mock-cv-header" style="width: 50%; height: 24px;"></div>
+                <div class="mock-cv-line" style="width: 80%"></div>
+                <div class="mock-cv-line" style="width: 90%"></div>
+                <div style="height: 30px"></div>
+                <div class="mock-cv-header" style="width: 30%; height: 20px; background: #666;"></div>
+                <div class="mock-cv-line" style="width: 70%"></div>
+                <div class="mock-cv-line" style="width: 85%"></div>
+                <div style="height: 30px"></div>
+                <div class="mock-cv-header" style="width: 30%; height: 20px; background: #666;"></div>
+                <div class="mock-cv-line" style="width: 60%"></div>
+            </div>
+        </div>
+    </div>
+    <div style="position: absolute; bottom: 200px; left: 80px; font-size: 48px; display: flex; width: 920px; justify-content: space-between;">
+        <div style="color: var(--red);">MURO DE TEXTO</div>
+        <div style="color: var(--lime);">JERARQUIA CLARA</div>
+    </div>
+    <div class="footer">
+        <div class="brand-tag">worqai.io</div>
+        <div class="page-counter">04/06</div>
+    </div>
+</div>
+
+<!-- Slide 5 -->
+<div class="slide" id="slide-5">
+    <div class="noise"></div>
+    <div class="editorial" style="position: absolute; top: 80px; left: 80px;">Checklist de jerarquia</div>
+    <div class="paper-wrapper checklist-item c1">
+        1. TITULO DE ROL ANTES QUE EMPRESA.
+    </div>
+    <div class="paper-wrapper checklist-item c2">
+        2. METRICAS EN EL PRIMER BULLET.
+    </div>
+    <div class="paper-wrapper checklist-item c3">
+        3. ESPACIO EN BLANCO COMO SEPARADOR.
+    </div>
+    <div class="footer">
+        <div class="brand-tag">worqai.io</div>
+        <div class="page-counter">05/06</div>
+    </div>
+</div>
+
+<!-- Slide 6 -->
+<div class="slide" id="slide-6">
+    <div class="noise"></div>
+    <div class="s6-cta">
+        <div class="editorial tilt-left" style="margin-bottom: 60px;">Reestructura tu CV hoy</div>
+        <div class="massive-text tilt-right" style="font-size: 180px; margin-bottom: 60px;">
+            <span class="highlight-marker">COMENTA CV</span>
+        </div>
+        <div class="massive-text" style="font-size: 96px;">
+            PARA UN MES GRATIS DE WORQAI PRO
+        </div>
+        <svg class="hand-circle" width="400" height="200" viewBox="0 0 400 200" style="position: absolute; top: 150px; left: 250px; transform: rotate(-3deg); overflow: visible;">
+            <ellipse cx="200" cy="100" rx="200" ry="80" transform="rotate(-2 200 100)" />
+        </svg>
+    </div>
+    <div class="footer">
+        <div class="brand-tag">worqai.io</div>
+        <div class="page-counter">06/06</div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI — Night Shift Proof</title>
+  <style>
+    :root {
+      --ink: #080807;
+      --graphite: #272924;
+      --paper: #f1ede3;
+      --paper-dim: #d8d2c5;
+      --lime: #b8ff00;
+      --red: #ff5c57;
+      --display: Bahnschrift, "Arial Narrow", Arial, sans-serif;
+      --body: Arial, "Segoe UI", sans-serif;
+      --note: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #22231f;
+      color: var(--paper);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 36px 0 120px;
+      font-family: var(--body);
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--ink);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+      mix-blend-mode: screen;
+    }
+
+    .brand-tag {
+      position: absolute;
+      z-index: 20;
+      left: 58px;
+      top: 40px;
+      width: 196px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      padding: 7px 12px;
+      background: var(--paper);
+      clip-path: polygon(0 8%, 8% 1%, 17% 5%, 29% 0, 42% 5%, 57% 1%, 69% 6%, 82% 1%, 100% 7%, 98% 94%, 83% 99%, 66% 95%, 50% 100%, 34% 96%, 18% 99%, 1% 93%);
+      transform: rotate(-1deg);
+      box-shadow: 9px 9px 0 rgba(39,41,36,.65);
+    }
+
+    .brand-logo {
+      display: block;
+      width: 168px;
+      height: auto;
+    }
+
+    .page-number {
+      position: absolute;
+      z-index: 20;
+      right: 68px;
+      top: 55px;
+      font: 700 26px/1 var(--display);
+      font-variation-settings: "wght" 700, "wdth" 80;
+      letter-spacing: .03em;
+      color: var(--paper);
+    }
+
+    .page-number span { color: var(--lime); }
+
+    .display {
+      font-family: var(--display);
+      font-variation-settings: "wght" 850, "wdth" 75;
+      font-weight: 850;
+      letter-spacing: -.045em;
+    }
+
+    .note {
+      font-family: var(--note);
+      font-style: italic;
+    }
+
+    .paper {
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 18px 18px 0 rgba(39, 41, 36, .88);
+      clip-path: polygon(
+        0 3%, 4% 1%, 10% 2%, 16% 0, 24% 2%, 31% 1%, 38% 3%,
+        45% 1%, 51% 2%, 58% 0, 64% 2%, 72% 1%, 80% 3%, 88% 1%,
+        94% 2%, 100% 0, 99% 95%, 94% 98%, 87% 96%, 79% 99%,
+        70% 97%, 61% 100%, 52% 97%, 43% 99%, 34% 96%, 25% 99%,
+        16% 97%, 8% 99%, 1% 96%
+      );
+    }
+
+    .proof-red {
+      color: var(--red);
+      font-family: var(--note);
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .marker {
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    .marker::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: -3%;
+      right: -3%;
+      bottom: 8%;
+      height: 46%;
+      background: var(--lime);
+      transform: rotate(-1.1deg);
+      clip-path: polygon(0 12%, 4% 3%, 12% 10%, 20% 0, 31% 7%, 42% 2%, 55% 9%, 68% 1%, 81% 8%, 92% 2%, 100% 12%, 99% 88%, 90% 96%, 78% 88%, 65% 100%, 52% 91%, 38% 98%, 24% 90%, 11% 97%, 1% 88%);
+    }
+
+    .hard-rule {
+      height: 9px;
+      background: var(--paper);
+    }
+
+    /* Slide 1 — typographic cover */
+    .s1 .hook {
+      position: absolute;
+      left: 68px;
+      top: 166px;
+      width: 900px;
+      margin: 0;
+      font-size: 146px;
+      line-height: .82;
+    }
+
+    .s1 .hook-small {
+      position: absolute;
+      left: 72px;
+      top: 452px;
+      font: italic 34px/1.2 var(--note);
+      color: var(--paper-dim);
+    }
+
+    .s1 .language-sheet {
+      position: absolute;
+      left: -45px;
+      top: 555px;
+      width: 1170px;
+      height: 360px;
+      padding: 62px 105px 48px;
+      transform: rotate(-2.4deg);
+    }
+
+    .s1 .language-sheet p {
+      margin: 0;
+      font-size: 112px;
+      line-height: .83;
+    }
+
+    .s1 .vacancy-strip {
+      position: absolute;
+      left: 120px;
+      top: 978px;
+      width: 900px;
+      min-height: 145px;
+      padding: 27px 34px;
+      transform: rotate(1.3deg);
+      background: var(--graphite);
+      box-shadow: -16px 16px 0 rgba(184,255,0,.13);
+      font-size: 31px;
+      line-height: 1.26;
+    }
+
+    .s1 .vacancy-strip strong {
+      color: var(--lime);
+      font-size: 41px;
+    }
+
+    .s1 .last-note {
+      position: absolute;
+      left: 72px;
+      bottom: 70px;
+      margin: 0;
+      font-size: 31px;
+      color: var(--paper-dim);
+    }
+
+    .s1 .proof-arrow {
+      position: absolute;
+      right: 34px;
+      top: 888px;
+      width: 230px;
+      height: 170px;
+      transform: rotate(9deg);
+    }
+
+    /* Slide 2 — before / after edit */
+    .s2 {
+      background: #171512;
+    }
+
+    .s2 .title {
+      position: absolute;
+      left: 68px;
+      top: 150px;
+      margin: 0;
+      width: 940px;
+      font-size: 104px;
+      line-height: .88;
+    }
+
+    .s2 .before-sheet,
+    .s2 .after-sheet {
+      position: absolute;
+      left: 70px;
+      width: 930px;
+      padding: 46px 56px;
+    }
+
+    .s2 .before-sheet {
+      top: 385px;
+      min-height: 270px;
+      transform: rotate(-1.4deg);
+      background: #cbc5b8;
+    }
+
+    .s2 .after-sheet {
+      top: 730px;
+      min-height: 330px;
+      transform: rotate(1.1deg);
+    }
+
+    .s2 .edit-label {
+      margin: 0 0 22px;
+      font: italic 30px/1 var(--note);
+      color: var(--red);
+    }
+
+    .s2 .after-sheet .edit-label {
+      color: var(--ink);
+    }
+
+    .s2 .sentence {
+      margin: 0;
+      font: 700 43px/1.23 var(--body);
+      letter-spacing: -.02em;
+    }
+
+    .s2 .before-sheet .sentence {
+      color: #4a4b46;
+      text-decoration: line-through;
+      text-decoration-thickness: 7px;
+      text-decoration-color: var(--red);
+    }
+
+    .s2 .after-sheet .sentence {
+      font-size: 51px;
+      line-height: 1.16;
+    }
+
+    .s2 .term {
+      background: var(--lime);
+      padding: 0 .08em;
+    }
+
+    .s2 .margin-question {
+      position: absolute;
+      right: 24px;
+      top: 596px;
+      transform: rotate(-7deg);
+      font-size: 33px;
+    }
+
+    .s2 .takeaway {
+      position: absolute;
+      left: 72px;
+      bottom: 74px;
+      width: 900px;
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.17;
+    }
+
+    .s2 .takeaway strong {
+      color: var(--lime);
+    }
+
+    .s2 .legal {
+      position: absolute;
+      left: 72px;
+      bottom: 32px;
+      margin: 0;
+      font-size: 20px;
+      color: #a6a197;
+    }
+
+    /* Slide 3 — minimal ethical rule */
+    .s3 {
+      background: var(--graphite);
+    }
+
+    .s3 .adapt {
+      position: absolute;
+      left: 64px;
+      top: 160px;
+      margin: 0;
+      font-size: 144px;
+      line-height: .82;
+    }
+
+    .s3 .invent {
+      position: absolute;
+      left: 64px;
+      bottom: 165px;
+      margin: 0;
+      font-size: 138px;
+      line-height: .82;
+    }
+
+    .s3 .not-equal {
+      position: absolute;
+      right: 40px;
+      top: 340px;
+      margin: 0;
+      color: var(--red);
+      font: 900 515px/.8 var(--display);
+      font-variation-settings: "wght" 900, "wdth" 80;
+      transform: rotate(-6deg);
+    }
+
+    .s3 .fact-scrap {
+      position: absolute;
+      min-height: 108px;
+      padding: 28px 34px 24px;
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 14px 14px 0 rgba(8,8,7,.35);
+      font-size: 33px;
+      font-weight: 700;
+    }
+
+    .s3 .fact-a { left: 78px; top: 455px; transform: rotate(-3deg); }
+    .s3 .fact-b { left: 330px; top: 590px; transform: rotate(2deg); }
+    .s3 .fact-c { left: 116px; top: 730px; transform: rotate(-1deg); }
+
+    .s3 .rule-note {
+      position: absolute;
+      left: 70px;
+      bottom: 61px;
+      width: 820px;
+      margin: 0;
+      font-size: 39px;
+      line-height: 1.22;
+      color: var(--paper);
+    }
+
+    .s3 .rule-note strong {
+      color: var(--lime);
+      font-family: var(--body);
+      font-style: normal;
+    }
+
+    /* Slide 4 — physical evidence mapping */
+    .s4 .title {
+      position: absolute;
+      left: 68px;
+      top: 136px;
+      margin: 0;
+      font-size: 112px;
+      line-height: .84;
+      z-index: 8;
+    }
+
+    .s4 .title span { color: var(--lime); }
+
+    .s4 .vacancy-paper,
+    .s4 .cv-paper {
+      position: absolute;
+      top: 425px;
+      height: 795px;
+      padding: 54px 42px;
+      z-index: 3;
+    }
+
+    .s4 .vacancy-paper {
+      left: 42px;
+      width: 465px;
+      transform: rotate(-1.6deg);
+      background: #ddd7ca;
+    }
+
+    .s4 .cv-paper {
+      right: 32px;
+      width: 500px;
+      transform: rotate(1.7deg);
+    }
+
+    .s4 .sheet-kicker {
+      margin: 0 0 38px;
+      color: var(--red);
+      font: italic 28px/1 var(--note);
+    }
+
+    .s4 .cv-paper .sheet-kicker { color: #577600; }
+
+    .s4 .evidence-pair {
+      min-height: 195px;
+      margin-bottom: 29px;
+    }
+
+    .s4 .evidence-pair small {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #68685f;
+    }
+
+    .s4 .evidence-pair strong {
+      display: block;
+      font-size: 35px;
+      line-height: 1.08;
+    }
+
+    .s4 .evidence-pair p {
+      margin: 11px 0 0;
+      font-size: 27px;
+      line-height: 1.26;
+      color: #4c4e48;
+    }
+
+    .s4 .paths {
+      position: absolute;
+      z-index: 7;
+      left: 447px;
+      top: 520px;
+      width: 145px;
+      height: 600px;
+      overflow: visible;
+    }
+
+    .s4 .map-note {
+      position: absolute;
+      z-index: 9;
+      right: 42px;
+      bottom: 43px;
+      margin: 0;
+      color: var(--red);
+      font-size: 29px;
+      transform: rotate(-3deg);
+    }
+
+    /* Slide 5 — three decisive actions */
+    .s5 {
+      background: #131310;
+    }
+
+    .s5 .intro {
+      position: absolute;
+      left: 68px;
+      top: 145px;
+      margin: 0;
+      font-size: 98px;
+      line-height: .86;
+    }
+
+    .s5 .intro span { color: var(--lime); }
+
+    .s5 .action-band {
+      position: absolute;
+      left: -55px;
+      width: 1190px;
+      height: 178px;
+      display: flex;
+      align-items: center;
+      padding: 0 120px;
+      box-shadow: 18px 18px 0 rgba(0,0,0,.4);
+      font: 850 67px/1 var(--display);
+      font-variation-settings: "wght" 850, "wdth" 75;
+      letter-spacing: -.035em;
+    }
+
+    .s5 .action-band b {
+      font-size: 30px;
+      margin-right: 32px;
+      font-family: var(--note);
+      font-style: italic;
+    }
+
+    .s5 .action-one {
+      top: 430px;
+      color: var(--ink);
+      background: var(--paper);
+      transform: rotate(-2.2deg);
+    }
+
+    .s5 .action-two {
+      top: 635px;
+      color: var(--paper);
+      background: var(--red);
+      transform: rotate(1.5deg);
+    }
+
+    .s5 .action-three {
+      top: 850px;
+      color: var(--ink);
+      background: var(--lime);
+      transform: rotate(-1deg);
+    }
+
+    .s5 .control-note {
+      position: absolute;
+      left: 73px;
+      bottom: 80px;
+      width: 890px;
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.18;
+    }
+
+    .s5 .control-note strong {
+      color: var(--lime);
+    }
+
+    /* Slide 6 — saveable checklist */
+    .s6 {
+      background: #21110f;
+    }
+
+    .s6 .headline {
+      position: absolute;
+      left: 66px;
+      top: 145px;
+      z-index: 6;
+      margin: 0;
+      width: 780px;
+      font-size: 92px;
+      line-height: .87;
+    }
+
+    .s6 .giant-three {
+      position: absolute;
+      right: -80px;
+      top: 78px;
+      color: var(--lime);
+      font: 900 850px/.78 var(--display);
+      font-variation-settings: "wght" 900, "wdth" 70;
+      letter-spacing: -.08em;
+      opacity: .93;
+    }
+
+    .s6 .question {
+      position: absolute;
+      z-index: 8;
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+      padding: 25px 30px;
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 14px 14px 0 rgba(8,8,7,.55);
+      font-size: 32px;
+      line-height: 1.23;
+    }
+
+    .s6 .question em {
+      flex: 0 0 auto;
+      color: var(--red);
+      font: italic 700 31px/1 var(--note);
+    }
+
+    .s6 .question strong {
+      font-weight: 800;
+    }
+
+    .s6 .q1 {
+      left: 62px;
+      top: 500px;
+      width: 790px;
+      transform: rotate(-1.5deg);
+    }
+
+    .s6 .q2 {
+      right: 45px;
+      top: 750px;
+      width: 820px;
+      transform: rotate(1.2deg);
+    }
+
+    .s6 .q3 {
+      left: 78px;
+      top: 1000px;
+      width: 850px;
+      transform: rotate(-.8deg);
+    }
+
+    .s6 .save-note {
+      position: absolute;
+      z-index: 9;
+      right: 60px;
+      bottom: 45px;
+      color: var(--red);
+      margin: 0;
+      font-size: 34px;
+      transform: rotate(-4deg);
+    }
+
+    .s6 .page-number,
+    .s6 .page-number span {
+      color: var(--ink);
+    }
+
+    /* Slide 7 — offer-led CTA */
+    .s7 {
+      background: var(--ink);
+    }
+
+    .s7 .offer-strip {
+      position: absolute;
+      left: -40px;
+      top: 116px;
+      width: 1160px;
+      min-height: 112px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-2deg);
+      color: var(--ink);
+      background: var(--lime);
+      box-shadow: 15px 15px 0 var(--graphite);
+      font: 850 43px/1 var(--display);
+      font-variation-settings: "wght" 850, "wdth" 80;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+    }
+
+    .s7 .commenta {
+      position: absolute;
+      left: 70px;
+      top: 315px;
+      margin: 0;
+      font-size: 134px;
+      line-height: .84;
+    }
+
+    .s7 .cv {
+      position: absolute;
+      left: 24px;
+      top: 445px;
+      margin: 0;
+      color: var(--paper);
+      font: 900 525px/.78 var(--display);
+      font-variation-settings: "wght" 900, "wdth" 72;
+      letter-spacing: -.09em;
+    }
+
+    .s7 .circle-mark {
+      position: absolute;
+      left: 34px;
+      top: 438px;
+      width: 970px;
+      height: 470px;
+      overflow: visible;
+      transform: rotate(-4deg);
+    }
+
+    .s7 .cta-note {
+      position: absolute;
+      right: 76px;
+      top: 805px;
+      margin: 0;
+      color: var(--red);
+      font-size: 38px;
+      transform: rotate(-5deg);
+    }
+
+    .s7 .dm {
+      position: absolute;
+      left: 72px;
+      top: 1015px;
+      width: 900px;
+      margin: 0;
+      color: var(--paper);
+      font-size: 43px;
+      line-height: 1.2;
+    }
+
+    .s7 .dm strong { color: var(--lime); }
+
+    .s7 .footer-note {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      color: var(--paper-dim);
+      font-size: 25px;
+      line-height: 1.25;
+    }
+
+    .s7 .footer-note strong {
+      color: var(--paper);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .slide:not(.is-rendering) > *:not(.brand-tag):not(.page-number) {
+        animation: proof-in .62s cubic-bezier(.16,.76,.2,1) both;
+      }
+    }
+
+    @keyframes proof-in {
+      from { opacity: 0; translate: 0 20px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="slide s1" aria-label="Slide 1">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>01</span> / 07</div>
+    <h1 class="hook display">EL ATS NO<br>TE ODIA.</h1>
+    <p class="hook-small">El problema no es tu talento.</p>
+    <div class="language-sheet paper">
+      <p class="display">TU CV HABLA<br><span class="marker">OTRO IDIOMA.</span></p>
+    </div>
+    <div class="vacancy-strip">
+      La vacante dice:<br>
+      <strong>SAP TM · TABLEAU · RUTAS</strong>
+    </div>
+    <svg class="proof-arrow" viewBox="0 0 230 170" aria-hidden="true">
+      <path d="M15 18 C85 22, 155 48, 174 112" fill="none" stroke="#ff5c57" stroke-width="12" stroke-linecap="round"/>
+      <path d="M138 95 L176 119 L196 78" fill="none" stroke="#ff5c57" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="last-note note">El sistema no adivina. La persona tampoco.</p>
+  </section>
+
+  <section class="slide s2" aria-label="Slide 2">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>02</span> / 07</div>
+    <h1 class="title display">MISMA EXPERIENCIA.<br>DOS LECTURAS.</h1>
+    <div class="before-sheet paper">
+      <p class="edit-label">Antes — demasiado genérico</p>
+      <p class="sentence">“Gestión de inventario, logística y optimización de entregas.”</p>
+    </div>
+    <p class="margin-question proof-red">¿Con qué? ¿Cómo?</p>
+    <div class="after-sheet paper">
+      <p class="edit-label">Después — evidencia visible</p>
+      <p class="sentence">“Planifiqué rutas en <span class="term">SAP TM</span> y controlé stock en <span class="term">Tableau</span>.”</p>
+    </div>
+    <p class="takeaway">No “suena mejor”.<br><strong>Se entiende más rápido.</strong></p>
+    <p class="legal">Ejemplo ilustrativo: usa solo tareas y herramientas que realmente manejaste.</p>
+  </section>
+
+  <section class="slide s3" aria-label="Slide 3">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>03</span> / 07</div>
+    <h1 class="adapt display">ADAPTAR</h1>
+    <div class="not-equal">≠</div>
+    <div class="fact-scrap fact-a">planifiqué rutas</div>
+    <div class="fact-scrap fact-b">controlé stock</div>
+    <div class="fact-scrap fact-c">usé Tableau</div>
+    <h2 class="invent display">INVENTAR.</h2>
+    <p class="rule-note note">Cambia el lenguaje.<br><strong>No cambies los hechos.</strong></p>
+  </section>
+
+  <section class="slide s4" aria-label="Slide 4">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>04</span> / 07</div>
+    <h1 class="title display">LA VACANTE<br>ES EL <span>MAPA.</span></h1>
+    <div class="vacancy-paper paper">
+      <p class="sheet-kicker">La vacante pide</p>
+      <div class="evidence-pair">
+        <small>Herramienta</small>
+        <strong>SAP TM</strong>
+        <p>Planificación y seguimiento de rutas.</p>
+      </div>
+      <div class="evidence-pair">
+        <small>Análisis</small>
+        <strong>Tableau</strong>
+        <p>Visibilidad de inventario y operación.</p>
+      </div>
+      <div class="evidence-pair">
+        <small>Impacto</small>
+        <strong>Optimizar entregas</strong>
+        <p>Menos fricción, tiempo o costo.</p>
+      </div>
+    </div>
+    <div class="cv-paper paper">
+      <p class="sheet-kicker">Tu CV demuestra</p>
+      <div class="evidence-pair">
+        <small>Hecho real</small>
+        <strong>Rutas en SAP TM</strong>
+        <p>Describe la tarea concreta que sí realizaste.</p>
+      </div>
+      <div class="evidence-pair">
+        <small>Hecho real</small>
+        <strong>Control en Tableau</strong>
+        <p>Explica qué información analizabas.</p>
+      </div>
+      <div class="evidence-pair">
+        <small>Solo si es real</small>
+        <strong>Resultado verificable</strong>
+        <p>Añade la mejora únicamente si puedes sustentarla.</p>
+      </div>
+    </div>
+    <svg class="paths" viewBox="0 0 200 600" aria-hidden="true">
+      <path d="M10 65 C60 30, 132 35, 188 79" fill="none" stroke="#b8ff00" stroke-width="14" stroke-linecap="round"/>
+      <path d="M156 50 L190 79 L153 104" fill="none" stroke="#b8ff00" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 270 C70 230, 126 239, 188 281" fill="none" stroke="#b8ff00" stroke-width="14" stroke-linecap="round"/>
+      <path d="M156 252 L190 281 L153 306" fill="none" stroke="#b8ff00" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 475 C67 440, 130 443, 188 486" fill="none" stroke="#b8ff00" stroke-width="14" stroke-linecap="round"/>
+      <path d="M156 457 L190 486 L153 511" fill="none" stroke="#b8ff00" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <p class="map-note proof-red">Requisito → evidencia → frase clara</p>
+  </section>
+
+  <section class="slide s5" aria-label="Slide 5">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>05</span> / 07</div>
+    <h1 class="intro display">WORQAI COMPARA.<br><span>TÚ DECIDES.</span></h1>
+    <div class="action-band action-one"><b>01</b> SUBE TU CV</div>
+    <div class="action-band action-two"><b>02</b> PEGA LA VACANTE</div>
+    <div class="action-band action-three"><b>03</b> REVISA Y DECIDE</div>
+    <p class="control-note">Menos tiempo reescribiendo.<br><strong>La decisión final sigue siendo tuya.</strong></p>
+  </section>
+
+  <section class="slide s6" aria-label="Slide 6">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>06</span> / 07</div>
+    <h1 class="headline display">ANTES DE ENVIAR TU PRÓXIMO CV:</h1>
+    <div class="giant-three">3</div>
+    <div class="question q1">
+      <em>01</em>
+      <span>¿El primer tercio responde a las <strong>tres prioridades</strong> de la vacante?</span>
+    </div>
+    <div class="question q2">
+      <em>02</em>
+      <span>¿Usaste los <strong>términos técnicos exactos</strong> solo cuando son reales?</span>
+    </div>
+    <div class="question q3">
+      <em>03</em>
+      <span>¿Tu experiencia se entiende <strong>sin tablas complejas</strong> ni gráficos esenciales?</span>
+    </div>
+    <p class="save-note proof-red">Guarda este slide.</p>
+  </section>
+
+  <section class="slide s7" aria-label="Slide 7">
+    <div class="brand-tag"><img class="brand-logo" src="../../higgsfield-worqai-ats-2026-07-21/sources/worqai-official/logo2_no_bg.png" alt="WorqAI"></div>
+    <div class="page-number"><span>07</span> / 07</div>
+    <div class="offer-strip">1 mes gratis de WorqAI Pro</div>
+    <h1 class="commenta display">COMENTA</h1>
+    <div class="cv">CV</div>
+    <svg class="circle-mark" viewBox="0 0 970 470" aria-hidden="true">
+      <path d="M57 226 C90 62, 790 -21, 917 177 C1014 328, 742 440, 430 431 C172 424, 8 350, 57 226" fill="none" stroke="#ff5c57" stroke-width="16" stroke-linecap="round"/>
+      <path d="M51 244 C109 86, 776 11, 901 190" fill="none" stroke="#ff5c57" stroke-width="7" stroke-linecap="round" opacity=".76"/>
+    </svg>
+    <p class="cta-note proof-red">escribe esto ↓</p>
+    <p class="dm">Te enviamos el <strong>código por DM</strong> para adaptar tu CV sin empezar de cero.</p>
+    <div class="footer-note">
+      <span><strong>Sin inventar experiencia.</strong><br>Sin promesas de entrevista.</span>
+      <span>worqai.io</span>
+    </div>
+  </section>
+
+</body>
+</html>

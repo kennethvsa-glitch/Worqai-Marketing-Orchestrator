@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  @font-face {
+    font-family: 'Bahnschrift';
+    src: local('Bahnschrift'), local('Arial Bold');
+  }
+  :root {
+    --bg: #f1ede3;
+    --text-primary: #0a0b09;
+    --card-white: #ffffff;
+    --accent-teal: #0d6b5e;
+    --accent-coral: #e85d4a;
+    --accent-navy: #1a1f3d;
+    --highlight: #d4e842;
+    --dark-ink: #0a0b09;
+    --shadow: 18px 18px 0 rgba(10,11,9,.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    font-family: 'Bahnschrift', Arial, sans-serif;
+  }
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    background-color: var(--bg);
+    position: relative;
+    overflow: hidden;
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
+  .slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    mix-blend-mode: multiply;
+    z-index: 50;
+  }
+  .brand-tag {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    background-color: var(--dark-ink);
+    color: var(--bg);
+    padding: 15px 30px;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    clip-path: polygon(0 0, 100% 5%, 95% 100%, 5% 95%);
+    z-index: 10;
+  }
+  .footer {
+    position: absolute;
+    bottom: 60px;
+    left: 60px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent-navy);
+    z-index: 10;
+  }
+  .disclaimer {
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--accent-navy);
+    opacity: 0.7;
+    z-index: 10;
+    max-width: 300px;
+    text-align: right;
+  }
+  .content {
+    position: absolute;
+    top: 200px;
+    left: 80px;
+    right: 80px;
+    bottom: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 5;
+  }
+  
+  .title-giant {
+    font-size: 130px;
+    line-height: 0.9;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+  }
+  .title-highlight {
+    background-color: var(--highlight);
+    display: inline-block;
+    padding: 0 10px;
+    transform: rotate(-2deg);
+  }
+  
+  .dark-card {
+    background-color: var(--dark-ink);
+    color: var(--bg);
+    padding: 60px;
+    margin-bottom: 60px;
+    box-shadow: var(--shadow);
+    clip-path: polygon(2% 0, 100% 2%, 98% 100%, 0 98%);
+    transform: rotate(-1deg);
+    text-align: center;
+    position: relative;
+  }
+  .crossed-out {
+    position: relative;
+    display: inline-block;
+    color: var(--bg);
+    font-size: 80px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .crossed-out::after {
+    content: "";
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    top: 50%;
+    height: 12px;
+    background-color: var(--accent-coral);
+    transform: rotate(-5deg);
+  }
+  .white-card {
+    background-color: var(--card-white);
+    color: var(--text-primary);
+    padding: 50px;
+    box-shadow: var(--shadow);
+    transform: rotate(2deg);
+    border: 3px solid var(--text-primary);
+  }
+  .white-card-title {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 40px;
+    color: var(--accent-teal);
+    margin-bottom: 20px;
+  }
+  .white-card-text {
+    font-size: 45px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  
+  .rule-text {
+    font-size: 120px;
+    line-height: 0.85;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    text-align: center;
+  }
+  
+  .cta-text {
+    font-size: 90px;
+    line-height: 1.1;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .cta-accent {
+    color: var(--accent-coral);
+    background-color: var(--dark-ink);
+    padding: 10px 20px;
+    display: inline-block;
+    transform: rotate(-3deg);
+  }
+</style>
+</head>
+<body>
+
+  <div class="slide" id="slide1">
+    <div class="brand-tag">WorqAI Intelligence</div>
+    <div class="content">
+      <h1 class="title-giant">
+        3 PALABRAS<br>
+        QUE <span class="title-highlight">ARRUINAN</span><br>
+        TU CV
+      </h1>
+      <p style="font-size: 40px; font-weight: 700; color: var(--accent-navy); max-width: 800px;">
+        Tres palabras que un reclutador nunca quiere leer.
+      </p>
+    </div>
+    <div class="footer">worqai.io</div>
+    <div class="disclaimer">Desliza para optimizar tu perfil</div>
+  </div>
+
+  <div class="slide" id="slide2">
+    <div class="brand-tag">WorqAI Intelligence</div>
+    <div class="content">
+      <div class="dark-card">
+        <p style="font-size: 30px; margin-bottom: 20px; color: #aaa;">En lugar de escribir:</p>
+        <div class="crossed-out">PROACTIVO</div>
+      </div>
+      <div class="white-card">
+        <div class="white-card-title">Demuestra iniciativa real:</div>
+        <div class="white-card-text">
+          "Identifiqué un cuello de botella en ventas y desarrollé un sistema que redujo el tiempo de procesamiento."
+        </div>
+      </div>
+    </div>
+    <div class="footer">worqai.io</div>
+  </div>
+
+  <div class="slide" id="slide3">
+    <div class="brand-tag">WorqAI Intelligence</div>
+    <div class="content">
+      <div class="dark-card">
+        <p style="font-size: 30px; margin-bottom: 20px; color: #aaa;">En lugar de escribir:</p>
+        <div class="crossed-out">ORIENTADO A RESULTADOS</div>
+      </div>
+      <div class="white-card">
+        <div class="white-card-title">Aporta datos concretos:</div>
+        <div class="white-card-text">
+          "Superé la cuota trimestral por tres meses consecutivos mediante la optimización de procesos."
+        </div>
+      </div>
+    </div>
+    <div class="footer">worqai.io</div>
+  </div>
+
+  <div class="slide" id="slide4">
+    <div class="brand-tag">WorqAI Intelligence</div>
+    <div class="content">
+      <div class="dark-card">
+        <p style="font-size: 30px; margin-bottom: 20px; color: #aaa;">En lugar de escribir:</p>
+        <div class="crossed-out">TRABAJO EN EQUIPO</div>
+      </div>
+      <div class="white-card">
+        <div class="white-card-title">Muestra colaboración:</div>
+        <div class="white-card-text">
+          "Lideré la coordinación entre diseño y marketing para lanzar la campaña principal antes del plazo."
+        </div>
+      </div>
+    </div>
+    <div class="footer">worqai.io</div>
+  </div>
+
+  <div class="slide" id="slide5">
+    <div class="brand-tag">WorqAI Intelligence</div>
+    <div class="content" style="align-items: center;">
+      <h2 class="rule-text">
+        NO DESCRIBAS RASGOS.<br><br>
+        <span style="color: var(--bg); background-color: var(--dark-ink); padding: 10px 30px; display: inline-block; transform: rotate(2deg);">DEMUESTRA HECHOS.</span>
+      </h2>
+    </div>
+    <div class="footer">worqai.io</div>
+  </div>
+
+  <div class="slide" id="slide6">
+    <div class="brand-tag">WorqAI Intelligence</div>
+    <div class="content" style="align-items: center;">
+      <h2 class="cta-text">
+        DEJA DE PERDER OPORTUNIDADES
+      </h2>
+      <div class="cta-accent" style="font-size: 70px; font-weight: 900; color: var(--accent-coral);">
+        COMENTA CV
+      </div>
+      <p style="font-size: 45px; font-weight: 700; text-align: center; margin-top: 40px; color: var(--accent-navy);">
+        para un mes gratis de WorqAI Pro y reescribe tu historia.
+      </p>
+    </div>
+    <div class="footer">worqai.io</div>
+    <div class="disclaimer">El uso de IA no garantiza empleo, pero aumenta radicalmente tu visibilidad. Aplican términos.</div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorqAI — Siete cosas que quizá deberías eliminar de tu CV</title>
+  <style>
+    :root{
+      --black:#080807;--char:#181816;--char2:#292925;--paper:#eee8dc;--paper2:#d3ccbf;
+      --orange:#ff572d;--yellow:#ffd52e;--violet:#8a6cff;--lime:#b8ff00;--muted:#aaa49a;
+      --display:Impact,Bahnschrift,"Arial Narrow",sans-serif;--sans:Bahnschrift,"Arial Narrow",Arial,sans-serif;
+      --body:Arial,"Segoe UI",sans-serif;--serif:Georgia,"Times New Roman",serif;--mono:Consolas,"Courier New",monospace;
+    }
+    *{box-sizing:border-box}html,body{margin:0;background:#2c2926}
+    body{display:flex;flex-direction:column;align-items:center;gap:36px;padding:36px 0 100px;font-family:var(--body)}
+    .slide{position:relative;width:1080px;height:1350px;overflow:hidden;isolation:isolate;background:var(--black);color:var(--paper)}
+    .slide:after{content:"";position:absolute;inset:0;z-index:90;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 170 170' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen}
+    .brand{position:absolute;left:58px;top:42px;z-index:30;width:214px;height:78px;background:var(--paper);padding:12px 18px;border:4px solid var(--black);border-radius:18% 12% 18% 12% / 32% 24% 32% 24%;box-shadow:8px 8px 0 var(--lime);transform:rotate(-1deg);overflow:visible}
+    .brand img{display:block;width:100%;height:100%;object-fit:contain}.folio{position:absolute;right:60px;top:56px;z-index:30;font:900 24px/1 var(--mono);letter-spacing:.1em;color:var(--muted)}.folio b{color:var(--orange)}
+    h1,h2,h3,p{margin:0}.display{font-family:var(--display);font-weight:900;letter-spacing:-.025em;text-transform:uppercase}.sans{font-family:var(--sans);font-weight:900;letter-spacing:-.045em}.mono{font-family:var(--mono)}
+    .paper{background:var(--paper);color:var(--black);box-shadow:18px 20px 0 #292925}.label{position:absolute;z-index:8;padding:15px 20px;background:var(--orange);color:#fff;font:900 23px/1 var(--mono);transform:rotate(-2deg)}
+    .blackout{display:inline;background:var(--black);color:var(--paper);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:3px 9px}.strike{text-decoration:line-through;text-decoration-thickness:14px;text-decoration-color:var(--orange)}
+    .blade{position:absolute;z-index:8;width:290px;height:780px;background:var(--paper2);clip-path:polygon(0 0,100% 0,64% 100%,13% 100%);box-shadow:25px 25px 0 #292925}
+    .proof-note{font:italic 700 29px/1.15 var(--serif);color:var(--orange)}
+    /* 01 cover */
+    .s1 .seven{position:absolute;right:-65px;top:145px;font:900 1040px/.75 var(--display);color:#22221f;letter-spacing:-.1em}.s1 .title{position:absolute;left:58px;top:178px;z-index:6;width:920px;font-size:92px;line-height:.84}.s1 .title em{display:inline-block;color:var(--black);background:var(--yellow);font-style:normal;padding:5px 14px 12px;transform:rotate(-2deg)}
+    .s1 .sheet{position:absolute;left:75px;top:735px;width:850px;height:330px;padding:47px 54px;transform:rotate(2deg)}.s1 .sheet p{font:900 40px/1.15 var(--sans)}.s1 .cutline{position:absolute;left:-20px;top:915px;width:1120px;height:24px;background:var(--orange);transform:rotate(-6deg)}
+    .s1 .foot{position:absolute;left:62px;bottom:75px;width:880px;font-size:30px;line-height:1.25}
+    /* 02 objective + adjectives */
+    .s2 .title{position:absolute;left:58px;top:150px;width:930px;font-size:89px;line-height:.87}.s2 .title span{color:var(--orange)}
+    .s2 .page{position:absolute;left:80px;top:410px;width:900px;height:730px;padding:55px 58px;transform:rotate(-1deg)}.s2 .item{position:relative;margin-bottom:66px}.s2 .item b{display:block;font:900 25px/1 var(--mono);color:var(--violet);margin-bottom:18px}.s2 .item h3{font:900 48px/1 var(--sans);letter-spacing:-.04em}.s2 .item p{font-size:29px;line-height:1.28;margin-top:19px}
+    .s2 .redact1{position:absolute;left:385px;top:510px;width:535px;height:48px;background:var(--black);transform:rotate(-2deg)}.s2 .redact2{position:absolute;left:330px;top:825px;width:600px;height:48px;background:var(--black);transform:rotate(1deg)}
+    .s2 .note{position:absolute;left:95px;bottom:62px}
+    /* 03 references + skill bars */
+    .s3 .title{position:absolute;left:58px;top:150px;width:930px;font-size:88px;line-height:.87}
+    .s3 .receipt{position:absolute;left:55px;top:425px;width:500px;height:685px;padding:55px 45px;background:var(--paper);color:var(--black);transform:rotate(-2deg);box-shadow:18px 20px 0 #272724}.s3 .receipt h3{font:900 39px/.95 var(--sans)}.s3 .receipt p{font-size:28px;line-height:1.28;margin-top:28px}.s3 .receipt .tear{position:absolute;left:0;right:0;bottom:0;height:58px;background:var(--black);clip-path:polygon(0 100%,5% 22%,10% 100%,15% 25%,20% 100%,25% 20%,30% 100%,35% 25%,40% 100%,45% 20%,50% 100%,55% 22%,60% 100%,65% 25%,70% 100%,75% 18%,80% 100%,85% 25%,90% 100%,95% 22%,100% 100%)}
+    .s3 .bars{position:absolute;right:48px;top:520px;width:420px}.s3 .skill{margin-bottom:54px;font:900 29px/1 var(--mono);color:var(--paper)}.s3 .skill i{display:block;height:45px;background:var(--violet);margin-top:15px}.s3 .skill:nth-child(2) i{width:68%;background:var(--yellow)}.s3 .skill:nth-child(3) i{width:91%;background:var(--orange)}
+    .s3 .x{position:absolute;right:45px;top:785px;z-index:9;font:900 330px/.8 var(--display);color:var(--orange);transform:rotate(-8deg)}.s3 .foot{position:absolute;left:65px;bottom:58px;width:910px;font-size:29px;line-height:1.25}
+    /* 04 repeated duties */
+    .s4 .title{position:absolute;left:58px;top:148px;width:940px;font-size:90px;line-height:.87}
+    .s4 .echo{position:absolute;left:68px;top:405px;width:950px;font:900 67px/.98 var(--sans);letter-spacing:-.05em;color:#373732}.s4 .echo span{display:block;margin-bottom:30px}.s4 .echo span:nth-child(3){color:#5a5953}.s4 .keeper{position:absolute;left:62px;top:810px;width:930px;padding:46px 52px;background:var(--yellow);color:var(--black);transform:rotate(-1.5deg);font:900 42px/1.07 var(--sans)}.s4 .keeper b{display:block;font:900 23px/1 var(--mono);margin-bottom:18px}
+    .s4 .slash{position:absolute;left:15px;top:470px;width:1050px;height:25px;background:var(--orange);transform:rotate(22deg)}.s4 .foot{position:absolute;left:62px;bottom:73px;width:900px;font:italic 30px/1.2 var(--serif)}
+    /* 05 irrelevant detail */
+    .s5 .title{position:absolute;left:58px;top:148px;width:940px;font-size:87px;line-height:.88}
+    .s5 .timeline{position:absolute;left:85px;top:440px;width:900px;height:600px}.s5 .year{position:absolute;left:0;width:900px;height:120px;padding:31px 39px;background:#31312d;color:var(--muted);font:900 32px/1.1 var(--sans);box-shadow:0 15px 0 var(--black)}.s5 .y1{top:0}.s5 .y2{top:145px}.s5 .y3{top:290px;background:var(--paper);color:var(--black)}.s5 .y4{top:435px;background:var(--orange);color:#fff}
+    .s5 .year b{font:900 23px/1 var(--mono);margin-right:25px}.s5 .blade{right:-35px;top:505px;transform:rotate(8deg)}.s5 .caveat{position:absolute;left:60px;bottom:62px;width:690px;padding:25px 30px;background:var(--violet);font-size:28px;line-height:1.28;transform:rotate(-1deg)}
+    /* 06 deletion test */
+    .s6 .title{position:absolute;left:58px;top:148px;width:940px;font-size:90px;line-height:.88}
+    .s6 .question{position:absolute;left:65px;top:405px;width:950px;height:710px;padding:58px 62px;background:var(--paper);color:var(--black);transform:rotate(1deg);box-shadow:20px 22px 0 #292925}.s6 .question h3{font:900 54px/.96 var(--sans);letter-spacing:-.04em}.s6 .question ol{margin:42px 0 0;padding-left:45px}.s6 .question li{margin:28px 0;font-size:30px;line-height:1.22;padding-left:12px}.s6 .question strong{background:var(--yellow)}
+    .s6 .decision{position:absolute;z-index:8;right:42px;top:860px;padding:28px 35px;background:var(--orange);color:#fff;font:900 34px/1 var(--mono);transform:rotate(-4deg)}.s6 .foot{position:absolute;left:62px;bottom:58px;width:900px;font-size:29px;line-height:1.25}
+    /* 07 CTA */
+    .s7 .title{position:absolute;left:58px;top:150px;width:940px;font-size:88px;line-height:.87}.s7 .title em{font-style:normal;color:var(--yellow)}
+    .s7 .bin{position:absolute;left:92px;top:505px;width:895px;height:525px;background:#262622;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%);box-shadow:20px 22px 0 #030303}.s7 .slot{position:absolute;left:175px;top:455px;width:730px;height:67px;background:var(--paper);transform:rotate(-1deg)}
+    .s7 .shred{position:absolute;z-index:5;left:150px;top:640px;display:flex;gap:15px;transform:rotate(2deg)}.s7 .shred span{display:block;width:90px;height:360px;background:var(--paper);color:var(--black);font:900 65px/1 var(--display);writing-mode:vertical-rl;padding:22px 12px}.s7 .shred span:nth-child(2){background:var(--orange)}.s7 .shred span:nth-child(4){background:var(--yellow)}.s7 .shred span:nth-child(6){background:var(--violet);color:#fff}
+    .s7 .cta{position:absolute;left:63px;top:1030px;z-index:9;padding:25px 35px;background:var(--lime);color:var(--black);font:900 32px/1 var(--mono);transform:rotate(-2deg)}.s7 .dm{position:absolute;left:62px;bottom:55px;width:920px;font-size:28px;line-height:1.25}
+  </style>
+</head>
+<body>
+  <section class="slide s1">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>01</b>/07</div>
+    <div class="seven">7</div><h1 class="display title">SIETE COSAS<br>QUE QUIZÁ<br>DEBERÍAS<br><em>ELIMINAR</em><br>DE TU CV.</h1>
+    <div class="paper sheet"><p>No se trata de dejarlo vacío.<br>Se trata de quitar lo que tapa la evidencia.</p></div><div class="cutline"></div>
+    <p class="foot">Una guía práctica para editar con criterio, no por moda.</p>
+  </section>
+  <section class="slide s2">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>02</b>/07</div>
+    <h2 class="display title"><span>01–02</span> / CORTA<br>LO QUE NO PRUEBA.</h2>
+    <div class="paper page"><div class="item"><b>01 · OBJETIVO GENÉRICO</b><h3>“BUSCO CRECER EN UNA EMPRESA LÍDER”.</h3><p>Si podría pertenecer a cualquier persona, no ayuda a entender tu ajuste.</p></div><div class="item"><b>02 · ADJETIVOS SIN RESPALDO</b><h3>PROACTIVO · RESPONSABLE · ORIENTADO A RESULTADOS</h3><p>Reemplázalos por una acción, un alcance o un resultado que puedas sostener.</p></div></div>
+    <div class="redact1"></div><div class="redact2"></div><div class="proof-note note">La evidencia hace el trabajo del adjetivo.</div>
+  </section>
+  <section class="slide s3">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>03</b>/07</div>
+    <h2 class="display title">03–04 / QUITA<br>EL RUIDO HEREDADO.</h2>
+    <div class="receipt"><h3>“REFERENCIAS DISPONIBLES A SOLICITUD”.</h3><p>Normalmente puedes entregarlas cuando te las pidan. Esa línea rara vez necesita ocupar espacio ahora.</p><div class="tear"></div></div>
+    <div class="bars"><div class="skill">EXCEL 85%<i></i></div><div class="skill">LIDERAZGO 68%<i></i></div><div class="skill">ANÁLISIS 91%<i></i></div></div><div class="x">×</div>
+    <p class="foot">Las barras y porcentajes de habilidades suelen parecer precisos sin explicar cómo se midieron. Muestra contexto de uso.</p>
+  </section>
+  <section class="slide s4">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>04</b>/07</div>
+    <h2 class="display title">05 / NO REPITAS<br>LA MISMA FUNCIÓN.</h2>
+    <div class="echo"><span>GESTIONÉ REPORTES SEMANALES.</span><span>GESTIONÉ REPORTES SEMANALES.</span><span>GESTIONÉ REPORTES SEMANALES.</span></div><div class="slash"></div>
+    <div class="keeper"><b>CONSERVA LA VERSIÓN QUE MÁS APORTA</b>Preparé reportes semanales para detectar bloqueos y coordinar las siguientes decisiones del equipo.</div>
+    <p class="foot">Si varios cargos repiten la misma tarea, comprime y usa el espacio para mostrar evolución.</p>
+  </section>
+  <section class="slide s5">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>05</b>/07</div>
+    <h2 class="display title">06 / RECORTA EL DETALLE<br>QUE YA NO AYUDA.</h2>
+    <div class="timeline"><div class="year y1"><b>PERSONAL</b>Datos que no aportan a tu candidatura.</div><div class="year y2"><b>HISTÓRICO</b>Cursos o tareas muy antiguas sin relación.</div><div class="year y3"><b>CONTEXTO ÚTIL</b>Lo necesario para entender una etapa.</div><div class="year y4"><b>HOY</b>Evidencia relevante para este puesto.</div></div><div class="blade"></div>
+    <div class="caveat"><b>IMPORTANTE:</b> conserva cualquier dato exigido por la norma local o solicitado expresamente por el proceso. El contexto cambia según el país y el sector.</div>
+  </section>
+  <section class="slide s6">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>06</b>/07</div>
+    <h2 class="display title">07 / HAZ LA<br>PRUEBA DE BORRADO.</h2>
+    <div class="question"><h3>PARA CADA LÍNEA, PREGUNTA:</h3><ol><li>¿Ayuda a entender <strong>por qué encajo</strong> en este puesto?</li><li>¿Aporta una <strong>prueba, contexto o requisito</strong> necesario?</li><li>¿Dice algo distinto a lo que ya aparece?</li></ol></div><div class="decision">SI NO → ELIMINA O COMPRIME</div>
+    <p class="foot">No todo debe desaparecer. Pero todo debe justificar el espacio que ocupa.</p>
+  </section>
+  <section class="slide s7">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>07</b>/07</div>
+    <h2 class="display title">EDITAR NO ES<br>HACER TU CV MENOR.<br><em>ES HACERLO MÁS CLARO.</em></h2>
+    <div class="slot"></div><div class="bin"></div><div class="shred"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span></div>
+    <div class="cta">COMENTA CV · 1 MES GRATIS DE WORQAI PRO</div><p class="dm">Te enviamos por DM un código para disfrutar un mes gratis de WorqAI Pro. Tú decides qué conservar.</p>
+  </section>
+</body>
+</html>

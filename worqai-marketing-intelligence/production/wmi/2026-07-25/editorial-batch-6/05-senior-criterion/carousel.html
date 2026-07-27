@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorqAI — Usa STAR para recordar y CAR para escribir</title>
+  <style>
+    :root{
+      --night:#080b0e;--cloth:#12191e;--blue:#213039;--blue2:#314650;
+      --paper:#e7dfd1;--paper2:#c8bda9;--kraft:#b69366;--dim:#aaa79f;
+      --lime:#b8ff00;--red:#ff5b54;
+      --display:"Bahnschrift SemiCondensed",Bahnschrift,"Arial Narrow",Arial,sans-serif;
+      --body:Aptos,Arial,sans-serif;--serif:Georgia,"Times New Roman",serif;
+      --mono:Consolas,"Courier New",monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#23282b;color:var(--paper)}
+    body{display:flex;flex-direction:column;align-items:center;gap:36px;padding:36px 0 120px;font-family:var(--body)}
+    .slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--night);isolation:isolate}
+    .slide:after{content:"";position:absolute;inset:0;z-index:50;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.28' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen}
+    .logo{position:absolute;z-index:20;left:58px;top:43px;width:214px;height:78px;background:var(--paper);padding:12px 18px;border:4px solid #080807;border-radius:18% 12% 18% 12% / 32% 24% 32% 24%;box-shadow:8px 8px 0 var(--lime);transform:rotate(-1deg);overflow:visible}
+    .logo img{display:block;width:100%;height:100%;object-fit:contain}
+    .folio{position:absolute;z-index:20;right:62px;top:59px;font:800 23px/1 var(--mono);letter-spacing:.04em}
+    .folio b{color:var(--lime)}
+    .display{font-family:var(--display);font-weight:900;letter-spacing:-.055em}
+    .kicker{font:800 21px/1 var(--mono);letter-spacing:.09em;color:var(--lime)}
+    .note{font:italic 30px/1.22 var(--serif)}
+    .paper{background:var(--paper);color:var(--night);box-shadow:18px 21px 0 #030405}
+    .example{font:800 20px/1 var(--mono);letter-spacing:.08em;color:#8c271f}
+
+    /* 01 — field notebook cover */
+    .s1{background:var(--cloth)}
+    .s1 .notebook{position:absolute;left:92px;top:180px;width:930px;height:1035px;background:var(--blue);box-shadow:-28px 31px 0 #030506;transform:rotate(-1.7deg)}
+    .s1 .spine{position:absolute;left:92px;top:180px;width:104px;height:1035px;background:#05080a}
+    .s1 .kicker{position:absolute;z-index:5;left:245px;top:285px}
+    .s1 .star{position:absolute;z-index:5;left:230px;top:346px;margin:0;font-size:230px;line-height:.72;color:var(--paper)}
+    .s1 .for{position:absolute;z-index:6;left:682px;top:385px;font:italic 39px/1 var(--serif);color:var(--dim);transform:rotate(-6deg)}
+    .s1 .car{position:absolute;z-index:5;left:445px;top:710px;width:520px;padding:22px 34px;background:var(--lime);color:var(--night);font:900 205px/.7 var(--display);letter-spacing:-.1em;transform:rotate(2deg)}
+    .s1 .remember{position:absolute;z-index:5;left:245px;top:590px;font:900 36px/1 var(--mono);letter-spacing:.07em}
+    .s1 .write{position:absolute;z-index:5;left:245px;top:945px;width:660px;font:900 37px/1 var(--mono);letter-spacing:.05em}
+    .s1 .sub{position:absolute;z-index:5;left:245px;bottom:105px;width:700px;margin:0;font:italic 30px/1.25 var(--serif)}
+
+    /* 02 — full story route */
+    .s2 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:91px;line-height:.86}
+    .s2 .thread{position:absolute;left:170px;top:425px;width:18px;height:715px;background:var(--red);transform:rotate(-2deg)}
+    .s2 .thread:after{content:"";position:absolute;left:-25px;bottom:-42px;width:68px;height:68px;background:var(--red);transform:rotate(45deg)}
+    .beat{position:absolute;left:115px;width:850px;display:grid;grid-template-columns:160px 1fr;align-items:center}
+    .beat b{font:900 150px/.7 var(--display);color:var(--lime)}
+    .beat p{margin:0;font-size:32px;line-height:1.15}
+    .beat p strong{display:block;margin-bottom:8px;font:900 37px/1 var(--display)}
+    .b1{top:420px}.b2{top:595px}.b3{top:775px}.b4{top:960px}
+    .s2 .note{position:absolute;left:62px;bottom:68px;width:910px;margin:0;color:var(--dim)}
+
+    /* 03 — context fold */
+    .s3{background:var(--cloth)}
+    .s3 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:92px;line-height:.86}
+    .s3 .fold{position:absolute;left:63px;top:405px;width:950px;height:710px;background:var(--paper);color:var(--night);box-shadow:20px 23px 0 #030405;clip-path:polygon(0 0,100% 0,100% 90%,91% 100%,0 100%)}
+    .s3 .half{position:absolute;top:0;width:50%;height:100%;padding:62px 54px}
+    .s3 .situation{left:0;background:var(--paper)}
+    .s3 .task{right:0;background:var(--paper2)}
+    .s3 .half b{display:block;font:900 170px/.7 var(--display);color:var(--blue2)}
+    .s3 .half h3{margin:45px 0 20px;font:900 42px/.95 var(--display)}
+    .s3 .half p{margin:0;font-size:29px;line-height:1.25}
+    .s3 .slash{position:absolute;z-index:4;left:520px;top:393px;width:18px;height:755px;background:var(--red);transform:rotate(6deg)}
+    .s3 .compress{position:absolute;left:91px;bottom:73px;width:885px;padding:28px 38px;background:var(--lime);color:var(--night);font:900 32px/1.08 var(--display);transform:rotate(-1deg)}
+
+    /* 04 — action page */
+    .s4 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:95px;line-height:.86}
+    .s4 .a{position:absolute;left:36px;top:395px;font:900 700px/.72 var(--display);letter-spacing:-.13em;color:var(--blue)}
+    .s4 .prompt{position:absolute;z-index:5;left:220px;top:505px;width:720px;margin:0;font:italic 39px/1.12 var(--serif)}
+    .s4 .verbs{position:absolute;z-index:5;left:215px;top:690px;width:770px}
+    .s4 .verbs span{display:block;margin-bottom:24px;font:900 62px/.9 var(--display)}
+    .s4 .verbs span:nth-child(2){margin-left:95px;color:var(--lime)}
+    .s4 .verbs span:nth-child(3){margin-left:190px}
+    .s4 .strip{position:absolute;left:-28px;bottom:76px;width:1140px;padding:30px 82px;background:var(--paper);color:var(--night);font-size:30px;line-height:1.2;transform:rotate(1.5deg)}
+    .s4 .strip strong{font-family:var(--display);font-size:37px}
+
+    /* 05 — result ledger */
+    .s5{background:var(--cloth)}
+    .s5 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:94px;line-height:.86}
+    .s5 .r{position:absolute;right:-5px;top:340px;font:900 700px/.72 var(--display);letter-spacing:-.15em;color:var(--lime)}
+    .s5 .ledger{position:absolute;z-index:4;left:60px;top:430px;width:640px;padding:45px 50px 52px;background:var(--paper);color:var(--night);transform:rotate(-1.2deg);box-shadow:18px 21px 0 #030405}
+    .s5 .ledger h3{margin:0 0 30px;font:900 47px/.95 var(--display)}
+    .s5 .ledger p{margin:0;padding:23px 0;font-size:30px;line-height:1.15;border-bottom:6px solid var(--night)}
+    .s5 .ledger p:last-child{border:0}
+    .s5 .metric{position:absolute;z-index:5;left:115px;bottom:72px;width:850px;margin:0;font:italic 30px/1.23 var(--serif);color:var(--dim)}
+    .s5 .metric strong{color:var(--red)}
+
+    /* 06 — worksheet to bullet */
+    .s6 .title{position:absolute;left:60px;top:151px;width:930px;margin:0;font-size:86px;line-height:.87}
+    .s6 .worksheet{position:absolute;left:62px;top:370px;width:950px;height:740px;padding:46px 50px;background:var(--paper);color:var(--night);transform:rotate(-.6deg);box-shadow:20px 23px 0 #030405}
+    .s6 .example{margin-bottom:27px}
+    .s6 .row{display:grid;grid-template-columns:75px 1fr;gap:20px;align-items:start;margin-bottom:24px}
+    .s6 .row b{font:900 57px/.9 var(--display);color:var(--blue2)}
+    .s6 .row:nth-of-type(4) b{color:#537800}
+    .s6 .row p{margin:0;font-size:28px;line-height:1.18}
+    .s6 .carbullet{position:absolute;left:82px;top:925px;width:920px;padding:32px 42px;background:var(--lime);color:var(--night);font:900 32px/1.13 var(--display);transform:rotate(1.2deg);box-shadow:14px 17px 0 #050605}
+    .s6 .carbullet span{display:block;margin-bottom:11px;font:900 21px/1 var(--mono);letter-spacing:.08em}
+    .s6 .note{position:absolute;left:64px;bottom:66px;width:900px;margin:0;color:var(--dim)}
+
+    /* 07 — evidence bank and CTA */
+    .s7{background:var(--cloth)}
+    .s7 .title{position:absolute;left:60px;top:150px;width:930px;margin:0;font-size:83px;line-height:.87}
+    .s7 .bank{position:absolute;left:61px;top:395px;width:950px;height:350px;padding:36px 43px;background:var(--blue);box-shadow:18px 20px 0 #030405;transform:rotate(-1deg)}
+    .s7 .bank h3{margin:0 0 27px;font:900 34px/1 var(--mono);letter-spacing:.07em;color:var(--lime)}
+    .s7 .bank .line{display:grid;grid-template-columns:210px 1fr;gap:24px;padding:16px 0;border-bottom:6px solid #080b0e;font-size:29px;line-height:1.1}
+    .s7 .bank .line:last-child{border:0}
+    .s7 .bank b{font-family:var(--display)}
+    .s7 .comment{position:absolute;left:57px;top:810px;margin:0;font:900 93px/.8 var(--display);letter-spacing:-.06em}
+    .s7 .cv{position:absolute;right:50px;top:760px;font:900 305px/.75 var(--display);letter-spacing:-.11em;color:var(--lime)}
+    .s7 .offer{position:absolute;left:-25px;top:1050px;width:1140px;padding:30px 72px;background:var(--paper);color:var(--night);font:900 42px/.98 var(--display);text-align:center;transform:rotate(1.2deg)}
+    .s7 .dm{position:absolute;left:64px;bottom:57px;width:910px;margin:0;font-size:28px;line-height:1.2;color:var(--dim)}
+    .s7 .dm strong{color:var(--paper)}
+  </style>
+</head>
+<body>
+  <section class="slide s1">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>01</b> / 07</div>
+    <div class="notebook"></div><div class="spine"></div>
+    <div class="kicker">DOS MÉTODOS · DOS TRABAJOS</div>
+    <h1 class="display star">STAR</h1><div class="for">para</div><div class="remember">RECORDAR LA HISTORIA</div>
+    <div class="car">CAR</div><div class="write">ESCRIBIR EL BULLET</div>
+    <p class="sub">Primero recupera la evidencia. Después comprímela.</p>
+  </section>
+
+  <section class="slide s2">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>02</b> / 07</div>
+    <h2 class="display title">STAR TE AYUDA A RECORDAR LA HISTORIA COMPLETA.</h2>
+    <div class="thread"></div>
+    <div class="beat b1"><b>S</b><p><strong>SITUACIÓN</strong>¿Qué estaba pasando?</p></div>
+    <div class="beat b2"><b>T</b><p><strong>TAREA</strong>¿Qué te correspondía resolver?</p></div>
+    <div class="beat b3"><b>A</b><p><strong>ACCIÓN</strong>¿Qué hiciste tú, exactamente?</p></div>
+    <div class="beat b4"><b>R</b><p><strong>RESULTADO</strong>¿Qué cambió o quedó listo?</p></div>
+    <p class="note">No escribas todavía. Primero recupera decisiones, contexto y desenlace.</p>
+  </section>
+
+  <section class="slide s3">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>03</b> / 07</div>
+    <h2 class="display title">S + T SON CONTEXTO.<br>NO TODO EL BULLET.</h2>
+    <div class="fold">
+      <div class="half situation"><b>S</b><h3>SITUACIÓN</h3><p>El escenario, problema o restricción que explica por qué importaba actuar.</p></div>
+      <div class="half task"><b>T</b><h3>TAREA</h3><p>Tu responsabilidad concreta dentro de esa situación.</p></div>
+    </div>
+    <div class="slash"></div>
+    <div class="compress">AL ESCRIBIR EL CV: COMPRÍMELO EN UNA FRASE DE CONTEXTO.</div>
+  </section>
+
+  <section class="slide s4">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>04</b> / 07</div>
+    <h2 class="display title">LA A ES DONDE APARECE TU CRITERIO.</h2>
+    <div class="a">A</div>
+    <p class="prompt">¿Qué decidiste, cambiaste, construiste o coordinaste tú?</p>
+    <div class="verbs"><span>PRIORIZASTE</span><span>ALINEASTE</span><span>IMPLEMENTASTE</span></div>
+    <div class="strip"><strong>EVITA ESCONDERTE EN “APOYÉ” O “PARTICIPÉ”.</strong><br>Usa el verbo más específico que puedas sostener.</div>
+  </section>
+
+  <section class="slide s5">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>05</b> / 07</div>
+    <h2 class="display title">LA R CIERRA LA PRUEBA.</h2>
+    <div class="r">R</div>
+    <div class="ledger">
+      <h3>BUSCA UN RESULTADO VERIFICABLE:</h3>
+      <p>Una entrega terminada.</p>
+      <p>Una decisión aprobada.</p>
+      <p>Un proceso adoptado.</p>
+      <p>Un problema resuelto.</p>
+      <p>Una mejora real que puedas explicar.</p>
+    </div>
+    <p class="metric"><strong>Si no tienes una métrica real, no la inventes.</strong> Describe el cambio observable.</p>
+  </section>
+
+  <section class="slide s6">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>06</b> / 07</div>
+    <h2 class="display title">RECUERDA CON STAR.<br>COMPRIME CON CAR.</h2>
+    <div class="worksheet">
+      <div class="example">EJEMPLO ILUSTRATIVO · HOJA STAR</div>
+      <div class="row"><b>S</b><p>La documentación de un lanzamiento interno estaba dispersa entre varios equipos.</p></div>
+      <div class="row"><b>T</b><p>Debía ordenar el material y dejar una guía utilizable antes de la entrega.</p></div>
+      <div class="row"><b>A</b><p>Revisé archivos, prioricé contenidos y coordiné validaciones con las personas responsables.</p></div>
+      <div class="row"><b>R</b><p>Entregué un manual unificado, aprobado por el equipo para el lanzamiento.</p></div>
+    </div>
+    <div class="carbullet"><span>CAR · BULLET DE UNA LÍNEA</span>“Organicé y prioricé la documentación de varios equipos, y entregué un manual unificado aprobado para el lanzamiento interno.”</div>
+    <p class="note">Conserva la historia completa en tu banco. Lleva al CV solo la evidencia relevante.</p>
+  </section>
+
+  <section class="slide s7">
+    <div class="logo"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>07</b> / 07</div>
+    <h2 class="display title">CREA UN BANCO DE EVIDENCIA ANTES DE EDITAR TU CV.</h2>
+    <div class="bank"><h3>GUARDA UNA HISTORIA POR:</h3><div class="line"><b>PROYECTO</b><span>Qué reto resolviste.</span></div><div class="line"><b>DECISIÓN</b><span>Qué hiciste tú.</span></div><div class="line"><b>RESULTADO</b><span>Qué cambió o quedó listo.</span></div></div>
+    <h3 class="comment">COMENTA</h3><div class="cv">CV</div>
+    <div class="offer">1 MES GRATIS DE WORQAI PRO · CÓDIGO POR DM</div>
+    <p class="dm"><strong>Usa STAR para recordar y CAR para escribir.</strong> Trabaja únicamente con hechos que puedas sustentar.</p>
+  </section>
+</body>
+</html>

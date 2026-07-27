@@ -1,0 +1,370 @@
+{
+  "reference": "production\\wmi\\2026-07-25\\editorial-batch-6\\detail-fix-qa\\06-vacancy-strategy-slide-01-before.png",
+  "render": "production\\wmi\\2026-07-25\\editorial-batch-6\\detail-fix-qa\\06-vacancy-strategy-slide-01-after.png",
+  "reference_size": [
+    1080,
+    1350
+  ],
+  "overall_similarity": 89.86,
+  "pass": false,
+  "target": 92,
+  "worst_regions": [
+    {
+      "row": 3,
+      "col": 1,
+      "region": [
+        270,
+        675,
+        540,
+        900
+      ],
+      "score": 70.97,
+      "label": "R3C1"
+    },
+    {
+      "row": 3,
+      "col": 2,
+      "region": [
+        540,
+        675,
+        810,
+        900
+      ],
+      "score": 72.92,
+      "label": "R3C2"
+    },
+    {
+      "row": 1,
+      "col": 1,
+      "region": [
+        270,
+        225,
+        540,
+        450
+      ],
+      "score": 76.03,
+      "label": "R1C1"
+    },
+    {
+      "row": 3,
+      "col": 0,
+      "region": [
+        0,
+        675,
+        270,
+        900
+      ],
+      "score": 79.12,
+      "label": "R3C0"
+    },
+    {
+      "row": 1,
+      "col": 0,
+      "region": [
+        0,
+        225,
+        270,
+        450
+      ],
+      "score": 83.06,
+      "label": "R1C0"
+    }
+  ],
+  "all_regions": [
+    {
+      "row": 3,
+      "col": 1,
+      "region": [
+        270,
+        675,
+        540,
+        900
+      ],
+      "score": 70.97,
+      "label": "R3C1"
+    },
+    {
+      "row": 3,
+      "col": 2,
+      "region": [
+        540,
+        675,
+        810,
+        900
+      ],
+      "score": 72.92,
+      "label": "R3C2"
+    },
+    {
+      "row": 1,
+      "col": 1,
+      "region": [
+        270,
+        225,
+        540,
+        450
+      ],
+      "score": 76.03,
+      "label": "R1C1"
+    },
+    {
+      "row": 3,
+      "col": 0,
+      "region": [
+        0,
+        675,
+        270,
+        900
+      ],
+      "score": 79.12,
+      "label": "R3C0"
+    },
+    {
+      "row": 1,
+      "col": 0,
+      "region": [
+        0,
+        225,
+        270,
+        450
+      ],
+      "score": 83.06,
+      "label": "R1C0"
+    },
+    {
+      "row": 3,
+      "col": 3,
+      "region": [
+        810,
+        675,
+        1080,
+        900
+      ],
+      "score": 85.27,
+      "label": "R3C3"
+    },
+    {
+      "row": 4,
+      "col": 2,
+      "region": [
+        540,
+        900,
+        810,
+        1125
+      ],
+      "score": 85.74,
+      "label": "R4C2"
+    },
+    {
+      "row": 1,
+      "col": 2,
+      "region": [
+        540,
+        225,
+        810,
+        450
+      ],
+      "score": 88.87,
+      "label": "R1C2"
+    },
+    {
+      "row": 0,
+      "col": 1,
+      "region": [
+        270,
+        0,
+        540,
+        225
+      ],
+      "score": 89.41,
+      "label": "R0C1"
+    },
+    {
+      "row": 4,
+      "col": 3,
+      "region": [
+        810,
+        900,
+        1080,
+        1125
+      ],
+      "score": 89.55,
+      "label": "R4C3"
+    },
+    {
+      "row": 4,
+      "col": 0,
+      "region": [
+        0,
+        900,
+        270,
+        1125
+      ],
+      "score": 91.94,
+      "label": "R4C0"
+    },
+    {
+      "row": 0,
+      "col": 2,
+      "region": [
+        540,
+        0,
+        810,
+        225
+      ],
+      "score": 92.89,
+      "label": "R0C2"
+    },
+    {
+      "row": 2,
+      "col": 3,
+      "region": [
+        810,
+        450,
+        1080,
+        675
+      ],
+      "score": 93.34,
+      "label": "R2C3"
+    },
+    {
+      "row": 2,
+      "col": 1,
+      "region": [
+        270,
+        450,
+        540,
+        675
+      ],
+      "score": 93.6,
+      "label": "R2C1"
+    },
+    {
+      "row": 0,
+      "col": 0,
+      "region": [
+        0,
+        0,
+        270,
+        225
+      ],
+      "score": 94.16,
+      "label": "R0C0"
+    },
+    {
+      "row": 2,
+      "col": 0,
+      "region": [
+        0,
+        450,
+        270,
+        675
+      ],
+      "score": 94.61,
+      "label": "R2C0"
+    },
+    {
+      "row": 0,
+      "col": 3,
+      "region": [
+        810,
+        0,
+        1080,
+        225
+      ],
+      "score": 94.71,
+      "label": "R0C3"
+    },
+    {
+      "row": 2,
+      "col": 2,
+      "region": [
+        540,
+        450,
+        810,
+        675
+      ],
+      "score": 96.19,
+      "label": "R2C2"
+    },
+    {
+      "row": 5,
+      "col": 0,
+      "region": [
+        0,
+        1125,
+        270,
+        1350
+      ],
+      "score": 96.24,
+      "label": "R5C0"
+    },
+    {
+      "row": 5,
+      "col": 1,
+      "region": [
+        270,
+        1125,
+        540,
+        1350
+      ],
+      "score": 96.31,
+      "label": "R5C1"
+    },
+    {
+      "row": 4,
+      "col": 1,
+      "region": [
+        270,
+        900,
+        540,
+        1125
+      ],
+      "score": 96.66,
+      "label": "R4C1"
+    },
+    {
+      "row": 1,
+      "col": 3,
+      "region": [
+        810,
+        225,
+        1080,
+        450
+      ],
+      "score": 97.9,
+      "label": "R1C3"
+    },
+    {
+      "row": 5,
+      "col": 2,
+      "region": [
+        540,
+        1125,
+        810,
+        1350
+      ],
+      "score": 98.01,
+      "label": "R5C2"
+    },
+    {
+      "row": 5,
+      "col": 3,
+      "region": [
+        810,
+        1125,
+        1080,
+        1350
+      ],
+      "score": 99.09,
+      "label": "R5C3"
+    }
+  ],
+  "guidance": {
+    "below_70": "Rebuild \u2014 structural mismatch",
+    "70_85": "Major fixes needed \u2014 layout/color wrong",
+    "85_92": "Close \u2014 spacing, font, or color drift",
+    "92_95": "PASS \u2014 acceptable for integration",
+    "95_100": "Excellent \u2014 only font glyph differences remain"
+  }
+}

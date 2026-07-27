@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carousel 01 Dark - Primer Empleo</title>
+  <style>
+    :root {
+      --ink: #080807;
+      --graphite: #272924;
+      --paper: #f1ede3;
+      --paper-dim: #d8d2c5;
+      --lime: #b8ff00;
+      --red: #ff5c57;
+      --display: Bahnschrift, "Arial Narrow", Arial, sans-serif;
+      --body: Arial, "Segoe UI", sans-serif;
+      --note: Georgia, "Times New Roman", serif;
+      --torn-edge: polygon(0 3%, 4% 1%, 10% 2%, 16% 0, 24% 2%, 31% 1%, 38% 3%, 45% 1%, 51% 2%, 58% 0, 64% 2%, 72% 1%, 80% 3%, 88% 1%, 94% 2%, 100% 0, 99% 95%, 94% 98%, 87% 96%, 79% 99%, 70% 97%, 61% 100%, 52% 97%, 43% 99%, 34% 96%, 25% 99%, 16% 97%, 8% 99%, 1% 96%);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #22231f;
+      color: var(--paper);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 36px 0 120px;
+      font-family: var(--body);
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--ink);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+      mix-blend-mode: screen;
+    }
+
+    .brand-tag {
+      position: absolute;
+      z-index: 20;
+      left: 58px;
+      top: 40px;
+      width: 196px;
+      height: 76px;
+      display: grid;
+      place-items: center;
+      padding: 7px 12px;
+      background: var(--paper);
+      clip-path: var(--torn-edge);
+      transform: rotate(-1deg);
+      box-shadow: 9px 9px 0 rgba(39,41,36,.65);
+      color: var(--ink);
+      font-family: var(--display);
+      font-weight: 850;
+      font-size: 38px;
+      text-transform: uppercase;
+    }
+
+    .page-number {
+      position: absolute;
+      z-index: 20;
+      right: 68px;
+      top: 55px;
+      font: 700 26px/1 var(--display);
+      font-variation-settings: "wght" 700, "wdth" 80;
+      letter-spacing: .03em;
+      color: var(--paper);
+    }
+
+    .page-number span { color: var(--lime); }
+
+    .display {
+      font-family: var(--display);
+      font-variation-settings: "wght" 850, "wdth" 75;
+      font-weight: 850;
+      letter-spacing: -.045em;
+    }
+
+    .note {
+      font-family: var(--note);
+      font-style: italic;
+    }
+
+    .paper {
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 18px 18px 0 rgba(35, 37, 32, .88);
+      clip-path: var(--torn-edge);
+    }
+
+    .proof-red {
+      color: var(--red);
+      font-family: var(--note);
+      font-style: italic;
+      font-weight: 700;
+    }
+
+    .marker {
+      position: relative;
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    .marker::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: -3%;
+      right: -3%;
+      bottom: 8%;
+      height: 46%;
+      background: var(--lime);
+      transform: rotate(-1.1deg);
+      clip-path: polygon(0 12%, 4% 3%, 12% 10%, 20% 0, 31% 7%, 42% 2%, 55% 9%, 68% 1%, 81% 8%, 92% 2%, 100% 12%, 99% 88%, 90% 96%, 78% 88%, 65% 100%, 52% 91%, 38% 98%, 24% 90%, 11% 97%, 1% 88%);
+    }
+
+    /* Slide 1 */
+    .s1 .hook {
+      position: absolute;
+      left: 68px;
+      top: 190px;
+      width: 900px;
+      margin: 0;
+      font-size: 140px;
+      line-height: .82;
+      color: var(--paper);
+    }
+
+    .s1 .language-sheet {
+      position: absolute;
+      left: -45px;
+      top: 555px;
+      width: 1170px;
+      height: 360px;
+      padding: 62px 105px 48px;
+      transform: rotate(-2.4deg);
+    }
+
+    .s1 .language-sheet p {
+      margin: 0;
+      font-size: 110px;
+      line-height: .83;
+    }
+    
+    .s1 .hook-small {
+      position: absolute;
+      left: 72px;
+      top: 480px;
+      font: italic 38px/1.2 var(--note);
+      color: var(--paper-dim);
+    }
+    
+    .s1 .vacancy-strip {
+      position: absolute;
+      left: 120px;
+      top: 978px;
+      width: 900px;
+      min-height: 145px;
+      padding: 27px 34px;
+      transform: rotate(1.3deg);
+      background: var(--graphite);
+      box-shadow: -16px 16px 0 rgba(184,255,0,.13);
+      font-size: 31px;
+      line-height: 1.26;
+    }
+
+    .s1 .vacancy-strip strong {
+      color: var(--lime);
+      font-size: 41px;
+    }
+
+    /* Slide 2 */
+    .s2 .title {
+      position: absolute;
+      left: 68px;
+      top: 150px;
+      margin: 0;
+      width: 940px;
+      font-size: 110px;
+      line-height: .88;
+    }
+
+    .s2 .before-sheet,
+    .s2 .after-sheet {
+      position: absolute;
+      left: 70px;
+      width: 930px;
+      padding: 46px 56px;
+    }
+
+    .s2 .before-sheet {
+      top: 385px;
+      min-height: 270px;
+      transform: rotate(-1.4deg);
+      background: #cbc5b8;
+    }
+
+    .s2 .after-sheet {
+      top: 730px;
+      min-height: 330px;
+      transform: rotate(1.1deg);
+    }
+
+    .s2 .edit-label {
+      margin: 0 0 22px;
+      font: italic 30px/1 var(--note);
+      color: var(--red);
+    }
+
+    .s2 .after-sheet .edit-label {
+      color: var(--ink);
+    }
+
+    .s2 .sentence {
+      margin: 0;
+      font: 700 43px/1.23 var(--body);
+      letter-spacing: -.02em;
+    }
+
+    .s2 .before-sheet .sentence {
+      color: #4a4b46;
+    }
+
+    .s2 .after-sheet .sentence {
+      font-size: 51px;
+      line-height: 1.16;
+    }
+    
+    .s2 .term {
+      background: var(--lime);
+      padding: 0 .08em;
+    }
+    
+    .s2 .margin-question {
+      position: absolute;
+      right: 44px;
+      top: 596px;
+      transform: rotate(-7deg);
+      font-size: 33px;
+    }
+    
+    .s2 .takeaway {
+      position: absolute;
+      left: 72px;
+      bottom: 74px;
+      width: 900px;
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.17;
+    }
+
+    /* Slide 3 */
+    .s3 .adapt {
+      position: absolute;
+      left: 64px;
+      top: 160px;
+      margin: 0;
+      font-size: 144px;
+      line-height: .82;
+      color: var(--paper);
+    }
+    
+    .s3 .giant-element {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 520px;
+      color: var(--lime);
+      line-height: .8;
+      z-index: 1;
+    }
+    
+    .s3 .subtext {
+      position: absolute;
+      left: 64px;
+      bottom: 165px;
+      margin: 0;
+      font-size: 100px;
+      line-height: .82;
+      z-index: 2;
+    }
+
+    /* Slide 4 */
+    .s4 .title {
+      position: absolute;
+      left: 68px;
+      top: 136px;
+      margin: 0;
+      font-size: 112px;
+      line-height: .84;
+      z-index: 8;
+    }
+
+    .s4 .vacancy-paper,
+    .s4 .cv-paper {
+      position: absolute;
+      top: 425px;
+      height: 795px;
+      padding: 54px 42px;
+      z-index: 3;
+    }
+
+    .s4 .vacancy-paper {
+      left: 42px;
+      width: 465px;
+      transform: rotate(-1.6deg);
+      background: #ddd7ca;
+    }
+
+    .s4 .cv-paper {
+      right: 32px;
+      width: 500px;
+      transform: rotate(1.7deg);
+    }
+
+    .s4 .sheet-kicker {
+      margin: 0 0 38px;
+      color: var(--red);
+      font: italic 28px/1 var(--note);
+    }
+    .s4 .cv-paper .sheet-kicker { color: #577600; }
+    
+    .s4 .evidence-pair {
+      min-height: 195px;
+      margin-bottom: 29px;
+    }
+    .s4 .evidence-pair small {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #68685f;
+    }
+    .s4 .evidence-pair strong {
+      display: block;
+      font-size: 35px;
+      line-height: 1.08;
+    }
+    .s4 .evidence-pair p {
+      margin: 11px 0 0;
+      font-size: 27px;
+      line-height: 1.26;
+      color: #4c4e48;
+    }
+    
+    .s4 .map-note {
+      position: absolute;
+      z-index: 9;
+      right: 42px;
+      bottom: 43px;
+      margin: 0;
+      color: var(--red);
+      font-size: 29px;
+      transform: rotate(-3deg);
+    }
+    
+    .s4 .arrow-svg {
+      position: absolute;
+      left: 440px;
+      top: 600px;
+      z-index: 10;
+      width: 200px;
+      height: 100px;
+      transform: rotate(5deg);
+    }
+
+    /* Slide 5 */
+    .s5 .intro {
+      position: absolute;
+      left: 68px;
+      top: 145px;
+      margin: 0;
+      font-size: 98px;
+      line-height: .86;
+    }
+
+    .s5 .action-band {
+      position: absolute;
+      left: -55px;
+      width: 1190px;
+      height: 178px;
+      display: flex;
+      align-items: center;
+      padding: 0 120px;
+      box-shadow: 18px 18px 0 rgba(0,0,0,.4);
+      font: 850 67px/1 var(--display);
+      font-variation-settings: "wght" 850, "wdth" 75;
+      letter-spacing: -.035em;
+    }
+
+    .s5 .action-band b {
+      font-size: 30px;
+      margin-right: 32px;
+      font-family: var(--note);
+      font-style: italic;
+    }
+
+    .s5 .action-one {
+      top: 430px;
+      color: var(--ink);
+      background: var(--paper);
+      transform: rotate(-2.2deg);
+    }
+    .s5 .action-two {
+      top: 635px;
+      color: var(--paper);
+      background: var(--red);
+      transform: rotate(1.5deg);
+    }
+    .s5 .action-three {
+      top: 850px;
+      color: var(--ink);
+      background: var(--lime);
+      transform: rotate(-1deg);
+    }
+    .s5 .control-note {
+      position: absolute;
+      left: 73px;
+      bottom: 80px;
+      width: 890px;
+      margin: 0;
+      font-size: 42px;
+      line-height: 1.18;
+    }
+
+    /* Slide 6 */
+    .s6 .commenta {
+      position: absolute;
+      left: 70px;
+      top: 315px;
+      margin: 0;
+      font-size: 134px;
+      line-height: .84;
+    }
+
+    .s6 .cv {
+      position: absolute;
+      left: 24px;
+      top: 445px;
+      margin: 0;
+      color: var(--paper);
+      font: 900 525px/.78 var(--display);
+      font-variation-settings: "wght" 900, "wdth" 72;
+      letter-spacing: -.09em;
+    }
+    
+    .s6 .circle-mark {
+      position: absolute;
+      left: 34px;
+      top: 438px;
+      width: 970px;
+      height: 470px;
+      overflow: visible;
+      transform: rotate(-4deg);
+    }
+    
+    .s6 .dm {
+      position: absolute;
+      left: 72px;
+      top: 1015px;
+      width: 900px;
+      margin: 0;
+      color: var(--paper);
+      font-size: 43px;
+      line-height: 1.2;
+    }
+
+    .s6 .footer-note {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      color: var(--paper-dim);
+      font-size: 25px;
+      line-height: 1.25;
+    }
+    
+    .s6 .footer-note strong { color: var(--paper); }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1: Cover -->
+  <section class="slide s1" aria-label="Slide 1">
+    <div class="brand-tag">WorqAI</div>
+    <div class="page-number"><span>01</span> / 06</div>
+    <h1 class="hook display">TU PRIMER<br>EMPLEO NO<br>NECESITA</h1>
+    <p class="hook-small">Necesita estrategia táctica.</p>
+    <div class="language-sheet paper">
+      <p class="display">EXPERIENCIA<br><span class="marker">PREVIA.</span></p>
+    </div>
+    <div class="vacancy-strip">
+      La trampa dice:<br>
+      <strong>SE BUSCA JUNIOR CON AÑOS DE EXPERIENCIA</strong>
+    </div>
+    <svg class="proof-arrow" style="position:absolute; right:34px; top:888px; width:230px; height:170px; transform:rotate(9deg);" viewBox="0 0 230 170" aria-hidden="true">
+      <path d="M15 18 C85 22, 155 48, 174 112" fill="none" stroke="#ff5c57" stroke-width="12" stroke-linecap="round"/>
+      <path d="M138 95 L176 119 L196 78" fill="none" stroke="#ff5c57" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </section>
+
+  <!-- Slide 2: Problem -->
+  <section class="slide s2" aria-label="Slide 2">
+    <div class="brand-tag">WorqAI</div>
+    <div class="page-number"><span>02</span> / 06</div>
+    <h1 class="title display">EL CIRCULO<br>VICIOSO JUNIOR.</h1>
+    <div class="before-sheet paper">
+      <p class="edit-label">Lo que todos piensan</p>
+      <p class="sentence">“No tengo contrato laboral, por lo tanto no tengo valor profesional para ofrecer.”</p>
+    </div>
+    <p class="margin-question proof-red">¿Y tus proyectos?</p>
+    <div class="after-sheet paper">
+      <p class="edit-label">La realidad</p>
+      <p class="sentence">“Toda práctica estructurada es experiencia. Solo debes <span class="term">traducir</span> su impacto.”</p>
+    </div>
+    <p class="takeaway">Tu historial no está vacío.<br><strong style="color:var(--lime);">Está mal comunicado.</strong></p>
+  </section>
+
+  <!-- Slide 3: Principle -->
+  <section class="slide s3" aria-label="Slide 3">
+    <div class="brand-tag">WorqAI</div>
+    <div class="page-number"><span>03</span> / 06</div>
+    <h1 class="adapt display">PROYECTOS</h1>
+    <div class="giant-element display">=</div>
+    <h1 class="subtext display">EXPERIENCIA</h1>
+    <p class="takeaway" style="position:absolute; left:72px; bottom:80px; font-size:42px; line-height:1.2; width:900px; margin:0;">
+      Tu tesis de grado y voluntariados estructurados son trabajo real. Solo faltó el salario.
+    </p>
+  </section>
+
+  <!-- Slide 4: Method -->
+  <section class="slide s4" aria-label="Slide 4">
+    <div class="brand-tag">WorqAI</div>
+    <div class="page-number"><span>04</span> / 06</div>
+    <h1 class="title display">TRADUCCIÓN DE<br><span>HABILIDADES.</span></h1>
+    <div class="vacancy-paper paper">
+      <p class="sheet-kicker">Lo que hiciste en clase</p>
+      <div class="evidence-pair">
+        <small>Tesis Final</small>
+        <strong>Investigación</strong>
+        <p>Trabajo en equipo de cuatro personas para recolectar datos de mercado en Excel.</p>
+      </div>
+      <div class="evidence-pair">
+        <small>Voluntariado</small>
+        <strong>Coordinador</strong>
+        <p>Organicé eventos locales para cincuenta personas.</p>
+      </div>
+    </div>
+    
+    <svg class="arrow-svg" viewBox="0 0 200 100" fill="none" stroke="#b8ff00" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 50 Q 100 20 180 50 M150 20 L190 55 L140 85" />
+    </svg>
+    
+    <div class="cv-paper paper">
+      <p class="sheet-kicker">Lo que lee el ATS</p>
+      <div class="evidence-pair">
+        <small>Gestión de Datos</small>
+        <strong>Análisis de Mercado</strong>
+        <p>Análisis colaborativo de bases de datos para extracción de métricas clave de comportamiento.</p>
+      </div>
+      <div class="evidence-pair">
+        <small>Gestión de Proyectos</small>
+        <strong>Logística y Operaciones</strong>
+        <p>Coordinación de logística, presupuestos y control de asistencia para eventos comunitarios.</p>
+      </div>
+    </div>
+    <p class="map-note proof-red">Mismo hecho, distinto lente.</p>
+  </section>
+
+  <!-- Slide 5: Steps -->
+  <section class="slide s5" aria-label="Slide 5">
+    <div class="brand-tag">WorqAI</div>
+    <div class="page-number"><span>05</span> / 06</div>
+    <h1 class="intro display">TRES PASOS<br><span>ESTRATÉGICOS.</span></h1>
+    
+    <div class="action-band action-one paper">
+      <b>01</b> AUDITA TU HISTORIAL OCULTO
+    </div>
+    <div class="action-band action-two paper">
+      <b>02</b> EXTRAE LOGROS MEDIBLES
+    </div>
+    <div class="action-band action-three paper">
+      <b>03</b> TRADUCE A LENGUAJE CORPORATIVO
+    </div>
+    
+    <p class="control-note">
+      Si sabes trabajar por objetivos, <strong>tienes lo necesario para empezar.</strong>
+    </p>
+  </section>
+
+  <!-- Slide 6: CTA -->
+  <section class="slide s6" aria-label="Slide 6">
+    <div class="brand-tag">WorqAI</div>
+    <div class="page-number"><span>06</span> / 06</div>
+    
+    <h1 class="commenta display">COMENTA</h1>
+    <h1 class="cv display">CV</h1>
+    
+    <svg class="circle-mark" viewBox="0 0 970 470" aria-hidden="true">
+      <path d="M485 30 C 850 30, 930 235, 485 430 C 40 430, 40 30, 485 30" fill="none" stroke="#ff5c57" stroke-width="22" stroke-linecap="round"/>
+    </svg>
+    
+    <p class="dm display">para un mes gratis de <strong>WorqAI Pro</strong></p>
+    
+    <div class="footer-note">
+      <div class="proof-red">Sin inventar experiencia. Sin promesas de entrevista.</div>
+      <div><strong>worqai.io</strong></div>
+    </div>
+  </section>
+
+</body>
+</html>

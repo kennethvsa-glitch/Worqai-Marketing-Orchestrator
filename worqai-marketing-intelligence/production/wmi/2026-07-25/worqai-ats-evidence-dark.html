@@ -1,0 +1,1554 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorqAI — Tu CV habla otro idioma</title>
+  <style>
+    :root {
+      --black: #050608;
+      --black-2: #0b0d10;
+      --panel: #111419;
+      --panel-2: #171b20;
+      --white: #f5f4ec;
+      --muted: #9aa2ad;
+      --muted-2: #69717d;
+      --line: #2a3038;
+      --lime: #b7ff00;
+      --lime-soft: #d8ff73;
+      --coral: #ff5d68;
+      --cyan: #52e7ff;
+      --amber: #ffc857;
+      --display: "Arial Black", "Segoe UI Black", "Helvetica Neue", Arial, sans-serif;
+      --sans: "Segoe UI", Arial, sans-serif;
+      --mono: "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #17191d;
+      color: var(--white);
+      font-family: var(--sans);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      padding: 36px 0 120px;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 88% 9%, rgba(82, 231, 255, .09), transparent 26%),
+        radial-gradient(circle at 12% 88%, rgba(183, 255, 0, .07), transparent 28%),
+        var(--black);
+      border: 1px solid #171b20;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.62), transparent 76%);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      pointer-events: none;
+      box-shadow: inset 0 0 0 10px rgba(183, 255, 0, .025);
+    }
+
+    .edge-code {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      width: 170px;
+      height: 100%;
+      opacity: .48;
+      background:
+        linear-gradient(90deg, transparent 0 63%, rgba(183,255,0,.16) 63% 64%, transparent 64%),
+        repeating-linear-gradient(180deg, transparent 0 32px, rgba(82,231,255,.12) 32px 34px);
+      clip-path: polygon(64% 0, 100% 0, 100% 100%, 8% 100%, 58% 76%, 26% 54%, 72% 30%);
+    }
+
+    .topbar {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      top: 54px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 17px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--display);
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: -.9px;
+    }
+
+    .brand-mark {
+      width: 22px;
+      height: 22px;
+      border: 6px solid var(--lime);
+      border-radius: 50%;
+      box-shadow: 12px 0 0 -6px var(--cyan);
+    }
+
+    .slide-id {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: var(--mono);
+      font-size: 16px;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+
+    .slide-id strong {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .slide-id .progress {
+      width: 112px;
+      height: 5px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-id .progress span {
+      display: block;
+      height: 100%;
+      background: var(--lime);
+    }
+
+    .content {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      top: 144px;
+      bottom: 104px;
+    }
+
+    .eyebrow {
+      margin: 0 0 22px;
+      color: var(--lime);
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before { content: "[ "; color: var(--muted-2); }
+    .eyebrow::after { content: " ]"; color: var(--muted-2); }
+
+    h1 {
+      margin: 0;
+      max-width: 930px;
+      font-family: var(--display);
+      font-size: 92px;
+      line-height: .91;
+      letter-spacing: -5.8px;
+      text-transform: uppercase;
+    }
+
+    h1 .lime { color: var(--lime); }
+    h1 .coral { color: var(--coral); }
+    h1 .outline {
+      color: transparent;
+      -webkit-text-stroke: 2px var(--white);
+      text-stroke: 2px var(--white);
+    }
+
+    .dek {
+      max-width: 880px;
+      margin: 28px 0 0;
+      color: #d4d7dc;
+      font-size: 28px;
+      line-height: 1.3;
+      letter-spacing: -.5px;
+    }
+
+    .dek strong { color: var(--white); }
+
+    .footer {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 42px;
+      height: 38px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: .035em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .footer .swipe {
+      color: var(--lime);
+      font-weight: 700;
+    }
+
+    .panel {
+      background: rgba(16, 19, 23, .96);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 20px 55px rgba(0,0,0,.34);
+    }
+
+    .panel-label {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 8px 12px 7px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status.bad { color: var(--coral); }
+    .status.good { color: var(--lime); }
+    .status.info { color: var(--cyan); }
+
+    /* Slide 01 */
+    .s1 h1 {
+      font-size: 105px;
+      max-width: 870px;
+    }
+
+    .s1 .dek {
+      max-width: 720px;
+      margin-top: 26px;
+    }
+
+    .scan-console {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 558px;
+      height: 500px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1.12fr .88fr;
+      gap: 20px;
+    }
+
+    .console-head {
+      grid-column: 1 / -1;
+      height: 42px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 15px;
+      letter-spacing: .06em;
+    }
+
+    .console-head .live {
+      color: var(--cyan);
+    }
+
+    .console-head .live::before {
+      content: "●";
+      color: var(--lime);
+      margin-right: 10px;
+    }
+
+    .cv-sheet {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #353b44;
+      background: #0a0c0f;
+      padding: 26px;
+    }
+
+    .cv-sheet::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 58%;
+      height: 3px;
+      background: var(--lime);
+      box-shadow: 0 0 24px rgba(183,255,0,.75);
+    }
+
+    .fake-name {
+      width: 220px;
+      height: 20px;
+      background: var(--white);
+      margin-bottom: 13px;
+    }
+
+    .fake-role {
+      width: 150px;
+      height: 9px;
+      background: var(--muted-2);
+      margin-bottom: 32px;
+    }
+
+    .fake-line {
+      height: 8px;
+      margin: 10px 0;
+      background: #313741;
+    }
+
+    .fake-line.w90 { width: 90%; }
+    .fake-line.w76 { width: 76%; }
+    .fake-line.w62 { width: 62%; }
+    .fake-line.w48 { width: 48%; }
+
+    .cv-highlight {
+      margin-top: 30px;
+      border-left: 4px solid var(--coral);
+      padding: 12px 14px;
+      background: rgba(255,93,104,.08);
+      color: #e4e5e7;
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .signal-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .signal-card {
+      flex: 1;
+      padding: 19px 20px;
+      border: 1px solid var(--line);
+      background: #0b0d10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .signal-card span {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .signal-card strong {
+      font-family: var(--display);
+      font-size: 21px;
+      text-transform: uppercase;
+    }
+
+    .signal-card.missing {
+      border-color: rgba(255,93,104,.55);
+    }
+
+    .signal-card.missing strong { color: var(--coral); }
+
+    .signal-card.found {
+      border-color: rgba(183,255,0,.62);
+      background: rgba(183,255,0,.07);
+    }
+
+    .signal-card.found strong { color: var(--lime); }
+
+    .scan-verdict {
+      grid-column: 1 / -1;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 19px;
+    }
+
+    .scan-verdict strong {
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+
+    .scan-verdict span {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+
+    /* Slide 02 */
+    .s2 h1 { font-size: 86px; }
+
+    .compare-grid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 440px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .compare-card {
+      min-height: 610px;
+      padding: 26px 26px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .compare-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 7px;
+      background: currentColor;
+    }
+
+    .compare-card.bad { color: var(--coral); }
+    .compare-card.good { color: var(--lime); }
+
+    .compare-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 36px;
+    }
+
+    .compare-num {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: currentColor;
+      letter-spacing: .08em;
+    }
+
+    .quote-copy {
+      min-height: 188px;
+      margin: 0;
+      color: var(--white);
+      font-size: 31px;
+      line-height: 1.25;
+      letter-spacing: -.8px;
+      font-weight: 750;
+    }
+
+    .readout {
+      margin-top: 28px;
+      border-top: 1px solid var(--line);
+      padding-top: 22px;
+      display: grid;
+      gap: 13px;
+    }
+
+    .readout-row {
+      display: grid;
+      grid-template-columns: 122px 1fr;
+      gap: 12px;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 9px;
+      background: #272c33;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: currentColor;
+    }
+
+    .compare-bottom {
+      margin-top: auto;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .compare-bottom strong {
+      color: var(--white);
+      display: block;
+      margin-bottom: 6px;
+      font-size: 21px;
+    }
+
+    .illustrative {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1084px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: .03em;
+    }
+
+    .illustrative strong { color: var(--amber); }
+
+    /* Slide 03 */
+    .s3 h1 { font-size: 101px; }
+
+    .truth-machine {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 480px;
+      height: 570px;
+      padding: 34px;
+    }
+
+    .truth-track {
+      display: grid;
+      grid-template-columns: 1fr 112px 1fr;
+      align-items: stretch;
+      gap: 18px;
+      height: 315px;
+    }
+
+    .truth-box {
+      border: 1px solid var(--line);
+      background: #0b0d10;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .truth-box h3 {
+      margin: 14px 0 8px;
+      font-family: var(--display);
+      font-size: 34px;
+      line-height: 1.02;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+    }
+
+    .truth-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .truth-box .fact-list {
+      margin-top: auto;
+      display: grid;
+      gap: 8px;
+      color: #d7d9dd;
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+
+    .truth-box .fact-list span::before {
+      content: "✓";
+      color: var(--lime);
+      margin-right: 9px;
+    }
+
+    .truth-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--lime);
+      font-family: var(--display);
+      font-size: 64px;
+    }
+
+    .truth-rule {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .truth-rule div {
+      min-height: 122px;
+      border: 1px solid var(--line);
+      padding: 18px;
+      background: #0b0d10;
+    }
+
+    .truth-rule span {
+      display: block;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .truth-rule strong {
+      display: block;
+      margin-top: 10px;
+      color: var(--white);
+      font-size: 20px;
+      line-height: 1.18;
+    }
+
+    .truth-rule .never {
+      border-color: rgba(255,93,104,.45);
+    }
+
+    .truth-rule .never strong { color: var(--coral); }
+
+    .truth-stamp {
+      position: absolute;
+      right: 36px;
+      top: 42px;
+      border: 2px solid var(--lime);
+      color: var(--lime);
+      padding: 10px 14px;
+      transform: rotate(4deg);
+      font-family: var(--mono);
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    /* Slide 04 */
+    .s4 h1 { font-size: 96px; }
+
+    .map-board {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 445px;
+      height: 630px;
+      display: grid;
+      grid-template-columns: 1fr 110px 1fr;
+      gap: 0;
+      padding: 28px;
+    }
+
+    .map-column {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .map-column-title {
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .map-column-title strong { color: var(--white); }
+
+    .map-node {
+      flex: 1;
+      border: 1px solid var(--line);
+      background: #0b0d10;
+      padding: 18px 19px;
+      display: grid;
+      align-content: center;
+    }
+
+    .map-node .node-id {
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .map-node h3 {
+      margin: 0;
+      color: var(--white);
+      font-size: 23px;
+      line-height: 1.12;
+    }
+
+    .map-node p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.3;
+    }
+
+    .map-node.evidence {
+      border-color: rgba(183,255,0,.35);
+      background: rgba(183,255,0,.045);
+    }
+
+    .map-node.evidence .node-id { color: var(--lime); }
+
+    .map-links {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      padding: 62px 0 10px;
+    }
+
+    .link-row {
+      width: 82px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .link-row::before {
+      content: "";
+      height: 2px;
+      flex: 1;
+      background: var(--lime);
+      box-shadow: 0 0 12px rgba(183,255,0,.35);
+    }
+
+    .link-row::after {
+      content: "›";
+      color: var(--lime);
+      font-family: var(--display);
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .map-caption {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .map-caption strong { color: var(--lime); }
+
+    /* Slide 05 */
+    .s5 h1 { font-size: 82px; }
+
+    .workflow {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 465px;
+      height: 592px;
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 22px;
+    }
+
+    .step-rail {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .step {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      padding: 18px;
+      background: #0b0d10;
+    }
+
+    .step.active {
+      border-color: var(--lime);
+      background: rgba(183,255,0,.07);
+    }
+
+    .step .step-num {
+      color: var(--muted-2);
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    .step.active .step-num { color: var(--lime); }
+
+    .step strong {
+      display: block;
+      margin-top: 17px;
+      color: var(--white);
+      font-family: var(--display);
+      font-size: 23px;
+      line-height: 1.05;
+      letter-spacing: -.7px;
+      text-transform: uppercase;
+    }
+
+    .product-window {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .window-bar {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      padding: 0 18px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .window-dots i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--muted-2);
+    }
+
+    .window-dots i:first-child { background: var(--coral); }
+    .window-dots i:last-child { background: var(--lime); }
+
+    .window-body {
+      height: calc(100% - 50px);
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+    }
+
+    .job-pane {
+      padding: 24px;
+      border-right: 1px solid var(--line);
+    }
+
+    .job-pane h3,
+    .match-pane h3 {
+      margin: 0 0 18px;
+      color: var(--white);
+      font-size: 20px;
+    }
+
+    .job-line {
+      height: 8px;
+      background: #2a3038;
+      margin: 11px 0;
+    }
+
+    .job-line.accent {
+      height: auto;
+      border-left: 3px solid var(--lime);
+      padding: 9px 10px;
+      background: rgba(183,255,0,.07);
+      color: #e4e7df;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .match-pane {
+      padding: 24px;
+      background: #0b0d10;
+    }
+
+    .match-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      border-bottom: 1px solid var(--line);
+      padding: 15px 0;
+    }
+
+    .match-item:last-child { border-bottom: 0; }
+
+    .match-check {
+      flex: 0 0 25px;
+      width: 25px;
+      height: 25px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--lime);
+      color: var(--lime);
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+
+    .match-item strong {
+      display: block;
+      color: var(--white);
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .match-item span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .approval-bar {
+      position: absolute;
+      left: 232px;
+      right: 0;
+      bottom: 0;
+      height: 78px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--lime);
+      background: var(--lime);
+      color: var(--black);
+      padding: 0 26px;
+    }
+
+    .approval-bar span {
+      font-family: var(--mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .approval-bar strong {
+      font-family: var(--display);
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+
+    /* Slide 06 */
+    .s6 h1 { font-size: 90px; }
+
+    .check-stack {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 446px;
+      display: grid;
+      gap: 15px;
+    }
+
+    .check-row {
+      min-height: 178px;
+      display: grid;
+      grid-template-columns: 104px 1fr 58px;
+      align-items: center;
+      gap: 18px;
+      padding: 24px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .check-row::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 7px;
+      background: var(--lime);
+    }
+
+    .check-number {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--lime);
+      background: rgba(183,255,0,.06);
+      color: var(--lime);
+      font-family: var(--display);
+      font-size: 34px;
+    }
+
+    .check-copy {
+      color: #dde0e4;
+      font-size: 25px;
+      line-height: 1.28;
+      letter-spacing: -.35px;
+    }
+
+    .check-copy strong { color: var(--white); }
+
+    .check-box {
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--muted-2);
+    }
+
+    .check-note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1038px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .check-note strong {
+      color: var(--coral);
+      font-size: 15px;
+    }
+
+    /* Slide 07 */
+    .s7 {
+      background:
+        linear-gradient(126deg, rgba(183,255,0,.12), transparent 32%),
+        radial-gradient(circle at 87% 76%, rgba(82,231,255,.14), transparent 25%),
+        var(--black);
+    }
+
+    .s7 h1 {
+      max-width: 920px;
+      font-size: 95px;
+    }
+
+    .cta-stage {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 490px;
+      height: 580px;
+      border: 2px solid var(--lime);
+      background: #07090b;
+      overflow: hidden;
+      box-shadow: 18px 18px 0 rgba(183,255,0,.12);
+    }
+
+    .cta-stage::before {
+      content: "CV CV CV CV CV CV CV";
+      position: absolute;
+      left: -30px;
+      right: -30px;
+      top: 18px;
+      color: rgba(183,255,0,.12);
+      font-family: var(--display);
+      font-size: 63px;
+      letter-spacing: 12px;
+      white-space: nowrap;
+      transform: rotate(-2deg);
+    }
+
+    .cta-kicker {
+      position: absolute;
+      top: 112px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 9px 14px 8px;
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .cta-main {
+      position: absolute;
+      left: 50px;
+      right: 50px;
+      top: 170px;
+      text-align: center;
+    }
+
+    .cta-main .comment {
+      display: block;
+      color: var(--white);
+      font-family: var(--display);
+      font-size: 58px;
+      line-height: 1;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+
+    .cta-word {
+      display: inline-grid;
+      place-items: center;
+      min-width: 315px;
+      height: 138px;
+      margin: 18px 0 16px;
+      background: var(--lime);
+      color: var(--black);
+      font-family: var(--display);
+      font-size: 96px;
+      line-height: 1;
+      letter-spacing: -6px;
+      text-transform: uppercase;
+      box-shadow: 12px 12px 0 rgba(82,231,255,.6);
+      transform: rotate(-1deg);
+    }
+
+    .cta-main p {
+      max-width: 760px;
+      margin: 8px auto 0;
+      color: #d3d7db;
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    .cta-main p strong { color: var(--white); }
+
+    .cta-proof {
+      position: absolute;
+      left: 50px;
+      right: 50px;
+      bottom: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      border-top: 1px solid var(--line);
+      padding-top: 19px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .cta-proof span::before {
+      content: "✓";
+      color: var(--lime);
+      margin-right: 7px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .slide:not(.is-rendering) .eyebrow,
+      .slide:not(.is-rendering) h1,
+      .slide:not(.is-rendering) .dek,
+      .slide:not(.is-rendering) .panel {
+        animation: enter .55s cubic-bezier(.2,.76,.2,1) both;
+      }
+      .slide:not(.is-rendering) h1 { animation-delay: .06s; }
+      .slide:not(.is-rendering) .dek { animation-delay: .12s; }
+      .slide:not(.is-rendering) .panel { animation-delay: .18s; }
+    }
+
+    @keyframes enter {
+      from { opacity: 0; translate: 0 18px; }
+      to { opacity: 1; translate: 0 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="slide s1" data-slide="01" aria-label="Slide 1">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>MITO ATS</strong><span class="progress"><span style="width:14.3%"></span></span>01/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">El problema no es tu talento</p>
+      <h1>El ATS no te odia.<br><span class="lime">Tu CV habla otro idioma.</span></h1>
+      <p class="dek">No “adivina” lo que sabes hacer. <strong>Conecta señales escritas</strong> entre tu experiencia y la vacante.</p>
+
+      <div class="scan-console panel">
+        <div class="console-head">
+          <span>WORQAI / EVIDENCE SCAN / DEMO</span>
+          <span class="live">ESCANEO ACTIVO</span>
+        </div>
+        <div class="cv-sheet">
+          <div class="fake-name"></div>
+          <div class="fake-role"></div>
+          <div class="fake-line w90"></div>
+          <div class="fake-line w76"></div>
+          <div class="fake-line w62"></div>
+          <div class="cv-highlight">“Gestión de inventario, logística y optimización de entregas.”</div>
+        </div>
+        <div class="signal-stack">
+          <div class="signal-card missing"><span>Vacante pide</span><strong>SAP TM</strong></div>
+          <div class="signal-card missing"><span>Vacante pide</span><strong>Tableau</strong></div>
+          <div class="signal-card found"><span>Tu experiencia</span><strong>Sí existe</strong></div>
+        </div>
+        <div class="scan-verdict">
+          <strong>El sistema ve palabras. La persona necesita evidencia.</strong>
+          <span>DESLIZA PARA TRADUCIR →</span>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>WORQAI // CV ADAPTADO A CADA VACANTE</span>
+      <span class="swipe">DESLIZA →</span>
+    </footer>
+  </section>
+
+  <section class="slide s2" data-slide="02" aria-label="Slide 2">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>LECTURA</strong><span class="progress"><span style="width:28.6%"></span></span>02/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">Misma experiencia</p>
+      <h1>Dos formas de escribirla.<br><span class="outline">Dos lecturas.</span></h1>
+      <p class="dek">La diferencia no es “sonar más profesional”. Es <strong>hacer visible la coincidencia correcta</strong>.</p>
+
+      <div class="compare-grid">
+        <article class="compare-card panel bad">
+          <div class="compare-top">
+            <span class="status bad">Señal débil</span>
+            <span class="compare-num">CV_ANTES.TXT</span>
+          </div>
+          <p class="quote-copy">“Gestión de inventario, logística y optimización de entregas.”</p>
+          <div class="readout">
+            <div class="readout-row"><span>Herramienta</span><div class="bar"><span style="width:16%"></span></div></div>
+            <div class="readout-row"><span>Acción</span><div class="bar"><span style="width:34%"></span></div></div>
+            <div class="readout-row"><span>Contexto</span><div class="bar"><span style="width:22%"></span></div></div>
+          </div>
+          <div class="compare-bottom">
+            <strong>Obliga a conectar los puntos.</strong>
+            Puede ser real y aun así pasar desapercibida.
+          </div>
+        </article>
+
+        <article class="compare-card panel good">
+          <div class="compare-top">
+            <span class="status good">Evidencia clara</span>
+            <span class="compare-num">CV_ADAPTADO.TXT</span>
+          </div>
+          <p class="quote-copy">“Planifiqué rutas en SAP TM y controlé stock en Tableau.”</p>
+          <div class="readout">
+            <div class="readout-row"><span>Herramienta</span><div class="bar"><span style="width:92%"></span></div></div>
+            <div class="readout-row"><span>Acción</span><div class="bar"><span style="width:86%"></span></div></div>
+            <div class="readout-row"><span>Contexto</span><div class="bar"><span style="width:78%"></span></div></div>
+          </div>
+          <div class="compare-bottom">
+            <strong>Hace explícita la evidencia.</strong>
+            La lectura es más rápida para el sistema y para la persona.
+          </div>
+        </article>
+      </div>
+      <div class="illustrative">
+        <span><strong>Ejemplo ilustrativo:</strong> usa únicamente herramientas y tareas que sí realizaste.</span>
+        <span>NO ES UN “MATCH SCORE” REAL</span>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>CLARO &gt; GENÉRICO</span>
+      <span class="swipe">02 / 07</span>
+    </footer>
+  </section>
+
+  <section class="slide s3" data-slide="03" aria-label="Slide 3">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>LÍMITE ÉTICO</strong><span class="progress"><span style="width:42.9%"></span></span>03/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">La regla que no se negocia</p>
+      <h1>Adaptar <span class="coral">≠</span><br>inventar.</h1>
+      <p class="dek">Un buen CV no fabrica logros. <strong>Traduce hechos reales</strong> al lenguaje de la vacante.</p>
+
+      <div class="truth-machine panel">
+        <div class="truth-stamp">0% ficción</div>
+        <div class="truth-track">
+          <div class="truth-box">
+            <span class="panel-label">Entrada / tu trayectoria</span>
+            <h3>Hechos reales</h3>
+            <p>Lo que hiciste, con qué herramientas y en qué contexto.</p>
+            <div class="fact-list">
+              <span>Experiencia</span>
+              <span>Herramientas</span>
+              <span>Resultados comprobables</span>
+            </div>
+          </div>
+          <div class="truth-arrow">→</div>
+          <div class="truth-box">
+            <span class="panel-label">Salida / CV adaptado</span>
+            <h3>Señales claras</h3>
+            <p>Los mismos hechos, ordenados según lo que el puesto necesita.</p>
+            <div class="fact-list">
+              <span>Lenguaje del puesto</span>
+              <span>Prioridad correcta</span>
+              <span>Lectura más rápida</span>
+            </div>
+          </div>
+        </div>
+        <div class="truth-rule">
+          <div><span>Sí puedes</span><strong>Reordenar tu evidencia</strong></div>
+          <div><span>Sí puedes</span><strong>Usar términos exactos y reales</strong></div>
+          <div class="never"><span>Nunca</span><strong>Agregar tareas o logros falsos</strong></div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>VERACIDAD PRIMERO</span>
+      <span class="swipe">03 / 07</span>
+    </footer>
+  </section>
+
+  <section class="slide s4" data-slide="04" aria-label="Slide 4">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>ESTRATEGIA</strong><span class="progress"><span style="width:57.2%"></span></span>04/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">Deja de escribir a ciegas</p>
+      <h1>La vacante es<br><span class="lime">el mapa.</span></h1>
+      <p class="dek">Cada requisito importante debería encontrar una <strong>evidencia real</strong> en tu CV.</p>
+
+      <div class="map-board panel">
+        <div class="map-column">
+          <div class="map-column-title"><strong>VACANTE</strong><span>PRIORIDAD</span></div>
+          <div class="map-node">
+            <span class="node-id">REQ_01 / HERRAMIENTA</span>
+            <h3>SAP TM</h3>
+            <p>Planificación y seguimiento de rutas.</p>
+          </div>
+          <div class="map-node">
+            <span class="node-id">REQ_02 / ANÁLISIS</span>
+            <h3>Tableau</h3>
+            <p>Visibilidad de inventario y operación.</p>
+          </div>
+          <div class="map-node">
+            <span class="node-id">REQ_03 / IMPACTO</span>
+            <h3>Optimizar entregas</h3>
+            <p>Menos fricción, tiempo o costo.</p>
+          </div>
+        </div>
+        <div class="map-links">
+          <div class="link-row"></div>
+          <div class="link-row"></div>
+          <div class="link-row"></div>
+        </div>
+        <div class="map-column">
+          <div class="map-column-title"><strong>TU CV</strong><span>EVIDENCIA</span></div>
+          <div class="map-node evidence">
+            <span class="node-id">MATCH_01 / REAL</span>
+            <h3>Rutas en SAP TM</h3>
+            <p>Describe la tarea concreta que sí realizaste.</p>
+          </div>
+          <div class="map-node evidence">
+            <span class="node-id">MATCH_02 / REAL</span>
+            <h3>Control en Tableau</h3>
+            <p>Explica qué información analizabas.</p>
+          </div>
+          <div class="map-node evidence">
+            <span class="node-id">MATCH_03 / REAL</span>
+            <h3>Resultado verificable</h3>
+            <p>Añade la mejora solo si puedes sustentarla.</p>
+          </div>
+        </div>
+        <div class="map-caption">
+          <span>REQUISITO → EVIDENCIA → FRASE CLARA</span>
+          <strong>3 / 3 CONEXIONES VISIBLES</strong>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>LA DESCRIPCIÓN DEL PUESTO ES LA ESTRATEGIA</span>
+      <span class="swipe">04 / 07</span>
+    </footer>
+  </section>
+
+  <section class="slide s5" data-slide="05" aria-label="Slide 5">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>FLUJO WORQAI</strong><span class="progress"><span style="width:71.5%"></span></span>05/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">Menos reescribir, más decidir</p>
+      <h1>WorqAI compara.<br><span class="lime">Tú mantienes el control.</span></h1>
+      <p class="dek">Sube tu CV, pega la vacante y revisa <strong>qué cambiar antes de descargar</strong>.</p>
+
+      <div class="workflow">
+        <div class="step-rail">
+          <div class="step"><span class="step-num">01 / INPUT</span><strong>Sube<br>tu CV</strong></div>
+          <div class="step"><span class="step-num">02 / CONTEXT</span><strong>Pega la<br>vacante</strong></div>
+          <div class="step active"><span class="step-num">03 / REVIEW</span><strong>Compara<br>y decide</strong></div>
+        </div>
+
+        <div class="product-window panel">
+          <div class="window-bar">
+            <div class="window-dots"><i></i><i></i><i></i></div>
+            <span>DEMO DE FLUJO / ADAPTACIÓN / REVISIÓN</span>
+          </div>
+          <div class="window-body">
+            <div class="job-pane">
+              <h3>Experiencia adaptada</h3>
+              <div class="job-line" style="width:70%"></div>
+              <div class="job-line" style="width:93%"></div>
+              <div class="job-line accent">Planificación de rutas en <strong>SAP TM</strong> y control de stock...</div>
+              <div class="job-line" style="width:82%"></div>
+              <div class="job-line" style="width:64%"></div>
+              <div class="job-line accent">Análisis operativo en <strong>Tableau</strong> para...</div>
+              <div class="job-line" style="width:88%"></div>
+              <div class="job-line" style="width:56%"></div>
+            </div>
+            <div class="match-pane">
+              <h3>Qué cambió</h3>
+              <div class="match-item">
+                <span class="match-check">✓</span>
+                <div><strong>Prioridad</strong><span>La evidencia relevante aparece primero.</span></div>
+              </div>
+              <div class="match-item">
+                <span class="match-check">✓</span>
+                <div><strong>Lenguaje</strong><span>Términos reales alineados al puesto.</span></div>
+              </div>
+              <div class="match-item">
+                <span class="match-check">✓</span>
+                <div><strong>Control</strong><span>Tú apruebas el borrador final.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="approval-bar">
+          <span>DECISIÓN FINAL / HUMANA</span>
+          <strong>Revisar antes de descargar →</strong>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>PRIMERA ADAPTACIÓN GRATIS AL REGISTRARTE</span>
+      <span class="swipe">05 / 07</span>
+    </footer>
+  </section>
+
+  <section class="slide s6" data-slide="06" aria-label="Slide 6">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>CHECK FINAL</strong><span class="progress"><span style="width:85.8%"></span></span>06/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">Antes de presionar “postular”</p>
+      <h1>Hazle estas<br><span class="lime">3 preguntas</span> a tu CV.</h1>
+      <p class="dek">Si una respuesta es “no”, todavía tienes una <strong>señal débil</strong>.</p>
+
+      <div class="check-stack">
+        <div class="check-row panel">
+          <span class="check-number">01</span>
+          <div class="check-copy">¿El primer tercio responde a las <strong>3 prioridades principales</strong> de la vacante?</div>
+          <span class="check-box"></span>
+        </div>
+        <div class="check-row panel">
+          <span class="check-number">02</span>
+          <div class="check-copy">¿Usaste los <strong>términos técnicos y siglas exactas</strong> solo cuando son reales?</div>
+          <span class="check-box"></span>
+        </div>
+        <div class="check-row panel">
+          <span class="check-number">03</span>
+          <div class="check-copy">¿Tu experiencia se entiende <strong>sin tablas complejas ni gráficos esenciales</strong>?</div>
+          <span class="check-box"></span>
+        </div>
+      </div>
+      <div class="check-note">
+        <strong>UNA CASILLA VACÍA = UNA OPORTUNIDAD DE ACLARAR</strong>
+        <span>GUARDA ESTE SLIDE</span>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>CHECKLIST ATS / LECTURA HUMANA</span>
+      <span class="swipe">06 / 07</span>
+    </footer>
+  </section>
+
+  <section class="slide s7" data-slide="07" aria-label="Slide 7">
+    <div class="edge-code"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>worqai.io</div>
+      <div class="slide-id"><strong>ACCESO PRO</strong><span class="progress"><span style="width:100%"></span></span>07/07</div>
+    </header>
+    <main class="content">
+      <p class="eyebrow">Oferta para esta comunidad</p>
+      <h1>Tu próximo CV no tiene que <span class="lime">empezar de cero.</span></h1>
+
+      <div class="cta-stage">
+        <span class="cta-kicker">1 mes gratis de WorqAI Pro</span>
+        <div class="cta-main">
+          <span class="comment">Comenta la palabra</span>
+          <strong class="cta-word">CV</strong>
+          <p>Comenta y te enviamos el <strong>código de acceso</strong> directamente por DM.</p>
+        </div>
+        <div class="cta-proof">
+          <span>Adapta a cada vacante</span>
+          <span>Revisa antes de descargar</span>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <span>WORQAI.IO // UN CV PARA CADA VACANTE</span>
+      <span class="swipe">COMENTA “CV” ↓</span>
+    </footer>
+  </section>
+
+  <script>
+    document.querySelectorAll(".slide").forEach((slide) => {
+      slide.addEventListener("click", () => {
+        slide.requestFullscreen?.();
+      });
+    });
+  </script>
+</body>
+</html>

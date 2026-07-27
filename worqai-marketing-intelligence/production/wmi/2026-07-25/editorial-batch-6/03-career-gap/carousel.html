@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WorqAI — Qué hace realmente un ATS</title>
+  <style>
+    :root{--black:#090a0b;--char:#17191b;--paper:#eee6d5;--ink:#15171a;--cyan:#53d8df;--red:#ef4f48;--amber:#f4b93f;--steel:#9fa4a5;--display:Bahnschrift,"Arial Narrow",Arial,sans-serif;--body:Arial,"Segoe UI",sans-serif;--serif:Georgia,"Times New Roman",serif;--mono:Consolas,"Courier New",monospace}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#292a2c}
+    body{display:flex;flex-direction:column;align-items:center;gap:36px;padding:36px 0 100px;font-family:var(--body)}
+    .slide{position:relative;width:1080px;height:1350px;overflow:hidden;isolation:isolate;background:var(--black);color:var(--paper)}
+    .slide:after{content:"";position:absolute;inset:0;z-index:95;pointer-events:none;opacity:.042;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 170 170' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.76' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:screen}
+    .brand{position:absolute;left:58px;top:42px;z-index:30;width:214px;height:78px;background:var(--paper);padding:12px 18px;border:4px solid #080807;border-radius:18% 12% 18% 12% / 32% 24% 32% 24%;box-shadow:8px 8px 0 #b8ff00;transform:rotate(-1deg)}
+    .brand img{display:block;width:100%;height:100%;object-fit:contain}
+    .folio{position:absolute;right:60px;top:55px;z-index:30;font:850 25px/1 var(--display);letter-spacing:.13em;color:var(--steel)}
+    .folio b{color:var(--cyan)}
+    h1,h2,h3,p{margin:0}
+    .display{font-family:var(--display);font-weight:900;letter-spacing:-.052em}
+    .support{font-size:32px;line-height:1.25;color:#d8d1c4}
+    .paper{background:var(--paper);color:var(--ink);box-shadow:22px 22px 0 #020303}
+    .torn{clip-path:polygon(0 2%,8% 0,17% 2%,27% 0,38% 3%,49% 0,60% 2%,72% 0,84% 3%,100% 0,99% 97%,88% 99%,77% 97%,65% 100%,54% 97%,42% 99%,30% 97%,18% 100%,5% 97%)}
+    .label{font:900 24px/1 var(--mono);letter-spacing:.11em;text-transform:uppercase}
+    .stamp{background:var(--red);color:#fff;padding:16px 22px;font:900 28px/1 var(--display);letter-spacing:.1em;text-transform:uppercase}
+    .tape{background:var(--amber);color:var(--ink);padding:17px 25px;font:900 28px/1 var(--display);letter-spacing:.08em;text-transform:uppercase}
+
+    /* 01 — myth intake */
+    .s1 .title{position:absolute;left:60px;top:170px;width:950px;font-size:124px;line-height:.83}
+    .s1 .title span{color:var(--cyan)}
+    .s1 .score{position:absolute;left:80px;top:595px;width:910px;height:315px;padding:50px 60px;background:var(--red);color:#fff;transform:rotate(-2deg)}
+    .s1 .score strong{display:block;font:900 104px/.88 var(--display);letter-spacing:-.04em}
+    .s1 .score .cross{position:absolute;right:28px;top:-45px;font:900 270px/.8 var(--display);color:var(--black);transform:rotate(8deg)}
+    .s1 .tape{position:absolute;left:305px;top:930px;transform:rotate(3deg)}
+    .s1 .support{position:absolute;left:64px;bottom:83px;width:920px}
+
+    /* 02 — filing desk */
+    .s2{background:var(--char)}
+    .s2 .title{position:absolute;left:60px;top:155px;width:930px;font-size:100px;line-height:.87}
+    .s2 .title span{color:var(--amber)}
+    .s2 .folder{position:absolute;left:75px;top:455px;width:930px;height:570px;padding:56px 58px;transform:rotate(-1.5deg)}
+    .s2 .folder:before{content:"APPLICANT TRACKING SYSTEM";position:absolute;left:54px;top:-38px;background:var(--amber);padding:18px 27px;font:900 25px/1 var(--mono);letter-spacing:.08em}
+    .s2 .verbs{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .s2 .verb{min-height:150px;padding:29px 32px;background:#202327;color:#fff}
+    .s2 .verb:nth-child(2),.s2 .verb:nth-child(3){background:var(--cyan);color:var(--ink)}
+    .s2 .verb b{display:block;font:900 43px/.95 var(--display)}
+    .s2 .verb small{display:block;margin-top:14px;font-size:28px;line-height:1.18}
+    .s2 .support{position:absolute;left:64px;bottom:76px;width:920px}
+
+    /* 03 — no universal behavior */
+    .s3 .title{position:absolute;left:60px;top:155px;width:935px;font-size:102px;line-height:.87}
+    .s3 .title span{color:var(--red)}
+    .s3 .sheets{position:absolute;left:75px;top:465px;width:930px;height:610px}
+    .s3 .sheet{position:absolute;width:610px;height:190px;padding:35px 40px;font:900 43px/1 var(--display)}
+    .s3 .sheet small{display:block;margin-top:16px;font:400 28px/1.2 var(--body)}
+    .s3 .a{left:0;top:0;background:var(--paper);color:var(--ink);transform:rotate(-3deg)}
+    .s3 .b{right:0;top:180px;background:var(--cyan);color:var(--ink);transform:rotate(2deg)}
+    .s3 .c{left:80px;top:390px;background:var(--red);color:#fff;transform:rotate(-1deg)}
+    .s3 .stamp{position:absolute;right:20px;bottom:5px;transform:rotate(-6deg);background:var(--amber);color:var(--ink)}
+    .s3 .support{position:absolute;left:64px;bottom:70px;width:920px}
+
+    /* 04 — readable document */
+    .s4{background:#101316}
+    .s4 .title{position:absolute;left:60px;top:155px;width:935px;font-size:97px;line-height:.87}
+    .s4 .title span{color:var(--cyan)}
+    .s4 .doc{position:absolute;left:88px;top:440px;width:895px;height:620px;padding:50px 55px;transform:rotate(-1deg)}
+    .s4 .doc .dochead{display:flex;justify-content:space-between;font:900 24px/1 var(--mono);letter-spacing:.08em;color:#6b6d6d}
+    .s4 .row{display:grid;grid-template-columns:80px 1fr;align-items:center;min-height:145px}
+    .s4 .num{font:900 67px/1 var(--display);color:var(--red)}
+    .s4 .row b{font:900 44px/.95 var(--display)}
+    .s4 .row p{margin-top:12px;font-size:28px;line-height:1.18}
+    .s4 .ok{position:absolute;right:-20px;bottom:22px;background:var(--cyan);padding:20px 28px;font:900 30px/1 var(--display);transform:rotate(5deg)}
+    .s4 .support{position:absolute;left:64px;bottom:69px;width:920px}
+
+    /* 05 — don't bury essentials */
+    .s5 .title{position:absolute;left:60px;top:155px;width:940px;font-size:91px;line-height:.89}
+    .s5 .title span{color:var(--amber)}
+    .s5 .page{position:absolute;left:82px;top:430px;width:915px;height:650px;padding:48px 55px;transform:rotate(1deg)}
+    .s5 .header-zone,.s5 .footer-zone{position:absolute;left:0;width:100%;height:115px;background:#c9c2b3;color:#595951;display:flex;align-items:center;justify-content:center;font:900 29px/1 var(--mono)}
+    .s5 .header-zone{top:0}.s5 .footer-zone{bottom:0}
+    .s5 .body-zone{position:absolute;left:55px;right:55px;top:155px;bottom:150px;padding:32px 35px;background:var(--ink);color:#fff}
+    .s5 .body-zone b{display:block;font:900 49px/.95 var(--display)}
+    .s5 .body-zone p{margin-top:20px;font-size:29px;line-height:1.23}
+    .s5 .arrow{position:absolute;right:40px;top:80px;color:var(--red);font:900 185px/1 var(--display);transform:rotate(20deg)}
+    .s5 .support{position:absolute;left:64px;bottom:70px;width:920px}
+
+    /* 06 — worked example */
+    .s6{background:var(--char)}
+    .s6 .title{position:absolute;left:60px;top:155px;width:940px;font-size:91px;line-height:.88}
+    .s6 .title span{color:var(--cyan)}
+    .s6 .bad{position:absolute;left:70px;top:425px;width:830px;padding:37px 42px;background:#34373a;color:#aaa;font:900 45px/1 var(--display);transform:rotate(-2deg)}
+    .s6 .bad .label{display:block;margin-bottom:18px;color:var(--red)}
+    .s6 .arrow{position:absolute;left:430px;top:610px;font:900 155px/1 var(--display);color:var(--amber);transform:rotate(9deg)}
+    .s6 .good{position:absolute;left:125px;top:760px;width:875px;padding:45px 48px 98px;transform:rotate(2deg)}
+    .s6 .good .label{color:var(--red)}
+    .s6 .good strong{display:block;margin-top:22px;font:900 51px/1.02 var(--display);letter-spacing:-.03em}
+    .s6 .good .stamp{position:absolute;right:20px;bottom:18px;background:var(--cyan);color:var(--ink);transform:rotate(-4deg)}
+    .s6 .support{position:absolute;left:64px;bottom:68px;width:920px;font-size:29px}
+
+    /* 07 — manual check + CTA */
+    .s7{background:#0c0e10}
+    .s7 .title{position:absolute;left:60px;top:155px;width:930px;font-size:92px;line-height:.88}
+    .s7 .title span{color:var(--amber)}
+    .s7 .check{position:absolute;left:80px;top:415px;width:920px;height:455px;padding:40px 48px;transform:rotate(-1deg)}
+    .s7 .check .label{color:var(--red);margin-bottom:25px}
+    .s7 .check p{display:grid;grid-template-columns:46px 1fr;gap:17px;margin:20px 0;font-size:29px;line-height:1.22}
+    .s7 .check p b{font:900 38px/1 var(--display);color:var(--cyan)}
+    .s7 .cta{position:absolute;left:95px;top:910px;width:890px;padding:37px 44px;background:var(--red);color:#fff;transform:rotate(2deg);box-shadow:20px 20px 0 #020303}
+    .s7 .cta .soft{font-size:28px;line-height:1.2}
+    .s7 .cta strong{display:block;margin-top:14px;font:900 57px/.95 var(--display)}
+    .s7 .cta small{display:block;margin-top:15px;font-size:28px;line-height:1.2}
+    .s7 .fine{position:absolute;left:64px;bottom:67px;width:920px;font:italic 28px/1.25 var(--serif);color:#c9c2b5}
+  </style>
+</head>
+<body>
+  <section class="slide s1">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>01</b>/07</div>
+    <h1 class="title display">UN ATS NO ES UN JUEZ SECRETO CON UNA <span>NOTA UNIVERSAL</span></h1>
+    <div class="score"><strong>87% MATCH</strong><div class="cross">×</div></div>
+    <div class="tape">ESE NÚMERO NO ES UNIVERSAL</div>
+    <p class="support">No existe una calificación única que funcione igual para todas las empresas y sistemas.</p>
+  </section>
+
+  <section class="slide s2">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>02</b>/07</div>
+    <h2 class="title display">ATS SIGNIFICA <span>APPLICANT TRACKING SYSTEM</span></h2>
+    <div class="folder paper torn">
+      <div class="verbs">
+        <div class="verb"><b>RECIBIR</b><small>Postulaciones y documentos.</small></div>
+        <div class="verb"><b>GUARDAR</b><small>Perfiles en un registro.</small></div>
+        <div class="verb"><b>ORGANIZAR</b><small>Candidaturas y etapas.</small></div>
+        <div class="verb"><b>BUSCAR O FILTRAR</b><small>Según la configuración usada.</small></div>
+      </div>
+    </div>
+    <p class="support">Una empresa puede usar algunas o varias de estas funciones.</p>
+  </section>
+
+  <section class="slide s3">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>03</b>/07</div>
+    <h2 class="title display">NO TODOS LOS ATS <span>SE COMPORTAN IGUAL</span></h2>
+    <div class="sheets">
+      <div class="sheet a">DISTINTA CONFIGURACIÓN<small>La empresa decide qué procesos utiliza.</small></div>
+      <div class="sheet b">DISTINTO FLUJO<small>Algunos equipos buscan, filtran o revisan de manera diferente.</small></div>
+      <div class="sheet c">SIN “NOTA DE APROBACIÓN” UNIVERSAL<small>Evita promesas basadas en un porcentaje mágico.</small></div>
+      <div class="stamp">DEPENDE DEL SISTEMA</div>
+    </div>
+    <p class="support">Optimizar significa facilitar la lectura y mostrar relevancia, no perseguir una puntuación inventada.</p>
+  </section>
+
+  <section class="slide s4">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>04</b>/07</div>
+    <h2 class="title display">HAZ QUE TU INFORMACIÓN SEA <span>FÁCIL DE LEER</span></h2>
+    <div class="doc paper torn">
+      <div class="dochead"><span>DOCUMENTO / CV</span><span>CONTROL DE LECTURA</span></div>
+      <div class="row"><div class="num">01</div><div><b>TEXTO SELECCIONABLE</b><p>No conviertas todo el CV en una imagen.</p></div></div>
+      <div class="row"><div class="num">02</div><div><b>SECCIONES ESTÁNDAR</b><p>Experiencia, educación y habilidades con títulos claros.</p></div></div>
+      <div class="row"><div class="num">03</div><div><b>FECHAS CLARAS</b><p>Usa un formato consistente en toda la trayectoria.</p></div></div>
+      <div class="ok">CLARO PARA PERSONAS Y SISTEMAS</div>
+    </div>
+    <p class="support">La estructura simple reduce ambigüedad sin volver genérico tu contenido.</p>
+  </section>
+
+  <section class="slide s5">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>05</b>/07</div>
+    <h2 class="title display">NO ESCONDAS LO ESENCIAL EN <span>ZONAS DECORATIVAS</span></h2>
+    <div class="page paper torn">
+      <div class="header-zone">ENCABEZADO / PIE / IMAGEN</div>
+      <div class="body-zone"><b>PON AQUÍ LA EVIDENCIA IMPORTANTE</b><p>Cargos, fechas, herramientas y resultados deben vivir en el cuerpo principal del documento.</p></div>
+      <div class="footer-zone">INFORMACIÓN SECUNDARIA</div>
+      <div class="arrow">↙</div>
+    </div>
+    <p class="support">Algunos procesos de lectura pueden interpretar peor el texto fuera del cuerpo principal.</p>
+  </section>
+
+  <section class="slide s6">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>06</b>/07</div>
+    <h2 class="title display">USA LOS TÉRMINOS DEL PUESTO <span>EN CONTEXTO</span></h2>
+    <div class="bad"><span class="label">NO / LISTA DE PALABRAS</span>Excel · reportes · análisis</div>
+    <div class="arrow">↓</div>
+    <div class="good paper torn"><span class="label">SÍ / EVIDENCIA CONTEXTUAL</span><strong>“Preparé reportes mensuales de inventario en Excel para el equipo de operaciones.”</strong><div class="stamp">SOLO SI ES VERDAD</div></div>
+    <p class="support">La coincidencia útil combina lenguaje relevante con una experiencia que puedas explicar.</p>
+  </section>
+
+  <section class="slide s7">
+    <div class="brand"><img src="../brand/worqai-wordmark-cropped.png" alt="WorqAI"></div><div class="folio"><b>07</b>/07</div>
+    <h2 class="title display">ANTES DE ENVIAR, HAZ ESTE <span>CONTROL MANUAL</span></h2>
+    <div class="check paper torn">
+      <div class="label">PRUEBA EN 3 PASOS</div>
+      <p><b>01</b><span>Selecciona y copia el texto: ¿sigue siendo legible?</span></p>
+      <p><b>02</b><span>Revisa títulos de sección y fechas: ¿son consistentes?</span></p>
+      <p><b>03</b><span>Busca los términos clave: ¿aparecen dentro de evidencia real?</span></p>
+    </div>
+    <div class="cta"><div class="soft">Si quieres acelerar la comparación con una vacante:</div><strong>COMENTA CV</strong><small>Te enviamos por DM un código para disfrutar <b>1 mes gratis de WorqAI Pro.</b></small></div>
+    <p class="fine">Ninguna herramienta sustituye la revisión honesta de tu propia experiencia.</p>
+  </section>
+</body>
+</html>
